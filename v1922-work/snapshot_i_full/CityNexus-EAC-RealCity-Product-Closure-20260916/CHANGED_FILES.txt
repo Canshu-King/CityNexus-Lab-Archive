@@ -1,0 +1,21 @@
+# CityNexus Real-City Product Closure — changed files
+# Baseline: Snapshot H (V19.2.4 + overnight rescue), content comparison.
+
+## Added (3)
+A  backend/app/integrations/stay_osm.py
+A  frontend/src/features/execution/LiveRecovery.tsx
+A  frontend/src/features/stay/HotelsPanel.tsx
+
+## Modified (10)
+M  backend/app/integrations/discovery/real_city.py
+M  backend/app/integrations/mobility/runtime.py
+M  backend/app/main.py
+M  backend/app/schemas.py
+M  backend/app/services.py
+M  backend/app/stay_mobility.py
+M  frontend/src/app/V8Experience.tsx
+M  frontend/src/components/v8/MapPanel.tsx
+M  frontend/src/features/planning/PlanComparison.tsx
+M  frontend/src/styles.css
+
+## Removed (0)

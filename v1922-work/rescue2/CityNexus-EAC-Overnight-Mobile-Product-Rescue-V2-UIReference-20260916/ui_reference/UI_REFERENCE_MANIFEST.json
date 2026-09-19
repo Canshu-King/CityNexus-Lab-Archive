@@ -1,0 +1,52 @@
+[
+  {
+    "file": "ui_reference/final_10/01_today_dashboard.png",
+    "description": "Today / 首页：活动行程、下一步、预订、风险、Copilot",
+    "source": "a_clean_smartphone_ui_screenshot_in_a_vertical_por_1_batch_1.png"
+  },
+  {
+    "file": "ui_reference/final_10/02_trip_detail_multiday.png",
+    "description": "多日行程详情：按周/日期查看每天安排、地图、预订",
+    "source": "a_clean_smartphone_app_ui_screenshot_of_a_travel_i_2_batch_2.png"
+  },
+  {
+    "file": "ui_reference/final_10/03_create_trip_step1.png",
+    "description": "创建行程 Step 1：目的地与时间",
+    "source": "a_clean_mobile_app_ui_screenshot_in_a_vertical_sma_3_batch_1.png"
+  },
+  {
+    "file": "ui_reference/final_10/04_create_trip_step2.png",
+    "description": "创建行程 Step 2：人数、预算、节奏、兴趣与特殊要求",
+    "source": "a_clean_mobile_app_ui_screenshot_smartphone_scree_4_batch_2.png"
+  },
+  {
+    "file": "ui_reference/final_10/05_ai_trip_intent.png",
+    "description": "AI 规划输入：自然语言描述旅行需求",
+    "source": "a_clean_smartphone_app_ui_screenshot_in_portrait_5_batch_3.png"
+  },
+  {
+    "file": "ui_reference/final_10/06_ai_generation_progress.png",
+    "description": "AI 生成中：阶段进度与真实状态",
+    "source": "a_clean_smartphone_ui_screenshot_of_a_travel_app_p_6_batch_4.png"
+  },
+  {
+    "file": "ui_reference/final_10/07_plan_comparison.png",
+    "description": "多方案比较：轻松版/经典版/深度版",
+    "source": "a_clean_mobile_app_ui_screenshot_in_a_white_light_7_batch_5.png"
+  },
+  {
+    "file": "ui_reference/final_10/08_activity_detail.png",
+    "description": "活动详情：鼓浪屿、营业时间、交通、加入某天",
+    "source": "a_clean_smartphone_app_ui_screenshot_portrait_mob_8_batch_6.png"
+  },
+  {
+    "file": "ui_reference/final_10/09_hotel_comparison.png",
+    "description": "住宿对比：价格、区域、距离、推荐理由",
+    "source": "a_bright_clean_mobile_app_ui_screenshot_portrait_9_batch_7.png"
+  },
+  {
+    "file": "ui_reference/final_10/10_live_journey_replan.png",
+    "description": "旅途中 + 动态重规划：延误、受影响活动、新方案",
+    "source": "a_vertical_smartphone_app_ui_screenshot_clean_mod_10_batch_8.png"
+  }
+]

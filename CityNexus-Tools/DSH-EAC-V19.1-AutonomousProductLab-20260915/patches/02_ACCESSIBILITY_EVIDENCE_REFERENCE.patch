@@ -1,0 +1,774 @@
+diff --git a/backend/app/main.py b/backend/app/main.py
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -7,6 +7,7 @@
+ import os
+ import time
+ from dataclasses import dataclass
++from collections.abc import Mapping
+ from datetime import datetime, timedelta, timezone
+ from threading import RLock
+ from typing import Any
+@@ -68,6 +69,7 @@
+     canonicalize_capabilities,
+     summarize_capabilities,
+ )
++from app.integrations.accessibility.osm import evidence_from_osm_tags, overall_accessibility_state
+ from app.commerce.idempotency import IdempotencyConflict, canonical_request_signature
+ from app.commerce.order_pricing import OrderLineRequest, OrderPricingError
+ from app.commerce.service_impl import (
+@@ -1944,6 +1946,116 @@
+     return {"journey_id": journey.id, "capabilities": rows, "summary": summarize_capabilities(rows), "traveler_twin": traveler_twin_payload(snapshot)}
+ 
+ 
++def _parse_accessibility_place_tags(place: Any) -> dict[str, Any]:
++    """Read only provider/frozen tags that actually exist on the place."""
++
++    merged: dict[str, Any] = {}
++    try:
++        metadata = json.loads(place.metadata_json or "{}")
++    except (TypeError, ValueError):
++        metadata = {}
++    if isinstance(metadata, Mapping):
++        nested = metadata.get("accessibility") or metadata.get("accessibility_evidence")
++        if isinstance(nested, Mapping):
++            merged.update({str(key): value for key, value in nested.items()})
++        tags = metadata.get("tags")
++        if isinstance(tags, Mapping):
++            merged.update({str(key): value for key, value in tags.items()})
++    try:
++        raw_tags = json.loads(place.tags_json or "[]")
++    except (TypeError, ValueError):
++        raw_tags = []
++    if isinstance(raw_tags, Mapping):
++        merged.update({str(key): value for key, value in raw_tags.items()})
++    elif isinstance(raw_tags, (list, tuple)):
++        for raw in raw_tags:
++            if isinstance(raw, str) and "=" in raw:
++                key, value = raw.split("=", 1)
++                merged[key.strip()] = value.strip()
++    return merged
++
++
++def _overall_accessibility_state(items: list[dict[str, Any]]) -> str:
++    return overall_accessibility_state(items)
++
++
++@app.get("/api/v1/places/{place_id}/accessibility-evidence")
++def get_place_accessibility_evidence(place_id: str, session: Session = Depends(get_session)):
++    place = require(session, Place, place_id, "Place")
++    facts = evidence_from_osm_tags(
++        _parse_accessibility_place_tags(place),
++        provider=place.provider_key or "citynexus",
++        source_key=place.external_id or place.id,
++        place_id=place.id,
++        city_code=place.city_code,
++    )
++    items = [fact.as_dict() for fact in facts]
++    return {
++        "place_id": place.id,
++        "place_name": place.name,
++        "city_code": place.city_code,
++        "provider": place.provider_key,
++        "source_key": place.external_id or place.id,
++        "captured_at": items[0]["captured_at"] if items else None,
++        "items": items,
++        "overall_state": _overall_accessibility_state(items),
++        "unknown_is_not_accessible": True,
++    }
++
++
++@app.get("/api/v1/journeys/{journey_id}/accessibility-evidence")
++def get_journey_accessibility_evidence(journey_id: UUID, session: Session = Depends(get_session)):
++    journey = require(session, Journey, str(journey_id), "Journey")
++    activity_rows = session.scalars(
++        select(Activity)
++        .join(PlanVersion, Activity.plan_version_id == PlanVersion.id)
++        .where(PlanVersion.journey_id == journey.id)
++        .order_by(Activity.sequence_no)
++    ).all()
++    items: list[dict[str, Any]] = []
++    place_ids: set[str] = set()
++    for activity in activity_rows:
++        if not activity.place_id or activity.place_id in place_ids:
++            continue
++        place_ids.add(activity.place_id)
++        place = session.get(Place, activity.place_id)
++        if place is None:
++            continue
++        facts = evidence_from_osm_tags(
++            _parse_accessibility_place_tags(place),
++            provider=place.provider_key or "citynexus",
++            source_key=place.external_id or place.id,
++            place_id=place.id,
++            city_code=place.city_code,
++        )
++        items.extend({**fact.as_dict(), "activity_id": activity.id} for fact in facts)
++    # Route-level step-free evidence is not owned by the current provider
++    # contract.  Surface that gap explicitly rather than inferring from distance.
++    items.append(
++        {
++            "state": "NEEDS_LIVE_EVIDENCE",
++            "code": "ROUTE_STEP_FREE",
++            "subject": "ROUTE",
++            "summary": "Route-level step-free evidence is not available from the current provider contract.",
++            "raw": {"key": None, "value": None},
++            "provider": "citynexus",
++            "source_key": f"journey:{journey.id}",
++            "place_id": None,
++            "city_code": journey.city_code,
++            "captured_at": datetime.now(timezone.utc).isoformat(),
++            "confidence_type": "contract_gap",
++            "provenance": {"journey_id": journey.id, "contract_gap": "ROUTE_STEP_FREE"},
++        }
++    )
++    return {
++        "journey_id": journey.id,
++        "city_code": journey.city_code,
++        "items": items,
++        "overall_state": _overall_accessibility_state(items),
++        "unknown_is_not_accessible": True,
++    }
++
++
+ @app.get("/api/v1/travelers/{traveler_id}/traveler-twin")
+ def get_traveler_twin(traveler_id: UUID, session: Session = Depends(get_session)):
+     traveler = require(session, Traveler, str(traveler_id), "Traveler")
+diff --git a/backend/app/replanning/feasibility.py b/backend/app/replanning/feasibility.py
+--- a/backend/app/replanning/feasibility.py
++++ b/backend/app/replanning/feasibility.py
+@@ -262,6 +262,22 @@
+     nested = metadata.get("accessibility") or metadata.get("accessibility_evidence")
+     if isinstance(nested, Mapping):
+         return nested
++    # Existing Overpass/Nominatim candidates persist actual OSM tags under
++    # metadata["tags"].  Feasibility must read the same provider facts as the
++    # accessibility evidence adapter instead of requiring a second nesting.
++    raw_tags = metadata.get("tags")
++    if isinstance(raw_tags, Mapping) or isinstance(raw_tags, (list, tuple)):
++        from app.integrations.accessibility.osm import (
++            evidence_from_osm_tags,
++            overall_accessibility_state,
++        )
++
++        facts = evidence_from_osm_tags(raw_tags)
++        if facts:
++            return {
++                "evidence_status": overall_accessibility_state(facts),
++                "raw_tags": raw_tags,
++            }
+     keys = {
+         "evidence_status",
+         "status",
+diff --git a/backend/app/integrations/accessibility/__init__.py b/backend/app/integrations/accessibility/__init__.py
+new file mode 100644
+--- /dev/null
++++ b/backend/app/integrations/accessibility/__init__.py
+@@ -0,0 +1,13 @@
++"""Conservative accessibility evidence normalization."""
++
++from app.integrations.accessibility.osm import (
++    AccessibilityEvidenceFact,
++    evidence_from_osm_tags,
++    evidence_from_overpass_candidate,
++)
++
++__all__ = [
++    "AccessibilityEvidenceFact",
++    "evidence_from_osm_tags",
++    "evidence_from_overpass_candidate",
++]
+diff --git a/backend/app/integrations/accessibility/osm.py b/backend/app/integrations/accessibility/osm.py
+new file mode 100644
+--- /dev/null
++++ b/backend/app/integrations/accessibility/osm.py
+@@ -0,0 +1,305 @@
++"""Normalize OSM/provider accessibility tags without inference.
++
++absent tag => NEEDS_LIVE_EVIDENCE; wheelchair=yes on a place => VERIFIED;
++wheelchair=no / highway=steps => CONFLICT; ramp/elevator/kerb facts are
++recorded but never promoted to a verified step-free route.
++"""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from datetime import datetime, timezone
++from typing import Any, Mapping
++
++ACCESSIBILITY_STATES = (
++    "ACCESSIBILITY_VERIFIED",
++    "ACCESSIBILITY_UNVERIFIED",
++    "ACCESSIBILITY_CONFLICT",
++    "NEEDS_LIVE_EVIDENCE",
++)
++
++SUBJECT_PLACE = "PLACE"
++SUBJECT_ENTRANCE = "ENTRANCE"
++SUBJECT_ROUTE = "ROUTE"
++SUBJECT_TOILET = "TOILET"
++SUBJECT_KERB = "KERB"
++SUBJECT_VERTICAL = "VERTICAL_ACCESS"
++
++
++@dataclass(frozen=True)
++class AccessibilityEvidenceFact:
++    state: str
++    code: str
++    subject: str
++    summary: str
++    raw_key: str | None
++    raw_value: str | None
++    provider: str
++    source_key: str
++    place_id: str | None = None
++    city_code: str | None = None
++    captured_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
++    confidence_type: str = "tag_explicit"
++    provenance: Mapping[str, Any] = field(default_factory=dict)
++
++    def as_dict(self) -> dict[str, Any]:
++        return {
++            "state": self.state,
++            "code": self.code,
++            "subject": self.subject,
++            "summary": self.summary,
++            "raw": {"key": self.raw_key, "value": self.raw_value},
++            "provider": self.provider,
++            "source_key": self.source_key,
++            "place_id": self.place_id,
++            "city_code": self.city_code,
++            "captured_at": self.captured_at,
++            "confidence_type": self.confidence_type,
++            "provenance": dict(self.provenance),
++        }
++
++
++def _text(value: Any) -> str:
++    return str(value).strip().lower() if value is not None else ""
++
++
++def _add(
++    facts: list[AccessibilityEvidenceFact],
++    *,
++    state: str,
++    code: str,
++    subject: str,
++    summary: str,
++    raw_key: str | None,
++    raw_value: Any,
++    provider: str,
++    source_key: str,
++    place_id: str | None,
++    city_code: str | None,
++    captured_at: str,
++    confidence_type: str,
++) -> None:
++    if state not in ACCESSIBILITY_STATES:
++        state = "NEEDS_LIVE_EVIDENCE"
++    facts.append(
++        AccessibilityEvidenceFact(
++            state=state,
++            code=code,
++            subject=subject,
++            summary=summary,
++            raw_key=raw_key,
++            raw_value=None if raw_value is None else str(raw_value),
++            provider=provider,
++            source_key=source_key,
++            place_id=place_id,
++            city_code=city_code,
++            captured_at=captured_at,
++            confidence_type=confidence_type,
++            provenance={
++                "provider": provider,
++                "source_key": source_key,
++                "raw_key": raw_key,
++                "raw_value": None if raw_value is None else str(raw_value),
++                "captured_at": captured_at,
++                "city_code": city_code,
++                "place_id": place_id,
++            },
++        )
++    )
++
++
++def evidence_from_osm_tags(
++    tags: Mapping[str, Any] | None,
++    *,
++    provider: str = "overpass",
++    source_key: str = "unknown",
++    place_id: str | None = None,
++    city_code: str | None = None,
++    captured_at: str | None = None,
++) -> tuple[AccessibilityEvidenceFact, ...]:
++    if not isinstance(tags, Mapping):
++        tags = {}
++    captured = captured_at or datetime.now(timezone.utc).isoformat()
++    facts: list[AccessibilityEvidenceFact] = []
++
++    def push(
++        state: str,
++        code: str,
++        subject: str,
++        summary: str,
++        raw_key: str | None,
++        raw_value: Any,
++        confidence_type: str = "tag_explicit",
++    ) -> None:
++        _add(
++            facts,
++            state=state,
++            code=code,
++            subject=subject,
++            summary=summary,
++            raw_key=raw_key,
++            raw_value=raw_value,
++            provider=provider,
++            source_key=source_key,
++            place_id=place_id,
++            city_code=city_code,
++            captured_at=captured,
++            confidence_type=confidence_type,
++        )
++
++    wheelchair = _text(tags.get("wheelchair"))
++    entrance_wheelchair = _text(tags.get("entrance:wheelchair") or tags.get("wheelchair:entrance"))
++    highway = _text(tags.get("highway"))
++    steps = _text(tags.get("steps"))
++    step_count = tags.get("step_count")
++    toilet_wheelchair = _text(tags.get("toilets:wheelchair"))
++    ramp = _text(tags.get("ramp") or tags.get("ramp:wheelchair"))
++    elevator = _text(tags.get("elevator") or tags.get("highway:elevator"))
++    kerb = _text(tags.get("kerb"))
++    tactile = _text(tags.get("tactile_paving"))
++    has_step_conflict = (
++        highway == "steps"
++        or steps in {"yes", "true"}
++        or step_count not in (None, "", 0, "0")
++    )
++
++    if wheelchair in {"yes", "designated", "true"}:
++        push("ACCESSIBILITY_VERIFIED", "WHEELCHAIR_ACCESS", SUBJECT_PLACE,
++             "OSM wheelchair=yes is explicit provider evidence for this place.",
++             "wheelchair", tags.get("wheelchair"))
++    elif wheelchair in {"no", "false", "not_accessible"}:
++        push("ACCESSIBILITY_CONFLICT", "WHEELCHAIR_ACCESS", SUBJECT_PLACE,
++             "OSM wheelchair=no is an explicit conflict for wheelchair access.",
++             "wheelchair", tags.get("wheelchair"))
++    elif wheelchair in {"limited", "partial"}:
++        push("ACCESSIBILITY_UNVERIFIED", "WHEELCHAIR_ACCESS", SUBJECT_PLACE,
++             "OSM wheelchair=limited is not a verified step-free claim.",
++             "wheelchair", tags.get("wheelchair"), "tag_limited")
++
++    if entrance_wheelchair in {"yes", "designated", "true"}:
++        push("ACCESSIBILITY_VERIFIED", "ENTRANCE_STEP_FREE", SUBJECT_ENTRANCE,
++             "Explicit entrance:wheelchair=yes evidence.",
++             "entrance:wheelchair", tags.get("entrance:wheelchair") or tags.get("wheelchair:entrance"))
++    elif entrance_wheelchair in {"no", "false"}:
++        push("ACCESSIBILITY_CONFLICT", "ENTRANCE_STEP_FREE", SUBJECT_ENTRANCE,
++             "Explicit entrance:wheelchair=no evidence.",
++             "entrance:wheelchair", tags.get("entrance:wheelchair") or tags.get("wheelchair:entrance"))
++
++    if highway == "steps":
++        push("ACCESSIBILITY_CONFLICT", "STAIRS", SUBJECT_ROUTE,
++             "OSM explicitly records steps; this conflicts with step-free access.",
++             "highway", tags.get("highway"))
++    if steps in {"yes", "true"}:
++        push("ACCESSIBILITY_CONFLICT", "STAIRS", SUBJECT_ROUTE,
++             "OSM steps=yes is an explicit stair conflict.",
++             "steps", tags.get("steps"))
++    if step_count not in (None, "", 0, "0"):
++        push("ACCESSIBILITY_CONFLICT", "STEP_COUNT", SUBJECT_ROUTE,
++             f"OSM step_count={step_count} is an explicit stair conflict.",
++             "step_count", step_count)
++
++    if toilet_wheelchair in {"yes", "designated", "true"}:
++        push("ACCESSIBILITY_VERIFIED", "ACCESSIBLE_TOILET", SUBJECT_TOILET,
++             "OSM toilets:wheelchair=yes is explicit evidence for an accessible toilet.",
++             "toilets:wheelchair", tags.get("toilets:wheelchair"))
++    elif toilet_wheelchair in {"no", "false"}:
++        push("ACCESSIBILITY_CONFLICT", "ACCESSIBLE_TOILET", SUBJECT_TOILET,
++             "OSM toilets:wheelchair=no is an explicit conflict.",
++             "toilets:wheelchair", tags.get("toilets:wheelchair"))
++
++    if ramp:
++        push("ACCESSIBILITY_UNVERIFIED", "RAMP_PRESENT", SUBJECT_VERTICAL,
++             "A ramp tag exists, but it does not prove a step-free route to the entrance.",
++             "ramp" if tags.get("ramp") is not None else "ramp:wheelchair",
++             tags.get("ramp") if tags.get("ramp") is not None else tags.get("ramp:wheelchair"),
++             "tag_partial")
++    if elevator:
++        push("ACCESSIBILITY_UNVERIFIED", "ELEVATOR_PRESENT", SUBJECT_VERTICAL,
++             "An elevator tag exists, but route access and operating status are not verified.",
++             "elevator" if tags.get("elevator") is not None else "highway:elevator",
++             tags.get("elevator") if tags.get("elevator") is not None else tags.get("highway:elevator"),
++             "tag_partial")
++    if kerb:
++        push("ACCESSIBILITY_UNVERIFIED", "KERB_EVIDENCE", SUBJECT_KERB,
++             "Kerb metadata is segment-level and does not prove the whole route.",
++             "kerb", tags.get("kerb"), "tag_partial")
++    if tactile:
++        push("ACCESSIBILITY_UNVERIFIED", "TACTILE_PAVING", SUBJECT_ROUTE,
++             "Tactile paving metadata is partial route evidence.",
++             "tactile_paving", tags.get("tactile_paving"), "tag_partial")
++
++    if wheelchair in {"yes", "designated", "true"} and has_step_conflict:
++        push("ACCESSIBILITY_CONFLICT", "CONFLICTING_TAGS", SUBJECT_PLACE,
++             "Provider tags conflict: wheelchair=yes with explicit stairs/step_count.",
++             "wheelchair", tags.get("wheelchair"), "tag_conflict")
++
++    relevant = any(
++        value not in ("", "none")
++        for value in (wheelchair, entrance_wheelchair, highway, steps, ramp, elevator, kerb, tactile)
++    ) or step_count not in (None, "", 0, "0") or toilet_wheelchair not in ("",)
++    if not relevant and not facts:
++        push("NEEDS_LIVE_EVIDENCE", "ACCESSIBILITY_DATA", SUBJECT_PLACE,
++             "No relevant accessibility tags were present; this is unknown, not accessible.",
++             None, None, "tag_absent")
++    return tuple(facts)
++
++
++def evidence_from_overpass_candidate(candidate: Any) -> tuple[AccessibilityEvidenceFact, ...]:
++    metadata = getattr(candidate, "metadata", None) or getattr(candidate, "evidence", {}) or {}
++    if not isinstance(metadata, Mapping):
++        metadata = {}
++    tags = metadata.get("tags") if isinstance(metadata.get("tags"), Mapping) else metadata
++    source_key = str(getattr(candidate, "external_id", None) or getattr(candidate, "semantic_key", "unknown"))
++    name = str(getattr(candidate, "name", "") or "")
++    city_code = str(getattr(candidate, "city_code", "") or "") or None
++    facts = evidence_from_osm_tags(
++        tags,
++        provider=str(getattr(candidate, "provider_key", "overpass") or "overpass"),
++        source_key=source_key,
++        place_id=source_key,
++        city_code=city_code,
++    )
++    if not name:
++        return facts
++    return tuple(
++        AccessibilityEvidenceFact(
++            state=fact.state,
++            code=fact.code,
++            subject=fact.subject,
++            summary=f"{name}: {fact.summary}",
++            raw_key=fact.raw_key,
++            raw_value=fact.raw_value,
++            provider=fact.provider,
++            source_key=fact.source_key,
++            place_id=fact.place_id,
++            city_code=fact.city_code,
++            captured_at=fact.captured_at,
++            confidence_type=fact.confidence_type,
++            provenance={**dict(fact.provenance), "place_name": name},
++        )
++        for fact in facts
++    )
++
++
++def overall_accessibility_state(facts: Iterable[Any]) -> str:
++    """Conservative aggregate state across provider facts.
++
++    Any conflict wins, then any missing evidence, then any partial/unverified
++    fact.  Only an all-verified set becomes ACCESSIBILITY_VERIFIED.
++    """
++
++    states: set[str] = set()
++    for fact in facts:
++        if isinstance(fact, Mapping):
++            states.add(str(fact.get("state")))
++        else:
++            states.add(str(getattr(fact, "state", "NEEDS_LIVE_EVIDENCE")))
++    if "ACCESSIBILITY_CONFLICT" in states:
++        return "ACCESSIBILITY_CONFLICT"
++    if "NEEDS_LIVE_EVIDENCE" in states:
++        return "NEEDS_LIVE_EVIDENCE"
++    if "ACCESSIBILITY_UNVERIFIED" in states:
++        return "ACCESSIBILITY_UNVERIFIED"
++    if "ACCESSIBILITY_VERIFIED" in states:
++        return "ACCESSIBILITY_VERIFIED"
++    return "NEEDS_LIVE_EVIDENCE"
+diff --git a/backend/tests/test_v19_1_accessibility_evidence.py b/backend/tests/test_v19_1_accessibility_evidence.py
+new file mode 100644
+--- /dev/null
++++ b/backend/tests/test_v19_1_accessibility_evidence.py
+@@ -0,0 +1,108 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++
++from app.integrations.accessibility.osm import evidence_from_osm_tags
++
++FIXTURES = json.loads(
++    (Path(__file__).resolve().parents[2] / "data" / "accessibility" / "evidence_cases.json").read_text(
++        encoding="utf-8"
++    )
++)
++
++
++def _facts(case):
++    return evidence_from_osm_tags(
++        case["tags"],
++        provider=case["provider"],
++        source_key=case["source_key"],
++        city_code=case["city_code"],
++        captured_at="2026-09-15T12:00:00+08:00",
++    )
++
++
++def test_frozen_accessibility_fixtures_are_conservative() -> None:
++    for case in FIXTURES:
++        facts = _facts(case)
++        assert [fact.state for fact in facts] == case["expected_states"], case["id"]
++        assert [fact.code for fact in facts] == case["expected_codes"], case["id"]
++        for fact in facts:
++            assert fact.provider == case["provider"]
++            assert fact.source_key == case["source_key"]
++            assert fact.captured_at == "2026-09-15T12:00:00+08:00"
++            assert "raw_key" in fact.provenance
++
++
++def test_unknown_never_becomes_verified() -> None:
++    facts = evidence_from_osm_tags({}, source_key="overpass:node/0", city_code="CNX-DEMO")
++    assert len(facts) == 1
++    assert facts[0].state == "NEEDS_LIVE_EVIDENCE"
++    assert facts[0].raw_key is None
++    assert "unknown" in facts[0].summary.lower()
++
++
++def test_ramp_and_elevator_are_not_route_verification() -> None:
++    facts = evidence_from_osm_tags(
++        {"ramp": "yes", "elevator": "yes", "highway": "footway"},
++        source_key="overpass:way/9",
++        city_code="CNX-DEMO",
++    )
++    assert {fact.code for fact in facts} == {"RAMP_PRESENT", "ELEVATOR_PRESENT"}
++    assert all(fact.state == "ACCESSIBILITY_UNVERIFIED" for fact in facts)
++
++
++def test_wheelchair_yes_with_steps_is_conflict_not_verified_route() -> None:
++    facts = evidence_from_osm_tags(
++        {"wheelchair": "yes", "highway": "steps"},
++        source_key="overpass:node/8",
++        city_code="CNX-DEMO",
++    )
++    states = {fact.state for fact in facts}
++    assert "ACCESSIBILITY_CONFLICT" in states
++    assert any(fact.code == "CONFLICTING_TAGS" for fact in facts)
++
++
++def test_place_and_journey_accessibility_endpoints_are_evidence_negative() -> None:
++    import json
++
++    from fastapi.testclient import TestClient
++
++    from app.db.models import Place
++    from app.db.session import SessionLocal
++    from app.main import app
++
++    client = TestClient(app)
++    demo = client.post("/api/v1/demo/reset").json()
++    journey_id = demo["journey_id"]
++
++    with SessionLocal() as session:
++        place = session.query(Place).first()
++        assert place is not None
++        place.metadata_json = json.dumps({"tags": {"wheelchair": "yes"}}, ensure_ascii=False)
++        place.tags_json = json.dumps([], ensure_ascii=False)
++        place_id = place.id
++        session.commit()
++
++    verified = client.get(f"/api/v1/places/{place_id}/accessibility-evidence")
++    assert verified.status_code == 200, verified.text
++    body = verified.json()
++    assert body["overall_state"] == "ACCESSIBILITY_VERIFIED"
++    assert body["items"][0]["raw"] == {"key": "wheelchair", "value": "yes"}
++
++    with SessionLocal() as session:
++        place = session.get(Place, place_id)
++        assert place is not None
++        place.metadata_json = json.dumps({"tags": {"name": "Unknown museum"}}, ensure_ascii=False)
++        session.commit()
++
++    unknown = client.get(f"/api/v1/places/{place_id}/accessibility-evidence")
++    assert unknown.status_code == 200, unknown.text
++    assert unknown.json()["overall_state"] == "NEEDS_LIVE_EVIDENCE"
++
++    journey = client.get(f"/api/v1/journeys/{journey_id}/accessibility-evidence")
++    assert journey.status_code == 200, journey.text
++    journey_body = journey.json()
++    assert journey_body["overall_state"] in {"NEEDS_LIVE_EVIDENCE", "ACCESSIBILITY_UNVERIFIED"}
++    assert any(item["code"] == "ROUTE_STEP_FREE" for item in journey_body["items"])
++    assert any(item["state"] == "NEEDS_LIVE_EVIDENCE" for item in journey_body["items"])
+diff --git a/data/accessibility/evidence_cases.json b/data/accessibility/evidence_cases.json
+new file mode 100644
+--- /dev/null
++++ b/data/accessibility/evidence_cases.json
+@@ -0,0 +1,65 @@
++[
++  {
++    "id": "verified_wheelchair_yes",
++    "provider": "overpass",
++    "source_key": "overpass:node/1001",
++    "city_code": "CNX-DEMO",
++    "tags": {"wheelchair": "yes", "toilets:wheelchair": "yes"},
++    "expected_states": ["ACCESSIBILITY_VERIFIED", "ACCESSIBILITY_VERIFIED"],
++    "expected_codes": ["WHEELCHAIR_ACCESS", "ACCESSIBLE_TOILET"]
++  },
++  {
++    "id": "conflict_wheelchair_no",
++    "provider": "overpass",
++    "source_key": "overpass:node/1002",
++    "city_code": "CNX-DEMO",
++    "tags": {"wheelchair": "no"},
++    "expected_states": ["ACCESSIBILITY_CONFLICT"],
++    "expected_codes": ["WHEELCHAIR_ACCESS"]
++  },
++  {
++    "id": "unknown_no_tags",
++    "provider": "nomination",
++    "source_key": "nominatim:way/2001",
++    "city_code": "CNX-DEMO",
++    "tags": {"name": "Museum"},
++    "expected_states": ["NEEDS_LIVE_EVIDENCE"],
++    "expected_codes": ["ACCESSIBILITY_DATA"]
++  },
++  {
++    "id": "limited_wheelchair",
++    "provider": "overpass",
++    "source_key": "overpass:node/1003",
++    "city_code": "CNX-DEMO",
++    "tags": {"wheelchair": "limited"},
++    "expected_states": ["ACCESSIBILITY_UNVERIFIED"],
++    "expected_codes": ["WHEELCHAIR_ACCESS"]
++  },
++  {
++    "id": "stairs_conflict",
++    "provider": "overpass",
++    "source_key": "overpass:way/3001",
++    "city_code": "CNX-DEMO",
++    "tags": {"highway": "steps", "step_count": "12"},
++    "expected_states": ["ACCESSIBILITY_CONFLICT", "ACCESSIBILITY_CONFLICT"],
++    "expected_codes": ["STAIRS", "STEP_COUNT"]
++  },
++  {
++    "id": "ramp_only_is_unverified",
++    "provider": "overpass",
++    "source_key": "overpass:node/1004",
++    "city_code": "CNX-DEMO",
++    "tags": {"ramp": "yes", "elevator": "yes"},
++    "expected_states": ["ACCESSIBILITY_UNVERIFIED", "ACCESSIBILITY_UNVERIFIED"],
++    "expected_codes": ["RAMP_PRESENT", "ELEVATOR_PRESENT"]
++  },
++  {
++    "id": "conflicting_positive_and_steps",
++    "provider": "overpass",
++    "source_key": "overpass:node/1005",
++    "city_code": "CNX-DEMO",
++    "tags": {"wheelchair": "yes", "step_count": "5"},
++    "expected_states": ["ACCESSIBILITY_VERIFIED", "ACCESSIBILITY_CONFLICT", "ACCESSIBILITY_CONFLICT"],
++    "expected_codes": ["WHEELCHAIR_ACCESS", "STEP_COUNT", "CONFLICTING_TAGS"]
++  }
++]
+diff --git a/frontend/src/features/capability-experience/components/ProviderEvidencePanel.tsx b/frontend/src/features/capability-experience/components/ProviderEvidencePanel.tsx
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/ProviderEvidencePanel.tsx
+@@ -0,0 +1,96 @@
++import { useId } from "react";
++import type { ProviderEvidenceItem, ProviderEvidenceResult } from "../providerEvidence";
++import { capabilityCopy } from "../copy";
++import { EvidenceBadge } from "./EvidenceBadge";
++import "../styles/capability-experience.css";
++
++function uiState(state: ProviderEvidenceItem["state"]): "VERIFIED" | "UNVERIFIED" | "CONFLICT" | "NEEDS_LIVE_EVIDENCE" {
++  switch (state) {
++    case "ACCESSIBILITY_VERIFIED":
++      return "VERIFIED";
++    case "ACCESSIBILITY_CONFLICT":
++      return "CONFLICT";
++    case "ACCESSIBILITY_UNVERIFIED":
++      return "UNVERIFIED";
++    default:
++      return "NEEDS_LIVE_EVIDENCE";
++  }
++}
++
++function stateLabel(state: ProviderEvidenceItem["state"], locale: "zh-CN" | "en"): string {
++  const zh = locale === "zh-CN";
++  switch (state) {
++    case "ACCESSIBILITY_VERIFIED":
++      return zh ? "已核实" : "Verified";
++    case "ACCESSIBILITY_CONFLICT":
++      return zh ? "冲突" : "Conflict";
++    case "ACCESSIBILITY_UNVERIFIED":
++      return zh ? "未核实" : "Unverified";
++    default:
++      return zh ? "需要实时证据" : "Needs live evidence";
++  }
++}
++
++export function ProviderEvidencePanel({
++  result,
++  locale = "zh-CN",
++}: {
++  result: ProviderEvidenceResult;
++  locale?: "zh-CN" | "en";
++}) {
++  const copy = capabilityCopy(locale);
++  const titleId = useId();
++  return (
++    <section className="cne-provider-evidence" aria-labelledby={titleId} data-testid="provider-evidence-panel">
++      <header className="cne-surface__head">
++        <div>
++          <span className="cne-kicker">{result.mode}</span>
++          <h2 id={titleId}>{locale === "zh-CN" ? "无障碍 Provider 证据" : "Accessibility provider evidence"}</h2>
++          <p>
++            {locale === "zh-CN"
++              ? "只展示 provider/冻结数据中真实存在的事实；未知不等于可通行。"
++              : "Only actual provider/frozen facts are shown. Unknown is not accessible."}
++          </p>
++        </div>
++        <span className={`cne-source-pill ${result.mode === "LIVE_SHADOW" ? "is-live" : ""}`}>{result.label}</span>
++      </header>
++      {result.error ? <p className="cne-blocked-note" role="status">{result.error}</p> : null}
++      {result.staleAt ? <p className="cne-help">{locale === "zh-CN" ? "最后已知时间" : "Last known at"}: {result.staleAt}</p> : null}
++      {result.contractGap?.length ? (
++        <ul className="cne-help">
++          {result.contractGap.map((gap) => <li key={gap}>{gap}</li>)}
++        </ul>
++      ) : null}
++      <div className="cne-provider-evidence__overall">
++        <span>{locale === "zh-CN" ? "总体状态" : "Overall state"}</span>
++        <EvidenceBadge state={uiState(result.overallState)} locale={locale} testId="provider-overall-state" />
++        <small>{stateLabel(result.overallState, locale)}</small>
++      </div>
++      {result.items.length === 0 ? (
++        <p className="cne-rule">{locale === "zh-CN" ? "没有 provider 证据；保持 NEEDS_LIVE_EVIDENCE。" : "No provider evidence; remains NEEDS_LIVE_EVIDENCE."}</p>
++      ) : (
++        <ul className="cne-provider-evidence__list">
++          {result.items.map((item, index) => (
++            <li key={`${item.source_key}-${item.code}-${index}`} data-testid={`provider-evidence-${item.code}`}>
++              <div className="cne-provider-evidence__head">
++                <div>
++                  <b>{item.code.replaceAll("_", " ")}</b>
++                  <small>{item.subject} · {item.provider} · {item.source_key}</small>
++                </div>
++                <EvidenceBadge state={uiState(item.state)} locale={locale} />
++              </div>
++              <p>{item.summary}</p>
++              <dl className="cne-provider-evidence__raw">
++                <div><dt>raw tag</dt><dd>{item.raw.key ?? "—"}</dd></div>
++                <div><dt>raw value</dt><dd>{item.raw.value ?? "—"}</dd></div>
++                <div><dt>captured</dt><dd>{item.captured_at}</dd></div>
++                <div><dt>confidence</dt><dd>{item.confidence_type}</dd></div>
++              </dl>
++              <p className="cne-rule">{copy.evidence.unknownIsNotAccessible}</p>
++            </li>
++          ))}
++        </ul>
++      )}
++    </section>
++  );
++}

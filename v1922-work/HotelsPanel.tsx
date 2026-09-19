@@ -1,0 +1,207 @@
+/**
+ * Hotel comparison and selection (reference 09).
+ *
+ * Rules honoured:
+ *  - only provider-backed facts are shown: name, area/coordinates, walking
+ *    burden and the relationship to the itinerary. **Price is shown as
+ *    "price unavailable" when the provider does not supply one** — OSM has no
+ *    rates, so inventing a nightly price is forbidden;
+ *  - selecting a stay calls the authoritative stay-option select endpoint so
+ *    the Trip view reflects the chosen property;
+ *  - an honest empty state when no provider-backed property exists.
+ */
+
+import { useEffect, useState } from "react";
+import { useLocale } from "../../i18n/LocaleContext";
+
+type StayOption = {
+  id: string;
+  rank: number;
+  status: string;
+  stay_total_minor: number;
+  walking_min: number;
+  protected_margin_min: number;
+  arrival_fit: number;
+  departure_fit: number;
+  cancellation_score: number;
+  hard_constraints_passed: boolean;
+  stay: {
+    property_name: string;
+    room_type: string;
+    total_amount_minor: number;
+    nightly_amount_minor: number;
+    currency: string;
+    refundable: boolean;
+    location: { latitude: number; longitude: number; crs?: string };
+    evidence?: { source?: string; confidence?: number };
+  };
+};
+
+export function HotelsPanel({ journeyId, onSelected }: { journeyId: string; onSelected?: () => void }) {
+  const { locale } = useLocale();
+  const zh = locale.startsWith("zh");
+  const [options, setOptions] = useState<StayOption[] | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [chosen, setChosen] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        await fetch(`/api/v1/journeys/${journeyId}/stays/offers/capture`, { method: "POST" });
+        await fetch(`/api/v1/journeys/${journeyId}/stay-options/generate`, { method: "POST" });
+        const r = await fetch(`/api/v1/journeys/${journeyId}/experience`);
+        const body = await r.json();
+        if (cancelled) return;
+        setOptions((body?.options ?? []) as StayOption[]);
+        const sel = (body?.options ?? []).find((o: StayOption) => o.status === "SELECTED");
+        setChosen(sel ? sel.id : null);
+      } catch {
+        if (!cancelled) setOptions([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [journeyId]);
+
+  const select = async (optionId: string) => {
+    setBusy(optionId);
+    setError(null);
+    try {
+      const r = await fetch(
+        `/api/v1/journeys/${journeyId}/stay-options/${optionId}/select`,
+        { method: "POST" },
+      );
+      if (!r.ok) {
+        const body = await r.json().catch(() => null);
+        setError(body?.error?.message ?? body?.detail ?? (zh ? "暂时无法选择这家住宿。" : "Could not choose this stay."));
+        return;
+      }
+      setChosen(optionId);
+      onSelected?.();
+    } catch {
+      setError(zh ? "连不上服务器，请重试。" : "Could not reach the server. Try again.");
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  if (options === null) {
+    return (
+      <section className="v8-page" data-testid="hotels-panel">
+        <p className="v8-muted">{zh ? "正在获取住宿…" : "Loading stays…"}</p>
+      </section>
+    );
+  }
+
+  if (options.length === 0) {
+    return (
+      <section className="v8-page" data-testid="hotels-empty">
+        <div className="v8-page-intro compact">
+          <div>
+            <p className="v8-kicker">{zh ? "住宿" : "Stay"}</p>
+            <h1>{zh ? "暂时没有可比较的住宿" : "No stays to compare yet"}</h1>
+            <p className="v8-lede">
+              {zh
+                ? "这个城市还没有拿到可用的住宿数据。换个城市或稍后再试——我们不会编造酒店。"
+                : "No provider-backed accommodation is available for this city yet. Try again later — we will not invent hotels."}
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="v8-page" data-testid="hotels-panel">
+      <div className="v8-page-intro compact">
+        <div>
+          <p className="v8-kicker">{zh ? "住宿" : "Stay"}</p>
+          <h1>{zh ? "选一家住的地方" : "Choose where to stay"}</h1>
+          <p className="v8-lede">
+            {zh
+              ? `按与行程的关系排序的 ${options.length} 家住宿。价格未知时我们如实说明。`
+              : `${options.length} stays ranked by how they fit your itinerary. Where price is unknown we say so.`}
+          </p>
+        </div>
+      </div>
+
+      <div className="hotel-list">
+        {options.map((option) => {
+          const stay = option.stay;
+          const priceKnown = (stay.nightly_amount_minor ?? 0) > 0;
+          const isChosen = chosen === option.id;
+          return (
+            <article
+              key={option.id}
+              className={`hotel-card${isChosen ? " chosen" : ""}`}
+              data-testid="hotel-card"
+              data-property={stay.property_name}
+            >
+              <header>
+                <b data-testid="hotel-name">{stay.property_name}</b>
+                {isChosen && (
+                  <span className="hotel-badge" data-testid="hotel-chosen">
+                    {zh ? "已选择" : "Selected"}
+                  </span>
+                )}
+              </header>
+              <dl>
+                <div>
+                  <dt>{zh ? "价格" : "Price"}</dt>
+                  <dd data-testid="hotel-price">
+                    {priceKnown
+                      ? `${stay.currency} ${Math.round(stay.nightly_amount_minor / 100)} / ${zh ? "晚" : "night"}`
+                      : zh
+                        ? "暂无价格"
+                        : "Price unavailable"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>{zh ? "步行" : "Walking"}</dt>
+                  <dd>{option.walking_min}{zh ? " 分钟" : " min"}</dd>
+                </div>
+                <div>
+                  <dt>{zh ? "到达/离开衔接" : "Arrival / departure fit"}</dt>
+                  <dd>{option.arrival_fit}% / {option.departure_fit}%</dd>
+                </div>
+                <div>
+                  <dt>{zh ? "退改" : "Cancellation"}</dt>
+                  <dd>{stay.refundable ? (zh ? "可取消" : "Refundable") : zh ? "不可取消" : "Non-refundable"}</dd>
+                </div>
+              </dl>
+              <p className="hotel-reason">
+                {zh ? "推荐理由：" : "Why: "}
+                {option.hard_constraints_passed
+                  ? zh
+                    ? `与行程冲突最少，步行负担 ${option.walking_min} 分钟，预留缓冲 ${option.protected_margin_min} 分钟。`
+                    : `Fewest itinerary conflicts, ${option.walking_min} min walking, ${option.protected_margin_min} min protected margin.`
+                  : zh
+                    ? "与当前硬约束存在冲突，仅供参考。"
+                    : "Conflicts with current hard constraints; shown for reference only."}
+              </p>
+              <button
+                type="button"
+                className="v8-primary-button"
+                data-testid="hotel-choose"
+                disabled={busy !== null || isChosen}
+                onClick={() => void select(option.id)}
+              >
+                {isChosen
+                  ? zh ? "已选择这家" : "Selected"
+                  : busy === option.id
+                    ? zh ? "选择中…" : "Choosing…"
+                    : zh ? "选择这家住宿" : "Choose this stay"}
+              </button>
+            </article>
+          );
+        })}
+      </div>
+      {error && (
+        <p className="role-alert" data-testid="hotel-error" role="alert">{error}</p>
+      )}
+    </section>
+  );
+}

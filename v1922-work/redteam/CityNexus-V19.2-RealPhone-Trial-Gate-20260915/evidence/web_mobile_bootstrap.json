@@ -1,0 +1,23 @@
+{
+ "state": {
+  "cookies": [],
+  "origins": [
+   {
+    "origin": "http://127.0.0.1:4213",
+    "localStorage": [
+     {
+      "name": "citynexus.v8.journey_id",
+      "value": "a45b89ba-b3cc-41ce-8c7a-7ed4b0d74ada"
+     },
+     {
+      "name": "citynexus.copilot.history.a45b89ba-b3cc-41ce-8c7a-7ed4b0d74ada",
+      "value": "[]"
+     }
+    ]
+   }
+  ]
+ },
+ "seeded": true,
+ "journeyId": "a45b89ba-b3cc-41ce-8c7a-7ed4b0d74ada",
+ "sample": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plan"
+}

@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "generated_at": "2026-09-14T17:29:55.638953+00:00",
+    "harness": "tests/mcp_v2_probe.py",
+    "base_url": "http://127.0.0.1:8020"
+  },
+  "summary": {
+    "PASS": 4,
+    "FAIL": 1,
+    "NOT_TESTED": 0
+  },
+  "scenarios": [
+    {
+      "family": "MCP",
+      "id": "M1",
+      "name": "V2 tool allowlist == 11 documented tools",
+      "expected": "exact 11-tool allowlist",
+      "actual": "11 tools; symmetric_diff=[]",
+      "status": "PASS",
+      "evidence": {
+        "tools": [
+          "inspect_journey",
+          "inspect_twin",
+          "list_replans",
+          "search_city_services",
+          "request_replan",
+          "accept_replan",
+          "replace_activity",
+          "reschedule_activity",
+          "create_booking",
+          "cancel_refundable_booking",
+          "request_commitment_change"
+        ]
+      }
+    },
+    {
+      "family": "MCP",
+      "id": "M2",
+      "name": "V1 surface is the pinned 6-tool subset",
+      "expected": "6 tools, subset of V2",
+      "actual": "6 tools ['inspect_journey', 'inspect_twin', 'list_replans', 'search_city_services', 'request_replan', 'accept_replan']",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "family": "MCP",
+      "id": "M3",
+      "name": "unknown tool rejected by allowlist",
+      "expected": "ValueError",
+      "actual": "ValueError raised",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "family": "MCP",
+      "id": "M4",
+      "name": "real inspect_journey tool call returns server data",
+      "expected": "non-empty dict from the HTTP tool bridge",
+      "actual": "keys=['decision', 'journey', 'tool']",
+      "status": "PASS",
+      "evidence": {
+        "sample": {
+          "tool": "inspect_journey",
+          "decision": "ALLOW_AUTO",
+          "journey": {
+            "id": "65ec3784-e60e-4ab0-9bb3-0bcc7c9d93b2",
+            "traveler_id": "9025511c-f07a-4dcb-a93b-6d478fc4ec5e",
+            "title": "V18.1 BlackBox Validation Journey",
+            "city_code": "tianjin",
+            "timezone": "Asia/Shanghai",
+            "start_at": "2026-09-15T17:28:42Z",
+            "end_at": "2026-09-17T17:28:42Z",
+            "budget": {
+              "amount_minor": 180000,
+              "currency": "CNY"
+            },
+            "planning_mode": "balanced",
+            "status": "DRAFT",
+            "active_plan_version_id": null,
+            "current_activity_id": null
+          }
+        }
+      }
+    },
+    {
+      "family": "MCP",
+      "id": "M5",
+      "name": "read-only hints distinguish inspect vs mutate",
+      "expected": "inspect_* readOnly, mutating tools not readOnly",
+      "actual": "inspect_journey=None request_replan=None",
+      "status": "FAIL",
+      "evidence": {
+        "read_only": {
+          "inspect_journey": null,
+          "inspect_twin": null,
+          "list_replans": null,
+          "search_city_services": null,
+          "request_replan": null,
+          "accept_replan": null,
+          "replace_activity": null,
+          "reschedule_activity": null,
+          "create_booking": null,
+          "cancel_refundable_booking": null,
+          "request_commitment_change": null
+        }
+      }
+    }
+  ]
+}

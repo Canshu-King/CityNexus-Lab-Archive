@@ -1,0 +1,29 @@
+{
+  "package": "CityNexus-GPT-Audit-Package",
+  "purpose": "external-tools-installation-and-validation-review",
+  "excluded": [".venv", "CityNexus project source", "RC6", "Phase 1", "Part 2"],
+  "files": [
+    "GPT-AUDIT-README.md",
+    "installation-report.json",
+    "visioautomation-capabilities.json",
+    "github-integration-evaluation.json",
+    "python-environment.txt",
+    "smoke/run-smoke.ps1",
+    "smoke/inspect-types.ps1",
+    "smoke/test_vsdx_reader.py",
+    "smoke/generate_installation_report.py",
+    "smoke/run-custom-property-smoke.ps1",
+    "smoke/run-capability-smoke.ps1",
+    "smoke/qa-poc/spec-valid.json",
+    "smoke/qa-poc/spec-invalid-cross.json",
+    "smoke/qa-poc/run-qa-poc.ps1",
+    "smoke/custom-property-smoke-result.json",
+    "smoke/vsdx-capability-matrix.json",
+    "smoke/qa-poc/hiung-qa-poc-result.json",
+    "smoke/visioautomation-custom-property-smoke.vsdx",
+    "smoke/visioautomation-capability-smoke.vsdx",
+    "smoke/visioautomation-smoke.json",
+    "smoke/vsdx-reader-result.json",
+    "smoke/visioautomation-smoke.vsdx"
+  ]
+}

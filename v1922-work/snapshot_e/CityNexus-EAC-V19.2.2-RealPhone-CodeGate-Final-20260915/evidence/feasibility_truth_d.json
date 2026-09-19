@@ -1,0 +1,208 @@
+{
+ "snapshot": "D",
+ "snapshot_dir": "D:\\moodle\\_v1922_work\\redteam\\CityNexus-V19.2-RealPhone-Trial-Gate-20260915\\snapshot_d",
+ "cases": [
+  {
+   "scenario": "control: no reservation",
+   "generate_status": 201,
+   "generate_failure_codes": [
+    "Deterministic provider-backed candidate"
+   ],
+   "generate_body_head": "[{\"id\": \"55523d40-cafe-5bd2-b30a-de057ec7a839\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"version_no\": 1, \"planning_mode\": \"balanced\", \"status\": \"CANDIDATE\", \"source\": \"INITIAL\", \"parent_plan_version_id\": null, \"total_cost\": {\"amount_minor\": 37000, \"currency\": \"CNY\"}, \"utility_score\": 0",
+   "plans_after_generate": 3,
+   "validator": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "feasible": true,
+     "failures": []
+    }
+   ],
+   "generator_produced_plans_the_validator_rejects": false,
+   "select": 200,
+   "select_body_head": "{\"id\": \"22222222-2222-4222-8222-222222222222\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"title\": \"One Day in Nexus City\", \"city_code\": \"CNX-DEMO\", \"timezone\": \"Asia/Shanghai\", \"start_at\": \"2026-10-10T09:00:00+08:00\", \"end_at\": \"2026-10-",
+   "product_let_user_select": true,
+   "booking": 422,
+   "booking_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "booking_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"activity has no supported tradable commerce service\", \"trace_id\": \"e1ae1f9d-72ee-4bdf-b50b-f2cd87520e4e\", \"details\": null}}",
+   "product_let_user_select_a_plan_it_will_not_let_them_use": true,
+   "journey_status": "PLANNED",
+   "experience": 200,
+   "twin": 200
+  },
+  {
+   "scenario": "ARRIVAL C4 (routable anchor missing)",
+   "import": 201,
+   "confirm": 200,
+   "commitment": {
+    "level": "C4_Anchored",
+    "status": "ACTIVE",
+    "semantic_key": "v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+   },
+   "generate_status": 201,
+   "generate_failure_codes": [
+    "Deterministic provider-backed candidate"
+   ],
+   "generate_body_head": "[{\"id\": \"55523d40-cafe-5bd2-b30a-de057ec7a839\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"version_no\": 1, \"planning_mode\": \"balanced\", \"status\": \"CANDIDATE\", \"source\": \"INITIAL\", \"parent_plan_version_id\": null, \"total_cost\": {\"amount_minor\": 31000, \"currency\": \"CNY\"}, \"utility_score\": 0",
+   "plans_after_generate": 3,
+   "validator": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "feasible": true,
+     "failures": []
+    }
+   ],
+   "generator_produced_plans_the_validator_rejects": false,
+   "select": 200,
+   "select_body_head": "{\"id\": \"22222222-2222-4222-8222-222222222222\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"title\": \"One Day in Nexus City\", \"city_code\": \"CNX-DEMO\", \"timezone\": \"Asia/Shanghai\", \"start_at\": \"2026-10-10T09:00:00+08:00\", \"end_at\": \"2026-10-",
+   "product_let_user_select": true,
+   "booking": 422,
+   "booking_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "booking_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"activity has no supported tradable commerce service\", \"trace_id\": \"760c067c-26eb-42b6-ada5-429385ec84ea\", \"details\": null}}",
+   "product_let_user_select_a_plan_it_will_not_let_them_use": true,
+   "journey_status": "PLANNED",
+   "experience": 200,
+   "twin": 200
+  },
+  {
+   "scenario": "DEPARTURE C4",
+   "import": 201,
+   "confirm": 200,
+   "commitment": {
+    "level": "C4_Anchored",
+    "status": "ACTIVE",
+    "semantic_key": "v12:22222222-2222-4222-8222-222222222222:departure-anchor"
+   },
+   "generate_status": 201,
+   "generate_failure_codes": [
+    "Deterministic provider-backed candidate"
+   ],
+   "generate_body_head": "[{\"id\": \"55523d40-cafe-5bd2-b30a-de057ec7a839\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"version_no\": 1, \"planning_mode\": \"balanced\", \"status\": \"CANDIDATE\", \"source\": \"INITIAL\", \"parent_plan_version_id\": null, \"total_cost\": {\"amount_minor\": 37000, \"currency\": \"CNY\"}, \"utility_score\": 0",
+   "plans_after_generate": 3,
+   "validator": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "feasible": true,
+     "failures": []
+    }
+   ],
+   "generator_produced_plans_the_validator_rejects": false,
+   "select": 200,
+   "select_body_head": "{\"id\": \"22222222-2222-4222-8222-222222222222\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"title\": \"One Day in Nexus City\", \"city_code\": \"CNX-DEMO\", \"timezone\": \"Asia/Shanghai\", \"start_at\": \"2026-10-10T09:00:00+08:00\", \"end_at\": \"2026-10-",
+   "product_let_user_select": true,
+   "booking": 422,
+   "booking_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "booking_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"activity has no supported tradable commerce service\", \"trace_id\": \"6763d65e-954a-4340-bd86-34ea4e19847f\", \"details\": null}}",
+   "product_let_user_select_a_plan_it_will_not_let_them_use": true,
+   "journey_status": "PLANNED",
+   "experience": 200,
+   "twin": 200
+  },
+  {
+   "scenario": "control: generic compose, no reservation",
+   "generate_status": 201,
+   "generate_failure_codes": [
+    "Generic Compose Engine from explicit POIs",
+    "place-old-town",
+    "place-riverside-museum"
+   ],
+   "generate_body_head": "[{\"id\": \"a021874e-e9cc-5fd2-b4c7-1b67cb8fc6c8\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"version_no\": 1, \"planning_mode\": \"balanced\", \"status\": \"CANDIDATE\", \"source\": \"INITIAL\", \"parent_plan_version_id\": null, \"total_cost\": {\"amount_minor\": 4000, \"currency\": \"CNY\"}, \"utility_score\": 0.",
+   "plans_after_generate": 1,
+   "validator": [
+    {
+     "plan_id": "a021874e-e9cc-5fd2-b4c7-1b67cb8fc6c8",
+     "feasible": true,
+     "failures": []
+    }
+   ],
+   "generator_produced_plans_the_validator_rejects": false,
+   "select": 200,
+   "select_body_head": "{\"id\": \"22222222-2222-4222-8222-222222222222\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"title\": \"One Day in Nexus City\", \"city_code\": \"CNX-DEMO\", \"timezone\": \"Asia/Shanghai\", \"start_at\": \"2026-10-10T09:00:00+08:00\", \"end_at\": \"2026-10-",
+   "product_let_user_select": true,
+   "booking": 422,
+   "booking_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "booking_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"activity has no supported tradable commerce service\", \"trace_id\": \"cc6db313-c53a-4c5b-b10e-21973fe381a0\", \"details\": null}}",
+   "product_let_user_select_a_plan_it_will_not_let_them_use": true,
+   "journey_status": "PLANNED",
+   "experience": 200,
+   "twin": 200
+  },
+  {
+   "scenario": "capability: impossible HARD walking cap (1 m)",
+   "capability_put": 409,
+   "capability_confirm": 200,
+   "generate_status": 422,
+   "generate_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "generate_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"No feasible plan candidates satisfy the journey constraints\", \"trace_id\": \"eba561c4-9dc5-480a-bc63-1c05f5d9870e\", \"details\": null}}",
+   "plans_after_generate": 0,
+   "validator": "no plans to validate",
+   "select": "skipped (no plans)",
+   "booking": "skipped (no plans)",
+   "journey_status": "DRAFT"
+  },
+  {
+   "scenario": "capability: reasonable HARD walking cap (800 m)",
+   "capability_put": 409,
+   "capability_confirm": 200,
+   "generate_status": 422,
+   "generate_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "generate_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"No feasible plan candidates satisfy the journey constraints\", \"trace_id\": \"4269af83-51a4-4b7f-ba6e-f842aceee9b6\", \"details\": null}}",
+   "plans_after_generate": 0,
+   "validator": "no plans to validate",
+   "select": "skipped (no plans)",
+   "booking": "skipped (no plans)",
+   "journey_status": "DRAFT"
+  }
+ ],
+ "summary": {
+  "split_brain_select_ok_booking_rejected": [
+   "control: no reservation",
+   "ARRIVAL C4 (routable anchor missing)",
+   "DEPARTURE C4",
+   "control: generic compose, no reservation"
+  ],
+  "generator_produced_plans_the_validator_rejects": [],
+  "single_feasibility_truth": false
+ }
+}

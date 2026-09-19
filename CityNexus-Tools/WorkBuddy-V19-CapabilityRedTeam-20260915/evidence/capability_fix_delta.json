@@ -1,0 +1,1205 @@
+{
+ "module": "repo_copy_current/backend/app/capabilities.py",
+ "cases": 494,
+ "vocabulary": {
+  "capability_codes": [
+   "STEP_FREE_REQUIRED",
+   "AVOID_STAIRS",
+   "MAX_WALKING_PER_LEG_M",
+   "MAX_CONTINUOUS_WALKING_MIN",
+   "MAX_DAILY_WALKING_M",
+   "MIDDAY_REST_WINDOW",
+   "REST_EVERY_MIN",
+   "INFANT_NAP_WINDOW",
+   "TOILET_BREAK_EVERY_MIN",
+   "STROLLER",
+   "LARGE_LUGGAGE",
+   "SLOW_PACE",
+   "QUIET_ENVIRONMENT",
+   "INDOOR_PREFERRED",
+   "SENSORY_LOW_STIMULATION"
+  ],
+  "capability_classes": [
+   "HARD_ACCESSIBILITY_NEED",
+   "CARE_REQUIREMENT",
+   "PHYSICAL_LIMIT",
+   "TRIP_CONTEXT",
+   "SOFT_PREFERENCE"
+  ],
+  "severities": [
+   "HARD",
+   "STRONG",
+   "SOFT"
+  ],
+  "accessibility_states": [
+   "ACCESSIBILITY_VERIFIED",
+   "ACCESSIBILITY_UNVERIFIED",
+   "ACCESSIBILITY_CONFLICT",
+   "NEEDS_LIVE_EVIDENCE"
+  ],
+  "hard_accessibility_codes": [
+   "AVOID_STAIRS",
+   "STEP_FREE_REQUIRED"
+  ]
+ },
+ "coverage": {
+  "cases_with_any_capability": 183,
+  "rate": 0.3704,
+  "severity_distribution": {
+   "HARD": 87,
+   "STRONG": 85,
+   "SOFT": 29
+  },
+  "code_distribution": {
+   "STEP_FREE_REQUIRED": 70,
+   "STROLLER": 28,
+   "LARGE_LUGGAGE": 27,
+   "QUIET_ENVIRONMENT": 26,
+   "AVOID_STAIRS": 14,
+   "INFANT_NAP_WINDOW": 10,
+   "TOILET_BREAK_EVERY_MIN": 9,
+   "REST_EVERY_MIN": 9,
+   "MAX_WALKING_PER_LEG_M": 3,
+   "SENSORY_LOW_STIMULATION": 3,
+   "MIDDAY_REST_WINDOW": 1,
+   "MAX_CONTINUOUS_WALKING_MIN": 1
+  },
+  "scope_distribution": {
+   "JOURNEY": 201
+  }
+ },
+ "coverage_by_bucket": {
+  "accessibility": {
+   "cases": 30,
+   "covered": 21,
+   "rate": 0.7
+  },
+  "ambiguous": {
+   "cases": 120,
+   "covered": 37,
+   "rate": 0.3083
+  },
+  "conflicting_needs": {
+   "cases": 20,
+   "covered": 10,
+   "rate": 0.5
+  },
+  "elderly_infant": {
+   "cases": 30,
+   "covered": 10,
+   "rate": 0.3333
+  },
+  "hard_soft_pair": {
+   "cases": 102,
+   "covered": 36,
+   "rate": 0.3529
+  },
+  "injection_like": {
+   "cases": 20,
+   "covered": 8,
+   "rate": 0.4
+  },
+  "luggage_stroller": {
+   "cases": 30,
+   "covered": 24,
+   "rate": 0.8
+  },
+  "negation_historical": {
+   "cases": 112,
+   "covered": 31,
+   "rate": 0.2768
+  },
+  "rest_nap_numeric": {
+   "cases": 30,
+   "covered": 6,
+   "rate": 0.2
+  }
+ },
+ "pair_discrimination": {
+  "ambiguous": {
+   "total": 60,
+   "discriminated": 25,
+   "rate": 0.4167
+  },
+  "hard_soft_pair": {
+   "total": 51,
+   "discriminated": 14,
+   "rate": 0.2745
+  },
+  "negation_historical": {
+   "total": 56,
+   "discriminated": 9,
+   "rate": 0.1607
+  }
+ },
+ "pair_discrimination_total": {
+  "total": 167,
+  "discriminated": 48,
+  "rate": 0.2874
+ },
+ "negation": {
+  "negated_cases": 56,
+  "negated_returning_nothing": 44,
+  "positive_cases": 56,
+  "positive_returning_something": 19,
+  "positive_false_negatives": [
+   {
+    "id": "NEG-001-POS",
+    "topic": "cured",
+    "text": "我妈膝盖不好，走不了远路",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-002-POS",
+    "topic": "cured",
+    "text": "my mum has bad knees and cannot walk far",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-005-POS",
+    "topic": "negated_need",
+    "text": "我的腿有问题，需要照顾",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-006-POS",
+    "topic": "negated_need",
+    "text": "my leg is a problem, I need accommodation",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-007-POS",
+    "topic": "past_injury",
+    "text": "脚伤还没好，不能走太久",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-008-POS",
+    "topic": "past_injury",
+    "text": "my ankle is still injured, I cannot walk long",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-011-POS",
+    "topic": "no_allergy",
+    "text": "我严重过敏，很多不能吃",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-012-POS",
+    "topic": "no_allergy",
+    "text": "I have severe allergies, most things are off limits",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-015-POS",
+    "topic": "historical_rest",
+    "text": "这次中午必须休息",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-025-POS",
+    "topic": "past_bad_trip",
+    "text": "上次挺好的，这次随意",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-026-POS",
+    "topic": "past_bad_trip",
+    "text": "last trip was fine, this time anything goes",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-027-POS",
+    "topic": "negated_medical",
+    "text": "每天都要吃药，需要冷藏",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-028-POS",
+    "topic": "negated_medical",
+    "text": "I take daily medication that needs refrigeration",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-029-POS",
+    "topic": "negated_vision",
+    "text": "我视力障碍，需要语音导览",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-030-POS",
+    "topic": "negated_vision",
+    "text": "I am visually impaired and need audio guidance",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-031-POS",
+    "topic": "negated_heat",
+    "text": "我特别怕热，必须遮阴",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-032-POS",
+    "topic": "negated_heat",
+    "text": "heat is a serious problem, I need shade",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-033-POS",
+    "topic": "negated_pregnancy",
+    "text": "我怀孕了，不能久站",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-034-POS",
+    "topic": "negated_pregnancy",
+    "text": "I am pregnant, prolonged standing is out",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-037-POS",
+    "topic": "negated_dietary",
+    "text": "严重忌口，必须无麸质",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-038-POS",
+    "topic": "negated_dietary",
+    "text": "strict gluten-free, mandatory",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-039-POS",
+    "topic": "negated_service_animal",
+    "text": "导盲犬随行，必须允许进入",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-040-POS",
+    "topic": "negated_service_animal",
+    "text": "guide dog travelling with me, entry required",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-041-POS",
+    "topic": "past_recovered_surgery",
+    "text": "刚做完手术，不能走太久",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-042-POS",
+    "topic": "past_recovered_surgery",
+    "text": "I just had surgery, long walks are out",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-045-POS",
+    "topic": "negated_hearing",
+    "text": "我听力障碍，需要文字",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-046-POS",
+    "topic": "negated_hearing",
+    "text": "I am deaf and need text alternatives",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-047-POS",
+    "topic": "negated_stairs_fear",
+    "text": "我怕楼梯，尽量用电梯",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-048-POS",
+    "topic": "negated_stairs_fear",
+    "text": "stairs are a problem, use lifts",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-049-POS",
+    "topic": "past_altitude",
+    "text": "上次高原反应严重，这次还想去高原",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-050-POS",
+    "topic": "past_altitude",
+    "text": "last time altitude was rough but I still want it",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-051-POS",
+    "topic": "third_party_maybe",
+    "text": "我的医生确认我走不了远路",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-052-POS",
+    "topic": "third_party_maybe",
+    "text": "my doctor confirmed I cannot walk far",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-053-POS",
+    "topic": "negated_lift",
+    "text": "必须坐电梯，楼梯不行",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-054-POS",
+    "topic": "negated_lift",
+    "text": "lifts are required, stairs are not an option",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-055-POS",
+    "topic": "negated_sun",
+    "text": "不能晒太阳，皮肤有问题",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "NEG-056-POS",
+    "topic": "negated_sun",
+    "text": "I cannot be in the sun, skin condition",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   }
+  ]
+ },
+ "text_global_negation_guard": [
+  {
+   "text": "我以前不用轮椅，但现在必须全程 step-free",
+   "caps": []
+  },
+  {
+   "text": "I used to walk fine but now I use a wheelchair and need every leg step-free",
+   "caps": []
+  },
+  {
+   "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+   "caps": []
+  },
+  {
+   "text": "过去我坐轮椅，现在不需要了",
+   "caps": []
+  },
+  {
+   "text": "不是楼梯的问题，我用轮椅，必须全程无障碍",
+   "caps": []
+  }
+ ],
+ "value_reading": {
+  "walking": [
+   {
+    "text": "走路不能超过 500m，这是硬性要求",
+    "caps": []
+   },
+   {
+    "text": "walking 最好别超过 500m",
+    "caps": []
+   },
+   {
+    "text": "我带 78 岁母亲，最多走 500 米，每 60 分钟要休息",
+    "caps": [
+     {
+      "code": "REST_EVERY_MIN",
+      "severity": "STRONG",
+      "params": {
+       "max_min": 60
+      }
+     }
+    ]
+   },
+   {
+    "text": "少走点路，最好每段不超过 300 米",
+    "caps": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "params": {
+       "max_m": 300,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   {
+    "text": "avoid long walks, under 400 m per leg",
+    "caps": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "params": {
+       "max_m": 400,
+       "needs_clarification": false
+      }
+     }
+    ]
+   }
+  ],
+  "windows": [
+   {
+    "text": "宝宝下午 1 点到 3 点必须睡午觉，不能安排活动",
+    "caps": []
+   },
+   {
+    "text": "I must rest at the hotel between 12:00 and 14:00",
+    "caps": []
+   },
+   {
+    "text": "老人中午必须休息",
+    "caps": []
+   }
+  ],
+  "accessibility": [
+   {
+    "text": "我用轮椅，必须全程 step-free，一步楼梯都不能走",
+    "caps": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   {
+    "text": "必须全程无障碍，一步楼梯都不能走",
+    "caps": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   {
+    "text": "最好少走点楼梯，能坐电梯就坐电梯",
+    "caps": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   {
+    "text": "I use a wheelchair, every leg must be step-free",
+    "caps": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   {
+    "text": "no stairs please",
+    "caps": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "hard_downgrade_attack_matrix": {
+  "model_says_HARD": {
+   "input": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "canonical_severity": "HARD",
+   "canonical_class": "HARD_ACCESSIBILITY_NEED",
+   "kept": true,
+   "produces_hard_gate": true,
+   "gate_codes": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "model_says_STRONG": {
+   "input": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "canonical_severity": "STRONG",
+   "canonical_class": "HARD_ACCESSIBILITY_NEED",
+   "kept": true,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  },
+  "model_says_SOFT": {
+   "input": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "SOFT",
+    "class": "SOFT_PREFERENCE"
+   },
+   "canonical_severity": "SOFT",
+   "canonical_class": "HARD_ACCESSIBILITY_NEED",
+   "kept": true,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  },
+  "model_says_SOFT_class_ok": {
+   "input": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "SOFT",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "canonical_severity": "SOFT",
+   "canonical_class": "HARD_ACCESSIBILITY_NEED",
+   "kept": true,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  },
+  "model_omits_severity": {
+   "input": {
+    "code": "STEP_FREE_REQUIRED"
+   },
+   "canonical_severity": "STRONG",
+   "canonical_class": "HARD_ACCESSIBILITY_NEED",
+   "kept": true,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  },
+  "avoid_stairs_says_SOFT": {
+   "input": {
+    "code": "AVOID_STAIRS",
+    "severity": "SOFT",
+    "class": "SOFT_PREFERENCE"
+   },
+   "canonical_severity": "SOFT",
+   "canonical_class": "HARD_ACCESSIBILITY_NEED",
+   "kept": true,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  },
+  "walking_limit_says_SOFT": {
+   "input": {
+    "code": "MAX_WALKING_PER_LEG_M",
+    "severity": "SOFT",
+    "params": {
+     "max_m": 500
+    }
+   },
+   "canonical_severity": "SOFT",
+   "canonical_class": "PHYSICAL_LIMIT",
+   "kept": true,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  },
+  "unknown_code": {
+   "input": {
+    "code": "NOT_A_REAL_CODE",
+    "severity": "HARD"
+   },
+   "canonical_severity": null,
+   "canonical_class": null,
+   "kept": false,
+   "produces_hard_gate": false,
+   "gate_codes": []
+  }
+ },
+ "hard_downgrade_defeated": {
+  "model_says_SOFT": false,
+  "avoid_stairs_says_SOFT": false,
+  "walking_limit_says_SOFT": false
+ },
+ "accessibility_state": {
+  "missing": "ACCESSIBILITY_UNVERIFIED",
+  "empty": "ACCESSIBILITY_UNVERIFIED",
+  "verified": "ACCESSIBILITY_VERIFIED",
+  "unknown_status": "ACCESSIBILITY_UNVERIFIED",
+  "stairs": "ACCESSIBILITY_CONFLICT",
+  "step_free_true": "ACCESSIBILITY_VERIFIED",
+  "step_free_false": "ACCESSIBILITY_CONFLICT",
+  "guessed_from_name": "ACCESSIBILITY_UNVERIFIED",
+  "unknown_treated_as_accessible": false
+ },
+ "gate_translation_sample": {
+  "caps": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "severity": "HARD",
+    "params": {
+     "requirement": "step_free"
+    },
+    "scope": "JOURNEY",
+    "source": "SEMANTIC",
+    "provenance": "USER_STATED",
+    "explicit": true,
+    "active": true,
+    "confirmed": false
+   },
+   {
+    "code": "AVOID_STAIRS",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "severity": "HARD",
+    "params": {
+     "avoid": true
+    },
+    "scope": "JOURNEY",
+    "source": "SEMANTIC",
+    "provenance": "USER_STATED",
+    "explicit": true,
+    "active": true,
+    "confirmed": false
+   }
+  ],
+  "constraints": [
+   {
+    "kind": "HARD",
+    "category": "HARD_ACCESSIBILITY_NEED",
+    "rule_code": "STEP_FREE_REQUIRED",
+    "params": {
+     "requirement": "step_free"
+    },
+    "active": true,
+    "capability": {
+     "code": "STEP_FREE_REQUIRED",
+     "class": "HARD_ACCESSIBILITY_NEED",
+     "severity": "HARD",
+     "params": {
+      "requirement": "step_free"
+     },
+     "scope": "JOURNEY",
+     "source": "SEMANTIC",
+     "provenance": "USER_STATED",
+     "explicit": true,
+     "active": true,
+     "confirmed": false
+    }
+   },
+   {
+    "kind": "HARD",
+    "category": "HARD_ACCESSIBILITY_NEED",
+    "rule_code": "AVOID_STAIRS",
+    "params": {
+     "avoid": true
+    },
+    "active": true,
+    "capability": {
+     "code": "AVOID_STAIRS",
+     "class": "HARD_ACCESSIBILITY_NEED",
+     "severity": "HARD",
+     "params": {
+      "avoid": true
+     },
+     "scope": "JOURNEY",
+     "source": "SEMANTIC",
+     "provenance": "USER_STATED",
+     "explicit": true,
+     "active": true,
+     "confirmed": false
+    }
+   }
+  ]
+ },
+ "gate_translation_soft_sample": {
+  "caps": [
+   {
+    "code": "MAX_WALKING_PER_LEG_M",
+    "class": "PHYSICAL_LIMIT",
+    "severity": "STRONG",
+    "params": {
+     "max_m": null,
+     "needs_clarification": true
+    },
+    "scope": "JOURNEY",
+    "source": "SEMANTIC",
+    "provenance": "USER_STATED",
+    "explicit": true,
+    "active": true,
+    "confirmed": false
+   }
+  ],
+  "constraints": [],
+  "note": "SOFT/STRONG must never reach the gate"
+ },
+ "v19_attack_sentences": {
+  "hard": {
+   "text": "必须全程无障碍，一步楼梯都不能走",
+   "caps": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "class": "HARD_ACCESSIBILITY_NEED",
+     "severity": "HARD",
+     "params": {
+      "requirement": "step_free"
+     },
+     "scope": "JOURNEY",
+     "source": "SEMANTIC",
+     "provenance": "USER_STATED",
+     "explicit": true,
+     "active": true,
+     "confirmed": false
+    },
+    {
+     "code": "AVOID_STAIRS",
+     "class": "HARD_ACCESSIBILITY_NEED",
+     "severity": "HARD",
+     "params": {
+      "avoid": true
+     },
+     "scope": "JOURNEY",
+     "source": "SEMANTIC",
+     "provenance": "USER_STATED",
+     "explicit": true,
+     "active": true,
+     "confirmed": false
+    }
+   ],
+   "gate": [
+    {
+     "kind": "HARD",
+     "category": "HARD_ACCESSIBILITY_NEED",
+     "rule_code": "STEP_FREE_REQUIRED",
+     "params": {
+      "requirement": "step_free"
+     },
+     "active": true,
+     "capability": {
+      "code": "STEP_FREE_REQUIRED",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {
+       "requirement": "step_free"
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     }
+    },
+    {
+     "kind": "HARD",
+     "category": "HARD_ACCESSIBILITY_NEED",
+     "rule_code": "AVOID_STAIRS",
+     "params": {
+      "avoid": true
+     },
+     "active": true,
+     "capability": {
+      "code": "AVOID_STAIRS",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {
+       "avoid": true
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     }
+    }
+   ],
+   "summary": {
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {
+       "requirement": "step_free"
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {
+       "avoid": true
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     }
+    ],
+    "hard": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {
+       "requirement": "step_free"
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {
+       "avoid": true
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     }
+    ],
+    "strong": [],
+    "soft": [],
+    "unknown_accessibility_is_not_accessible": true
+   }
+  },
+  "soft": {
+   "text": "最好少走点楼梯，能坐电梯就坐电梯",
+   "caps": [
+    {
+     "code": "MAX_WALKING_PER_LEG_M",
+     "class": "PHYSICAL_LIMIT",
+     "severity": "STRONG",
+     "params": {
+      "max_m": null,
+      "needs_clarification": true
+     },
+     "scope": "JOURNEY",
+     "source": "SEMANTIC",
+     "provenance": "USER_STATED",
+     "explicit": true,
+     "active": true,
+     "confirmed": false
+    }
+   ],
+   "gate": [],
+   "summary": {
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "class": "PHYSICAL_LIMIT",
+      "severity": "STRONG",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     }
+    ],
+    "hard": [],
+    "strong": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "class": "PHYSICAL_LIMIT",
+      "severity": "STRONG",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      },
+      "scope": "JOURNEY",
+      "source": "SEMANTIC",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "active": true,
+      "confirmed": false
+     }
+    ],
+    "soft": [],
+    "unknown_accessibility_is_not_accessible": true
+   }
+  },
+  "still_indistinguishable_at_gate": false
+ },
+ "default_severity": {
+  "STEP_FREE_REQUIRED": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "AVOID_STAIRS": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MAX_WALKING_PER_LEG_M": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MAX_CONTINUOUS_WALKING_MIN": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MAX_DAILY_WALKING_M": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MIDDAY_REST_WINDOW": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "REST_EVERY_MIN": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "INFANT_NAP_WINDOW": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "TOILET_BREAK_EVERY_MIN": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "STROLLER": {
+   "plain": "STRONG",
+   "hard_asserted": "STRONG"
+  },
+  "LARGE_LUGGAGE": {
+   "plain": "STRONG",
+   "hard_asserted": "STRONG"
+  },
+  "SLOW_PACE": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  },
+  "QUIET_ENVIRONMENT": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  },
+  "INDOOR_PREFERRED": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  },
+  "SENSORY_LOW_STIMULATION": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  }
+ }
+}

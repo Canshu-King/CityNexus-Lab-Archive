@@ -1,0 +1,1257 @@
+{
+  "lab": "D:\\moodle\\CityNexus-Tools\\DSH-EAC-V19.1-AutonomousProductLab-20260915",
+  "db": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\\evidence\\_db\\eac_live.db",
+  "steps": {
+    "bootstrap": {
+      "reset_status": 200,
+      "places": 8,
+      "journey_status": 200,
+      "journey_keys": [
+        "active_plan_version_id",
+        "budget",
+        "city_code",
+        "current_activity_id",
+        "end_at",
+        "id",
+        "planning_mode",
+        "start_at",
+        "status",
+        "timezone",
+        "title",
+        "traveler_id"
+      ],
+      "journey_state": "DRAFT"
+    },
+    "tag_matrix_live": {
+      "rows": [
+        {
+          "case_id": "toilet_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "toilets:wheelchair": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_VERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "ACCESSIBLE_TOILET",
+              "subject": "TOILET"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 201,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "ALLOW",
+          "verdict": "FAIL",
+          "read_leak": true
+        },
+        {
+          "case_id": "entrance_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "entrance:wheelchair": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_VERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "ENTRANCE_STEP_FREE",
+              "subject": "ENTRANCE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 201,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "ALLOW",
+          "verdict": "FAIL",
+          "read_leak": true
+        },
+        {
+          "case_id": "ramp_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "ramp": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_UNVERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_UNVERIFIED",
+              "code": "RAMP_PRESENT",
+              "subject": "VERTICAL_ACCESS"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "elevator_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "elevator": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_UNVERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_UNVERIFIED",
+              "code": "ELEVATOR_PRESENT",
+              "subject": "VERTICAL_ACCESS"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "wheelchair_yes",
+          "expectation": "ALLOW",
+          "tags": {
+            "wheelchair": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_VERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "WHEELCHAIR_ACCESS",
+              "subject": "PLACE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 201,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "ALLOW",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "wheelchair_yes_step_count_5",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": "yes",
+            "step_count": 5
+          },
+          "read_overall_state": "ACCESSIBILITY_CONFLICT",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "WHEELCHAIR_ACCESS",
+              "subject": "PLACE"
+            },
+            {
+              "state": "ACCESSIBILITY_CONFLICT",
+              "code": "STEP_COUNT",
+              "subject": "ROUTE"
+            },
+            {
+              "state": "ACCESSIBILITY_CONFLICT",
+              "code": "CONFLICTING_TAGS",
+              "subject": "PLACE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "wheelchair_yes_steps",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": "yes",
+            "steps": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_CONFLICT",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "WHEELCHAIR_ACCESS",
+              "subject": "PLACE"
+            },
+            {
+              "state": "ACCESSIBILITY_CONFLICT",
+              "code": "STAIRS",
+              "subject": "ROUTE"
+            },
+            {
+              "state": "ACCESSIBILITY_CONFLICT",
+              "code": "CONFLICTING_TAGS",
+              "subject": "PLACE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "wheelchair_no",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": "no"
+          },
+          "read_overall_state": "ACCESSIBILITY_CONFLICT",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_CONFLICT",
+              "code": "WHEELCHAIR_ACCESS",
+              "subject": "PLACE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "kerb_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "kerb": "lowered"
+          },
+          "read_overall_state": "ACCESSIBILITY_UNVERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_UNVERIFIED",
+              "code": "KERB_EVIDENCE",
+              "subject": "KERB"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "tactile_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "tactile_paving": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_UNVERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_UNVERIFIED",
+              "code": "TACTILE_PAVING",
+              "subject": "ROUTE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "empty",
+          "expectation": "BLOCK",
+          "tags": {},
+          "read_overall_state": "NEEDS_LIVE_EVIDENCE",
+          "read_items": [
+            {
+              "state": "NEEDS_LIVE_EVIDENCE",
+              "code": "ACCESSIBILITY_DATA",
+              "subject": "PLACE"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "toilet_plus_ramp_plus_wheelchair_yes",
+          "expectation": "ALLOW",
+          "tags": {
+            "toilets:wheelchair": "yes",
+            "ramp": "yes",
+            "wheelchair": "yes"
+          },
+          "read_overall_state": "ACCESSIBILITY_UNVERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "WHEELCHAIR_ACCESS",
+              "subject": "PLACE"
+            },
+            {
+              "state": "ACCESSIBILITY_VERIFIED",
+              "code": "ACCESSIBLE_TOILET",
+              "subject": "TOILET"
+            },
+            {
+              "state": "ACCESSIBILITY_UNVERIFIED",
+              "code": "RAMP_PRESENT",
+              "subject": "VERTICAL_ACCESS"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "FAIL",
+          "read_leak": false
+        },
+        {
+          "case_id": "list_value_wheelchair",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": [
+              "yes"
+            ]
+          },
+          "read_overall_state": "NEEDS_LIVE_EVIDENCE",
+          "read_items": [],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        },
+        {
+          "case_id": "tuple_value_ramp",
+          "expectation": "BLOCK",
+          "tags": {
+            "ramp": [
+              "yes"
+            ]
+          },
+          "read_overall_state": "ACCESSIBILITY_UNVERIFIED",
+          "read_items": [
+            {
+              "state": "ACCESSIBILITY_UNVERIFIED",
+              "code": "RAMP_PRESENT",
+              "subject": "VERTICAL_ACCESS"
+            }
+          ],
+          "confirm_status": 200,
+          "generate_status": 422,
+          "plan_count": 0,
+          "generate_detail": null,
+          "actual": "BLOCK",
+          "verdict": "PASS",
+          "read_leak": false
+        }
+      ],
+      "fail": [
+        "toilet_only",
+        "entrance_only",
+        "toilet_plus_ramp_plus_wheelchair_yes"
+      ],
+      "leaks": [
+        "toilet_only",
+        "entrance_only"
+      ],
+      "summary": {
+        "toilet_only": "exp=BLOCK act=ALLOW",
+        "entrance_only": "exp=BLOCK act=ALLOW",
+        "ramp_only": "exp=BLOCK act=BLOCK",
+        "elevator_only": "exp=BLOCK act=BLOCK",
+        "wheelchair_yes": "exp=ALLOW act=ALLOW",
+        "wheelchair_yes_step_count_5": "exp=BLOCK act=BLOCK",
+        "wheelchair_yes_steps": "exp=BLOCK act=BLOCK",
+        "wheelchair_no": "exp=BLOCK act=BLOCK",
+        "kerb_only": "exp=BLOCK act=BLOCK",
+        "tactile_only": "exp=BLOCK act=BLOCK",
+        "empty": "exp=BLOCK act=BLOCK",
+        "toilet_plus_ramp_plus_wheelchair_yes": "exp=ALLOW act=BLOCK",
+        "list_value_wheelchair": "exp=BLOCK act=BLOCK",
+        "tuple_value_ramp": "exp=BLOCK act=BLOCK"
+      }
+    },
+    "gate_direct": {
+      "rows": [
+        {
+          "case_id": "toilet_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "toilets:wheelchair": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_VERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_VERIFIED",
+          "failures": [],
+          "avoid_stairs_failures": [],
+          "stroller_failures": [],
+          "step_free_satisfied": true,
+          "actual": "ALLOW",
+          "verdict": "FAIL"
+        },
+        {
+          "case_id": "entrance_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "entrance:wheelchair": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_VERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_VERIFIED",
+          "failures": [],
+          "avoid_stairs_failures": [],
+          "stroller_failures": [],
+          "step_free_satisfied": true,
+          "actual": "ALLOW",
+          "verdict": "FAIL"
+        },
+        {
+          "case_id": "ramp_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "ramp": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_UNVERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "elevator_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "elevator": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_UNVERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "wheelchair_yes",
+          "expectation": "ALLOW",
+          "tags": {
+            "wheelchair": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_VERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_VERIFIED",
+          "failures": [],
+          "avoid_stairs_failures": [],
+          "stroller_failures": [],
+          "step_free_satisfied": true,
+          "actual": "ALLOW",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "wheelchair_yes_step_count_5",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": "yes",
+            "step_count": 5
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_CONFLICT"
+          },
+          "gate_state": "ACCESSIBILITY_CONFLICT",
+          "failures": [
+            "ACCESSIBILITY_CONFLICT:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_CONFLICT:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "wheelchair_yes_steps",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": "yes",
+            "steps": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_CONFLICT"
+          },
+          "gate_state": "ACCESSIBILITY_CONFLICT",
+          "failures": [
+            "ACCESSIBILITY_CONFLICT:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_CONFLICT:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "wheelchair_no",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": "no"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_CONFLICT"
+          },
+          "gate_state": "ACCESSIBILITY_CONFLICT",
+          "failures": [
+            "ACCESSIBILITY_CONFLICT:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_CONFLICT:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "kerb_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "kerb": "lowered"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_UNVERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "tactile_only",
+          "expectation": "BLOCK",
+          "tags": {
+            "tactile_paving": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_UNVERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "empty",
+          "expectation": "BLOCK",
+          "tags": {},
+          "gate_metadata": {
+            "evidence_status": "NEEDS_LIVE_EVIDENCE"
+          },
+          "gate_state": "NEEDS_LIVE_EVIDENCE",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "toilet_plus_ramp_plus_wheelchair_yes",
+          "expectation": "ALLOW",
+          "tags": {
+            "toilets:wheelchair": "yes",
+            "ramp": "yes",
+            "wheelchair": "yes"
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_UNVERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "FAIL"
+        },
+        {
+          "case_id": "list_value_wheelchair",
+          "expectation": "BLOCK",
+          "tags": {
+            "wheelchair": [
+              "yes"
+            ]
+          },
+          "gate_metadata": null,
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        },
+        {
+          "case_id": "tuple_value_ramp",
+          "expectation": "BLOCK",
+          "tags": {
+            "ramp": [
+              "yes"
+            ]
+          },
+          "gate_metadata": {
+            "evidence_status": "ACCESSIBILITY_UNVERIFIED"
+          },
+          "gate_state": "ACCESSIBILITY_UNVERIFIED",
+          "failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "avoid_stairs_failures": [
+            "ACCESSIBILITY_UNVERIFIED:place-old-town",
+            "NEEDS_LIVE_EVIDENCE:place-old-town"
+          ],
+          "stroller_failures": [],
+          "step_free_satisfied": false,
+          "actual": "BLOCK",
+          "verdict": "PASS"
+        }
+      ],
+      "fail": [
+        "toilet_only",
+        "entrance_only",
+        "toilet_plus_ramp_plus_wheelchair_yes"
+      ],
+      "leaks": [
+        "toilet_only",
+        "entrance_only"
+      ],
+      "summary": {
+        "toilet_only": "exp=BLOCK act=ALLOW",
+        "entrance_only": "exp=BLOCK act=ALLOW",
+        "ramp_only": "exp=BLOCK act=BLOCK",
+        "elevator_only": "exp=BLOCK act=BLOCK",
+        "wheelchair_yes": "exp=ALLOW act=ALLOW",
+        "wheelchair_yes_step_count_5": "exp=BLOCK act=BLOCK",
+        "wheelchair_yes_steps": "exp=BLOCK act=BLOCK",
+        "wheelchair_no": "exp=BLOCK act=BLOCK",
+        "kerb_only": "exp=BLOCK act=BLOCK",
+        "tactile_only": "exp=BLOCK act=BLOCK",
+        "empty": "exp=BLOCK act=BLOCK",
+        "toilet_plus_ramp_plus_wheelchair_yes": "exp=ALLOW act=BLOCK",
+        "list_value_wheelchair": "exp=BLOCK act=BLOCK",
+        "tuple_value_ramp": "exp=BLOCK act=BLOCK"
+      }
+    },
+    "consumer_divergence": {
+      "rows": [
+        {
+          "case_id": "demo_baseline",
+          "note": "untouched demo seed",
+          "read": {
+            "status": 200,
+            "overall_state": "NEEDS_LIVE_EVIDENCE",
+            "items": [
+              {
+                "state": "NEEDS_LIVE_EVIDENCE",
+                "code": "ACCESSIBILITY_DATA",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": null,
+            "state": "ACCESSIBILITY_UNVERIFIED",
+            "step_free_failures": [
+              "ACCESSIBILITY_UNVERIFIED:place-old-town",
+              "NEEDS_LIVE_EVIDENCE:place-old-town"
+            ]
+          },
+          "gate_blocks": true,
+          "divergent": true,
+          "dangerous_divergence": false
+        },
+        {
+          "case_id": "frozen_evidence_status",
+          "note": "documented frozen-evidence shape the gate key-set reads",
+          "read": {
+            "status": 200,
+            "overall_state": "NEEDS_LIVE_EVIDENCE",
+            "items": [
+              {
+                "state": "NEEDS_LIVE_EVIDENCE",
+                "code": "ACCESSIBILITY_DATA",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "ACCESSIBILITY_VERIFIED"
+            },
+            "state": "ACCESSIBILITY_VERIFIED",
+            "step_free_failures": []
+          },
+          "gate_blocks": false,
+          "divergent": true,
+          "dangerous_divergence": true
+        },
+        {
+          "case_id": "frozen_evidence_short",
+          "note": "short-form verified status",
+          "read": {
+            "status": 200,
+            "overall_state": "NEEDS_LIVE_EVIDENCE",
+            "items": [
+              {
+                "state": "NEEDS_LIVE_EVIDENCE",
+                "code": "ACCESSIBILITY_DATA",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "VERIFIED"
+            },
+            "state": "ACCESSIBILITY_VERIFIED",
+            "step_free_failures": []
+          },
+          "gate_blocks": false,
+          "divergent": true,
+          "dangerous_divergence": true
+        },
+        {
+          "case_id": "frozen_step_free_true",
+          "note": "boolean frozen flag",
+          "read": {
+            "status": 200,
+            "overall_state": "NEEDS_LIVE_EVIDENCE",
+            "items": [
+              {
+                "state": "NEEDS_LIVE_EVIDENCE",
+                "code": "ACCESSIBILITY_DATA",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "step_free": true
+            },
+            "state": "ACCESSIBILITY_VERIFIED",
+            "step_free_failures": []
+          },
+          "gate_blocks": false,
+          "divergent": true,
+          "dangerous_divergence": true
+        },
+        {
+          "case_id": "metadata_tags_mapping",
+          "note": "OSM tags nested under metadata.tags",
+          "read": {
+            "status": 200,
+            "overall_state": "ACCESSIBILITY_VERIFIED",
+            "items": [
+              {
+                "state": "ACCESSIBILITY_VERIFIED",
+                "code": "WHEELCHAIR_ACCESS",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "ACCESSIBILITY_VERIFIED"
+            },
+            "state": "ACCESSIBILITY_VERIFIED",
+            "step_free_failures": []
+          },
+          "gate_blocks": false,
+          "divergent": false,
+          "dangerous_divergence": false
+        },
+        {
+          "case_id": "metadata_tags_kv_list",
+          "note": "k=v list nested under metadata.tags",
+          "read": {
+            "status": 200,
+            "overall_state": "NEEDS_LIVE_EVIDENCE",
+            "items": [
+              {
+                "state": "NEEDS_LIVE_EVIDENCE",
+                "code": "ACCESSIBILITY_DATA",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "NEEDS_LIVE_EVIDENCE"
+            },
+            "state": "NEEDS_LIVE_EVIDENCE",
+            "step_free_failures": [
+              "ACCESSIBILITY_UNVERIFIED:place-old-town",
+              "NEEDS_LIVE_EVIDENCE:place-old-town"
+            ]
+          },
+          "gate_blocks": true,
+          "divergent": false,
+          "dangerous_divergence": false
+        },
+        {
+          "case_id": "tags_json_kv_list",
+          "note": "k=v list in place.tags_json (HTTP parser branch)",
+          "read": {
+            "status": 200,
+            "overall_state": "ACCESSIBILITY_VERIFIED",
+            "items": [
+              {
+                "state": "ACCESSIBILITY_VERIFIED",
+                "code": "WHEELCHAIR_ACCESS",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "NEEDS_LIVE_EVIDENCE"
+            },
+            "state": "NEEDS_LIVE_EVIDENCE",
+            "step_free_failures": [
+              "ACCESSIBILITY_UNVERIFIED:place-old-town",
+              "NEEDS_LIVE_EVIDENCE:place-old-town"
+            ]
+          },
+          "gate_blocks": true,
+          "divergent": true,
+          "dangerous_divergence": false
+        },
+        {
+          "case_id": "tags_json_mapping",
+          "note": "mapping in place.tags_json",
+          "read": {
+            "status": 200,
+            "overall_state": "ACCESSIBILITY_VERIFIED",
+            "items": [
+              {
+                "state": "ACCESSIBILITY_VERIFIED",
+                "code": "WHEELCHAIR_ACCESS",
+                "subject": "PLACE"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "NEEDS_LIVE_EVIDENCE"
+            },
+            "state": "NEEDS_LIVE_EVIDENCE",
+            "step_free_failures": [
+              "ACCESSIBILITY_UNVERIFIED:place-old-town",
+              "NEEDS_LIVE_EVIDENCE:place-old-town"
+            ]
+          },
+          "gate_blocks": true,
+          "divergent": true,
+          "dangerous_divergence": false
+        },
+        {
+          "case_id": "both_toilet_and_frozen",
+          "note": "frozen status plus a toilet tag",
+          "read": {
+            "status": 200,
+            "overall_state": "ACCESSIBILITY_VERIFIED",
+            "items": [
+              {
+                "state": "ACCESSIBILITY_VERIFIED",
+                "code": "ACCESSIBLE_TOILET",
+                "subject": "TOILET"
+              }
+            ]
+          },
+          "gate": {
+            "metadata": {
+              "evidence_status": "ACCESSIBILITY_VERIFIED"
+            },
+            "state": "ACCESSIBILITY_VERIFIED",
+            "step_free_failures": []
+          },
+          "gate_blocks": false,
+          "divergent": false,
+          "dangerous_divergence": false
+        }
+      ],
+      "divergent": [
+        "demo_baseline",
+        "frozen_evidence_status",
+        "frozen_evidence_short",
+        "frozen_step_free_true",
+        "tags_json_kv_list",
+        "tags_json_mapping"
+      ],
+      "dangerous": [
+        "frozen_evidence_status",
+        "frozen_evidence_short",
+        "frozen_step_free_true"
+      ]
+    },
+    "route_level": {
+      "status": 200,
+      "overall_state": "NEEDS_LIVE_EVIDENCE",
+      "route_facts": [
+        {
+          "state": "NEEDS_LIVE_EVIDENCE",
+          "code": "ROUTE_STEP_FREE",
+          "subject": "ROUTE"
+        }
+      ],
+      "unknown_is_not_accessible": true,
+      "generate_status": 201,
+      "gate_consults_route_fact": false,
+      "note": "journey read endpoint is conservative (ROUTE_STEP_FREE unknown) but the feasibility gate reads only per-place metadata"
+    },
+    "catalog": {
+      "status": 200,
+      "unknown_accessibility_is_not_accessible": true,
+      "step_free_catalog_default": "STRONG",
+      "avoid_stairs_catalog_default": "STRONG",
+      "max_walking_catalog_default": "STRONG",
+      "confirm_no_severity_status": 200,
+      "stored_step_free": [
+        {
+          "code": "STEP_FREE_REQUIRED",
+          "severity": "HARD",
+          "class": "HARD_ACCESSIBILITY_NEED"
+        }
+      ],
+      "catalog_vs_server_drift": true,
+      "needs_confirmation_status": 200,
+      "needs_confirmation_stored": [
+        {
+          "code": "STEP_FREE_REQUIRED",
+          "severity": "STRONG"
+        }
+      ]
+    },
+    "extract": {
+      "rows": [
+        {
+          "case_id": "mandated_en",
+          "text": "I don't need a wheelchair, I can walk",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [
+            "STEP_FREE_REQUIRED"
+          ],
+          "candidate_severities": [
+            "HARD"
+          ],
+          "candidate_only": true,
+          "has_hard_candidate": true,
+          "false_hard": true
+        },
+        {
+          "case_id": "mandated_zh",
+          "text": "朋友说我可能需要轮椅，但我不这么认为",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [
+            "STEP_FREE_REQUIRED"
+          ],
+          "candidate_severities": [
+            "HARD"
+          ],
+          "candidate_only": true,
+          "has_hard_candidate": true,
+          "false_hard": true
+        },
+        {
+          "case_id": "clause_no_exception",
+          "text": "轮椅必须全程无障碍，没有例外",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [
+            "STEP_FREE_REQUIRED"
+          ],
+          "candidate_severities": [
+            "HARD"
+          ],
+          "candidate_only": true,
+          "has_hard_candidate": true,
+          "false_hard": false
+        },
+        {
+          "case_id": "history",
+          "text": "我以前不用轮椅，但现在必须无障碍",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [
+            "STEP_FREE_REQUIRED"
+          ],
+          "candidate_severities": [
+            "HARD"
+          ],
+          "candidate_only": true,
+          "has_hard_candidate": true,
+          "false_hard": false
+        },
+        {
+          "case_id": "hearsay",
+          "text": "朋友说我可能需要轮椅",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [
+            "STEP_FREE_REQUIRED"
+          ],
+          "candidate_severities": [
+            "HARD"
+          ],
+          "candidate_only": true,
+          "has_hard_candidate": true,
+          "false_hard": false
+        },
+        {
+          "case_id": "denial",
+          "text": "我不需要轮椅",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [],
+          "candidate_severities": [],
+          "candidate_only": true,
+          "has_hard_candidate": false,
+          "false_hard": false
+        },
+        {
+          "case_id": "control",
+          "text": "我需要轮椅，必须全程无障碍",
+          "status": 200,
+          "source": "DETERMINISTIC_TEXT_FALLBACK",
+          "authority": "UI_CANDIDATE_ONLY",
+          "candidate_codes": [
+            "STEP_FREE_REQUIRED"
+          ],
+          "candidate_severities": [
+            "HARD"
+          ],
+          "candidate_only": true,
+          "has_hard_candidate": true,
+          "false_hard": false
+        }
+      ],
+      "false_hard_cases": [
+        "mandated_en",
+        "mandated_zh"
+      ],
+      "all_marked_candidate_only": true
+    },
+    "audit": {
+      "after_journey_confirm_status": 200,
+      "after_journey_confirm_actions": [
+        "traveler.capability.created"
+      ],
+      "after_journey_confirm_count": 1,
+      "journey_scope_events_visible": true,
+      "traveler_confirm_status": 200,
+      "after_traveler_confirm_count": 2,
+      "after_traveler_confirm_actions": [
+        "traveler.capability.created"
+      ],
+      "traveler_scope_events_visible": true,
+      "has_before_after": true,
+      "clear_status": 200,
+      "after_clear_actions": [
+        "traveler.capability.deactivated",
+        "traveler.capability.created",
+        "traveler.capability.created"
+      ],
+      "deactivate_event_present": true,
+      "limit_honoured": true
+    },
+    "confirm_semantics": {
+      "a_status": 200,
+      "b_status": 200,
+      "after_b_codes": [
+        "AVOID_STAIRS"
+      ],
+      "a_survived": false,
+      "listed_codes": [
+        "AVOID_STAIRS"
+      ],
+      "a_survived_after_reload": false,
+      "concurrent_statuses": {
+        "STEP_FREE_REQUIRED": 200,
+        "LARGE_LUGGAGE": 200,
+        "AVOID_STAIRS": 200
+      },
+      "concurrent_codes": [
+        "AVOID_STAIRS"
+      ],
+      "concurrent_lost_codes": [
+        "LARGE_LUGGAGE",
+        "STEP_FREE_REQUIRED"
+      ],
+      "cross_scope_traveler_status": 200,
+      "cross_scope_journey_status": 200,
+      "cross_scope_rows": [
+        {
+          "scope": "TRAVELER",
+          "journey_id": null,
+          "params": "{\"note\": \"traveler\"}",
+          "severity": "HARD"
+        },
+        {
+          "scope": "JOURNEY",
+          "journey_id": "22222222-2222-4222-8222-222222222222",
+          "params": "{\"note\": \"journey\"}",
+          "severity": "HARD"
+        }
+      ],
+      "cross_scope_row_count": 2,
+      "cross_scope_listed": [
+        {
+          "code": "AVOID_STAIRS",
+          "scope": "JOURNEY",
+          "params": {
+            "note": "journey"
+          }
+        },
+        {
+          "code": "AVOID_STAIRS",
+          "scope": "TRAVELER",
+          "params": {
+            "note": "traveler"
+          }
+        }
+      ],
+      "canonicalize_cross_scope": [
+        {
+          "code": "AVOID_STAIRS",
+          "class": "HARD_ACCESSIBILITY_NEED",
+          "severity": "HARD",
+          "params": {
+            "note": "journey"
+          },
+          "scope": "TRAVELER",
+          "source": "SEMANTIC",
+          "provenance": "USER_STATED",
+          "explicit": true,
+          "active": true,
+          "confirmed": false
+        }
+      ],
+      "canonicalize_param_collision": [
+        {
+          "code": "MAX_WALKING_PER_LEG_M",
+          "class": "PHYSICAL_LIMIT",
+          "severity": "HARD",
+          "params": {
+            "max_m": 800
+          },
+          "scope": "JOURNEY",
+          "source": "SEMANTIC",
+          "provenance": "USER_STATED",
+          "explicit": true,
+          "active": true,
+          "confirmed": false
+        }
+      ],
+      "canonicalize_severity_downgrade_attempt": [
+        {
+          "code": "STEP_FREE_REQUIRED",
+          "class": "HARD_ACCESSIBILITY_NEED",
+          "severity": "HARD",
+          "params": {},
+          "scope": "JOURNEY",
+          "source": "SEMANTIC",
+          "provenance": "USER_STATED",
+          "explicit": true,
+          "active": true,
+          "confirmed": false
+        }
+      ]
+    }
+  }
+}

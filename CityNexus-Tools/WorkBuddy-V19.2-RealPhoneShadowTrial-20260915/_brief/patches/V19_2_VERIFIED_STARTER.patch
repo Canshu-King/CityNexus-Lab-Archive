@@ -1,0 +1,314 @@
+diff --git a/backend/app/capabilities.py b/backend/app/capabilities.py
+index 456e90a..0575998 100644
+--- a/backend/app/capabilities.py
++++ b/backend/app/capabilities.py
+@@ -110,6 +110,27 @@ _NEGATED_MARKERS = (
+     "allegedly",
+ )
+ 
++# Conservative local-fallback guards. DeepSeek is the primary language
++# interpreter; these markers prevent the deterministic fallback from turning
++# hearsay, speculation, or venue descriptions into a traveler HARD need.
++_SPECULATIVE_MARKERS = (
++    "说不定", "如果", "假如", "万一", "maybe", "might", "possibly", "perhaps", "if ",
++)
++_THIRD_PARTY_MARKERS = (
++    "朋友说", "同事说", "我朋友", "我妈妈", "我父亲", "我父母", "我同事",
++    "my friend", "my mother", "my father", "my parent", "my colleague", "a friend said",
++)
++_FACILITY_SUBJECT_MARKERS = (
++    "车站", "机场", "酒店", "餐厅", "景点", "博物馆", "station", "airport", "hotel",
++    "restaurant", "museum", "venue", "place",
++)
++_FIRST_PERSON_MARKERS = ("我", "本人", "i ", "i'm", "i am", "me", "my ")
++_PERMANENCE_MARKERS = (
++    "终身", "长期", "永久", "一辈子", "一直", "每次旅行", "以后每次", "不只是这次",
++    "permanent", "permanently", "every trip", "every journey", "always", "not just this trip",
++)
++_THIS_TRIP_MARKERS = ("这次", "本次", "今天", "此次旅行", "this trip", "this journey", "just for today")
++
+ 
+ @dataclass(frozen=True)
+ class CapabilityItem:
+@@ -173,11 +194,16 @@ def _bounded_number(value: Any, *, minimum: int = 0, maximum: int = 100_000) ->
+     return number if minimum <= number <= maximum else None
+ 
+ 
+-def _time_window(value: str) -> tuple[str, str] | None:
++def _time_tokens(value: str) -> list[str]:
+     matches = re.findall(r"(?:[01]?\d|2[0-3])\s*[:：]\s*[0-5]?\d", value)
+     if len(matches) < 2:
+         # Also accept Chinese/English hour words in the common 13-15 shape.
+         matches = re.findall(r"\b([01]?\d|2[0-3])\s*(?:点|時|h|hours?)\b", value, re.I)
++    return list(matches)
++
++
++def _time_window(value: str) -> tuple[str, str] | None:
++    matches = _time_tokens(value)
+     if len(matches) < 2:
+         return None
+ 
+@@ -188,13 +214,33 @@ def _time_window(value: str) -> tuple[str, str] | None:
+         hour, minute = raw.split(":", 1)
+         return f"{int(hour):02d}:{int(minute or 0):02d}"
+ 
+-    return normalise(matches[0]), normalise(matches[1])
++    start, end = normalise(matches[0]), normalise(matches[1])
++    sh, sm = (int(part) for part in start.split(":"))
++    eh, em = (int(part) for part in end.split(":"))
++    if (eh * 60 + em) <= (sh * 60 + sm):
++        return None
++    return start, end
+ 
+ 
+ def _number_before(value: str, terms: Iterable[str]) -> int | None:
+-    pattern = r"(?:" + "|".join(re.escape(term) for term in terms) + r").{0,18}?([0-9]{1,6})\s*(?:米|公尺|m|分钟|分鐘|min|minutes?)?"
++    unit = r"(?:公里|千米|km|kilomet(?:er|re)s?|米|公尺|m|分钟|分鐘|min|minutes?)"
++    pattern = (
++        r"(?:" + "|".join(re.escape(term) for term in terms)
++        + r").{0,18}?(-?[0-9]{1,8}(?:\.[0-9]+)?)\s*(" + unit + r")?"
++    )
+     match = re.search(pattern, value, re.I)
+-    return _bounded_number(match.group(1)) if match else None
++    if not match:
++        return None
++    raw_number, raw_unit = match.group(1), (match.group(2) or "").casefold()
++    try:
++        number = float(raw_number)
++    except ValueError:
++        return None
++    if number < 0:
++        return None
++    if raw_unit in {"公里", "千米", "km", "kilometer", "kilometers", "kilometre", "kilometres"}:
++        number *= 1000
++    return _bounded_number(number)
+ 
+ 
+ def _hard_asserted(value: str) -> bool:
+@@ -218,6 +264,14 @@ def extract_capabilities_from_text(
+     raw_value = str(text or "").strip().casefold()
+     if not raw_value:
+         return ()
++
++    effective_scope = scope if scope in CAPABILITY_SCOPES else "JOURNEY"
++    permanent_language = any(marker in raw_value for marker in _PERMANENCE_MARKERS)
++    if effective_scope == "JOURNEY" and permanent_language:
++        effective_scope = "TRAVELER"
++    elif any(marker in raw_value for marker in _THIS_TRIP_MARKERS):
++        effective_scope = "JOURNEY"
++
+     # Negation/rumour is clause-local.  A historical contrast may still carry
+     # a current positive requirement in a later clause, so never discard the
+     # entire message merely because one clause contains "used to" or "don't".
+@@ -225,9 +279,19 @@ def extract_capabilities_from_text(
+     active_clauses: list[str] = []
+     for clause in clauses:
+         negated = any(marker in clause for marker in _NEGATED_MARKERS) or bool(
+-            re.search(r"\b(?:don't|do not|doesn't|does not|never|no)\b", clause)
++            re.search(r"\b(?:don't|do not|doesn't|does not|not|never|no)\b", clause)
++        )
++        speculative = any(marker in clause for marker in _SPECULATIVE_MARKERS)
++        third_party = any(marker in clause for marker in _THIRD_PARTY_MARKERS)
++        first_person = any(marker in clause for marker in _FIRST_PERSON_MARKERS)
++        facility_only = (
++            any(marker in clause for marker in _FACILITY_SUBJECT_MARKERS)
++            and not first_person
++            and any(token in clause for token in ("无障碍", "轮椅", "wheelchair", "accessible", "step-free", "step free"))
+         )
+         positive_need = any(marker in clause for marker in ("必须", "务必", "现在", "当前", "must", "now", "required", "need to"))
++        if speculative or third_party or facility_only:
++            continue
+         if negated and not positive_need:
+             continue
+         active_clauses.append(clause)
+@@ -246,7 +310,7 @@ def extract_capabilities_from_text(
+                 capability_class=capability_class_for(code),
+                 severity=severity or default_severity(code, hard_asserted=hard),
+                 params=dict(params or {}),
+-                scope=scope if scope in CAPABILITY_SCOPES else "JOURNEY",
++                scope=effective_scope,
+                 source=source,
+                 provenance=provenance,
+                 explicit=True,
+@@ -269,12 +333,19 @@ def extract_capabilities_from_text(
+ 
+     walking = any(
+         token in value
+-        for token in ("少走", "少步行", "不能走太多", "步行少", "走路少", "low walking", "walk less", "avoid long walks", "avoid walking", "walking limit")
++        for token in (
++            "少走", "少步行", "不能走太多", "步行少", "走路少", "不能超过", "最多走",
++            "low walking", "walk less", "avoid long walks", "avoid walking", "walking limit",
++            "cannot walk more than", "can't walk more than", "walk more than", "cannot walk far",
++            "can't walk far", "walk far", "under ",
++        )
+     )
+     if walking:
+         max_leg = _number_before(value, ("每段", "每程", "每腿", "每次", "per leg", "each leg", "under", "less than"))
+         if max_leg is None:
+             max_leg = _number_before(value, ("走", "walking", "walk"))
++        if max_leg is not None and max_leg < 1:
++            max_leg = None
+         add(
+             "MAX_WALKING_PER_LEG_M",
+             {"max_m": max_leg, "needs_clarification": max_leg is None},
+@@ -288,10 +359,26 @@ def extract_capabilities_from_text(
+         add("MAX_DAILY_WALKING_M", {"max_m": daily}, severity="HARD" if hard else "STRONG")
+ 
+     window = _time_window(value)
+-    if any(token in value for token in ("午休", "中午休息", "midday rest", "midday break", "rest at noon")):
+-        add("MIDDAY_REST_WINDOW", {"start": window[0] if window else "12:00", "end": window[1] if window else "14:00"}, severity="HARD" if hard else "STRONG")
+-    if any(token in value for token in ("午睡", "nap", "naptime")):
+-        add("INFANT_NAP_WINDOW", {"start": window[0] if window else "13:00", "end": window[1] if window else "15:00"}, severity="HARD" if hard else "STRONG")
++    explicit_time_pair = len(_time_tokens(value)) >= 2
++    rest_window_stated = any(token in value for token in ("午休", "中午休息", "回酒店休息", "midday rest", "midday break", "rest at noon")) or (
++        window is not None and any(token in value for token in ("休息", " rest ", "must rest", "need to rest"))
++    )
++    if rest_window_stated:
++        if window is not None:
++            params = {"start": window[0], "end": window[1]}
++        elif explicit_time_pair:
++            params = {"needs_clarification": True}
++        else:
++            params = {"start": "12:00", "end": "14:00", "defaulted_window": True}
++        add("MIDDAY_REST_WINDOW", params, severity="HARD" if hard and window is not None else "STRONG")
++    if any(token in value for token in ("午睡", "睡午觉", "nap", "naptime")):
++        if window is not None:
++            params = {"start": window[0], "end": window[1]}
++        elif explicit_time_pair:
++            params = {"needs_clarification": True}
++        else:
++            params = {"start": "13:00", "end": "15:00", "defaulted_window": True}
++        add("INFANT_NAP_WINDOW", params, severity="HARD" if hard and window is not None else "STRONG")
+     rest_every = _number_before(value, ("每", "every", "rest every"))
+     if rest_every is not None and any(token in value for token in ("休息", "rest", "break")):
+         add("REST_EVERY_MIN", {"interval_min": rest_every}, severity="HARD" if hard else "STRONG")
+@@ -326,7 +413,9 @@ def canonicalize_capabilities(
+     """Validate model/API candidates and enforce hard-severity invariants."""
+ 
+     result: list[dict[str, Any]] = []
+-    seen: dict[str, dict[str, Any]] = {}
++    # Keyed on (scope, code): a TRAVELER-scoped need and a JOURNEY-scoped need
++    # of the same code are two different requirements and must both survive.
++    seen: dict[tuple[Any, str], dict[str, Any]] = {}
+     for raw in candidates or ():
+         if not isinstance(raw, Mapping):
+             continue
+@@ -362,9 +451,10 @@ def canonicalize_capabilities(
+             confirmed=bool(raw.get("confirmed", confirmed)),
+         )
+         payload = item.as_dict()
+-        previous = seen.get(code)
++        merge_key = (payload.get("scope"), code)
++        previous = seen.get(merge_key)
+         if previous is None:
+-            seen[code] = payload
++            seen[merge_key] = payload
+             result.append(payload)
+         else:
+             # Deterministic merge: HARD wins, then confirmed, then the first
+@@ -372,8 +462,22 @@ def canonicalize_capabilities(
+             if payload["severity"] == "HARD" or previous["severity"] != "HARD":
+                 previous["severity"] = payload["severity"]
+             previous["confirmed"] = bool(previous.get("confirmed") or payload.get("confirmed"))
+-            if not previous.get("params") and payload.get("params"):
+-                previous["params"] = payload["params"]
++            incoming_params = dict(payload.get("params") or {})
++            existing_params = dict(previous.get("params") or {})
++            if not existing_params and incoming_params:
++                previous["params"] = incoming_params
++            elif incoming_params:
++                upper_bound_keys = ("max_m", "max_min", "interval_min")
++                for key in upper_bound_keys:
++                    left = _bounded_number(existing_params.get(key), minimum=1)
++                    right = _bounded_number(incoming_params.get(key), minimum=1)
++                    if left is not None and right is not None:
++                        existing_params[key] = min(left, right)
++                    elif left is None and right is not None:
++                        existing_params[key] = right
++                for key, value in incoming_params.items():
++                    existing_params.setdefault(key, value)
++                previous["params"] = existing_params
+     return tuple(result)
+ 
+ 
+@@ -437,8 +541,21 @@ def accessibility_state(value: Any) -> str:
+ def normalize_osm_tags(value: Any) -> dict[str, str]:
+     """Accept provider tags as mappings or OSM-style key=value sequences."""
+     if isinstance(value, Mapping):
+-        return {str(k).strip().lower(): str(v).strip().lower() for k, v in value.items()}
+-    result: dict[str, str] = {}
++        result: dict[str, str] = {}
++        for key, raw in value.items():
++            # A provider may emit a sequence where a scalar is expected.
++            # `str(["yes"])` is "['yes']", which matches nothing downstream, so
++            # unwrap the sequence instead of silently losing the tag.
++            if isinstance(raw, (list, tuple, set)):
++                scalars = [
++                    str(part).strip().lower()
++                    for part in raw
++                    if not isinstance(part, (list, tuple, set, Mapping))
++                ]
++                raw = scalars[0] if scalars else ""
++            result[str(key).strip().lower()] = str(raw).strip().lower()
++        return result
++    result = {}
+     if isinstance(value, (list, tuple, set)):
+         for item in value:
+             if isinstance(item, Mapping):
+@@ -461,9 +578,26 @@ def evaluate_accessibility_requirement(code: str, facts: Any) -> str:
+         return any(str(facts.get(key, "")).lower() in {"yes", "true", "1", "verified", "accessible"} for key in keys) or any(tags.get(key) in {"yes", "true", "1"} for key in keys)
+     def false(*keys: str) -> bool:
+         return any(str(facts.get(key, "")).lower() in {"no", "false", "0", "inaccessible", "stairs"} for key in keys) or any(tags.get(key) in {"no", "false", "0"} for key in keys)
++    def stairs_present() -> bool:
++        """Any provider signal that says stairs are on the way.
++
++        `wheelchair=yes` beside `step_count=5` is a contradiction in the
++        provider data itself, so it must surface as CONFLICT rather than being
++        folded into the generic UNVERIFIED bucket.
++        """
++        if truth("stairs", "has_stairs"):
++            return True
++        if tags.get("steps") in {"yes", "true", "1", "stepped"}:
++            return True
++        if tags.get("highway") in {"steps", "stepping_stones"}:
++            return True
++        try:
++            return int(str(tags.get("step_count", "")).strip() or 0) > 0
++        except (TypeError, ValueError):
++            return False
+     is_route = str(facts.get("subject") or facts.get("scope") or "").lower() in {"route", "path", "itinerary"}
+     if code == "STEP_FREE_REQUIRED":
+-        if truth("stairs", "has_stairs"):
++        if stairs_present():
+             return "ACCESSIBILITY_CONFLICT"
+         if is_route and not truth("route_step_free", "step_free_route", "route_step_free_verified"):
+             return "NEEDS_LIVE_EVIDENCE"
+@@ -473,7 +607,7 @@ def evaluate_accessibility_requirement(code: str, facts: Any) -> str:
+             return "ACCESSIBILITY_VERIFIED"
+         return "ACCESSIBILITY_UNVERIFIED"
+     if code == "AVOID_STAIRS":
+-        if truth("stairs", "has_stairs"):
++        if stairs_present():
+             return "ACCESSIBILITY_CONFLICT"
+         if false("stairs", "has_stairs") or truth("step_free", "step_free_verified"):
+             return "ACCESSIBILITY_VERIFIED"
+diff --git a/backend/app/replanning/feasibility.py b/backend/app/replanning/feasibility.py
+index 18514c6..39fd392 100644
+--- a/backend/app/replanning/feasibility.py
++++ b/backend/app/replanning/feasibility.py
+@@ -266,8 +266,15 @@ def _accessibility_metadata(record: Any) -> Mapping[str, Any] | None:
+         "evidence_status",
+         "status",
+         "step_free",
++        "step_free_verified",
++        "route_step_free",
++        "route_step_free_verified",
+         "wheelchair_access",
+         "stairs",
++        "has_stairs",
++        "step_count",
++        "steps",
++        "highway",
+         "stroller_accessible",
+         "luggage_accessible",
+     }

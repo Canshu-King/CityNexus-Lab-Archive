@@ -1,0 +1,49 @@
+{
+  "passed": 5,
+  "total": 6,
+  "results": [
+    {
+      "case": "CH1_unknown_run_get",
+      "status": 502,
+      "ok": true,
+      "note": "want 502, never 200 fake"
+    },
+    {
+      "case": "CH2_stop_unknown_run",
+      "status": 502,
+      "ok": true,
+      "note": "want 502"
+    },
+    {
+      "case": "CH3_sse_unknown_run",
+      "status": null,
+      "events": 0,
+      "fake_terminal": false,
+      "ok": true,
+      "err": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)"
+    },
+    {
+      "case": "CH4_sse_unknown_run_journey",
+      "status": null,
+      "events": 0,
+      "fake_terminal": false,
+      "ok": true,
+      "err": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)"
+    },
+    {
+      "case": "CH5_reconnect_dedup",
+      "status1": null,
+      "status2": null,
+      "count1": 0,
+      "count2": 0,
+      "stable": true,
+      "ok": false
+    },
+    {
+      "case": "CH6_stop_completed_run",
+      "status": 200,
+      "ok": true,
+      "note": "want terminal/conflict, never 500 fake"
+    }
+  ]
+}

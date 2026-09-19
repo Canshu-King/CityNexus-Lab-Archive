@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["vite/client", "node"]
+  },
+  "include": [
+    "reference-app/src/features/capability-experience/**/*.ts",
+    "reference-app/src/features/capability-experience/**/*.tsx",
+    "reference-app/src/types/**/*.d.ts"
+  ]
+}

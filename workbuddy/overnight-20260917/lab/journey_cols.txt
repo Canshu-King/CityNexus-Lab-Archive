@@ -1,0 +1,1 @@
+﻿['id', 'traveler_id', 'title', 'city_code', 'timezone', 'start_at', 'end_at', 'budget_currency', 'budget_amount_minor', 'planning_mode', 'status', 'active_plan_version_id', 'current_activity_id', 'created_at', 'updated_at']

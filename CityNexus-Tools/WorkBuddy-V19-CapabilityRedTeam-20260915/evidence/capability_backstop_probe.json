@@ -1,0 +1,716 @@
+{
+ "guard_matrix": {
+  "STEP_FREE_REQUIRED|HARD|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "HARD",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": true
+  },
+  "STEP_FREE_REQUIRED|HARD|SOFT_PREFERENCE": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "HARD",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": true
+  },
+  "STEP_FREE_REQUIRED|HARD|None": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "out_severity": "HARD",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": true
+  },
+  "STEP_FREE_REQUIRED|STRONG|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|STRONG|SOFT_PREFERENCE": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|STRONG|None": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|SOFT|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "SOFT",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "SOFT",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|SOFT|SOFT_PREFERENCE": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "SOFT",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "SOFT",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|SOFT|None": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "SOFT"
+   },
+   "out_severity": "SOFT",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|None|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|None|SOFT_PREFERENCE": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "STEP_FREE_REQUIRED|None|None": {
+   "in": {
+    "code": "STEP_FREE_REQUIRED"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|HARD|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "HARD",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": true
+  },
+  "AVOID_STAIRS|HARD|SOFT_PREFERENCE": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "HARD",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "HARD",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": true
+  },
+  "AVOID_STAIRS|HARD|None": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "HARD"
+   },
+   "out_severity": "HARD",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": true
+  },
+  "AVOID_STAIRS|STRONG|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "STRONG",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|STRONG|SOFT_PREFERENCE": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "STRONG",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|STRONG|None": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "STRONG"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|SOFT|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "SOFT",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "SOFT",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|SOFT|SOFT_PREFERENCE": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "SOFT",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "SOFT",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|SOFT|None": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "severity": "SOFT"
+   },
+   "out_severity": "SOFT",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|None|HARD_ACCESSIBILITY_NEED": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "class": "HARD_ACCESSIBILITY_NEED"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|None|SOFT_PREFERENCE": {
+   "in": {
+    "code": "AVOID_STAIRS",
+    "class": "SOFT_PREFERENCE"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  },
+  "AVOID_STAIRS|None|None": {
+   "in": {
+    "code": "AVOID_STAIRS"
+   },
+   "out_severity": "STRONG",
+   "out_class": "HARD_ACCESSIBILITY_NEED",
+   "hard_gate": false
+  }
+ },
+ "guard_matrix_summary": {
+  "cells": 24,
+  "input_said_HARD": 6,
+  "output_is_HARD": 6,
+  "downgrades_accepted": [
+   "STEP_FREE_REQUIRED|STRONG|HARD_ACCESSIBILITY_NEED",
+   "STEP_FREE_REQUIRED|STRONG|SOFT_PREFERENCE",
+   "STEP_FREE_REQUIRED|STRONG|None",
+   "STEP_FREE_REQUIRED|SOFT|HARD_ACCESSIBILITY_NEED",
+   "STEP_FREE_REQUIRED|SOFT|SOFT_PREFERENCE",
+   "STEP_FREE_REQUIRED|SOFT|None",
+   "STEP_FREE_REQUIRED|None|HARD_ACCESSIBILITY_NEED",
+   "STEP_FREE_REQUIRED|None|SOFT_PREFERENCE",
+   "STEP_FREE_REQUIRED|None|None",
+   "AVOID_STAIRS|STRONG|HARD_ACCESSIBILITY_NEED",
+   "AVOID_STAIRS|STRONG|SOFT_PREFERENCE",
+   "AVOID_STAIRS|STRONG|None",
+   "AVOID_STAIRS|SOFT|HARD_ACCESSIBILITY_NEED",
+   "AVOID_STAIRS|SOFT|SOFT_PREFERENCE",
+   "AVOID_STAIRS|SOFT|None",
+   "AVOID_STAIRS|None|HARD_ACCESSIBILITY_NEED",
+   "AVOID_STAIRS|None|SOFT_PREFERENCE",
+   "AVOID_STAIRS|None|None"
+  ],
+  "class_always_corrected": true
+ },
+ "end_to_end_exploit": {
+  "clean_hard_zh": {
+   "text": "必须全程无障碍，一步楼梯都不能走",
+   "local_backstop": [
+    "STEP_FREE_REQUIRED",
+    "AVOID_STAIRS"
+   ],
+   "model_SOFT__merged_severities": [
+    "SOFT",
+    "HARD",
+    "HARD"
+   ],
+   "model_SOFT__gate": [
+    "STEP_FREE_REQUIRED",
+    "AVOID_STAIRS"
+   ],
+   "model_SOFT__need_survives": true,
+   "model_STRONG__gate": [
+    "STEP_FREE_REQUIRED",
+    "AVOID_STAIRS"
+   ],
+   "model_STRONG__need_survives": true
+  },
+  "clean_hard_en": {
+   "text": "I use a wheelchair, every leg must be step-free",
+   "local_backstop": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "model_SOFT__merged_severities": [
+    "SOFT",
+    "HARD"
+   ],
+   "model_SOFT__gate": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "model_SOFT__need_survives": true,
+   "model_STRONG__gate": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "model_STRONG__need_survives": true
+  },
+  "negation_marker_present": {
+   "text": "我以前不用轮椅，但现在必须全程 step-free",
+   "local_backstop": [],
+   "model_SOFT__merged_severities": [
+    "SOFT"
+   ],
+   "model_SOFT__gate": [],
+   "model_SOFT__need_survives": false,
+   "model_STRONG__gate": [],
+   "model_STRONG__need_survives": false
+  },
+  "negation_marker_zh": {
+   "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+   "local_backstop": [],
+   "model_SOFT__merged_severities": [
+    "SOFT"
+   ],
+   "model_SOFT__gate": [],
+   "model_SOFT__need_survives": false,
+   "model_STRONG__gate": [],
+   "model_STRONG__need_survives": false
+  },
+  "past_reference": {
+   "text": "过去我坐轮椅，现在必须全程无障碍",
+   "local_backstop": [],
+   "model_SOFT__merged_severities": [
+    "SOFT"
+   ],
+   "model_SOFT__gate": [],
+   "model_SOFT__need_survives": false,
+   "model_STRONG__gate": [],
+   "model_STRONG__need_survives": false
+  },
+  "polite_hard": {
+   "text": "麻烦安排一下，我用轮椅，希望全程无台阶",
+   "local_backstop": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "model_SOFT__merged_severities": [
+    "SOFT",
+    "HARD"
+   ],
+   "model_SOFT__gate": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "model_SOFT__need_survives": true,
+   "model_STRONG__gate": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "model_STRONG__need_survives": true
+  }
+ },
+ "end_to_end_exploit_summary": {
+  "cases": 6,
+  "model_SOFT_lost": 3,
+  "model_STRONG_lost": 3
+ },
+ "backstop_silence": {
+  "overall": {
+   "cases": 494,
+   "silent": 311,
+   "rate": 0.6296
+  },
+  "by_bucket": {
+   "accessibility": {
+    "cases": 30,
+    "silent": 9,
+    "rate": 0.3
+   },
+   "ambiguous": {
+    "cases": 120,
+    "silent": 83,
+    "rate": 0.6917
+   },
+   "conflicting_needs": {
+    "cases": 20,
+    "silent": 10,
+    "rate": 0.5
+   },
+   "elderly_infant": {
+    "cases": 30,
+    "silent": 20,
+    "rate": 0.6667
+   },
+   "hard_soft_pair": {
+    "cases": 102,
+    "silent": 66,
+    "rate": 0.6471
+   },
+   "injection_like": {
+    "cases": 20,
+    "silent": 12,
+    "rate": 0.6
+   },
+   "luggage_stroller": {
+    "cases": 30,
+    "silent": 6,
+    "rate": 0.2
+   },
+   "negation_historical": {
+    "cases": 112,
+    "silent": 81,
+    "rate": 0.7232
+   },
+   "rest_nap_numeric": {
+    "cases": 30,
+    "silent": 24,
+    "rate": 0.8
+   }
+  }
+ },
+ "hard_expected_but_no_backstop": {
+  "count": 169,
+  "samples": [
+   {
+    "id": "HS-003-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "wheelchair 必须 step-free，没有例外",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-004-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "我最多走 500 米，超过就走不动了",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-005-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "I cannot walk more than 500 metres per leg",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-006-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "走路不能超过 500m，这是硬性要求",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-007-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "中午 12 点到 14 点必须回酒店休息",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-008-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "I must rest at the hotel between 12:00 and 14:00",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-009-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "must 回酒店 rest 12:00-14:00",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-010-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "宝宝下午 1 点到 3 点必须睡午觉，不能安排活动",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-025-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "严重花生过敏，餐厅必须确认无花生",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-026-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "severe peanut allergy, restaurants must confirm nut-free",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-027-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "peanut 过敏严重，must nut-free",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-028-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "随身带胰岛素，必须能冷藏保存",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-029-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "I carry insulin, refrigeration must be available",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-030-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "insulin 随身，must 冷藏",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-031-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "不能长时间暴晒，必须全程有遮阴",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-032-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "I cannot be in direct sun long, shade is required",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-033-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "sun 不能久晒，must shade",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-034-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "拄拐杖，必须避开长距离步行",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-035-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "I use crutches, long walks are not possible",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   },
+   {
+    "id": "HS-036-HARD",
+    "bucket": "hard_soft_pair",
+    "role": "HARD",
+    "text": "crutches，must 避长距离步行",
+    "expected": {
+     "hardness": "HARD",
+     "must_not": [
+      "BECOME_SOFT",
+      "BE_SILENTLY_IGNORED"
+     ]
+    }
+   }
+  ]
+ },
+ "duplicate_code_no_dedupe": {
+  "merged": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "SOFT",
+    "source": "SEMANTIC"
+   },
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "source": "SEMANTIC"
+   },
+   {
+    "code": "AVOID_STAIRS",
+    "severity": "HARD",
+    "source": "SEMANTIC"
+   }
+  ],
+  "same_code_appears_twice": true,
+  "hard_list": [
+   "HARD",
+   "HARD"
+  ],
+  "soft_list": [
+   "SOFT"
+  ],
+  "code_in_both_hard_and_soft": [
+   "STEP_FREE_REQUIRED"
+  ],
+  "gate": [
+   "STEP_FREE_REQUIRED",
+   "AVOID_STAIRS"
+  ]
+ },
+ "scope_reachability": {
+  "extractor_default_scope_distribution": {
+   "JOURNEY": 201
+  },
+  "explicit_TRAVELER_request": [
+   "TRAVELER"
+  ],
+  "note": "The extractor honours the scope argument but never infers TRAVELER from language such as 'always' / 'permanently' / '不只是这次'."
+ }
+}

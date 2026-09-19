@@ -1,0 +1,50 @@
+{
+  "passed": 2,
+  "total": 4,
+  "results": [
+    {
+      "case": "CN-A_concurrent_same_journey",
+      "requests": 3,
+      "distinct_run_ids": 3,
+      "ok": true,
+      "detail": [
+        {
+          "i": 2,
+          "status": 200,
+          "run_id": "run_601419c91b6e448fb9bb9c4fb67fcceb",
+          "identity": "HERMES_NATIVE_MCP"
+        },
+        {
+          "i": 1,
+          "status": 200,
+          "run_id": "run_a791cc08d39c43acb1d5dd6e253904ba",
+          "identity": "HERMES_NATIVE_MCP"
+        },
+        {
+          "i": 0,
+          "status": 200,
+          "run_id": "run_90d3ff07abd64b4dab509fa1aa9af03b",
+          "identity": "HERMES_NATIVE_MCP"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "case": "CN-B_different_journey_isolation",
+      "status": 404,
+      "ok": true,
+      "note": "non-existent journey must not create a run"
+    },
+    {
+      "case": "CN-C_approval_discovery",
+      "run_id": "run_114166e6a26c47ceb7697ef5c46867e6",
+      "events": 0,
+      "approval_id_found": false
+    },
+    {
+      "case": "CN-C_approval_discovery",
+      "ok": false,
+      "note": "could not trigger an ActionApproval in test window; see report for source-level guarantee + recipe"
+    }
+  ]
+}

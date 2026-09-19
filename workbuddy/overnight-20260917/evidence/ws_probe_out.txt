@@ -1,0 +1,13 @@
+﻿node.exe : FATAL page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:518
+1/v8/hub
+所在位置 行:445 字符: 163
++ ... e_modules"; & "C:\Users\仓鼠王\.workbuddy\binaries\node\versions\22.22.2 ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FATAL page.goto...ost:5181/v8/hub 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Call log:
+[2m  - navigating to "http://localhost:5181/v8/hub", waiting until "domcontent
+loaded"[22m
+

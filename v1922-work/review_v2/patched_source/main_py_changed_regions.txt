@@ -1,0 +1,84 @@
+
+=== v2 anchor canonical identity lookup (500 fix) (main.py line ~7526) ===
+        v2_anchors: list[SolverV2Anchor] = []
+        for semantic, start_at in c4_anchors:
+            anchor_start = datetime.fromisoformat(start_at)
+            if anchor_start < effective_event_time:
+                continue
+            # The commitment stores the *canonical* identity, which lives in
+            # ``metadata.semantic_key``.  Matching only on place_id/id missed
+            # every anchor, fell back to a 60 minute duration, and pushed the
+            # anchor past ``journey_end_min`` -- which the solver rejects with
+            # "protected anchor lies outside remaining horizon" (HTTP 500) for
+            # a structurally valid journey whose last stop is only 10 minutes.
+            anchor_activity_row = next(
+                (
+                    item
+                    for item in source
+                    if datetime.fromisoformat(item.start_at) == anchor_start
+                    and _activity_location(item) == semantic
+                ),
+                None,
+            ) or next(
+                (
+                    item
+                    for item in source
+                    if datetime.fromisoformat(item.start_at) == anchor_start
+                    and str(item.place_id or item.city_service_id or item.id) == semantic
+                ),
+
+=== call site 1: occupied_places passed (main.py line ~6722) ===
+                replacement_choices = list(
+                    rank_closure_replacements(
+                        affected_place=affected_place,
+                        candidate_places=places,
+                        occupied_place_ids={a.place_id for a in source if a.place_id},
+                        # Identity is physical, not textual: a venue can be
+                        # stored under a domain-wrapper id and a provider id at
+                        # once.  Passing the rows lets the engine keep every
+                        # already-used venue out of the family.
+                        occupied_places=[
+                            place
+                            for place in (
+                                session.get(Place, a.place_id)
+                                for a in source
+                                if a.place_id
+                            )
+                            if place is not None
+                        ],
+                        max_duration_min=max(
+                            1,
+                            int(
+                                (
+                                    datetime.fromisoformat(affected.end_at)
+                                    - datetime.fromisoformat(affected.start_at)
+                                ).total_seconds()
+                                // 60
+
+=== call site 2: occupied_places built + passed (main.py line ~6874) ===
+        occupied_places = [
+            place
+            for place in (session.get(Place, item.place_id) for item in source if item.place_id)
+            if place is not None
+        ]
+        current_sequence = current_execution.sequence_no if current_execution is not None else -1
+        for item in source:
+            if (
+                item.sequence_no < current_sequence
+                or item.id in protected_activity_ids
+                or item.status in {"COMPLETED", "SKIPPED", "CANCELLED"}
+                or item.locked
+                or not item.place_id
+            ):
+                continue
+            if item.id == affected_activity_id:
+                choices = tuple(replacement_choices)
+            else:
+                item_place = session.get(Place, item.place_id)
+                choices = (
+                    rank_closure_replacements(
+                        affected_place=item_place,
+                        candidate_places=candidate_places,
+                        occupied_place_ids=occupied_place_ids,
+                        occupied_places=occupied_places,
+                        max_duration_min=max(

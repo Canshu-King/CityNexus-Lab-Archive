@@ -1,0 +1,4 @@
+﻿db=True
+main=True
+vite=True
+venv=True

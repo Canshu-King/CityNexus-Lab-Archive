@@ -1,0 +1,96 @@
+{
+ "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+ "trace": [
+  {
+   "ts": "2026-09-16T10:39:30.921Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/* 390x844",
+   "action": "all-tabs",
+   "status": "200",
+   "result": "rendered"
+  },
+  {
+   "ts": "2026-09-16T10:39:34.198Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "itinerary",
+   "status": "200",
+   "result": "stops=3"
+  },
+  {
+   "ts": "2026-09-16T10:39:40.238Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "hotels",
+   "status": "200",
+   "result": "hotels=4"
+  },
+  {
+   "ts": "2026-09-16T10:40:04.594Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "live-recovery",
+   "status": "clean",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 | 当前没有需要你决定的调整。 | 实时行程 · 已保存 9月16日 18:38 | 选择你"
+  },
+  {
+   "ts": "2026-09-16T10:40:04.596Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live 390x844",
+   "action": "overflow",
+   "status": "none",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T10:40:19.889Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/* 430x932",
+   "action": "all-tabs",
+   "status": "200",
+   "result": "rendered"
+  },
+  {
+   "ts": "2026-09-16T10:40:23.125Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "itinerary",
+   "status": "200",
+   "result": "stops=3"
+  },
+  {
+   "ts": "2026-09-16T10:40:29.160Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "hotels",
+   "status": "200",
+   "result": "hotels=4"
+  },
+  {
+   "ts": "2026-09-16T10:40:33.733Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "live-recovery",
+   "status": "clean",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 | 当前没有需要你决定的调整。 | 实时行程 · 已保存 9月16日 18:38 | 选择你"
+  },
+  {
+   "ts": "2026-09-16T10:40:33.735Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live 430x932",
+   "action": "overflow",
+   "status": "none",
+   "result": ""
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,150 @@
+{
+ "focusOrder": [
+  {
+   "tag": "button",
+   "text": "Menu",
+   "aria": "Open navigation",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "中文",
+   "aria": "Switch language",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "TI",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "中文",
+   "aria": "Switch language",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Try another city",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Open Trip Studio",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "present",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "View plan →",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Compare stays →",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "DAY 1\nFriday\n\nTianjin West Station · Che",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "DAY 2\nSaturday\n\nFive Great Avenues · Tia",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "DAY 3\nSunday\n\nCheck out · Haihe Riversid",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "✦\nCityNexus Copilot",
+   "aria": "CityNexus Copilot",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "present",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Today",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Map",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Copilot",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  },
+  {
+   "tag": "button",
+   "text": "Wallet",
+   "aria": "",
+   "outlineStyle": "solid",
+   "outlineWidth": "3px",
+   "boxShadow": "",
+   "visibleFocus": true
+  }
+ ],
+ "focusable": 16,
+ "withoutVisibleFocus": 0
+}

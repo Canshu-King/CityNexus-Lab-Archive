@@ -1,0 +1,21 @@
+const { createRequire } = require("node:module");
+const req = createRequire("D:/moodle/CityNexus/frontend/package.json");
+const { chromium } = req("@playwright/test");
+(async () => {
+  const browser = await chromium.launch({ channel: "chrome" });
+  const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, deviceScaleFactor: 3.5, isMobile: true, hasTouch: true, locale: "zh-CN" });
+  const page = await ctx.newPage();
+  const J = process.argv[2];
+  await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
+  await page.evaluate((j) => localStorage.setItem("citynexus.v8.journey_id", j), J);
+  await page.goto("http://127.0.0.1:5173/v8/trips", { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(6000);
+  await page.locator('[data-testid="trips-tab-stay"]').click();
+  await page.waitForTimeout(9000);
+  const tids = await page.evaluate(() => [...new Set([...document.querySelectorAll("[data-testid]")].map(e => e.getAttribute("data-testid")))]);
+  console.log("ALL testids:", JSON.stringify(tids));
+  const body = (await page.locator("body").innerText()).replace(/\s+/g, " ");
+  console.log("BODY:", body.slice(0, 700));
+  await page.screenshot({ path: "D:/moodle/_v1922_work/o2_evidence/final_v2/probe_stay.png", fullPage: true });
+  await browser.close();
+})();

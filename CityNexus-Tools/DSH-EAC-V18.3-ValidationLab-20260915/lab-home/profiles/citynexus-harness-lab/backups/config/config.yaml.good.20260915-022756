@@ -1,0 +1,46 @@
+model:
+  provider: deepseek
+  default: deepseek-v4-flash
+  reasoning_effort: high
+
+mcp_servers:
+  citynexus:
+    command: 'C:\Users\仓鼠王\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\hermes\hermes-agent\.hermes-runtime\python\cpython-3.11.16-windows-x86_64-none\python.exe'
+    args:
+      - 'D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ValidationLab-20260915\tests\mcp_runner.py'
+      - '--v2'
+    env:
+      CITYNEXUS_API_BASE_URL: 'http://127.0.0.1:8022'
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: 'utf-8'
+      PYTHONPATH: 'D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ValidationLab-20260915\source-snapshot\agent-mcp'
+    enabled: true
+    timeout: 120
+    connect_timeout: 20
+    tools:
+      include:
+        - inspect_journey
+        - inspect_twin
+        - list_replans
+        - search_city_services
+        - request_replan
+        - accept_replan
+        - replace_activity
+        - reschedule_activity
+        - create_booking
+        - cancel_refundable_booking
+        - request_commitment_change
+      resources: false
+      prompts: false
+
+platform_toolsets:
+  api_server:
+    - citynexus
+
+agent:
+  disabled_toolsets:
+    - terminal
+    - filesystem
+    - browser
+    - web
+    - computer-use

@@ -1,0 +1,113 @@
+Checking patch backend/app/operations/reservation_identity.py...
+Checking patch backend/app/planning/anchor_schedule.py...
+Checking patch backend/app/planning/anchors.py...
+Checking patch backend/app/planning/hard_recovery.py...
+Checking patch frontend/src/features/recovery/RecoveryRequiredPanel.tsx...
+Checking patch backend/app/capabilities.py...
+Checking patch backend/app/integrations/mobility/snapshot_capture.py...
+Checking patch backend/app/main.py...
+Checking patch backend/app/operations/v9.py...
+Checking patch backend/app/replanning/feasibility.py...
+Checking patch backend/app/replanning/protected_commitments.py...
+Checking patch backend/app/replanning/provider_snapshots.py...
+Checking patch backend/app/services.py...
+Checking patch contracts/openapi.yaml...
+error: while searching for:
+openapi: 3.1.0
+info:
+  title: CityNexus MVP API
+  version: 0.1.0
+  description: >-
+    Coursework MVP contract. Deterministic feasibility is authoritative; AI is optional.
+servers:
+  - url: http://localhost:8000/api/v1
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      responses:
+        '200':
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /demo/reset:
+    post:
+      operationId: resetDemo
+      responses:
+        '200':
+          description: Demo database reset and seeded
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: {type: string, const: reset}
+  /travelers:
+    post:
+      operationId: createTraveler
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/TravelerCreate'}
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Traveler'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /travelers/{traveler_id}:
+    parameters:
+      - {$ref: '#/components/parameters/TravelerId'}
+    get:
+      operationId: getTraveler
+      responses:
+        '200':
+          description: Traveler
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Traveler'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /travelers/{traveler_id}/preferences:
+    parameters:
+      - {$ref: '#/components/parameters/TravelerId'}
+    get:
+      operationId: listPreferences
+      responses:
+        '200':
+          description: Preferences
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/Preference'}
+    put:
+      operationId: replacePreferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: {$ref: '#/components/schemas/PreferenceInput'}
+      responses:
+        '200':
+          description: Updated preferences
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/Preference'}
+        '422': {$ref: '#/components/responses/ValidationError'}
+  /travelers/{traveler_id}/capabilities:
+    parameters:
+
+error: patch failed: contracts/openapi.yaml:1
+error: contracts/openapi.yaml: patch does not apply
+Checking patch frontend/src/app/V8Experience.tsx...
+Checking patch frontend/src/app/v8Types.ts...
+Checking patch frontend/src/generated/api.ts...

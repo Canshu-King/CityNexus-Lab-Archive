@@ -1,0 +1,31 @@
+{
+  "target": "D:\\moodle\\CityNexus-Tools\\smoke\\visioautomation-smoke.vsdx",
+  "reader": "vsdx 0.6.1",
+  "ok": true,
+  "page_count": 1,
+  "vsdx_page_count": 1,
+  "raw_xml_page_count": 1,
+  "pages": [
+    {
+      "index": 0,
+      "name": "页-1",
+      "width": 8.26771653543307,
+      "height": 11.69291338582677,
+      "shape_count": 1,
+      "shapes": [
+        {
+          "id": "1",
+          "shape_name": null,
+          "shape_type": "Shape",
+          "text": "",
+          "width": 4.0,
+          "height": 2.0,
+          "child_count": 0,
+          "children": []
+        }
+      ],
+      "connect_count": 0,
+      "connects_supported": true
+    }
+  ]
+}

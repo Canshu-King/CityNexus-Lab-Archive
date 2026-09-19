@@ -1,0 +1,49 @@
+CityNexus V19.2.5 C4 Interior-Truth Hotfix — package inventory
+==============================================================
+
+Verdict: SHADOW_TRIAL_CODE_READY_PENDING_PHYSICAL_DEVICE
+
+Reports
+-------
+FINAL_TRUTH_GATE_REPORT.md      verdict, defect, fix, retest summary
+C4_INTERIOR_TRUTH_RESULTS.md    the interior-boundary invariant and its tests
+TEST_RESULTS.md                 authoritative test numbers for this round
+PATCH_RESULTS.md                hotfix patch portability / release truth
+CHANGED_FILES.txt               real content diff vs Snapshot G
+PACKAGE_INVENTORY.txt           this file
+
+patches/
+  V19_2_5_HOTFIX.patch                  portable single-file hotfix (LF);
+                                        git apply --check clean on Snapshot G
+  reference_starter_patch.patch         Road-Prep verified starter patch
+
+source/                                 the 2 changed source files
+  backend/app/replanning/feasibility.py
+  backend/tests/test_v1925_c4_interior_truth.py
+
+evidence/                               raw machine-readable output
+  v1925_c4_interior_probe.json          independent probe, 5/5 PASS
+  v1924_truth_probe_regression.json     prior probe still 4/4 PASS
+  gate_suites_run.txt                   93 passed (61 + 13 + 12 + 7)
+  broad_regression_head.txt             703 passed / 2 pre-existing / 15 skipped
+  broad_regression_failures.txt         the 2 pre-existing contradictory failures
+  patch_verification.txt                patch apply-check record
+  SNAPSHOT_G_MANIFEST.json              frozen V19.2.4 SHA-256 manifest
+
+Exclusions (deliberately absent)
+--------------------------------
+__pycache__, .pytest_cache, .ruff_cache, *.pyc, *.db, *.log, *.err,
+node_modules, dist, test-results, playwright-report, storybook-static.
+
+Explicit non-claims
+-------------------
+* No real payment was executed.
+* No physical-device testing was performed in this round. The OPPO plumbing
+  precheck (HTTPS/PWA/GPS/SSE) is a separate parallel activity run by the user
+  and is not claimed here.
+* Frontend build, OpenAPI parity, mobile UI flows and the DeepSeek canary were
+  deliberately not re-run: this one-file backend gate hotfix cannot affect them.
+* The two remaining broad-suite failures are pre-existing contradictory test
+  expectations; production truth was not weakened to satisfy them.
+* A full multi-anchor outdoor Shadow Journey must not be called accepted until
+  the independent Snapshot-G/H delta gate agrees.

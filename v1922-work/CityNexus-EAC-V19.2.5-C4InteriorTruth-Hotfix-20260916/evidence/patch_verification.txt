@@ -1,0 +1,7 @@
+Snapshot G SHA-256 (verified against the independent review value):
+  b6c521c1163791146bdf0989bca0d40f61c2c865862eabe6156274a7eeb0b017
+
+V19.2.5 hotfix patch apply-check against a reconstructed exact Snapshot G:
+  git apply --check -> exit 0 (no excluded paths)
+  git apply        -> clean
+  post-apply file  -> byte-identical to the working tree

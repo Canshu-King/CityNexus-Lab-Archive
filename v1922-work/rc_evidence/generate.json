@@ -1,0 +1,1 @@
+{"error":{"code":"VALIDATION_ERROR","message":"Request validation failed","trace_id":"9e7c09c0-d4eb-4097-a0a2-7db065084ef3","details":{"errors":[{"loc":["body","place_ids"],"msg":"List should have at least 2 items after validation, not 0","type":"too_short"}]}}}

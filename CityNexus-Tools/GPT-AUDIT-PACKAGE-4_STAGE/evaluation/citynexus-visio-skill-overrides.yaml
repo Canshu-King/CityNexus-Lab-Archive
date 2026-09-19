@@ -1,0 +1,17 @@
+semanticAuthority:
+  - D:\moodle\CityNexus\domain-model
+  - D:\moodle\CityNexus\requirements
+  - D:\moodle\CityNexus\use-cases
+  - D:\moodle\CityNexus\visio-spec
+styleAuthority: D:\moodle\CityNexus\visio-spec\style-tokens.yaml
+protected:
+  font: Segoe UI
+  canvas: '#F8FAFC'
+  nativeUmlMasters: true
+  part1SemanticRelations: true
+  part2SemanticRelations: true
+  multiplicities: true
+  stereotypes: true
+  SpecId: true
+  pageDimensions: true
+externalSkillMayContribute: [routing, geometry-QA, connector-QA, text-collision-QA, font-style-conformance, visual-QA, repair-suggestions]

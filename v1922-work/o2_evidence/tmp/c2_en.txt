@@ -1,0 +1,35 @@
+hub: ["EN XI", "journey 11", "WGS84", "Friday", "Check in", "Overnight", "TRANSIT ARRIVAL", "Saturday Overnight", "WALK STAY", "Sunday Check out", "AUTO DEPARTURE", "CityNexus Copilot", "Copilot"]
+trips: ["EN XI", "CityNexus Copilot", "Copilot"]
+live: ["EN XI", "WGS84", "min slack", "TRANSIT", "Asia/Shanghai", "CityNexus Copilot", "Copilot"]
+stay: ["EN XI", "XIAMEN 01", "hotel", "travelers", "total", "min walk 417 min slack TRANSIT XIAMEN 02", "min walk 417 min slack TRANSIT XIAMEN 03", "min walk 417 min slack TRANSIT XIAMEN 04", "min walk 417 min slack TRANSIT 1", "WGS84", "CNY", "Non-refundable captured rate", "CityNexus Copilot", "Copilot"]
+studio: ["EN XI", "CityNexus", "Friday", "Nov ARRIVAL anchor", "TRANSIT", "Check in", "Overnight", "Saturday", "Nov STAY anchor", "WALK", "Sunday", "Nov DEPARTURE anchor", "AUTO", "Check out", "hotel", "min", "CityNexus Copilot", "Copilot"]
+bookings: ["EN XI", "JSON", "hotel", "ZXing", "Journey Memory 0", "CityNexus Copilot", "Copilot"]
+authoritative: ["EN XI V12", "EDGE", "CityNexus Copilot", "Copilot"]
+twin: ["EN XI", "No explicit preferences", "Capability needs No explicit capability facts recorded.", "No learned signals", "Learned capability state Hard accessibility needs are never inferred from behavior.", "Unknown accessibility evidence is not accessible.", "CityNexus Copilot", "Copilot"]
+
+== hub ==
+菜单 / 今天 EN XI 下午好 厦门之旅 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 EN 试用其他城市 AI 帮我规划 打开行程工作台 规划就绪 厦门 · journey 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 查看方案 → 下一步 还没有安排 今天没有安排 住宿 还没有选定 去「行程 · 住宿」挑选 需要关注 一切正常 没有影响行程的变化 到达 11月6日 10:00 厦门高崎国际机场 出发 11月8日 20:00 厦门北站 1 路线上下文 5 段路程 供应商支持的路线 · WGS84 方案概览 每一天，紧密相连。 对比住宿 → 第 1 天 Friday 厦门高崎国际机场 · Check in · 汉庭酒店 · Overnight · 汉庭酒店 TRANSIT ARRIVAL锚点 第 2 天 Saturday Overnight · 汉庭酒店 WALK STAY锚点 第 3 天 Sunday Check out · 汉庭酒店 · 厦门北站 AUTO DEPARTURE锚点 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== trips ==
+菜单 / 行程 EN XI 行程 住宿 预订 花费 行程 还没有可看的行程 这个行程还没有选定的方案。先让 AI 帮你规划，选定方案后这里会显示逐日安排。 AI 帮我规划 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== live ==
+菜单 / 实时行程 EN XI 正在进行 现在的行程 还没有选定的行程安排。 当前没有需要你决定的调整。 实时行程 · 已保存 9月17日 14:47 选择你的下一段路程。 当前步骤、下一个受保护时刻、最晚出发指引，以及一条清晰的恢复路径。 更新位置 报告降雨 1 路线上下文 5 段路程 供应商支持的路线 · WGS84 现在 等待方案 · 汉庭酒店 下一步 · 选择方案以计算下一段路程 等待方案 下一段路程方式 选择平稳路线 步行 骑行 公交地铁 驾车 网约车 对比所有方式 下一步 · 最晚出发 等待方案 选择方案以计算路线 · 417 min slack — 预计到达 · TRANSIT 风险 低 · 路线证据有效 证据 供应商路线、时效、费用和可行性 实时状态 当前正在发生什么 刚刚更新 时钟 14:51 Asia/Shanghai 当前步骤 等待方案 行程状态 离线 只读就绪 未来 24 小时已保存 0 个来源 暂无记录 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== stay ==
+菜单 / 住宿选择 EN XI 住宿选择 · 已采集证据 选择锚点，看见行程。 每个费率都明确标注币种、房型、入住人数、退改政策、新鲜度和它所塑造的行程。 已采集回放 XIAMEN 01 汉庭酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT XIAMEN 02 舒曼精品酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT XIAMEN 03 喜来登酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT XIAMEN 04 厦门磐基酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT 1 路线上下文 5 段路程 供应商支持的路线 · WGS84 费率证据 汉庭酒店 总计 / 币种 ¥0.00 · CNY 入住 / 退房 11月6日 14:00 → 11月8日 12:00 取消政策 Non-refundable captured rate 供应商 供应商证据置信度 60% ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== studio ==
+菜单 / 行程工作台 EN XI 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check in · 汉庭酒店 ○ Overnight · 汉庭酒店 02 Saturday · 07 Nov STAY anchor · WALK • Overnight · 汉庭酒店 03 Sunday · 08 Nov DEPARTURE anchor · AUTO • Check out · 汉庭酒店 受保护 ○ 厦门北站 已选住宿 更换 汉庭酒店 hotel ¥0.00 合计 住宿总计 ¥0.00 日均出行 ¥16.00 步行暴露 22 min 方案健康度 受保护 · 417 分钟余量 已通过全部安全检查 到达、出发、预算和受保护承诺已验证。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== bookings ==
+菜单 / 旅行票夹 EN XI 行程收件箱 · 旅行票夹 你的真实预订，受保护。 粘贴结构化预订 JSON，审核后，将确认的事实绑定为行程的持久承诺。 住宿证据 汉庭酒店 hotel · 不可退款 ¥0.00 合计 未预订 导入确认 预订 JSON 审核并保护 关键的出发地、目的地、时间、供应商和参考事实绝不会被编造。 权限始终明确 导入已确认的预订即受保护。任何支付、取消或不可逆变更仍需通过委托策略。 扫描票据代码 ZXing 确定性解码 · 仍需确认 打开扫描器 多模态收件箱 将确认带入行程 已读取 · 已核对 · 已记住 粘贴确认信息 手动填写 粘贴的确认 提取文本草稿 确认截图 图片字节仅用于此次提取请求。 提取图片草稿 权威记忆 Journey Memory 0 个受保护事实 暂无已确认工件绑定到此行程。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== authoritative ==
+菜单 / 恢复与执行 EN XI V12 · 方案、移动端、EDGE 与画像 权威行程执行。 你选定的方案是今天、地图、离线使用和所有建议变更的唯一事实来源。 刷新真相 你还没有选定方案。 在服务端行程工作台中组合，创建冻结的多日执行路径。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== map ==
+菜单 / 地图 EN XI 地图 · 一目了然 整座城市，行程叠加其上。 采集的路线几何和供应商事实在你穿越行程时始终可见。 对比出行方式 1 路线上下文 5 段路程 供应商支持的路线 · WGS84 下一段路程 等待方案 AUTO 12 min · 2 walk ¥12.00 BICYCLE 17 min · 5 walk ¥6.00 RIDE_HAIL 13 min · 2 walk — 未知费用保持未知。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的
+
+== twin ==
+菜单 / 旅行者画像 EN XI 旅行者画像 · 软上下文 有边界的个性化。 显式意图优先。学习到的证据帮助排序方案，但永远不会扩展预算、支付、承诺或自主权限。 显式 No explicit preferences 来自此次行程请求 直接应用于当前方案目标。 Capability needs No explicit capability facts recorded. 学习到的软信号 No learned signals 来自已完成的行程结果 仅用于排序 · 随证据新鲜度过期。 Learned capability state Hard accessibility needs are never inferred from behavior. 权限边界 你的偏好可改善路线或酒店排名，但不会创建预订、花费金钱或削弱已确认的预订。 可检查的溯源可用 Unknown accessibility evidence is not accessible. ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的

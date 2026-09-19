@@ -1,0 +1,9 @@
+{
+ "generate": 201,
+ "plans": 3,
+ "select": 200,
+ "trips_len": 1542,
+ "trips_text": "Menu | / | Trips | 中文 | DE | TRIPS | 1-day itinerary | Day by day. Confirmed bookings are marked as protected. | Sat 10 Oct | 6 stops | 09:00 | 10:15 | Old Town Gate | 1h 15m | 10:30 | 11:45 | Riverside Museum | 1h 15m | 12:00 | 13:00 | Central Food Hall | 1h | 13:20 | 14:40 | Tech Art Center | 1h 20m | 15:30 | 16:30 | Nexus River Cruise Pier | 1h | 17:00 | 18:30 | Skyline Dinner House | 1h 30m | TRIP STUDIO · MULTI-DAY PLAN | Shape the journey around what matters. | Switch the hotel or a leg mode and CityNexus recomputes the travel impact against the same hard commitments. | Report rain disruption | SELECTED STAY | Change | Stay total | Provider price unavailable | Daily movement | Provider price unavailable | Walking exposure | min | Plan health | Protected · 0 min slack | Deterministic feasibility passed | Arrival, departure, budget, and protected commitments verified. | JOURNEY INBOX",
+ "day_cards": 0,
+ "errors": []
+}

@@ -1,0 +1,3181 @@
+diff --git a/frontend/src/features/experience-lab/adapters/ExperienceAdapterContext.tsx b/frontend/src/features/experience-lab/adapters/ExperienceAdapterContext.tsx
+new file mode 100644
+index 0000000..f382d6e
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/ExperienceAdapterContext.tsx
+@@ -0,0 +1,330 @@
++/**
++ * React bindings for the Runtime Adapter Layer.
++ *
++ * Components consume the adapter exclusively through these hooks, so they
++ * never import fixtures or runtime transports directly. `getJourneyPulse`,
++ * `getRuntimeStatus`, `getRecoveryDiff`, and `getMapState` return
++ * `{ data, loading, error, refresh }`; mutation hooks expose their own state.
++ */
++
++import {
++  createContext,
++  useCallback,
++  useContext,
++  useEffect,
++  useMemo,
++  useRef,
++  useState,
++  type ReactNode,
++} from "react";
++import type { PulseState } from "../types";
++import type {
++  ApprovalDecisionInput,
++  ApprovalDecisionResult,
++  ApprovalState,
++  CopilotMissionStart,
++  ExperienceAdapter,
++  MapState,
++  NormalizedAgentEvent,
++  NormalizedProposal,
++  NormalizedRun,
++  RunSubscription,
++  StopResult,
++} from "./contract";
++import { compareNormalizedEvents } from "./eventStore";
++import { createExperienceAdapter } from "./index";
++
++const AdapterContext = createContext<ExperienceAdapter | null>(null);
++
++export function ExperienceAdapterProvider({
++  children,
++  adapter,
++}: {
++  children: ReactNode;
++  adapter?: ExperienceAdapter;
++}) {
++  const value = useMemo(() => adapter ?? createExperienceAdapter(), [adapter]);
++  return <AdapterContext.Provider value={value}>{children}</AdapterContext.Provider>;
++}
++
++export function useExperienceAdapter(): ExperienceAdapter {
++  const adapter = useContext(AdapterContext) as ExperienceAdapter | null;
++  if (!adapter) {
++    throw new Error("useExperienceAdapter must be used inside <ExperienceAdapterProvider>");
++  }
++  return adapter;
++}
++
++interface AsyncData<T> {
++  data: T | null;
++  error: string | null;
++  loading: boolean;
++  refresh: () => void;
++}
++
++function useAsyncData<T>(loader: () => Promise<T>, deps: readonly unknown[]): AsyncData<T> {
++  const [data, setData] = useState<T | null>(null);
++  const [error, setError] = useState<string | null>(null);
++  const [loading, setLoading] = useState(true);
++  const [tick, setTick] = useState(0);
++
++  useEffect(() => {
++    let cancelled = false;
++    setLoading(true);
++    loader()
++      .then((value) => {
++        if (!cancelled) {
++          setData(value);
++          setError(null);
++        }
++      })
++      .catch((cause: unknown) => {
++        if (!cancelled) {
++          setError(cause instanceof Error ? cause.message : "Experience adapter failed");
++        }
++      })
++      .finally(() => {
++        if (!cancelled) setLoading(false);
++      });
++    return () => {
++      cancelled = true;
++    };
++    // The loader closes over the adapter; deps describe when to reload.
++  }, [...deps, tick]);
++
++  const refresh = useCallback(() => setTick((value) => value + 1), []);
++  return { data, error, loading, refresh };
++}
++
++export function useJourneyPulse(): AsyncData<PulseState> {
++  const adapter = useExperienceAdapter();
++  return useAsyncData(() => adapter.getJourneyPulse(), [adapter]);
++}
++
++export function useRuntimeStatus() {
++  const adapter = useExperienceAdapter();
++  return useAsyncData(() => adapter.getRuntimeStatus(), [adapter]);
++}
++
++export function useRecoveryDiff(proposalId?: string) {
++  const adapter = useExperienceAdapter();
++  return useAsyncData(() => adapter.getRecoveryDiff(proposalId), [adapter, proposalId]);
++}
++
++export function useMapState(): AsyncData<MapState> {
++  const adapter = useExperienceAdapter();
++  return useAsyncData(() => adapter.getMapState(), [adapter]);
++}
++
++export interface CopilotMissionHook {
++  mission: CopilotMissionStart | null;
++  start: (input: { message: string; locale: "en" | "zh-CN" }) => Promise<CopilotMissionStart | null>;
++  loading: boolean;
++  error: string | null;
++  reset: () => void;
++}
++
++export function useCopilotMission(): CopilotMissionHook {
++  const adapter = useExperienceAdapter();
++  const [mission, setMission] = useState<CopilotMissionStart | null>(null);
++  const [loading, setLoading] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const inFlight = useRef(false);
++
++  const start = useCallback(
++    async (input: { message: string; locale: "en" | "zh-CN" }) => {
++      if (inFlight.current) return null;
++      inFlight.current = true;
++      setLoading(true);
++      setError(null);
++      try {
++        const result = await adapter.startCopilotMission(input);
++        setMission(result);
++        return result;
++      } catch (cause) {
++        setError(cause instanceof Error ? cause.message : "Copilot mission failed");
++        return null;
++      } finally {
++        inFlight.current = false;
++        setLoading(false);
++      }
++    },
++    [adapter],
++  );
++
++  return { mission, start, loading, error, reset: () => setMission(null) };
++}
++
++export function useRun(runId: string | null) {
++  const adapter = useExperienceAdapter();
++  return useAsyncData<NormalizedRun | null>(
++    () => (runId ? adapter.getRun(runId) : Promise.resolve(null)),
++    [adapter, runId],
++  );
++}
++
++export interface RunEventsHook {
++  events: NormalizedAgentEvent[];
++  run: NormalizedRun | null;
++  loading: boolean;
++  error: string | null;
++  isLive: boolean;
++  reconnect: { attempt: number; since_sequence: number } | null;
++  stop: () => Promise<StopResult | null>;
++  subscription: { current: RunSubscription | null };
++}
++
++export function useRunEvents(runId: string | null): RunEventsHook {
++  const adapter = useExperienceAdapter();
++  const [events, setEvents] = useState<NormalizedAgentEvent[]>([]);
++  const [run, setRun] = useState<NormalizedRun | null>(null);
++  const [loading, setLoading] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const [isLive, setIsLive] = useState(false);
++  const [reconnect, setReconnect] = useState<{ attempt: number; since_sequence: number } | null>(null);
++  const subscriptionRef = useRef<RunSubscription | null>(null);
++
++  useEffect(() => {
++    if (!runId) {
++      setEvents([]);
++      setRun(null);
++      setIsLive(false);
++      setError(null);
++      return undefined;
++    }
++    let cancelled = false;
++    setLoading(true);
++    setError(null);
++    setEvents([]);
++    const subscription = adapter.subscribeRunEvents(
++      runId,
++      {
++        onEvent: (event) => {
++          if (cancelled) return;
++          setEvents((current) => {
++            if (current.some((item) => item.id === event.id)) return current;
++            return [...current, event].sort(compareNormalizedEvents);
++          });
++          setIsLive(event.source === "LIVE");
++        },
++        onStatusChange: (next) => {
++          if (!cancelled) setRun(next);
++        },
++        onError: (cause) => {
++          if (!cancelled) {
++            setError(cause.message);
++            setIsLive(false);
++          }
++        },
++        onReconnect: (info) => {
++          if (!cancelled) setReconnect(info);
++        },
++      },
++      { since_sequence: 0 },
++    );
++    subscriptionRef.current = subscription;
++    setIsLive(subscription.isLive());
++    setLoading(false);
++    return () => {
++      cancelled = true;
++      subscription.unsubscribe();
++      subscriptionRef.current = null;
++    };
++  }, [adapter, runId]);
++
++  const stop = useCallback(async () => {
++    if (!runId) return null;
++    const result = await adapter.stopRun(runId);
++    if (result.ok) {
++      setRun((current) => (current ? { ...current, status: result.status } : current));
++    }
++    return result;
++  }, [adapter, runId]);
++
++  return { events, run, loading, error, isLive, reconnect, stop, subscription: subscriptionRef };
++}
++
++export interface ApprovalLifecycleHook {
++  proposal: NormalizedProposal | null;
++  state: ApprovalState;
++  submitting: boolean;
++  error: string | null;
++  lastResult: ApprovalDecisionResult | null;
++  decide: (decision: ApprovalDecisionInput["decision"]) => Promise<ApprovalDecisionResult | null>;
++  reset: () => void;
++}
++
++function browserOnline(): boolean {
++  return typeof navigator === "undefined" ? true : navigator.onLine !== false;
++}
++
++export function useApprovalLifecycle(proposalId?: string): ApprovalLifecycleHook {
++  const adapter = useExperienceAdapter();
++  const [proposal, setProposal] = useState<NormalizedProposal | null>(null);
++  const [state, setState] = useState<ApprovalState>("proposal_only");
++  const [submitting, setSubmitting] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const [lastResult, setLastResult] = useState<ApprovalDecisionResult | null>(null);
++  const idempotencyKeys = useRef<Map<string, string>>(new Map());
++  const inFlight = useRef(false);
++
++  useEffect(() => {
++    let cancelled = false;
++    adapter
++      .getProposal(proposalId)
++      .then((value) => {
++        if (!cancelled && value) {
++          setProposal(value);
++          setState(value.state);
++        }
++      })
++      .catch((cause: unknown) => {
++        if (!cancelled) setError(cause instanceof Error ? cause.message : "Proposal load failed");
++      });
++    return () => {
++      cancelled = true;
++    };
++  }, [adapter, proposalId]);
++
++  const decide = useCallback(
++    async (decision: ApprovalDecisionInput["decision"]) => {
++      if (inFlight.current) return null;
++      inFlight.current = true;
++      setSubmitting(true);
++      const composite = `${proposalId ?? proposal?.proposal_id ?? "proposal"}:${decision}`;
++      let key = idempotencyKeys.current.get(composite);
++      if (!key) {
++        key = `idem-${composite}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
++        idempotencyKeys.current.set(composite, key);
++      }
++      try {
++        const result = await adapter.submitApprovalDecision({
++          proposal_id: proposalId ?? proposal?.proposal_id ?? "recorded-proposal",
++          approval_id: proposal?.approval_id,
++          decision,
++          idempotency_key: key,
++          online: browserOnline(),
++        });
++        setLastResult(result);
++        setState(result.state);
++        return result;
++      } catch (cause) {
++        setError(cause instanceof Error ? cause.message : "Approval decision failed");
++        return null;
++      } finally {
++        inFlight.current = false;
++        setSubmitting(false);
++      }
++    },
++    [adapter, proposal, proposalId],
++  );
++
++  const reset = useCallback(() => {
++    idempotencyKeys.current.clear();
++    setLastResult(null);
++    setState("proposal_only");
++    setError(null);
++  }, []);
++
++  return { proposal, state, submitting, error, lastResult, decide, reset };
++}
+diff --git a/frontend/src/features/experience-lab/adapters/contract.ts b/frontend/src/features/experience-lab/adapters/contract.ts
+new file mode 100644
+index 0000000..61f40c4
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/contract.ts
+@@ -0,0 +1,213 @@
++/**
++ * CityNexus V18.3 Experience Adapter Contract.
++ *
++ * UI components depend on this interface only. Recorded fixtures live behind
++ * RecordedFixtureAdapter; live CityNexus REST/SSE lives behind
++ * LiveCityNexusAdapter; cached read-only truth lives behind
++ * OfflineSnapshotAdapter.
++ *
++ * Source honesty rules:
++ * - LiveCityNexusAdapter may produce source "LIVE" only from real backend data.
++ * - RecordedFixtureAdapter always produces source "RECORDED_FIXTURE".
++ * - OfflineSnapshotAdapter always produces source "OFFLINE".
++ */
++
++import type {
++  ApprovalState,
++  DataSource,
++  LocalizedCopy,
++  PulseState,
++  RecoveryProposal,
++  RuntimeIdentity,
++  RuntimeStatus,
++} from "../types";
++
++export type AdapterMode = "recorded" | "live" | "offline";
++
++export type NormalizedEventType =
++  | "semantic.interpreted"
++  | "mission.planned"
++  | "run.started"
++  | "tool.started"
++  | "tool.completed"
++  | "tool.failed"
++  | "gateway.checked"
++  | "guardian.checked"
++  | "proposal.created"
++  | "approval.required"
++  | "run.completed"
++  | "run.failed"
++  | "run.stopped"
++  | "unknown";
++
++export interface NormalizedAgentEvent {
++  id: string;
++  run_id: string;
++  sequence_no: number;
++  event_type: NormalizedEventType;
++  raw_event_type: string;
++  tool_name: string | null;
++  friendly_label: string;
++  status: string;
++  timestamp: string;
++  duration_ms: number | null;
++  result_summary: Record<string, unknown> | string | null;
++  policy_decision: string | null;
++  approval_id?: string;
++  approval_status?: string;
++  proposal_id?: string;
++  mission_id?: string;
++  source: DataSource;
++  received_at: string;
++  unknown: boolean;
++}
++
++export type NormalizedRunStatus =
++  | "idle"
++  | "running"
++  | "success"
++  | "failed"
++  | "stopped"
++  | "approval_required";
++
++export interface NormalizedRun {
++  run_id: string;
++  journey_id: string;
++  runtime_identity: RuntimeIdentity;
++  provider_key: string;
++  model_key: string;
++  status: NormalizedRunStatus;
++  source: DataSource;
++  started_at?: string;
++  completed_at?: string | null;
++  events: NormalizedAgentEvent[];
++  current_tool: string | null;
++  tool_count: number;
++  last_updated: string;
++}
++
++export interface RuntimeStatusInfo {
++  identity: RuntimeIdentity;
++  status: RuntimeStatus;
++  source: DataSource;
++  last_updated: string;
++  detail?: string;
++}
++
++export interface CopilotMissionStart {
++  mission_id: string;
++  run: NormalizedRun;
++  semantic_intent: string;
++  answer: string;
++  source: DataSource;
++}
++
++export interface StopResult {
++  ok: boolean;
++  run_id: string;
++  status: NormalizedRunStatus;
++  reason?: string;
++  source: DataSource;
++}
++
++export interface NormalizedProposal {
++  proposal_id: string;
++  journey_id: string;
++  title: LocalizedCopy;
++  state: ApprovalState;
++  approval_id?: string;
++  expires_at?: string;
++  superseded_by?: string;
++  source: DataSource;
++  recovery: RecoveryProposal;
++  last_updated: string;
++}
++
++export interface ApprovalDecisionInput {
++  proposal_id: string;
++  approval_id?: string;
++  decision: "approve" | "reject" | "review_requested";
++  idempotency_key: string;
++  online: boolean;
++}
++
++export interface ApprovalDecisionResult {
++  state: ApprovalState;
++  server_truth: boolean;
++  proposal_id: string;
++  approval_id?: string;
++  reason?: "409_conflict" | "already_consumed" | "expired" | "superseded" | "network_loss" | "offline" | "failed";
++  retryable: boolean;
++  message: string;
++  last_updated: string;
++}
++
++export interface MapState {
++  journey_id: string;
++  route: GeoJSON.Feature<GeoJSON.LineString>;
++  stops: Array<{ id: string; name: string; coordinate: [number, number]; protected?: boolean }>;
++  bounds: [[number, number], [number, number]];
++  center: [number, number];
++  source: DataSource;
++  last_updated: string;
++}
++
++export interface RunEventHandlers {
++  onEvent: (event: NormalizedAgentEvent) => void;
++  onStatusChange?: (run: NormalizedRun) => void;
++  onError?: (error: { message: string; retryable: boolean; source: DataSource }) => void;
++  onReconnect?: (info: { attempt: number; since_sequence: number }) => void;
++}
++
++export interface RunSubscription {
++  unsubscribe: () => void;
++  getLastSequence: () => number;
++  isLive: () => boolean;
++}
++
++export interface RecordedScenarioSummary {
++  key: string;
++  label: string;
++  run_status: NormalizedRunStatus;
++  event_count: number;
++}
++
++export interface ExperienceAdapter {
++  readonly mode: AdapterMode;
++  readonly source: DataSource;
++
++  getJourneyPulse: () => Promise<PulseState>;
++  /** Optional localized Today timeline for the Journey route. */
++  getTodayTimeline?: () => Promise<
++    Array<{
++      id: string;
++      time: string;
++      title: LocalizedCopy;
++      environment: "indoor" | "outdoor" | "transit";
++      protected: boolean;
++      status: "done" | "current" | "upcoming" | "candidate";
++    }>
++  >;
++  getRuntimeStatus: () => Promise<RuntimeStatusInfo>;
++  getRecoveryDiff: (proposalId?: string) => Promise<RecoveryProposal | null>;
++  getMapState: () => Promise<MapState>;
++
++  startCopilotMission: (input: { message: string; locale: "en" | "zh-CN" }) => Promise<CopilotMissionStart>;
++  getRun: (runId: string) => Promise<NormalizedRun | null>;
++  subscribeRunEvents: (
++    runId: string,
++    handlers: RunEventHandlers,
++    options?: { since_sequence?: number },
++  ) => RunSubscription;
++  stopRun: (runId: string) => Promise<StopResult>;
++
++  getProposal: (proposalId?: string) => Promise<NormalizedProposal | null>;
++  submitApprovalDecision: (input: ApprovalDecisionInput) => Promise<ApprovalDecisionResult>;
++
++  /** Optional recorded-only scenario discovery for the reference gallery. */
++  listRecordedScenarios?: () => RecordedScenarioSummary[];
++  selectRecordedScenario?: (key: string) => void;
++  /** Optional offline metadata. */
++  getLastUpdated?: () => string;
++}
++export type { ApprovalState } from "../types";
+diff --git a/frontend/src/features/experience-lab/adapters/eventStore.ts b/frontend/src/features/experience-lab/adapters/eventStore.ts
+new file mode 100644
+index 0000000..470fc89
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/eventStore.ts
+@@ -0,0 +1,276 @@
++/**
++ * Append-only, de-duplicating, stable-order runtime event store.
++ *
++ * Hot paths use `Map` indexes so appends are O(1) amortized; only an explicit
++ * `snapshot()` sorts, and the sorted list is cached until the next insert.
++ * This keeps 100/300/1000-event runs responsive without an O(n^2) append path.
++ *
++ * Ordering is stable by `sequence_no`, then `timestamp`, then arrival order.
++ * Duplicate detection uses `id` when present, otherwise
++ * `run_id + sequence_no + event_type + tool_name`.
++ */
++
++import type { DataSource, RuntimeIdentity } from "../types";
++import type {
++  NormalizedAgentEvent,
++  NormalizedRun,
++  NormalizedRunStatus,
++} from "./contract";
++import type { NormalizeOptions, RawAgentEvent } from "./normalize";
++import { normalizeRawEvent } from "./normalize";
++
++export interface EventStoreOptions {
++  source?: DataSource;
++  normalizeOptions?: NormalizeOptions;
++  /** Called with newly inserted events (stable order) after each append. */
++  onInsert?: (inserted: NormalizedAgentEvent[]) => void;
++}
++
++export type AppendOptions = NormalizeOptions;
++
++function isNormalizedEvent(value: unknown): value is NormalizedAgentEvent {
++  if (typeof value !== "object" || value === null) return false;
++  const candidate = value as Record<string, unknown>;
++  return (
++    typeof candidate.event_type === "string" &&
++    typeof candidate.received_at === "string" &&
++    typeof candidate.unknown === "boolean" &&
++    typeof candidate.sequence_no === "number"
++  );
++}
++
++function rawIdOf(value: unknown): string | null {
++  if (typeof value !== "object" || value === null) return null;
++  const candidate = value as Record<string, unknown>;
++  const id = candidate.id ?? candidate.event_id ?? candidate.eventId;
++  return typeof id === "string" && id.length > 0 ? id : null;
++}
++
++function timestampMs(event: NormalizedAgentEvent): number {
++  const parsed = Date.parse(event.timestamp);
++  return Number.isFinite(parsed) ? parsed : 0;
++}
++
++/** Stable comparator: sequence, then timestamp, then received/arrival time. */
++export function compareNormalizedEvents(a: NormalizedAgentEvent, b: NormalizedAgentEvent): number {
++  if (a.sequence_no !== b.sequence_no) return a.sequence_no - b.sequence_no;
++  const ta = timestampMs(a);
++  const tb = timestampMs(b);
++  if (ta !== tb) return ta - tb;
++  return a.received_at.localeCompare(b.received_at);
++}
++
++/** Derive a run status from an event stream (terminal truth wins). */
++export function deriveRunStatus(events: readonly NormalizedAgentEvent[]): NormalizedRunStatus {
++  if (events.length === 0) return "idle";
++  for (let index = events.length - 1; index >= 0; index -= 1) {
++    const event = events[index];
++    switch (event.event_type) {
++      case "run.completed":
++        return "success";
++      case "run.failed":
++      case "tool.failed":
++        return "failed";
++      case "run.stopped":
++        return "stopped";
++      case "approval.required":
++      case "proposal.created":
++        return "approval_required";
++      case "run.started":
++      case "semantic.interpreted":
++      case "mission.planned":
++      case "tool.started":
++      case "tool.completed":
++      case "gateway.checked":
++      case "guardian.checked":
++        return "running";
++      default:
++        continue;
++    }
++  }
++  return "idle";
++}
++
++export interface BuildRunInput {
++  runId: string;
++  journeyId: string;
++  runtimeIdentity: RuntimeIdentity;
++  providerKey?: string;
++  modelKey?: string;
++  events: readonly NormalizedAgentEvent[];
++  source: DataSource;
++  status?: NormalizedRunStatus;
++  startedAt?: string;
++  completedAt?: string | null;
++  lastUpdated?: string;
++}
++
++/** Assemble the `NormalizedRun` projection from normalized events. */
++export function buildNormalizedRun(input: BuildRunInput): NormalizedRun {
++  const events = input.events.slice().sort(compareNormalizedEvents);
++  const status = input.status ?? deriveRunStatus(events);
++  const startedEvent = events.find((event) => event.event_type === "run.started") ?? events[0];
++  const terminal = [...events]
++    .reverse()
++    .find(
++      (event) =>
++        event.event_type === "run.completed" ||
++        event.event_type === "run.failed" ||
++        event.event_type === "run.stopped",
++    );
++  const toolStarts = events.filter((event) => event.event_type === "tool.started");
++  const completed = status === "success" || status === "failed" || status === "stopped";
++  return {
++    run_id: input.runId,
++    journey_id: input.journeyId,
++    runtime_identity: input.runtimeIdentity,
++    provider_key: input.providerKey ?? "unknown",
++    model_key: input.modelKey ?? "unknown",
++    status,
++    source: input.source,
++    started_at: input.startedAt ?? startedEvent?.timestamp,
++    completed_at: input.completedAt ?? (completed ? terminal?.timestamp ?? null : null),
++    events,
++    current_tool: toolStarts.length > 0 ? toolStarts[toolStarts.length - 1].tool_name : null,
++    tool_count: toolStarts.length,
++    last_updated: input.lastUpdated ?? events[events.length - 1]?.received_at ?? new Date().toISOString(),
++  };
++}
++
++export class EventStore {
++  private readonly options: EventStoreOptions;
++  private readonly byKey = new Map<string, NormalizedAgentEvent>();
++  private readonly arrivalById = new Map<string, number>();
++  private readonly events: NormalizedAgentEvent[] = [];
++  private sortedCache: NormalizedAgentEvent[] | null = null;
++  private arrivalCounter = 0;
++  private lastSequence = 0;
++
++  constructor(sourceOrOptions: DataSource | EventStoreOptions = {}) {
++    this.options = typeof sourceOrOptions === "string" ? { source: sourceOrOptions } : sourceOrOptions;
++  }
++
++  private keyFor(raw: unknown, event: NormalizedAgentEvent): string {
++    const explicit = rawIdOf(raw);
++    if (explicit) return `id:${explicit}`;
++    return `k:${event.run_id}:${event.sequence_no}:${event.event_type}:${event.tool_name ?? "none"}`;
++  }
++
++  /**
++   * Append raw and/or already-normalized events. Returns only newly inserted
++   * events, in stable order; duplicates are ignored.
++   */
++  append(
++    input: unknown | readonly unknown[],
++    options: AppendOptions = {},
++  ): NormalizedAgentEvent[] {
++    const items = Array.isArray(input) ? input : [input];
++    const normalizeOptions: NormalizeOptions = {
++      ...this.options.normalizeOptions,
++      ...options,
++      source: options.source ?? this.options.source ?? this.options.normalizeOptions?.source,
++    };
++    const inserted: NormalizedAgentEvent[] = [];
++
++    for (const item of items) {
++      let event: NormalizedAgentEvent | null;
++      if (isNormalizedEvent(item)) {
++        event = options.source ? { ...item, source: options.source } : item;
++      } else {
++        event = normalizeRawEvent(item, normalizeOptions);
++      }
++      if (!event) continue;
++      const key = this.keyFor(item, event);
++      if (this.byKey.has(key)) continue;
++      const arrival = this.arrivalCounter;
++      this.arrivalCounter += 1;
++      this.arrivalById.set(event.id, arrival);
++      this.byKey.set(key, event);
++      this.events.push(event);
++      if (event.sequence_no > this.lastSequence) this.lastSequence = event.sequence_no;
++      inserted.push(event);
++    }
++
++    if (inserted.length === 0) return inserted;
++    this.sortedCache = null;
++    const ordered = inserted.slice().sort((a, b) => this.compareWithArrival(a, b));
++    this.options.onInsert?.(ordered);
++    return ordered;
++  }
++
++  /** Compatibility alias for callers that append raw batches with a run id. */
++  appendRaw(raws: RawAgentEvent | readonly RawAgentEvent[], runId?: string | null): NormalizedAgentEvent[] {
++    return this.append(raws, { runId: runId ?? undefined });
++  }
++
++  private compareWithArrival(a: NormalizedAgentEvent, b: NormalizedAgentEvent): number {
++    const base = compareNormalizedEvents(a, b);
++    if (base !== 0) return base;
++    const aa = this.arrivalById.get(a.id) ?? 0;
++    const ab = this.arrivalById.get(b.id) ?? 0;
++    return aa - ab;
++  }
++
++  /** Stable, sorted snapshot of every stored event. */
++  snapshot(): NormalizedAgentEvent[] {
++    if (this.sortedCache === null) {
++      this.sortedCache = this.events.slice().sort((a, b) => this.compareWithArrival(a, b));
++    }
++    return this.sortedCache.slice();
++  }
++
++  /** Highest sequence number seen (0 when empty). */
++  getLastSequence(): number {
++    return this.lastSequence;
++  }
++
++  /** Derived run status, optionally scoped to one run id. */
++  getStatus(runId?: string): NormalizedRunStatus {
++    return deriveRunStatus(runId ? this.eventsFor(runId) : this.events);
++  }
++
++  /** Alias used by older call sites. */
++  status(): NormalizedRunStatus {
++    return this.getStatus();
++  }
++
++  size(): number {
++    return this.events.length;
++  }
++
++  clear(): void {
++    this.events.length = 0;
++    this.byKey.clear();
++    this.arrivalById.clear();
++    this.sortedCache = null;
++    this.arrivalCounter = 0;
++    this.lastSequence = 0;
++  }
++
++  eventsFor(runId: string): NormalizedAgentEvent[] {
++    return this.events.filter((event) => event.run_id === runId);
++  }
++
++  currentTool(runId?: string): string | null {
++    const source = runId ? this.eventsFor(runId) : this.events;
++    for (let index = source.length - 1; index >= 0; index -= 1) {
++      const tool = source[index].tool_name;
++      if (tool) return tool;
++    }
++    return null;
++  }
++
++  toolCount(runId?: string): number {
++    const source = runId ? this.eventsFor(runId) : this.events;
++    return source.filter((event) => event.event_type === "tool.started").length;
++  }
++
++  has(key: string): boolean {
++    return this.byKey.has(key);
++  }
++}
++
++/** Backwards-compatible alias for the store class name. */
++export { EventStore as AgentEventStore };
++
++export type { RawAgentEvent };
+diff --git a/frontend/src/features/experience-lab/adapters/fixtures/hermesFixtures.ts b/frontend/src/features/experience-lab/adapters/fixtures/hermesFixtures.ts
+new file mode 100644
+index 0000000..88d4e7f
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/fixtures/hermesFixtures.ts
+@@ -0,0 +1,108 @@
++import type { AgentRunEvent, AgentRunFixture } from "../../types";
++
++const FIXTURE_SOURCE = "RECORDED_FIXTURE" as const;
++
++function event(
++  sequence_no: number,
++  event_type: AgentRunEvent["event_type"],
++  timestamp: string,
++  summary: string,
++  extra: Partial<Omit<AgentRunEvent, "id" | "sequence_no" | "event_type" | "timestamp" | "summary" | "source">> = {},
++): AgentRunEvent {
++  return {
++    id: `fixture-event-${sequence_no}`,
++    sequence_no,
++    event_type,
++    timestamp,
++    summary,
++    source: FIXTURE_SOURCE,
++    ...extra,
++  };
++}
++
++/**
++ * Recorded Hermes-style multistep run with approval required.
++ *
++ * IMPORTANT: these events are a recording. The UI replays only the events that
++ * exist in this array and never synthesizes progress with setTimeout/setInterval.
++ */
++export const HERMES_RECORDED_RUN: AgentRunFixture = {
++  fixture_label: "RECORDED_FIXTURE",
++  run_id: "run-fixture-hermes-20260915-01",
++  runtime_identity: "HERMES_NATIVE_MCP",
++  provider_key: "deepseek-native-fixture",
++  model_key: "deepseek-chat-fixture",
++  recorded_at: "2026-09-15T08:12:08+08:00",
++  scenario: "Rain-safe alternative · recorded native Hermes tool loop with approval",
++  events: [
++    event(1, "semantic.interpreted", "2026-09-15T08:12:00.000+08:00", "DeepSeek compiled the request as REQUEST_REPLAN · assertion confirmed", { run_status: "running" }),
++    event(2, "mission.planned", "2026-09-15T08:12:00.180+08:00", "CityNexus mission planned: search indoor alternatives, protect C4 commitments", { run_status: "running" }),
++    event(3, "run.started", "2026-09-15T08:12:00.320+08:00", "Native Hermes run accepted by the CityNexus runtime", { run_status: "running" }),
++    event(4, "tool.started", "2026-09-15T08:12:00.420+08:00", "Checking the active Journey", { tool_name: "inspect_journey", run_status: "running" }),
++    event(5, "tool.completed", "2026-09-15T08:12:00.600+08:00", "Journey facts loaded", { tool_name: "inspect_journey", duration_ms: 180, run_status: "running" }),
++    event(6, "tool.started", "2026-09-15T08:12:00.660+08:00", "Checking protected commitments", { tool_name: "inspect_twin", run_status: "running" }),
++    event(7, "tool.completed", "2026-09-15T08:12:00.800+08:00", "C4 cruise, hotel, and departure buffer confirmed protected", { tool_name: "inspect_twin", duration_ms: 140, run_status: "running" }),
++    event(8, "tool.started", "2026-09-15T08:12:00.860+08:00", "Searching recorded CityNexus city services for an indoor alternative", { tool_name: "search_city_services", run_status: "running" }),
++    event(9, "tool.completed", "2026-09-15T08:12:01.480+08:00", "Recorded provider evidence returned 3 indoor candidates", { tool_name: "search_city_services", duration_ms: 620, run_status: "running" }),
++    event(10, "gateway.checked", "2026-09-15T08:12:01.520+08:00", "Gateway policy checked: reversible indoor swap, no budget expansion", { run_status: "running" }),
++    event(11, "guardian.checked", "2026-09-15T08:12:01.560+08:00", "Guardian checked: protected commitments remain feasible", { run_status: "running" }),
++    event(12, "tool.started", "2026-09-15T08:12:01.620+08:00", "Requesting a CityNexus-owned replan proposal", { tool_name: "request_replan", run_status: "running" }),
++    event(13, "proposal.created", "2026-09-15T08:12:02.240+08:00", "Recovery proposal persisted as PRESENTED", { proposal_id: "proposal-fixture-002", run_status: "approval_required" }),
++    event(14, "approval.required", "2026-09-15T08:12:02.300+08:00", "CityNexus requires traveler approval before this high-impact recovery", { approval_id: "approval-fixture-002", proposal_id: "proposal-fixture-002", run_status: "approval_required" }),
++  ],
++};
++
++/** Same recorded run after the traveler approved the high-impact recovery. */
++export const HERMES_APPROVED_RUN: AgentRunFixture = {
++  ...HERMES_RECORDED_RUN,
++  run_id: "run-fixture-hermes-approved-20260915-01b",
++  scenario: "Rain-safe alternative · recorded approval and completion",
++  events: [
++    ...HERMES_RECORDED_RUN.events,
++    event(15, "run.completed", "2026-09-15T08:12:05.600+08:00", "Approval recorded by CityNexus · child PlanVersion became authoritative", { proposal_id: "proposal-fixture-002", run_status: "success" }),
++  ],
++};
++
++/** Edge-case fixture: a failed tool step and a failed run. */
++export const HERMES_FAILED_RUN: AgentRunFixture = {
++  ...HERMES_RECORDED_RUN,
++  run_id: "run-fixture-hermes-failed-20260915-02",
++  scenario: "Recorded failed run · provider timeout",
++  events: [
++    HERMES_RECORDED_RUN.events[0],
++    HERMES_RECORDED_RUN.events[1],
++    HERMES_RECORDED_RUN.events[2],
++    HERMES_RECORDED_RUN.events[3],
++    event(5, "tool.failed", "2026-09-15T08:12:07.500+08:00", "Recorded provider timed out after 6s", { tool_name: "inspect_journey", duration_ms: 6000, run_status: "failed" }),
++    event(6, "run.failed", "2026-09-15T08:12:07.650+08:00", "Run failed · failure_reason=provider_timeout · next action: retry or keep current plan", { run_status: "failed" }),
++  ],
++};
++
++/** Edge-case fixture: a stopped run with a deliberately long tool name. */
++export const HERMES_STOPPED_RUN: AgentRunFixture = {
++  ...HERMES_RECORDED_RUN,
++  run_id: "run-fixture-hermes-stopped-20260915-03",
++  scenario: "Recorded stopped run · long tool name",
++  events: [
++    HERMES_RECORDED_RUN.events[0],
++    HERMES_RECORDED_RUN.events[1],
++    event(3, "run.started", "2026-09-15T08:12:00.320+08:00", "Native Hermes run accepted by the CityNexus runtime", { run_status: "running" }),
++    event(
++      4,
++      "tool.started",
++      "2026-09-15T08:12:00.420+08:00",
++      "Calling a recorded tool with a deliberately long name for layout stress",
++      { tool_name: "citynexus.search_city_services_for_rain_safe_indoor_activity_candidates", run_status: "running" },
++    ),
++    event(5, "run.stopped", "2026-09-15T08:12:02.100+08:00", "Traveler stopped the recorded run · server truth closed it as STOPPED", { run_status: "stopped" }),
++  ],
++};
++
++export const HERMES_FIXTURES = {
++  completed: HERMES_RECORDED_RUN,
++  approved: HERMES_APPROVED_RUN,
++  failed: HERMES_FAILED_RUN,
++  stopped: HERMES_STOPPED_RUN,
++} as const;
++
++export type HermesFixtureKey = keyof typeof HERMES_FIXTURES;
+diff --git a/frontend/src/features/experience-lab/adapters/fixtures/journeyFixtures.ts b/frontend/src/features/experience-lab/adapters/fixtures/journeyFixtures.ts
+new file mode 100644
+index 0000000..3e8178c
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/fixtures/journeyFixtures.ts
+@@ -0,0 +1,272 @@
++import type {
++  JourneyActivity,
++  LocalizedCopy,
++  PulseState,
++  RecoveryProposal,
++} from "../../types";
++
++export type LocalizedText = LocalizedCopy;
++
++export function pick(text: LocalizedCopy, locale: "en" | "zh-CN"): string {
++  return locale === "zh-CN" ? text.zh : text.en;
++}
++
++export type LocalizedActivity = Omit<
++  JourneyActivity,
++  "title" | "place" | "category"
++> & {
++  title: LocalizedText;
++  place: LocalizedText;
++  category: LocalizedText;
++};
++
++export const JOURNEY = {
++  id: "journey-reference-tianjin-20260915",
++  title: { en: "Tianjin Rain-Safe Weekend", zh: "天津防雨周末" } as LocalizedText,
++  city: { en: "Tianjin", zh: "天津" } as LocalizedText,
++  timezone: "Asia/Shanghai",
++  traveler: { en: "Traveler", zh: "旅行者" } as LocalizedText,
++  planVersion: "V18.2-reference-r1",
++  generatedAt: "2026-09-15T08:12:00+08:00",
++  dataSource: "RECORDED_FIXTURE" as const,
++};
++
++export const ACTIVITIES: LocalizedActivity[] = [
++  {
++    id: "act-morning-walk",
++    title: { en: "Five Great Avenues morning walk", zh: "五大道晨间步行" },
++    start_at: "2026-09-15T08:30:00+08:00",
++    end_at: "2026-09-15T09:10:00+08:00",
++    place: { en: "Wudadao historic district", zh: "五大道历史街区" },
++    category: { en: "walk", zh: "步行" },
++    environment: "outdoor",
++    walking_min: 22,
++    protected: false,
++    status: "current",
++  },
++  {
++    id: "act-river-cruise",
++    title: { en: "Haihe River cruise", zh: "海河游船" },
++    start_at: "2026-09-15T09:30:00+08:00",
++    end_at: "2026-09-15T10:40:00+08:00",
++    place: { en: "Haihe dock · Jinwan Plaza", zh: "海河码头 · 津湾广场" },
++    category: { en: "protected C4", zh: "受保护 C4" },
++    environment: "outdoor",
++    walking_min: 6,
++    protected: true,
++    status: "upcoming",
++  },
++  {
++    id: "act-market-window",
++    title: { en: "Ancient Culture Street market window", zh: "古文化街市场时间窗" },
++    start_at: "2026-09-15T11:10:00+08:00",
++    end_at: "2026-09-15T12:20:00+08:00",
++    place: { en: "Ancient Culture Street", zh: "古文化街" },
++    category: { en: "market", zh: "市场" },
++    environment: "outdoor",
++    walking_min: 22,
++    protected: false,
++    status: "upcoming",
++  },
++  {
++    id: "act-lunch",
++    title: { en: "Lunch reservation · Nanshi Food Street", zh: "午餐预订 · 南市食品街" },
++    start_at: "2026-09-15T12:40:00+08:00",
++    end_at: "2026-09-15T13:40:00+08:00",
++    place: { en: "Nanshi Food Street", zh: "南市食品街" },
++    category: { en: "reservation", zh: "预订" },
++    environment: "indoor",
++    walking_min: 8,
++    protected: false,
++    status: "upcoming",
++  },
++  {
++    id: "act-museum",
++    title: { en: "Tianjin Museum indoor window", zh: "天津博物馆室内时间窗" },
++    start_at: "2026-09-15T14:20:00+08:00",
++    end_at: "2026-09-15T16:00:00+08:00",
++    place: { en: "Tianjin Museum", zh: "天津博物馆" },
++    category: { en: "indoor", zh: "室内" },
++    environment: "indoor",
++    walking_min: 8,
++    protected: false,
++    status: "upcoming",
++  },
++  {
++    id: "act-hotel",
++    title: { en: "Hotel check-in and luggage drop", zh: "酒店入住与行李寄存" },
++    start_at: "2026-09-15T17:00:00+08:00",
++    end_at: "2026-09-15T17:20:00+08:00",
++    place: { en: "Riverside hotel", zh: "河畔酒店" },
++    category: { en: "protected", zh: "受保护" },
++    environment: "indoor",
++    walking_min: 4,
++    protected: true,
++    status: "upcoming",
++  },
++  {
++    id: "act-departure",
++    title: { en: "Departure transfer buffer", zh: "返程交通缓冲" },
++    start_at: "2026-09-15T18:30:00+08:00",
++    end_at: "2026-09-15T19:45:00+08:00",
++    place: { en: "Tianjin Railway Station", zh: "天津站" },
++    category: { en: "protected", zh: "受保护" },
++    environment: "transit",
++    walking_min: 10,
++    protected: true,
++    status: "upcoming",
++  },
++];
++
++function toActivity(activity: LocalizedActivity): JourneyActivity {
++  return {
++    ...activity,
++    title: activity.title.en,
++    place: activity.place.en,
++    category: activity.category.en,
++  };
++}
++
++export const PULSE: PulseState = {
++  now: {
++    activity: toActivity(ACTIVITIES[0]),
++    time: "08:41",
++    eta: "on route · 12 min ahead",
++    note: "Recorded fixture · on the route, 12 min ahead of the next anchor.",
++  },
++  next: {
++    activity: toActivity(ACTIVITIES[1]),
++    time: "09:30",
++    buffer_min: 37,
++    note: "Protected commitment. Do not trade this buffer for a market stop.",
++  },
++  risk: {
++    level: "watch",
++    title: "Rain band arriving 11:20",
++    detail: "Recorded forecast fixture shows a 68% shower band during the outdoor market window.",
++    source: "RECORDED_FIXTURE",
++  },
++  primaryAction: {
++    label: "Review rain-safe recovery",
++    route: "recovery",
++    reason: "One outdoor stop can move to an indoor window without touching the protected cruise.",
++  },
++};
++
++export const PULSE_I18N = {
++  nowNote: {
++    en: "Recorded fixture · on the route, 12 min ahead of the next anchor.",
++    zh: "录制快照 · 已在路线上，比下一个锚点提前 12 分钟。",
++  } as LocalizedText,
++  nextNote: {
++    en: "Protected commitment. Do not trade this buffer for a market stop.",
++    zh: "受保护约定。不要用这段缓冲去换取市场停留。",
++  } as LocalizedText,
++  riskTitle: { en: "Rain band arriving 11:20", zh: "11:20 降雨带到达" } as LocalizedText,
++  riskDetail: {
++    en: "Recorded forecast fixture shows a 68% shower band during the outdoor market window.",
++    zh: "录制的天气快照显示，户外市场时间窗内有 68% 的阵雨概率。",
++  } as LocalizedText,
++  actionLabel: { en: "Review rain-safe recovery", zh: "查看防雨恢复方案" } as LocalizedText,
++  actionReason: {
++    en: "One outdoor stop can move to an indoor window without touching the protected cruise.",
++    zh: "可以把一个户外停留移到室内时间窗，同时不影响受保护的游船。",
++  } as LocalizedText,
++};
++
++export const RECOVERY: RecoveryProposal = {
++  proposal_id: "proposal-reference-rain-002",
++  trigger: {
++    en: "Recorded rain band · outdoor market window exposure",
++    zh: "录制降雨带 · 户外市场时间窗暴露",
++  },
++  severity: "minor",
++  source: "RECORDED_FIXTURE",
++  before: [toActivity(ACTIVITIES[2])],
++  after: [
++    {
++      ...toActivity(ACTIVITIES[4]),
++      id: "act-museum-early",
++      title: "Tianjin Museum indoor window",
++      start_at: "2026-09-15T11:10:00+08:00",
++      end_at: "2026-09-15T12:20:00+08:00",
++      place: "Tianjin Museum",
++      category: "indoor",
++      environment: "indoor",
++      walking_min: 8,
++      status: "candidate",
++    },
++  ],
++  removed: {
++    en: "Ancient Culture Street market window",
++    zh: "古文化街市场时间窗",
++  },
++  added: {
++    en: "Tianjin Museum indoor window (moved earlier)",
++    zh: "天津博物馆室内时间窗（提前）",
++  },
++  why: [
++    { en: "Heavy rain forecast during the outdoor window", zh: "户外时间窗预计有强降雨" },
++    { en: "Reduced walking from 22 min to 8 min", zh: "步行从 22 分钟减少到 8 分钟" },
++    { en: "Protected 17:30 hotel and departure buffer untouched", zh: "受保护的 17:30 酒店与返程缓冲不变" },
++  ],
++  protected_commitments: [
++    { en: "Haihe River cruise · C4", zh: "海河游船 · C4" },
++    { en: "Riverside hotel check-in", zh: "河畔酒店入住" },
++    { en: "Departure transfer buffer", zh: "返程交通缓冲" },
++  ],
++  time_delta_min: 0,
++  cost_delta_minor: 0,
++  travel_delta_min: 6,
++  walking_delta_min: -14,
++  protected_commitments_preserved: true,
++  evidence_state: "verified",
++  verified_evidence: {
++    route_provenance: "recorded-fixture://mobility/route-rain-002",
++    source_provider: "recorded_provider_fixture",
++    snapshot_id: "snapshot-REPLAY-20260915-002",
++  },
++  explanation: {
++    en: "Only the outdoor market window is swapped for an indoor museum window. The protected Haihe cruise, hotel, and departure buffer are unchanged.",
++    zh: "只把户外市场时间窗换成室内博物馆时间窗。受保护的海河游船、酒店和返程缓冲保持不变。",
++  },
++};
++
++export const WALLET_ITEMS = [
++  {
++    id: "res-cruise",
++    type: { en: "River cruise", zh: "海河游船" } as LocalizedText,
++    confirmation: "CNX-RECORDED-CRUISE-0930",
++    status: "protected",
++  },
++  {
++    id: "res-lunch",
++    type: { en: "Lunch reservation", zh: "午餐预订" } as LocalizedText,
++    confirmation: "CNX-RECORDED-LUNCH-1240",
++    status: "confirmed",
++  },
++  {
++    id: "res-hotel",
++    type: { en: "Hotel check-in", zh: "酒店入住" } as LocalizedText,
++    confirmation: "CNX-RECORDED-HOTEL-1700",
++    status: "protected",
++  },
++];
++
++export type TodayTimelineItem = {
++  id: string;
++  time: string;
++  title: LocalizedText;
++  environment: JourneyActivity["environment"];
++  protected: boolean;
++  status: JourneyActivity["status"];
++};
++
++export const TODAY_TIMELINE: TodayTimelineItem[] = ACTIVITIES.map((activity) => ({
++  id: activity.id,
++  time: activity.start_at.slice(11, 16),
++  title: activity.title,
++  environment: activity.environment,
++  protected: activity.protected,
++  status: activity.status,
++}));
+diff --git a/frontend/src/features/experience-lab/adapters/index.ts b/frontend/src/features/experience-lab/adapters/index.ts
+new file mode 100644
+index 0000000..66cc3cb
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/index.ts
+@@ -0,0 +1,91 @@
++/**
++ * Adapter layer barrel.
++ *
++ * This module deliberately contains no JSX, so it can be imported by both the
++ * browser bundle and the `node --experimental-strip-types` contract test.
++ * The React bindings live in `ExperienceAdapterContext.tsx`, which imports
++ * `createExperienceAdapter` from here.
++ */
++
++import { LiveCityNexusAdapter } from "./liveCityNexusAdapter";
++import { OfflineSnapshotAdapter } from "./offlineSnapshotAdapter";
++import { RecordedFixtureAdapter } from "./recordedFixtureAdapter";
++import type { AdapterMode, ExperienceAdapter } from "./contract";
++
++export type {
++  AdapterMode,
++  ApprovalDecisionInput,
++  ApprovalDecisionResult,
++  CopilotMissionStart,
++  ExperienceAdapter,
++  MapState,
++  NormalizedAgentEvent,
++  NormalizedEventType,
++  NormalizedProposal,
++  NormalizedRun,
++  NormalizedRunStatus,
++  RecordedScenarioSummary,
++  RunEventHandlers,
++  RunSubscription,
++  RuntimeStatusInfo,
++  StopResult,
++} from "./contract";
++
++export { LiveCityNexusAdapter, AdapterHttpError } from "./liveCityNexusAdapter";
++export type {
++  EventSourceFactory,
++  EventSourceLike,
++  LiveCityNexusOptions,
++  LiveDiagnostic,
++  LiveMessageEvent,
++} from "./liveCityNexusAdapter";
++export { OfflineSnapshotAdapter } from "./offlineSnapshotAdapter";
++export { RecordedFixtureAdapter, buildFixtureMapState, normalizedFixtureEvents } from "./recordedFixtureAdapter";
++export type { RecordedRunSubscription, RecordedScenarioKey } from "./recordedFixtureAdapter";
++export type { OfflineRunSubscription } from "./offlineSnapshotAdapter";
++export {
++  AgentEventStore,
++  EventStore,
++  buildNormalizedRun,
++  compareNormalizedEvents,
++  deriveRunStatus,
++} from "./eventStore";
++export type { AppendOptions, BuildRunInput, EventStoreOptions } from "./eventStore";
++export {
++  NORMALIZED_EVENT_TYPES,
++  eventNameFromRaw,
++  isIgnoredRawEvent,
++  normalizeAgentEvent,
++  normalizeEventBatch,
++  normalizeEventType,
++  normalizeRawEvent,
++  normalizeRawEvents,
++  safeSummary,
++  toolNameFromRaw,
++} from "./normalize";
++export type { NormalizeOptions, RawAgentEvent } from "./normalize";
++
++function adapterModeFromLocation(): AdapterMode | null {
++  if (typeof window === "undefined") return null;
++  const value = new URLSearchParams(window.location.search).get("adapter");
++  return value === "live" || value === "offline" || value === "recorded" ? value : null;
++}
++
++function isBrowserOffline(): boolean {
++  return typeof navigator !== "undefined" && navigator.onLine === false;
++}
++
++/**
++ * Choose an adapter implementation.
++ *
++ * - `?adapter=live` -> LiveCityNexusAdapter
++ * - `?adapter=offline` or `navigator.onLine === false` -> OfflineSnapshotAdapter
++ * - default -> RecordedFixtureAdapter
++ */
++export function createExperienceAdapter(mode?: AdapterMode): ExperienceAdapter {
++  const requested = mode ?? adapterModeFromLocation();
++  if (requested === "live") return new LiveCityNexusAdapter();
++  if (requested === "offline") return new OfflineSnapshotAdapter();
++  if (isBrowserOffline()) return new OfflineSnapshotAdapter();
++  return new RecordedFixtureAdapter();
++}
+diff --git a/frontend/src/features/experience-lab/adapters/liveCityNexusAdapter.ts b/frontend/src/features/experience-lab/adapters/liveCityNexusAdapter.ts
+new file mode 100644
+index 0000000..f0f8726
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/liveCityNexusAdapter.ts
+@@ -0,0 +1,772 @@
++/**
++ * LiveCityNexusAdapter — the real CityNexus REST/SSE contract at `/api/v1`.
++ *
++ * Source honesty:
++ * - `source: "LIVE"` is reported only after a real HTTP response or SSE frame
++ *   has been received.
++ * - When fetch/EventSource fails the adapter never invents runtime progress.
++ *   It surfaces a retryable `onError` and falls back to OfflineSnapshotAdapter
++ *   semantics (`source: "OFFLINE"`).
++ * - Approval success is shown only after server truth returns; network losses
++ *   never become authoritative success.
++ *
++ * Reconnect policy:
++ * - SSE is re-opened with `?since_sequence=` and a `last_event_id` query value
++ *   (browsers also send `Last-Event-ID`); duplicate frames are de-duplicated by
++ *   EventStore and a payload signature set.
++ * - Backoff is bounded to 3 attempts. Timers are used only for network
++ *   reconnect, never to generate events.
++ */
++
++import type {
++  DataSource,
++  PulseState,
++  RecoveryProposal,
++  RuntimeIdentity,
++  RuntimeStatus,
++} from "../types";
++import type {
++  AdapterMode,
++  ApprovalDecisionInput,
++  ApprovalDecisionResult,
++  CopilotMissionStart,
++  ExperienceAdapter,
++  MapState,
++  NormalizedAgentEvent,
++  NormalizedProposal,
++  NormalizedRun,
++  NormalizedRunStatus,
++  RunEventHandlers,
++  RunSubscription,
++  RuntimeStatusInfo,
++  StopResult,
++} from "./contract";
++import { EventStore, buildNormalizedRun } from "./eventStore";
++import { NORMALIZED_EVENT_TYPES } from "./normalize";
++import type { RawAgentEvent } from "./normalize";
++import { OfflineSnapshotAdapter } from "./offlineSnapshotAdapter";
++
++type RawEvent = RawAgentEvent;
++
++export const LIVE_API_BASE = "/api/v1";
++const DEFAULT_JOURNEY_ID = "journey-reference-tianjin-20260915";
++const MAX_SSE_ATTEMPTS = 3;
++const DEFAULT_REQUEST_TIMEOUT_MS = 15_000;
++
++export interface LiveMessageEvent {
++  data?: string;
++  lastEventId?: string;
++  type?: string;
++}
++
++export interface EventSourceLike {
++  addEventListener(type: string, listener: (event: LiveMessageEvent) => void): void;
++  removeEventListener?(type: string, listener: (event: LiveMessageEvent) => void): void;
++  close(): void;
++  onopen?: ((event: unknown) => void) | null;
++  onerror?: ((event: unknown) => void) | null;
++  readyState?: number;
++}
++
++export type EventSourceFactory = (url: string) => EventSourceLike;
++
++export interface LiveDiagnostic {
++  message: string;
++  source: DataSource;
++  retryable: boolean;
++  detail?: string;
++}
++
++export interface LiveCityNexusOptions {
++  baseUrl?: string;
++  journeyId?: string;
++  fetchImpl?: typeof fetch;
++  eventSourceFactory?: EventSourceFactory;
++  requestTimeoutMs?: number;
++  onDiagnostic?: (diagnostic: LiveDiagnostic) => void;
++}
++
++export class AdapterHttpError extends Error {
++  readonly status: number;
++  readonly body: unknown;
++
++  constructor(status: number, body: unknown, message: string) {
++    super(message);
++    this.name = "AdapterHttpError";
++    this.status = status;
++    this.body = body;
++  }
++}
++
++function isAdapterHttpError(error: unknown): error is AdapterHttpError {
++  return error instanceof AdapterHttpError;
++}
++
++function defaultEventSourceFactory(url: string): EventSourceLike {
++  const globalObject = globalThis as { EventSource?: new (url: string) => EventSourceLike };
++  if (typeof globalObject.EventSource !== "function") {
++    throw new AdapterHttpError(0, null, "EventSource is not available in this environment");
++  }
++  return new globalObject.EventSource(url);
++}
++
++function journeyIdFromLocation(): string | null {
++  if (typeof window === "undefined") return null;
++  const value = new URLSearchParams(window.location.search).get("journey");
++  return value && value.length > 0 ? value : null;
++}
++
++function asText(value: unknown): string | undefined {
++  if (value === null || value === undefined) return undefined;
++  const text = String(value);
++  return text.length > 0 ? text : undefined;
++}
++
++function mapRuntimeIdentity(value: unknown): RuntimeIdentity {
++  const text = String(value ?? "").toUpperCase();
++  if (
++    text === "DIRECT" ||
++    text === "HERMES_NATIVE_MCP" ||
++    text === "HERMES_COMPAT_ENDPOINT" ||
++    text === "NATIVE_DEEPSEEK_TOOL_LOOP" ||
++    text === "FALLBACK" ||
++    text === "UNAVAILABLE"
++  ) {
++    return text;
++  }
++  return "UNAVAILABLE";
++}
++
++function mapRunStatus(value: unknown): NormalizedRunStatus | null {
++  const status = String(value ?? "").toLowerCase();
++  if (["failed", "error", "failure"].includes(status)) return "failed";
++  if (["stopped", "cancelled", "canceled"].includes(status)) return "stopped";
++  if (["completed", "succeeded", "success", "done"].includes(status)) return "success";
++  if (["approval_required", "awaiting_approval", "pending_approval"].includes(status)) {
++    return "approval_required";
++  }
++  if (["running", "started", "in_progress", "active", "processing"].includes(status)) return "running";
++  return null;
++}
++
++function runtimeStatusFromPayload(payload: RawEvent): RuntimeStatusInfo {
++  const identity = mapRuntimeIdentity(payload.runtime_identity);
++  let status: RuntimeStatus = "ready";
++  if (identity === "UNAVAILABLE") status = "hermes_unavailable";
++  else if (payload.deepseek_configured === false) status = "deepseek_unavailable";
++  else if (payload.native_binary_detected === false && payload.hermes_compat_configured === false) {
++    status = "hermes_unavailable";
++  }
++  return {
++    identity,
++    status,
++    source: "LIVE",
++    last_updated: new Date().toISOString(),
++    detail: asText(payload.mcp_server) ? `MCP server: ${asText(payload.mcp_server)}` : undefined,
++  };
++}
++
++function intentFromPayload(payload: RawEvent): string {
++  const intent = payload.intent;
++  if (intent && typeof intent === "object") {
++    const record = intent as RawEvent;
++    const envelope = record.semantic_envelope;
++    if (envelope && typeof envelope === "object") {
++      const envelopeIntent = (envelope as RawEvent).intent;
++      if (typeof envelopeIntent === "string" && envelopeIntent.length > 0) return envelopeIntent;
++    }
++    if (typeof record.name === "string" && record.name.length > 0) return record.name;
++  }
++  return "MESSAGE";
++}
++
++export class LiveCityNexusAdapter implements ExperienceAdapter {
++  readonly mode: AdapterMode = "live";
++  readonly source: DataSource = "LIVE";
++
++  private readonly baseUrl: string;
++  private readonly defaultJourneyId: string;
++  private readonly fetchImpl: typeof fetch;
++  private readonly eventSourceFactory: EventSourceFactory;
++  private readonly requestTimeoutMs: number;
++  private readonly onDiagnostic?: (diagnostic: LiveDiagnostic) => void;
++  private readonly offline = new OfflineSnapshotAdapter();
++  private readonly runJourneyIds = new Map<string, string>();
++  private lastDiagnostic: LiveDiagnostic | null = null;
++
++  constructor(options: LiveCityNexusOptions = {}) {
++    this.baseUrl = options.baseUrl ?? LIVE_API_BASE;
++    this.defaultJourneyId = options.journeyId ?? journeyIdFromLocation() ?? DEFAULT_JOURNEY_ID;
++    this.fetchImpl = options.fetchImpl ?? ((input, init) => fetch(input, init));
++    this.eventSourceFactory = options.eventSourceFactory ?? defaultEventSourceFactory;
++    this.requestTimeoutMs = options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS;
++    this.onDiagnostic = options.onDiagnostic;
++  }
++
++  getLastUpdated(): string {
++    return new Date().toISOString();
++  }
++
++  getLastDiagnostic(): LiveDiagnostic | null {
++    return this.lastDiagnostic;
++  }
++
++  // ---------------------------------------------------------------- read-only
++  async getJourneyPulse(): Promise<PulseState> {
++    this.diagnose("live journey pulse projection is not exposed by the required endpoint set", "OFFLINE", true);
++    return this.offline.getJourneyPulse();
++  }
++
++  async getRuntimeStatus(): Promise<RuntimeStatusInfo> {
++    try {
++      const payload = await this.requestJson<RawEvent>("/agent/runtime-status");
++      return runtimeStatusFromPayload(payload);
++    } catch (error) {
++      this.diagnose("live runtime status unavailable", "OFFLINE", true, error);
++      return this.offline.getRuntimeStatus();
++    }
++  }
++
++  async getRecoveryDiff(proposalId?: string): Promise<RecoveryProposal | null> {
++    this.diagnose(
++      "live recovery projection requires the journey recovery endpoint; using cached snapshot",
++      "OFFLINE",
++      true,
++    );
++    return this.offline.getRecoveryDiff(proposalId);
++  }
++
++  async getMapState(): Promise<MapState> {
++    const journeyId = this.journeyIdFor();
++    try {
++      const payload = await this.requestJson<RawEvent>(`/journeys/${journeyId}/route-evidence`);
++      return this.mapRouteEvidence(payload, journeyId);
++    } catch (error) {
++      this.diagnose("live route evidence unavailable", "OFFLINE", true, error);
++      return this.offline.getMapState();
++    }
++  }
++
++  async getTodayTimeline() {
++    return this.offline.getTodayTimeline();
++  }
++
++  async getProposal(proposalId?: string): Promise<NormalizedProposal | null> {
++    this.diagnose("live proposal projection is not exposed by the required endpoint set", "OFFLINE", true);
++    return this.offline.getProposal(proposalId);
++  }
++
++  // ------------------------------------------------------------------- copilot
++  async startCopilotMission(input: { message: string; locale: "en" | "zh-CN" }): Promise<CopilotMissionStart> {
++    const journeyId = this.journeyIdFor();
++    try {
++      const payload = await this.requestJson<RawEvent>(`/journeys/${journeyId}/copilot/messages`, {
++        method: "POST",
++        body: JSON.stringify({ message: input.message, locale: input.locale === "zh-CN" ? "zh" : "en" }),
++      });
++      const agentRun = payload.agent_run;
++      const semanticIntent = intentFromPayload(payload);
++      const answer = asText(payload.message) ?? "CityNexus responded.";
++      if (agentRun && typeof agentRun === "object") {
++        const runPayload = agentRun as RawEvent;
++        const runId = asText(runPayload.run_id) ?? asText(runPayload.id);
++        if (runId) {
++          this.runJourneyIds.set(runId, journeyId);
++          const initial = Array.isArray(runPayload.initial_events) ? runPayload.initial_events : [];
++          const events = this.normalizeLiveEvents(initial, runId);
++          const run = this.buildLiveRun(runPayload, runId, journeyId, events);
++          return {
++            mission_id: asText(runPayload.mission_id) ?? asText(payload.mission_id) ?? runId,
++            run,
++            semantic_intent: semanticIntent,
++            answer,
++            source: "LIVE",
++          };
++        }
++      }
++      // The server answered honestly but did not start a run.
++      const idleRun = buildNormalizedRun({
++        runId: "no-run",
++        journeyId,
++        runtimeIdentity: "DIRECT",
++        providerKey: "citynexus",
++        modelKey: "none",
++        events: [],
++        source: "LIVE",
++        status: "idle",
++        lastUpdated: new Date().toISOString(),
++      });
++      return {
++        mission_id: asText(payload.mission_id) ?? "mission",
++        run: idleRun,
++        semantic_intent: semanticIntent,
++        answer,
++        source: "LIVE",
++      };
++    } catch (error) {
++      this.diagnose("live copilot mission failed", "OFFLINE", true, error);
++      const fallback = await this.offline.startCopilotMission(input);
++      return { ...fallback, answer: `Live CityNexus is unreachable. ${fallback.answer}` };
++    }
++  }
++
++  async getRun(runId: string): Promise<NormalizedRun | null> {
++    const journeyId = this.journeyIdFor(runId);
++    let sawNetworkFailure = false;
++    let sawNotFound = false;
++    const safeRequest = async (path: string): Promise<RawEvent | null> => {
++      try {
++        return await this.requestJson<RawEvent>(path);
++      } catch (error) {
++        if (isAdapterHttpError(error) && error.status === 404) sawNotFound = true;
++        else sawNetworkFailure = true;
++        return null;
++      }
++    };
++    const timeline = await safeRequest(
++      `/journeys/${journeyId}/agent/hermes/runs/${encodeURIComponent(runId)}/timeline`,
++    );
++    const runPayload = await safeRequest(
++      `/journeys/${journeyId}/agent/hermes/runs/${encodeURIComponent(runId)}`,
++    );
++    if (!timeline && !runPayload) {
++      if (sawNetworkFailure && !sawNotFound) {
++        this.diagnose("live run lookup failed", "OFFLINE", true);
++        return this.offline.getRun(runId);
++      }
++      return null;
++    }
++    const rawEvents = Array.isArray(timeline?.events)
++      ? timeline.events
++      : Array.isArray(runPayload?.initial_events)
++        ? runPayload.initial_events
++        : [];
++    const events = this.normalizeLiveEvents(rawEvents, runId);
++    const observability =
++      timeline?.observability && typeof timeline.observability === "object"
++        ? (timeline.observability as RawEvent)
++        : {};
++    const merged: RawEvent = {
++      ...observability,
++      ...runPayload,
++      run_id: runId,
++      journey_id: journeyId,
++      runtime_identity: runPayload?.runtime_identity ?? timeline?.runtime_identity ?? "HERMES_NATIVE_MCP",
++    };
++    return this.buildLiveRun(merged, runId, journeyId, events);
++  }
++
++  subscribeRunEvents(
++    runId: string,
++    handlers: RunEventHandlers,
++    options?: { since_sequence?: number },
++  ): RunSubscription {
++    const journeyId = this.journeyIdFor(runId);
++    const store = new EventStore({ source: "LIVE" });
++    const signatures = new Set<string>();
++    let closed = false;
++    let usingOffline = false;
++    let attempt = 0;
++    let lastEventId = "";
++    let eventSource: EventSourceLike | null = null;
++    let retryTimer: ReturnType<typeof setTimeout> | null = null;
++    let offlineSubscription: RunSubscription | null = null;
++
++    const sinceStart = options?.since_sequence ?? 0;
++    if (sinceStart > store.getLastSequence()) {
++      // The cursor is a caller hint only; the server still owns sequence truth.
++      store.append([], { source: "LIVE", runId });
++    }
++
++    const currentRun = (): NormalizedRun =>
++      buildNormalizedRun({
++        runId,
++        journeyId,
++        runtimeIdentity: "HERMES_NATIVE_MCP",
++        providerKey: "hermes-native",
++        modelKey: "unknown",
++        events: store.snapshot(),
++        source: "LIVE",
++        lastUpdated: new Date().toISOString(),
++      });
++
++    const fallbackToOffline = (message: string): void => {
++      if (usingOffline || closed) return;
++      usingOffline = true;
++      handlers.onError?.({ message, retryable: true, source: "LIVE" });
++      offlineSubscription = this.offline.subscribeRunEvents(runId, handlers, options);
++    };
++
++    const handleMessage = (event: LiveMessageEvent): void => {
++      if (closed || usingOffline) return;
++      const data = typeof event.data === "string" ? event.data : "";
++      if (!data) return;
++      let raw: RawEvent;
++      try {
++        raw = JSON.parse(data) as RawEvent;
++      } catch {
++        handlers.onError?.({ message: "Malformed SSE frame ignored", retryable: true, source: "LIVE" });
++        return;
++      }
++      if (event.lastEventId) lastEventId = event.lastEventId;
++      const signature = JSON.stringify(raw);
++      if (signatures.has(signature)) return;
++      signatures.add(signature);
++      const inserted = store.append(raw, { source: "LIVE", runId });
++      if (inserted.length === 0) return;
++      for (const item of inserted) handlers.onEvent(item);
++      handlers.onStatusChange?.(currentRun());
++    };
++
++    const closeSource = (): void => {
++      if (!eventSource) return;
++      try {
++        eventSource.close();
++      } catch {
++        // Closing a failed EventSource is best-effort.
++      }
++      eventSource = null;
++    };
++
++    const handleSseError = (): void => {
++      closeSource();
++      if (closed || usingOffline) return;
++      if (attempt < MAX_SSE_ATTEMPTS) {
++        attempt += 1;
++        handlers.onReconnect?.({ attempt, since_sequence: store.getLastSequence() });
++        const delay = Math.min(4000, 500 * 2 ** (attempt - 1));
++        retryTimer = setTimeout(open, delay);
++        return;
++      }
++      fallbackToOffline("Live SSE unavailable after bounded retries; showing the offline snapshot.");
++    };
++
++    const open = (): void => {
++      if (closed || usingOffline) return;
++      const params = new URLSearchParams();
++      params.set("since_sequence", String(store.getLastSequence()));
++      if (lastEventId) params.set("last_event_id", lastEventId);
++      const url =
++        `${this.baseUrl}/journeys/${encodeURIComponent(journeyId)}/agent/hermes/runs/` +
++        `${encodeURIComponent(runId)}/events?${params.toString()}`;
++      let next: EventSourceLike;
++      try {
++        next = this.eventSourceFactory(url);
++      } catch (error) {
++        this.diagnose("EventSource could not be created", "OFFLINE", true, error);
++        fallbackToOffline("Live SSE could not be opened; showing the offline snapshot.");
++        return;
++      }
++      eventSource = next;
++      next.onopen = () => {
++        attempt = 0;
++      };
++      next.onerror = () => {
++        handleSseError();
++      };
++      const listener = (event: LiveMessageEvent): void => handleMessage(event);
++      const eventTypes = [...NORMALIZED_EVENT_TYPES, "message", "unknown"];
++      for (const type of eventTypes) next.addEventListener(type, listener);
++    };
++
++    open();
++
++    return {
++      unsubscribe: () => {
++        closed = true;
++        if (retryTimer !== null) {
++          clearTimeout(retryTimer);
++          retryTimer = null;
++        }
++        closeSource();
++        offlineSubscription?.unsubscribe();
++        offlineSubscription = null;
++      },
++      getLastSequence: () => store.getLastSequence(),
++      isLive: () => !closed && !usingOffline,
++    };
++  }
++
++  async stopRun(runId: string): Promise<StopResult> {
++    const journeyId = this.journeyIdFor(runId);
++    try {
++      const payload = await this.requestJson<RawEvent>(
++        `/journeys/${journeyId}/agent/hermes/runs/${encodeURIComponent(runId)}/stop`,
++        { method: "POST" },
++      );
++      return {
++        ok: true,
++        run_id: runId,
++        status: mapRunStatus(payload?.status) ?? "stopped",
++        reason: asText(payload?.failure_reason),
++        source: "LIVE",
++      };
++    } catch (error) {
++      if (isAdapterHttpError(error)) {
++        return {
++          ok: false,
++          run_id: runId,
++          status: "running",
++          reason: `http_${error.status}`,
++          source: "LIVE",
++        };
++      }
++      this.diagnose("live stop failed", "OFFLINE", true, error);
++      return { ok: false, run_id: runId, status: "running", reason: "network_loss", source: "OFFLINE" };
++    }
++  }
++
++  async submitApprovalDecision(input: ApprovalDecisionInput): Promise<ApprovalDecisionResult> {
++    const lastUpdated = new Date().toISOString();
++    if (!input.online) {
++      return {
++        state: "approval_required",
++        server_truth: false,
++        proposal_id: input.proposal_id,
++        approval_id: input.approval_id,
++        reason: "offline",
++        retryable: true,
++        message: "Offline: approval is disabled until authoritative truth returns.",
++        last_updated: lastUpdated,
++      };
++    }
++    if (!input.approval_id) {
++      return {
++        state: "approval_required",
++        server_truth: false,
++        proposal_id: input.proposal_id,
++        reason: "failed",
++        retryable: false,
++        message: "No server approval_id is available for this proposal.",
++        last_updated: lastUpdated,
++      };
++    }
++    const journeyId = this.journeyIdFor();
++    try {
++      const payload = await this.requestJson<RawEvent>(
++        `/journeys/${journeyId}/agent/approvals/${encodeURIComponent(input.approval_id)}/approve`,
++        { method: "POST", body: JSON.stringify({ approval_method: "USER_CONFIRMATION" }) },
++      );
++      const status = String(payload?.status ?? "PENDING").toUpperCase();
++      const base = {
++        proposal_id: input.proposal_id,
++        approval_id: input.approval_id,
++        server_truth: true,
++        last_updated: new Date().toISOString(),
++      };
++      if (status === "APPROVED" || status === "CONSUMED") {
++        return { ...base, state: "approved", retryable: false, message: `Server truth: ${status}` };
++      }
++      if (status === "REVOKED") {
++        return { ...base, state: "rejected", retryable: false, message: "Server truth: REVOKED" };
++      }
++      if (status === "EXPIRED") {
++        return {
++          ...base,
++          state: "approval_required",
++          reason: "expired",
++          retryable: false,
++          message: "Server truth: approval expired; refresh for a new proposal.",
++        };
++      }
++      return {
++        ...base,
++        state: "approval_required",
++        retryable: true,
++        message: `Server truth: ${status}`,
++      };
++    } catch (error) {
++      if (isAdapterHttpError(error)) {
++        const bodyText = JSON.stringify(error.body ?? "").toLowerCase();
++        if (error.status === 409) {
++          const reason =
++            bodyText.includes("expired")
++              ? "expired"
++              : bodyText.includes("consum")
++                ? "already_consumed"
++                : "superseded";
++          return {
++            state: reason === "already_consumed" ? "approved" : "approval_required",
++            server_truth: true,
++            proposal_id: input.proposal_id,
++            approval_id: input.approval_id,
++            reason,
++            retryable: false,
++            message: `Server truth 409: ${reason}. Refresh before retrying.`,
++            last_updated: new Date().toISOString(),
++          };
++        }
++        if (error.status === 404) {
++          return {
++            state: "approval_required",
++            server_truth: true,
++            proposal_id: input.proposal_id,
++            approval_id: input.approval_id,
++            reason: "failed",
++            retryable: false,
++            message: "Server truth 404: approval was not found.",
++            last_updated: new Date().toISOString(),
++          };
++        }
++        return {
++          state: "approval_required",
++          server_truth: true,
++          proposal_id: input.proposal_id,
++          approval_id: input.approval_id,
++          reason: "failed",
++          retryable: false,
++          message: `Server truth ${error.status}: approval did not apply.`,
++          last_updated: new Date().toISOString(),
++        };
++      }
++      this.diagnose("live approval failed", "OFFLINE", true, error);
++      return {
++        state: "approval_required",
++        server_truth: false,
++        proposal_id: input.proposal_id,
++        approval_id: input.approval_id,
++        reason: "network_loss",
++        retryable: true,
++        message: "Network loss during approval. No authoritative success is shown.",
++        last_updated: new Date().toISOString(),
++      };
++    }
++  }
++
++  // ------------------------------------------------------------------ internals
++  private journeyIdFor(_runId?: string): string {
++    if (_runId) {
++      const mapped = this.runJourneyIds.get(_runId);
++      if (mapped) return mapped;
++    }
++    return this.defaultJourneyId;
++  }
++
++  private normalizeLiveEvents(rawEvents: readonly unknown[], runId: string): NormalizedAgentEvent[] {
++    const store = new EventStore({ source: "LIVE" });
++    store.append(rawEvents, { source: "LIVE", runId });
++    return store.snapshot();
++  }
++
++  private buildLiveRun(
++    payload: RawEvent,
++    runId: string,
++    journeyId: string,
++    events: NormalizedAgentEvent[],
++  ): NormalizedRun {
++    const statusHint = mapRunStatus(payload.status) ?? undefined;
++    return buildNormalizedRun({
++      runId,
++      journeyId: asText(payload.journey_id) ?? journeyId,
++      runtimeIdentity: mapRuntimeIdentity(payload.runtime_identity ?? "HERMES_NATIVE_MCP"),
++      providerKey: asText(payload.provider_key),
++      modelKey: asText(payload.model_key),
++      events,
++      source: "LIVE",
++      status: statusHint,
++      startedAt: asText(payload.started_at),
++      completedAt: payload.completed_at === null ? null : asText(payload.completed_at),
++      lastUpdated: new Date().toISOString(),
++    });
++  }
++
++  private mapRouteEvidence(payload: RawEvent, journeyId: string): MapState {
++    const feature = (payload.new_route ?? payload.old_route) as RawEvent | undefined;
++    const geometry = feature?.geometry as RawEvent | undefined;
++    const coordinates = Array.isArray(geometry?.coordinates)
++      ? (geometry?.coordinates as Array<[number, number]>)
++      : [];
++    if (coordinates.length === 0) {
++      throw new AdapterHttpError(0, payload, "route evidence contained no geometry");
++    }
++    const markerCollection = payload.markers as RawEvent | undefined;
++    const markerFeatures = Array.isArray(markerCollection?.features)
++      ? (markerCollection?.features as RawEvent[])
++      : [];
++    const stops = markerFeatures
++      .map((marker, index) => {
++        const properties = (marker.properties ?? {}) as RawEvent;
++        const markerGeometry = (marker.geometry ?? {}) as RawEvent;
++        const coordinate = markerGeometry.coordinates as [number, number] | undefined;
++        if (!Array.isArray(coordinate) || coordinate.length < 2) return null;
++        return {
++          id: asText(properties.activity_id) ?? asText(properties.role) ?? `stop-${index}`,
++          name: asText(properties.title) ?? "Stop",
++          coordinate: [Number(coordinate[0]), Number(coordinate[1])] as [number, number],
++        };
++      })
++      .filter((stop): stop is { id: string; name: string; coordinate: [number, number] } => stop !== null);
++    const longitudes = coordinates.map((coordinate) => coordinate[0]);
++    const latitudes = coordinates.map((coordinate) => coordinate[1]);
++    const minLng = Math.min(...longitudes);
++    const maxLng = Math.max(...longitudes);
++    const minLat = Math.min(...latitudes);
++    const maxLat = Math.max(...latitudes);
++    return {
++      journey_id: journeyId,
++      route: {
++        type: "Feature",
++        properties: { provenance: asText((feature?.properties as Record<string, unknown> | undefined)?.["provider"]) ?? "route-evidence" },
++        geometry: { type: "LineString", coordinates },
++      },
++      stops,
++      bounds: [
++        [minLng, minLat],
++        [maxLng, maxLat],
++      ],
++      center: [(minLng + maxLng) / 2, (minLat + maxLat) / 2],
++      source: "LIVE",
++      last_updated: new Date().toISOString(),
++    };
++  }
++
++  private diagnose(
++    message: string,
++    source: DataSource,
++    retryable: boolean,
++    error?: unknown,
++  ): void {
++    const diagnostic: LiveDiagnostic = {
++      message,
++      source,
++      retryable,
++      detail: error instanceof Error ? error.message : error === undefined ? undefined : String(error),
++    };
++    this.lastDiagnostic = diagnostic;
++    this.onDiagnostic?.(diagnostic);
++  }
++
++  private async requestJson<T>(path: string, init?: RequestInit): Promise<T> {
++    const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
++    const timer =
++      controller && this.requestTimeoutMs > 0
++        ? setTimeout(() => controller.abort(), this.requestTimeoutMs)
++        : null;
++    try {
++      const response = await this.fetchImpl(this.baseUrl + path, {
++        ...init,
++        headers: {
++          Accept: "application/json",
++          "Content-Type": "application/json",
++          ...(init?.headers ?? {}),
++        },
++        signal: controller?.signal,
++      });
++      const text = await response.text();
++      let body: unknown = null;
++      if (text) {
++        try {
++          body = JSON.parse(text);
++        } catch {
++          body = text;
++        }
++      }
++      if (!response.ok) {
++        throw new AdapterHttpError(response.status, body, `CityNexus ${response.status}: ${path}`);
++      }
++      return body as T;
++    } finally {
++      if (timer !== null) clearTimeout(timer);
++    }
++  }
++}
+diff --git a/frontend/src/features/experience-lab/adapters/normalize.ts b/frontend/src/features/experience-lab/adapters/normalize.ts
+new file mode 100644
+index 0000000..82e35b5
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/normalize.ts
+@@ -0,0 +1,412 @@
++/**
++ * Runtime normalization boundary for CityNexus V18.3.
++ *
++ * Mirrors the read-only server contract in
++ * `backend/app/agent/runtime_events.py`: raw Hermes/REST/SSE payloads are
++ * mapped to the stable `NormalizedAgentEvent` contract.
++ *
++ * Guarantees:
++ * - normalization never throws;
++ * - known streaming noise is dropped by returning `null`;
++ * - unrecognized event names become `unknown` with `unknown: true` and the
++ *   original `raw_event_type` preserved;
++ * - `citynexus__tool_name` style tool names are reduced to the suffix;
++ * - optional fields always receive safe defaults.
++ *
++ * Source honesty: the caller decides the `source`. Recorded fixtures pass
++ * `RECORDED_FIXTURE`, real responses/events pass `LIVE`, cached snapshots pass
++ * `OFFLINE`.
++ */
++
++import type { DataSource } from "../types";
++import type { NormalizedAgentEvent, NormalizedEventType } from "./contract";
++
++export type RawAgentEvent = Record<string, unknown>;
++
++/** The public semantic event set. Anything else normalizes to `unknown`. */
++export const NORMALIZED_EVENT_TYPES: readonly NormalizedEventType[] = [
++  "semantic.interpreted",
++  "mission.planned",
++  "run.started",
++  "tool.started",
++  "tool.completed",
++  "tool.failed",
++  "gateway.checked",
++  "guardian.checked",
++  "proposal.created",
++  "approval.required",
++  "run.completed",
++  "run.failed",
++  "run.stopped",
++];
++
++/** Streaming noise that must never become a timeline step. */
++const IGNORED_EVENT_NAMES: ReadonlySet<string> = new Set([
++  "message.delta",
++  "reasoning.available",
++  "reasoning.delta",
++  "content.delta",
++  "content",
++  "reasoning",
++  "heartbeat",
++  "heartbeat.delta",
++  "ping",
++  "pong",
++  "keepalive",
++  "keep.alive",
++  "token.delta",
++  "stream.delta",
++  "progress.delta",
++]);
++
++const TOOL_LABELS: Record<string, string> = {
++  inspect_journey: "Inspect current Journey",
++  inspect_twin: "Inspect JourneyTwin",
++  list_replans: "Inspect proposals and protected commitments",
++  search_city_services: "Search candidate places and services",
++  request_replan: "Request deterministic replan",
++  accept_replan: "Accept replan (CityNexus approval required)",
++  replace_activity: "Replace activity (CityNexus approval required)",
++  reschedule_activity: "Reschedule activity (CityNexus approval required)",
++  create_booking: "Create booking (CityNexus approval required)",
++  cancel_refundable_booking: "Cancel refundable booking (CityNexus approval required)",
++  request_commitment_change: "Request commitment change (CityNexus approval required)",
++};
++
++const ALLOWED_STATUSES: ReadonlySet<string> = new Set([
++  "started",
++  "completed",
++  "failed",
++  "approval_required",
++  "stopped",
++]);
++
++export interface NormalizeOptions {
++  /** Run id stamped when the raw payload has none. */
++  runId?: string | null;
++  /** Data source stamped on every event. Defaults to `RECORDED_FIXTURE`. */
++  source?: DataSource;
++  /** Fallback timestamp when the raw payload has none. */
++  receivedAt?: string;
++  /** Fallback sequence number when the raw payload has none. */
++  sequenceNo?: number;
++}
++
++function asString(value: unknown): string | null {
++  if (value === null || value === undefined) return null;
++  const text = String(value);
++  return text.length > 0 ? text : null;
++}
++
++function isRecord(value: unknown): value is Record<string, unknown> {
++  return typeof value === "object" && value !== null && !Array.isArray(value);
++}
++
++/** Extract and canonicalize the raw event name (`_` -> `.`, lowercase). */
++export function eventNameFromRaw(raw: RawAgentEvent): string {
++  const candidate = raw.event_type ?? raw.event ?? raw.type ?? raw.name ?? raw.event_name;
++  const text = asString(candidate);
++  if (!text) return "run.started";
++  const normalized = text.trim().toLowerCase().replaceAll("_", ".");
++  return normalized.length > 0 ? normalized : "run.started";
++}
++
++/** True when the raw event is known streaming noise. */
++export function isIgnoredRawEvent(input: unknown): boolean {
++  if (!isRecord(input)) return false;
++  return IGNORED_EVENT_NAMES.has(eventNameFromRaw(input));
++}
++
++/** Tool names may arrive namespaced as `citynexus__search_city_services`. */
++export function toolNameFromRaw(raw: RawAgentEvent): string | null {
++  const value = raw.tool_name ?? raw.tool ?? (typeof raw.name === "string" ? raw.name : undefined);
++  if (value === null || value === undefined) return null;
++  let name = String(value).trim();
++  if (!name) return null;
++  const separator = name.lastIndexOf("__");
++  if (separator >= 0) name = name.slice(separator + 2).trim();
++  return name.length > 0 ? name : null;
++}
++
++/** Bounded, non free-form result projection (mirrors `_safe_summary`). */
++export function safeSummary(value: unknown): Record<string, unknown> | string | null {
++  if (value === null || value === undefined) return null;
++  if (Array.isArray(value)) return { items: value.length };
++  if (isRecord(value)) {
++    const result: Record<string, unknown> = {};
++    for (const key of [
++      "decision",
++      "status",
++      "approval_status",
++      "proposal_id",
++      "mission_id",
++      "executed",
++      "error",
++      "tool",
++    ]) {
++      const item = value[key];
++      if (typeof item === "string" || typeof item === "number" || typeof item === "boolean") {
++        result[key] = item;
++      }
++    }
++    if (Object.keys(result).length === 0) {
++      result.keys = Object.keys(value).map((key) => String(key)).sort().slice(0, 20);
++    }
++    return result;
++  }
++  if (typeof value === "string") return { kind: "text", length: value.length };
++  if (typeof value === "number" || typeof value === "boolean") return { value };
++  return null;
++}
++
++/** Map an arbitrary event name to the semantic contract. */
++export function normalizeEventType(
++  name: string,
++  raw: RawAgentEvent,
++  tool: string | null,
++): NormalizedEventType {
++  if ((NORMALIZED_EVENT_TYPES as readonly string[]).includes(name)) {
++    return name as NormalizedEventType;
++  }
++  if (name === "run" || name === "start" || name === "started" || name === "run.start") {
++    return "run.started";
++  }
++  if (name === "completed" || name === "succeeded" || name === "success") {
++    return "run.completed";
++  }
++  if (name === "failed" || name === "error" || name === "failure") {
++    return "run.failed";
++  }
++  if (name === "stopped" || name === "cancelled" || name === "canceled" || name === "cancel") {
++    return "run.stopped";
++  }
++  if (name.includes("approval")) return "approval.required";
++  if (name.includes("gateway") || name.includes("policy")) return "gateway.checked";
++  if (name.includes("guardian")) return "guardian.checked";
++  if (name.includes("proposal") && name.includes("created")) return "proposal.created";
++  if (tool) {
++    if (name.includes("failed") || name.includes("error") || raw.error === true) return "tool.failed";
++    if (
++      name.includes("completed") ||
++      name.includes("finished") ||
++      name.includes("done") ||
++      name.includes("ended") ||
++      raw.status === "completed" ||
++      raw.status === "succeeded"
++    ) {
++      return "tool.completed";
++    }
++    if (
++      name.includes("start") ||
++      name.includes("call") ||
++      name.includes("begin") ||
++      name.startsWith("tool") ||
++      raw.status === "started"
++    ) {
++      return "tool.started";
++    }
++  }
++  return "unknown";
++}
++
++function sequenceNoFromRaw(value: unknown): number | null {
++  if (typeof value === "number" && Number.isFinite(value)) return Math.trunc(value);
++  if (typeof value === "string" && value.trim() !== "") {
++    const parsed = Number(value);
++    if (Number.isFinite(parsed)) return Math.trunc(parsed);
++  }
++  return null;
++}
++
++function timestampFromRaw(value: unknown, fallback: string): string {
++  if (typeof value === "number" && Number.isFinite(value)) {
++    const milliseconds = value > 1e12 ? value : value * 1000;
++    const date = new Date(milliseconds);
++    return Number.isNaN(date.getTime()) ? fallback : date.toISOString();
++  }
++  if (typeof value === "string" && value.trim() !== "") return value;
++  return fallback;
++}
++
++function durationMsFromRaw(raw: RawAgentEvent): number | null {
++  const direct = raw.duration_ms;
++  if (typeof direct === "number" && Number.isFinite(direct)) return Math.round(direct);
++  if (typeof direct === "string" && direct.trim() !== "" && Number.isFinite(Number(direct))) {
++    return Math.round(Number(direct));
++  }
++  const seconds = raw.duration;
++  if (typeof seconds === "number" && Number.isFinite(seconds)) return Math.round(seconds * 1000);
++  if (typeof seconds === "string" && seconds.trim() !== "" && Number.isFinite(Number(seconds))) {
++    return Math.round(Number(seconds) * 1000);
++  }
++  return null;
++}
++
++function safeFallback(source: DataSource, receivedAt: string): NormalizedAgentEvent {
++  return {
++    id: "unknown:runtime",
++    run_id: "",
++    sequence_no: 0,
++    event_type: "unknown",
++    raw_event_type: "unknown",
++    tool_name: null,
++    friendly_label: "Hermes runtime",
++    status: "started",
++    timestamp: receivedAt,
++    duration_ms: null,
++    result_summary: null,
++    policy_decision: null,
++    source,
++    received_at: receivedAt,
++    unknown: true,
++  };
++}
++
++/**
++ * Normalize one raw runtime event. Returns `null` for noise or non-objects.
++ * Never throws.
++ */
++export function normalizeRawEvent(
++  input: unknown,
++  options: NormalizeOptions = {},
++): NormalizedAgentEvent | null {
++  const receivedAt = options.receivedAt ?? new Date().toISOString();
++  const source = options.source ?? "RECORDED_FIXTURE";
++  if (!isRecord(input)) return null;
++  const raw = input;
++
++  try {
++    const rawName = eventNameFromRaw(raw);
++    if (IGNORED_EVENT_NAMES.has(rawName)) return null;
++
++    const tool = toolNameFromRaw(raw);
++    const eventType = normalizeEventType(rawName, raw, tool);
++    const sequenceNo =
++      sequenceNoFromRaw(raw.sequence_no) ??
++      sequenceNoFromRaw(raw.sequence) ??
++      sequenceNoFromRaw(raw.seq) ??
++      sequenceNoFromRaw(raw.sequenceNumber) ??
++      (typeof options.sequenceNo === "number" ? options.sequenceNo : 0);
++    const explicitId = asString(raw.id) ?? asString(raw.event_id) ?? asString(raw.eventId);
++    const runId = asString(options.runId) ?? asString(raw.run_id) ?? asString(raw.runId) ?? "";
++    const id = explicitId ?? `${runId}:${sequenceNo}:${eventType}:${tool ?? "none"}`;
++
++    const timestamp = timestampFromRaw(raw.timestamp ?? raw.created_at ?? raw.started_at, receivedAt);
++    const durationMs = durationMsFromRaw(raw);
++
++    const resultCandidate =
++      raw.result ?? raw.output ?? (raw.error !== undefined ? { error: raw.error } : undefined);
++    let resultSummary: Record<string, unknown> | string | null =
++      isRecord(raw.result_summary) || typeof raw.result_summary === "string"
++        ? (raw.result_summary as Record<string, unknown> | string)
++        : null;
++    if (resultSummary === null && resultCandidate !== undefined) resultSummary = safeSummary(resultCandidate);
++    if (resultSummary === null && typeof raw.summary === "string" && raw.summary.length > 0) {
++      resultSummary = raw.summary;
++    }
++
++    const decision =
++      raw.policy_decision ??
++      raw.decision ??
++      (isRecord(resultCandidate) ? resultCandidate.decision : undefined);
++
++    const friendlyLabel =
++      asString(raw.friendly_label) ??
++      (typeof raw.summary === "string" && raw.summary.length > 0 ? raw.summary : null) ??
++      (tool ? TOOL_LABELS[tool] ?? tool : null) ??
++      "Hermes runtime";
++
++    let status = (asString(raw.status) ?? "started").toLowerCase();
++    if (eventType.endsWith("completed")) status = "completed";
++    else if (eventType.endsWith("failed")) status = "failed";
++    else if (eventType === "approval.required") status = "approval_required";
++    else if (eventType.endsWith("stopped")) status = "stopped";
++    else if (!ALLOWED_STATUSES.has(status)) status = "started";
++
++    const normalized: NormalizedAgentEvent = {
++      id,
++      run_id: runId,
++      sequence_no: sequenceNo,
++      event_type: eventType,
++      raw_event_type: rawName,
++      tool_name: tool,
++      friendly_label: friendlyLabel,
++      status,
++      timestamp,
++      duration_ms: durationMs,
++      result_summary: resultSummary,
++      policy_decision: asString(decision),
++      source,
++      received_at: receivedAt,
++      unknown: eventType === "unknown",
++    };
++
++    const approvalId =
++      asString(raw.approval_id) ??
++      (isRecord(resultCandidate) ? asString(resultCandidate.approval_id) : null);
++    const proposalId =
++      asString(raw.proposal_id) ??
++      (isRecord(resultCandidate) ? asString(resultCandidate.proposal_id) : null);
++    const missionId =
++      asString(raw.mission_id) ??
++      (isRecord(resultCandidate) ? asString(resultCandidate.mission_id) : null);
++    const approvalStatus =
++      asString(raw.approval_status) ??
++      (isRecord(resultCandidate)
++        ? asString(resultCandidate.approval_status) ?? asString(resultCandidate.status)
++        : null);
++
++    if (approvalId) normalized.approval_id = approvalId;
++    if (proposalId) normalized.proposal_id = proposalId;
++    if (missionId) normalized.mission_id = missionId;
++    if (approvalStatus) normalized.approval_status = approvalStatus;
++
++    return normalized;
++  } catch {
++    return safeFallback(source, receivedAt);
++  }
++}
++
++/** Normalize a batch, dropping noise and non-objects. */
++export function normalizeRawEvents(
++  inputs: readonly unknown[],
++  options: NormalizeOptions = {},
++): NormalizedAgentEvent[] {
++  const output: NormalizedAgentEvent[] = [];
++  for (const input of inputs) {
++    const normalized = normalizeRawEvent(input, options);
++    if (normalized) output.push(normalized);
++  }
++  return output;
++}
++
++/**
++ * Compatibility wrapper: normalize a single raw event with an explicit
++ * arrival index used as the fallback sequence number.
++ */
++export function normalizeAgentEvent(
++  raw: RawAgentEvent,
++  options: {
++    runId?: string | null;
++    source: DataSource;
++    arrivalIndex?: number;
++    receivedAt?: string;
++  },
++): NormalizedAgentEvent | null {
++  return normalizeRawEvent(raw, {
++    runId: options.runId,
++    source: options.source,
++    receivedAt: options.receivedAt,
++    sequenceNo: options.arrivalIndex,
++  });
++}
++
++/** Compatibility wrapper: normalize a batch with arrival-index sequencing. */
++export function normalizeEventBatch(
++  raws: readonly RawAgentEvent[],
++  options: { runId?: string | null; source: DataSource; receivedAt?: string },
++): NormalizedAgentEvent[] {
++  return raws
++    .map((raw, index) => normalizeAgentEvent(raw, { ...options, arrivalIndex: index }))
++    .filter((event): event is NormalizedAgentEvent => event !== null);
++}
+diff --git a/frontend/src/features/experience-lab/adapters/offlineSnapshotAdapter.ts b/frontend/src/features/experience-lab/adapters/offlineSnapshotAdapter.ts
+new file mode 100644
+index 0000000..2e72ff8
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/offlineSnapshotAdapter.ts
+@@ -0,0 +1,188 @@
++/**
++ * OfflineSnapshotAdapter — read-only cached view of the same reference
++ * fixtures. It always reports `source: "OFFLINE"`.
++ *
++ * This adapter never starts a run, never creates events and never claims
++ * server truth. `submitApprovalDecision` always fails safely with
++ * `reason: "offline"` and `retryable: true`, so destructive approval actions
++ * stay disabled in the UI until authoritative connectivity returns.
++ */
++
++import type {
++  AgentRunFixture,
++  DataSource,
++  PulseState,
++  RecoveryProposal,
++} from "../types";
++import { HERMES_FIXTURES } from "./fixtures/hermesFixtures";
++import { JOURNEY, PULSE, RECOVERY, TODAY_TIMELINE } from "./fixtures/journeyFixtures";
++import type {
++  AdapterMode,
++  ApprovalDecisionInput,
++  ApprovalDecisionResult,
++  CopilotMissionStart,
++  ExperienceAdapter,
++  MapState,
++  NormalizedAgentEvent,
++  NormalizedProposal,
++  NormalizedRun,
++  RunEventHandlers,
++  RunSubscription,
++  RuntimeStatusInfo,
++  StopResult,
++} from "./contract";
++import { buildNormalizedRun } from "./eventStore";
++import { buildFixtureMapState, normalizedFixtureEvents } from "./recordedFixtureAdapter";
++
++export interface OfflineRunSubscription extends RunSubscription {
++  stop: () => void;
++  whenComplete: () => Promise<void>;
++}
++
++function cachedRun(fixture: AgentRunFixture, source: DataSource): NormalizedRun {
++  const events = normalizedFixtureEvents(fixture, source);
++  return buildNormalizedRun({
++    runId: fixture.run_id,
++    journeyId: JOURNEY.id,
++    runtimeIdentity: fixture.runtime_identity,
++    providerKey: fixture.provider_key,
++    modelKey: fixture.model_key,
++    events,
++    source,
++    lastUpdated: fixture.recorded_at,
++  });
++}
++
++export class OfflineSnapshotAdapter implements ExperienceAdapter {
++  readonly mode: AdapterMode = "offline";
++  readonly source: DataSource = "OFFLINE";
++
++  private readonly lastUpdatedIso: string;
++
++  constructor(lastUpdated: string = HERMES_FIXTURES.completed.recorded_at) {
++    this.lastUpdatedIso = lastUpdated;
++  }
++
++  /** ISO timestamp describing when the cached snapshot was captured. */
++  getLastUpdated(): string {
++    return this.lastUpdatedIso;
++  }
++
++  async getJourneyPulse(): Promise<PulseState> {
++    return { ...PULSE, risk: { ...PULSE.risk, source: this.source } };
++  }
++
++  async getRuntimeStatus(): Promise<RuntimeStatusInfo> {
++    return {
++      identity: "UNAVAILABLE",
++      status: "offline_stale",
++      source: this.source,
++      last_updated: this.lastUpdatedIso,
++      detail: "Offline cached snapshot. Destructive actions are disabled until authoritative truth returns.",
++    };
++  }
++
++  async getRecoveryDiff(proposalId?: string): Promise<RecoveryProposal | null> {
++    return {
++      ...RECOVERY,
++      proposal_id: proposalId ?? RECOVERY.proposal_id,
++      source: this.source,
++    };
++  }
++
++  async getMapState(): Promise<MapState> {
++    return buildFixtureMapState(this.source, this.lastUpdatedIso);
++  }
++
++  async getTodayTimeline() {
++    return TODAY_TIMELINE.map((item) => ({ ...item, title: { ...item.title } }));
++  }
++
++  async startCopilotMission(input: { message: string; locale: "en" | "zh-CN" }): Promise<CopilotMissionStart> {
++    // Read-only: no new run is started; the cached run is returned for context.
++    const run = cachedRun(HERMES_FIXTURES.completed, this.source);
++    return {
++      mission_id: "mission-offline-cache",
++      run,
++      semantic_intent: "OFFLINE",
++      answer:
++        "Offline snapshot: CityNexus cannot start or advance a live run until connectivity returns. " +
++        `Requested: ${input.message}`,
++      source: this.source,
++    };
++  }
++
++  async getRun(runId: string): Promise<NormalizedRun | null> {
++    const fixture = Object.values(HERMES_FIXTURES).find((candidate) => candidate.run_id === runId);
++    return fixture ? cachedRun(fixture, this.source) : null;
++  }
++
++  subscribeRunEvents(
++    runId: string,
++    handlers: RunEventHandlers,
++    options?: { since_sequence?: number },
++  ): OfflineRunSubscription {
++    const fixture =
++      Object.values(HERMES_FIXTURES).find((candidate) => candidate.run_id === runId) ??
++      HERMES_FIXTURES.completed;
++    const since = options?.since_sequence ?? 0;
++    const stored: NormalizedAgentEvent[] = normalizedFixtureEvents(fixture, this.source);
++    const replay = stored.filter((event) => event.sequence_no > since);
++    let lastSequence = since;
++
++    // Cached events are emitted once, synchronously. No timers, no invention.
++    for (const event of replay) {
++      lastSequence = Math.max(lastSequence, event.sequence_no);
++      handlers.onEvent(event);
++    }
++    if (replay.length > 0) {
++      handlers.onStatusChange?.(cachedRun(fixture, this.source));
++    }
++
++    return {
++      unsubscribe: () => undefined,
++      stop: () => undefined,
++      getLastSequence: () => lastSequence,
++      isLive: () => false,
++      whenComplete: () => Promise.resolve(),
++    };
++  }
++
++  async stopRun(runId: string): Promise<StopResult> {
++    const fixture = Object.values(HERMES_FIXTURES).find((candidate) => candidate.run_id === runId);
++    const status = fixture ? cachedRun(fixture, this.source).status : "stopped";
++    return {
++      ok: false,
++      run_id: runId,
++      status,
++      reason: "offline",
++      source: this.source,
++    };
++  }
++
++  async getProposal(proposalId?: string): Promise<NormalizedProposal | null> {
++    const id = proposalId ?? RECOVERY.proposal_id;
++    return {
++      proposal_id: id,
++      journey_id: JOURNEY.id,
++      title: { ...RECOVERY.trigger },
++      state: "proposal_only",
++      source: this.source,
++      recovery: { ...RECOVERY, proposal_id: id, source: this.source },
++      last_updated: this.lastUpdatedIso,
++    };
++  }
++
++  async submitApprovalDecision(input: ApprovalDecisionInput): Promise<ApprovalDecisionResult> {
++    return {
++      state: "approval_required",
++      server_truth: false,
++      proposal_id: input.proposal_id,
++      approval_id: input.approval_id,
++      reason: "offline",
++      retryable: true,
++      message: "Offline: destructive approval is disabled. Reconnect to refresh authoritative truth.",
++      last_updated: this.lastUpdatedIso,
++    };
++  }
++}
+diff --git a/frontend/src/features/experience-lab/adapters/recordedFixtureAdapter.ts b/frontend/src/features/experience-lab/adapters/recordedFixtureAdapter.ts
+new file mode 100644
+index 0000000..e995697
+--- /dev/null
++++ b/frontend/src/features/experience-lab/adapters/recordedFixtureAdapter.ts
+@@ -0,0 +1,459 @@
++/**
++ * RecordedFixtureAdapter — deterministic replay of the checked-in reference
++ * fixtures. It always reports `source: "RECORDED_FIXTURE"` and never claims
++ * server truth.
++ *
++ * Recorded scenario keys: `completed` (14 events, approval_required),
++ * `approved` (15 events, success), `failed` (6 events), `stopped` (5 events).
++ *
++ * Approval simulation (documented):
++ * - `selectRecordedScenario(key)` accepts either one of the four scenario keys
++ *   or an approval-outcome override: `approval:expired`,
++ *   `approval:superseded`, `approval:already_consumed`, `approval:offline`,
++ *   `approval:rejected`, `approval:review_requested`.
++ * - `submitApprovalDecision` also honors proposal-id prefixes containing
++ *   `expired`, `superseded`, `already-consumed`/`consumed`, `offline`,
++ *   `reject`, or `review`.
++ * - Repeated calls with the same `idempotency_key` return the identical
++ *   settled result (double-click safety).
++ *
++ * Replay progress is driven exclusively by `requestAnimationFrame`; this file
++ * intentionally contains no timer-based event generation.
++ */
++
++import type {
++  AgentRunEvent,
++  AgentRunFixture,
++  ApprovalState,
++  DataSource,
++  PulseState,
++  RecoveryProposal,
++} from "../types";
++import { HERMES_FIXTURES } from "./fixtures/hermesFixtures";
++import { ACTIVITIES, JOURNEY, PULSE, RECOVERY, TODAY_TIMELINE } from "./fixtures/journeyFixtures";
++import type {
++  AdapterMode,
++  ApprovalDecisionInput,
++  ApprovalDecisionResult,
++  CopilotMissionStart,
++  ExperienceAdapter,
++  MapState,
++  NormalizedAgentEvent,
++  NormalizedProposal,
++  NormalizedRun,
++  RecordedScenarioSummary,
++  RunEventHandlers,
++  RunSubscription,
++  RuntimeStatusInfo,
++  StopResult,
++} from "./contract";
++import type { RawAgentEvent } from "./normalize";
++import { EventStore, buildNormalizedRun } from "./eventStore";
++
++type RawEvent = RawAgentEvent;
++
++export const RECORDED_SCENARIO_KEYS = ["completed", "approved", "failed", "stopped"] as const;
++export type RecordedScenarioKey = (typeof RECORDED_SCENARIO_KEYS)[number];
++
++export interface RecordedRunSubscription extends RunSubscription {
++  stop: () => void;
++  whenComplete: () => Promise<void>;
++}
++
++function isRecordedScenarioKey(value: string): value is RecordedScenarioKey {
++  return (RECORDED_SCENARIO_KEYS as readonly string[]).includes(value);
++}
++
++function eventToRaw(event: AgentRunEvent, runId: string): RawEvent {
++  return {
++    id: event.id,
++    run_id: runId,
++    sequence_no: event.sequence_no,
++    event_type: event.event_type,
++    tool_name: event.tool_name,
++    timestamp: event.timestamp,
++    duration_ms: event.duration_ms,
++    approval_id: event.approval_id,
++    proposal_id: event.proposal_id,
++    summary: event.summary,
++    result: event.run_status ? { status: event.run_status } : undefined,
++    source: "HERMES_NATIVE",
++  };
++}
++
++/** Normalize a fixture into the runtime event contract under the given source. */
++export function normalizedFixtureEvents(
++  fixture: AgentRunFixture,
++  source: DataSource,
++): NormalizedAgentEvent[] {
++  const store = new EventStore({ source });
++  store.append(fixture.events.map((event) => eventToRaw(event, fixture.run_id)), {
++    source,
++    runId: fixture.run_id,
++  });
++  return store.snapshot();
++}
++
++function runFromFixture(key: RecordedScenarioKey, source: DataSource): NormalizedRun {
++  const fixture = HERMES_FIXTURES[key];
++  const events = normalizedFixtureEvents(fixture, source);
++  return buildNormalizedRun({
++    runId: fixture.run_id,
++    journeyId: JOURNEY.id,
++    runtimeIdentity: fixture.runtime_identity,
++    providerKey: fixture.provider_key,
++    modelKey: fixture.model_key,
++    events,
++    source,
++    lastUpdated: fixture.recorded_at,
++  });
++}
++
++const FIXTURE_STOP_COORDS: Record<string, [number, number]> = {
++  "act-morning-walk": [117.2005, 39.1168],
++  "act-river-cruise": [117.2108, 39.1264],
++  "act-market-window": [117.2163, 39.1322],
++  "act-museum": [117.2224, 39.1375],
++  "act-hotel": [117.228, 39.1402],
++  "act-departure": [117.2295, 39.1418],
++};
++
++/** Build the fixture map projection from `journeyFixtures` activities. */
++export function buildFixtureMapState(source: DataSource, lastUpdated: string): MapState {
++  const located = ACTIVITIES.filter((activity) => FIXTURE_STOP_COORDS[activity.id] !== undefined);
++  const coordinates = located.map((activity) => FIXTURE_STOP_COORDS[activity.id]);
++  const longitudes = coordinates.map((coordinate) => coordinate[0]);
++  const latitudes = coordinates.map((coordinate) => coordinate[1]);
++  const minLng = Math.min(...longitudes);
++  const maxLng = Math.max(...longitudes);
++  const minLat = Math.min(...latitudes);
++  const maxLat = Math.max(...latitudes);
++  return {
++    journey_id: JOURNEY.id,
++    route: {
++      type: "Feature",
++      properties: { provenance: "recorded-fixture://route-rain-003" },
++      geometry: { type: "LineString", coordinates },
++    },
++    stops: located.map((activity) => ({
++      id: activity.id,
++      name: activity.title.en,
++      coordinate: FIXTURE_STOP_COORDS[activity.id],
++      protected: activity.protected,
++    })),
++    bounds: [
++      [minLng, minLat],
++      [maxLng, maxLat],
++    ],
++    center: [(minLng + maxLng) / 2, (minLat + maxLat) / 2],
++    source,
++    last_updated: lastUpdated,
++  };
++}
++
++type ApprovalOutcome =
++  | "approved"
++  | "expired"
++  | "superseded"
++  | "already_consumed"
++  | "offline"
++  | "rejected"
++  | "review_requested";
++
++function outcomeFromProposalId(proposalId: string): ApprovalOutcome | null {
++  const value = proposalId.toLowerCase();
++  if (value.includes("expired")) return "expired";
++  if (value.includes("superseded")) return "superseded";
++  if (value.includes("already-consumed") || value.includes("already_consumed")) return "already_consumed";
++  if (value.includes("consumed")) return "already_consumed";
++  if (value.includes("offline")) return "offline";
++  if (value.includes("reject")) return "rejected";
++  if (value.includes("review")) return "review_requested";
++  return null;
++}
++
++/** Schedule one replay step. Uses rAF in browsers, microtasks in Node. */
++function scheduleFrame(callback: () => void): () => void {
++  if (typeof requestAnimationFrame === "function") {
++    const handle = requestAnimationFrame(() => callback());
++    return () => cancelAnimationFrame(handle);
++  }
++  let cancelled = false;
++  queueMicrotask(() => {
++    if (!cancelled) callback();
++  });
++  return () => {
++    cancelled = true;
++  };
++}
++
++export class RecordedFixtureAdapter implements ExperienceAdapter {
++  readonly mode: AdapterMode = "recorded";
++  readonly source: DataSource = "RECORDED_FIXTURE";
++
++  private scenarioKey: RecordedScenarioKey = "completed";
++  private approvalOutcomeOverride: ApprovalOutcome | null = null;
++  private readonly idempotencyResults = new Map<string, ApprovalDecisionResult>();
++  private readonly proposalResults = new Map<string, ApprovalDecisionResult>();
++
++  /** Select a recorded scenario or an approval-outcome override (see header). */
++  selectRecordedScenario(key: string): void {
++    if (isRecordedScenarioKey(key)) {
++      this.scenarioKey = key;
++      this.approvalOutcomeOverride = null;
++      return;
++    }
++    this.approvalOutcomeOverride = key.startsWith("approval:")
++      ? (key.slice("approval:".length) as ApprovalOutcome)
++      : (key as ApprovalOutcome);
++  }
++
++  listRecordedScenarios(): RecordedScenarioSummary[] {
++    return RECORDED_SCENARIO_KEYS.map((key) => {
++      const fixture = HERMES_FIXTURES[key];
++      return {
++        key,
++        label: fixture.scenario,
++        run_status: runFromFixture(key, this.source).status,
++        event_count: fixture.events.length,
++      };
++    });
++  }
++
++  async getJourneyPulse(): Promise<PulseState> {
++    return { ...PULSE, risk: { ...PULSE.risk, source: this.source } };
++  }
++
++  async getRuntimeStatus(): Promise<RuntimeStatusInfo> {
++    return {
++      identity: HERMES_FIXTURES[this.scenarioKey].runtime_identity,
++      status: "ready",
++      source: this.source,
++      last_updated: this.lastUpdated(),
++      detail: "Recorded fixture replay. No live Hermes run is executing.",
++    };
++  }
++
++  async getRecoveryDiff(proposalId?: string): Promise<RecoveryProposal | null> {
++    return {
++      ...RECOVERY,
++      proposal_id: proposalId ?? RECOVERY.proposal_id,
++      source: this.source,
++    };
++  }
++
++  async getMapState(): Promise<MapState> {
++    return buildFixtureMapState(this.source, this.lastUpdated());
++  }
++
++  async getTodayTimeline() {
++    return TODAY_TIMELINE.map((item) => ({ ...item, title: { ...item.title } }));
++  }
++
++  async startCopilotMission(input: { message: string; locale: "en" | "zh-CN" }): Promise<CopilotMissionStart> {
++    const wantsReplan = /replan|alternative|rain|swap|change|雨|替代|换/i.test(input.message);
++    const key = this.scenarioKey;
++    const run = runFromFixture(key, this.source);
++    return {
++      mission_id: `mission-fixture-${key}`,
++      run,
++      semantic_intent: wantsReplan ? "REQUEST_REPLAN" : "WHAT_IF",
++      answer: wantsReplan
++        ? "Recorded Hermes-style run selected. The timeline below replays recorded events only."
++        : "Preview only. The protected 09:30 cruise is unchanged and no mutation occurs.",
++      source: this.source,
++    };
++  }
++
++  async getRun(runId: string): Promise<NormalizedRun | null> {
++    const key = RECORDED_SCENARIO_KEYS.find((candidate) => HERMES_FIXTURES[candidate].run_id === runId);
++    return key ? runFromFixture(key, this.source) : null;
++  }
++
++  subscribeRunEvents(
++    runId: string,
++    handlers: RunEventHandlers,
++    options?: { since_sequence?: number },
++  ): RecordedRunSubscription {
++    const key =
++      RECORDED_SCENARIO_KEYS.find((candidate) => HERMES_FIXTURES[candidate].run_id === runId) ??
++      this.scenarioKey;
++    const fixture = HERMES_FIXTURES[key];
++    const allEvents = normalizedFixtureEvents(fixture, this.source);
++    const lastEventReceivedAt = fixture.recorded_at;
++    const since = options?.since_sequence ?? 0;
++    const replay = allEvents.filter((event) => event.sequence_no > since);
++
++    let lastSequence = since;
++    let index = 0;
++    let cancelled = false;
++    let cancelFrame: (() => void) | null = null;
++    let resolveComplete: () => void = () => undefined;
++    const completion = new Promise<void>((resolve) => {
++      resolveComplete = resolve;
++    });
++
++    const statusAt = (sequence: number): NormalizedRun =>
++      buildNormalizedRun({
++        runId: fixture.run_id,
++        journeyId: JOURNEY.id,
++        runtimeIdentity: fixture.runtime_identity,
++        providerKey: fixture.provider_key,
++        modelKey: fixture.model_key,
++        events: allEvents.filter((event) => event.sequence_no <= sequence),
++        source: this.source,
++        lastUpdated: lastEventReceivedAt,
++      });
++
++    handlers.onStatusChange?.(statusAt(since));
++
++    const step = () => {
++      if (cancelled) return;
++      if (index >= replay.length) {
++        resolveComplete();
++        return;
++      }
++      const event = replay[index];
++      index += 1;
++      lastSequence = Math.max(lastSequence, event.sequence_no);
++      handlers.onEvent(event);
++      handlers.onStatusChange?.(statusAt(lastSequence));
++      cancelFrame = scheduleFrame(step);
++    };
++    cancelFrame = scheduleFrame(step);
++
++    const stop = () => {
++      if (cancelled) return;
++      cancelled = true;
++      cancelFrame?.();
++      cancelFrame = null;
++      resolveComplete();
++    };
++
++    return {
++      unsubscribe: stop,
++      stop,
++      getLastSequence: () => lastSequence,
++      isLive: () => false,
++      whenComplete: () => completion,
++    };
++  }
++
++  async stopRun(runId: string): Promise<StopResult> {
++    return {
++      ok: true,
++      run_id: runId,
++      status: "stopped",
++      reason: "recorded replay stopped locally; no server event fabricated",
++      source: this.source,
++    };
++  }
++
++  async getProposal(proposalId?: string): Promise<NormalizedProposal | null> {
++    const id = proposalId ?? "proposal-fixture-002";
++    const settled = this.proposalResults.get(id);
++    let state: ApprovalState;
++    if (settled) state = settled.state;
++    else if (this.scenarioKey === "approved") state = "approved";
++    else if (this.scenarioKey === "completed") state = "approval_required";
++    else state = "proposal_only";
++    const approvalId =
++      id === "proposal-fixture-002" ? "approval-fixture-002" : settled?.approval_id;
++    return {
++      proposal_id: id,
++      journey_id: JOURNEY.id,
++      title: { ...RECOVERY.trigger },
++      state,
++      approval_id: approvalId,
++      source: this.source,
++      recovery: { ...RECOVERY, proposal_id: id, source: this.source },
++      last_updated: this.lastUpdated(),
++    };
++  }
++
++  async submitApprovalDecision(input: ApprovalDecisionInput): Promise<ApprovalDecisionResult> {
++    const cached = this.idempotencyResults.get(input.idempotency_key);
++    if (cached) return { ...cached };
++    const lastUpdated = new Date().toISOString();
++
++    if (!input.online) {
++      return this.settle(
++        input,
++        "approval_required",
++        "offline",
++        true,
++        "Offline: recorded approval is disabled until connectivity returns.",
++        lastUpdated,
++      );
++    }
++    if (input.decision === "reject") {
++      return this.settle(input, "rejected", undefined, false, "Recorded rejection settled. Current plan kept.", lastUpdated);
++    }
++    if (input.decision === "review_requested") {
++      return this.settle(
++        input,
++        "review_requested",
++        undefined,
++        true,
++        "Review requested. The recorded proposal returns to review.",
++        lastUpdated,
++      );
++    }
++
++    const outcome = this.approvalOutcomeOverride ?? outcomeFromProposalId(input.proposal_id);
++    switch (outcome) {
++      case "expired":
++        return this.settle(input, "approval_required", "expired", false, "Recorded approval expired. Refresh for a new proposal.", lastUpdated);
++      case "superseded":
++        return this.settle(input, "approval_required", "superseded", false, "Recorded proposal was superseded by newer truth.", lastUpdated);
++      case "already_consumed":
++        return this.settle(input, "approved", "already_consumed", false, "Recorded approval was already consumed; no new transition occurred.", lastUpdated);
++      case "offline":
++        return this.settle(input, "approval_required", "offline", true, "Offline: recorded approval is disabled until connectivity returns.", lastUpdated);
++      case "rejected":
++        return this.settle(input, "rejected", undefined, false, "Recorded rejection settled. Current plan kept.", lastUpdated);
++      case "review_requested":
++        return this.settle(input, "review_requested", undefined, true, "Review requested. The recorded proposal returns to review.", lastUpdated);
++      default:
++        return this.settle(
++          input,
++          "approved",
++          undefined,
++          false,
++          "Recorded approval accepted in reference mode. No backend mutation and no server truth claim.",
++          lastUpdated,
++        );
++    }
++  }
++
++  getLastUpdated(): string {
++    return this.lastUpdated();
++  }
++
++  private lastUpdated(): string {
++    return HERMES_FIXTURES[this.scenarioKey].recorded_at;
++  }
++
++  private settle(
++    input: ApprovalDecisionInput,
++    state: ApprovalState,
++    reason: ApprovalDecisionResult["reason"],
++    retryable: boolean,
++    message: string,
++    lastUpdated: string,
++  ): ApprovalDecisionResult {
++    const result: ApprovalDecisionResult = {
++      state,
++      server_truth: false,
++      proposal_id: input.proposal_id,
++      approval_id: input.approval_id,
++      reason,
++      retryable,
++      message,
++      last_updated: lastUpdated,
++    };
++    this.idempotencyResults.set(input.idempotency_key, result);
++    this.proposalResults.set(input.proposal_id, result);
++    return { ...result };
++  }
++}

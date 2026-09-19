@@ -1,0 +1,107 @@
+{
+ "results": [
+  {
+   "id": "01 / 进入新产品",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "02 自动推断国家/货币/时区",
+   "ok": true,
+   "note": "已自动设置：中国 · 人民币 · 中国标准时间"
+  },
+  {
+   "id": "03 三步创建流程",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "04 AI 规划面板打开",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "05 诚实规划进度/结果",
+   "ok": true,
+   "note": "AI 暂时不可用"
+  },
+  {
+   "id": "06 比较候选方案",
+   "ok": true,
+   "note": "cards=3"
+  },
+  {
+   "id": "07 采用方案",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "08 逐日行程详情",
+   "ok": true,
+   "note": "stops=6"
+  },
+  {
+   "id": "09 活动详情(时间+时长)",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "10 住宿入口可见",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "11 地图正确/诚实空态",
+   "ok": true,
+   "note": "empty-state"
+  },
+  {
+   "id": "12 Copilot 回答问题",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "13 无原始枚举泄露",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "14 预订/钱包不白屏",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "15 语言切换不破坏流程",
+   "ok": true,
+   "note": "菜单 -> Menu"
+  },
+  {
+   "id": "16 后端断开可恢复",
+   "ok": true,
+   "note": "连接 | "
+  },
+  {
+   "id": "17 GPS 拒绝仍可用",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "18 Live 可进入",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "id": "19 430x932 无横向溢出",
+   "ok": true,
+   "note": "sw=430 cw=430"
+  },
+  {
+   "id": "20 主导航 = 今天/行程/地图/Copilot/我的",
+   "ok": true,
+   "note": "今天/行程/地图/Copilot/我的"
+  }
+ ],
+ "errors": [
+  "C:Failed to load resource: net::ERR_FAILED"
+ ]
+}

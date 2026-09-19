@@ -1,0 +1,10 @@
+﻿python.exe : Traceback (most recent call last):
+所在位置 行:445 字符: 1
++ & "D:\moodle\CityNexus\.venv\Scripts\python.exe" -c "
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last) 
+   ::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 4, in <module>
+sqlite3.OperationalError: no such column: commitment_type

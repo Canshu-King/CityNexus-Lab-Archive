@@ -1,0 +1,17 @@
+{
+ "backend": {
+  "selected_option_id": null,
+  "active_plan": null,
+  "options": 10
+ },
+ "studio": {
+  "selectedStayBlock": "汉庭酒店 hotel ¥0.00 合计",
+  "costLines": "住宿总计 ¥0.00 日均出行 ¥16.00 步行暴露 22 min 方案健康度 受保护 · 417 分钟余量",
+  "feasibility": "已通过全部安全检查 到达、出发、预算和受保护承诺已验证。",
+  "dayDetails": 3,
+  "selectedStayLabel": "已选住宿 更换"
+ },
+ "tripsSpend": "花费 这趟旅行花多少 预算 CNY 3000；当前方案 0 个活动。 总预算 CNY 3000 住宿合计（已选） 暂无价格 活动数量 0 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check in · 汉庭酒店 ○ Overnight · 汉庭酒店 02 Saturday · 07 Nov STAY anchor · WALK • Overnight · 汉庭酒店 03 Sunday · 08 Nov DEPARTURE anchor · AUTO • Check out · 汉庭酒店 受保护 ○ 厦门北站 已选住宿 更换 汉庭酒店 hotel ¥0.00 合计 住宿",
+ "todayStay": "还没有选定",
+ "errors": []
+}

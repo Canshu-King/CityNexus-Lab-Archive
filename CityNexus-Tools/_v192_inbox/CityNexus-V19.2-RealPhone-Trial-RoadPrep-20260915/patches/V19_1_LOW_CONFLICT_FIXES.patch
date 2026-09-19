@@ -1,0 +1,120 @@
+# V19.1 Convergence Red-Team — low-conflict production fixes
+#
+# THREE changes to backend/app/capabilities.py.  Nothing else is touched.
+#
+#   1. canonicalize_capabilities: dedup key is (scope, code), not code.
+#      -> fixes a REGRESSION: a TRAVELER-scoped and a JOURNEY-scoped need of the
+#         same code currently collapse into one row and the second is discarded.
+#
+#   2. normalize_osm_tags: unwrap a list/tuple used as a mapping value.
+#      -> fixes silent tag loss: {"wheelchair": ["yes"]} normalised to
+#         {"wheelchair": "['yes']"} and matched nothing downstream.
+#
+#   3. evaluate_accessibility_requirement: treat step_count / steps /
+#      highway=steps as stair evidence.
+#      -> fixes wheelchair=yes + step_count=5 being reported as
+#         ACCESSIBILITY_UNVERIFIED instead of ACCESSIBILITY_CONFLICT.
+#
+# Measured on Snapshot C (2026-09-15 13:47:07), scratch copy:
+#     before   54 failed / 119 passed / 15 skipped
+#     after    46 failed / 127 passed / 15 skipped
+# i.e. all 8 new provider-evidence defects fixed, the cross-scope regression
+# fixed, and every guard still holds.
+#
+# Apply from the repository root:
+#     git apply --check patches/V19_1_LOW_CONFLICT_FIXES.patch
+#     git apply         patches/V19_1_LOW_CONFLICT_FIXES.patch
+#
+# Generated against the main tree at 13:47:07.  Codex was still editing at
+# 13:54; re-run --check before applying.
+diff --git a/backend/app/capabilities.py b/backend/app/capabilities.py
+index 456e90a..fd67a1c 100644
+--- a/backend/app/capabilities.py
++++ b/backend/app/capabilities.py
+--- a/backend/app/capabilities.py
++++ b/backend/app/capabilities.py
+@@ -326,7 +326,9 @@
+     """Validate model/API candidates and enforce hard-severity invariants."""
+ 
+     result: list[dict[str, Any]] = []
+-    seen: dict[str, dict[str, Any]] = {}
++    # Keyed on (scope, code): a TRAVELER-scoped need and a JOURNEY-scoped need
++    # of the same code are two different requirements and must both survive.
++    seen: dict[tuple[Any, str], dict[str, Any]] = {}
+     for raw in candidates or ():
+         if not isinstance(raw, Mapping):
+             continue
+@@ -362,9 +364,10 @@
+             confirmed=bool(raw.get("confirmed", confirmed)),
+         )
+         payload = item.as_dict()
+-        previous = seen.get(code)
++        merge_key = (payload.get("scope"), code)
++        previous = seen.get(merge_key)
+         if previous is None:
+-            seen[code] = payload
++            seen[merge_key] = payload
+             result.append(payload)
+         else:
+             # Deterministic merge: HARD wins, then confirmed, then the first
+@@ -437,8 +440,21 @@
+ def normalize_osm_tags(value: Any) -> dict[str, str]:
+     """Accept provider tags as mappings or OSM-style key=value sequences."""
+     if isinstance(value, Mapping):
+-        return {str(k).strip().lower(): str(v).strip().lower() for k, v in value.items()}
+-    result: dict[str, str] = {}
++        result: dict[str, str] = {}
++        for key, raw in value.items():
++            # A provider may emit a sequence where a scalar is expected.
++            # `str(["yes"])` is "['yes']", which matches nothing downstream, so
++            # unwrap the sequence instead of silently losing the tag.
++            if isinstance(raw, (list, tuple, set)):
++                scalars = [
++                    str(part).strip().lower()
++                    for part in raw
++                    if not isinstance(part, (list, tuple, set, Mapping))
++                ]
++                raw = scalars[0] if scalars else ""
++            result[str(key).strip().lower()] = str(raw).strip().lower()
++        return result
++    result = {}
+     if isinstance(value, (list, tuple, set)):
+         for item in value:
+             if isinstance(item, Mapping):
+@@ -461,9 +477,26 @@
+         return any(str(facts.get(key, "")).lower() in {"yes", "true", "1", "verified", "accessible"} for key in keys) or any(tags.get(key) in {"yes", "true", "1"} for key in keys)
+     def false(*keys: str) -> bool:
+         return any(str(facts.get(key, "")).lower() in {"no", "false", "0", "inaccessible", "stairs"} for key in keys) or any(tags.get(key) in {"no", "false", "0"} for key in keys)
++    def stairs_present() -> bool:
++        """Any provider signal that says stairs are on the way.
++
++        `wheelchair=yes` beside `step_count=5` is a contradiction in the
++        provider data itself, so it must surface as CONFLICT rather than being
++        folded into the generic UNVERIFIED bucket.
++        """
++        if truth("stairs", "has_stairs"):
++            return True
++        if tags.get("steps") in {"yes", "true", "1", "stepped"}:
++            return True
++        if tags.get("highway") in {"steps", "stepping_stones"}:
++            return True
++        try:
++            return int(str(tags.get("step_count", "")).strip() or 0) > 0
++        except (TypeError, ValueError):
++            return False
+     is_route = str(facts.get("subject") or facts.get("scope") or "").lower() in {"route", "path", "itinerary"}
+     if code == "STEP_FREE_REQUIRED":
+-        if truth("stairs", "has_stairs"):
++        if stairs_present():
+             return "ACCESSIBILITY_CONFLICT"
+         if is_route and not truth("route_step_free", "step_free_route", "route_step_free_verified"):
+             return "NEEDS_LIVE_EVIDENCE"
+@@ -473,7 +506,7 @@
+             return "ACCESSIBILITY_VERIFIED"
+         return "ACCESSIBILITY_UNVERIFIED"
+     if code == "AVOID_STAIRS":
+-        if truth("stairs", "has_stairs"):
++        if stairs_present():
+             return "ACCESSIBILITY_CONFLICT"
+         if false("stairs", "has_stairs") or truth("step_free", "step_free_verified"):
+             return "ACCESSIBILITY_VERIFIED"

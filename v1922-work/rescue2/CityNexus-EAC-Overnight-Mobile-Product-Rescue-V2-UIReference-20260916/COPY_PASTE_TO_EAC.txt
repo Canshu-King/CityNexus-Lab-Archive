@@ -1,0 +1,45 @@
+Use the attached package:
+
+CityNexus-EAC-Overnight-Mobile-Product-Rescue-V2-UIReference-20260916.zip
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+The user is going to sleep.
+
+This V2 package supersedes the previous overnight mobile-product rescue task.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/EAC_OVERNIGHT_MASTER_MISSION.md
+
+in full.
+
+Important:
+- the 10 UI images are product references, not pixel-perfect commands;
+- docs/DESIGN_CORRECTIONS_REQUIRED.md overrides any inconsistent demo text in the generated images;
+- official bottom navigation is Today / Trips / Map / Copilot / Me;
+- complete the V19.2.5 backend-truth hotfix first, then spend most of the 8–9 hour run on real mobile product usability;
+- use the real browser like a first-time traveler;
+- keep finding and fixing P0/P1 issues after the first green build;
+- do not stop early;
+- do not start unrelated architecture expansion.
+
+By morning produce:
+
+CityNexus-EAC-Overnight-Mobile-Product-Rescue-V2-20260916.zip
+
+Final verdict only:
+
+BLOCKED_FOR_REAL_USER_TRIAL
+
+or
+
+READY_FOR_XIAOMI_13_ULTRA_USER_TRIAL
+
+Start now.

@@ -1,0 +1,780 @@
+class StayItineraryConflict(RuntimeError):
+    """The pinned calendar cannot fit the traveller's itinerary."""
+
+
+def _enforce_sequence(
+    nodes: list[GraphNode], *, journey: Journey | None = None
+) -> list[GraphNode]:
+    """Final ordering check for an already-built calendar.
+
+    The calendar reserves pinned truth first, so this pass must never move a
+    pinned node.  It only nudges genuinely flexible nodes that would otherwise
+    sit closer than the journey's mobility evidence allows.
+    """
+
+    if len(nodes) < 2:
+        return nodes
+    ordered = sorted(
+        nodes,
+        key=lambda node: (
+            datetime.fromisoformat(node.start_at),
+            0 if str(node.role).upper() == "ARRIVAL" else 1 if str(node.role).upper() == "DEPARTURE" else 2,
+        ),
+    )
+    # Both structural anchors are locked Journey truth: they define the window
+    # the gate validates against, so they must never be pushed later.
+    pinned_roles = {"ARRIVAL", "DEPARTURE"}
+    fixed: list[GraphNode] = []
+    cursor: datetime | None = None
+    previous: GraphNode | None = None
+    for node in ordered:
+        start = datetime.fromisoformat(node.start_at)
+        end = datetime.fromisoformat(node.end_at)
+        duration = max(timedelta(minutes=15), end - start)
+        if (
+            str(node.role).upper() in pinned_roles
+            or bool(node.locked)
+            or cursor is None
+        ):
+            # Pinned anchors and locked truth keep their authoritative window;
+            # everything else is scheduled around them.
+            fixed.append(node)
+            cursor = max(cursor, end) if cursor is not None else end
+            previous = node
+            continue
+        # A stay node is not a destination to travel to; it is where the night
+        # is spent.  Adding a sightseeing travel gap here pushed check-in to
+        # 17:40 and the second night to 01:45.
+        # A stay node is where the night is spent, not a place to travel to:
+        # neither side of a stay leg contributes a sightseeing travel gap.
+        stay_involved = (
+            str(node.role).upper() == "STAY"
+            or (previous is not None and str(previous.role).upper() == "STAY")
+        )
+        if stay_involved:
+            gap = timedelta(0)
+        else:
+            gap = (
+                timedelta(minutes=_travel_minutes(previous, node, journey=journey))
+                if previous is not None
+                else timedelta(0)
+            )
+        new_start = max(start, cursor + gap)
+        new_end = new_start + duration
+        fixed.append(
+            GraphNode(
+                key=node.key,
+                title=node.title,
+                role=node.role,
+                start_at=new_start.isoformat(),
+                end_at=new_end.isoformat(),
+                latitude=node.latitude,
+                longitude=node.longitude,
+                place_key=node.place_key,
+                locked=node.locked,
+                estimated_cost_minor=node.estimated_cost_minor,
+                cost_status=node.cost_status,
+            )
+        )
+        cursor = new_end
+        previous = fixed[-1]
+    return fixed
+
+
+def _travel_minutes(
+    a: GraphNode | None,
+    b: GraphNode,
+    *,
+    journey: Journey | None = None,
+) -> int:
+    """Inter-stop travel time, from the same generator the gate will validate.
+
+    ``_mode_fact`` produces every stay-graph leg duration, and the feasibility
+    gate checks those exact facts.  Using anything else here (a distance
+    heuristic, a different provider) yields a schedule that looks feasible at
+    planning time and then fails ``INSUFFICIENT_TRAVEL_GAP``.
+    """
+
+    if a is None:
+        return 0
+    shared = _shared_prefix_len(str(a.key), str(b.key))
+    if shared >= 12:
+        # Same complex: no meaningful leg.
+        return 5
+    if journey is not None:
+        try:
+            fact = _mode_fact(
+                journey.id, None, a, b, "WALK", journey.budget_currency
+            )
+            return max(0, int(fact.duration_min))
+        except Exception:
+            pass
+    return max(5, math.ceil(_distance_m(a, b) / 350) + 4)
+
+
+def _shared_prefix_len(a: str, b: str) -> int:
+    count = 0
+    for x, y in zip(a, b):
+        if x != y:
+            break
+        count += 1
+    return count
+
+
+def _distance_m(a: GraphNode, b: GraphNode) -> int:
+    lat_scale = 111_320.0
+    lon_scale = 111_320.0 * math.cos(math.radians((a.latitude + b.latitude) / 2))
+    return max(
+        80,
+        int(
+            math.hypot(
+                (a.latitude - b.latitude) * lat_scale, (a.longitude - b.longitude) * lon_scale
+            )
+        ),
+    )
+
+
+def _mode_fact(
+    journey_id: str,
+    option_id: str | None,
+    from_node: GraphNode,
+    to_node: GraphNode,
+    mode: str,
+    currency: str = "CNY",
+) -> MobilityFact:
+    distance = _distance_m(from_node, to_node)
+    profiles = {
+        "WALK": (
+            max(5, math.ceil(distance / 75)),
+            0,
+            "FREE_KNOWN",
+            None,
+            0,
+            "HIGH",
+            0.82,
+            False,
+        ),
+        "BICYCLE": (
+            max(4, math.ceil(distance / 210)),
+            None,
+            "UNKNOWN",
+            5,
+            0,
+            "MEDIUM",
+            0.78,
+            True,
+        ),
+        "TRANSIT": (
+            max(8, math.ceil(distance / 330) + 6),
+            None,
+            "UNKNOWN",
+            5,
+            1,
+            "LOW",
+            0.91,
+            True,
+        ),
+        "AUTO": (
+            max(5, math.ceil(distance / 430) + 3),
+            None,
+            "UNKNOWN",
+            2,
+            0,
+            "LOW",
+            0.88,
+            True,
+        ),
+        "RIDE_HAIL": (
+            max(5, math.ceil(distance / 420) + 4),
+            None,
+            "UNKNOWN",
+            2,
+            0,
+            "LOW",
+            0.84,
+            True,
+        ),
+    }
+    duration, cost_major, cost_status, walking, transfers, exposure, reliability, paid = (
+        profiles[mode]
+    )
+    normalized_currency = str(currency or "CNY").upper()
+    estimate = SYNTHETIC_ESTIMATE_MAJOR_BY_CURRENCY.get(normalized_currency, {}).get(mode)
+    if mode not in {"WALK", "RIDE_HAIL"} and estimate is not None:
+        cost_major = estimate
+        cost_status = "ESTIMATED"
+    cost = major_to_minor(cost_major, normalized_currency) if cost_major is not None else None
+    if mode == "WALK":
+        walking = duration
+    captured = _now()
+    geometry = {
+        "type": "Feature",
+        "properties": {"provider": "citynexus-synthetic-fixture", "mode": mode, "crs": "WGS84"},
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [
+                [from_node.longitude, from_node.latitude],
+                [to_node.longitude, to_node.latitude],
+            ],
+        },
+    }
+    return MobilityFact(
+        id=str(uuid4()),
+        journey_id=journey_id,
+        option_id=option_id,
+        from_key=from_node.key,
+        to_key=to_node.key,
+        mode=mode,
+        duration_min=int(duration),
+        distance_m=distance,
+        cost_amount_minor=cost,
+        currency=normalized_currency if cost is not None else None,
+        cost_status=cost_status,
+        walking_min=int(walking or 0),
+        transfers=int(transfers),
+        weather_exposure=exposure,
+        reliability_score=float(reliability),
+        provider_key="citynexus-synthetic-fixture",
+        provenance="SYNTHETIC_FIXTURE",
+        geometry_json=_json(geometry),
+        crs="WGS84",
+        paid_mode=paid,
+        evidence_json=_json(
+            {
+                "fact_type": "normalized_route_leg",
+                "provider_status": "SYNTHETIC_FIXTURE",
+                "cost_status": cost_status,
+                "cost_provenance": "CITYNEXUS_ESTIMATE" if cost_status == "ESTIMATED" else ("FREE_KNOWN" if mode == "WALK" else "UNKNOWN"),
+                "coordinate_boundary": "captured provider coordinates normalized to WGS84",
+            }
+        ),
+        captured_at=captured,
+        expires_at=(datetime.now(timezone.utc) + timedelta(hours=4)).isoformat(),
+    )
+
+
+def capture_mobility_facts(
+    session: Session, journey: Journey, offer: AccommodationOfferSnapshot
+) -> list[MobilityFact]:
+    nodes = build_candidate_nodes(session, journey, offer)
+    facts: list[MobilityFact] = []
+    for from_node, to_node in zip(nodes, nodes[1:]):
+        for mode in MODES:
+            existing = session.scalar(
+                select(MobilityFact).where(
+                    MobilityFact.journey_id == journey.id,
+                    MobilityFact.from_key == from_node.key,
+                    MobilityFact.to_key == to_node.key,
+                    MobilityFact.mode == mode,
+                )
+            )
+            if existing is None:
+                existing = _mode_fact(
+                    journey.id,
+                    None,
+                    from_node,
+                    to_node,
+                    mode,
+                    journey.budget_currency,
+                )
+                session.add(existing)
+            facts.append(existing)
+    session.flush()
+    return facts
+
+
+def _day_payload(nodes: list[GraphNode], selected: dict[str, MobilityFact]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[GraphNode]] = {}
+    for node in nodes:
+        grouped.setdefault(datetime.fromisoformat(node.start_at).date().isoformat(), []).append(
+            node
+        )
+    days: list[dict[str, Any]] = []
+    for index, (local_date, items) in enumerate(sorted(grouped.items()), start=1):
+        outgoing = [
+            selected[f"{item.key}->{next_item.key}"].mode
+            for item, next_item in zip(items, items[1:])
+            if f"{item.key}->{next_item.key}" in selected
+        ]
+        anchor = next(
+            (item.role for item in items if item.role in {"ARRIVAL", "DEPARTURE"}), "STAY"
+        )
+        days.append(
+            {
+                "day": index,
+                "date": local_date,
+                "label": datetime.fromisoformat(items[0].start_at).strftime("%A · %d %b"),
+                "anchor": anchor,
+                "activities": [item.title for item in items],
+                "mode": outgoing[0] if outgoing else "WALK",
+            }
+        )
+    return days
+
+
+def generate_stay_options(
+    session: Session, journey: Journey, *, weather: str = "NORMAL"
+) -> list[StayJourneyOption]:
+    offers = capture_accommodation_offers(session, journey)
+    preference_items = planning_preference_items(session, journey.traveler_id, journey.id)
+    learned_dimensions = {
+        str(getattr(item, "preference_key", ""))
+        for item in preference_items
+        if getattr(item, "source", "") in {"LEARNED_SOFT", "EXPLICIT_MISSION"}
+    }
+    staged: list[tuple[StayJourneyOption, list[MobilityFact]]] = []
+    for provisional_rank, offer in enumerate(offers, start=1):
+        nodes = build_candidate_nodes(session, journey, offer)
+        if len(nodes) < 2:
+            continue
+        facts = capture_mobility_facts(session, journey, offer)
+        try:
+            solver_result = solve_mode_choices(
+                facts,
+                budget_minor=max(
+                    0, int(journey.budget_amount_minor) - int(offer.total_amount_minor)
+                ),
+                weather_state=weather,
+                learned_dimensions=learned_dimensions,
+            )
+        except ValueError:
+            continue
+        selected_facts = list(solver_result.selected)
+        selected_map = {f"{item.from_key}->{item.to_key}": item for item in selected_facts}
+        mobility_total = sum(int(item.cost_amount_minor or 0) for item in selected_facts)
+        walking = sum(item.walking_min for item in selected_facts)
+        latest_pre_departure = datetime.fromisoformat(nodes[-2].end_at)
+        departure_at = datetime.fromisoformat(nodes[-1].start_at)
+        final_leg = selected_map.get(f"{nodes[-2].key}->{nodes[-1].key}")
+        margin = max(
+            0,
+            int((departure_at - latest_pre_departure).total_seconds() // 60)
+            - int(final_leg.duration_min if final_leg else 0),
+        )
+        check_in = next((node for node in nodes if node.role == "CHECK_IN"), nodes[0])
+        arrival_fit = (
+            1.0
+            if datetime.fromisoformat(check_in.start_at) >= datetime.fromisoformat(nodes[0].end_at)
+            else 0.0
+        )
+        departure_fit = min(1.0, margin / 60) if margin else 0.0
+        preference_bonus = 0.08 if "low_walking" in learned_dimensions and walking <= 45 else 0.0
+        total_cost = int(offer.total_amount_minor) + mobility_total
+        score = round(
+            max(
+                0.0,
+                1.0
+                - total_cost / max(1, int(journey.budget_amount_minor)) * 0.30
+                - walking / 1500
+                + min(margin, 90) / 900
+                + (0.08 if offer.refundable else 0.0)
+                + preference_bonus,
+            ),
+            4,
+        )
+        raw_leg_map = [
+            {
+                "from_key": item.from_key,
+                "to_key": item.to_key,
+                "mode": item.mode,
+                "mobility_fact_id": item.id,
+                "cost_status": item.cost_status,
+            }
+            for item in selected_facts
+        ]
+        impact = {
+            "schedule_evidence": {
+                "protected_margin_min": margin,
+                "arrival_fit": arrival_fit,
+                "departure_fit": departure_fit,
+                "source": "actual candidate timeline and selected route durations",
+            },
+            "weather": {
+                "state": weather,
+                "protected_commitments_preserved": margin >= 0,
+            },
+            "modes_available": list(MODES),
+            "twin": {
+                "dimensions": sorted(learned_dimensions),
+                "authority": "ranking_only",
+            },
+            "mode_solver": {
+                "kind": solver_result.optimizer_kind,
+                "status": solver_result.solver_status,
+                "objective_value": solver_result.objective_value,
+                "unknown_paid_cost_selected": solver_result.unknown_paid_cost_selected,
+            },
+            "leg_mode_map": raw_leg_map,
+        }
+        existing = session.scalar(
+            select(StayJourneyOption).where(
+                StayJourneyOption.journey_id == journey.id,
+                StayJourneyOption.accommodation_offer_id == offer.id,
+            )
+        )
+        if existing is None:
+            existing = StayJourneyOption(
+                id=str(uuid4()),
+                journey_id=journey.id,
+                accommodation_offer_id=offer.id,
+                rank=100 + provisional_rank,
+                score=score,
+                status="CANDIDATE",
+                stay_total_minor=offer.total_amount_minor,
+                daily_travel_minor=mobility_total,
+                mobility_total_minor=mobility_total,
+                walking_min=walking,
+                protected_margin_min=margin,
+                arrival_fit=arrival_fit,
+                departure_fit=departure_fit,
+                cancellation_score=1.0 if offer.refundable else 0.25,
+                days_json=_json(_day_payload(nodes, selected_map)),
+                leg_modes_json=_json(raw_leg_map),
+                journey_impact_json=_json(impact),
+                hard_constraints_passed=margin >= 0,
+                optimizer_kind=solver_result.optimizer_kind,
+                weather_state=weather,
+                materialized_plan_version_id=None,
+                created_at=_now(),
+            )
+            session.add(existing)
+        else:
+            existing.rank = 100 + provisional_rank
+            existing.score = score
+            existing.weather_state = weather
+            existing.days_json = _json(_day_payload(nodes, selected_map))
+            existing.leg_modes_json = _json(raw_leg_map)
+            existing.journey_impact_json = _json(impact)
+            existing.mobility_total_minor = mobility_total
+            existing.daily_travel_minor = mobility_total
+            existing.walking_min = walking
+            existing.protected_margin_min = margin
+            existing.arrival_fit = arrival_fit
+            existing.departure_fit = departure_fit
+            existing.hard_constraints_passed = margin >= 0
+            existing.optimizer_kind = solver_result.optimizer_kind
+        session.flush()
+        for fact in selected_facts:
+            fact.option_id = existing.id
+        staged.append((existing, selected_facts))
+    session.flush()
+    ranked = sorted((item for item, _facts in staged), key=lambda item: (-item.score, item.id))
+    for rank, item in enumerate(ranked, start=1):
+        item.rank = rank
+    session.flush()
+    return ranked
+
+
+def _active_plan_payload(session: Session, journey: Journey) -> dict[str, Any] | None:
+    if not journey.active_plan_version_id:
+        return None
+    plan = session.get(PlanVersion, journey.active_plan_version_id)
+    if plan is None:
+        return None
+    activities = session.scalars(
+        select(Activity).where(Activity.plan_version_id == plan.id).order_by(Activity.sequence_no)
+    ).all()
+    legs = session.scalars(
+        select(JourneyLeg)
+        .where(JourneyLeg.plan_version_id == plan.id)
+        .order_by(JourneyLeg.sequence_no)
+    ).all()
+    protected_activity_ids = set(
+        session.scalars(
+            select(Commitment.activity_id).where(
+                Commitment.journey_id == journey.id,
+                Commitment.status == "ACTIVE",
+                Commitment.activity_id.is_not(None),
+            )
+        ).all()
+    )
+    location = session.scalar(
+        select(LocationObservation)
+        .where(LocationObservation.journey_id == journey.id)
+        .order_by(LocationObservation.captured_at.desc(), LocationObservation.id.desc())
+    )
+    disruptions = session.scalars(
+        select(Event)
+        .where(Event.journey_id == journey.id, Event.status.in_(("DETECTED", "ACKNOWLEDGED")))
+        .order_by(Event.detected_at.desc(), Event.id.desc())
+        .limit(10)
+    ).all()
+    return {
+        "id": plan.id,
+        "version_no": plan.version_no,
+        "status": plan.status,
+        "source": plan.source,
+        "mobility_snapshot_id": plan.mobility_snapshot_id,
+        "mobility_evidence": {
+            "snapshot_id": plan.mobility_snapshot_id,
+            "expires_at": _load(plan.mobility_evidence_json, {}).get("expires_at"),
+            "aggregate_provenance": _load(plan.mobility_evidence_json, {}).get("aggregate_provenance"),
+            "replayable": bool(plan.mobility_evidence_json),
+        },
+        "current_activity_id": journey.current_activity_id,
+        "activities": [
+            {
+                "id": item.id,
+                "sequence_no": item.sequence_no,
+                "type": item.activity_type,
+                "title": item.title,
+                "start_at": item.start_at,
+                "end_at": item.end_at,
+                "locked": bool(item.locked),
+                "protected": item.id in protected_activity_ids,
+                "metadata": _load(item.metadata_json, {}),
+            }
+            for item in activities
+        ],
+        "legs": [journey_leg_payload(item) for item in legs],
+        "user_location": {
+            "latitude": location.latitude,
+            "longitude": location.longitude,
+            "accuracy_m": location.accuracy_m,
+            "captured_at": location.captured_at,
+            "source": location.source,
+        }
+        if location
+        else None,
+        "disruptions": [
+            {
+                "id": item.id,
+                "type": item.event_type,
+                "severity": item.severity,
+                "affected_activity_id": item.affected_activity_id,
+                "occurred_at": item.occurred_at,
+                "payload": _load(item.payload_json, {}),
+            }
+            for item in disruptions
+        ],
+    }
+
+
+def experience_payload(session: Session, journey: Journey) -> dict[str, Any]:
+    context = _context(session, journey)
+    operations = _operations_context(session, journey)
+    preference_items = planning_preference_items(session, journey.traveler_id, journey.id)
+    traveler_snapshot = refresh_snapshot(session, journey.traveler_id)
+    traveler_twin = snapshot_payload(traveler_snapshot)
+    offers = session.scalars(
+        select(AccommodationOfferSnapshot)
+        .where(AccommodationOfferSnapshot.journey_id == journey.id)
+        .order_by(AccommodationOfferSnapshot.total_amount_minor)
+    ).all()
+    options = session.scalars(
+        select(StayJourneyOption)
+        .where(StayJourneyOption.journey_id == journey.id)
+        .order_by(StayJourneyOption.rank)
+    ).all()
+    facts = session.scalars(
+        select(MobilityFact)
+        .where(MobilityFact.journey_id == journey.id)
+        .order_by(MobilityFact.from_key, MobilityFact.to_key, MobilityFact.mode)
+    ).all()
+    selected = next((item for item in options if item.status == "SELECTED"), None)
+    return {
+        "journey": {
+            "id": journey.id,
+            "traveler_id": journey.traveler_id,
+            "title": journey.title,
+            "city_code": journey.city_code,
+            "timezone": journey.timezone,
+            "start_at": journey.start_at,
+            "end_at": journey.end_at,
+            "status": journey.status,
+            "active_plan_version_id": journey.active_plan_version_id,
+            "budget": {
+                "amount_minor": journey.budget_amount_minor,
+                "currency": journey.budget_currency,
+            },
+        },
+        "trip": {
+            "arrival_anchor": _anchor(context, journey, "arrival"),
+            "departure_anchor": _anchor(context, journey, "departure"),
+            "party_size": context.party_size,
+            "occupancy": _load(context.occupancy_json, {}),
+            "stay_budget": {
+                "amount_minor": context.stay_budget_amount_minor,
+                "currency": context.stay_budget_currency,
+            },
+            "baggage": {
+                "present": bool(operations.baggage_present),
+                "size_class": operations.baggage_size_class,
+                "luggage_drop_required": bool(operations.luggage_drop_required),
+            },
+        },
+        "offers": [offer_payload(item) for item in offers],
+        "options": [option_payload(item, offers) for item in options],
+        "selected_option_id": selected.id if selected else None,
+        "mobility_facts": [fact_payload(item) for item in facts],
+        "active_plan": _active_plan_payload(session, journey),
+        "traveler_twin": {
+            "explicit_dimensions": sorted(
+                {
+                    str(getattr(item, "preference_key", ""))
+                    for item in preference_items
+                    if getattr(item, "source", "") != "LEARNED_SOFT"
+                }
+            ),
+            "learned_soft_dimensions": sorted(
+                {
+                    str(getattr(item, "preference_key", ""))
+                    for item in preference_items
+                    if getattr(item, "source", "") == "LEARNED_SOFT"
+                }
+            ),
+            "authority": "soft_planning_input_only",
+            "explicit_capabilities": traveler_twin.get("explicit_capabilities", []),
+            "capability_summary": traveler_twin.get("capability_summary", {}),
+        },
+        "provider_mesh": {
+            "accommodation": {
+                "captured": {
+                    "provider_key": CapturedAccommodationProvider.provider_key,
+                    "status": "READY" if offers else "UNAVAILABLE_FOR_CITY",
+                    "provenance": "CAPTURED_REPLAY",
+                },
+                "live": {
+                    "provider_key": LiveAccommodationProvider.provider_key,
+                    "status": "NOT_CONFIGURED",
+                },
+            },
+            "mobility": {
+                "amap": {
+                    "status": "READY" if os.getenv("AMAP_WEB_KEY") else "NOT_CONFIGURED",
+                    "captured_fallback": "READY"
+                    if city_fixture(journey.city_code)
+                    else "UNAVAILABLE_FOR_CITY",
+                    "coordinate_crs": "GCJ02 at provider boundary; canonical domain WGS84",
+                },
+                "valhalla": {"status": "NOT_CONFIGURED"},
+                "transit_realtime": {"status": "UNKNOWN_REALTIME"},
+                "ride_hail": {"status": "UNKNOWN_COST"},
+            },
+        },
+    }
+
+
+def offer_payload(item: AccommodationOfferSnapshot) -> dict[str, Any]:
+    expired = bool(
+        item.expires_at and datetime.fromisoformat(item.expires_at) <= datetime.now(timezone.utc)
+    )
+    return {
+        "id": item.id,
+        "external_offer_id": item.external_offer_id,
+        "provider_key": item.provider_key,
+        "property_name": item.property_name,
+        "location": {
+            "latitude": item.latitude,
+            "longitude": item.longitude,
+            "crs": item.coordinate_crs,
+        },
+        "room_type": item.room_type,
+        "occupancy": _load(item.occupancy_json, {}),
+        "check_in_at": item.check_in_at,
+        "check_out_at": item.check_out_at,
+        "nightly_amount_minor": item.nightly_amount_minor,
+        "taxes_amount_minor": item.taxes_amount_minor,
+        "total_amount_minor": item.total_amount_minor,
+        "currency": item.currency,
+        "cancellation_policy": _load(item.cancellation_policy_json, {}),
+        "luggage_drop": _load(item.luggage_drop_json, {}),
+        "refundable": bool(item.refundable),
+        "evidence": _load(item.evidence_json, {}),
+        "captured_at": item.captured_at,
+        "expires_at": item.expires_at,
+        "status": "EXPIRED" if expired else item.status,
+        "bookable": not expired and item.status not in {"EXPIRED", "WITHDRAWN"},
+    }
+
+
+def option_payload(
+    item: StayJourneyOption, offers: list[AccommodationOfferSnapshot]
+) -> dict[str, Any]:
+    offer = next(offer for offer in offers if offer.id == item.accommodation_offer_id)
+    raw_leg_modes = _load(item.leg_modes_json, [])
+    legacy_modes = [
+        str(value.get("mode"))
+        for value in raw_leg_modes
+        if isinstance(value, dict) and value.get("mode")
+    ]
+    if not legacy_modes:
+        legacy_modes = [str(value) for value in raw_leg_modes]
+    return {
+        "id": item.id,
+        "rank": item.rank,
+        "status": item.status,
+        "score": item.score,
+        "stay": offer_payload(offer),
+        "stay_total_minor": item.stay_total_minor,
+        "daily_travel_minor": item.daily_travel_minor,
+        "mobility_total_minor": item.mobility_total_minor,
+        "walking_min": item.walking_min,
+        "protected_margin_min": item.protected_margin_min,
+        "arrival_fit": item.arrival_fit,
+        "departure_fit": item.departure_fit,
+        "cancellation_score": item.cancellation_score,
+        "days": _load(item.days_json, []),
+        "leg_modes": legacy_modes,
+        "leg_mode_map": raw_leg_modes,
+        "journey_impact": _load(item.journey_impact_json, {}),
+        "hard_constraints_passed": bool(item.hard_constraints_passed),
+        "optimizer_kind": item.optimizer_kind,
+        "weather_state": item.weather_state,
+        "materialized_plan_version_id": item.materialized_plan_version_id,
+    }
+
+
+def fact_payload(item: MobilityFact) -> dict[str, Any]:
+    return {
+        "id": item.id,
+        "from_key": item.from_key,
+        "to_key": item.to_key,
+        "mode": item.mode,
+        "duration_min": item.duration_min,
+        "distance_m": item.distance_m,
+        "cost_amount_minor": item.cost_amount_minor,
+        "currency": item.currency,
+        "cost_status": item.cost_status,
+        "paid_mode": bool(item.paid_mode),
+        "walking_min": item.walking_min,
+        "transfers": item.transfers,
+        "weather_exposure": item.weather_exposure,
+        "reliability_score": item.reliability_score,
+        "provider_key": item.provider_key,
+        "provenance": item.provenance,
+        "geometry": _load(item.geometry_json, {}),
+        "crs": item.crs,
+        "evidence": _load(item.evidence_json, {}),
+        "captured_at": item.captured_at,
+        "expires_at": item.expires_at,
+    }
+
+
+def journey_leg_payload(item: JourneyLeg) -> dict[str, Any]:
+    return {
+        "id": item.id,
+        "sequence_no": item.sequence_no,
+        "from_activity_id": item.from_activity_id,
+        "to_activity_id": item.to_activity_id,
+        "from_key": item.from_key,
+        "to_key": item.to_key,
+        "mode": item.mode,
+        "depart_at": item.depart_at,
+        "arrive_at": item.arrive_at,
+        "duration_min": item.duration_min,
+        "distance_m": item.distance_m,
+        "cost_amount_minor": item.cost_amount_minor,
+        "currency": item.currency,
+        "cost_status": item.cost_status,
+        "walking_min": item.walking_min,
+        "transfers": item.transfers,
+        "reliability_score": item.reliability_score,
+        "weather_exposure": item.weather_exposure,
+        "geometry": _load(item.geometry_json, {}),
+        "crs": item.crs,
+        "provider_key": item.provider_key,
+        "provenance": item.provenance,
+        "captured_at": item.captured_at,
+        "expires_at": item.expires_at,
+    }

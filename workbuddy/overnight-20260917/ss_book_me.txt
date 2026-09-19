@@ -1,0 +1,12 @@
+﻿bookingfirst_01_created.png  2026/9/17 11:25:36
+bookingfirst_02_booking_first.png  2026/9/17 11:25:54
+bookingfirst_05_hotel.png  2026/9/17 11:26:14
+bookingfirst_08_refresh.png  2026/9/17 11:26:24
+C1_14_booking_draft.png  2026/9/17 14:53:36
+C1_15_booking_applied.png  2026/9/17 14:53:46
+C1_16_booking_visible.png  2026/9/17 14:53:52
+hostile_04_booking.png  2026/9/17 14:34:46
+lab_2_B_trips_bookings.png  2026/9/17 14:48:50
+lab_2_B__v8_bookings.png  2026/9/17 14:48:16
+lab_2_B__v8_me.png  2026/9/17 14:48:08
+lab_2_D_bookings_noplan.png  2026/9/17 14:51:30

@@ -1,0 +1,50 @@
+Use the attached:
+
+CityNexus-EAC-SnapshotM-TruthToProduct-FinalRoadPrep-20260917.zip
+
+together with:
+
+CityNexus-EAC-SnapshotL-ConsumerShip-Closure-20260916.zip
+
+and the existing 10-screen UI reference package.
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Freeze the submitted result as Snapshot L.
+
+Read README_FIRST.md and execute:
+
+docs/EAC_FINAL_MISSION.md
+
+Run:
+
+probes/snapshot_m_truth_edges.py
+
+FIRST.
+
+Independent source review found two additional scheduler truth gaps:
+
+1. hotel selection can silently shrink a planned activity to as little as 15 minutes;
+2. consecutive pinned truths are checked for overlap but not for required travel time.
+
+Also fix:
+- Activity Detail coordinate plumbing from Place -> active-plan payload;
+- known-free cost rendering;
+- network AUTO documentation/implementation mismatch.
+
+Then STOP backend-only work and finish the consumer product:
+
+- consumer booking import;
+- Today / Trips / Copilot / Me / Live cleanup;
+- real multi-day Xiamen flow;
+- budget advisory;
+- full visible same-Xiamen browser acceptance;
+- material implementation of the 10-screen UI reference.
+
+Target:
+
+CityNexus-EAC-SnapshotM-TruthToProduct-FinalClosure-20260917.zip
+
+Start now.

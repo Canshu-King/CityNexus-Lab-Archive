@@ -1,0 +1,46 @@
+{
+ "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+ "trace": [
+  {
+   "ts": "2026-09-16T16:51:39.268Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips",
+   "action": "open-bookings-tab",
+   "status": "200",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:51:39.271Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips",
+   "action": "manual-tab-present",
+   "status": "yes",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:51:40.113Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips",
+   "action": "manual-form-open",
+   "status": "opened",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:51:43.262Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips",
+   "action": "preview-draft",
+   "status": "shown",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:51:43.264Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips",
+   "action": "preview-content",
+   "status": "ok",
+   "result": "菜单 | / | 行程 | EN | XI | 行程 | 住宿 | 预订 | 花费 | 多模态收件箱 | 将确认带入行程 | 已读取 · 已核对 · 已记住 | 粘贴确认信息 | 手动填写 | 粘贴的确认 | 提取文本草稿 | 确认截图 | 图片字节仅用于此次提取请求。 | 提取"
+  }
+ ],
+ "errors": []
+}

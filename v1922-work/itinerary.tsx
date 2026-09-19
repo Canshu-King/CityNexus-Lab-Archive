@@ -1,0 +1,161 @@
+/**
+ * Trip itinerary — the answer to "我整个旅行是什么？每天怎么安排？"
+ *
+ * Built from the authoritative active plan's activities, grouped by the
+ * traveller's local date.  It deliberately does NOT depend on a stay option
+ * being selected: a journey with a plan always has an itinerary.
+ *
+ * Long trips use a week selector rather than a 39-item horizontal day strip
+ * (design corrections §8).  Missing data is shown as missing.
+ */
+
+import { useMemo, useState } from "react";
+import { useLocale } from "../../i18n/LocaleContext";
+import type { V8Data } from "../../app/v8Types";
+
+type Activity = V8Data["active_plan"] extends null
+  ? never
+  : NonNullable<V8Data["active_plan"]>["activities"][number];
+
+type DayGroup = {
+  key: string;      // YYYY-MM-DD
+  label: string;    // human label
+  activities: Activity[];
+};
+
+function localDateKey(iso: string, timeZone: string): string {
+  try {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date(iso));
+  } catch {
+    return iso.slice(0, 10);
+  }
+}
+
+function clock(iso: string, timeZone: string): string {
+  try {
+    return new Intl.DateTimeFormat("en-GB", {
+      timeZone,
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    }).format(new Date(iso));
+  } catch {
+    return iso.slice(11, 16);
+  }
+}
+
+function minutesBetween(start: string, end: string): number | null {
+  const a = Date.parse(start);
+  const b = Date.parse(end);
+  if (Number.isNaN(a) || Number.isNaN(b)) return null;
+  return Math.max(0, Math.round((b - a) / 60000));
+}
+
+function dayLabel(key: string, index: number, locale: string): string {
+  const date = new Date(`${key}T12:00:00Z`);
+  if (Number.isNaN(date.getTime())) return key;
+  try {
+    return new Intl.DateTimeFormat(locale.startsWith("zh") ? "zh-CN" : "en-GB", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    }).format(date);
+  } catch {
+    return `Day ${index + 1}`;
+  }
+}
+
+export function TripItinerary({
+  data,
+  onOpenCopilot,
+}: {
+  data: V8Data;
+  onOpenCopilot: () => void;
+}) {
+  const { locale } = useLocale();
+  const zh = locale.startsWith("zh");
+  const plan = data.active_plan;
+  const tz = data.journey.timezone || "UTC";
+
+  const days = useMemo<DayGroup[]>(() => {
+    const activities = plan?.activities ?? [];
+    const buckets = new Map<string, Activity[]>();
+    for (const activity of [...activities].sort((a, b) => a.start_at.localeCompare(b.start_at))) {
+      const key = localDateKey(activity.start_at, tz);
+      const list = buckets.get(key) ?? [];
+      list.push(activity);
+      buckets.set(key, list);
+    }
+    return [...buckets.entries()].map(([key, items], index) => ({
+      key,
+      label: dayLabel(key, index, locale),
+      activities: items,
+    }));
+  }, [plan, tz, locale]);
+
+  const [activeDay, setActiveDay] = useState(0);
+
+  if (!plan || days.length === 0) {
+    return (
+      <section className="v8-page" data-testid="trip-itinerary-empty">
+        <div className="v8-page-intro compact">
+          <div>
+            <p className="v8-kicker">{zh ? "行程" : "Trips"}</p>
+            <h1>{zh ? "还没有可看的行程" : "No itinerary yet"}</h1>
+            <p className="v8-lede">
+              {zh
+                ? "这个行程还没有选定的方案。先让 AI 帮你规划，选定方案后这里会显示逐日安排。"
+                : "This trip has no chosen plan yet. Ask the AI to plan it, then pick a plan and the day-by-day itinerary appears here."}
+            </p>
+          </div>
+        </div>
+        <button type="button" className="v8-primary-button" onClick={onOpenCopilot}>
+          {zh ? "AI 帮我规划" : "Plan my trip with AI"}
+        </button>
+      </section>
+    );
+  }
+
+  // Long trips: a week strip rather than one chip per day.
+  const weeks = Math.ceil(days.length / 7);
+  const showWeeks = days.length > 7;
+  const [week, setWeek] = useState(0);
+  const visible = showWeeks ? days.slice(week * 7, week * 7 + 7) : days;
+
+  return (
+    <section className="v8-page" data-testid="trip-itinerary">
+      <div className="v8-page-intro compact">
+        <div>
+          <p className="v8-kicker">{zh ? "行程" : "Trips"}</p>
+          <h1>{zh ? `${days.length} 天行程` : `${days.length}-day itinerary`}</h1>
+          <p className="v8-lede">
+            {zh
+              ? "逐日安排。已确认的预订会被标记为受保护。"
+              : "Day by day. Confirmed bookings are marked as protected."}
+          </p>
+        </div>
+      </div>
+
+      {showWeeks && weeks > 1 && (
+        <div className="trip-week-strip" data-testid="trip-week-strip">
+          {Array.from({ length: weeks }, (_, index) => (
+            <button
+              key={index}
+              type="button"
+              className={index === week ? "active" : ""}
+              onClick={() => {
+                setWeek(index);
+                setActiveDay(0);
+              }}
+            >
+              {zh ? `第 ${index + 1} 周` : `Week ${index + 1}`}
+            </button>
+          ))}
+        </div>
+      )}

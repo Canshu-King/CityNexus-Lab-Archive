@@ -1,0 +1,1055 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="54" skipped="15" tests="188" time="0.498" timestamp="2026-09-15T13:52:58.701976+08:00" hostname="my-Windows"><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_unknown_accessibility_is_never_verified" time="0.001" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_accessibility_evidence_normalisation" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_unknown_capability_code_is_dropped" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_soft_preference_never_reaches_the_gate" time="0.002" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_clean_hard_accessibility_sentence" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_hard_code_class_is_corrected" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_guard_denial_of_a_soft_preference_creates_nothing_harmful" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[HARD-AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[HARD-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[STRONG-AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[STRONG-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[SOFT-AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[SOFT-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[None-AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_hard_accessibility_severity_is_not_downgradable[None-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_omitted_severity_defaults_to_hard[AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_omitted_severity_defaults_to_hard[STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_mislabeled_class_cannot_rescue_the_downgrade[STRONG-AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_mislabeled_class_cannot_rescue_the_downgrade[STRONG-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_mislabeled_class_cannot_rescue_the_downgrade[SOFT-AVOID_STAIRS]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_mislabeled_class_cannot_rescue_the_downgrade[SOFT-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d1_model_soft_plus_silent_extractor_loses_the_need" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2a_live_need_survives_negation_elsewhere[wheelchair \u5fc5\u987b step-free\uff0c\u6ca1\u6709\u4f8b\u5916-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2a_live_need_survives_negation_elsewhere[\u6211\u4ee5\u524d\u4e0d\u7528\u8f6e\u6905\uff0c\u4f46\u73b0\u5728\u5fc5\u987b\u65e0\u969c\u788d-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2a_live_need_survives_negation_elsewhere[\u6211\u6ca1\u6709\u8fc7\u654f\uff0c\u4f46\u6211\u7528\u8f6e\u6905\uff0c\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2a_live_need_survives_negation_elsewhere[\u8fc7\u53bb\u6211\u5750\u8f6e\u6905\uff0c\u73b0\u5728\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2a_live_need_survives_negation_elsewhere[\u4e0d\u662f\u5730\u94c1\uff0c\u6211\u9700\u8981\u51fa\u79df\u8f66\u56e0\u4e3a\u884c\u674e\u5f88\u591a-LARGE_LUGGAGE]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2a_live_need_survives_negation_elsewhere[I used to walk fine but now I use a wheelchair and need every leg step-free-STEP_FREE_REQUIRED]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need[I don't need a wheelchair, I can walk]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need[\u670b\u53cb\u8bf4\u6211\u53ef\u80fd\u9700\u8981\u8f6e\u6905\uff0c\u4f46\u6211\u4e0d\u8fd9\u4e48\u8ba4\u4e3a]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need[\u8bf4\u4e0d\u5b9a\u5230\u65f6\u5019\u6211\u9700\u8981\u8f6e\u6905]" time="0.000"><failure message="AssertionError: a denial / hearsay / hypothetical statement manufactured a HARD capability ['STEP_FREE_REQUIRED']: '说不定到时候我需要轮椅'&#10;assert not ['STEP_FREE_REQUIRED']">text = '说不定到时候我需要轮椅'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "I don't need a wheelchair, I can walk",
+            "朋友说我可能需要轮椅，但我不这么认为",
+            "说不定到时候我需要轮椅",
+            "if I end up in a wheelchair I'll tell you",
+            "a friend said I might need a wheelchair, I disagree",
+            "maybe I'll need a wheelchair by then",
+        ],
+    )
+    def test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need(text):
+        hard = [c["code"] for c in extract_capabilities_from_text(text) if c["severity"] == "HARD"]
+&gt;       assert not hard, (
+            f"a denial / hearsay / hypothetical statement manufactured a HARD capability {hard}: {text!r}"
+        )
+E       AssertionError: a denial / hearsay / hypothetical statement manufactured a HARD capability ['STEP_FREE_REQUIRED']: '说不定到时候我需要轮椅'
+E       assert not ['STEP_FREE_REQUIRED']
+
+tests\test_v191_capability_contract.py:173: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need[if I end up in a wheelchair I'll tell you]" time="0.000"><failure message="AssertionError: a denial / hearsay / hypothetical statement manufactured a HARD capability ['STEP_FREE_REQUIRED']: &quot;if I end up in a wheelchair I'll tell you&quot;&#10;assert not ['STEP_FREE_REQUIRED']">text = "if I end up in a wheelchair I'll tell you"
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "I don't need a wheelchair, I can walk",
+            "朋友说我可能需要轮椅，但我不这么认为",
+            "说不定到时候我需要轮椅",
+            "if I end up in a wheelchair I'll tell you",
+            "a friend said I might need a wheelchair, I disagree",
+            "maybe I'll need a wheelchair by then",
+        ],
+    )
+    def test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need(text):
+        hard = [c["code"] for c in extract_capabilities_from_text(text) if c["severity"] == "HARD"]
+&gt;       assert not hard, (
+            f"a denial / hearsay / hypothetical statement manufactured a HARD capability {hard}: {text!r}"
+        )
+E       AssertionError: a denial / hearsay / hypothetical statement manufactured a HARD capability ['STEP_FREE_REQUIRED']: "if I end up in a wheelchair I'll tell you"
+E       assert not ['STEP_FREE_REQUIRED']
+
+tests\test_v191_capability_contract.py:173: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need[a friend said I might need a wheelchair, I disagree]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2b_denial_hearsay_speculation_creates_no_hard_need[maybe I'll need a wheelchair by then]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2c_historical_only_statement_is_silent" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d2d_negation_is_clause_scoped_not_text_scoped" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d3_duplicate_codes_collapse_to_strongest[items0-HARD]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d3_duplicate_codes_collapse_to_strongest[items1-HARD]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d3_duplicate_codes_collapse_to_strongest[items2-HARD]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d3_duplicate_codes_collapse_to_strongest[items3-HARD]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d3_identical_duplicates_collapse" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d3_code_is_never_reported_as_both_hard_and_soft" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 0 \u7c73-0]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 0 米'&#10;assert []">text = '走路不能超过 0 米', expected_m = 0
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 0 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 1 \u7c73-1]" time="0.001"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 1 米'&#10;assert []">text = '走路不能超过 1 米', expected_m = 1
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 1 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 100 \u7c73-100]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 100 米'&#10;assert []">text = '走路不能超过 100 米', expected_m = 100
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 100 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 499 \u7c73-499]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 499 米'&#10;assert []">text = '走路不能超过 499 米', expected_m = 499
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 499 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 500 \u7c73-500]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 500 米'&#10;assert []">text = '走路不能超过 500 米', expected_m = 500
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 500 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 501 \u7c73-501]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 501 米'&#10;assert []">text = '走路不能超过 501 米', expected_m = 501
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 501 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 1000 \u7c73-1000]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 1000 米'&#10;assert []">text = '走路不能超过 1000 米', expected_m = 1000
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 1000 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 10000 \u7c73-10000]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 10000 米'&#10;assert []">text = '走路不能超过 10000 米', expected_m = 10000
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 10000 米'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 500m-500]" time="0.000"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 500m'&#10;assert []">text = '走路不能超过 500m', expected_m = 500
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 500m'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u6211\u6700\u591a\u8d70 500 \u7c73\uff0c\u8d85\u8fc7\u5c31\u8d70\u4e0d\u52a8\u4e86-500]" time="0.001"><failure message="AssertionError: a stated walking limit produced no capability at all: '我最多走 500 米，超过就走不动了'&#10;assert []">text = '我最多走 500 米，超过就走不动了', expected_m = 500
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '我最多走 500 米，超过就走不动了'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 500m\uff0c\u8fd9\u662f\u786c\u6027\u8981\u6c42-500]" time="0.001"><failure message="AssertionError: a stated walking limit produced no capability at all: '走路不能超过 500m，这是硬性要求'&#10;assert []">text = '走路不能超过 500m，这是硬性要求', expected_m = 500
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: '走路不能超过 500m，这是硬性要求'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[I cannot walk more than 500 metres per leg-500]" time="0.001"><failure message="AssertionError: a stated walking limit produced no capability at all: 'I cannot walk more than 500 metres per leg'&#10;assert []">text = 'I cannot walk more than 500 metres per leg', expected_m = 500
+
+    @pytest.mark.parametrize(
+        "text,expected_m",
+        [
+            ("走路不能超过 0 米", 0),
+            ("走路不能超过 1 米", 1),
+            ("走路不能超过 100 米", 100),
+            ("走路不能超过 499 米", 499),
+            ("走路不能超过 500 米", 500),
+            ("走路不能超过 501 米", 501),
+            ("走路不能超过 1000 米", 1000),
+            ("走路不能超过 10000 米", 10000),
+            ("走路不能超过 500m", 500),
+            ("我最多走 500 米，超过就走不动了", 500),
+            ("走路不能超过 500m，这是硬性要求", 500),
+            ("I cannot walk more than 500 metres per leg", 500),
+            ("avoid long walks, under 400 m per leg", 400),
+        ],
+    )
+    def test_v191_defect_d4_walking_limit_is_parsed_with_its_value(text, expected_m):
+        caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+&gt;       assert caps, f"a stated walking limit produced no capability at all: {text!r}"
+E       AssertionError: a stated walking limit produced no capability at all: 'I cannot walk more than 500 metres per leg'
+E       assert []
+
+tests\test_v191_capability_contract.py:256: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_walking_limit_is_parsed_with_its_value[avoid long walks, under 400 m per leg-400]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_malformed_walking_values_are_rejected_or_clamped[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 -500 \u7c73]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_malformed_walking_values_are_rejected_or_clamped[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 99999999 \u7c73]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_malformed_walking_values_are_rejected_or_clamped[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 null \u7c73]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_malformed_walking_values_are_rejected_or_clamped[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 \u7c73]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_distinct_values_do_not_collapse" time="0.000"><failure message="AssertionError: distinct walking limits collapsed to one outcome: set()&#10;assert 0 &gt;= 3&#10; +  where 0 = len(set())">def test_v191_defect_d4_distinct_values_do_not_collapse():
+        values = set()
+        for text in ("走路不能超过 100 米", "走路不能超过 500 米", "走路不能超过 1000 米"):
+            caps = [c for c in extract_capabilities_from_text(text) if c["code"].startswith("MAX_")]
+            values.update(c["params"].get("max_m") for c in caps)
+&gt;       assert len(values) &gt;= 3, f"distinct walking limits collapsed to one outcome: {values}"
+E       AssertionError: distinct walking limits collapsed to one outcome: set()
+E       assert 0 &gt;= 3
+E        +  where 0 = len(set())
+
+tests\test_v191_capability_contract.py:291: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d4_km_form_is_converted_or_rejected" time="0.000"><failure message="AssertionError: a kilometre-denominated walking limit produced no capability&#10;assert []">def test_v191_defect_d4_km_form_is_converted_or_rejected():
+        caps = [c for c in extract_capabilities_from_text("走路不能超过 1 公里") if c["code"].startswith("MAX_")]
+&gt;       assert caps, "a kilometre-denominated walking limit produced no capability"
+E       AssertionError: a kilometre-denominated walking limit produced no capability
+E       assert []
+
+tests\test_v191_capability_contract.py:296: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_rest_and_nap_windows_are_extracted[\u8001\u4eba\u4e2d\u5348 12 \u70b9\u5230 14 \u70b9\u5fc5\u987b\u56de\u9152\u5e97\u4f11\u606f-MIDDAY_REST_WINDOW]" time="0.001"><failure message="AssertionError: a stated rest/nap window produced no capability: '老人中午 12 点到 14 点必须回酒店休息'&#10;assert 'MIDDAY_REST_WINDOW' in []&#10; +  where [] = codes('老人中午 12 点到 14 点必须回酒店休息')">text = '老人中午 12 点到 14 点必须回酒店休息', code = 'MIDDAY_REST_WINDOW'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("中午 12:00-14:00 必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("the baby needs naptime at 13:00-15:00", "INFANT_NAP_WINDOW"),
+            ("I must rest at the hotel between 12:00 and 14:00", "MIDDAY_REST_WINDOW"),
+        ],
+    )
+    def test_v191_defect_d5_rest_and_nap_windows_are_extracted(text, code):
+&gt;       assert code in codes(text), f"a stated rest/nap window produced no capability: {text!r}"
+E       AssertionError: a stated rest/nap window produced no capability: '老人中午 12 点到 14 点必须回酒店休息'
+E       assert 'MIDDAY_REST_WINDOW' in []
+E        +  where [] = codes('老人中午 12 点到 14 点必须回酒店休息')
+
+tests\test_v191_capability_contract.py:317: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_rest_and_nap_windows_are_extracted[\u4e2d\u5348 12:00-14:00 \u5fc5\u987b\u56de\u9152\u5e97\u4f11\u606f-MIDDAY_REST_WINDOW]" time="0.001"><failure message="AssertionError: a stated rest/nap window produced no capability: '中午 12:00-14:00 必须回酒店休息'&#10;assert 'MIDDAY_REST_WINDOW' in []&#10; +  where [] = codes('中午 12:00-14:00 必须回酒店休息')">text = '中午 12:00-14:00 必须回酒店休息', code = 'MIDDAY_REST_WINDOW'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("中午 12:00-14:00 必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("the baby needs naptime at 13:00-15:00", "INFANT_NAP_WINDOW"),
+            ("I must rest at the hotel between 12:00 and 14:00", "MIDDAY_REST_WINDOW"),
+        ],
+    )
+    def test_v191_defect_d5_rest_and_nap_windows_are_extracted(text, code):
+&gt;       assert code in codes(text), f"a stated rest/nap window produced no capability: {text!r}"
+E       AssertionError: a stated rest/nap window produced no capability: '中午 12:00-14:00 必须回酒店休息'
+E       assert 'MIDDAY_REST_WINDOW' in []
+E        +  where [] = codes('中午 12:00-14:00 必须回酒店休息')
+
+tests\test_v191_capability_contract.py:317: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_rest_and_nap_windows_are_extracted[\u5b9d\u5b9d\u4e0b\u5348 1 \u70b9\u5230 3 \u70b9\u5fc5\u987b\u7761\u5348\u89c9\uff0c\u4e0d\u80fd\u5b89\u6392\u6d3b\u52a8-INFANT_NAP_WINDOW]" time="0.000"><failure message="AssertionError: a stated rest/nap window produced no capability: '宝宝下午 1 点到 3 点必须睡午觉，不能安排活动'&#10;assert 'INFANT_NAP_WINDOW' in []&#10; +  where [] = codes('宝宝下午 1 点到 3 点必须睡午觉，不能安排活动')">text = '宝宝下午 1 点到 3 点必须睡午觉，不能安排活动', code = 'INFANT_NAP_WINDOW'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("中午 12:00-14:00 必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("the baby needs naptime at 13:00-15:00", "INFANT_NAP_WINDOW"),
+            ("I must rest at the hotel between 12:00 and 14:00", "MIDDAY_REST_WINDOW"),
+        ],
+    )
+    def test_v191_defect_d5_rest_and_nap_windows_are_extracted(text, code):
+&gt;       assert code in codes(text), f"a stated rest/nap window produced no capability: {text!r}"
+E       AssertionError: a stated rest/nap window produced no capability: '宝宝下午 1 点到 3 点必须睡午觉，不能安排活动'
+E       assert 'INFANT_NAP_WINDOW' in []
+E        +  where [] = codes('宝宝下午 1 点到 3 点必须睡午觉，不能安排活动')
+
+tests\test_v191_capability_contract.py:317: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_rest_and_nap_windows_are_extracted[the baby needs naptime at 13:00-15:00-INFANT_NAP_WINDOW]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_rest_and_nap_windows_are_extracted[I must rest at the hotel between 12:00 and 14:00-MIDDAY_REST_WINDOW]" time="0.000"><failure message="AssertionError: a stated rest/nap window produced no capability: 'I must rest at the hotel between 12:00 and 14:00'&#10;assert 'MIDDAY_REST_WINDOW' in []&#10; +  where [] = codes('I must rest at the hotel between 12:00 and 14:00')">text = 'I must rest at the hotel between 12:00 and 14:00'
+code = 'MIDDAY_REST_WINDOW'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("中午 12:00-14:00 必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("the baby needs naptime at 13:00-15:00", "INFANT_NAP_WINDOW"),
+            ("I must rest at the hotel between 12:00 and 14:00", "MIDDAY_REST_WINDOW"),
+        ],
+    )
+    def test_v191_defect_d5_rest_and_nap_windows_are_extracted(text, code):
+&gt;       assert code in codes(text), f"a stated rest/nap window produced no capability: {text!r}"
+E       AssertionError: a stated rest/nap window produced no capability: 'I must rest at the hotel between 12:00 and 14:00'
+E       assert 'MIDDAY_REST_WINDOW' in []
+E        +  where [] = codes('I must rest at the hotel between 12:00 and 14:00')
+
+tests\test_v191_capability_contract.py:317: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_window_params_are_well_formed[\u4e2d\u5348 12 \u70b9\u5230 14 \u70b9\u5fc5\u987b\u56de\u9152\u5e97\u4f11\u606f]" time="0.000"><failure message="AssertionError: no window capability extracted from '中午 12 点到 14 点必须回酒店休息'&#10;assert []">text = '中午 12 点到 14 点必须回酒店休息'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "中午 12 点到 14 点必须回酒店休息",
+            "I must rest between 12:00 and 14:00",
+        ],
+    )
+    def test_v191_defect_d5_window_params_are_well_formed(text):
+        caps = [c for c in extract_capabilities_from_text(text)
+                if c["code"] in {"MIDDAY_REST_WINDOW", "INFANT_NAP_WINDOW"}]
+&gt;       assert caps, f"no window capability extracted from {text!r}"
+E       AssertionError: no window capability extracted from '中午 12 点到 14 点必须回酒店休息'
+E       assert []
+
+tests\test_v191_capability_contract.py:330: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_window_params_are_well_formed[I must rest between 12:00 and 14:00]" time="0.000"><failure message="AssertionError: no window capability extracted from 'I must rest between 12:00 and 14:00'&#10;assert []">text = 'I must rest between 12:00 and 14:00'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "中午 12 点到 14 点必须回酒店休息",
+            "I must rest between 12:00 and 14:00",
+        ],
+    )
+    def test_v191_defect_d5_window_params_are_well_formed(text):
+        caps = [c for c in extract_capabilities_from_text(text)
+                if c["code"] in {"MIDDAY_REST_WINDOW", "INFANT_NAP_WINDOW"}]
+&gt;       assert caps, f"no window capability extracted from {text!r}"
+E       AssertionError: no window capability extracted from 'I must rest between 12:00 and 14:00'
+E       assert []
+
+tests\test_v191_capability_contract.py:330: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d5_invalid_window_is_not_silently_accepted" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_permanent_language_selects_traveler_scope[\u6211\u7528\u8f6e\u6905\uff0c\u8fd9\u662f\u6c38\u4e45\u60c5\u51b5\uff0c\u4e0d\u53ea\u662f\u8fd9\u6b21\u65c5\u884c]" time="0.000"><failure message="AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']&#10;assert ['JOURNEY'] == ['TRAVELER']&#10;  &#10;  At index 0 diff: 'JOURNEY' != 'TRAVELER'&#10;  Use -v to get more diff">text = '我用轮椅，这是永久情况，不只是这次旅行'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "我用轮椅，这是永久情况，不只是这次旅行",
+            "以后每次旅行我都不能走太多路",
+            "不只是这次，我一直用轮椅",
+            "permanently, every trip, I need step-free access",
+        ],
+    )
+    def test_v191_defect_d7_permanent_language_selects_traveler_scope(text):
+        caps = extract_capabilities_from_text(text)
+        assert caps, f"no capability extracted from {text!r}"
+&gt;       assert [c["scope"] for c in caps] == ["TRAVELER"], (
+            f"permanent / every-trip language did not select TRAVELER scope: {[c['scope'] for c in caps]}"
+        )
+E       AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']
+E       assert ['JOURNEY'] == ['TRAVELER']
+E         
+E         At index 0 diff: 'JOURNEY' != 'TRAVELER'
+E         Use -v to get more diff
+
+tests\test_v191_capability_contract.py:370: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_permanent_language_selects_traveler_scope[\u4ee5\u540e\u6bcf\u6b21\u65c5\u884c\u6211\u90fd\u4e0d\u80fd\u8d70\u592a\u591a\u8def]" time="0.001"><failure message="AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']&#10;assert ['JOURNEY'] == ['TRAVELER']&#10;  &#10;  At index 0 diff: 'JOURNEY' != 'TRAVELER'&#10;  Use -v to get more diff">text = '以后每次旅行我都不能走太多路'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "我用轮椅，这是永久情况，不只是这次旅行",
+            "以后每次旅行我都不能走太多路",
+            "不只是这次，我一直用轮椅",
+            "permanently, every trip, I need step-free access",
+        ],
+    )
+    def test_v191_defect_d7_permanent_language_selects_traveler_scope(text):
+        caps = extract_capabilities_from_text(text)
+        assert caps, f"no capability extracted from {text!r}"
+&gt;       assert [c["scope"] for c in caps] == ["TRAVELER"], (
+            f"permanent / every-trip language did not select TRAVELER scope: {[c['scope'] for c in caps]}"
+        )
+E       AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']
+E       assert ['JOURNEY'] == ['TRAVELER']
+E         
+E         At index 0 diff: 'JOURNEY' != 'TRAVELER'
+E         Use -v to get more diff
+
+tests\test_v191_capability_contract.py:370: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_permanent_language_selects_traveler_scope[\u4e0d\u53ea\u662f\u8fd9\u6b21\uff0c\u6211\u4e00\u76f4\u7528\u8f6e\u6905]" time="0.001"><failure message="AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']&#10;assert ['JOURNEY'] == ['TRAVELER']&#10;  &#10;  At index 0 diff: 'JOURNEY' != 'TRAVELER'&#10;  Use -v to get more diff">text = '不只是这次，我一直用轮椅'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "我用轮椅，这是永久情况，不只是这次旅行",
+            "以后每次旅行我都不能走太多路",
+            "不只是这次，我一直用轮椅",
+            "permanently, every trip, I need step-free access",
+        ],
+    )
+    def test_v191_defect_d7_permanent_language_selects_traveler_scope(text):
+        caps = extract_capabilities_from_text(text)
+        assert caps, f"no capability extracted from {text!r}"
+&gt;       assert [c["scope"] for c in caps] == ["TRAVELER"], (
+            f"permanent / every-trip language did not select TRAVELER scope: {[c['scope'] for c in caps]}"
+        )
+E       AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']
+E       assert ['JOURNEY'] == ['TRAVELER']
+E         
+E         At index 0 diff: 'JOURNEY' != 'TRAVELER'
+E         Use -v to get more diff
+
+tests\test_v191_capability_contract.py:370: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_permanent_language_selects_traveler_scope[permanently, every trip, I need step-free access]" time="0.001"><failure message="AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']&#10;assert ['JOURNEY'] == ['TRAVELER']&#10;  &#10;  At index 0 diff: 'JOURNEY' != 'TRAVELER'&#10;  Use -v to get more diff">text = 'permanently, every trip, I need step-free access'
+
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "我用轮椅，这是永久情况，不只是这次旅行",
+            "以后每次旅行我都不能走太多路",
+            "不只是这次，我一直用轮椅",
+            "permanently, every trip, I need step-free access",
+        ],
+    )
+    def test_v191_defect_d7_permanent_language_selects_traveler_scope(text):
+        caps = extract_capabilities_from_text(text)
+        assert caps, f"no capability extracted from {text!r}"
+&gt;       assert [c["scope"] for c in caps] == ["TRAVELER"], (
+            f"permanent / every-trip language did not select TRAVELER scope: {[c['scope'] for c in caps]}"
+        )
+E       AssertionError: permanent / every-trip language did not select TRAVELER scope: ['JOURNEY']
+E       assert ['JOURNEY'] == ['TRAVELER']
+E         
+E         At index 0 diff: 'JOURNEY' != 'TRAVELER'
+E         Use -v to get more diff
+
+tests\test_v191_capability_contract.py:370: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_this_trip_language_selects_journey_scope[\u8fd9\u6b21\u65c5\u884c\u6211\u4e0d\u80fd\u8d70\u592a\u591a\u8def]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_this_trip_language_selects_journey_scope[\u4eca\u5929\u4e34\u65f6\u817f\u75bc\uff0c\u5c11\u8d70\u70b9]" time="0.000" /><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_this_trip_language_selects_journey_scope[just for today I cannot walk far]" time="0.000"><failure message="AssertionError: no capability extracted from 'just for today I cannot walk far'&#10;assert ()">text = 'just for today I cannot walk far'
+
+    @pytest.mark.parametrize(
+        "text",
+        ["这次旅行我不能走太多路", "今天临时腿疼，少走点", "just for today I cannot walk far"],
+    )
+    def test_v191_defect_d7_this_trip_language_selects_journey_scope(text):
+        caps = extract_capabilities_from_text(text)
+&gt;       assert caps, f"no capability extracted from {text!r}"
+E       AssertionError: no capability extracted from 'just for today I cannot walk far'
+E       assert ()
+
+tests\test_v191_capability_contract.py:381: AssertionError</failure></testcase><testcase classname="tests.test_v191_capability_contract" name="test_v191_defect_d7_scope_is_distinguishable_from_language" time="0.001"><failure message="AssertionError: permanent and this-trip-only language are indistinguishable&#10;assert ['JOURNEY'] != ['JOURNEY']">def test_v191_defect_d7_scope_is_distinguishable_from_language():
+        """If scope cannot be inferred, the contract must say so rather than guess JOURNEY."""
+        permanent = extract_capabilities_from_text("我用轮椅，这是永久情况，不只是这次旅行")
+        trip = extract_capabilities_from_text("这次旅行我不能走太多路")
+&gt;       assert [c["scope"] for c in permanent] != [c["scope"] for c in trip], (
+            "permanent and this-trip-only language are indistinguishable"
+        )
+E       AssertionError: permanent and this-trip-only language are indistinguishable
+E       assert ['JOURNEY'] != ['JOURNEY']
+
+tests\test_v191_capability_contract.py:389: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_guard_unknown_accessibility_is_not_verified" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_guard_accessibility_evidence_is_normalised" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_guard_soft_preference_never_reaches_the_gate" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_guard_unknown_capability_code_is_dropped" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_guard_clean_hard_sentence_is_understood" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_guard_hard_code_class_is_corrected_when_mislabeled" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d1a_model_cannot_downgrade_hard_accessibility[STRONG]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d1a_model_cannot_downgrade_hard_accessibility[SOFT]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d1b_model_cannot_downgrade_avoid_stairs[STRONG]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d1b_model_cannot_downgrade_avoid_stairs[SOFT]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d1c_omitted_severity_must_not_downgrade_a_hard_code" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d1d_model_SOFT_plus_silent_backstop_loses_the_need" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d2a_live_hard_need_survives_a_negated_clause_elsewhere[\u6211\u4ee5\u524d\u4e0d\u7528\u8f6e\u6905\uff0c\u4f46\u73b0\u5728\u5fc5\u987b\u5168\u7a0b step-free]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d2a_live_hard_need_survives_a_negated_clause_elsewhere[\u6211\u6ca1\u6709\u8fc7\u654f\uff0c\u4f46\u6211\u7528\u8f6e\u6905\uff0c\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d2a_live_hard_need_survives_a_negated_clause_elsewhere[\u8fc7\u53bb\u6211\u5750\u8f6e\u6905\uff0c\u73b0\u5728\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d2a_live_hard_need_survives_a_negated_clause_elsewhere[wheelchair \u5fc5\u987b step-free\uff0c\u6ca1\u6709\u4f8b\u5916]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d2a_live_hard_need_survives_a_negated_clause_elsewhere[I used to walk fine but now I use a wheelchair and need every leg step-free]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d2b_the_word_for_no_exceptions_erases_the_need" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d3a_same_code_is_not_reported_as_both_hard_and_soft" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d3b_canonicalize_deduplicates_by_code" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d4a_hard_care_and_limit_statements_are_extracted[\u8001\u4eba\u4e2d\u5348 12 \u70b9\u5230 14 \u70b9\u5fc5\u987b\u56de\u9152\u5e97\u4f11\u606f-MIDDAY_REST_WINDOW]" time="0.000"><failure message="AssertionError: a stated hard need produced no capability at all: '老人中午 12 点到 14 点必须回酒店休息'&#10;assert 'MIDDAY_REST_WINDOW' in []&#10; +  where [] = _codes('老人中午 12 点到 14 点必须回酒店休息')">text = '老人中午 12 点到 14 点必须回酒店休息', code = 'MIDDAY_REST_WINDOW'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("我最多走 500 米，超过就走不动了", "MAX_WALKING_PER_LEG_M"),
+            ("走路不能超过 500m，这是硬性要求", "MAX_WALKING_PER_LEG_M"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("我需要每 60 分钟休息一次", "REST_EVERY_MIN"),
+        ],
+    )
+    def test_v19_char_d4a_hard_care_and_limit_statements_are_extracted(text, code):
+&gt;       assert code in _codes(text), f"a stated hard need produced no capability at all: {text!r}"
+E       AssertionError: a stated hard need produced no capability at all: '老人中午 12 点到 14 点必须回酒店休息'
+E       assert 'MIDDAY_REST_WINDOW' in []
+E        +  where [] = _codes('老人中午 12 点到 14 点必须回酒店休息')
+
+tests\test_v19_postfix_capability_contract.py:248: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d4a_hard_care_and_limit_statements_are_extracted[\u6211\u6700\u591a\u8d70 500 \u7c73\uff0c\u8d85\u8fc7\u5c31\u8d70\u4e0d\u52a8\u4e86-MAX_WALKING_PER_LEG_M]" time="0.001"><failure message="AssertionError: a stated hard need produced no capability at all: '我最多走 500 米，超过就走不动了'&#10;assert 'MAX_WALKING_PER_LEG_M' in []&#10; +  where [] = _codes('我最多走 500 米，超过就走不动了')">text = '我最多走 500 米，超过就走不动了', code = 'MAX_WALKING_PER_LEG_M'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("我最多走 500 米，超过就走不动了", "MAX_WALKING_PER_LEG_M"),
+            ("走路不能超过 500m，这是硬性要求", "MAX_WALKING_PER_LEG_M"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("我需要每 60 分钟休息一次", "REST_EVERY_MIN"),
+        ],
+    )
+    def test_v19_char_d4a_hard_care_and_limit_statements_are_extracted(text, code):
+&gt;       assert code in _codes(text), f"a stated hard need produced no capability at all: {text!r}"
+E       AssertionError: a stated hard need produced no capability at all: '我最多走 500 米，超过就走不动了'
+E       assert 'MAX_WALKING_PER_LEG_M' in []
+E        +  where [] = _codes('我最多走 500 米，超过就走不动了')
+
+tests\test_v19_postfix_capability_contract.py:248: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d4a_hard_care_and_limit_statements_are_extracted[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 500m\uff0c\u8fd9\u662f\u786c\u6027\u8981\u6c42-MAX_WALKING_PER_LEG_M]" time="0.000"><failure message="AssertionError: a stated hard need produced no capability at all: '走路不能超过 500m，这是硬性要求'&#10;assert 'MAX_WALKING_PER_LEG_M' in []&#10; +  where [] = _codes('走路不能超过 500m，这是硬性要求')">text = '走路不能超过 500m，这是硬性要求', code = 'MAX_WALKING_PER_LEG_M'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("我最多走 500 米，超过就走不动了", "MAX_WALKING_PER_LEG_M"),
+            ("走路不能超过 500m，这是硬性要求", "MAX_WALKING_PER_LEG_M"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("我需要每 60 分钟休息一次", "REST_EVERY_MIN"),
+        ],
+    )
+    def test_v19_char_d4a_hard_care_and_limit_statements_are_extracted(text, code):
+&gt;       assert code in _codes(text), f"a stated hard need produced no capability at all: {text!r}"
+E       AssertionError: a stated hard need produced no capability at all: '走路不能超过 500m，这是硬性要求'
+E       assert 'MAX_WALKING_PER_LEG_M' in []
+E        +  where [] = _codes('走路不能超过 500m，这是硬性要求')
+
+tests\test_v19_postfix_capability_contract.py:248: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d4a_hard_care_and_limit_statements_are_extracted[\u5b9d\u5b9d\u4e0b\u5348 1 \u70b9\u5230 3 \u70b9\u5fc5\u987b\u7761\u5348\u89c9\uff0c\u4e0d\u80fd\u5b89\u6392\u6d3b\u52a8-INFANT_NAP_WINDOW]" time="0.000"><failure message="AssertionError: a stated hard need produced no capability at all: '宝宝下午 1 点到 3 点必须睡午觉，不能安排活动'&#10;assert 'INFANT_NAP_WINDOW' in []&#10; +  where [] = _codes('宝宝下午 1 点到 3 点必须睡午觉，不能安排活动')">text = '宝宝下午 1 点到 3 点必须睡午觉，不能安排活动', code = 'INFANT_NAP_WINDOW'
+
+    @pytest.mark.parametrize(
+        "text,code",
+        [
+            ("老人中午 12 点到 14 点必须回酒店休息", "MIDDAY_REST_WINDOW"),
+            ("我最多走 500 米，超过就走不动了", "MAX_WALKING_PER_LEG_M"),
+            ("走路不能超过 500m，这是硬性要求", "MAX_WALKING_PER_LEG_M"),
+            ("宝宝下午 1 点到 3 点必须睡午觉，不能安排活动", "INFANT_NAP_WINDOW"),
+            ("我需要每 60 分钟休息一次", "REST_EVERY_MIN"),
+        ],
+    )
+    def test_v19_char_d4a_hard_care_and_limit_statements_are_extracted(text, code):
+&gt;       assert code in _codes(text), f"a stated hard need produced no capability at all: {text!r}"
+E       AssertionError: a stated hard need produced no capability at all: '宝宝下午 1 点到 3 点必须睡午觉，不能安排活动'
+E       assert 'INFANT_NAP_WINDOW' in []
+E        +  where [] = _codes('宝宝下午 1 点到 3 点必须睡午觉，不能安排活动')
+
+tests\test_v19_postfix_capability_contract.py:248: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d4a_hard_care_and_limit_statements_are_extracted[\u6211\u9700\u8981\u6bcf 60 \u5206\u949f\u4f11\u606f\u4e00\u6b21-REST_EVERY_MIN]" time="0.000" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d4b_numeric_walking_limit_keeps_its_value" time="0.000"><failure message="AssertionError: the numeric walking limit was not extracted&#10;assert []">def test_v19_char_d4b_numeric_walking_limit_keeps_its_value():
+        caps = extract_capabilities_from_text("走路不能超过 500m，这是硬性要求")
+        walking = [c for c in caps if c["code"] == "MAX_WALKING_PER_LEG_M"]
+&gt;       assert walking, "the numeric walking limit was not extracted"
+E       AssertionError: the numeric walking limit was not extracted
+E       assert []
+
+tests\test_v19_postfix_capability_contract.py:254: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d6a_capability_projection_is_interpretable_by_the_gate" time="0.001" /><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d6b_hard_accessibility_need_does_not_block_planning" time="0.001"><failure message="AssertionError: a wheelchair traveller cannot plan at all: ['ACCESSIBILITY_UNVERIFIED:p1', 'NEEDS_LIVE_EVIDENCE:p1']&#10;assert False&#10; +  where False = FeasibilityResult(passed=False, failures=('ACCESSIBILITY_UNVERIFIED:p1', 'NEEDS_LIVE_EVIDENCE:p1'), effective_start_at...ne.utc), effective_end_at=datetime.datetime(2026, 10, 1, 19, 0, tzinfo=datetime.timezone.utc), budget_max_minor=200000).passed">def test_v19_char_d6b_hard_accessibility_need_does_not_block_planning():
+        caps = extract_capabilities_from_text("我用轮椅，必须全程 step-free，一步楼梯都不能走")
+        result = _gate(capability_constraints(caps))
+&gt;       assert result.passed, f"a wheelchair traveller cannot plan at all: {list(result.failures)}"
+E       AssertionError: a wheelchair traveller cannot plan at all: ['ACCESSIBILITY_UNVERIFIED:p1', 'NEEDS_LIVE_EVIDENCE:p1']
+E       assert False
+E        +  where False = FeasibilityResult(passed=False, failures=('ACCESSIBILITY_UNVERIFIED:p1', 'NEEDS_LIVE_EVIDENCE:p1'), effective_start_at...ne.utc), effective_end_at=datetime.datetime(2026, 10, 1, 19, 0, tzinfo=datetime.timezone.utc), budget_max_minor=200000).passed
+
+tests\test_v19_postfix_capability_contract.py:280: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d6c_gate_consults_accessibility_evidence" time="0.001"><failure message="AssertionError: the gate never consults provider accessibility evidence&#10;assert 'accessibility_state(' in '&quot;&quot;&quot;Authoritative deterministic feasibility gate for MVP plan candidates.\n\nThe gate is deliberately independent of F...lity_provider,\n    )\n    return evaluate_feasibility(context, [activity_from_record(item) for item in activities])\n'&#10; +  where '&quot;&quot;&quot;Authoritative deterministic feasibility gate for MVP plan candidates.\n\nThe gate is deliberately independent of F...lity_provider,\n    )\n    return evaluate_feasibility(context, [activity_from_record(item) for item in activities])\n' = &lt;built-in method replace of str object at 0x00000171A2D3B480&gt;('from app.capabilities import accessibility_state', '')&#10; +    where &lt;built-in method replace of str object at 0x00000171A2D3B480&gt; = '&quot;&quot;&quot;Authoritative deterministic feasibility gate for MVP plan candidates.\n\nThe gate is deliberately independent of F...lity_provider,\n    )\n    return evaluate_feasibility(context, [activity_from_record(item) for item in activities])\n'.replace">def test_v19_char_d6c_gate_consults_accessibility_evidence():
+        """The gate imports accessibility_state() but never calls it."""
+        from pathlib import Path
+    
+        source = Path(__file__).resolve().parents[1] / "app" / "replanning" / "feasibility.py"
+        text = source.read_text(encoding="utf-8")
+&gt;       assert "accessibility_state(" in text.replace(
+            "from app.capabilities import accessibility_state", ""
+        ), "the gate never consults provider accessibility evidence"
+E       AssertionError: the gate never consults provider accessibility evidence
+E       assert 'accessibility_state(' in '"""Authoritative deterministic feasibility gate for MVP plan candidates.\n\nThe gate is deliberately independent of F...lity_provider,\n    )\n    return evaluate_feasibility(context, [activity_from_record(item) for item in activities])\n'
+E        +  where '"""Authoritative deterministic feasibility gate for MVP plan candidates.\n\nThe gate is deliberately independent of F...lity_provider,\n    )\n    return evaluate_feasibility(context, [activity_from_record(item) for item in activities])\n' = &lt;built-in method replace of str object at 0x00000171A2D3B480&gt;('from app.capabilities import accessibility_state', '')
+E        +    where &lt;built-in method replace of str object at 0x00000171A2D3B480&gt; = '"""Authoritative deterministic feasibility gate for MVP plan candidates.\n\nThe gate is deliberately independent of F...lity_provider,\n    )\n    return evaluate_feasibility(context, [activity_from_record(item) for item in activities])\n'.replace
+
+tests\test_v19_postfix_capability_contract.py:289: AssertionError</failure></testcase><testcase classname="tests.test_v19_postfix_capability_contract" name="test_v19_char_d7a_language_can_select_traveler_scope" time="0.000"><failure message="AssertionError: assert ['JOURNEY'] == ['TRAVELER']&#10;  &#10;  At index 0 diff: 'JOURNEY' != 'TRAVELER'&#10;  Use -v to get more diff">def test_v19_char_d7a_language_can_select_traveler_scope():
+        caps = extract_capabilities_from_text("我用轮椅，这是永久情况，不只是这次旅行")
+&gt;       assert [c["scope"] for c in caps] == ["TRAVELER"]
+E       AssertionError: assert ['JOURNEY'] == ['TRAVELER']
+E         
+E         At index 0 diff: 'JOURNEY' != 'TRAVELER'
+E         Use -v to get more diff
+
+tests\test_v19_postfix_capability_contract.py:302: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_unknown_code_is_dropped" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_control_hard_need_is_detected" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_plain_denial_is_clean" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_hard_code_cannot_be_downgraded" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_duplicate_codes_are_merged" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_mandated_false_hard[I don't need a wheelchair, I can walk]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_mandated_false_hard[\u670b\u53cb\u8bf4\u6211\u53ef\u80fd\u9700\u8981\u8f6e\u6905\uff0c\u4f46\u6211\u4e0d\u8fd9\u4e48\u8ba4\u4e3a]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_denial_does_not_create_need[I don't use a wheelchair]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_denial_does_not_create_need[I am not a wheelchair user]" time="0.000"><failure message="AssertionError: denial created a need: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('I am not a wheelchair user')">text = 'I am not a wheelchair user'
+
+    @pytest.mark.parametrize("text", [
+        "I don't use a wheelchair",
+        "I am not a wheelchair user",
+        "no wheelchair needed, I can walk fine",
+        "我不用轮椅",
+        "我没有轮椅需求",
+        "no stairs problem for me, I'm fine",
+    ])
+    def test_v191_eac_defect_denial_does_not_create_need(text):
+&gt;       assert not is_hard(text), f"denial created a need: {codes(text)}"
+E       AssertionError: denial created a need: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('I am not a wheelchair user')
+
+tests\test_v191_eac_evidence_scope.py:112: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_denial_does_not_create_need[no wheelchair needed, I can walk fine]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_denial_does_not_create_need[\u6211\u4e0d\u7528\u8f6e\u6905]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_denial_does_not_create_need[\u6211\u6ca1\u6709\u8f6e\u6905\u9700\u6c42]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_denial_does_not_create_need[no stairs problem for me, I'm fine]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_third_party_does_not_create_need[my friend needs a wheelchair, not me]" time="0.000"><failure message="AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('my friend needs a wheelchair, not me')">text = 'my friend needs a wheelchair, not me'
+
+    @pytest.mark.parametrize("text", [
+        "my friend needs a wheelchair, not me",
+        "my mother uses a wheelchair",
+        "my colleague said I might need a wheelchair",
+        "我朋友需要轮椅",
+        "我妈妈坐轮椅",
+        "同事说我也许需要轮椅",
+    ])
+    def test_v191_eac_defect_third_party_does_not_create_need(text):
+&gt;       assert not is_hard(text), f"third-party need became the traveller's: {codes(text)}"
+E       AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('my friend needs a wheelchair, not me')
+
+tests\test_v191_eac_evidence_scope.py:124: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_third_party_does_not_create_need[my mother uses a wheelchair]" time="0.000"><failure message="AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('my mother uses a wheelchair')">text = 'my mother uses a wheelchair'
+
+    @pytest.mark.parametrize("text", [
+        "my friend needs a wheelchair, not me",
+        "my mother uses a wheelchair",
+        "my colleague said I might need a wheelchair",
+        "我朋友需要轮椅",
+        "我妈妈坐轮椅",
+        "同事说我也许需要轮椅",
+    ])
+    def test_v191_eac_defect_third_party_does_not_create_need(text):
+&gt;       assert not is_hard(text), f"third-party need became the traveller's: {codes(text)}"
+E       AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('my mother uses a wheelchair')
+
+tests\test_v191_eac_evidence_scope.py:124: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_third_party_does_not_create_need[my colleague said I might need a wheelchair]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_third_party_does_not_create_need[\u6211\u670b\u53cb\u9700\u8981\u8f6e\u6905]" time="0.000"><failure message="AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('我朋友需要轮椅')">text = '我朋友需要轮椅'
+
+    @pytest.mark.parametrize("text", [
+        "my friend needs a wheelchair, not me",
+        "my mother uses a wheelchair",
+        "my colleague said I might need a wheelchair",
+        "我朋友需要轮椅",
+        "我妈妈坐轮椅",
+        "同事说我也许需要轮椅",
+    ])
+    def test_v191_eac_defect_third_party_does_not_create_need(text):
+&gt;       assert not is_hard(text), f"third-party need became the traveller's: {codes(text)}"
+E       AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('我朋友需要轮椅')
+
+tests\test_v191_eac_evidence_scope.py:124: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_third_party_does_not_create_need[\u6211\u5988\u5988\u5750\u8f6e\u6905]" time="0.001"><failure message="AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('我妈妈坐轮椅')">text = '我妈妈坐轮椅'
+
+    @pytest.mark.parametrize("text", [
+        "my friend needs a wheelchair, not me",
+        "my mother uses a wheelchair",
+        "my colleague said I might need a wheelchair",
+        "我朋友需要轮椅",
+        "我妈妈坐轮椅",
+        "同事说我也许需要轮椅",
+    ])
+    def test_v191_eac_defect_third_party_does_not_create_need(text):
+&gt;       assert not is_hard(text), f"third-party need became the traveller's: {codes(text)}"
+E       AssertionError: third-party need became the traveller's: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('我妈妈坐轮椅')
+
+tests\test_v191_eac_evidence_scope.py:124: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_third_party_does_not_create_need[\u540c\u4e8b\u8bf4\u6211\u4e5f\u8bb8\u9700\u8981\u8f6e\u6905]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_hypothetical_does_not_create_hard[if I get tired I might need a wheelchair]" time="0.001" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_hypothetical_does_not_create_hard[\u5982\u679c\u7d2f\u4e86\u53ef\u80fd\u9700\u8981\u8f6e\u6905]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_hypothetical_does_not_create_hard[maybe I should avoid stairs]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_facility_description_is_not_a_need[the station has an accessible toilet]" time="0.000"><failure message="AssertionError: facility description became a need: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('the station has an accessible toilet')">text = 'the station has an accessible toilet'
+
+    @pytest.mark.parametrize("text", [
+        "the station has an accessible toilet",
+        "车站有无障碍厕所",
+    ])
+    def test_v191_eac_defect_facility_description_is_not_a_need(text):
+        """Describing a venue's accessibility is not a statement about the traveller."""
+&gt;       assert not is_hard(text), f"facility description became a need: {codes(text)}"
+E       AssertionError: facility description became a need: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('the station has an accessible toilet')
+
+tests\test_v191_eac_evidence_scope.py:142: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_facility_description_is_not_a_need[\u8f66\u7ad9\u6709\u65e0\u969c\u788d\u5395\u6240]" time="0.000"><failure message="AssertionError: facility description became a need: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('车站有无障碍厕所')">text = '车站有无障碍厕所'
+
+    @pytest.mark.parametrize("text", [
+        "the station has an accessible toilet",
+        "车站有无障碍厕所",
+    ])
+    def test_v191_eac_defect_facility_description_is_not_a_need(text):
+        """Describing a venue's accessibility is not a statement about the traveller."""
+&gt;       assert not is_hard(text), f"facility description became a need: {codes(text)}"
+E       AssertionError: facility description became a need: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('车站有无障碍厕所')
+
+tests\test_v191_eac_evidence_scope.py:142: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_live_clause_must_survive[\u8f6e\u6905\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d\uff0c\u6ca1\u6709\u4f8b\u5916]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_live_clause_must_survive[\u6211\u4ee5\u524d\u4e0d\u7528\u8f6e\u6905\uff0c\u4f46\u73b0\u5728\u5fc5\u987b\u65e0\u969c\u788d]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_live_clause_must_survive[\u8fc7\u53bb\u6211\u5750\u8f6e\u6905\uff0c\u73b0\u5728\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_live_clause_must_survive[\u6211\u6ca1\u6709\u8fc7\u654f\uff0c\u4f46\u6211\u7528\u8f6e\u6905\uff0c\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_live_clause_must_survive[\u4e0d\u9700\u8981\u4eba\u6276\uff0c\u4f46\u6211\u5750\u8f6e\u6905\uff0c\u5fc5\u987b\u5168\u7a0b\u65e0\u969c\u788d]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_live_clause_must_survive[\u6211\u4e00\u76f4\u5750\u8f6e\u6905\uff0c\u4e0d\u662f\u8fd9\u6b21\u624d\u9700\u8981]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_scoped_negation_keeps_luggage_need" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_merge_respects_scope" time="0.000"><failure message="AssertionError: cross-scope items must not collapse: got scopes ['TRAVELER']&#10;assert ['TRAVELER'] == ['JOURNEY', 'TRAVELER']&#10;  &#10;  At index 0 diff: 'TRAVELER' != 'JOURNEY'&#10;  Right contains one more item: 'TRAVELER'&#10;  Use -v to get more diff">def test_v191_eac_defect_merge_respects_scope():
+        """TRAVELER + JOURNEY must stay two rows.  EAC_REFERENCE collapses them."""
+        rows = canon([
+            {"code": "AVOID_STAIRS", "severity": "HARD", "scope": "TRAVELER",
+             "params": {"note": "traveler"}},
+            {"code": "AVOID_STAIRS", "severity": "HARD", "scope": "JOURNEY",
+             "params": {"note": "journey"}},
+        ])
+        scopes = sorted({row.get("scope") for row in rows})
+&gt;       assert scopes == ["JOURNEY", "TRAVELER"], (
+            f"cross-scope items must not collapse: got scopes {scopes}"
+        )
+E       AssertionError: cross-scope items must not collapse: got scopes ['TRAVELER']
+E       assert ['TRAVELER'] == ['JOURNEY', 'TRAVELER']
+E         
+E         At index 0 diff: 'TRAVELER' != 'JOURNEY'
+E         Right contains one more item: 'TRAVELER'
+E         Use -v to get more diff
+
+tests\test_v191_eac_evidence_scope.py:179: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_merge_keeps_strictest_limit" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_nonsense_walking_limit_is_rejected[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 0 \u7c73]" time="0.000"><skipped type="pytest.skip" message="no walking limit extracted at all (also acceptable)">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:212: no walking limit extracted at all (also acceptable)</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_nonsense_walking_limit_is_rejected[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 -5 \u7c73]" time="0.000"><skipped type="pytest.skip" message="no walking limit extracted at all (also acceptable)">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:212: no walking limit extracted at all (also acceptable)</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_non_step_free_tag_must_not_verify[tags0]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:247: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_non_step_free_tag_must_not_verify[tags1]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:247: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_non_step_free_tag_must_not_verify[tags2]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:247: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_non_step_free_tag_must_not_verify[tags3]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:247: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_non_step_free_tag_must_not_verify[tags4]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:247: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_non_step_free_tag_must_not_verify[tags5]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:247: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_conflicting_tags_are_conflict[tags0]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:263: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_conflicting_tags_are_conflict[tags1]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:263: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_conflicting_tags_are_conflict[tags2]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:263: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_verified_place_not_blocked_by_partial_tag" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:274: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_sequence_tag_values_are_not_dropped[tags0]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:284: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_sequence_tag_values_are_not_dropped[tags1]" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:284: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_empty_tags_stay_unknown" time="0.000"><skipped type="pytest.skip" message="provider-evidence adapter is EAC-only; skipped on the current tree">D:\moodle\CityNexus-Tools\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\snapshot_c\backend\tests\test_v191_eac_evidence_scope.py:297: provider-evidence adapter is EAC-only; skipped on the current tree</skipped></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_capability_vocabulary_is_stable" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags0]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags1]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags2]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags3]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags4]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags5]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags6]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags7]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags8]" time="0.001" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags9]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags10]" time="0.001" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags11]" time="0.001" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_facility_tags_do_not_verify_step_free[tags12]" time="0.001" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_route_without_route_evidence_stays_unknown[facts0]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_route_without_route_evidence_stays_unknown[facts1]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_explicit_step_free_assertion_verifies[tags0]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_explicit_step_free_assertion_verifies[tags1]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_explicit_stairs_are_conflict" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_step_evidence_contradiction_is_conflict[tags0]" time="0.001"><failure message="AssertionError: {'wheelchair': 'yes', 'step_count': 5} is a contradiction but was reported as ACCESSIBILITY_UNVERIFIED&#10;assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_CONFLICT'&#10;  &#10;  - ACCESSIBILITY_CONFLICT&#10;  + ACCESSIBILITY_UNVERIFIED">tags = {'step_count': 5, 'wheelchair': 'yes'}
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags", [
+        {"wheelchair": "yes", "step_count": 5},
+        {"wheelchair": "yes", "steps": "yes"},
+        {"wheelchair": "yes", "highway": "steps"},
+    ])
+    def test_v191_eac_defect_step_evidence_contradiction_is_conflict(tags):
+        """`step_count` / `steps` / `highway=steps` must count as stairs.
+    
+        Codex V19.1 only reads `stairs` / `has_stairs`, so these are reported as
+        merely unverified instead of the contradiction they are.
+        """
+&gt;       assert _step_free_state(tags) == "ACCESSIBILITY_CONFLICT", (
+            f"{tags} is a contradiction but was reported as "
+            f"{_step_free_state(tags)}"
+        )
+E       AssertionError: {'wheelchair': 'yes', 'step_count': 5} is a contradiction but was reported as ACCESSIBILITY_UNVERIFIED
+E       assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_CONFLICT'
+E         
+E         - ACCESSIBILITY_CONFLICT
+E         + ACCESSIBILITY_UNVERIFIED
+
+tests\test_v191_eac_evidence_scope.py:406: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_step_evidence_contradiction_is_conflict[tags1]" time="0.001"><failure message="AssertionError: {'wheelchair': 'yes', 'steps': 'yes'} is a contradiction but was reported as ACCESSIBILITY_UNVERIFIED&#10;assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_CONFLICT'&#10;  &#10;  - ACCESSIBILITY_CONFLICT&#10;  + ACCESSIBILITY_UNVERIFIED">tags = {'steps': 'yes', 'wheelchair': 'yes'}
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags", [
+        {"wheelchair": "yes", "step_count": 5},
+        {"wheelchair": "yes", "steps": "yes"},
+        {"wheelchair": "yes", "highway": "steps"},
+    ])
+    def test_v191_eac_defect_step_evidence_contradiction_is_conflict(tags):
+        """`step_count` / `steps` / `highway=steps` must count as stairs.
+    
+        Codex V19.1 only reads `stairs` / `has_stairs`, so these are reported as
+        merely unverified instead of the contradiction they are.
+        """
+&gt;       assert _step_free_state(tags) == "ACCESSIBILITY_CONFLICT", (
+            f"{tags} is a contradiction but was reported as "
+            f"{_step_free_state(tags)}"
+        )
+E       AssertionError: {'wheelchair': 'yes', 'steps': 'yes'} is a contradiction but was reported as ACCESSIBILITY_UNVERIFIED
+E       assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_CONFLICT'
+E         
+E         - ACCESSIBILITY_CONFLICT
+E         + ACCESSIBILITY_UNVERIFIED
+
+tests\test_v191_eac_evidence_scope.py:406: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_step_evidence_contradiction_is_conflict[tags2]" time="0.001"><failure message="AssertionError: {'wheelchair': 'yes', 'highway': 'steps'} is a contradiction but was reported as ACCESSIBILITY_UNVERIFIED&#10;assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_CONFLICT'&#10;  &#10;  - ACCESSIBILITY_CONFLICT&#10;  + ACCESSIBILITY_UNVERIFIED">tags = {'highway': 'steps', 'wheelchair': 'yes'}
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags", [
+        {"wheelchair": "yes", "step_count": 5},
+        {"wheelchair": "yes", "steps": "yes"},
+        {"wheelchair": "yes", "highway": "steps"},
+    ])
+    def test_v191_eac_defect_step_evidence_contradiction_is_conflict(tags):
+        """`step_count` / `steps` / `highway=steps` must count as stairs.
+    
+        Codex V19.1 only reads `stairs` / `has_stairs`, so these are reported as
+        merely unverified instead of the contradiction they are.
+        """
+&gt;       assert _step_free_state(tags) == "ACCESSIBILITY_CONFLICT", (
+            f"{tags} is a contradiction but was reported as "
+            f"{_step_free_state(tags)}"
+        )
+E       AssertionError: {'wheelchair': 'yes', 'highway': 'steps'} is a contradiction but was reported as ACCESSIBILITY_UNVERIFIED
+E       assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_CONFLICT'
+E         
+E         - ACCESSIBILITY_CONFLICT
+E         + ACCESSIBILITY_UNVERIFIED
+
+tests\test_v191_eac_evidence_scope.py:406: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer[tags0-wheelchair-yes]" time="0.001"><failure message="AssertionError: sequence value dropped: {'wheelchair': ['yes']} normalized to {'wheelchair': &quot;['yes']&quot;}&#10;assert &quot;['yes']&quot; == 'yes'&#10;  &#10;  - yes&#10;  + ['yes']">tags = {'wheelchair': ['yes']}, key = 'wheelchair', expected = 'yes'
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags,key,expected", [
+        ({"wheelchair": ["yes"]}, "wheelchair", "yes"),
+        ({"ramp": ("yes",)}, "ramp", "yes"),
+        ({"step_count": [5]}, "step_count", "5"),
+        ({"toilets:wheelchair": ["yes"]}, "toilets:wheelchair", "yes"),
+    ])
+    def test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer(
+            tags, key, expected):
+        """A list/tuple used as a mapping value must not be stringified into junk.
+    
+        `normalize_osm_tags` does `str(v)` on mapping values, so `["yes"]` becomes
+        the literal `"['yes']"` and is silently lost.
+        """
+        resolved = _norm_tags(tags)
+&gt;       assert resolved.get(key) == expected, (
+            f"sequence value dropped: {tags} normalized to {resolved}"
+        )
+E       AssertionError: sequence value dropped: {'wheelchair': ['yes']} normalized to {'wheelchair': "['yes']"}
+E       assert "['yes']" == 'yes'
+E         
+E         - yes
+E         + ['yes']
+
+tests\test_v191_eac_evidence_scope.py:427: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer[tags1-ramp-yes]" time="0.001"><failure message="AssertionError: sequence value dropped: {'ramp': ('yes',)} normalized to {'ramp': &quot;('yes',)&quot;}&#10;assert &quot;('yes',)&quot; == 'yes'&#10;  &#10;  - yes&#10;  + ('yes',)">tags = {'ramp': ('yes',)}, key = 'ramp', expected = 'yes'
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags,key,expected", [
+        ({"wheelchair": ["yes"]}, "wheelchair", "yes"),
+        ({"ramp": ("yes",)}, "ramp", "yes"),
+        ({"step_count": [5]}, "step_count", "5"),
+        ({"toilets:wheelchair": ["yes"]}, "toilets:wheelchair", "yes"),
+    ])
+    def test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer(
+            tags, key, expected):
+        """A list/tuple used as a mapping value must not be stringified into junk.
+    
+        `normalize_osm_tags` does `str(v)` on mapping values, so `["yes"]` becomes
+        the literal `"['yes']"` and is silently lost.
+        """
+        resolved = _norm_tags(tags)
+&gt;       assert resolved.get(key) == expected, (
+            f"sequence value dropped: {tags} normalized to {resolved}"
+        )
+E       AssertionError: sequence value dropped: {'ramp': ('yes',)} normalized to {'ramp': "('yes',)"}
+E       assert "('yes',)" == 'yes'
+E         
+E         - yes
+E         + ('yes',)
+
+tests\test_v191_eac_evidence_scope.py:427: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer[tags2-step_count-5]" time="0.001"><failure message="AssertionError: sequence value dropped: {'step_count': [5]} normalized to {'step_count': '[5]'}&#10;assert '[5]' == '5'&#10;  &#10;  - 5&#10;  + [5]">tags = {'step_count': [5]}, key = 'step_count', expected = '5'
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags,key,expected", [
+        ({"wheelchair": ["yes"]}, "wheelchair", "yes"),
+        ({"ramp": ("yes",)}, "ramp", "yes"),
+        ({"step_count": [5]}, "step_count", "5"),
+        ({"toilets:wheelchair": ["yes"]}, "toilets:wheelchair", "yes"),
+    ])
+    def test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer(
+            tags, key, expected):
+        """A list/tuple used as a mapping value must not be stringified into junk.
+    
+        `normalize_osm_tags` does `str(v)` on mapping values, so `["yes"]` becomes
+        the literal `"['yes']"` and is silently lost.
+        """
+        resolved = _norm_tags(tags)
+&gt;       assert resolved.get(key) == expected, (
+            f"sequence value dropped: {tags} normalized to {resolved}"
+        )
+E       AssertionError: sequence value dropped: {'step_count': [5]} normalized to {'step_count': '[5]'}
+E       assert '[5]' == '5'
+E         
+E         - 5
+E         + [5]
+
+tests\test_v191_eac_evidence_scope.py:427: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer[tags3-toilets:wheelchair-yes]" time="0.001"><failure message="AssertionError: sequence value dropped: {'toilets:wheelchair': ['yes']} normalized to {'toilets:wheelchair': &quot;['yes']&quot;}&#10;assert &quot;['yes']&quot; == 'yes'&#10;  &#10;  - yes&#10;  + ['yes']">tags = {'toilets:wheelchair': ['yes']}, key = 'toilets:wheelchair'
+expected = 'yes'
+
+    @requires_per_requirement
+    @pytest.mark.parametrize("tags,key,expected", [
+        ({"wheelchair": ["yes"]}, "wheelchair", "yes"),
+        ({"ramp": ("yes",)}, "ramp", "yes"),
+        ({"step_count": [5]}, "step_count", "5"),
+        ({"toilets:wheelchair": ["yes"]}, "toilets:wheelchair", "yes"),
+    ])
+    def test_v191_eac_defect_sequence_tag_values_are_not_dropped_by_normalizer(
+            tags, key, expected):
+        """A list/tuple used as a mapping value must not be stringified into junk.
+    
+        `normalize_osm_tags` does `str(v)` on mapping values, so `["yes"]` becomes
+        the literal `"['yes']"` and is silently lost.
+        """
+        resolved = _norm_tags(tags)
+&gt;       assert resolved.get(key) == expected, (
+            f"sequence value dropped: {tags} normalized to {resolved}"
+        )
+E       AssertionError: sequence value dropped: {'toilets:wheelchair': ['yes']} normalized to {'toilets:wheelchair': "['yes']"}
+E       assert "['yes']" == 'yes'
+E         
+E         - yes
+E         + ['yes']
+
+tests\test_v191_eac_evidence_scope.py:427: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_sequence_and_nested_forms_still_work[tags0]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_sequence_and_nested_forms_still_work[tags1]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_sequence_and_nested_forms_still_work[tags2]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_guard_sequence_and_nested_forms_still_work[tags3]" time="0.000" /><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_top_level_step_free_verified_is_seen" time="0.001"><failure message="AssertionError: top-level {'step_free_verified': 'yes'} projected to None -&gt; ACCESSIBILITY_UNVERIFIED&#10;assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_VERIFIED'&#10;  &#10;  - ACCESSIBILITY_VERIFIED&#10;  + ACCESSIBILITY_UNVERIFIED&#10;  ?               ++">@requires_per_requirement
+    def test_v191_eac_defect_top_level_step_free_verified_is_seen():
+        """`step_free_verified` at the metadata top level must reach the evaluator.
+    
+        `_accessibility_metadata` whitelists `step_free` but not
+        `step_free_verified`, so the same assertion is honoured when nested under
+        `tags`/`osm_tags` and silently ignored when placed at the top level.
+        """
+        from app.replanning.feasibility import _accessibility_metadata
+    
+        class _Rec:
+            def __init__(self, metadata):
+                self.metadata_json = __import__("json").dumps(metadata)
+    
+        for metadata in ({"step_free_verified": "yes"},
+                         {"step_free": "yes"}):
+            projected = _accessibility_metadata(_Rec(metadata))
+            state = _eval_req("STEP_FREE_REQUIRED", projected or {})
+&gt;           assert state == "ACCESSIBILITY_VERIFIED", (
+                f"top-level {metadata} projected to {projected} -&gt; {state}"
+            )
+E           AssertionError: top-level {'step_free_verified': 'yes'} projected to None -&gt; ACCESSIBILITY_UNVERIFIED
+E           assert 'ACCESSIBILITY_UNVERIFIED' == 'ACCESSIBILITY_VERIFIED'
+E             
+E             - ACCESSIBILITY_VERIFIED
+E             + ACCESSIBILITY_UNVERIFIED
+E             ?               ++
+
+tests\test_v191_eac_evidence_scope.py:467: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_speculation_does_not_create_hard[\u8bf4\u4e0d\u5b9a\u5230\u65f6\u5019\u6211\u9700\u8981\u8f6e\u6905]" time="0.001"><failure message="AssertionError: speculation became HARD: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard('说不定到时候我需要轮椅')">text = '说不定到时候我需要轮椅'
+
+    @pytest.mark.parametrize("text", [
+        "说不定到时候我需要轮椅",
+        "if I end up in a wheelchair I'll tell you",
+    ])
+    def test_v191_eac_defect_speculation_does_not_create_hard(text):
+        """Residual D2 cases after the Codex V19.1 negation/history fix."""
+&gt;       assert not is_hard(text), f"speculation became HARD: {codes(text)}"
+E       AssertionError: speculation became HARD: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard('说不定到时候我需要轮椅')
+
+tests\test_v191_eac_evidence_scope.py:479: AssertionError</failure></testcase><testcase classname="tests.test_v191_eac_evidence_scope" name="test_v191_eac_defect_speculation_does_not_create_hard[if I end up in a wheelchair I'll tell you]" time="0.001"><failure message="AssertionError: speculation became HARD: ['STEP_FREE_REQUIRED']&#10;assert not True&#10; +  where True = is_hard(&quot;if I end up in a wheelchair I'll tell you&quot;)">text = "if I end up in a wheelchair I'll tell you"
+
+    @pytest.mark.parametrize("text", [
+        "说不定到时候我需要轮椅",
+        "if I end up in a wheelchair I'll tell you",
+    ])
+    def test_v191_eac_defect_speculation_does_not_create_hard(text):
+        """Residual D2 cases after the Codex V19.1 negation/history fix."""
+&gt;       assert not is_hard(text), f"speculation became HARD: {codes(text)}"
+E       AssertionError: speculation became HARD: ['STEP_FREE_REQUIRED']
+E       assert not True
+E        +  where True = is_hard("if I end up in a wheelchair I'll tell you")
+
+tests\test_v191_eac_evidence_scope.py:479: AssertionError</failure></testcase></testsuite></testsuites>

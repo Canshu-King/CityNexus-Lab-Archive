@@ -1,0 +1,358 @@
+{
+  "base": "http://127.0.0.1:4173",
+  "api": "http://127.0.0.1:8010",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "badRequests": [],
+  "views": [
+    {
+      "view": "landing",
+      "url": "http://127.0.0.1:4173/v8/live",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\n中文\n\nTRY CITYNEXUS WITH YOUR OWN CITY\n\nStart a real journey, not only the Tianjin demo.\n\nChoose your destination and travel anchors. Non-Tianjin journeys use live city providers when enabled; CityNexus will not silently substitute Tianjin replay data.\n\nGeneric-city trial\nFor cities without a sealed replay, use live providers. If providers are unavailable, CityNexus will tell you instead of inventing Tianjin facts.\nUse the sealed Tianjin demo\nDestination city\nCountry/region code\nTime zone\nJourney start\nJourney end\nArrival location\nDeparture location\nTrip budget\nCurrency\nTravelers\nStay budget\nCreate journey"
+    },
+    {
+      "view": "after-bootstrap",
+      "url": "http://127.0.0.1:4173/v8/discover",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nCity Discovery\nJourney facts ready\n中文\n◌\nTI\n\nV13.5 · FULLY GROUNDED JOURNEY\n\nAsk for the kind of city day you actually want.\n\nDeepSeek interprets the meaning. CityNexus supplies the coordinates, provider evidence, commitments, and feasible PlanVersion.\n\nSealed real replay\nCN / DISCOVERY\nShape the city stop\n\nDescribe a preference, mood, or constraint. The model can choose the semantic direction, but only a server-known place can reach the authoritative plan.\n\nBoundary\nProvider coordinates, opening hours, cost, mobility, and protected commitments remain deterministic facts.\nTraveler intent\nEvidence mode \nSealed real replay\nLive providers\nSynthetic demo replay\nDiscover and compose"
+    },
+    {
+      "view": "hub",
+      "url": "http://127.0.0.1:4173/v8/hub",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nJourney Hub\nJourney facts ready\n中文\n◌\nTI\n\nSTILL UP\n\nYour next city, already considered.\n\nA calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one.\n\n中文\nTry another city\nOpen Trip Studio\nPLANNING READY\nTianjin · stay-aware weekend\n\n9 Oct, 18:00 — 11 Oct, 15:00\n·\n2 travelers\n\nView plan →\nStay budget\nCN¥700\nverified total target\nProtected margin\n121 min\ndeterministic gate\nPlan health\nFeasible\nweather-aware\nARRIVAL\n9 Oct, 18:00\nTianjin West Station\nDEPARTURE\n11 Oct, 15:00\nTianjin Binhai Airport\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\n\nPLAN AT A GLANCE\n\nEvery day, connected.\nCompare stays →\nDAY 1\nFriday\n\nTianjin West Station · Check in · Haihe Riverside Hotel · Overnight · Haihe Riverside Hotel\n\nTRANSIT ARRIVAL anchor\nDAY 2\nSaturday\n\nFive Great Avenues · Tianjin Museum · Tianjin Eye · Overnight · Haihe Riverside Hotel\n\nTRANSIT STAY anchor\nDAY 3\nSunday\n\nCheck out · Haihe Riverside Hotel · Tianjin Binhai Airport\n\nAUTO DEPARTURE anchor",
+      "content": "Journeys\n/\nJourney Hub\nJourney facts ready\n中文\n◌\nTI\n\nSTILL UP\n\nYour next city, already considered.\n\nA calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one.\n\n中文\nTry another city\nOpen Trip Studio\nPLANNING READY\nTianjin · stay-aware weekend\n\n9 Oct, 18:00 — 11 Oct, 15:00\n·\n2 travelers\n\nView plan →\nStay budget\nCN¥700\nverified total target\nProtected margin\n121 min\ndeterministic gate\nPlan health\nFeasible\nweather-aware\nARRIVAL\n9 Oct, 18:00\nTianjin West Station\nDEPARTURE\n11 Oct, 15:00\nTianjin Binhai Airport\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\n\nPLAN AT A GLANCE\n\nEvery day, connected.\nCompare stays →\nDAY 1\nFriday\n\nTianjin West Station · Check in · Haihe Riverside Hotel · Overnight · Haihe Riverside Hotel\n\nTRANSIT ARRIVAL anchor\nDAY 2\nSaturday\n\nFive Great Avenues · Tianjin Museum · Tianjin Eye · Overnight · Haihe Riverside Hotel\n\nTRANSIT STAY anchor\nDAY 3\nSunday\n\nCheck out · Haihe Riverside Hotel · Tianjin Binhai Airport\n\nAUTO DEPARTURE anchor\n---\nSTILL UP\n\nYour next city, already considered.\n\nA calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one.\n\n中文\nTry another city\nOpen Trip Studio\nPLANNING READY\nTianjin · stay-aware weekend\n\n9 Oct, 18:00 — 11 Oct, 15:00\n·\n2 travelers\n\nView plan →\nStay budget\nCN¥700\nverified total target\nProtected margin\n121 min\ndeterministic gate\nPlan health\nFeasible\nweather-aware\nARRIVAL\n9 Oct, 18:00\nTianjin West Station\nDEPARTURE\n11 Oct, 15:00\nTianjin Binhai Airport\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\n\nPLAN AT A GLANCE\n\nEvery day, connected.\nCompare stays →\nDAY 1\nFriday\n\nTianjin West Station · Check in · Haihe Riverside Hotel · Overnight · Haihe Riverside Hotel\n\nTRANSIT ARRIVAL anchor\nDAY 2\nSaturday\n\nFive Great Avenues · Tianjin Museum · Tianjin Eye · Overnight · Haihe Riverside Hotel\n\nTRANSIT STAY anchor\nDAY 3\nSunday\n\nCheck out · Haihe Riverside Hotel · Tianjin Binhai Airport\n\nAUTO DEPARTURE anchor"
+    },
+    {
+      "view": "studio",
+      "url": "http://127.0.0.1:4173/v8/studio",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nTrip Studio\nJourney facts ready\n中文\n◌\nTI\n\nTRIP STUDIO · MULTI-DAY PLAN\n\nShape the journey around what matters.\n\nSwitch the hotel or a leg mode and CityNexus recomputes the travel impact against the same hard commitments.\n\nReport rain disruption\n01\nFriday · 09 Oct\nARRIVAL anchor · TRANSIT\n•\nTianjin West Station\nPROTECTED\n○\nCheck in · Haihe Riverside Hotel\n○\nOvernight · Haihe Riverside Hotel\n02\nSaturday · 10 Oct\nSTAY anchor · TRANSIT\n•\nFive Great Avenues\n○\nTianjin Museum\n○\nTianjin Eye\n○\nOvernight · Haihe Riverside Hotel\n03\nSunday · 11 Oct\nDEPARTURE anchor · AUTO\n•\nCheck out · Haihe Riverside Hotel\nPROTECTED\n○\nTianjin Binhai Airport\nSELECTED STAY\nChange\nHaihe Riverside Hotel\nCity twin\nCN¥360 total\nStay total\nCN¥360\nDaily movement\nCN¥40\nWalking exposure\n34 min\nPlan health\nProtected · 121 min slack\nDeterministic feasibility passed\nArrival, departure, budget, and protected commitments verified.",
+      "content": "Journeys\n/\nTrip Studio\nJourney facts ready\n中文\n◌\nTI\n\nTRIP STUDIO · MULTI-DAY PLAN\n\nShape the journey around what matters.\n\nSwitch the hotel or a leg mode and CityNexus recomputes the travel impact against the same hard commitments.\n\nReport rain disruption\n01\nFriday · 09 Oct\nARRIVAL anchor · TRANSIT\n•\nTianjin West Station\nPROTECTED\n○\nCheck in · Haihe Riverside Hotel\n○\nOvernight · Haihe Riverside Hotel\n02\nSaturday · 10 Oct\nSTAY anchor · TRANSIT\n•\nFive Great Avenues\n○\nTianjin Museum\n○\nTianjin Eye\n○\nOvernight · Haihe Riverside Hotel\n03\nSunday · 11 Oct\nDEPARTURE anchor · AUTO\n•\nCheck out · Haihe Riverside Hotel\nPROTECTED\n○\nTianjin Binhai Airport\nSELECTED STAY\nChange\nHaihe Riverside Hotel\nCity twin\nCN¥360 total\nStay total\nCN¥360\nDaily movement\nCN¥40\nWalking exposure\n34 min\nPlan health\nProtected · 121 min slack\nDeterministic feasibility passed\nArrival, departure, budget, and protected commitments verified.\n---\nTRIP STUDIO · MULTI-DAY PLAN\n\nShape the journey around what matters.\n\nSwitch the hotel or a leg mode and CityNexus recomputes the travel impact against the same hard commitments.\n\nReport rain disruption\n01\nFriday · 09 Oct\nARRIVAL anchor · TRANSIT\n•\nTianjin West Station\nPROTECTED\n○\nCheck in · Haihe Riverside Hotel\n○\nOvernight · Haihe Riverside Hotel\n02\nSaturday · 10 Oct\nSTAY anchor · TRANSIT\n•\nFive Great Avenues\n○\nTianjin Museum\n○\nTianjin Eye\n○\nOvernight · Haihe Riverside Hotel\n03\nSunday · 11 Oct\nDEPARTURE anchor · AUTO\n•\nCheck out · Haihe Riverside Hotel\nPROTECTED\n○\nTianjin Binhai Airport\nSELECTED STAY\nChange\nHaihe Riverside Hotel\nCity twin\nCN¥360 total\nStay total\nCN¥360\nDaily movement\nCN¥40\nWalking exposure\n34 min\nPlan health\nProtected · 121 min slack\nDeterministic feasibility passed\nArrival, departure, budget, and protected commitments verified."
+    },
+    {
+      "view": "stay",
+      "url": "http://127.0.0.1:4173/v8/stay",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nStay Explorer\nJourney facts ready\n中文\n◌\nTI\n\nSTAY EXPLORER · CAPTURED EVIDENCE\n\nChoose the anchor, see the journey.\n\nEvery rate is explicit about currency, room, occupancy, refundability, freshness, and the travel plan it shapes.\n\nCAPTURED REPLAY\nTIANJIN\n01\nHaihe Riverside Hotel\n\nCity twin · 2 travelers · Free cancellation\n\nCN¥360\ntotal · CN¥180//night\nJourney impact\n34 min walk\n121 min slack\nTRANSIT\nTIANJIN\n02\nCentral Station Courtyard\n\nCourtyard queen · 2 travelers · Free cancellation\n\nCN¥420\ntotal · CN¥210//night\nJourney impact\n34 min walk\n123 min slack\nTRANSIT\nTIANJIN\n03\nFive Avenues House\n\nHeritage king · 2 travelers · Free cancellation\n\nCN¥520\ntotal · CN¥260//night\nJourney impact\n34 min walk\n117 min slack\nBICYCLE\nTIANJIN\n04\nNorth Canal Guesthouse\n\nCompact double · 2 travelers · Non-refundable\n\nCN¥310\ntotal · CN¥155//night\nJourney impact\n28 min walk\n123 min slack\nAUTO\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nRATE EVIDENCE\nHaihe Riverside Hotel\nTotal / currency\nCN¥360 · CNY explicit\nCheck-in / out\n9 Oct, 14:00 → 11 Oct, 12:00\nCancellation\nFree cancellation before arrival\nProvider\ncaptured hotel · 96% confidence",
+      "content": "Journeys\n/\nStay Explorer\nJourney facts ready\n中文\n◌\nTI\n\nSTAY EXPLORER · CAPTURED EVIDENCE\n\nChoose the anchor, see the journey.\n\nEvery rate is explicit about currency, room, occupancy, refundability, freshness, and the travel plan it shapes.\n\nCAPTURED REPLAY\nTIANJIN\n01\nHaihe Riverside Hotel\n\nCity twin · 2 travelers · Free cancellation\n\nCN¥360\ntotal · CN¥180//night\nJourney impact\n34 min walk\n121 min slack\nTRANSIT\nTIANJIN\n02\nCentral Station Courtyard\n\nCourtyard queen · 2 travelers · Free cancellation\n\nCN¥420\ntotal · CN¥210//night\nJourney impact\n34 min walk\n123 min slack\nTRANSIT\nTIANJIN\n03\nFive Avenues House\n\nHeritage king · 2 travelers · Free cancellation\n\nCN¥520\ntotal · CN¥260//night\nJourney impact\n34 min walk\n117 min slack\nBICYCLE\nTIANJIN\n04\nNorth Canal Guesthouse\n\nCompact double · 2 travelers · Non-refundable\n\nCN¥310\ntotal · CN¥155//night\nJourney impact\n28 min walk\n123 min slack\nAUTO\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nRATE EVIDENCE\nHaihe Riverside Hotel\nTotal / currency\nCN¥360 · CNY explicit\nCheck-in / out\n9 Oct, 14:00 → 11 Oct, 12:00\nCancellation\nFree cancellation before arrival\nProvider\ncaptured hotel · 96% confidence\n---\nSTAY EXPLORER · CAPTURED EVIDENCE\n\nChoose the anchor, see the journey.\n\nEvery rate is explicit about currency, room, occupancy, refundability, freshness, and the travel plan it shapes.\n\nCAPTURED REPLAY\nTIANJIN\n01\nHaihe Riverside Hotel\n\nCity twin · 2 travelers · Free cancellation\n\nCN¥360\ntotal · CN¥180//night\nJourney impact\n34 min walk\n121 min slack\nTRANSIT\nTIANJIN\n02\nCentral Station Courtyard\n\nCourtyard queen · 2 travelers · Free cancellation\n\nCN¥420\ntotal · CN¥210//night\nJourney impact\n34 min walk\n123 min slack\nTRANSIT\nTIANJIN\n03\nFive Avenues House\n\nHeritage king · 2 travelers · Free cancellation\n\nCN¥520\ntotal · CN¥260//night\nJourney impact\n34 min walk\n117 min slack\nBICYCLE\nTIANJIN\n04\nNorth Canal Guesthouse\n\nCompact double · 2 travelers · Non-refundable\n\nCN¥310\ntotal · CN¥155//night\nJourney impact\n28 min walk\n123 min slack\nAUTO\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nRATE EVIDENCE\nHaihe Riverside Hotel\nTotal / currency\nCN¥360 · CNY explicit\nCheck-in / out\n9 Oct, 14:00 → 11 Oct, 12:00\nCancellation\nFree cancellation before arrival\nProvider\ncaptured hotel · 96% confidence"
+    },
+    {
+      "view": "discover",
+      "url": "http://127.0.0.1:4173/v8/discover",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nCity Discovery\nJourney facts ready\n中文\n◌\nTI\n\nV13.5 · FULLY GROUNDED JOURNEY\n\nAsk for the kind of city day you actually want.\n\nDeepSeek interprets the meaning. CityNexus supplies the coordinates, provider evidence, commitments, and feasible PlanVersion.\n\nSealed real replay\nCN / DISCOVERY\nShape the city stop\n\nDescribe a preference, mood, or constraint. The model can choose the semantic direction, but only a server-known place can reach the authoritative plan.\n\nBoundary\nProvider coordinates, opening hours, cost, mobility, and protected commitments remain deterministic facts.\nTraveler intent\nEvidence mode \nSealed real replay\nLive providers\nSynthetic demo replay\nDiscover and compose",
+      "content": "Journeys\n/\nCity Discovery\nJourney facts ready\n中文\n◌\nTI\n\nV13.5 · FULLY GROUNDED JOURNEY\n\nAsk for the kind of city day you actually want.\n\nDeepSeek interprets the meaning. CityNexus supplies the coordinates, provider evidence, commitments, and feasible PlanVersion.\n\nSealed real replay\nCN / DISCOVERY\nShape the city stop\n\nDescribe a preference, mood, or constraint. The model can choose the semantic direction, but only a server-known place can reach the authoritative plan.\n\nBoundary\nProvider coordinates, opening hours, cost, mobility, and protected commitments remain deterministic facts.\nTraveler intent\nEvidence mode \nSealed real replay\nLive providers\nSynthetic demo replay\nDiscover and compose\n---\nV13.5 · FULLY GROUNDED JOURNEY\n\nAsk for the kind of city day you actually want.\n\nDeepSeek interprets the meaning. CityNexus supplies the coordinates, provider evidence, commitments, and feasible PlanVersion.\n\nSealed real replay\nCN / DISCOVERY\nShape the city stop\n\nDescribe a preference, mood, or constraint. The model can choose the semantic direction, but only a server-known place can reach the authoritative plan.\n\nBoundary\nProvider coordinates, opening hours, cost, mobility, and protected commitments remain deterministic facts.\nTraveler intent\nEvidence mode \nSealed real replay\nLive providers\nSynthetic demo replay\nDiscover and compose"
+    },
+    {
+      "view": "live",
+      "url": "http://127.0.0.1:4173/v8/live",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nLive Journey\nJourney facts ready\n中文\n◌\nTI\n\nLIVE JOURNEY · SAVED 14 SEPT, 02:17\n\nChoose your next leg.\n\nCurrent step, next protected moment, leave-by guidance, and one clear recovery path.\n\nUpdate location\nReport rain\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nNOW\nAwaiting plan · Haihe Riverside Hotel\n\nNEXT · Select a plan to calculate the next leg\n\nAWAITING PLAN\nMode for next leg\nChoose a calm route\nWALK\nBICYCLE\nTRANSIT\nAUTO\nRIDE HAIL\nCompare all modes\nNEXT · LEAVE BY\nAwaiting plan\n\nSelect a plan to calculate your route · 121 min slack\n\n—\nETA · TRANSIT\nRISK\nLOW · route evidence current\nEVIDENCE\nProvider route, freshness, cost and feasibility\nLIVE STATUS\nWhat is happening now\nupdated just now\nCLOCK\n02:17\nAsia/Shanghai\nCURRENT STEP\nAwaiting plan\njourney status\nOFFLINE\nread-only ready\nnext 24 hours saved\n0 sources\nnone recorded yet",
+      "content": "Journeys\n/\nLive Journey\nJourney facts ready\n中文\n◌\nTI\n\nLIVE JOURNEY · SAVED 14 SEPT, 02:17\n\nChoose your next leg.\n\nCurrent step, next protected moment, leave-by guidance, and one clear recovery path.\n\nUpdate location\nReport rain\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nNOW\nAwaiting plan · Haihe Riverside Hotel\n\nNEXT · Select a plan to calculate the next leg\n\nAWAITING PLAN\nMode for next leg\nChoose a calm route\nWALK\nBICYCLE\nTRANSIT\nAUTO\nRIDE HAIL\nCompare all modes\nNEXT · LEAVE BY\nAwaiting plan\n\nSelect a plan to calculate your route · 121 min slack\n\n—\nETA · TRANSIT\nRISK\nLOW · route evidence current\nEVIDENCE\nProvider route, freshness, cost and feasibility\nLIVE STATUS\nWhat is happening now\nupdated just now\nCLOCK\n02:17\nAsia/Shanghai\nCURRENT STEP\nAwaiting plan\njourney status\nOFFLINE\nread-only ready\nnext 24 hours saved\n0 sources\nnone recorded yet\n---\nLIVE JOURNEY · SAVED 14 SEPT, 02:17\n\nChoose your next leg.\n\nCurrent step, next protected moment, leave-by guidance, and one clear recovery path.\n\nUpdate location\nReport rain\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nNOW\nAwaiting plan · Haihe Riverside Hotel\n\nNEXT · Select a plan to calculate the next leg\n\nAWAITING PLAN\nMode for next leg\nChoose a calm route\nWALK\nBICYCLE\nTRANSIT\nAUTO\nRIDE HAIL\nCompare all modes\nNEXT · LEAVE BY\nAwaiting plan\n\nSelect a plan to calculate your route · 121 min slack\n\n—\nETA · TRANSIT\nRISK\nLOW · route evidence current\nEVIDENCE\nProvider route, freshness, cost and feasibility"
+    },
+    {
+      "view": "authoritative",
+      "url": "http://127.0.0.1:4173/v8/authoritative",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nAuthoritative execution\nJourney facts ready\n中文\n◌\nTI\n\nV12 · PLAN, MOBILE, EDGE, AND TWIN\n\nAuthoritative trip execution.\n\nOne frozen PlanVersion feeds the live JourneyTwin, the offline snapshot, the map, and the PIC Edge companion.\n\nRefresh truth\nNo authoritative PlanVersion yet.\nCompose from the server Trip Studio to create the frozen multi-day execution path.",
+      "content": "Journeys\n/\nAuthoritative execution\nJourney facts ready\n中文\n◌\nTI\n\nV12 · PLAN, MOBILE, EDGE, AND TWIN\n\nAuthoritative trip execution.\n\nOne frozen PlanVersion feeds the live JourneyTwin, the offline snapshot, the map, and the PIC Edge companion.\n\nRefresh truth\nNo authoritative PlanVersion yet.\nCompose from the server Trip Studio to create the frozen multi-day execution path.\n---\nV12 · PLAN, MOBILE, EDGE, AND TWIN\n\nAuthoritative trip execution.\n\nOne frozen PlanVersion feeds the live JourneyTwin, the offline snapshot, the map, and the PIC Edge companion.\n\nRefresh truth\nNo authoritative PlanVersion yet.\nCompose from the server Trip Studio to create the frozen multi-day execution path."
+    },
+    {
+      "view": "bookings",
+      "url": "http://127.0.0.1:4173/v8/bookings",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nTravel Wallet\nJourney facts ready\n中文\n◌\nTI\n\nJOURNEY INBOX · TRAVEL WALLET\n\nYour real reservations, protected.\n\nPaste structured reservation JSON, review it, then bind confirmed facts to the Journey as a durable commitment.\n\nSTAY EVIDENCE\nHaihe Riverside Hotel\n\nCity twin · Free cancellation\n\nCN¥360 total\nNot booked\nIMPORT CONFIRMATION\nReservation JSON\nReview and protect\nCritical origin, destination, time, provider and reference facts are never invented.\nAuthority remains explicit\nImporting a confirmed reservation protects it. Any payment, cancellation or irreversible change still passes the Delegation Policy.\nScan ticket code\nZXing deterministic decode · confirmation still required\nOpen scanner\nMULTIMODAL INBOX\nBring a confirmation into the Journey\nsemantic draft · deterministic gate · memory\nPasted confirmation\nExtract text draft\nConfirmation screenshot\nImage bytes are sent only for this extraction request.\nExtract image draft\nAUTHORITATIVE MEMORY\nJourney Memory\n0 protected facts\n\nNo confirmed artifact has been bound to this Journey yet.",
+      "content": "Journeys\n/\nTravel Wallet\nJourney facts ready\n中文\n◌\nTI\n\nJOURNEY INBOX · TRAVEL WALLET\n\nYour real reservations, protected.\n\nPaste structured reservation JSON, review it, then bind confirmed facts to the Journey as a durable commitment.\n\nSTAY EVIDENCE\nHaihe Riverside Hotel\n\nCity twin · Free cancellation\n\nCN¥360 total\nNot booked\nIMPORT CONFIRMATION\nReservation JSON\nReview and protect\nCritical origin, destination, time, provider and reference facts are never invented.\nAuthority remains explicit\nImporting a confirmed reservation protects it. Any payment, cancellation or irreversible change still passes the Delegation Policy.\nScan ticket code\nZXing deterministic decode · confirmation still required\nOpen scanner\nMULTIMODAL INBOX\nBring a confirmation into the Journey\nsemantic draft · deterministic gate · memory\nPasted confirmation\nExtract text draft\nConfirmation screenshot\nImage bytes are sent only for this extraction request.\nExtract image draft\nAUTHORITATIVE MEMORY\nJourney Memory\n0 protected facts\n\nNo confirmed artifact has been bound to this Journey yet.\n---\nJOURNEY INBOX · TRAVEL WALLET\n\nYour real reservations, protected.\n\nPaste structured reservation JSON, review it, then bind confirmed facts to the Journey as a durable commitment.\n\nSTAY EVIDENCE\nHaihe Riverside Hotel\n\nCity twin · Free cancellation\n\nCN¥360 total\nNot booked\nIMPORT CONFIRMATION\nReservation JSON\nReview and protect\nCritical origin, destination, time, provider and reference facts are never invented.\nAuthority remains explicit\nImporting a confirmed reservation protects it. Any payment, cancellation or irreversible change still passes the Delegation Policy.\n---\nScan ticket code\nZXing deterministic decode · confirmation still required\nOpen scanner\n---\nMULTIMODAL INBOX\nBring a confirmation into the Journey\nsemantic draft · deterministic gate · memory\nPasted confirmation\nExtract text draft\nConfirmation screenshot\nImage bytes are sent only for this extraction request.\nExtract image draft\nAUTHORITATIVE MEMORY\nJourney Memory\n0 protected facts\n\nNo confirmed artifact has been bound to this Journey yet."
+    },
+    {
+      "view": "intelligence",
+      "url": "http://127.0.0.1:4173/v8/intelligence",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nIntelligence\nJourney facts ready\n中文\n◌\nTI\n\nINTELLIGENCE · CONTROL TOWER\n\nJudgement up front. Hard facts at the gate.\n\nDeepSeek can interpret a fuzzy city signal. CityNexus verifies the resulting action against the journey, provider state, budget, and commitment envelope.\n\nEnable reversible recovery\nGUARDIAN READY\nAutonomous recovery stays inside the envelope.\n\nRain is a semantic signal. The gate checks the action after it is chosen: stay total, route facts, arrival/departure anchors, schedule slack, and protected commitments.\n\nDeepSeek\n→\nHermes\n→\nGateway\n→\nCP-SAT\n→\nDomain\nPOLICY\nADVISORY\nVersion 1 · pre-authorized transport envelope\nPOST-ACTION GATE\nFeasible\nHard constraints verified after mode change\nCOMMITMENT\nProtected\nDurable moments are not silently broken",
+      "content": "Journeys\n/\nIntelligence\nJourney facts ready\n中文\n◌\nTI\n\nINTELLIGENCE · CONTROL TOWER\n\nJudgement up front. Hard facts at the gate.\n\nDeepSeek can interpret a fuzzy city signal. CityNexus verifies the resulting action against the journey, provider state, budget, and commitment envelope.\n\nEnable reversible recovery\nGUARDIAN READY\nAutonomous recovery stays inside the envelope.\n\nRain is a semantic signal. The gate checks the action after it is chosen: stay total, route facts, arrival/departure anchors, schedule slack, and protected commitments.\n\nDeepSeek\n→\nHermes\n→\nGateway\n→\nCP-SAT\n→\nDomain\nPOLICY\nADVISORY\nVersion 1 · pre-authorized transport envelope\nPOST-ACTION GATE\nFeasible\nHard constraints verified after mode change\nCOMMITMENT\nProtected\nDurable moments are not silently broken\n---\nINTELLIGENCE · CONTROL TOWER\n\nJudgement up front. Hard facts at the gate.\n\nDeepSeek can interpret a fuzzy city signal. CityNexus verifies the resulting action against the journey, provider state, budget, and commitment envelope.\n\nEnable reversible recovery\nGUARDIAN READY\nAutonomous recovery stays inside the envelope.\n\nRain is a semantic signal. The gate checks the action after it is chosen: stay total, route facts, arrival/departure anchors, schedule slack, and protected commitments.\n\nDeepSeek\n→\nHermes\n→\nGateway\n→\nCP-SAT\n→\nDomain\nPOLICY\nADVISORY\nVersion 1 · pre-authorized transport envelope\nPOST-ACTION GATE\nFeasible\nHard constraints verified after mode change\nCOMMITMENT\nProtected\nDurable moments are not silently broken"
+    },
+    {
+      "view": "twin",
+      "url": "http://127.0.0.1:4173/v8/twin",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nTraveler Twin\nJourney facts ready\n中文\n◌\nTI\n\nTRAVELER TWIN · SOFT CONTEXT\n\nPersonalization with a boundary.\n\nExplicit intent wins. Learned evidence helps rank a plan, but never expands budget, payment, commitment, or autonomy authority.\n\nEXPLICIT\n\nFrom this Journey request\n\n0.88\nApplied directly to the current plan objective.\nLEARNED_SOFT\n\nFrom completed Journey outcomes\n\n0.42\nRanking input only · expires with evidence freshness.\nAuthority boundary\n\nTwin evidence can improve a route or hotel ranking. It cannot create a booking, spend money, or weaken a C4 commitment.\n\nInspectable provenance available",
+      "content": "Journeys\n/\nTraveler Twin\nJourney facts ready\n中文\n◌\nTI\n\nTRAVELER TWIN · SOFT CONTEXT\n\nPersonalization with a boundary.\n\nExplicit intent wins. Learned evidence helps rank a plan, but never expands budget, payment, commitment, or autonomy authority.\n\nEXPLICIT\n\nFrom this Journey request\n\n0.88\nApplied directly to the current plan objective.\nLEARNED_SOFT\n\nFrom completed Journey outcomes\n\n0.42\nRanking input only · expires with evidence freshness.\nAuthority boundary\n\nTwin evidence can improve a route or hotel ranking. It cannot create a booking, spend money, or weaken a C4 commitment.\n\nInspectable provenance available\n---\nTRAVELER TWIN · SOFT CONTEXT\n\nPersonalization with a boundary.\n\nExplicit intent wins. Learned evidence helps rank a plan, but never expands budget, payment, commitment, or autonomy authority.\n\nEXPLICIT\n\nFrom this Journey request\n\n0.88\nApplied directly to the current plan objective.\nLEARNED_SOFT\n\nFrom completed Journey outcomes\n\n0.42\nRanking input only · expires with evidence freshness.\nAuthority boundary\n\nTwin evidence can improve a route or hotel ranking. It cannot create a booking, spend money, or weaken a C4 commitment.\n\nInspectable provenance available"
+    },
+    {
+      "view": "agent",
+      "url": "http://127.0.0.1:4173/v8/agent",
+      "text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nAI desk\nJourney facts ready\n中文\n◌\nTI\n\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMission\nJourney · Tianjin · stay-aware weekend\nHandle this plan\nRECENT UNDERSTANDING\nStay + mobility intent\nHotel total ≤ CNY 700 · low walking · rain → transit or taxi\nProtected\nArrival / departure anchors · no payment initiated",
+      "content": "Journeys\n/\nAI desk\nJourney facts ready\n中文\n◌\nTI\n\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMission\nJourney · Tianjin · stay-aware weekend\nHandle this plan\nRECENT UNDERSTANDING\nStay + mobility intent\nHotel total ≤ CNY 700 · low walking · rain → transit or taxi\nProtected\nArrival / departure anchors · no payment initiated\n---\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMission\nJourney · Tianjin · stay-aware weekend\nHandle this plan\nRECENT UNDERSTANDING\nStay + mobility intent\nHotel total ≤ CNY 700 · low walking · rain → transit or taxi\nProtected\nArrival / departure anchors · no payment initiated"
+    },
+    {
+      "view": "mobile-live",
+      "text": "Menu\n/\nLive Journey\n中文\nTI\n\nLIVE JOURNEY · SAVED 14 SEPT, 02:17\n\nChoose your next leg.\n\nCurrent step, next protected moment, leave-by guidance, and one clear recovery path.\n\nUpdate location\nReport rain\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nNOW\nAwaiting plan · Haihe Riverside Hotel\n\nNEXT · Select a plan to calculate the next leg\n\nAWAITING PLAN\nMode for next leg\nChoose a calm route\nWALK\nBICYCLE\nTRANSIT\nAUTO\nRIDE HAIL\nCompare all modes\nNEXT · LEAVE BY\nAwaiting plan\n\nSelect a plan to calculate your route · 121 min slack\n\n—\nETA · TRANSIT\nRISK\nLOW · route evidence current\nEVIDENCE\nProvider route, freshness, cost and feasibility\nLIVE STATUS\nWhat is happening now\nupdated just now\nCLOCK\n02:19\nAsia/Shanghai\nCURRENT STEP\nAwaiting plan\njourney status\nOFFLINE\nread-only ready\nnext 24 hours saved\n0 sources\nnone recorded yet\nJourney Hub\nMap\nAI desk\nTravel Wallet\nMe"
+    }
+  ],
+  "aiDesk": [
+    {
+      "label": "a_demo_command",
+      "text": "下午海河沿线有交通管制，我不想淋雨，游船和晚餐别动，最多多花50元。你自己重新安排。",
+      "note": "the product's own default command: disruption + protected commitments + delegation",
+      "before": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 0,
+        "event_types": [],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "char_length": 42,
+      "dom_length": 42,
+      "dom_value_matches": true,
+      "submit_disabled": false,
+      "busy_after_click": true,
+      "completed_within_timeout": true,
+      "outcome": "submitted_and_completed",
+      "visible_text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nAI desk\nJourney facts ready\n中文\n◌\nTI\nMission activated · CityNexus will monitor the journey inside the current authority envelope.\nDismiss\n\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMission\nJourney · Tianjin · stay-aware weekend\nHandle this plan\nRECENT UNDERSTANDING\nStay + mobility intent\nHotel total ≤ CNY 700 · low walking · rain → transit or taxi\nProtected\nArrival / departure anchors · no payment initiated",
+      "after": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 1,
+        "event_types": [
+          "TRAFFIC_DELAY"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "delta": {
+        "events": 1,
+        "missions": 0,
+        "plan_version_changed": false,
+        "new_event_types": [
+          "TRAFFIC_DELAY"
+        ]
+      }
+    },
+    {
+      "label": "b_hypothetical_rain",
+      "text": "如果下雨会怎样？",
+      "note": "WHAT_IF (8 chars) — must not create a real Event",
+      "before": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 1,
+        "event_types": [
+          "TRAFFIC_DELAY"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "char_length": 8,
+      "dom_length": 8,
+      "dom_value_matches": true,
+      "submit_disabled": false,
+      "busy_after_click": true,
+      "completed_within_timeout": true,
+      "outcome": "submitted_and_completed",
+      "visible_text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nAI desk\nJourney facts ready\n中文\n◌\nTI\nMission activated · CityNexus will monitor the journey inside the current authority envelope.\nDismiss\n\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMission\nJourney · Tianjin · stay-aware weekend\nHandle this plan\nRECENT UNDERSTANDING\nStay + mobility intent\nHotel total ≤ CNY 700 · low walking · rain → transit or taxi\nProtected\nArrival / departure anchors · no payment initiated",
+      "after": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 2,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "delta": {
+        "events": 1,
+        "missions": 0,
+        "plan_version_changed": false,
+        "new_event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER"
+        ]
+      }
+    },
+    {
+      "label": "c1_short_real_rain_7",
+      "text": "现在正在下雨。",
+      "note": "REAL disruption, 7 chars — exercises the min_length=8 gate",
+      "before": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 2,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "char_length": 7,
+      "dom_length": 7,
+      "dom_value_matches": true,
+      "submit_disabled": true,
+      "outcome": "BLOCKED_BY_UI — submit button disabled",
+      "after": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 2,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "delta": {
+        "events": 0,
+        "missions": 0,
+        "plan_version_changed": false,
+        "new_event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER"
+        ]
+      }
+    },
+    {
+      "label": "c2_real_rain_padded_8",
+      "text": "现在正在下雨了。",
+      "note": "the same real disruption padded to 8 chars — does it still fabricate a WEATHER event?",
+      "before": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 2,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "char_length": 8,
+      "dom_length": 8,
+      "dom_value_matches": true,
+      "submit_disabled": false,
+      "busy_after_click": true,
+      "completed_within_timeout": true,
+      "outcome": "submitted_and_completed",
+      "visible_text": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nJourney Hub\nTrip Studio\nStay Explorer\nCity Discovery\nLive Journey\nAuthoritative execution\nTravel Wallet\nIntelligence\nTraveler Twin\nAI desk\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nAI desk\nJourney facts ready\n中文\n◌\nTI\nMission activated · CityNexus will monitor the journey inside the current authority envelope.\nDismiss\n\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMission\nJourney · Tianjin · stay-aware weekend\nHandle this plan\nRECENT UNDERSTANDING\nStay + mobility intent\nHotel total ≤ CNY 700 · low walking · rain → transit or taxi\nProtected\nArrival / departure anchors · no payment initiated",
+      "after": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 3,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "delta": {
+        "events": 1,
+        "missions": 0,
+        "plan_version_changed": false,
+        "new_event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER",
+          "WEATHER"
+        ]
+      }
+    },
+    {
+      "label": "d_preference",
+      "text": "我想少走路。",
+      "note": "preference (6 chars) — must not create a real Event",
+      "before": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 3,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "char_length": 6,
+      "dom_length": 6,
+      "dom_value_matches": true,
+      "submit_disabled": true,
+      "outcome": "BLOCKED_BY_UI — submit button disabled",
+      "after": {
+        "plan_version_id": null,
+        "status": "DRAFT",
+        "currency": null,
+        "timezone": "Asia/Shanghai",
+        "city": null,
+        "event_count": 3,
+        "event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER",
+          "WEATHER"
+        ],
+        "mission_count": 0,
+        "mission_titles": [],
+        "mission_kinds": []
+      },
+      "delta": {
+        "events": 0,
+        "missions": 0,
+        "plan_version_changed": false,
+        "new_event_types": [
+          "TRAFFIC_DELAY",
+          "WEATHER",
+          "WEATHER"
+        ]
+      }
+    }
+  ],
+  "notes": [],
+  "journeyId": "c7787d9a-b821-4e65-bc08-4133cf89884b",
+  "baseline": {
+    "plan_version_id": null,
+    "status": "DRAFT",
+    "currency": null,
+    "timezone": "Asia/Shanghai",
+    "city": null,
+    "event_count": 0,
+    "event_types": [],
+    "mission_count": 0,
+    "mission_titles": [],
+    "mission_kinds": []
+  },
+  "summary": {
+    "console_error_count": 0,
+    "page_error_count": 0,
+    "bad_request_count": 0,
+    "bootstrapped": true
+  }
+}

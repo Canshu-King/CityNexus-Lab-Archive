@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "harness": "tests/frontend_runtime_truth.mjs",
+    "base": "http://127.0.0.1:4173",
+    "viewports": [
+      "F-desktop 1440x900",
+      "F-iphone 390x844",
+      "F-iphone-max 430x932"
+    ],
+    "generated_at": "2026-09-14T17:50:22.485Z"
+  },
+  "summary": {
+    "PASS": 12,
+    "FAIL": 3,
+    "NOT_TESTED": 0
+  },
+  "scenarios": [
+    {
+      "id": "F-desktop-F1",
+      "name": "[desktop 1440x900] runtime card shows the computed identity",
+      "expected": "card present and does not claim HERMES_NATIVE_MCP",
+      "actual": "text=\"Agent runtime sourceNOT_CONFIGUREDNative Hermes MCP is not claimed without a verified proof run\"",
+      "status": "PASS",
+      "evidence": {
+        "url": "http://127.0.0.1:4173/v8/intelligence",
+        "pageErrors": []
+      }
+    },
+    {
+      "id": "F-desktop-F5",
+      "name": "[desktop 1440x900] runtime card value/caveat are block-level (no run-on line)",
+      "expected": "computed display of <b> and <small> is not 'inline'",
+      "actual": "display=[\"inline\",\"inline\",\"inline\"] tops=[587,587,589]",
+      "status": "FAIL",
+      "evidence": {
+        "span": {
+          "display": "inline",
+          "top": 587,
+          "text": "Agent runtime source"
+        },
+        "b": {
+          "display": "inline",
+          "top": 587,
+          "text": "NOT_CONFIGURED"
+        },
+        "small": {
+          "display": "inline",
+          "top": 589,
+          "text": "Native Hermes MCP is not claimed without"
+        }
+      }
+    },
+    {
+      "id": "F-desktop-F2",
+      "name": "[desktop 1440x900] copilot shows no native-Hermes run chrome",
+      "expected": "no run rail and no Stop button while runtime is not HERMES_NATIVE_MCP",
+      "actual": "rail=0 stop=0",
+      "status": "PASS",
+      "evidence": {
+        "url": "http://127.0.0.1:4173/v8/agent"
+      }
+    },
+    {
+      "id": "F-desktop-F3",
+      "name": "[desktop 1440x900] layout does not alter the runtime claim",
+      "expected": "runtime text identical to the honest identity",
+      "actual": "desktop baseline 1440x900 -> \"Agent runtime sourceNOT_CONFIGUREDNative Hermes MCP is not claimed without a verified proof run\"",
+      "status": "PASS"
+    },
+    {
+      "id": "F-desktop-F4",
+      "name": "[desktop 1440x900] no uncaught page errors and no 5xx during the walk",
+      "expected": "pageErrors=0 and no 5xx responses",
+      "actual": "pageErrors=0 5xx=0 ",
+      "status": "PASS",
+      "evidence": {
+        "pageErrors": [],
+        "badResponses": [],
+        "consoleErrors": []
+      }
+    },
+    {
+      "id": "F-iphone-F1",
+      "name": "[iPhone 390x844] runtime card shows the computed identity",
+      "expected": "card present and does not claim HERMES_NATIVE_MCP",
+      "actual": "text=\"Agent runtime sourceNOT_CONFIGUREDNative Hermes MCP is not claimed without a verified proof run\"",
+      "status": "PASS",
+      "evidence": {
+        "url": "http://127.0.0.1:4173/v8/intelligence",
+        "pageErrors": []
+      }
+    },
+    {
+      "id": "F-iphone-F5",
+      "name": "[iPhone 390x844] runtime card value/caveat are block-level (no run-on line)",
+      "expected": "computed display of <b> and <small> is not 'inline'",
+      "actual": "display=[\"inline\",\"inline\",\"inline\"] tops=[680,700,702]",
+      "status": "FAIL",
+      "evidence": {
+        "span": {
+          "display": "inline",
+          "top": 680,
+          "text": "Agent runtime source"
+        },
+        "b": {
+          "display": "inline",
+          "top": 700,
+          "text": "NOT_CONFIGURED"
+        },
+        "small": {
+          "display": "inline",
+          "top": 702,
+          "text": "Native Hermes MCP is not claimed without"
+        }
+      }
+    },
+    {
+      "id": "F-iphone-F2",
+      "name": "[iPhone 390x844] copilot shows no native-Hermes run chrome",
+      "expected": "no run rail and no Stop button while runtime is not HERMES_NATIVE_MCP",
+      "actual": "rail=0 stop=0",
+      "status": "PASS",
+      "evidence": {
+        "url": "http://127.0.0.1:4173/v8/agent"
+      }
+    },
+    {
+      "id": "F-iphone-F3",
+      "name": "[iPhone 390x844] layout does not alter the runtime claim",
+      "expected": "runtime text identical to the honest identity",
+      "actual": "same identity on mobile viewport 390x844 -> \"Agent runtime sourceNOT_CONFIGUREDNative Hermes MCP is not claimed without a verified proof run\"",
+      "status": "PASS"
+    },
+    {
+      "id": "F-iphone-F4",
+      "name": "[iPhone 390x844] no uncaught page errors and no 5xx during the walk",
+      "expected": "pageErrors=0 and no 5xx responses",
+      "actual": "pageErrors=0 5xx=0 ",
+      "status": "PASS",
+      "evidence": {
+        "pageErrors": [],
+        "badResponses": [],
+        "consoleErrors": []
+      }
+    },
+    {
+      "id": "F-iphone-max-F1",
+      "name": "[iPhone Pro Max 430x932] runtime card shows the computed identity",
+      "expected": "card present and does not claim HERMES_NATIVE_MCP",
+      "actual": "text=\"Agent runtime sourceNOT_CONFIGUREDNative Hermes MCP is not claimed without a verified proof run\"",
+      "status": "PASS",
+      "evidence": {
+        "url": "http://127.0.0.1:4173/v8/intelligence",
+        "pageErrors": []
+      }
+    },
+    {
+      "id": "F-iphone-max-F5",
+      "name": "[iPhone Pro Max 430x932] runtime card value/caveat are block-level (no run-on line)",
+      "expected": "computed display of <b> and <small> is not 'inline'",
+      "actual": "display=[\"inline\",\"inline\",\"inline\"] tops=[650,670,672]",
+      "status": "FAIL",
+      "evidence": {
+        "span": {
+          "display": "inline",
+          "top": 650,
+          "text": "Agent runtime source"
+        },
+        "b": {
+          "display": "inline",
+          "top": 670,
+          "text": "NOT_CONFIGURED"
+        },
+        "small": {
+          "display": "inline",
+          "top": 672,
+          "text": "Native Hermes MCP is not claimed without"
+        }
+      }
+    },
+    {
+      "id": "F-iphone-max-F2",
+      "name": "[iPhone Pro Max 430x932] copilot shows no native-Hermes run chrome",
+      "expected": "no run rail and no Stop button while runtime is not HERMES_NATIVE_MCP",
+      "actual": "rail=0 stop=0",
+      "status": "PASS",
+      "evidence": {
+        "url": "http://127.0.0.1:4173/v8/agent"
+      }
+    },
+    {
+      "id": "F-iphone-max-F3",
+      "name": "[iPhone Pro Max 430x932] layout does not alter the runtime claim",
+      "expected": "runtime text identical to the honest identity",
+      "actual": "same identity on mobile viewport 430x932 -> \"Agent runtime sourceNOT_CONFIGUREDNative Hermes MCP is not claimed without a verified proof run\"",
+      "status": "PASS"
+    },
+    {
+      "id": "F-iphone-max-F4",
+      "name": "[iPhone Pro Max 430x932] no uncaught page errors and no 5xx during the walk",
+      "expected": "pageErrors=0 and no 5xx responses",
+      "actual": "pageErrors=0 5xx=0 ",
+      "status": "PASS",
+      "evidence": {
+        "pageErrors": [],
+        "badResponses": [],
+        "consoleErrors": []
+      }
+    }
+  ]
+}

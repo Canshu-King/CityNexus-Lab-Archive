@@ -1,0 +1,160 @@
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -1604,6 +1604,12 @@
+             _ReplanCandidateSpec(family="F0_STABLE_COPY", replacement_choice=None)
+         )
+ 
++    traveler_preferences = session.scalars(
++        select(Preference)
++        .where(Preference.traveler_id == journey.traveler_id)
++        .order_by(Preference.category, Preference.preference_key)
++    ).all()
++
+     solver_mode = normalize_solver_mode(os.getenv("CITYNEXUS_SOLVER", settings.solver_mode))
+     solver_attempt: SolverAttempt | None = None
+     solver_specs: list[_ReplanCandidateSpec] = []
+@@ -1627,6 +1633,11 @@
+         solver_mode != "deterministic"
+         and trigger_event.event_type in {"CLOSURE", "WEATHER"}
+         and affected is not None
++        # V1 models only the disrupted current slot through the next C4 anchor.
++        # Future affected Activities with intervening mutable Activities remain
++        # on the deterministic path until a later multi-slot solver contract.
++        and current_execution is not None
++        and affected.id == current_execution.id
+         and affected.id not in protected_activity_ids
+         and not affected.locked
+         and bool(replacement_choices)
+@@ -1659,6 +1670,13 @@
+             latest_end_min = _minute_from_start(closes_at)
+             if latest_end_min <= earliest_start_min:
+                 continue
++            candidate_tags = set(json.loads(candidate_place.tags_json or "[]"))
++            solver_preference_fit = verified_interest_preference_fit(
++                traveler_preferences, candidate_tags=candidate_tags
++            )
++            solver_preference_milli = int(
++                round((0.5 if solver_preference_fit is None else solver_preference_fit) * 1000)
++            )
+             solver_options.append(
+                 SolverReplacementOption(
+                     option_key=choice.place_id,
+@@ -1670,7 +1688,7 @@
+                     original_start_min=max(
+                         0, _minute_from_start(datetime.fromisoformat(affected.start_at))
+                     ),
+-                    preference_milli=0,
++                    preference_milli=solver_preference_milli,
+                 )
+             )
+         if solver_options:
+@@ -1742,14 +1760,6 @@
+         else:
+             solver_fallback_reason = "SOLVER_NO_ELIGIBLE_OPTIONS"
+ 
+-    solver_assignment_keys = {
+-        "DROP"
+-        if spec.candidate_remove
+-        else str(spec.replacement_choice.place_id)
+-        if spec.replacement_choice is not None
+-        else spec.family
+-        for spec in solver_specs
+-    }
+     fallback_status = (
+         solver_attempt.terminal_status
+         if solver_attempt is not None
+@@ -1760,17 +1770,19 @@
+     fallback_problem_fingerprint = (
+         solver_attempt.problem_fingerprint if solver_attempt is not None else None
+     )
++    if solver_attempt is not None and solver_attempt.used_solver:
++        heuristic_fallback_reason = "ORTOOLS_CANDIDATE_SET_COMPLEMENT"
++    elif solver_attempt is not None and solver_attempt.fallback_reason:
++        heuristic_fallback_reason = solver_attempt.fallback_reason
++    else:
++        heuristic_fallback_reason = solver_fallback_reason
++
++    # Keep all deterministic assignments behind solver specs. Successful solver
++    # assignments suppress duplicates only after they pass the authoritative gate.
++    # If a solver schedule is rejected, the same semantic option can still be
++    # rescued by the deterministic schedule.
+     fallback_specs: list[_ReplanCandidateSpec] = []
+     for spec in heuristic_specs:
+-        assignment_key = (
+-            "DROP"
+-            if spec.candidate_remove
+-            else str(spec.replacement_choice.place_id)
+-            if spec.replacement_choice is not None
+-            else spec.family
+-        )
+-        if assignment_key in solver_assignment_keys:
+-            continue
+         fallback_specs.append(
+             _ReplanCandidateSpec(
+                 family=spec.family,
+@@ -1781,7 +1793,7 @@
+                 solver_provenance={
+                     "kind": "DETERMINISTIC_HEURISTIC",
+                     "solver_status": fallback_status,
+-                    "fallback_reason": solver_fallback_reason,
++                    "fallback_reason": heuristic_fallback_reason,
+                     "problem_fingerprint": fallback_problem_fingerprint,
+                     "mobility_snapshot_id": mobility.snapshot_id,
+                 },
+@@ -1842,15 +1854,22 @@
+     base_route_total = _frozen_route_total(source)
+     created: list[ReplanProposalModel] = []
+     failed_reasons: set[str] = set()
+-    traveler_preferences = session.scalars(
+-        select(Preference)
+-        .where(Preference.traveler_id == journey.traveler_id)
+-        .order_by(Preference.category, Preference.preference_key)
+-    ).all()
++    accepted_assignment_keys: set[str] = set()
++    rejected_solver_assignment_keys: set[str] = set()
++
++    def _spec_assignment_key(spec: _ReplanCandidateSpec) -> str:
++        if spec.candidate_remove:
++            return "DROP"
++        if spec.replacement_choice is not None:
++            return str(spec.replacement_choice.place_id)
++        return spec.family
+ 
+     for generation_rank, spec in enumerate(specs):
+         if len(created) >= body.candidate_count:
+             break
++        assignment_key = _spec_assignment_key(spec)
++        if assignment_key in accepted_assignment_keys:
++            continue
+         family = spec.family
+         replacement_choice = spec.replacement_choice
+         candidate_delay = spec.candidate_delay
+@@ -1858,6 +1877,11 @@
+         window_evidence = spec.window_evidence
+         generator_evidence = dict(spec.solver_provenance or {})
+         generator_evidence.setdefault("kind", "DETERMINISTIC_HEURISTIC")
++        if (
++            generator_evidence.get("kind") == "DETERMINISTIC_HEURISTIC"
++            and assignment_key in rejected_solver_assignment_keys
++        ):
++            generator_evidence["fallback_reason"] = "ORTOOLS_POST_GATE_FALLBACK"
+         generator_evidence.setdefault("rank", generation_rank)
+         proposed = PlanVersion(
+             id=str(uuid4()),
+@@ -1992,6 +2016,8 @@
+         )
+         if not gate.passed:
+             failed_reasons.update(gate.failures)
++            if generator_evidence.get("kind") == "ORTOOLS_CP_SAT":
++                rejected_solver_assignment_keys.add(assignment_key)
+             session.execute(delete(Activity).where(Activity.plan_version_id == proposed.id))
+             session.delete(proposed)
+             session.flush()
+@@ -2174,6 +2200,7 @@
+             },
+         )
+         created.append(proposal)
++        accepted_assignment_keys.add(assignment_key)
+ 
+     if not created:
+         session.rollback()

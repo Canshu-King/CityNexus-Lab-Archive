@@ -1,0 +1,49 @@
+[
+  {
+    "ts": "2026-09-16T18:47:58.105Z",
+    "step": "shot",
+    "n": "trips",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\tab_trips.png"
+  },
+  {
+    "ts": "2026-09-16T18:47:58.121Z",
+    "step": "tab_trips",
+    "textSample": "菜单 / 行程 EN CN 行程 住宿 预订 花费 行程 还没有可看的行程 这个行程还没有选定的方案。先让 AI 帮你规划，选定方案后这里会显示逐日安排。 AI 帮我规划 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+    "leaks": {}
+  },
+  {
+    "ts": "2026-09-16T18:48:03.775Z",
+    "step": "shot",
+    "n": "map",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\tab_map.png"
+  },
+  {
+    "ts": "2026-09-16T18:48:03.786Z",
+    "step": "tab_map",
+    "textSample": "菜单 / 地图 EN CN 地图 · 一目了然 整座城市，行程叠加其上。 采集的路线几何和供应商事实在你穿越行程时始终可见。 对比出行方式 尚未获取地图位置 这个行程还没有可信的坐标。添加活动地点或开启定位后，地图会显示正确的城市。 下一段路程 等待方案 未知费用保持未知。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+    "leaks": {}
+  },
+  {
+    "ts": "2026-09-16T18:48:09.428Z",
+    "step": "shot",
+    "n": "me",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\tab_me.png"
+  },
+  {
+    "ts": "2026-09-16T18:48:09.439Z",
+    "step": "tab_me",
+    "textSample": "菜单 / 我的 EN CN 我的 · 权限边界 你的偏好，你的边界。 CityNexus 在采取行动前，让委托自主权的范围清晰可见。 当前模式 ADVISORY 版本 1。 操作暂停等待确认。 启用交通恢复 预授权 最大增加费用： ¥0.00 最大损失： ¥0.00 时间偏移： 0 分钟 受保护：到达、出发及已确认的预订 行程上下文 2 位旅行者 · 2 位成人 住宿预算 ¥1,000.00 · CN-厦门 通知 RECORD_ONLY 正在检查推送通道… 启用 Web Push ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+    "leaks": {}
+  },
+  {
+    "ts": "2026-09-16T18:48:11.530Z",
+    "step": "shot",
+    "n": "menu_open",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\tab_menu_open.png"
+  },
+  {
+    "ts": "2026-09-16T18:48:11.531Z",
+    "step": "menu_text",
+    "text": "菜单 / 我的 EN CN 我的 · 权限边界 你的偏好，你的边界。 CityNexus 在采取行动前，让委托自主权的范围清晰可见。 当前模式 ADVISORY 版本 1。 操作暂停等待确认。 启用交通恢复 预授权 最大增加费用： ¥0.00 最大损失： ¥0.00 时间偏移： 0 分钟 受保护：到达、出发及已确认的预订 行程上下文 2 位旅行者 · 2 位成人 住宿预算 ¥1,000.00 · CN-厦门 通知 RECORD_ONLY 正在检查推送通道… 启用 Web Push ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的 全部路由 关闭 TODAY 今天 实时行程 地图 PLAN 行程工作台 住宿选择 城市探索 TRAVEL 旅行票夹 Copilot SYSTEM 恢复与执行 智能守护 旅行者画像 行程 我的"
+  }
+]

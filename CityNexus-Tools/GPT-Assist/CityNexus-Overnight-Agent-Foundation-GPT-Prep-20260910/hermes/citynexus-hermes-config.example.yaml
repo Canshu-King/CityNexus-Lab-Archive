@@ -1,0 +1,11 @@
+# Example only. Confirm syntax against the installed Hermes version before use.
+# The CityNexus MCP server itself must expose only the safe V1 allowlist.
+
+mcp_servers:
+  citynexus:
+    command: "python"
+    args:
+      - "D:/moodle/CityNexus/agent-mcp/citynexus_mcp/server.py"
+    env:
+      CITYNEXUS_API_BASE_URL: "http://127.0.0.1:8000"
+      CITYNEXUS_AGENT_API_KEY: "replace-with-local-dev-key"

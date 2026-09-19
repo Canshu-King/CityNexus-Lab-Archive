@@ -1,0 +1,300 @@
+{
+ "run": "canonical-e2e-1",
+ "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+ "started": "2026-09-17T03:12:50.069Z",
+ "finished": "2026-09-17T03:17:40.397Z",
+ "viewport": "390x844 (mobile, dpr 3)",
+ "copilot_useful": true,
+ "replan": {
+  "target": "鼓浪屿风琴博物馆(临时展馆)",
+  "preserved": true,
+  "removed": 1,
+  "added": 1,
+  "before_titles": "厦门高崎国际机场 / 鼓浪屿风琴博物馆(临时展馆) / OSM museum / Check in · 舒曼精 / 琴园 / OSM restaurant / Overnight · 舒曼 / OSM garden / 日光岩 / OSM museum / OSM museum / Overnight · 舒曼 / Check out · 舒曼 / 厦门北站",
+  "after_titles": "厦门高崎国际机场 / 鼓浪屿风琴博物馆(临时展馆) / OSM museum / Check in · 舒曼精 / 琴园 / OSM restaurant / Overnight · 舒曼 / OSM garden / 日光岩 / OSM museum / OSM museum / Overnight · 舒曼 / Check out · 舒曼 / 厦门北站",
+  "triple_agreement": true
+ },
+ "trace": [
+  {
+   "ts": "2026-09-17T03:12:50.069Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "open-root",
+   "status": "200",
+   "result": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexu"
+  },
+  {
+   "ts": "2026-09-17T03:12:50.552Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "wizard-step1",
+   "status": "filled",
+   "result": "已自动设置：中国 · 人民币 · 中国标准时间"
+  },
+  {
+   "ts": "2026-09-17T03:12:51.336Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "wizard-step2",
+   "status": "shown",
+   "result": "budget 3000 / stay 1000"
+  },
+  {
+   "ts": "2026-09-17T03:12:52.115Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "wizard-step3",
+   "status": "shown",
+   "result": "厦门 | CNY 3000 / 1000 | 2 · 1 | relaxed"
+  },
+  {
+   "ts": "2026-09-17T03:12:59.197Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/",
+   "action": "create-journey",
+   "status": "201",
+   "result": "618fca41-428f-460f-ab92-1253c62f16fe"
+  },
+  {
+   "ts": "2026-09-17T03:13:24.240Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/hub",
+   "action": "ai-plan",
+   "status": "plans-ready(3)",
+   "result": "已生成 3 个可选方案 去“今天”对比这几个方案，选一个再继续。 用户首次到厦门，核心愿望是看海、逛老街、看日落，并希望节奏放松。因此将这三项列为受保护活动，未指定可变更活动；预算与损失约束保持默认，并允许一定行程弹性。"
+  },
+  {
+   "ts": "2026-09-17T03:13:28.983Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/hub",
+   "action": "plan-compare",
+   "status": "3 cards",
+   "result": "预算内 / 预算内 / 预算内"
+  },
+  {
+   "ts": "2026-09-17T03:13:30.588Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/hub",
+   "action": "choose-plan",
+   "status": "selected",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:13:35.747Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "itinerary",
+   "status": "4 stops",
+   "result": "days=2 protected=0"
+  },
+  {
+   "ts": "2026-09-17T03:13:37.905Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "activity-detail",
+   "status": "opened",
+   "result": "鼓浪屿风琴博物馆(临时展馆) | 24.4442, 118.0688 | 1 小时 | 暂无价格"
+  },
+  {
+   "ts": "2026-09-17T03:13:40.017Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "detail-show-on-map",
+   "status": "map-shown",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:13:45.429Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "detail-back",
+   "status": "returned",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:13:51.055Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "hotel-compare",
+   "status": "10 hotels",
+   "result": "舒曼精品酒店 / 汉庭酒店 / 7天酒店 / 圣西罗洒店"
+  },
+  {
+   "ts": "2026-09-17T03:13:56.631Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "choose-hotel",
+   "status": "selected",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:13:56.719Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/api",
+   "action": "truth-after-hotel",
+   "status": "14 activities",
+   "result": "pois=8 locked=6 days=2026-11-06,2026-11-07,2026-11-08 | 厦门高崎国际机场 / Check in · 舒曼精品酒店 / Overnight · 舒曼精品酒店 / Overnight · 舒曼精品酒店 / Check out · 舒曼精品酒店 / 厦门北站"
+  },
+  {
+   "ts": "2026-09-17T03:13:56.747Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/api",
+   "action": "stay-truth",
+   "status": "SELECTED",
+   "result": "undefined in=undefined out=undefined"
+  },
+  {
+   "ts": "2026-09-17T03:14:09.094Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "booking-manual-draft",
+   "status": "draft-created",
+   "result": "DeepSeek 语义解读UNKNOWN · 置信度待定目标 · 未绑定的语义目标支付 · UNKNOWN"
+  },
+  {
+   "ts": "2026-09-17T03:14:18.707Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "booking-review",
+   "status": "review-required",
+   "result": "STRUCTURED_JSON · CONFIRMED / DETERMINISTIC / DeepSeek 语义解读DEPARTURE · 100% 置信度目标 · Departure anchor支付 · UNKNOWN"
+  },
+  {
+   "ts": "2026-09-17T03:14:18.710Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "booking-import",
+   "status": "applied",
+   "result": "wallet=1 entries"
+  },
+  {
+   "ts": "2026-09-17T03:14:23.888Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "booking-visible",
+   "status": "visible",
+   "result": "ref=1 title=1"
+  },
+  {
+   "ts": "2026-09-17T03:16:09.995Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/agent",
+   "action": "copilot-question",
+   "status": "empty",
+   "result": "你 鼓浪屿好玩吗？"
+  },
+  {
+   "ts": "2026-09-17T03:16:16.705Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/map",
+   "action": "map",
+   "status": "panel",
+   "result": "canvas=354x390"
+  },
+  {
+   "ts": "2026-09-17T03:16:24.352Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/live",
+   "action": "live-open",
+   "status": "has-next",
+   "result": "next=\"下一站：厦门高崎国际机场\" disruption=false"
+  },
+  {
+   "ts": "2026-09-17T03:16:24.452Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/api",
+   "action": "disruption-event",
+   "status": 201,
+   "result": "CLOSURE -> 鼓浪屿风琴博物馆(临时展馆) (id ok)"
+  },
+  {
+   "ts": "2026-09-17T03:16:24.593Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/api",
+   "action": "replan-proposal",
+   "status": 201,
+   "result": "preserved=true removed=1 added=1 "
+  },
+  {
+   "ts": "2026-09-17T03:16:32.182Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/live",
+   "action": "disruption-visible",
+   "status": "shown",
+   "result": "proposal=true affected=\" · 受影响：鼓浪屿风琴博物馆(临时展馆)\" unchanged=\"已确认的预订和到达/离开时间保持不变。\""
+  },
+  {
+   "ts": "2026-09-17T03:16:34.262Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/live",
+   "action": "accept-replan",
+   "status": "accepted",
+   "result": "已按新安排更新你的行程。"
+  },
+  {
+   "ts": "2026-09-17T03:16:34.387Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/api",
+   "action": "final-truth",
+   "status": "14 activities",
+   "result": "changed=true lockedKept=6 | 厦门高崎国际机场 / 鼓浪屿风琴博物馆(临时展馆) / OSM museum / Check in · 舒曼精 / 琴园 / OSM restaurant / Overnight · 舒曼 / OSM garden / 日光岩 / OSM museum / OSM museum / Overnight · 舒曼 / Check out · 舒"
+  },
+  {
+   "ts": "2026-09-17T03:16:39.579Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "trips-after-replan",
+   "status": "7 stops",
+   "result": "Trips and Live must agree with the backend"
+  },
+  {
+   "ts": "2026-09-17T03:16:39.579Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/live",
+   "action": "live-after-replan",
+   "status": "has-next",
+   "result": "next=\"下一站：厦门高崎国际机场\""
+  },
+  {
+   "ts": "2026-09-17T03:16:39.621Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/api",
+   "action": "triple-agreement",
+   "status": "consistent",
+   "result": "trips=7 backend=14 live=\"下一站：厦门高崎国际机场\""
+  },
+  {
+   "ts": "2026-09-17T03:16:47.265Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/hub",
+   "action": "language-roundtrip",
+   "status": "ok",
+   "result": "zh=\"厦门之旅\" en=\"Trip to Xiamen\" zh2=\"厦门之旅\""
+  },
+  {
+   "ts": "2026-09-17T03:16:55.988Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/trips",
+   "action": "hard-refresh",
+   "status": "stable",
+   "result": "7 -> 7"
+  },
+  {
+   "ts": "2026-09-17T03:17:06.176Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8",
+   "action": "back-forward",
+   "status": "ok",
+   "result": "trips=true back=true forward=true"
+  },
+  {
+   "ts": "2026-09-17T03:17:40.348Z",
+   "journey_id": "618fca41-428f-460f-ab92-1253c62f16fe",
+   "route": "/v8/agent",
+   "action": "copilot-after-replan",
+   "status": "empty",
+   "result": ""
+  }
+ ],
+ "errors": []
+}

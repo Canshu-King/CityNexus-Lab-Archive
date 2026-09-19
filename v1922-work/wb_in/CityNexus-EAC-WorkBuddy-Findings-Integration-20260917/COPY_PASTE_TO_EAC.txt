@@ -1,0 +1,34 @@
+Use the attached:
+
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917.zip
+
+alongside your CURRENT CityNexus repository state.
+
+Do not roll back to the WorkBuddy baseline.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/EAC_INTEGRATION_TASK.md
+
+Revalidate WB-H1 through WB-H5 against CURRENT code first.
+
+Do not blindly git apply the WorkBuddy patch files:
+they are based on an older isolated baseline and are UTF-16 with absolute-path
+diff headers.
+
+Port only the findings that are still open.
+
+Highest priority:
+- AI plan false-success
+- consumer booking import truth
+- Copilot internal-language leaks
+- Today/Copilot blank empty states
+- hotel pseudo-evidence on no-data
+
+Preserve the good existing offline/duplicate-protection behavior.
+
+Continue the existing overnight product mission after integrating these findings.

@@ -1,0 +1,53 @@
+# CityNexus Autonomous City Intelligence V3 — changed implementation areas
+
+## Agent authority and runtime
+
+- backend/app/agent/approval.py
+- backend/app/agent/gateway.py
+- backend/app/agent/mission.py
+- backend/app/agent/runtime.py
+- backend/app/db/models.py
+- backend/app/db/session.py
+- backend/app/main.py
+- backend/app/schemas.py
+- backend/db/schema.sql
+- backend/tests/test_gpt_agent_authority_v3.py
+- backend/tests/test_agent_mission_runtime.py
+- backend/tests/test_agent_runtime_gate.py
+
+## Impact and alternatives
+
+- backend/app/intelligence/impact_resolver.py
+- backend/app/intelligence/impact_validation.py
+- backend/app/replanning/mock_replan_engine.py
+- backend/tests/test_impact_resolver.py
+- backend/tests/test_agent_alternatives_v3.py
+
+## Solver V2
+
+- backend/app/planning/solver_v2.py
+- backend/app/planning/solver_runtime.py
+- backend/tests/test_solver_v2.py
+- backend/tests/test_solver_v2_integration.py
+- docs/implementation/solver-runtime/SOLVER_V2_STATUS.md
+
+## MCP, contracts, and frontend
+
+- agent-mcp/citynexus_mcp/server.py
+- agent-mcp/citynexus_mcp/schemas.py
+- agent-mcp/tests/test_mcp_boundary.py
+- contracts/openapi.yaml
+- frontend/src/api/citynexus.ts
+- frontend/src/main.tsx
+- frontend/src/components/JourneyMap.tsx
+- frontend/src/styles.css
+- frontend/e2e/product-hardening.spec.ts
+
+## Reports and review artifacts
+
+- CURRENT_STATUS.md
+- BLOCKERS.md
+- TEST_RESULTS.md
+- PACKAGE-MANIFEST.json
+- reports/product-v3/PROGRESS.md
+- reports/product-v3/FINAL_REPORT.md

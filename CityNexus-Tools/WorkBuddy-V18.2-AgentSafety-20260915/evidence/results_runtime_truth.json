@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "harness": "tests/runtime_truth.py",
+    "base_url": "http://127.0.0.1:8021",
+    "generated_at": "2026-09-14T17:44:13.306810+00:00"
+  },
+  "summary": {
+    "PASS": 4,
+    "FAIL": 2,
+    "NOT_TESTED": 0
+  },
+  "scenarios": [
+    {
+      "id": "A1",
+      "name": "runtime_identity is computed and never claims HERMES_NATIVE_MCP unproven",
+      "expected": "identity in known set AND (identity!=HERMES_NATIVE_MCP OR native_mcp_proven=true)",
+      "actual": "identity=NOT_CONFIGURED native_mcp_proven=False",
+      "status": "PASS",
+      "evidence": {
+        "runtime_identity": "NOT_CONFIGURED",
+        "native_binary_detected": false,
+        "native_mcp_proven": false,
+        "mcp_server": "citynexus-v2",
+        "deepseek_configured": false,
+        "hermes_compat_configured": false,
+        "hermes_native_gateway": {
+          "configured": false,
+          "reachable": false,
+          "runs": false,
+          "events": false,
+          "approval": false,
+          "profile": "citynexus",
+          "provider": null,
+          "model": null
+        }
+      }
+    },
+    {
+      "id": "A2",
+      "name": "hermes/capabilities exposes `ready` in the unconfigured branch",
+      "expected": "response contains the `ready` key",
+      "actual": "keys=['approval', 'configured', 'events', 'model', 'profile', 'provider', 'reachable', 'runs']",
+      "status": "FAIL",
+      "evidence": {
+        "configured": false,
+        "reachable": false,
+        "runs": false,
+        "events": false,
+        "approval": false,
+        "profile": "citynexus",
+        "provider": null,
+        "model": null
+      }
+    },
+    {
+      "id": "A3",
+      "name": "unconfigured native-Hermes proxy endpoints do not 500",
+      "expected": "GET runs/{id} and POST stop return 4xx/5xx-with-envelope, never a bare 500",
+      "actual": "GET runs=500 POST stop=500",
+      "status": "FAIL",
+      "evidence": {
+        "get_body": "Internal Server Error",
+        "stop_body": "Internal Server Error"
+      }
+    },
+    {
+      "id": "A4",
+      "name": "copilot does not fabricate a HERMES_NATIVE_MCP run when Hermes is down",
+      "expected": "agent_run is null",
+      "actual": "http=200 agent_run=None",
+      "status": "PASS",
+      "evidence": {
+        "message": "我没有可靠识别这条请求。可以问我为什么这样安排、如果多待一小时会怎样、找一个室内地点，或报告正在发生的交通/天气变化。",
+        "mode": "FALLBACK",
+        "verified_context_used": true,
+        "intent": {
+          "name": "UNKNOWN",
+          "confidence": 0.72,
+          "reason": "no supported semantic route matched",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        },
+        "action": null,
+        "what_if": null,
+        "event": null,
+        "verification": null,
+        "agent_run": null,
+        "protected_commitments": [],
+        "evidence": {
+          "journey_id": "22222222-2222-4222-8222-222222222222",
+          "city_code": "CNX-DEMO",
+          "selected_plan_version_id": null,
+          "provider_facts": false,
+          "simulation_only": false
+        },
+        "recommendations": []
+      }
+    },
+    {
+      "id": "A5",
+      "name": "tool catalogue: read tools declare mutates_domain_truth=false, mutators true",
+      "expected": "all reads false, all typed mutators true",
+      "actual": "names_ok=True reads=True mutators=True",
+      "status": "PASS",
+      "evidence": {
+        "catalog": [
+          {
+            "name": "inspect_journey",
+            "action": "INSPECT_JOURNEY",
+            "mutates_domain_truth": false,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "inspect_twin",
+            "action": "INSPECT_TWIN",
+            "mutates_domain_truth": false,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "list_replans",
+            "action": "LIST_REPLANS",
+            "mutates_domain_truth": false,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "search_city_services",
+            "action": "SEARCH_CITY_SERVICES",
+            "mutates_domain_truth": false,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "request_replan",
+            "action": "REQUEST_REPLAN",
+            "mutates_domain_truth": true,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "accept_replan",
+            "action": "ACCEPT_REPLAN",
+            "mutates_domain_truth": true,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "replace_activity",
+            "action": "REPLACE_ACTIVITY",
+            "mutates_domain_truth": true,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "reschedule_activity",
+            "action": "RESCHEDULE_ACTIVITY",
+            "mutates_domain_truth": true,
+            "changes_money": false,
+            "changes_c4": false
+          },
+          {
+            "name": "create_booking",
+            "action": "CREATE_BOOKING",
+            "mutates_domain_truth": true,
+            "changes_money": true,
+            "changes_c4": false
+          },
+          {
+            "name": "cancel_refundable_booking",
+            "action": "CANCEL_REFUNDABLE_BOOKING",
+            "mutates_domain_truth": true,
+            "changes_money": true,
+            "changes_c4": false
+          },
+          {
+            "name": "request_commitment_change",
+            "action": "REQUEST_COMMITMENT_CHANGE",
+            "mutates_domain_truth": true,
+            "changes_money": false,
+            "changes_c4": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "A6",
+      "name": "unknown v2 tool name is refused",
+      "expected": "404/422 error envelope",
+      "actual": "http=404 body={'error': {'code': 'NOT_FOUND', 'message': 'Agent tool is not in the CityNexus allowlist', 'trace_id': 'd495cfb9-1515-44",
+      "status": "PASS",
+      "evidence": null
+    }
+  ]
+}

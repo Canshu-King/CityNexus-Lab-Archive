@@ -1,0 +1,121 @@
+{
+  "started": "2026-09-16T17:36:26.199Z",
+  "steps": [
+    {
+      "ts": "2026-09-16T17:36:29.785Z",
+      "step": "screenshot",
+      "name": "00_setup_initial",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_00_setup_initial.png",
+      "url": "http://localhost:5181/v8/hub"
+    },
+    {
+      "ts": "2026-09-16T17:36:29.887Z",
+      "step": "screenshot",
+      "name": "01_step1_filled",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_01_step1_filled.png",
+      "url": "http://localhost:5181/v8/hub"
+    },
+    {
+      "ts": "2026-09-16T17:36:30.801Z",
+      "step": "screenshot",
+      "name": "02_step2_filled",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_02_step2_filled.png",
+      "url": "http://localhost:5181/v8/hub"
+    },
+    {
+      "ts": "2026-09-16T17:36:31.678Z",
+      "step": "screenshot",
+      "name": "03_step3_review",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_03_step3_review.png",
+      "url": "http://localhost:5181/v8/hub"
+    },
+    {
+      "ts": "2026-09-16T17:36:37.756Z",
+      "step": "screenshot",
+      "name": "04_after_create",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_04_after_create.png",
+      "url": "http://localhost:5181/v8/hub"
+    },
+    {
+      "ts": "2026-09-16T17:36:37.759Z",
+      "step": "journey_created",
+      "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9"
+    },
+    {
+      "ts": "2026-09-16T17:36:41.465Z",
+      "step": "screenshot",
+      "name": "tab_hub",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_tab_hub.png",
+      "url": "http://localhost:5181/v8/hub"
+    },
+    {
+      "ts": "2026-09-16T17:36:41.479Z",
+      "step": "tab",
+      "route": "hub",
+      "url": "http://localhost:5181/v8/hub",
+      "text_sample": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+    },
+    {
+      "ts": "2026-09-16T17:36:45.143Z",
+      "step": "screenshot",
+      "name": "tab_trips",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_tab_trips.png",
+      "url": "http://localhost:5181/v8/trips"
+    },
+    {
+      "ts": "2026-09-16T17:36:45.159Z",
+      "step": "tab",
+      "route": "trips",
+      "url": "http://localhost:5181/v8/trips",
+      "text_sample": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+    },
+    {
+      "ts": "2026-09-16T17:36:48.836Z",
+      "step": "screenshot",
+      "name": "tab_map",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_tab_map.png",
+      "url": "http://localhost:5181/v8/map"
+    },
+    {
+      "ts": "2026-09-16T17:36:48.853Z",
+      "step": "tab",
+      "route": "map",
+      "url": "http://localhost:5181/v8/map",
+      "text_sample": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+    },
+    {
+      "ts": "2026-09-16T17:36:52.527Z",
+      "step": "screenshot",
+      "name": "tab_agent",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_tab_agent.png",
+      "url": "http://localhost:5181/v8/agent"
+    },
+    {
+      "ts": "2026-09-16T17:36:52.544Z",
+      "step": "tab",
+      "route": "agent",
+      "url": "http://localhost:5181/v8/agent",
+      "text_sample": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+    },
+    {
+      "ts": "2026-09-16T17:36:56.220Z",
+      "step": "screenshot",
+      "name": "tab_me",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\flow_tab_me.png",
+      "url": "http://localhost:5181/v8/me"
+    },
+    {
+      "ts": "2026-09-16T17:36:56.237Z",
+      "step": "tab",
+      "route": "me",
+      "url": "http://localhost:5181/v8/me",
+      "text_sample": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+    }
+  ],
+  "console_errors": [
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "Failed to load resource: the server responded with a status of 500 (Internal Server Error)"
+  ],
+  "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+  "finished": "2026-09-16T17:36:56.254Z"
+}

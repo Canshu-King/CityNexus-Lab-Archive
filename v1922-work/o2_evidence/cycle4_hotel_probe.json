@@ -1,0 +1,34 @@
+{
+ "attempts": [
+  {
+   "i": 0,
+   "name": "如家酒店",
+   "chosen": true,
+   "error": ""
+  }
+ ],
+ "jid": "01da306c-3dd6-44ff-b986-76cb85a498e8",
+ "aiPlans": 3,
+ "planCards": 3,
+ "planChosen": true,
+ "hotelCards": 10,
+ "anyChosen": true,
+ "plan": {
+  "id": "86bc1d47-8bae-4dab-a544-61196057d8ea",
+  "status": "ACTIVE",
+  "activities": 14,
+  "locked": 6
+ },
+ "selectedOptionId": "1c0baddc-3dd2-44e0-9756-551952f4c8dc",
+ "stayOptions": 10,
+ "selectedStays": 1,
+ "flags": {
+  "needs_review": false,
+  "recovery_required": false,
+  "staleness": false,
+  "feasibility_failures": [],
+  "acknowledged": false,
+  "recovery_state": null
+ },
+ "errors": []
+}

@@ -1,0 +1,11 @@
+interface:
+  display_name: "Visio Diagram"
+  short_description: "Create compact, aligned engineering and process diagrams"
+  default_prompt: "Use $visio-diagram to create an editable compact Visio diagram with restrained JSON-configurable fonts, default size, line weight, and corner radius, bounded content-driven boxes, absolute port-lane alignment, shape-bound captions, midpoint-anchored connector labels, an 80% centered text safe area, external arrowheads and tails, orthogonal routing, and no text crossing any line."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "visio-mcp"
+      description: "Generic Visio diagram tools and Diagram IR schema"
+      transport: "stdio"

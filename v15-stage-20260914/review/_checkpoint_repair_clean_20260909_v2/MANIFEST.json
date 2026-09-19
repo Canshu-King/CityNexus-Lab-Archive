@@ -1,0 +1,24 @@
+{
+  "package": "CityNexus WP03 correctness-repair checkpoint",
+  "date": "2026-09-09",
+  "contract": "CityNexus_MVP_Implementation_Blueprint_v0.1.zip",
+  "repair_instruction": "contract-source/WP03_REPAIR_INSTRUCTION.md",
+  "scope": ["WP00", "WP01", "WP02", "WP03"],
+  "deferred": ["WP04", "WP05", "WP06", "frontend", "AI", "Visio", "real_network_providers"],
+  "gate": {
+    "backend_tests": "41 passed",
+    "ruff_check": "PASS",
+    "ruff_format": "PASS",
+    "git_diff_check": "PASS",
+    "internet_dependency": false,
+    "canonical_candidates": 3,
+    "canonical_selected_plan_state": "SELECTED",
+    "canonical_journey_state": "PLANNED"
+  },
+  "layout": {
+    "implementation_paths_preserved": true,
+    "contract_source": "contract-source/",
+    "entrypoint": "README.md"
+  },
+  "excluded": [".venv", "*.db", "*.sqlite", "__pycache__", "*.pyc", "hash_artifacts"]
+}

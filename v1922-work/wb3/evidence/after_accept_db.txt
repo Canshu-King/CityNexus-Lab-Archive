@@ -1,0 +1,19 @@
+﻿python.exe : Traceback (most recent call last):
+所在位置 行:445 字符: 1
++ & "D:\moodle\CityNexus\.venv\Scripts\python.exe" -c "
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last) 
+   ::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+journey: ('ACTIVE', 'afce0ec8-f1d9-40aa-9985-affc072fd7e9')
+plan_versions:
+  ('f19d1146-712d-4020-b634-5bf3bc61f6f0', 1, 'SUPERSEDED', 'INITIAL', None)
+  ('7e153c5a-806c-4fef-99ba-353eb08782ef', 2, 'REJECTED', 'REPLAN', 'f19d1146-712d-4020-b634-5bf3bc61f6f0')
+  ('afce0ec8-f1d9-40aa-9985-affc072fd7e9', 3, 'ACTIVE', 'REPLAN', 'f19d1146-712d-4020-b634-5bf3bc61f6f0')
+proposed plan activities:
+  ('5f1e84dc-6256-4cc6-8175-06fbf1630d57', 1, 'Gulangyu Pier Meetup', 'place-gulangyu-pier')
+  ('03226c7c-5f79-480c-818c-0418739840fd', 3, 'Longtou Road Lunch', 'place-longtou-food')
+proposal status:
+  File "<string>", line 10, in <module>
+sqlite3.OperationalError: no such column: accepted_plan_version_id

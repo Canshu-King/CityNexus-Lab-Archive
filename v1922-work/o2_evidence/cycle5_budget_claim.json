@@ -1,0 +1,32 @@
+{
+ "jid": "c9696395-3734-4b07-9549-aaa409519a60",
+ "backend": {
+  "planId": "a818d03a-44e2-4570-a0d4-7ec928762a51",
+  "total": {
+   "amount_minor": 13200,
+   "currency": "CNY"
+  },
+  "budget": {
+   "amount_minor": 300000,
+   "currency": "CNY"
+  },
+  "stops": 14,
+  "unknownStops": 14,
+  "knownStops": 0,
+  "flags": {
+   "needs_review": false,
+   "recovery_required": false,
+   "staleness": false,
+   "feasibility_failures": [],
+   "acknowledged": false,
+   "recovery_state": null
+  }
+ },
+ "studio": {
+  "feasibility": "安全检查已通过，预算未验证 到达、出发和受保护承诺已验证。预算未验证：目前没有任何一站拿到供应商价格。",
+  "costLines": "住宿总计 价格未知 日均出行 ¥16.00 步行暴露 22 min 方案健康度 受保护 · 417 分钟余量"
+ },
+ "hub": "菜单 / 今天 EN XI 下午好 厦门之旅 3 天 · 2 人 · 每人每天约 ¥500这是按你的预算平均下来的参考值，不是最终花费；真实价格以供应商为准。 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 EN 试用其他城市 AI 帮我规划 打开行程工作台 规划就绪 厦门 · journey 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 查看方案 → 下一步 10:00 厦门高崎国际机场 今天没有安排 住宿 Millenium Harbour View 已确认的住宿 需要关注 一切正常 没有影响行程的变化 到达 11月6日 10:00 厦门高崎国际机场 出发 11月8日 20:00 厦门北站 1 2 3 4 5 6 7 8 9 10 11 12 13 14 路线上下文 13 段路程 供应商支持的路线 · WGS84 方案概览 每一",
+ "budgetUnknownCopy": false,
+ "claimsBudgetVerified": false
+}

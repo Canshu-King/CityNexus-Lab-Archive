@@ -1,0 +1,2474 @@
+--- a/visio-renderer/calibration/audit_p1_route_contacts.py
++++ b/visio-renderer/calibration/audit_p1_route_contacts.py
+@@ -163,6 +163,25 @@
+                         **item,
+                     })
+ 
++    # Self-contact gate: cross-route cleanliness is insufficient if one
++    # Association folds back into itself.  Adjacent segments share their
++    # normal bend and are ignored; every non-adjacent contact is a defect.
++    self_contacts = []
++    for rid, points in paths.items():
++        segments = list(zip(points, points[1:]))
++        for ia, (a, b) in enumerate(segments):
++            for ib in range(ia + 2, len(segments)):
++                c, d = segments[ib]
++                item = classify_contact(a, b, c, d)
++                if item is None:
++                    continue
++                self_contacts.append({
++                    "route": rid,
++                    "segmentA": ia,
++                    "segmentB": ib,
++                    **item,
++                })
++
+     short_segments = []
+     redundant_points = []
+     for rid, points in paths.items():
+@@ -187,10 +206,13 @@
+     counts = {}
+     for item in contacts:
+         counts[item["type"]] = counts.get(item["type"], 0) + 1
++    self_counts = {}
++    for item in self_contacts:
++        self_counts[item["type"]] = self_counts.get(item["type"], 0) + 1
+ 
+     payload = {
+         "pageName": cand["pageName"],
+-        "status": "PASS" if not contacts and not short_segments and not redundant_points else "FAIL",
++        "status": "PASS" if not contacts and not self_contacts and not short_segments and not redundant_points else "FAIL",
+         "routeCount": len(paths),
+         "contactPairCount": len(contact_pairs),
+         "uniqueContactCount": len(contacts),
+@@ -200,14 +222,23 @@
+             "tjunction": counts.get("tjunction", 0),
+             "shared_endpoint": counts.get("shared_endpoint", 0),
+         },
++        "selfContactCount": len(self_contacts),
++        "selfContactCounts": {
++            "crossing": self_counts.get("crossing", 0),
++            "overlap": self_counts.get("overlap", 0),
++            "tjunction": self_counts.get("tjunction", 0),
++            "shared_endpoint": self_counts.get("shared_endpoint", 0),
++        },
+         "minimumSegmentCm": MIN_SEGMENT_CM,
+         "shortSegmentCount": len(short_segments),
+         "redundantCollinearPointCount": len(redundant_points),
+         "contacts": contacts,
++        "selfContacts": self_contacts,
+         "shortSegments": short_segments,
+         "redundantCollinearPoints": redundant_points,
+         "failures": (
+             ([] if not contacts else [f"{len(contacts)} cross-route contacts"])
++            + ([] if not self_contacts else [f"{len(self_contacts)} self-route contacts"])
+             + ([] if not short_segments else [f"{len(short_segments)} segments shorter than {MIN_SEGMENT_CM} cm"])
+             + ([] if not redundant_points else [f"{len(redundant_points)} redundant collinear route points"])
+         ),
+--- a/visio-renderer/calibration/audit_p1_route_topology_v2.py
++++ b/visio-renderer/calibration/audit_p1_route_topology_v2.py
+@@ -1,18 +1,22 @@
+ #!/usr/bin/env python3
+-"""Hardened topology pre-gate for CityNexus P1 Association routing.
+-
+-Differences from v1:
+-- validates that a port plan changes only allowed Association routing fields;
+-- protects the three C4E1 Extend routes from overrides;
+-- uses route-id darts instead of neighbour lookup, so face tracing is unambiguous;
+-- emits route-level rotations and edge/face incidence for use by a face-aware planner.
+-
+-This is a PRE-GATE only. It does not replace V2/V3 geometry/contact validation.
++"""Hardened, reusable topology pre-gate for CityNexus P1 routing.
++
++The gate validates a port-plan override and computes the orientable genus of
++its rotation system using route-id darts.  It is deliberately geometry-free:
++a PASS means only that the chosen endpoint rotation admits a planar embedding.
++V1/V2/V3 remain authoritative for actual orthogonal route geometry.
++
++This module is both a CLI and an importable runtime guard.  Solvers should call
++``require_planar_topology`` *before* spending time on path search.
+ """
+ from __future__ import annotations
+-import argparse, json
++
++import argparse
++import json
+ from collections import defaultdict, deque
+ from pathlib import Path
++from typing import Any
++
+ import yaml
+ 
+ ALLOWED_OVERRIDE_KEYS = {"sourcePortFraction", "targetSide", "targetPortFraction"}
+@@ -20,184 +24,226 @@
+ FROZEN_EXTEND_IDS = {"EXT-07-06", "EXT-09-08", "EXT-10-09"}
+ 
+ 
++class TopologyGateError(ValueError):
++    """Raised when a routing plan fails the topology pre-gate."""
++
++    def __init__(self, payload: dict[str, Any]):
++        self.payload = payload
++        details = "; ".join(payload.get("failures") or ["topology gate failed"])
++        super().__init__(f"P1 topology pre-gate FAIL for {payload.get('plan')}: {details}")
++
++
+ def node_box(n):
+-    x=float(n['x']); y=float(n['y']); w=float(n['width']); h=float(n['height'])
+-    return x-w/2, y-h/2, x+w/2, y+h/2
++    x = float(n["x"]); y = float(n["y"]); w = float(n["width"]); h = float(n["height"])
++    return x - w / 2, y - h / 2, x + w / 2, y + h / 2
+ 
+ 
+ def perimeter_cw(n, side, fraction):
+-    l,t,r,b=node_box(n); w=r-l; h=b-t; f=float(fraction)
+-    if side=='TOP': return f*w
+-    if side=='RIGHT': return w+f*h
+-    if side=='BOTTOM': return w+h+(1-f)*w
+-    if side=='LEFT': return 2*w+h+(1-f)*h
+-    raise ValueError(f'bad side {side}')
++    l, t, r, b = node_box(n); w = r - l; h = b - t; f = float(fraction)
++    if side == "TOP": return f * w
++    if side == "RIGHT": return w + f * h
++    if side == "BOTTOM": return w + h + (1 - f) * w
++    if side == "LEFT": return 2 * w + h + (1 - f) * h
++    raise ValueError(f"bad side {side}")
++
++
++def _resolved_plan(plans: dict[str, Any], plan_id: str, seen=()):
++    if plan_id in seen:
++        raise ValueError(f"cyclic port-plan inheritance: {' -> '.join((*seen, plan_id))}")
++    if plan_id not in plans:
++        raise ValueError(f"plan not found: {plan_id}; available={list(plans)}")
++    plan = plans[plan_id] or {}
++    parent = plan.get("basePlan")
++    resolved = _resolved_plan(plans, parent, (*seen, plan_id)) if parent else {}
++    routes = plan.get("routes", {}) or {}
++    for rid, values in routes.items():
++        merged = dict(resolved.get(rid, {}))
++        merged.update(values or {})
++        resolved[rid] = merged
++    return resolved
+ 
+ 
+ def load_plan(path, plan_id, candidate_by_id):
+     if not path or not plan_id:
+         return {}, []
+-    doc=yaml.safe_load(Path(path).read_text(encoding='utf-8')) or {}
+-    plans=doc.get('plans',{})
+-    if plan_id not in plans:
+-        raise SystemExit(f'plan not found: {plan_id}; available={list(plans)}')
+-    def resolved_overrides(current, seen=()):
+-        if current in seen:
+-            raise SystemExit(f'cyclic port-plan inheritance: {" -> ".join((*seen, current))}')
+-        plan=plans[current]
+-        parent=plan.get('basePlan')
+-        resolved=resolved_overrides(parent, (*seen, current)) if parent else {}
+-        resolved.update(plan.get('routes',{}) or {})
+-        return resolved
+-    overrides=resolved_overrides(plan_id)
+-    failures=[]
++    doc = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
++    plans = doc.get("plans", {})
++    failures = []
++    try:
++        overrides = _resolved_plan(plans, plan_id)
++    except ValueError as exc:
++        return {}, [str(exc)]
++
+     for rid, ov in overrides.items():
+         if rid not in candidate_by_id:
+-            failures.append(f'plan override references unknown route:{rid}')
++            failures.append(f"plan override references unknown route:{rid}")
+             continue
+-        base=candidate_by_id[rid]
+-        if base.get('connectorType') != 'association':
+-            failures.append(f'plan override is not an Association:{rid}')
+-        bad=set(ov)-ALLOWED_OVERRIDE_KEYS
++        base = candidate_by_id[rid]
++        if base.get("connectorType") != "association":
++            failures.append(f"plan override is not an Association:{rid}")
++        bad = set(ov) - ALLOWED_OVERRIDE_KEYS
+         if bad:
+-            failures.append(f'plan override changes prohibited fields:{rid}:{sorted(bad)}')
++            failures.append(f"plan override changes prohibited fields:{rid}:{sorted(bad)}")
+         if rid in FROZEN_EXTEND_IDS:
+-            failures.append(f'frozen Extend override prohibited:{rid}')
++            failures.append(f"frozen Extend override prohibited:{rid}")
+     return overrides, failures
+ 
+ 
+ def is_connected(vertices, edges):
+-    if not vertices: return True
+-    g=defaultdict(list)
+-    for rid,u,v in edges:
+-        g[u].append(v); g[v].append(u)
+-    start=next(iter(vertices)); seen={start}; q=deque([start])
+-    while q:
+-        u=q.popleft()
+-        for v in g[u]:
+-            if v not in seen: seen.add(v); q.append(v)
+-    return seen==set(vertices)
++    if not vertices:
++        return True
++    graph = defaultdict(list)
++    for _, u, v in edges:
++        graph[u].append(v); graph[v].append(u)
++    start = next(iter(vertices)); seen = {start}; queue = deque([start])
++    while queue:
++        u = queue.popleft()
++        for v in graph[u]:
++            if v not in seen:
++                seen.add(v); queue.append(v)
++    return seen == set(vertices)
++
++
++def audit_topology(*, semantic, candidate, plans=None, plan=None) -> dict[str, Any]:
++    """Return a complete topology pre-gate payload without writing files."""
++    semantic = Path(semantic); candidate = Path(candidate)
++    sem = yaml.safe_load(semantic.read_text(encoding="utf-8"))
++    cand = yaml.safe_load(candidate.read_text(encoding="utf-8"))
++    nodes = {s["id"]: s for s in sem["shapes"] if s["id"] != "BOUNDARY"}
++    candidate_by_id = {r["id"]: r for r in cand["routes"]}
++    overrides, failures = load_plan(plans, plan, candidate_by_id)
++
++    edges = []
++    incidence = defaultdict(list)
++    endpoint_port = {}
++    endpoint_neighbour = {}
++
++    for base in cand["routes"]:
++        route = dict(base)
++        if route["id"] in overrides:
++            route.update(overrides[route["id"]])
++        rid = route["id"]; u = route["source"]; v = route["target"]
++        if u not in nodes or v not in nodes:
++            failures.append(f"route references missing node:{rid}:{u}->{v}")
++            continue
++        for side_key in ("sourceSide", "targetSide"):
++            if route.get(side_key) not in VALID_SIDES:
++                failures.append(f"invalid side:{rid}:{side_key}={route.get(side_key)!r}")
++        fractions = {}
++        for frac_key in ("sourcePortFraction", "targetPortFraction"):
++            try:
++                value = float(route.get(frac_key))
++            except Exception:
++                failures.append(f"invalid fraction:{rid}:{frac_key}={route.get(frac_key)!r}")
++                value = -1.0
++            fractions[frac_key] = value
++            if not 0.0 < value < 1.0:
++                failures.append(f"fraction outside (0,1):{rid}:{frac_key}={value}")
++        edges.append((rid, u, v))
++        incidence[u].append((rid, 0)); incidence[v].append((rid, 1))
++        endpoint_neighbour[(rid, 0)] = v; endpoint_neighbour[(rid, 1)] = u
++        endpoint_port[(rid, 0)] = (route["sourceSide"], fractions["sourcePortFraction"])
++        endpoint_port[(rid, 1)] = (route["targetSide"], fractions["targetPortFraction"])
++
++    active = set(incidence)
++    if not is_connected(active, edges):
++        failures.append("connector graph is disconnected; this gate expects one connected embedding")
++
++    sigma = {}
++    rotation_routes = {}
++    rotation_neighbours = {}
++    port_detail = {}
++    for node_id, darts in incidence.items():
++        arr = []
++        for dart in darts:
++            rid, end = dart; side, frac = endpoint_port[dart]
++            p = perimeter_cw(nodes[node_id], side, frac)
++            arr.append((p, rid, end, endpoint_neighbour[dart], side, frac))
++        arr.sort(key=lambda x: (x[0], x[1], x[2]))
++        for first, second in zip(arr, arr[1:]):
++            if abs(first[0] - second[0]) < 1e-9:
++                failures.append(
++                    f"{node_id}: duplicate perimeter port position for {first[1]} and {second[1]}"
++                )
++        rotation = [(rid, end) for _, rid, end, _, _, _ in arr]
++        for i, dart in enumerate(rotation):
++            sigma[dart] = rotation[(i + 1) % len(rotation)]
++        rotation_routes[node_id] = [rid for _, rid, _, _, _, _ in arr]
++        rotation_neighbours[node_id] = [nb for _, _, _, nb, _, _ in arr]
++        port_detail[node_id] = [
++            {"route": rid, "endpoint": end, "neighbor": nb, "side": side,
++             "fraction": frac, "perimeterCW": p}
++            for p, rid, end, nb, side, frac in arr
++        ]
++
++    alpha = {}
++    for rid, _, _ in edges:
++        alpha[(rid, 0)] = (rid, 1); alpha[(rid, 1)] = (rid, 0)
++    phi = {dart: sigma[alpha[dart]] for dart in alpha if alpha[dart] in sigma}
++
++    seen = set(); faces = []; dart_face = {}
++    for dart in phi:
++        if dart in seen:
++            continue
++        face_id = len(faces); cur = dart; seq = []
++        while cur not in seen:
++            seen.add(cur); dart_face[cur] = face_id
++            rid, end = cur
++            base = candidate_by_id[rid]
++            vertex = base["source"] if end == 0 else base["target"]
++            seq.append({"route": rid, "endpoint": end, "vertex": vertex})
++            cur = phi[cur]
++        faces.append(seq)
++
++    V = len(active); E = len(edges); F = len(faces)
++    genus = (2 - V + E - F) / 2.0
++    if abs(genus - round(genus)) > 1e-9 or genus < 0:
++        failures.append(f"invalid orientable genus result:{genus}")
++    if abs(genus) > 1e-9:
++        failures.append(f"non-planar port rotation system: genus={genus:g}")
++
++    edge_faces = {rid: [dart_face.get((rid, 0)), dart_face.get((rid, 1))] for rid, _, _ in edges}
++    return {
++        "status": "PASS" if not failures else "FAIL",
++        "plan": plan or "candidate-as-is",
++        "vertices": V, "edges": E, "faces": F, "faceCount": F,
++        "orientableGenus": genus,
++        "rotationRoutesCW": rotation_routes,
++        "rotationNeighboursCW": rotation_neighbours,
++        "portDetail": port_detail,
++        "faceCycles": faces,
++        "edgeFaceIncidence": edge_faces,
++        "allowedOverrideKeys": sorted(ALLOWED_OVERRIDE_KEYS),
++        "frozenExtendIds": sorted(FROZEN_EXTEND_IDS),
++        "failures": failures,
++    }
++
++
++def require_planar_topology(*, semantic, candidate, plans, plan) -> dict[str, Any]:
++    payload = audit_topology(semantic=semantic, candidate=candidate, plans=plans, plan=plan)
++    if payload["status"] != "PASS":
++        raise TopologyGateError(payload)
++    return payload
+ 
+ 
+ def main():
+-    ap=argparse.ArgumentParser()
+-    ap.add_argument('--semantic',required=True)
+-    ap.add_argument('--candidate',required=True)
+-    ap.add_argument('--plans')
+-    ap.add_argument('--plan')
+-    ap.add_argument('--json-out')
+-    args=ap.parse_args()
+-
+-    sem=yaml.safe_load(Path(args.semantic).read_text(encoding='utf-8'))
+-    cand=yaml.safe_load(Path(args.candidate).read_text(encoding='utf-8'))
+-    nodes={s['id']:s for s in sem['shapes'] if s['id']!='BOUNDARY'}
+-    candidate_by_id={r['id']:r for r in cand['routes']}
+-    overrides, failures=load_plan(args.plans,args.plan,candidate_by_id)
+-
+-    edges=[]
+-    incidence=defaultdict(list)
+-    endpoint_port={}
+-    endpoint_neighbour={}
+-
+-    for base in cand['routes']:
+-        r=dict(base)
+-        if r['id'] in overrides:
+-            r.update(overrides[r['id']])
+-        rid=r['id']; u=r['source']; v=r['target']
+-        if u not in nodes or v not in nodes:
+-            failures.append(f'route references missing node:{rid}:{u}->{v}')
+-            continue
+-        for side_key in ('sourceSide','targetSide'):
+-            if r.get(side_key) not in VALID_SIDES:
+-                failures.append(f'invalid side:{rid}:{side_key}={r.get(side_key)!r}')
+-        for frac_key in ('sourcePortFraction','targetPortFraction'):
+-            try: f=float(r.get(frac_key))
+-            except Exception:
+-                failures.append(f'invalid fraction:{rid}:{frac_key}={r.get(frac_key)!r}'); f=-1
+-            if not 0.0 < f < 1.0:
+-                failures.append(f'fraction outside (0,1):{rid}:{frac_key}={f}')
+-        edges.append((rid,u,v))
+-        # dart endpoint 0=source, 1=target
+-        incidence[u].append((rid,0)); incidence[v].append((rid,1))
+-        endpoint_neighbour[(rid,0)]=v; endpoint_neighbour[(rid,1)]=u
+-        endpoint_port[(rid,0)]=(r['sourceSide'],float(r['sourcePortFraction']))
+-        endpoint_port[(rid,1)]=(r['targetSide'],float(r['targetPortFraction']))
+-
+-    active=set(incidence)
+-    if not is_connected(active,edges):
+-        failures.append('connector graph is disconnected; this gate expects one connected embedding')
+-
+-    # sigma = next clockwise dart at the same vertex.
+-    sigma={}
+-    rotation_routes={}
+-    rotation_neighbours={}
+-    port_detail={}
+-    for node_id,darts in incidence.items():
+-        arr=[]
+-        for dart in darts:
+-            rid,end=dart; side,frac=endpoint_port[dart]
+-            p=perimeter_cw(nodes[node_id],side,frac)
+-            arr.append((p,rid,end,endpoint_neighbour[dart],side,frac))
+-        arr.sort(key=lambda x:(x[0],x[1],x[2]))
+-        for a,b in zip(arr,arr[1:]):
+-            if abs(a[0]-b[0])<1e-9:
+-                failures.append(f'{node_id}: duplicate perimeter port position for {a[1]} and {b[1]}')
+-        rot=[(rid,end) for _,rid,end,_,_,_ in arr]
+-        for i,d in enumerate(rot): sigma[d]=rot[(i+1)%len(rot)]
+-        rotation_routes[node_id]=[rid for _,rid,_,_,_,_ in arr]
+-        rotation_neighbours[node_id]=[nb for _,_,_,nb,_,_ in arr]
+-        port_detail[node_id]=[
+-            {'route':rid,'endpoint':end,'neighbor':nb,'side':side,'fraction':frac,'perimeterCW':p}
+-            for p,rid,end,nb,side,frac in arr
+-        ]
+-
+-    # alpha flips each dart across its edge. face permutation phi = sigma o alpha.
+-    alpha={}
+-    for rid,u,v in edges:
+-        alpha[(rid,0)]=(rid,1); alpha[(rid,1)]=(rid,0)
+-    phi={d:sigma[alpha[d]] for d in alpha if alpha[d] in sigma}
+-
+-    seen=set(); faces=[]; dart_face={}
+-    for d in phi:
+-        if d in seen: continue
+-        face_id=len(faces); cur=d; seq=[]
+-        while cur not in seen:
+-            seen.add(cur); dart_face[cur]=face_id
+-            rid,end=cur
+-            # departing vertex for this dart
+-            base=candidate_by_id[rid]
+-            vertex=base['source'] if end==0 else base['target']
+-            seq.append({'route':rid,'endpoint':end,'vertex':vertex})
+-            cur=phi[cur]
+-        faces.append(seq)
+-
+-    V=len(active); E=len(edges); F=len(faces)
+-    genus=(2-V+E-F)/2.0
+-    if abs(genus-round(genus))>1e-9 or genus<0:
+-        failures.append(f'invalid orientable genus result:{genus}')
+-    if abs(genus)>1e-9:
+-        failures.append(f'non-planar port rotation system: genus={genus:g}')
+-
+-    edge_faces={}
+-    for rid,_,_ in edges:
+-        edge_faces[rid]=[dart_face.get((rid,0)),dart_face.get((rid,1))]
+-
+-    payload={
+-        'status':'PASS' if not failures else 'FAIL',
+-        'plan':args.plan or 'candidate-as-is',
+-        'vertices':V,'edges':E,'faces':F,'faceCount':F,'orientableGenus':genus,
+-        'rotationRoutesCW':rotation_routes,
+-        'rotationNeighboursCW':rotation_neighbours,
+-        'portDetail':port_detail,
+-        'faceCycles':faces,
+-        'edgeFaceIncidence':edge_faces,
+-        'allowedOverrideKeys':sorted(ALLOWED_OVERRIDE_KEYS),
+-        'frozenExtendIds':sorted(FROZEN_EXTEND_IDS),
+-        'failures':failures,
+-    }
+-    text=json.dumps(payload,ensure_ascii=False,indent=2)
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--semantic", required=True)
++    parser.add_argument("--candidate", required=True)
++    parser.add_argument("--plans")
++    parser.add_argument("--plan")
++    parser.add_argument("--json-out")
++    args = parser.parse_args()
++    payload = audit_topology(
++        semantic=args.semantic, candidate=args.candidate,
++        plans=args.plans, plan=args.plan,
++    )
++    text = json.dumps(payload, ensure_ascii=False, indent=2)
+     print(text)
+-    if args.json_out: Path(args.json_out).write_text(text,encoding='utf-8')
+-    return 0 if payload['status']=='PASS' else 1
+-
+-if __name__=='__main__': raise SystemExit(main())
++    if args.json_out:
++        Path(args.json_out).write_text(text, encoding="utf-8")
++    return 0 if payload["status"] == "PASS" else 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- a/visio-renderer/calibration/diagnose_p1_candidate_pool.py
++++ b/visio-renderer/calibration/diagnose_p1_candidate_pool.py
+@@ -0,0 +1,114 @@
++"""Topology-safe candidate-pool gap diagnostic for P1 Association routing.
++
++This tool deliberately does not require OR-Tools.  It answers a cheaper and
++more actionable question before CP-SAT: does the current discrete path pool
++contain *any* mutually compatible candidate pair for every pair of routes?
++
++If ``compatiblePairs == 0`` for a route pair, the current pool cannot possibly
++produce an 18/18 solution.  Generate new homotopy families for those routes
++instead of spending more solver time on the same pool.
++"""
++from __future__ import annotations
++
++import argparse
++import copy
++import json
++from pathlib import Path
++import sys
++
++import yaml
++
++HERE = Path(__file__).resolve().parent
++sys.path[:0] = [str(HERE.parent), str(HERE)]
++
++from explore_p1_disjoint_pool import _candidate_pool, _path_cost
++from route_candidate_selector import build_conflicts, make_candidate, route_pair_compatibility
++from route_p1_negotiated_grid import build_axes, build_graph, load, topology_gate
++from routing_geometry import route_points
++
++
++def run(*, plan, samples, seed, traveler_skeleton, output):
++    sem, _, nodes, routes, _, frozen, mutable = load(plan)
++    xs, ys = build_axes(sem, mutable, nodes, frozen)
++    ix, iy, allowed = build_graph(xs, ys, nodes, frozen)
++
++    skeleton_by_id = {}
++    if traveler_skeleton is not None:
++        document = yaml.safe_load(traveler_skeleton.read_text(encoding="utf-8")) or {}
++        skeleton_by_id = {item.get("id"): item for item in document.get("routes", [])}
++
++    pools = {}
++    for route in mutable:
++        route_seed = seed + sum(ord(ch) for ch in route["id"]) * 100003
++        values = _candidate_pool(route, nodes, xs, ys, ix, iy, allowed, samples, route_seed)
++        supplied = skeleton_by_id.get(route["id"])
++        if supplied is not None and route.get("family") == "traveler":
++            with_skeleton = copy.deepcopy(route)
++            with_skeleton["waypoints"] = copy.deepcopy(supplied.get("waypoints", []))
++            points = route_points(with_skeleton, nodes)
++            try:
++                values.append(make_candidate({
++                    "routeId": route["id"],
++                    "family": "validated-skeleton",
++                    "points": points,
++                    "cost": _path_cost(points),
++                    "tag": f"{route['id']}:validated-skeleton",
++                }))
++            except (KeyError, ValueError):
++                pass
++        # Geometry, not a random tag, defines a unique choice.
++        unique = {}
++        for candidate in values:
++            previous = unique.get(candidate.points)
++            if previous is None or candidate.cost < previous.cost:
++                unique[candidate.points] = candidate
++        pools[route["id"]] = sorted(unique.values(), key=lambda c: (c.cost, c.key))
++
++    empty = sorted(rid for rid, values in pools.items() if not values)
++    conflicts = build_conflicts(pools) if not empty else {}
++    pair_rows = route_pair_compatibility(pools, conflicts=conflicts) if not empty else []
++    impossible = [row for row in pair_rows if row["compatiblePairs"] == 0]
++    tight = sorted(
++        [row for row in pair_rows if 0 < row["compatibilityRatio"] < 0.05],
++        key=lambda row: (row["compatibilityRatio"], row["routeA"], row["routeB"]),
++    )
++    topology = topology_gate(plan)
++    payload = {
++        "status": "PASS" if not empty and not impossible else "FAIL",
++        "meaning": (
++            "PASS means only that the current discrete pool has no pairwise-impossible route pair; "
++            "it does not prove that one global 18-route selection exists."
++        ),
++        "plan": plan,
++        "topologyGateStatus": topology["status"],
++        "orientableGenus": topology["orientableGenus"],
++        "samplesPerRoute": samples,
++        "seed": seed,
++        "axisCounts": {"x": len(xs), "y": len(ys)},
++        "candidateCount": sum(len(values) for values in pools.values()),
++        "familyCounts": {rid: len(values) for rid, values in pools.items()},
++        "emptyRoutes": empty,
++        "conflictPairCount": sum(len(values) for values in conflicts.values()) // 2,
++        "impossibleRoutePairs": impossible,
++        "tightRoutePairs": tight[:50],
++        "authoritativeCandidateModified": False,
++    }
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++    print(json.dumps(payload, ensure_ascii=False, indent=2))
++    return 0 if payload["status"] == "PASS" else 2
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--plan", default="PLAN_TRAVELER_SKELETON_PLANAR_GRID")
++    parser.add_argument("--samples", type=int, default=32)
++    parser.add_argument("--seed", type=int, default=20260908)
++    parser.add_argument("--traveler-skeleton", type=Path)
++    parser.add_argument("--output", type=Path, required=True)
++    args = parser.parse_args()
++    return run(**vars(args))
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- a/visio-renderer/calibration/explore_p1_disjoint_pool.py
++++ b/visio-renderer/calibration/explore_p1_disjoint_pool.py
+@@ -21,16 +21,19 @@
+ from pathlib import Path
+ 
+ import yaml
+-from ortools.sat.python import cp_model
++try:
++    from ortools.sat.python import cp_model
++except ModuleNotFoundError:  # optional for pool generation / exact-CSP fallback tooling
++    cp_model = None
+ 
+ HERE = Path(__file__).resolve().parent
+ sys.path[:0] = [str(HERE.parent), str(HERE)]
+ 
+ from plan_p1_associations import FROZEN, compact  # noqa: E402
+-from route_candidate_selector import build_conflicts, make_candidate  # noqa: E402
++from route_candidate_selector import arc_consistency_prune, build_conflicts, candidates_contact, make_candidate, route_pair_compatibility  # noqa: E402
+ from critical_grid_geometry import closed_contact, q  # noqa: E402
+ from route_p1_negotiated_grid import (  # noqa: E402
+-    STAGING, astar, build_axes, build_graph, load,
++    STAGING, astar, build_axes, build_graph, load, topology_gate,
+ )
+ from routing_geometry import route_points  # noqa: E402
+ 
+@@ -260,6 +263,10 @@
+ 
+ 
+ def _select(pools, seconds, workers, seed):
++    if cp_model is None:
++        raise RuntimeError(
++            "OR-Tools is required for CP-SAT selection; candidate pool generation remains importable without it"
++        )
+     conflicts = build_conflicts(pools)
+     flat = [candidate for values in pools.values() for candidate in values]
+     model = cp_model.CpModel()
+@@ -282,13 +289,14 @@
+     status = solver.solve(model)
+     picked = {}
+     partial = {}
++    partial_meta = None
+     if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+         for rid, values in pools.items():
+             picked[rid] = next(candidate for candidate in values if solver.boolean_value(selected[candidate.key]))
+-    elif status == cp_model.INFEASIBLE:
+-        # Keep an actionable maximal no-contact subset.  It is a diagnostic
+-        # only: an omitted route is never silently promoted.  The result tells
+-        # the next rip-up round exactly which nets need new homotopies.
++    else:
++        # Diagnostic only.  Never call this a maximum/maximal subset unless
++        # CP-SAT proves optimality; a time-limited feasible result is merely
++        # the best observed subset for this pool.
+         relaxed = cp_model.CpModel()
+         choose = {candidate.key: relaxed.new_bool_var(f"r{number}") for number, candidate in enumerate(flat)}
+         active = {}
+@@ -298,20 +306,276 @@
+             relaxed.add(sum(choose[candidate.key] for candidate in values) == flag)
+         for first, second in pairs:
+             relaxed.add(choose[first] + choose[second] <= 1)
+-        relaxed.maximize(sum(active.values()) * 100000 - sum(choose[c.key] * round(c.cost * 10) for c in flat))
++        relaxed.maximize(
++            sum(active.values()) * 100000
++            - sum(choose[c.key] * round(c.cost * 10) for c in flat)
++        )
+         partial_solver = cp_model.CpSolver()
+         partial_solver.parameters.max_time_in_seconds = min(seconds, 30.0)
+         partial_solver.parameters.num_search_workers = workers
+         partial_solver.parameters.random_seed = seed
+-        partial_solver.solve(relaxed)
+-        for rid, values in pools.items():
+-            candidate = next((c for c in values if partial_solver.boolean_value(choose[c.key])), None)
+-            if candidate is not None:
+-                partial[rid] = candidate
+-    return solver, status, picked, len(pairs), partial
+-
+-
+-def run(plan, samples, seconds, workers, seed, output, write_staging, only_family, fixed_routes, export_routes):
++        partial_status = partial_solver.solve(relaxed)
++        partial_meta = {
++            "solverStatus": partial_solver.status_name(partial_status),
++            "wallTimeSeconds": partial_solver.wall_time,
++            "objectiveValue": partial_solver.objective_value,
++            "bestObjectiveBound": partial_solver.best_objective_bound,
++            "provenOptimal": partial_status == cp_model.OPTIMAL,
++        }
++        if partial_status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
++            for rid, values in pools.items():
++                candidate = next(
++                    (c for c in values if partial_solver.boolean_value(choose[c.key])),
++                    None,
++                )
++                if candidate is not None:
++                    partial[rid] = candidate
++    return solver, status, picked, len(pairs), partial, partial_meta
++
++
++def _candidate_points_cm(candidate):
++    return [(x / 200.0, y / 200.0) for x, y in candidate.points]
++
++
++def _merge_candidate(bucket, candidate):
++    """Geometry-dedupe a bucket, preserving the cheaper representative."""
++    for index, old in enumerate(bucket):
++        if old.points != candidate.points:
++            continue
++        if candidate.cost < old.cost:
++            bucket[index] = candidate
++        return False
++    bucket.append(candidate)
++    return True
++
++
++def _repair_pairwise_gaps(
++    *, pools, routes, nodes, xs, ys, frozen, rounds, synth_samples,
++    fixed_limit, seed,
++):
++    """Target only route pairs whose current candidate buckets are disjoint.
++
++    For each impossible pair, hold one candidate as an exact hard obstacle and
++    reroute the other route, then reverse direction.  This generates a missing
++    homotopy family rather than merely resampling the same terrain field.
++    """
++    if rounds <= 0:
++        return []
++    by_id = {route["id"]: route for route in routes}
++    history = []
++    for round_index in range(rounds):
++        conflicts = build_conflicts(pools)
++        pair_rows = route_pair_compatibility(pools, conflicts=conflicts)
++        impossible = [row for row in pair_rows if row["compatiblePairs"] == 0]
++        record = {
++            "round": round_index,
++            "impossibleBefore": [
++                [row["routeA"], row["routeB"]] for row in impossible
++            ],
++            "addedByRoute": {},
++        }
++        if not impossible:
++            record["impossibleAfter"] = []
++            history.append(record)
++            break
++        for pair_index, row in enumerate(impossible):
++            route_a, route_b = row["routeA"], row["routeB"]
++            solved_pair = False
++            for fixed_rid, reroute_rid in ((route_a, route_b), (route_b, route_a)):
++                fixed_candidates = sorted(
++                    pools[fixed_rid], key=lambda c: (c.cost, c.key)
++                )[:fixed_limit]
++                for fixed_index, fixed in enumerate(fixed_candidates):
++                    hard = dict(frozen)
++                    hard[f"__pair_fixed__:{fixed_rid}"] = _candidate_points_cm(fixed)
++                    ix, iy, allowed = build_graph(xs, ys, nodes, hard)
++                    route = by_id[reroute_rid]
++                    generated = _candidate_pool(
++                        route, nodes, xs, ys, ix, iy, allowed, synth_samples,
++                        seed
++                        + round_index * 1000003
++                        + pair_index * 50021
++                        + fixed_index * 7919
++                        + sum(ord(ch) for ch in reroute_rid),
++                    )
++                    for candidate_index, candidate in enumerate(generated):
++                        if candidates_contact(fixed, candidate):
++                            continue
++                        raw = {
++                            "routeId": candidate.route_id,
++                            "family": "pair-synth",
++                            "points": _candidate_points_cm(candidate),
++                            "cost": candidate.cost + 0.25,
++                            "tag": (
++                                f"{reroute_rid}:pair:{route_a}:{route_b}:"
++                                f"r{round_index}:f{fixed_index}:c{candidate_index}:"
++                                f"{len(pools[reroute_rid])}"
++                            ),
++                        }
++                        try:
++                            retagged = make_candidate(raw)
++                        except ValueError:
++                            continue
++                        if _merge_candidate(pools[reroute_rid], retagged):
++                            record["addedByRoute"][reroute_rid] = (
++                                record["addedByRoute"].get(reroute_rid, 0) + 1
++                            )
++                        if not candidates_contact(fixed, retagged):
++                            solved_pair = True
++                    if solved_pair:
++                        break
++                if solved_pair:
++                    break
++            # Some tight pairs need a different unconstrained terrain/anchor
++            # sample before obstacle-conditioned synthesis can help.  Expand
++            # both buckets with fresh seeds rather than declaring the port
++            # plan impossible from one small family sample.
++            if not solved_pair:
++                ix, iy, allowed = build_graph(xs, ys, nodes, frozen)
++                for expand_rid in (route_a, route_b):
++                    route = by_id[expand_rid]
++                    generated = _candidate_pool(
++                        route, nodes, xs, ys, ix, iy, allowed,
++                        max(2, synth_samples * 2),
++                        seed + round_index * 2000003 + pair_index * 70001
++                        + sum(ord(ch) for ch in expand_rid) * 17,
++                    )
++                    for candidate_index, candidate in enumerate(generated):
++                        raw = {
++                            "routeId": candidate.route_id,
++                            "family": "pair-expand",
++                            "points": _candidate_points_cm(candidate),
++                            "cost": candidate.cost + 0.10,
++                            "tag": (
++                                f"{expand_rid}:expand:{route_a}:{route_b}:"
++                                f"r{round_index}:c{candidate_index}:{len(pools[expand_rid])}"
++                            ),
++                        }
++                        try:
++                            expanded = make_candidate(raw)
++                        except ValueError:
++                            continue
++                        if _merge_candidate(pools[expand_rid], expanded):
++                            record["addedByRoute"][expand_rid] = (
++                                record["addedByRoute"].get(expand_rid, 0) + 1
++                            )
++        conflicts = build_conflicts(pools)
++        after = route_pair_compatibility(pools, conflicts=conflicts)
++        record["impossibleAfter"] = [
++            [row["routeA"], row["routeB"]]
++            for row in after if row["compatiblePairs"] == 0
++        ]
++        history.append(record)
++        if not record["impossibleAfter"]:
++            break
++    return history
++
++
++def _repair_arc_empty_routes(
++    *, pools, routes, nodes, xs, ys, frozen, rounds, synth_samples,
++    bundle_limit, seed,
++):
++    """Generate higher-order families for routes emptied by AC-3.
++
++    The common failure after pair-gap repair is: every route pair is
++    individually compatible, but no candidate of route R has support in two
++    blocker routes *simultaneously*.  For each AC-3-empty route, freeze a few
++    low-cost mutually compatible candidates from its two dominant blockers and
++    reroute R against that bundle.
++    """
++    if rounds <= 0:
++        return []
++    by_id = {route["id"]: route for route in routes}
++    history = []
++    for round_index in range(rounds):
++        conflicts = build_conflicts(pools)
++        ac3 = arc_consistency_prune(pools, conflicts=conflicts)
++        record = {
++            "round": round_index,
++            "ac3Before": ac3["status"],
++            "emptyBefore": list(ac3["emptyRoutes"]),
++            "repairs": [],
++        }
++        if ac3["status"] == "PASS":
++            record["ac3After"] = "PASS"
++            record["emptyAfter"] = []
++            history.append(record)
++            break
++
++        progress = False
++        for failed_route in ac3["emptyRoutes"]:
++            removal_rows = [row for row in ac3["removals"] if row["route"] == failed_route]
++            blocker_counts = {}
++            for row in removal_rows:
++                for blocker in row["unsupportedBy"]:
++                    blocker_counts[blocker] = blocker_counts.get(blocker, 0) + 1
++            blockers = [
++                route for route, _ in sorted(
++                    blocker_counts.items(), key=lambda item: (-item[1], item[0])
++                )[:2]
++            ]
++            repair = {
++                "route": failed_route,
++                "dominantBlockers": blockers,
++                "blockerCounts": blocker_counts,
++                "bundleAttempts": 0,
++                "added": 0,
++            }
++            if len(blockers) < 2:
++                record["repairs"].append(repair)
++                continue
++            first, second = blockers
++            bundles = []
++            for a in pools[first]:
++                for b in pools[second]:
++                    if not candidates_contact(a, b):
++                        bundles.append((a.cost + b.cost, a, b))
++            bundles.sort(key=lambda item: (item[0], item[1].key, item[2].key))
++            for bundle_index, (_, a, b) in enumerate(bundles[:bundle_limit]):
++                repair["bundleAttempts"] += 1
++                hard = dict(frozen)
++                hard[f"__arc_bundle__:{first}"] = _candidate_points_cm(a)
++                hard[f"__arc_bundle__:{second}"] = _candidate_points_cm(b)
++                ix, iy, allowed = build_graph(xs, ys, nodes, hard)
++                generated = _candidate_pool(
++                    by_id[failed_route], nodes, xs, ys, ix, iy, allowed,
++                    synth_samples,
++                    seed + round_index * 3000017 + bundle_index * 104729
++                    + sum(ord(ch) for ch in failed_route),
++                )
++                for candidate_index, candidate in enumerate(generated):
++                    if candidates_contact(candidate, a) or candidates_contact(candidate, b):
++                        continue
++                    raw = {
++                        "routeId": failed_route,
++                        "family": "arc-bundle-synth",
++                        "points": _candidate_points_cm(candidate),
++                        "cost": candidate.cost + 0.50,
++                        "tag": (
++                            f"{failed_route}:arc:{first}:{second}:r{round_index}:"
++                            f"b{bundle_index}:c{candidate_index}:{len(pools[failed_route])}"
++                        ),
++                    }
++                    try:
++                        synthesized = make_candidate(raw)
++                    except ValueError:
++                        continue
++                    if _merge_candidate(pools[failed_route], synthesized):
++                        repair["added"] += 1
++                        progress = True
++            record["repairs"].append(repair)
++
++        after_conflicts = build_conflicts(pools)
++        after = arc_consistency_prune(pools, conflicts=after_conflicts)
++        record["ac3After"] = after["status"]
++        record["emptyAfter"] = list(after["emptyRoutes"])
++        history.append(record)
++        if after["status"] == "PASS" or not progress:
++            break
++    return history
++
++
++def run(plan, samples, seconds, workers, seed, output, write_staging, only_family, fixed_routes, export_routes, traveler_skeleton, pair_repair_rounds, pair_synth_samples, pair_fixed_limit, arc_repair_rounds, arc_synth_samples, arc_bundle_limit):
+     sem, original, nodes, routes, overrides, frozen, mutable = load(plan)
+     fixed = {}
+     if fixed_routes:
+@@ -338,8 +602,8 @@
+     # and is legal only on the matching port seed.  Include it as one candidate
+     # rather than freezing it globally; CP-SAT may still choose a different
+     # route if a future plan provides a better disjoint embedding.
+-    skeleton_path = HERE.parent.parent.parent / "handoff_20260907" / "traveler-corridor-skeleton.yaml"
+-    if plan in ("PLAN_TRAVELER_SKELETON_PROVIDER_GRID", "PLAN_TRAVELER_SKELETON_PLANAR_GRID") and skeleton_path.exists():
++    skeleton_path = traveler_skeleton
++    if skeleton_path is not None and skeleton_path.exists():
+         document = yaml.safe_load(skeleton_path.read_text(encoding="utf-8")) or {}
+         supplied_by_id = {item.get("id"): item for item in document.get("routes", [])}
+         for route in mutable:
+@@ -358,25 +622,81 @@
+             except (KeyError, ValueError):
+                 continue
+             pools[route["id"]].append(skeleton_candidate)
++
++    pair_repair_history = _repair_pairwise_gaps(
++        pools=pools, routes=mutable, nodes=nodes, xs=xs, ys=ys, frozen=frozen,
++        rounds=pair_repair_rounds, synth_samples=pair_synth_samples,
++        fixed_limit=pair_fixed_limit, seed=seed,
++    )
+     empty = sorted(rid for rid, values in pools.items() if not values)
+     payload = {
+         "status": "FAIL", "plan": plan, "seed": seed,
++        "topologyGateStatus": topology_gate(plan)["status"],
++        "orientableGenus": topology_gate(plan)["orientableGenus"],
+         "samples": samples, "axisCounts": {"x": len(xs), "y": len(ys)},
+         "familyCounts": {rid: len(values) for rid, values in pools.items()},
+         "emptyRoutes": empty, "authoritativeCandidateModified": False,
+         "frozenExtendIds": sorted(FROZEN),
++        "pairRepairHistory": pair_repair_history,
+         "pid": os.getpid(),
+     }
+     if not empty:
+-        solver, status, picked, pairs, partial = _select(pools, seconds, workers, seed)
++        pool_conflicts = build_conflicts(pools)
++        pair_rows = route_pair_compatibility(pools, conflicts=pool_conflicts)
++        impossible_pairs = [row for row in pair_rows if row["compatiblePairs"] == 0]
++        tight_pairs = sorted(
++            [row for row in pair_rows if 0 < row["compatibilityRatio"] < 0.05],
++            key=lambda row: (row["compatibilityRatio"], row["routeA"], row["routeB"]),
++        )
++        payload["poolFeasibilityPrecheck"] = "PASS" if not impossible_pairs else "FAIL"
++        payload["impossibleRoutePairs"] = impossible_pairs
++        payload["tightRoutePairs"] = tight_pairs[:30]
++        if impossible_pairs:
++            payload["reason"] = "pairwise-impossible-current-pool"
++            output.parent.mkdir(parents=True, exist_ok=True)
++            output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++            print(json.dumps(payload, ensure_ascii=False, indent=2))
++            return 2
++
++        ac3 = arc_consistency_prune(pools, conflicts=pool_conflicts)
++        arc_repair_history = []
++        if ac3["status"] != "PASS" and arc_repair_rounds > 0:
++            arc_repair_history = _repair_arc_empty_routes(
++                pools=pools, routes=mutable, nodes=nodes, xs=xs, ys=ys, frozen=frozen,
++                rounds=arc_repair_rounds, synth_samples=arc_synth_samples,
++                bundle_limit=arc_bundle_limit, seed=seed,
++            )
++            pool_conflicts = build_conflicts(pools)
++            ac3 = arc_consistency_prune(pools, conflicts=pool_conflicts)
++        payload["arcRepairHistory"] = arc_repair_history
++        payload["arcConsistency"] = {
++            "status": ac3["status"],
++            "rounds": ac3["rounds"],
++            "emptyRoutes": ac3["emptyRoutes"],
++            "removalCount": len(ac3["removals"]),
++            "lastRemovals": ac3["removals"][-30:],
++            "remainingDomainSizes": {rid: len(values) for rid, values in ac3["domains"].items()},
++        }
++        if ac3["status"] != "PASS":
++            payload["reason"] = "arc-consistency-proved-current-pool-infeasible"
++            output.parent.mkdir(parents=True, exist_ok=True)
++            output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++            print(json.dumps(payload, ensure_ascii=False, indent=2))
++            return 2
++
++        pools = ac3["domains"]
++        solver, status, picked, pairs, partial, partial_meta = _select(pools, seconds, workers, seed)
+         payload.update({
+             "solverStatus": solver.status_name(status), "wallTimeSeconds": solver.wall_time,
+             "candidateCount": sum(len(values) for values in pools.values()),
+             "conflictPairCount": pairs,
+         })
++        if partial_meta is not None:
++            payload["partialSolver"] = partial_meta
+         if partial:
+-            payload["maximalDisjointSubset"] = sorted(partial)
+-            payload["missingFromMaximalSubset"] = sorted(set(pools) - set(partial))
++            payload["bestObservedDisjointSubset"] = sorted(partial)
++            payload["bestObservedSubsetSize"] = len(partial)
++            payload["missingFromBestObservedSubset"] = sorted(set(pools) - set(partial))
+         if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
+             payload["status"] = "PASS"
+             payload["selection"] = {rid: candidate.key for rid, candidate in picked.items()}
+@@ -423,6 +743,16 @@
+     parser.add_argument("--only-family", choices=("traveler", "provider"))
+     parser.add_argument("--fixed-routes", type=Path, help="routes to treat as immutable obstacles for this isolated run")
+     parser.add_argument("--export-routes", type=Path, help="write the selected subset for a later isolated experiment")
++    parser.add_argument(
++        "--traveler-skeleton", type=Path,
++        help="optional validated Traveler sub-solution to add as candidate families (never frozen automatically)",
++    )
++    parser.add_argument("--pair-repair-rounds", type=int, default=1, help="target pairwise-impossible candidate buckets before CP-SAT")
++    parser.add_argument("--pair-synth-samples", type=int, default=4, help="reroute samples per fixed candidate during pair-gap repair")
++    parser.add_argument("--pair-fixed-limit", type=int, default=4, help="fixed candidates tried per direction for each pair gap")
++    parser.add_argument("--arc-repair-rounds", type=int, default=1, help="higher-order repair rounds for AC-3-empty route domains")
++    parser.add_argument("--arc-synth-samples", type=int, default=4, help="reroute samples per blocker bundle during AC-3 repair")
++    parser.add_argument("--arc-bundle-limit", type=int, default=8, help="compatible blocker bundles tried per empty route")
+     args = parser.parse_args()
+     raise SystemExit(run(**vars(args)))
+ 
+--- a/visio-renderer/calibration/plan_p1_associations.py
++++ b/visio-renderer/calibration/plan_p1_associations.py
+@@ -36,6 +36,7 @@
+     solve_candidates,
+ )
+ from routing_geometry import node_box, route_points, segment_intersects_box_interior, side_port  # noqa: E402
++from audit_p1_route_topology_v2 import require_planar_topology  # noqa: E402
+ 
+ SEMANTIC = ROOT / "visio-spec" / "pages" / "p1_uc_overview.yaml"
+ CANDIDATE = RENDERER / "phase1-routing-rc6-candidate.yaml"
+@@ -82,6 +83,9 @@
+ 
+ 
+ def load_inputs(plan_id):
++    require_planar_topology(
++        semantic=SEMANTIC, candidate=CANDIDATE, plans=PLAN_FILE, plan=plan_id,
++    )
+     sem = yaml.safe_load(SEMANTIC.read_text(encoding="utf-8"))
+     cand = yaml.safe_load(CANDIDATE.read_text(encoding="utf-8"))
+     nodes = {s["id"]: s for s in sem["shapes"] if s["id"] != "BOUNDARY"}
+--- a/visio-renderer/calibration/prepare_p1_corridors.py
++++ b/visio-renderer/calibration/prepare_p1_corridors.py
+@@ -1,63 +1,112 @@
+-"""Prepare a reference plan without modifying the authoritative candidate."""
++"""Prepare a Traveler-corridor reference plan without touching the candidate.
++
++The Traveler skeleton is an explicit input.  No hidden handoff-directory path
++is allowed, so review packages remain reproducible on another machine.
++"""
++from __future__ import annotations
++
++import argparse
+ import json
+ from pathlib import Path
+ import sys
++
+ import yaml
+ import networkx as nx
+ 
+ HERE = Path(__file__).resolve().parent
+ ROOT = HERE.parent.parent
+ sys.path.insert(0, str(HERE.parent))
++
+ from routing_geometry import route_points, path_is_orthogonal, node_box, segment_intersects_box_interior
+ from audit_p1_route_contacts import classify_contact, collinear_redundant
+ from validate_p1_route_candidate import tangent_ok
+ 
+-sem = yaml.safe_load((ROOT / 'visio-spec/pages/p1_uc_overview.yaml').read_text(encoding='utf-8'))
+-cand = yaml.safe_load((HERE.parent / 'phase1-routing-rc6-candidate.yaml').read_text(encoding='utf-8'))
+-sk = yaml.safe_load((ROOT.parent / 'handoff_20260907/traveler-corridor-skeleton.yaml').read_text(encoding='utf-8'))
+-nodes = {n['id']: n for n in sem['shapes'] if n['id'] != 'BOUNDARY'}
+-for r in sk['routes']:
+-    for end, point in [('source', r['waypoints'][0]), ('target', r['waypoints'][-1])]:
+-        b = node_box(nodes[r[end]])
+-        side = r[end + 'Side']
+-        r[end + 'PortFraction'] = ((point[1] - b.top) / (b.bottom - b.top) if side in ('LEFT', 'RIGHT') else (point[0] - b.left) / (b.right - b.left))
+-routes = sk['routes'] + [r for r in cand['routes'] if r['connectorType'] == 'extend']
+-paths = {r['id']: route_points(r, nodes) for r in routes}
+-failures = []
+-for r in routes:
+-    p = paths[r['id']]
+-    if not path_is_orthogonal(p) or not tangent_ok(p, r['sourceSide'], r['targetSide']):
+-        failures.append([r['id'], 'orthogonality/tangency'])
+-        continue
+-    for a, b in zip(p, p[1:]):
+-        if abs(a[0]-b[0])+abs(a[1]-b[1]) < .1-1e-8:
+-            failures.append([r['id'], 'short segment'])
+-        for nid, n in nodes.items():
+-            if nid not in (r['source'], r['target']) and segment_intersects_box_interior(a,b,node_box(n)):
+-                failures.append([r['id'], 'node', nid])
+-    if any(collinear_redundant(*p[i:i+3]) for i in range(len(p)-2)):
+-        failures.append([r['id'], 'redundancy'])
+-contacts = []
+-for i, ra in enumerate(routes):
+-    for rb in routes[i+1:]:
+-        if any(classify_contact(a,b,c,d) for a,b in zip(paths[ra['id']],paths[ra['id']][1:]) for c,d in zip(paths[rb['id']],paths[rb['id']][1:])):
+-            contacts.append([ra['id'],rb['id']])
+-g = nx.Graph((c['source'],c['target']) for c in sem['connectors'])
+-plan = []
+-for r in cand['routes']:
+-    if r['connectorType'] != 'association':
+-        continue
+-    ref = next((x for x in sk['routes'] if x['id']==r['id']),r)
+-    batch = 'A'
+-    if r['id'] in ('A-CD-UC-10','A-M-UC-10','A-T-UC-10','A-T-UC-11'): batch='B'
+-    elif r['id'] in ('A-B-06','A-PA-07'): batch='C'
+-    elif r['id'] in ('A-M-UC-08','A-CE-09','A-M-UC-04'): batch='D'
+-    elif r['id'] in ('A-CD-UC-04','A-CD-UC-05'): batch='E'
+-    plan.append(dict(id=r['id'],batch=batch,sourceSide=ref['sourceSide'],sourcePortFraction=ref['sourcePortFraction'],targetSide=ref['targetSide'],targetPortFraction=ref['targetPortFraction'],referenceWaypoints=ref['waypoints'],status='PROVISIONAL_NOT_GLOBALLY_VALIDATED'))
+-out = HERE / 'out'
+-out.mkdir(exist_ok=True)
+-(out/'P1-CORRIDOR-PREPLAN.json').write_text(json.dumps(plan,indent=2),encoding='utf-8')
+-(out/'P1-TRAVELER-EXACT-REFERENCE.yaml').write_text(yaml.safe_dump(sk,sort_keys=False),encoding='utf-8')
+-report = dict(abstractGraphPlanar=nx.check_planarity(g)[0],subgraphRouteCount=len(routes),failures=failures,contactPairs=contacts,globalGeometrySolved=False)
+-(out/'P1-PREPLAN-VALIDATION.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+-print(json.dumps(report,indent=2))
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--traveler-skeleton", type=Path, required=True)
++    args = parser.parse_args()
++
++    sem = yaml.safe_load((ROOT / "visio-spec/pages/p1_uc_overview.yaml").read_text(encoding="utf-8"))
++    cand = yaml.safe_load((HERE.parent / "phase1-routing-rc6-candidate.yaml").read_text(encoding="utf-8"))
++    sk = yaml.safe_load(args.traveler_skeleton.read_text(encoding="utf-8"))
++    nodes = {n["id"]: n for n in sem["shapes"] if n["id"] != "BOUNDARY"}
++
++    for route in sk["routes"]:
++        for end, point in (("source", route["waypoints"][0]), ("target", route["waypoints"][-1])):
++            box = node_box(nodes[route[end]])
++            side = route[end + "Side"]
++            route[end + "PortFraction"] = (
++                (point[1] - box.top) / (box.bottom - box.top)
++                if side in ("LEFT", "RIGHT")
++                else (point[0] - box.left) / (box.right - box.left)
++            )
++
++    routes = sk["routes"] + [r for r in cand["routes"] if r["connectorType"] == "extend"]
++    paths = {r["id"]: route_points(r, nodes) for r in routes}
++    failures = []
++    for route in routes:
++        points = paths[route["id"]]
++        if not path_is_orthogonal(points) or not tangent_ok(points, route["sourceSide"], route["targetSide"]):
++            failures.append([route["id"], "orthogonality/tangency"])
++            continue
++        for a, b in zip(points, points[1:]):
++            if abs(a[0] - b[0]) + abs(a[1] - b[1]) < 0.1 - 1e-8:
++                failures.append([route["id"], "short segment"])
++            for nid, node in nodes.items():
++                if nid not in (route["source"], route["target"]) and segment_intersects_box_interior(a, b, node_box(node)):
++                    failures.append([route["id"], "node", nid])
++        if any(collinear_redundant(*points[i:i + 3]) for i in range(len(points) - 2)):
++            failures.append([route["id"], "redundancy"])
++
++    contacts = []
++    for i, ra in enumerate(routes):
++        for rb in routes[i + 1:]:
++            if any(
++                classify_contact(a, b, c, d)
++                for a, b in zip(paths[ra["id"]], paths[ra["id"]][1:])
++                for c, d in zip(paths[rb["id"]], paths[rb["id"]][1:])
++            ):
++                contacts.append([ra["id"], rb["id"]])
++
++    graph = nx.Graph((c["source"], c["target"]) for c in sem["connectors"])
++    plan = []
++    for route in cand["routes"]:
++        if route["connectorType"] != "association":
++            continue
++        ref = next((x for x in sk["routes"] if x["id"] == route["id"]), route)
++        batch = "A"
++        if route["id"] in ("A-CD-UC-10", "A-M-UC-10", "A-T-UC-10", "A-T-UC-11"):
++            batch = "B"
++        elif route["id"] in ("A-B-06", "A-PA-07"):
++            batch = "C"
++        elif route["id"] in ("A-M-UC-08", "A-CE-09", "A-M-UC-04"):
++            batch = "D"
++        elif route["id"] in ("A-CD-UC-04", "A-CD-UC-05"):
++            batch = "E"
++        plan.append({
++            "id": route["id"], "batch": batch,
++            "sourceSide": ref["sourceSide"], "sourcePortFraction": ref["sourcePortFraction"],
++            "targetSide": ref["targetSide"], "targetPortFraction": ref["targetPortFraction"],
++            "referenceWaypoints": ref["waypoints"],
++            "status": "PROVISIONAL_NOT_GLOBALLY_VALIDATED",
++        })
++
++    out = HERE / "out"; out.mkdir(exist_ok=True)
++    (out / "P1-CORRIDOR-PREPLAN.json").write_text(json.dumps(plan, indent=2), encoding="utf-8")
++    (out / "P1-TRAVELER-EXACT-REFERENCE.yaml").write_text(yaml.safe_dump(sk, sort_keys=False), encoding="utf-8")
++    report = {
++        "abstractGraphPlanar": nx.check_planarity(graph)[0],
++        "subgraphRouteCount": len(routes),
++        "failures": failures,
++        "contactPairs": contacts,
++        "globalGeometrySolved": False,
++        "travelerSkeleton": str(args.traveler_skeleton),
++    }
++    (out / "P1-PREPLAN-VALIDATION.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
++    print(json.dumps(report, indent=2))
++    return 0 if not failures and not contacts else 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- a/visio-renderer/calibration/route_candidate_selector.py
++++ b/visio-renderer/calibration/route_candidate_selector.py
+@@ -22,6 +22,7 @@
+ from dataclasses import dataclass
+ from math import inf
+ import hashlib
++import time
+ from typing import Iterable, Mapping, Sequence
+ 
+ from critical_grid_geometry import DEFAULT_SCALE, closed_contact, q
+@@ -45,6 +46,28 @@
+ 
+ class CandidateError(ValueError):
+     pass
++
++
++def self_contact_pairs(points: Sequence[tuple[int, int]]) -> list[tuple[int, int]]:
++    """Return non-adjacent segment pairs that contact within one polyline.
++
++    Adjacent segments intentionally share their common bend/endpoint and are
++    therefore ignored.  Any other closed contact is illegal for a P1 route:
++    self-crossing, self-overlap, self-T-junction, or retracing all create an
++    ambiguous presentation route even when cross-route contact is zero.
++    """
++    segs = list(zip(points, points[1:]))
++    bad = []
++    for i, (a, b) in enumerate(segs):
++        for j in range(i + 2, len(segs)):
++            c, d = segs[j]
++            if closed_contact(a, b, c, d):
++                bad.append((i, j))
++    return bad
++
++
++def candidate_self_contacts(c: Candidate) -> list[tuple[int, int]]:
++    return self_contact_pairs(c.points)
+ 
+ 
+ def _quantize_points(points: Sequence[Sequence[float]], scale: int) -> tuple[tuple[int, int], ...]:
+@@ -67,6 +90,9 @@
+     if cost < 0:
+         raise CandidateError("candidate cost must be non-negative")
+     tag = str(raw.get("tag", ""))
++    bad = self_contact_pairs(points)
++    if bad:
++        raise CandidateError(f"polyline self-contact between segment pairs: {bad[:8]}")
+     return Candidate(rid, family, points, cost, tag)
+ 
+ 
+@@ -124,6 +150,185 @@
+     return conflicts
+ 
+ 
++def route_pair_compatibility(
++    candidates_by_route: Mapping[str, Sequence[Candidate]],
++    *,
++    conflicts=None,
++):
++    """Summarize discrete candidate-pool compatibility route pair by route pair.
++
++    A pair with ``compatiblePairs == 0`` is a proof that the *current pool*
++    cannot yield a complete solution, even if the underlying continuous
++    routing problem is feasible.  This is the right trigger for targeted
++    family generation, not more CP-SAT time.
++    """
++    if conflicts is None:
++        conflicts = build_conflicts(candidates_by_route)
++    routes = list(candidates_by_route)
++    rows = []
++    for i, first in enumerate(routes):
++        first_values = candidates_by_route[first]
++        for second in routes[i + 1:]:
++            second_values = candidates_by_route[second]
++            second_keys = {c.key for c in second_values}
++            total = len(first_values) * len(second_values)
++            blocked = sum(
++                len(conflicts.get(c.key, set()) & second_keys)
++                for c in first_values
++            )
++            compatible = total - blocked
++            rows.append({
++                "routeA": first,
++                "routeB": second,
++                "candidatePairs": total,
++                "conflictingPairs": blocked,
++                "compatiblePairs": compatible,
++                "compatibilityRatio": (compatible / total) if total else 0.0,
++            })
++    return rows
++
++
++def arc_consistency_prune(
++    candidates_by_route: Mapping[str, Sequence[Candidate]],
++    *,
++    conflicts=None,
++):
++    """Enforce AC-3 style pairwise support across the candidate CSP.
++
++    A candidate is removed when some other route has no remaining compatible
++    candidate for it.  If a route domain becomes empty, the current discrete
++    pool is proven infeasible without running CP-SAT/backtracking.
++    """
++    if conflicts is None:
++        conflicts = build_conflicts(candidates_by_route)
++    domains = {r: list(values) for r, values in candidates_by_route.items()}
++    removals = []
++    changed = True
++    rounds = 0
++    while changed:
++        changed = False; rounds += 1
++        for route, values in list(domains.items()):
++            kept = []
++            for candidate in values:
++                unsupported_by = []
++                blocked = conflicts.get(candidate.key, set())
++                for other_route, other_values in domains.items():
++                    if other_route == route:
++                        continue
++                    if not any(other.key not in blocked for other in other_values):
++                        unsupported_by.append(other_route)
++                if unsupported_by:
++                    removals.append({
++                        "route": route,
++                        "candidate": candidate.key,
++                        "unsupportedBy": unsupported_by,
++                    })
++                    changed = True
++                else:
++                    kept.append(candidate)
++            domains[route] = kept
++            if not kept:
++                return {
++                    "status": "FAIL",
++                    "rounds": rounds,
++                    "domains": domains,
++                    "emptyRoutes": [r for r, vals in domains.items() if not vals],
++                    "removals": removals,
++                }
++    return {
++        "status": "PASS",
++        "rounds": rounds,
++        "domains": domains,
++        "emptyRoutes": [],
++        "removals": removals,
++    }
++
++
++def find_first_solution(
++    candidates_by_route: Mapping[str, Sequence[Candidate]],
++    *,
++    conflicts=None,
++    time_limit_seconds: float = 30.0,
++):
++    """Find any complete contact-free selection with MRV + LCV.
++
++    Unlike ``solve_candidates`` this is a feasibility probe, not a cost
++    optimizer.  It stops at the first complete assignment and therefore gives
++    the repaired candidate pool a cheap non-OR-Tools path to an 18/18 witness.
++    """
++    routes = tuple(candidates_by_route)
++    empty = [r for r in routes if not candidates_by_route[r]]
++    if empty:
++        return {"status": "FAIL", "reason": "empty-route-domain", "emptyRoutes": empty, "selection": {}, "expandedStates": 0}
++    if conflicts is None:
++        conflicts = build_conflicts(candidates_by_route)
++    domain = {r: tuple(sorted(candidates_by_route[r], key=lambda c: (c.cost, c.family, c.key))) for r in routes}
++    deadline = time.monotonic() + max(0.001, float(time_limit_seconds))
++    expanded = 0
++    max_depth = 0
++    dead_end_counts = {}
++
++    def compatible(candidate, selected):
++        blocked = conflicts.get(candidate.key, set())
++        return not any(chosen.key in blocked for chosen in selected.values())
++
++    def impact(candidate, selected, skip_route):
++        blocked = conflicts.get(candidate.key, set())
++        total = 0
++        for route, values in domain.items():
++            if route in selected or route == skip_route:
++                continue
++            total += sum(value.key in blocked for value in values)
++        return total
++
++    def recurse(selected):
++        nonlocal expanded, max_depth
++        if time.monotonic() >= deadline:
++            raise TimeoutError
++        expanded += 1
++        max_depth = max(max_depth, len(selected))
++        if len(selected) == len(routes):
++            return dict(selected)
++
++        best_route = None; best_options = None; best_tie = None
++        for route in routes:
++            if route in selected:
++                continue
++            options = [c for c in domain[route] if compatible(c, selected)]
++            if not options:
++                dead_end_counts[route] = dead_end_counts.get(route, 0) + 1
++                return None
++            tie = (
++                len(options),
++                -sum(len(conflicts.get(c.key, ())) for c in options),
++                route,
++            )
++            if best_tie is None or tie < best_tie:
++                best_tie = tie; best_route = route; best_options = options
++        best_options.sort(key=lambda c: (impact(c, selected, best_route), c.cost, c.key))
++        for candidate in best_options:
++            selected[best_route] = candidate
++            result = recurse(selected)
++            if result is not None:
++                return result
++            del selected[best_route]
++        return None
++
++    timed_out = False
++    try:
++        selection = recurse({})
++    except TimeoutError:
++        selection = None; timed_out = True
++    return {
++        "status": "PASS" if selection is not None else "FAIL",
++        "reason": "complete-selection" if selection is not None else ("timeout" if timed_out else "exhausted"),
++        "selection": selection or {},
++        "expandedStates": expanded,
++        "maxDepth": max_depth,
++        "deadEndCounts": dict(sorted(dead_end_counts.items(), key=lambda item: (-item[1], item[0]))),
++    }
++
++
+ def solve_candidates(
+     candidates_by_route: Mapping[str, Sequence[Candidate]],
+     *,
+--- a/visio-renderer/calibration/route_p1_negotiated_grid.py
++++ b/visio-renderer/calibration/route_p1_negotiated_grid.py
+@@ -37,10 +37,23 @@
+ from critical_grid_geometry import closed_contact, q  # noqa: E402
+ from routing_geometry import node_box, route_points, segment_intersects_box_interior, side_port  # noqa: E402
+ from plan_p1_associations import CANDIDATE, FROZEN, PLAN_FILE, SEMANTIC, compact  # noqa: E402
++from route_candidate_selector import CandidateError, build_conflicts, make_candidate  # noqa: E402
++from audit_p1_route_topology_v2 import require_planar_topology  # noqa: E402
+ 
+ OUT = HERE / "out"
+ TRACE = OUT / "P1-NEGOTIATED-GRID-TRACE.json"
+ STAGING = OUT / "P1-STAGING-CANDIDATE.yaml"
++
++_TOPOLOGY_CACHE = {}
++
++def topology_gate(plan_id):
++    payload = _TOPOLOGY_CACHE.get(plan_id)
++    if payload is None:
++        payload = require_planar_topology(
++            semantic=SEMANTIC, candidate=CANDIDATE, plans=PLAN_FILE, plan=plan_id,
++        )
++        _TOPOLOGY_CACHE[plan_id] = payload
++    return payload
+ 
+ 
+ def _resolve_plan(plans, plan_id, seen=()):
+@@ -53,6 +66,10 @@
+ 
+ 
+ def load(plan_id):
++    # Central safety interlock: every solver that imports this loader must
++    # reject a non-planar endpoint rotation before any path search begins.
++    # This prevents hours of search on genus>0 port plans.
++    topology_gate(plan_id)
+     sem = yaml.safe_load(SEMANTIC.read_text(encoding="utf-8"))
+     original = yaml.safe_load(CANDIDATE.read_text(encoding="utf-8"))
+     plans = yaml.safe_load(PLAN_FILE.read_text(encoding="utf-8"))["plans"]
+@@ -234,6 +251,33 @@
+     bad_v = {k: v for k, v in vertex_owners.items() if len(v) > 1}
+     bad_e = {k: v for k, v in edge_owners.items() if len(v) > 1}
+     return bad_v, bad_e
++
++
++def exact_path_conflicts(paths):
++    """Proof-grid independent final check for a complete tentative path set."""
++    buckets = {}
++    self_failures = []
++    for rid, points in paths.items():
++        try:
++            buckets[rid] = [make_candidate({
++                "routeId": rid, "family": "negotiated-final",
++                "points": points, "cost": 0.0, "tag": rid,
++            })]
++        except CandidateError as exc:
++            self_failures.append({"route": rid, "error": str(exc)})
++    if self_failures:
++        return {"selfFailures": self_failures, "crossRoutePairs": []}
++    conflicts = build_conflicts(buckets)
++    pairs = set()
++    for rid, values in buckets.items():
++        key = values[0].key
++        for other_key in conflicts.get(key, set()):
++            other = other_key.split(":", 1)[0] if ":" in other_key else other_key
++            pairs.add(tuple(sorted((rid, other))))
++    return {
++        "selfFailures": [],
++        "crossRoutePairs": [list(pair) for pair in sorted(pairs)],
++    }
+ 
+ 
+ def solve(plan_id, iterations, seed, bend_cost):
+@@ -305,10 +349,21 @@
+             "conflictingEdges": len(bad_e),
+             "presentFactor": present,
+         }
++        if exact is not None:
++            record["exactSelfFailureCount"] = len(exact["selfFailures"])
++            record["exactCrossRoutePairCount"] = len(exact["crossRoutePairs"])
+         trace.append(record)
+         if iteration == 0 or iteration % 10 == 0 or (not failed and not bad_v and not bad_e):
+             print(json.dumps(record, ensure_ascii=False), flush=True)
++        exact = None
+         if not failed and not bad_v and not bad_e and len(paths) == len(mutable):
++            exact = exact_path_conflicts(paths)
++        if (
++            not failed and not bad_v and not bad_e and len(paths) == len(mutable)
++            and exact is not None
++            and not exact["selfFailures"]
++            and not exact["crossRoutePairs"]
++        ):
+             staged = copy.deepcopy(original)
+             staged["metadata"]["status"] = "STAGING_GEOMETRY_CANDIDATE"
+             for route in staged["routes"]:
+@@ -322,6 +377,8 @@
+             STAGING.write_text(yaml.safe_dump(staged, sort_keys=False), encoding="utf-8")
+             payload = {
+                 "status": "PASS", "plan": plan_id, "seed": seed,
++                "topologyGateStatus": topology_gate(plan_id)["status"],
++                "orientableGenus": topology_gate(plan_id)["orientableGenus"],
+                 "iteration": iteration, "axisCounts": {"x": len(xs), "y": len(ys)},
+                 "trace": trace[-100:], "stagingCandidate": str(STAGING),
+                 "authoritativeCandidateModified": False,
+@@ -331,6 +388,8 @@
+             return payload
+     payload = {
+         "status": "FAIL", "plan": plan_id, "seed": seed,
++        "topologyGateStatus": topology_gate(plan_id)["status"],
++        "orientableGenus": topology_gate(plan_id)["orientableGenus"],
+         "axisCounts": {"x": len(xs), "y": len(ys)}, "trace": trace[-100:],
+         "bestScore": list(best_score),
+         "bestConflictVertices": [
+--- a/visio-renderer/calibration/search_p1_local_bundle_ports.py
++++ b/visio-renderer/calibration/search_p1_local_bundle_ports.py
+@@ -0,0 +1,339 @@
++#!/usr/bin/env python3
++"""Topology-safe local port search for the current P1 hard-route bundle.
++
++This is a diagnostic/staging helper, not a promotion tool.  It searches a
++small set of target-port variants for the repeatedly failing UC-06 / UC-07
++cluster, generates diversified rectilinear candidate families, repairs
++pairwise gaps, enforces AC-3, and finally asks the exact non-OR-Tools CSP
++selector for one contact-free candidate per local route.
++
++The three C4E1 Extend routes remain hard immutable obstacles.  A previously
++validated Traveler skeleton may be supplied; matching routes are injected as
++*optional candidates*, never frozen.  This retains proven good geometry while
++still allowing the solver to rip it up when provider access requires that.
++
++No authoritative YAML is modified.  A PASS is only a local witness and must be
++re-integrated into a full 18-Association genus-0 search before V1/V2/V3.
++"""
++from __future__ import annotations
++
++import argparse
++import copy
++import itertools
++import json
++import math
++import sys
++import time
++from pathlib import Path
++
++import yaml
++
++HERE = Path(__file__).resolve().parent
++sys.path[:0] = [str(HERE.parent), str(HERE)]
++
++from explore_p1_disjoint_pool import (  # noqa: E402
++    _candidate_pool,
++    _merge_candidate,
++    _repair_arc_empty_routes,
++    _repair_pairwise_gaps,
++)
++from route_candidate_selector import (  # noqa: E402
++    arc_consistency_prune,
++    build_conflicts,
++    find_first_solution,
++    make_candidate,
++    route_pair_compatibility,
++)
++from route_p1_negotiated_grid import build_axes, build_graph, load  # noqa: E402
++from routing_geometry import route_points  # noqa: E402
++from search_p1_global_port_rotations import genus, target_options  # noqa: E402
++
++DEFAULT_PLAN = "PLAN_TRAVELER_SKELETON_PLANAR_GRID"
++DEFAULT_BUNDLE = (
++    "A-T-UC-06",
++    "A-T-UC-07",
++    "A-T-UC-11",
++    "A-B-06",
++    "A-PA-07",
++)
++VARY_ROUTE_TARGET = {
++    "A-T-UC-06": "UC-06",
++    "A-B-06": "UC-06",
++    "A-PA-07": "UC-07",
++}
++
++
++def _nearest_options(node, *, include_left=False):
++    options = target_options(node)
++    sides = ("RIGHT", "TOP", "BOTTOM", "LEFT") if include_left else ("RIGHT", "TOP", "BOTTOM")
++    wanted = (0.20, 0.50, 0.80)
++    out = []
++    for side in sides:
++        side_values = [item for item in options if item[0] == side]
++        for target in wanted:
++            item = min(side_values, key=lambda value: abs(float(value[1]) - target))
++            if item not in out:
++                out.append(item)
++    return out
++
++
++def _port_signature(route):
++    return (
++        route["sourceSide"], round(float(route["sourcePortFraction"]), 12),
++        route["targetSide"], round(float(route["targetPortFraction"]), 12),
++    )
++
++
++def _skeleton_candidate(route, nodes, skeleton_by_id):
++    supplied = skeleton_by_id.get(route["id"])
++    if not supplied or not supplied.get("waypoints"):
++        return None
++    # A skeleton geometry is valid only for exactly the same endpoint ports.
++    if _port_signature(route) != _port_signature(supplied):
++        return None
++    points = route_points(supplied, nodes)
++    try:
++        return make_candidate({
++            "routeId": route["id"],
++            "family": "validated-traveler-skeleton",
++            "points": points,
++            "cost": sum(abs(b[0]-a[0]) + abs(b[1]-a[1]) for a,b in zip(points, points[1:])),
++            "tag": f"{route['id']}:validated-skeleton",
++        })
++    except ValueError:
++        return None
++
++
++def _variant_score(base_routes, variant_routes):
++    # Lower score first.  Prefer ports on the geometrically natural provider
++    # side and fewer deviations from the validated genus-0 seed.
++    score = 0.0
++    for rid in VARY_ROUTE_TARGET:
++        before = base_routes[rid]
++        after = variant_routes[rid]
++        if (before["targetSide"], float(before["targetPortFraction"])) != (
++            after["targetSide"], float(after["targetPortFraction"])
++        ):
++            score += 1.0
++        if rid in {"A-B-06", "A-PA-07"} and after["targetSide"] != "RIGHT":
++            score += 0.35
++        score += abs(float(after["targetPortFraction"]) - 0.5) * 0.05
++    # Distinct UC-06 sides are useful because frozen EXT-07-06 creates a
++    # narrow U-shaped obstacle around that node.
++    if variant_routes["A-T-UC-06"]["targetSide"] == variant_routes["A-B-06"]["targetSide"]:
++        score += 0.4
++    return score
++
++
++def _strategic_variants(base_routes, nodes, max_variants):
++    option_map = {}
++    for rid, nid in VARY_ROUTE_TARGET.items():
++        values = _nearest_options(nodes[nid])
++        current = (base_routes[rid]["targetSide"], float(base_routes[rid]["targetPortFraction"]))
++        if current not in values:
++            values.insert(0, current)
++        option_map[rid] = values
++
++    rows = []
++    for choices in itertools.product(*(option_map[rid] for rid in VARY_ROUTE_TARGET)):
++        routes = copy.deepcopy(base_routes)
++        for rid, option in zip(VARY_ROUTE_TARGET, choices):
++            routes[rid]["targetSide"], routes[rid]["targetPortFraction"] = option
++        # Two connectors may not occupy the same perimeter position on UC-06.
++        if (
++            routes["A-T-UC-06"]["targetSide"] == routes["A-B-06"]["targetSide"]
++            and abs(float(routes["A-T-UC-06"]["targetPortFraction"]) - float(routes["A-B-06"]["targetPortFraction"])) < 1e-9
++        ):
++            continue
++        g = genus(routes, nodes)
++        if g is None or abs(float(g)) > 1e-9:
++            continue
++        rows.append((_variant_score(base_routes, routes), routes))
++    rows.sort(key=lambda item: item[0])
++    return rows[:max_variants]
++
++
++def _domain_summary(ac3):
++    return {rid: len(values) for rid, values in ac3.get("domains", {}).items()}
++
++
++def search(*, plan, skeleton, variants, samples, pair_rounds, pair_samples,
++           pair_fixed, arc_rounds, arc_samples, arc_bundles, seed, seconds, checkpoint=None):
++    sem, original, nodes, base_routes, overrides, frozen, mutable = load(plan)
++    skeleton_by_id = {}
++    if skeleton:
++        document = yaml.safe_load(Path(skeleton).read_text(encoding="utf-8")) or {}
++        skeleton_by_id = {item.get("id"): item for item in document.get("routes", [])}
++
++    variant_rows = _strategic_variants(base_routes, nodes, variants)
++    start = time.monotonic()
++    attempts = []
++    best = None
++
++    def write_checkpoint():
++        if checkpoint is None:
++            return
++        payload = {
++            "status": "RUNNING",
++            "scope": "LOCAL_5_ROUTE_DIAGNOSTIC",
++            "plan": plan,
++            "bundle": list(DEFAULT_BUNDLE),
++            "testedVariants": len(attempts),
++            "elapsedSeconds": time.monotonic() - start,
++            "bestAttempt": best[1] if best else None,
++            "attempts": attempts,
++        }
++        Path(checkpoint).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++
++    for index, (port_score, routes) in enumerate(variant_rows, 1):
++        if time.monotonic() - start >= seconds:
++            break
++        local_routes = [routes[rid] for rid in DEFAULT_BUNDLE]
++        xs, ys = build_axes(sem, local_routes, nodes, frozen)
++        ix, iy, allowed = build_graph(xs, ys, nodes, frozen)
++        pools = {}
++        for rid in DEFAULT_BUNDLE:
++            route_seed = seed + index * 100003 + sum(ord(ch) for ch in rid) * 101
++            bucket = _candidate_pool(
++                routes[rid], nodes, xs, ys, ix, iy, allowed, samples, route_seed,
++            )
++            skeleton_candidate = _skeleton_candidate(routes[rid], nodes, skeleton_by_id)
++            if skeleton_candidate is not None:
++                _merge_candidate(bucket, skeleton_candidate)
++            pools[rid] = bucket
++
++        pair_history = _repair_pairwise_gaps(
++            pools=pools, routes=local_routes, nodes=nodes, xs=xs, ys=ys,
++            frozen=frozen, rounds=pair_rounds, synth_samples=pair_samples,
++            fixed_limit=pair_fixed, seed=seed + index * 7919,
++        )
++        conflicts = build_conflicts(pools)
++        pair_rows = route_pair_compatibility(pools, conflicts=conflicts)
++        impossible = [
++            [row["routeA"], row["routeB"]]
++            for row in pair_rows if row["compatiblePairs"] == 0
++        ]
++        ac3 = arc_consistency_prune(pools, conflicts=conflicts)
++        arc_history = []
++        if not impossible and ac3["status"] != "PASS" and arc_rounds > 0:
++            arc_history = _repair_arc_empty_routes(
++                pools=pools, routes=local_routes, nodes=nodes, xs=xs, ys=ys,
++                frozen=frozen, rounds=arc_rounds, synth_samples=arc_samples,
++                bundle_limit=arc_bundles, seed=seed + index * 104729,
++            )
++            conflicts = build_conflicts(pools)
++            ac3 = arc_consistency_prune(pools, conflicts=conflicts)
++
++        attempt = {
++            "index": index,
++            "portScore": port_score,
++            "orientableGenus": 0.0,
++            "portOverrides": {
++                rid: {
++                    "targetSide": routes[rid]["targetSide"],
++                    "targetPortFraction": routes[rid]["targetPortFraction"],
++                }
++                for rid in VARY_ROUTE_TARGET
++            },
++            "candidateCounts": {rid: len(pools[rid]) for rid in DEFAULT_BUNDLE},
++            "impossibleRoutePairs": impossible,
++            "ac3Status": ac3["status"],
++            "ac3EmptyRoutes": list(ac3.get("emptyRoutes", [])),
++            "ac3DomainSizes": _domain_summary(ac3),
++            "pairRepair": pair_history,
++            "arcRepair": arc_history,
++        }
++        rank = (
++            len(impossible),
++            len(attempt["ac3EmptyRoutes"]),
++            -sum(attempt["ac3DomainSizes"].values()),
++            port_score,
++        )
++        if best is None or rank < best[0]:
++            best = (rank, copy.deepcopy(attempt))
++
++        if not impossible and ac3["status"] == "PASS":
++            result = find_first_solution(
++                ac3["domains"], conflicts=conflicts,
++                time_limit_seconds=max(0.1, min(15.0, seconds - (time.monotonic() - start))),
++            )
++            attempt["selector"] = {
++                key: value for key, value in result.items() if key != "selection"
++            }
++            if result["status"] == "PASS":
++                attempt["selection"] = {
++                    rid: {
++                        "family": candidate.family,
++                        "cost": candidate.cost,
++                        "points": [[x / 200.0, y / 200.0] for x, y in candidate.points],
++                    }
++                    for rid, candidate in result["selection"].items()
++                }
++                attempts.append(attempt)
++                payload = {
++                    "status": "PASS",
++                    "scope": "LOCAL_5_ROUTE_WITNESS_ONLY",
++                    "plan": plan,
++                    "bundle": list(DEFAULT_BUNDLE),
++                    "testedVariants": index,
++                    "elapsedSeconds": time.monotonic() - start,
++                    "winner": attempt,
++                    "attempts": attempts,
++                    "warning": "Local witness only; full 18-Association topology/V1/V2/V3 still required.",
++                }
++                if checkpoint is not None:
++                    Path(checkpoint).write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++                return payload
++        attempts.append(attempt)
++        write_checkpoint()
++
++    return {
++        "status": "FAIL",
++        "scope": "LOCAL_5_ROUTE_DIAGNOSTIC",
++        "plan": plan,
++        "bundle": list(DEFAULT_BUNDLE),
++        "testedVariants": len(attempts),
++        "elapsedSeconds": time.monotonic() - start,
++        "bestAttempt": best[1] if best else None,
++        "attempts": attempts,
++        "nextAction": (
++            "Broaden target/source port search for the AC-3-empty route(s), then regenerate bundle families; "
++            "do not spend CP-SAT time on a pool that fails pairwise or AC-3 prechecks."
++        ),
++    }
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--plan", default=DEFAULT_PLAN)
++    parser.add_argument("--traveler-skeleton", type=Path)
++    parser.add_argument("--variants", type=int, default=30)
++    parser.add_argument("--samples", type=int, default=4)
++    parser.add_argument("--pair-repair-rounds", type=int, default=1)
++    parser.add_argument("--pair-synth-samples", type=int, default=3)
++    parser.add_argument("--pair-fixed-limit", type=int, default=3)
++    parser.add_argument("--arc-repair-rounds", type=int, default=1)
++    parser.add_argument("--arc-synth-samples", type=int, default=4)
++    parser.add_argument("--arc-bundle-limit", type=int, default=12)
++    parser.add_argument("--seed", type=int, default=20260908)
++    parser.add_argument("--seconds", type=float, default=120.0)
++    parser.add_argument("--json-out", type=Path)
++    args = parser.parse_args()
++    payload = search(
++        plan=args.plan, skeleton=args.traveler_skeleton,
++        variants=args.variants, samples=args.samples,
++        pair_rounds=args.pair_repair_rounds, pair_samples=args.pair_synth_samples,
++        pair_fixed=args.pair_fixed_limit,
++        arc_rounds=args.arc_repair_rounds, arc_samples=args.arc_synth_samples,
++        arc_bundles=args.arc_bundle_limit,
++        seed=args.seed, seconds=args.seconds, checkpoint=args.json_out,
++    )
++    text = json.dumps(payload, ensure_ascii=False, indent=2)
++    print(text)
++    if args.json_out:
++        args.json_out.write_text(text, encoding="utf-8")
++    return 0 if payload["status"] == "PASS" else 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- a/visio-renderer/calibration/search_p1_repaired_pool.py
++++ b/visio-renderer/calibration/search_p1_repaired_pool.py
+@@ -0,0 +1,185 @@
++"""Non-OR-Tools end-to-end feasibility search over a repaired candidate pool.
++
++Pipeline:
++  topology pre-gate -> diversified route pools -> targeted pair-gap repair ->
++  pairwise pool feasibility -> exact MRV/LCV first-solution CSP -> staging YAML.
++
++This is a search workbench only.  It never edits the authoritative candidate
++and a staging PASS is not promotable until the official V1/Contact/V2/V3/full
++pytest gates pass against that staging file.
++"""
++from __future__ import annotations
++
++import argparse
++import copy
++import json
++from pathlib import Path
++import sys
++
++import yaml
++
++HERE = Path(__file__).resolve().parent
++sys.path[:0] = [str(HERE.parent), str(HERE)]
++
++from explore_p1_disjoint_pool import (
++    _candidate_pool,
++    _path_cost,
++    _repair_pairwise_gaps,
++)
++from route_candidate_selector import (
++    arc_consistency_prune,
++    build_conflicts,
++    find_first_solution,
++    make_candidate,
++    route_pair_compatibility,
++)
++from route_p1_negotiated_grid import build_axes, build_graph, load, topology_gate
++from routing_geometry import route_points
++
++OUT = HERE / "out"
++STAGING = OUT / "P1-REPAIRED-POOL-STAGING.yaml"
++TRACE = OUT / "P1-REPAIRED-POOL-TRACE.json"
++
++
++def run(*, plan, samples, seed, traveler_skeleton, pair_repair_rounds,
++        pair_synth_samples, pair_fixed_limit, search_seconds):
++    sem, original, nodes, routes, overrides, frozen, mutable = load(plan)
++    xs, ys = build_axes(sem, mutable, nodes, frozen)
++    ix, iy, allowed = build_graph(xs, ys, nodes, frozen)
++
++    skeleton_by_id = {}
++    if traveler_skeleton is not None:
++        doc = yaml.safe_load(traveler_skeleton.read_text(encoding="utf-8")) or {}
++        skeleton_by_id = {item.get("id"): item for item in doc.get("routes", [])}
++
++    pools = {}
++    for route in mutable:
++        route_seed = seed + sum(ord(ch) for ch in route["id"]) * 100003
++        values = _candidate_pool(route, nodes, xs, ys, ix, iy, allowed, samples, route_seed)
++        supplied = skeleton_by_id.get(route["id"])
++        if supplied is not None and route.get("family") == "traveler":
++            with_skeleton = copy.deepcopy(route)
++            with_skeleton["waypoints"] = copy.deepcopy(supplied.get("waypoints", []))
++            points = route_points(with_skeleton, nodes)
++            try:
++                values.append(make_candidate({
++                    "routeId": route["id"], "family": "validated-skeleton",
++                    "points": points, "cost": _path_cost(points),
++                    "tag": f"{route['id']}:validated-skeleton",
++                }))
++            except (KeyError, ValueError):
++                pass
++        unique = {}
++        for candidate in values:
++            old = unique.get(candidate.points)
++            if old is None or candidate.cost < old.cost:
++                unique[candidate.points] = candidate
++        pools[route["id"]] = list(unique.values())
++
++    repair_history = _repair_pairwise_gaps(
++        pools=pools, routes=mutable, nodes=nodes, xs=xs, ys=ys, frozen=frozen,
++        rounds=pair_repair_rounds, synth_samples=pair_synth_samples,
++        fixed_limit=pair_fixed_limit, seed=seed,
++    )
++
++    conflicts = build_conflicts(pools)
++    pair_rows = route_pair_compatibility(pools, conflicts=conflicts)
++    impossible = [row for row in pair_rows if row["compatiblePairs"] == 0]
++    topology = topology_gate(plan)
++    payload = {
++        "status": "FAIL",
++        "plan": plan,
++        "topologyGateStatus": topology["status"],
++        "orientableGenus": topology["orientableGenus"],
++        "candidateCount": sum(len(values) for values in pools.values()),
++        "familyCounts": {rid: len(values) for rid, values in pools.items()},
++        "conflictPairCount": sum(len(values) for values in conflicts.values()) // 2,
++        "pairRepairHistory": repair_history,
++        "impossibleRoutePairs": impossible,
++        "authoritativeCandidateModified": False,
++    }
++    if impossible:
++        payload["reason"] = "pairwise-impossible-current-pool"
++        OUT.mkdir(parents=True, exist_ok=True)
++        TRACE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++        print(json.dumps(payload, ensure_ascii=False, indent=2))
++        return 2
++
++    ac3 = arc_consistency_prune(pools, conflicts=conflicts)
++    payload["arcConsistency"] = {
++        "status": ac3["status"],
++        "rounds": ac3["rounds"],
++        "emptyRoutes": ac3["emptyRoutes"],
++        "removalCount": len(ac3["removals"]),
++        "lastRemovals": ac3["removals"][-30:],
++        "remainingDomainSizes": {rid: len(values) for rid, values in ac3["domains"].items()},
++    }
++    if ac3["status"] != "PASS":
++        payload["reason"] = "arc-consistency-proved-current-pool-infeasible"
++        OUT.mkdir(parents=True, exist_ok=True)
++        TRACE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++        print(json.dumps(payload, ensure_ascii=False, indent=2))
++        return 2
++
++    pruned = ac3["domains"]
++    pruned_conflicts = build_conflicts(pruned)
++    result = find_first_solution(
++        pruned, conflicts=pruned_conflicts, time_limit_seconds=search_seconds,
++    )
++    payload["csp"] = {
++        key: value for key, value in result.items() if key != "selection"
++    }
++    if result["status"] != "PASS":
++        payload["reason"] = "no-complete-selection-found"
++        OUT.mkdir(parents=True, exist_ok=True)
++        TRACE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++        print(json.dumps(payload, ensure_ascii=False, indent=2))
++        return 2
++
++    selection = result["selection"]
++    staged = copy.deepcopy(original)
++    staged["metadata"]["status"] = "STAGING_GEOMETRY_CANDIDATE"
++    for route in staged["routes"]:
++        rid = route["id"]
++        candidate = selection.get(rid)
++        if candidate is None:
++            continue
++        route.update(overrides.get(rid, {}))
++        route["waypoints"] = [
++            [round(x / 200.0, 2), round(y / 200.0, 2)]
++            for x, y in candidate.points[1:-1]
++        ]
++        route["planningStatus"] = "ROUTE_PLANNED_PENDING_EXTERNAL_FREEZE"
++
++    OUT.mkdir(parents=True, exist_ok=True)
++    STAGING.write_text(yaml.safe_dump(staged, sort_keys=False), encoding="utf-8")
++    payload.update({
++        "status": "PASS",
++        "reason": "complete-contact-free-pool-selection",
++        "stagingCandidate": str(STAGING),
++        "selection": {
++            rid: {"key": candidate.key, "family": candidate.family, "cost": candidate.cost}
++            for rid, candidate in sorted(selection.items())
++        },
++    })
++    TRACE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++    print(json.dumps(payload, ensure_ascii=False, indent=2))
++    return 0
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--plan", default="PLAN_TRAVELER_SKELETON_PLANAR_GRID")
++    parser.add_argument("--samples", type=int, default=4)
++    parser.add_argument("--seed", type=int, default=20260908)
++    parser.add_argument("--traveler-skeleton", type=Path)
++    parser.add_argument("--pair-repair-rounds", type=int, default=2)
++    parser.add_argument("--pair-synth-samples", type=int, default=3)
++    parser.add_argument("--pair-fixed-limit", type=int, default=3)
++    parser.add_argument("--search-seconds", type=float, default=60.0)
++    args = parser.parse_args()
++    return run(**vars(args))
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- a/visio-renderer/calibration/search_planar_skeleton_ports.py
++++ b/visio-renderer/calibration/search_planar_skeleton_ports.py
+@@ -14,7 +14,6 @@
+ ROOT = HERE.parent.parent
+ CANDIDATE = ROOT / "visio-renderer" / "phase1-routing-rc6-candidate.yaml"
+ SEMANTIC = ROOT / "visio-spec" / "pages" / "p1_uc_overview.yaml"
+-SKELETON = ROOT.parent / "handoff_20260907" / "traveler-corridor-skeleton.yaml"
+ OUT = HERE / "out" / "P1-SKELETON-PLANAR-PORT-SEED.json"
+ 
+ 
+@@ -59,12 +58,13 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser()
++    parser.add_argument("--traveler-skeleton", type=Path, required=True, help="validated Traveler sub-solution YAML")
+     parser.add_argument("--force-right", action="append", default=[], help="provider route id constrained to a RIGHT target port")
+     parser.add_argument("--force-side", action="append", default=[], help="routeId=LEFT|RIGHT|TOP|BOTTOM target constraint")
+     args = parser.parse_args()
+     forced_side = dict(item.split("=", 1) for item in args.force_side)
+     candidate = yaml.safe_load(CANDIDATE.read_text(encoding="utf-8"))
+-    skeleton = yaml.safe_load(SKELETON.read_text(encoding="utf-8"))
++    skeleton = yaml.safe_load(args.traveler_skeleton.read_text(encoding="utf-8"))
+     semantic = yaml.safe_load(SEMANTIC.read_text(encoding="utf-8"))
+     nodes = {n["id"]: n for n in semantic["shapes"] if n["id"] != "BOUNDARY"}
+     base = {r["id"]: copy.deepcopy(r) for r in candidate["routes"]}
+--- a/visio-renderer/calibration/solve_p1_disjoint_cpsat.py
++++ b/visio-renderer/calibration/solve_p1_disjoint_cpsat.py
+@@ -24,7 +24,7 @@
+ 
+ from plan_p1_associations import FROZEN, compact  # noqa: E402
+ from route_p1_negotiated_grid import (  # noqa: E402
+-    STAGING, TRACE, build_axes, build_graph, load, terminal_scaffold,
++    STAGING, TRACE, build_axes, build_graph, load, terminal_scaffold, topology_gate,
+ )
+ from routing_geometry import route_points  # noqa: E402
+ 
+@@ -146,6 +146,8 @@
+     payload = {
+         "status": "PASS" if status in (cp_model.OPTIMAL, cp_model.FEASIBLE) else "FAIL",
+         "solverStatus": label, "plan": plan_id,
++        "topologyGateStatus": topology_gate(plan_id)["status"],
++        "orientableGenus": topology_gate(plan_id)["orientableGenus"],
+         "axisCounts": {"x": len(xs), "y": len(ys)},
+         "edgeCount": len(edges), "routeCount": len(routes),
+         "wallTimeSeconds": solver.wall_time, "objective": solver.objective_value,
+--- a/visio-renderer/calibration/synthesize_p1_pair_families.py
++++ b/visio-renderer/calibration/synthesize_p1_pair_families.py
+@@ -0,0 +1,140 @@
++"""Targeted pairwise homotopy synthesis for P1 Association candidate pools.
++
++Use this only after ``diagnose_p1_candidate_pool.py`` reports a route pair with
++zero compatible candidate pairs.  It treats one candidate as an exact hard
++obstacle and reroutes the other route, then swaps direction.  Any returned pair
++is proof that the *port plan* can separate those two routes and that the
++candidate generator simply lacked the necessary homotopy family.
++
++This is a diagnostic/family generator.  It never edits the authoritative
++candidate and never claims that a pairwise solution extends to all 18 routes.
++"""
++from __future__ import annotations
++
++import argparse
++import json
++from pathlib import Path
++import sys
++
++HERE = Path(__file__).resolve().parent
++sys.path[:0] = [str(HERE.parent), str(HERE)]
++
++from explore_p1_disjoint_pool import _candidate_pool
++from route_candidate_selector import candidates_contact
++from route_p1_negotiated_grid import build_axes, build_graph, load, topology_gate
++
++
++def _points(candidate):
++    return [(x / 200.0, y / 200.0) for x, y in candidate.points]
++
++
++def _base_pool(route, nodes, xs, ys, frozen, samples, seed):
++    ix, iy, allowed = build_graph(xs, ys, nodes, frozen)
++    return _candidate_pool(route, nodes, xs, ys, ix, iy, allowed, samples, seed)
++
++
++def run(*, plan, route_a, route_b, base_samples, synth_samples, fixed_limit, seed, output):
++    sem, _, nodes, routes, _, frozen, mutable = load(plan)
++    by_id = {route["id"]: route for route in mutable}
++    if route_a not in by_id or route_b not in by_id:
++        raise SystemExit(f"routes must be mutable Associations: {route_a}, {route_b}")
++    xs, ys = build_axes(sem, mutable, nodes, frozen)
++
++    pool_a = _base_pool(by_id[route_a], nodes, xs, ys, frozen, base_samples, seed + 101)
++    pool_b = _base_pool(by_id[route_b], nodes, xs, ys, frozen, base_samples, seed + 202)
++    direct_pairs = [
++        (a, b) for a in pool_a for b in pool_b if not candidates_contact(a, b)
++    ]
++
++    synthesized = []
++    directions = (
++        (route_a, pool_a, route_b, by_id[route_b], seed + 3001),
++        (route_b, pool_b, route_a, by_id[route_a], seed + 6001),
++    )
++    for fixed_rid, fixed_pool, reroute_rid, reroute, direction_seed in directions:
++        for index, fixed in enumerate(sorted(fixed_pool, key=lambda c: (c.cost, c.key))[:fixed_limit]):
++            hard = dict(frozen)
++            hard[f"__pair_fixed__:{fixed_rid}"] = _points(fixed)
++            ix, iy, allowed = build_graph(xs, ys, nodes, hard)
++            generated = _candidate_pool(
++                reroute, nodes, xs, ys, ix, iy, allowed,
++                synth_samples, direction_seed + index * 7919,
++            )
++            for candidate in generated:
++                if candidates_contact(fixed, candidate):
++                    continue
++                if fixed_rid == route_a:
++                    pair = (fixed, candidate)
++                else:
++                    pair = (candidate, fixed)
++                synthesized.append(pair)
++
++    # Geometry pair identity dedupe, cheapest first.
++    unique = {}
++    for first, second in [*direct_pairs, *synthesized]:
++        key = (first.points, second.points)
++        score = first.cost + second.cost
++        old = unique.get(key)
++        if old is None or score < old[0]:
++            unique[key] = (score, first, second)
++    ranked = sorted(unique.values(), key=lambda item: (item[0], item[1].key, item[2].key))
++
++    topology = topology_gate(plan)
++    payload = {
++        "status": "PASS" if ranked else "FAIL",
++        "meaning": (
++            "PASS proves only pairwise separability for this port plan and sampled family search; "
++            "it does not prove a global 18-route embedding."
++        ),
++        "plan": plan,
++        "topologyGateStatus": topology["status"],
++        "orientableGenus": topology["orientableGenus"],
++        "routeA": route_a,
++        "routeB": route_b,
++        "baseSamples": base_samples,
++        "synthSamplesPerFixedCandidate": synth_samples,
++        "fixedCandidateLimitPerDirection": fixed_limit,
++        "basePoolCounts": {route_a: len(pool_a), route_b: len(pool_b)},
++        "directCompatiblePairCount": len(direct_pairs),
++        "synthesizedCompatiblePairCount": len(synthesized),
++        "uniqueCompatiblePairCount": len(ranked),
++        "examples": [
++            {
++                "totalCost": score,
++                route_a: {
++                    "family": first.family,
++                    "cost": first.cost,
++                    "points": [[x / 200.0, y / 200.0] for x, y in first.points],
++                },
++                route_b: {
++                    "family": second.family,
++                    "cost": second.cost,
++                    "points": [[x / 200.0, y / 200.0] for x, y in second.points],
++                },
++            }
++            for score, first, second in ranked[:20]
++        ],
++        "authoritativeCandidateModified": False,
++    }
++    output.parent.mkdir(parents=True, exist_ok=True)
++    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
++    print(json.dumps(payload, ensure_ascii=False, indent=2))
++    return 0 if payload["status"] == "PASS" else 2
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--plan", default="PLAN_TRAVELER_SKELETON_PLANAR_GRID")
++    parser.add_argument("--route-a", required=True)
++    parser.add_argument("--route-b", required=True)
++    parser.add_argument("--base-samples", type=int, default=12)
++    parser.add_argument("--synth-samples", type=int, default=8)
++    parser.add_argument("--fixed-limit", type=int, default=6)
++    parser.add_argument("--seed", type=int, default=20260908)
++    parser.add_argument("--output", type=Path, required=True)
++    args = parser.parse_args()
++    return run(**vars(args))
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+--- a/visio-renderer/calibration/validate_p1_route_candidate_v2.py
++++ b/visio-renderer/calibration/validate_p1_route_candidate_v2.py
+@@ -47,6 +47,8 @@
+         "contactPairCount": contact_payload.get("contactPairCount"),
+         "uniqueContactCount": contact_payload.get("uniqueContactCount"),
+         "contactCounts": contact_payload.get("contactCounts"),
++        "selfContactCount": contact_payload.get("selfContactCount"),
++        "selfContactCounts": contact_payload.get("selfContactCounts"),
+         "shortSegmentCount": contact_payload.get("shortSegmentCount"),
+         "redundantCollinearPointCount": contact_payload.get("redundantCollinearPointCount"),
+         "failures": failures,
+--- a/visio-renderer/tests/test_p1_local_bundle_search_contract.py
++++ b/visio-renderer/tests/test_p1_local_bundle_search_contract.py
+@@ -0,0 +1,40 @@
++from pathlib import Path
++import copy
++import sys
++
++import yaml
++
++HERE = Path(__file__).resolve().parent
++CAL = HERE.parent / 'calibration'
++sys.path[:0] = [str(CAL), str(HERE.parent)]
++
++from route_p1_negotiated_grid import load
++from search_p1_global_port_rotations import genus
++from search_p1_local_bundle_ports import _strategic_variants, _skeleton_candidate
++
++
++def test_strategic_local_variants_are_genus_zero_and_keep_unique_uc06_ports():
++    sem, original, nodes, routes, overrides, frozen, mutable = load('PLAN_TRAVELER_SKELETON_PLANAR_GRID')
++    variants = _strategic_variants(routes, nodes, 12)
++    assert variants
++    for _, candidate_routes in variants:
++        assert genus(candidate_routes, nodes) == 0
++        a = candidate_routes['A-T-UC-06']
++        b = candidate_routes['A-B-06']
++        assert not (
++            a['targetSide'] == b['targetSide']
++            and abs(float(a['targetPortFraction']) - float(b['targetPortFraction'])) < 1e-9
++        )
++
++
++def test_skeleton_candidate_requires_identical_endpoint_ports(tmp_path):
++    sem, original, nodes, routes, overrides, frozen, mutable = load('PLAN_TRAVELER_SKELETON_PLANAR_GRID')
++    # Build a minimal exact skeleton from the current route itself.
++    route = copy.deepcopy(routes['A-T-UC-07'])
++    route['waypoints'] = [[5.6, 9.5], [5.6, 9.9], [14.4, 9.9], [14.4, 8.2]]
++    skeleton = {route['id']: route}
++    assert _skeleton_candidate(routes['A-T-UC-07'], nodes, skeleton) is not None
++
++    changed = copy.deepcopy(routes['A-T-UC-07'])
++    changed['targetPortFraction'] = 0.6
++    assert _skeleton_candidate(changed, nodes, skeleton) is None
+--- a/visio-renderer/tests/test_p1_self_contact_contract.py
++++ b/visio-renderer/tests/test_p1_self_contact_contract.py
+@@ -0,0 +1,62 @@
++from pathlib import Path
++import sys
++import pytest
++
++ROOT = Path(__file__).resolve().parents[1]
++CAL = ROOT / "calibration"
++sys.path.insert(0, str(CAL))
++
++from route_candidate_selector import CandidateError, make_candidate
++
++
++def test_candidate_rejects_nonadjacent_self_crossing():
++    with pytest.raises(CandidateError):
++        make_candidate({
++            "routeId": "R", "family": "test", "cost": 1,
++            "points": [[0, 0], [2, 0], [2, 2], [1, 2], [1, -1]],
++        })
++
++
++def test_candidate_rejects_self_retrace_overlap():
++    with pytest.raises(CandidateError):
++        make_candidate({
++            "routeId": "R", "family": "test", "cost": 1,
++            "points": [[0, 0], [2, 0], [2, 1], [1, 1], [1, 0], [3, 0]],
++        })
++
++
++def test_contact_audit_has_self_contact_gate():
++    src = (CAL / "audit_p1_route_contacts.py").read_text(encoding="utf-8")
++    assert "selfContactCount" in src
++    assert "selfContacts" in src
++    assert "self-route contacts" in src
++
++
++def test_candidate_pool_has_no_hardcoded_handoff_dependency():
++    src = (CAL / "explore_p1_disjoint_pool.py").read_text(encoding="utf-8")
++    assert "handoff_20260907" not in src
++    assert "--traveler-skeleton" in src
++    assert "bestObservedDisjointSubset" in src
++    assert "maximalDisjointSubset" not in src
++
++
++def test_pair_compatibility_precheck_can_prove_current_pool_impossible():
++    from route_candidate_selector import route_pair_compatibility
++    a = make_candidate({"routeId":"A","family":"x","cost":1,"points":[[0,0],[2,0]]})
++    b = make_candidate({"routeId":"B","family":"x","cost":1,"points":[[1,-1],[1,1]]})
++    rows = route_pair_compatibility({"A":[a],"B":[b]})
++    assert rows[0]["compatiblePairs"] == 0
++    assert rows[0]["compatibilityRatio"] == 0
++
++
++def test_no_solver_depends_on_handoff_20260907_path():
++    for name in ("explore_p1_disjoint_pool.py", "search_planar_skeleton_ports.py", "prepare_p1_corridors.py"):
++        src = (CAL / name).read_text(encoding="utf-8")
++        assert "handoff_20260907" not in src
++
++
++def test_negotiated_router_has_exact_pre_staging_contact_check():
++    src = (CAL / "route_p1_negotiated_grid.py").read_text(encoding="utf-8")
++    assert "def exact_path_conflicts" in src
++    assert 'not exact["selfFailures"]' in src
++    assert 'not exact["crossRoutePairs"]' in src
+--- a/visio-renderer/tests/test_p1_topology_runtime_contract.py
++++ b/visio-renderer/tests/test_p1_topology_runtime_contract.py
+@@ -0,0 +1,43 @@
++from pathlib import Path
++import sys
++import pytest
++
++ROOT = Path(__file__).resolve().parents[1]
++CAL = ROOT / "calibration"
++sys.path.insert(0, str(CAL))
++
++from audit_p1_route_topology_v2 import TopologyGateError, require_planar_topology
++
++SEM = ROOT.parent / "visio-spec" / "pages" / "p1_uc_overview.yaml"
++CAND = ROOT / "phase1-routing-rc6-candidate.yaml"
++PLANS = CAL / "P1_ROUTE_PORT_PLANS.yaml"
++
++
++def test_known_planar_seed_passes_runtime_gate():
++    payload = require_planar_topology(
++        semantic=SEM, candidate=CAND, plans=PLANS,
++        plan="PLAN_TRAVELER_SKELETON_PLANAR_GRID",
++    )
++    assert payload["status"] == "PASS"
++    assert payload["orientableGenus"] == 0
++
++
++def test_known_nonplanar_seed_is_rejected_before_routing():
++    with pytest.raises(TopologyGateError) as exc:
++        require_planar_topology(
++            semantic=SEM, candidate=CAND, plans=PLANS,
++            plan="PLAN_TRAVELER_SKELETON_PROVIDER_GRID",
++        )
++    assert exc.value.payload["orientableGenus"] == 1
++
++
++def test_negotiated_loader_contains_central_topology_interlock():
++    src = (CAL / "route_p1_negotiated_grid.py").read_text(encoding="utf-8")
++    assert "topology_gate(plan_id)" in src
++    assert "require_planar_topology" in src
++
++
++def test_shared_solver_loader_rejects_nonplanar_plan():
++    from route_p1_negotiated_grid import load
++    with pytest.raises(TopologyGateError):
++        load("PLAN_TRAVELER_SKELETON_PROVIDER_GRID")

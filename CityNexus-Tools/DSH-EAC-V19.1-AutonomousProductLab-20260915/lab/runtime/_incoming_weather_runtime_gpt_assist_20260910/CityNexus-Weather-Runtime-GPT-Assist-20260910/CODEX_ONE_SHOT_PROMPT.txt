@@ -1,0 +1,131 @@
+You are continuing the real CityNexus repository at D:\moodle\CityNexus.
+
+CURRENT AUTHORITY:
+- Integrated Journey Vertical Slice = FROZEN_PASS
+- Provider Runtime / frozen MobilitySnapshot = FROZEN_PASS
+- Current next gate = Open-Meteo Weather Runtime -> deterministic Activity attribution
+
+Do not reopen frozen stages unless a regression proves breakage. Do not start OR-Tools, LiteLLM/DeepSeek, MapLibre polish, Visio or PPT in this batch.
+
+FIRST inspect the real worktree:
+
+git status --short
+git diff --stat
+git log --oneline -n 10
+
+Never run git reset --hard, checkout -- ., or clean -fd. Do not overwrite concurrent work. Semantic merge only.
+
+Read these files from the GPT assist package before implementation:
+- CURRENT_WEATHER_GAP_ANALYSIS.md
+- PRODUCT_AND_GITHUB_CONTEXT.md
+- contracts/WEATHER_RUNTIME_ARCHITECTURE.md
+- contracts/WEATHER_RUNTIME_FREEZE_GATE.md
+- CODEX_START_HERE.md
+
+Then inspect the current repo implementation of:
+- app/integrations/context/open_meteo.py
+- app/integrations/context/weather_snapshot.py
+- app/integrations/context/weather_ingestion.py
+- app/db/models.py (Journey, Activity, Place, Event, Commitment)
+- JourneyTwin projection
+- Replan WEATHER handling
+- demo Place tags/metadata
+- provider degradation/recovery
+
+GOAL:
+Build the smallest reliable server-owned Open-Meteo runtime path:
+
+current + future Journey Activities
+-> explicit weather-sensitive Place scopes
+-> Open-Meteo call outside deterministic gate
+-> normalize UTC data
+-> freeze WeatherSnapshot / WeatherRiskFact
+-> deterministic time + exact-scope + sensitivity attribution
+-> affected_activity_id
+-> PROVIDER_VERIFIED Event
+-> existing Replan pipeline
+
+AI MUST NOT decide affected_activity_id.
+GET/Twin MUST NOT call Open-Meteo.
+Provider failure MUST NOT fabricate weather.
+C4 MUST NOT be silently removed or rewritten.
+
+TESTS FIRST:
+Apply/copy only patches/01_WEATHER_RUNTIME_TESTS.patch or the supplied test file first.
+Run:
+
+cd D:\moodle\CityNexus\backend
+$env:PYTHONPATH = "."
+pytest -q tests/test_weather_runtime_gate_gpt.py
+
+These tests define WRT-01..WRT-12:
+1. Open-Meteo Unix UTC MockTransport contract
+2. timezone-safe mapping to Journey schedule
+3. deterministic non-overlap rejection
+4. exact query Place/coordinates persisted in provider evidence
+5. explicit indoor/outdoor policy
+6. terminal/past execution Activity filter
+7. public clients cannot forge PROVIDER_VERIFIED
+8. repeated polling is idempotent
+9. provider failure -> one degradation marker, no fake weather Event
+10. successful recovery resolves degradation/Twin returns READY
+11. weather may identify a durable C4 Activity but Replan cannot silently destroy it
+12. offline Closure Golden regression remains operational
+
+REFERENCE IMPLEMENTATION:
+GPT already prepared patches/02_WEATHER_RUNTIME_REFERENCE_IMPL.patch and a reference_overlay. On the reviewed checkpoint it produced:
+- 12 WRT PASS
+- 33 focused regression PASS
+- full backend 182 PASS / 1 SKIP
+- compileall PASS
+
+Do NOT blindly apply it if current repo differs. Run the tests first, inspect failures, then semantic-merge only missing behavior.
+
+REFERENCE DESIGN DETAILS:
+- WeatherQueryScope carries exact place_id/lat/lon.
+- WeatherRiskFact freezes provider evidence and explicit hourly valid_until.
+- Hourly risk is [valid_from, valid_until).
+- Convert provider UTC instants to Journey timezone before overlap.
+- Weather sensitivity is explicit: weather_sensitive override; indoor not rain-sensitive; outdoor rain-sensitive; unknown not auto-attributed.
+- Only current/future, non-terminal Activities are eligible.
+- Query once per unique eligible Place for MVP.
+- Trusted weather Event identity is Journey + provider + risk code + validity + Activity + query scope.
+- Repeated identical polling must reuse the existing Event.
+- Repeated outage polling should keep one unresolved degradation marker.
+- Resolve provider degradation only after the refresh operation succeeds for every attempted scope.
+
+PRODUCT TRIGGER:
+After semantic core passes, decide from the real repo whether the smallest trigger should be:
+A) server background/scheduled refresh, or
+B) an explicit server-owned POST weather refresh operation.
+
+If you add a POST endpoint, it must accept no trusted weather facts from the client. The server calls Open-Meteo and creates trusted evidence itself. Update contracts/openapi.yaml and runtime/formal parity tests.
+
+DO NOT trigger network from:
+- GET /twin
+- feasibility evaluation
+- Replan candidate gate
+- any read/projection endpoint
+
+RUN REGRESSIONS:
+pytest -q tests/test_weather_runtime_gate_gpt.py
+pytest -q tests/test_provider_runtime_gate.py tests/test_gpt_adversarial_provider_hardening.py tests/test_backend_connected_golden_contract.py tests/test_wp07_foundation_assist.py
+pytest -q
+python -m compileall -q app tests
+ruff check app tests
+
+If API/frontend changes, also run OpenAPI parity, npm build and backend-connected Playwright.
+
+REVIEW PACKAGE HYGIENE:
+Do not package .venv, node_modules, dist, .pytest_cache, .ruff_cache, __pycache__, *.pyc, runtime *.db/*.sqlite*, or frontend test-results. Include all source, tests, fixtures and schema needed for fresh-extract reproduction.
+
+FINAL OUTPUT REQUIRED:
+- CURRENT_STATUS.md
+- WEATHER_RUNTIME_ARCHITECTURE.md
+- TEST_RESULTS.md
+- BLOCKERS.md
+- NEXT_RECOMMENDATION.md
+- changed source/tests/fixtures
+- fresh-extract review checkpoint ZIP
+
+When all Weather Runtime gates are green, STOP. Do not start OR-Tools. The assist package includes contracts/NEXT_SOLVER_GATE.md only as the roadmap for the next externally reviewed stage.

@@ -1,0 +1,34 @@
+{
+  "visioAutomation": {
+    "version": "4.7.2",
+    "userCell": "PASS",
+    "customProperty": "PASS",
+    "rightAnglePotential": "Connect-VisioShape is available; exact routing behavior requires a dedicated routed-connector test",
+    "msaglAvailable": true,
+    "recommendedRole": ["ShapeData", "routing", "layout"],
+    "recommended_for_renderer_integration": "ADOPT_PARTIALLY"
+  },
+  "vsdx": {
+    "version": "0.6.1",
+    "pageParsing": "PASS",
+    "shapeParsing": "PASS",
+    "childShapeParsing": "PASS",
+    "connectorParsing": "PASS for count; source/target UNSUPPORTED",
+    "customPropertyParsing": "UNSUPPORTED",
+    "recommendedRole": ["independent VSDX validation"],
+    "recommended_for_renderer_integration": "ADOPT_PARTIALLY"
+  },
+  "hiungVisio": {
+    "installed": false,
+    "acquisition": "official API/codeload/archive endpoints returned HTTP 404; u1s1 proxy confirmed but target remains unavailable",
+    "checkCross": "NOT_RUN",
+    "verifyTopology": "NOT_RUN",
+    "verifyLabelSpacing": "NOT_RUN",
+    "recommendedRole": ["geometry QA", "topology QA"],
+    "recommended_for_renderer_integration": "DO_NOT_ADOPT"
+  },
+  "overall": {
+    "recommended_for_renderer_integration": "ADOPT_PARTIALLY",
+    "frozen": ["Renderer v0.3.2", "RC6", "formal Phase 1", "Part 2"]
+  }
+}

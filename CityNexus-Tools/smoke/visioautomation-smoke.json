@@ -1,0 +1,8 @@
+﻿{
+    "application":  true,
+    "document":  true,
+    "page":  true,
+    "shape":  true,
+    "pathExists":  true,
+    "userCell":  "\"TEST-SPEC-ID\""
+}

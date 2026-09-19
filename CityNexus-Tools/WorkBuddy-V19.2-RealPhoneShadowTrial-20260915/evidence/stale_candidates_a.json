@@ -1,0 +1,85 @@
+{
+ "snapshot": "A",
+ "snapshot_dir": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\snapshot_a",
+ "generate": 201,
+ "plans": 3,
+ "candidate_mutation": {
+  "before": {
+   "snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f",
+   "expires_at": null,
+   "column_snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f"
+  },
+  "after_mode": "expired"
+ },
+ "candidate_still_listed": true,
+ "candidate_listed_status": "CANDIDATE",
+ "select_stale_candidate": 409,
+ "select_stale_body": "{\"error\":{\"code\":\"CONFLICT\",\"message\":\"STALE_RECOMPOSE_REQUIRED: PlanVersion evidence expired\",\"trace_id\":\"bb7bb145-12ba-406b-8a0e-94e951225e2a\",\"details\":null}}",
+ "stale_candidate_refused": true,
+ "staleness_shapes": {
+  "expired": {
+   "before": {
+    "snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f",
+    "expires_at": null,
+    "column_snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f"
+   },
+   "after_mode": "expired",
+   "select_status": 409,
+   "select_body": "{\"error\":{\"code\":\"CONFLICT\",\"message\":\"STALE_RECOMPOSE_REQUIRED: PlanVersion evidence expired\",\"trace_id\":\"99319159-3a54-4e38-ad90-50328a6239db\",\"details\":null}"
+  },
+  "missing_snapshot_id": {
+   "before": {
+    "snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f",
+    "expires_at": null,
+    "column_snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f"
+   },
+   "after_mode": "missing_snapshot_id",
+   "select_status": 409,
+   "select_body": "{\"error\":{\"code\":\"CONFLICT\",\"message\":\"STALE_RECOMPOSE_REQUIRED: PlanVersion has no frozen provider evidence\",\"trace_id\":\"e6293e1d-674d-4ea9-9dd9-dfc7d872f166\","
+  },
+  "inconsistent_reference": {
+   "before": {
+    "snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f",
+    "expires_at": null,
+    "column_snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f"
+   },
+   "after_mode": "inconsistent_reference",
+   "select_status": 409,
+   "select_body": "{\"error\":{\"code\":\"CONFLICT\",\"message\":\"STALE_RECOMPOSE_REQUIRED: PlanVersion evidence reference is inconsistent\",\"trace_id\":\"c940969d-e361-42ea-b789-c5b1e281ef5"
+  },
+  "invalid_timestamp": {
+   "before": {
+    "snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f",
+    "expires_at": null,
+    "column_snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f"
+   },
+   "after_mode": "invalid_timestamp",
+   "select_status": 409,
+   "select_body": "{\"error\":{\"code\":\"CONFLICT\",\"message\":\"STALE_RECOMPOSE_REQUIRED: PlanVersion evidence timestamp invalid\",\"trace_id\":\"5ad3efe7-87e2-4456-a677-fe9c1a5f0e39\",\"deta"
+  }
+ },
+ "select_fresh_plan": 200,
+ "selected_mutation": {
+  "before": {
+   "snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f",
+   "expires_at": null,
+   "column_snapshot_id": "06e755b9-b739-437c-9cf8-bd1e342d596f"
+  },
+  "after_mode": "expired"
+ },
+ "selected_plan_revalidation": {
+  "raised": true,
+  "error": "ValueError: STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired"
+ },
+ "start_with_stale_selected": 200,
+ "start_with_stale_body": "{\"journey_id\":\"22222222-2222-4222-8222-222222222222\",\"active_plan_version_id\":\"55523d40-cafe-5bd2-b30a-de057ec7a839\",\"current_activity_id\":\"3a58c470-524c-5854-aa39-6c37a350eb80\",\"latest_event_id\":null",
+ "journey_status": "ACTIVE",
+ "experience": 200,
+ "experience_flags_staleness": false,
+ "summary": {
+  "stale_candidate_refused": true,
+  "all_shapes_refused": true,
+  "stale_selected_plan_revalidation_raises": true,
+  "journey_still_running_on_expired_evidence": true
+ }
+}

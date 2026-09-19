@@ -1,0 +1,17 @@
+CITYNEXUS V6 — CODEX START HERE
+
+1. Read README.md, REVIEW_FINDINGS.md and CODEX_NEXT_GOAL.txt.
+2. Work against:
+   D:\moodle\CityNexus
+3. Extract this assist package OUTSIDE the repository.
+4. Load TEMP_DEEPSEEK.env into the current process environment only.
+5. Do not copy the credential into source, Git, frontend code, reports, logs, audit payloads, DB rows, test snapshots or the final checkpoint.
+6. Verify the V5 baseline before changing implementation.
+7. Do not stop after infrastructure fixes. The V6 completion gate is the Predictive Real-City Twin flagship E2E.
+
+Suggested PowerShell:
+$env:DEEPSEEK_API_KEY = (Get-Content .\TEMP_DEEPSEEK.env | Select-String '^DEEPSEEK_API_KEY=').ToString().Split('=',2)[1]
+
+Do not print the credential.
+
+Proceed with CODEX_NEXT_GOAL.txt.

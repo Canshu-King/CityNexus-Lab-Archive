@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it using the metadata in this file."
+title: "Codex-Skills"
+authors:
+  - name: "JiaxI2"
+license: "Apache-2.0"
+repository-code: "https://github.com/JiaxI2/Codex-Skills"
+url: "https://github.com/JiaxI2/Codex-Skills"
+date-released: "2026-06-27"

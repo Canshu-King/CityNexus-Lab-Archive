@@ -1,0 +1,4 @@
+﻿P1b_i18n_consumer_keys.patch: 0 bytes
+P1_bookings_import_robustness.patch: 9236 bytes
+P2_ai_plan_honesty_gate.patch: 15550 bytes
+P3_copilotdock_consumer_language.patch: 10408 bytes

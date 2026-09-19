@@ -1,0 +1,46 @@
+CityNexus EAC Overnight Mobile Product Rescue V2 — package inventory
+=====================================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+Morning gate (real browser): 20/20 on the items driven; 2 core P1s remain open.
+
+Reports
+-------
+PRODUCT_RESCUE_REPORT.md   verdict, what works, what does not, non-claims
+USER_JOURNEY_RESULTS.md    step-by-step first-time-traveller walkthrough
+BUGS_FOUND_AND_FIXED.md    8 P0s and 4 P1s fixed, 1 P2 logged (all browser-verified)
+REMAINING_PRODUCT_GAPS.md  ordered remaining work
+UI_IMPLEMENTATION_MAP.md   reference image -> implementation status
+TEST_RESULTS.md            real run numbers
+CHANGED_FILES.txt          5 added, 10 modified, 0 removed
+PACKAGE_INVENTORY.txt      this file
+
+source/                    the 15 changed source files
+  backend/app/replanning/feasibility.py                 (V19.2.5 hotfix, Phase 0)
+  backend/tests/test_v1925_c4_interior_truth.py         (new)
+  frontend/src/main.tsx                                 (default entry -> product)
+  frontend/src/routes/v8Routes.ts                       (official bottom nav)
+  frontend/src/i18n/LocaleContext.tsx                   (traveller language + locale default)
+  frontend/src/styles.css                               (trial sheet, plan compare, itinerary, maps, copilot)
+  frontend/src/app/V8Experience.tsx                     (trips route, offline state, wiring)
+  frontend/src/features/setup/JourneyTrialSetup.tsx     (three-step create flow)
+  frontend/src/features/planning/PlanWithAiSheet.tsx    (new)
+  frontend/src/features/planning/PlanComparison.tsx     (new)
+  frontend/src/features/trip/TripItinerary.tsx          (new)
+  frontend/src/components/ProductErrorBoundary.tsx      (new)
+  frontend/src/components/v8/MapPanel.tsx               (map truth)
+  frontend/src/components/JourneyMap.tsx                (map truth)
+  frontend/src/features/agent/AgentComposer.tsx         (Enter to send)
+
+screenshots/before/        the user's real Xiaomi 13 Ultra photographs
+screenshots/after/         real browser captures after the fixes
+evidence/                  raw JSON for every claim + gate results
+
+Explicit non-claims
+-------------------
+* No real payment was executed.
+* No physical-device testing; all evidence is emulated viewports in headless Chrome.
+* No live DeepSeek call (CITYNEXUS_AI_ENABLED=false); the AI path was verified
+  through its honest failure branch only.
+* READY is not claimed: hotel comparison/selection and live disruption -> replan
+  are not built.

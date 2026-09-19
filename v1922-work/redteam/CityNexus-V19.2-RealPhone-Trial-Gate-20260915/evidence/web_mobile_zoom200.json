@@ -1,0 +1,50 @@
+[
+ {
+  "route": "hub",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "live",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "map",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "studio",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "bookings",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "agent",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "authoritative",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ },
+ {
+  "route": "twin",
+  "horizontalOverflow": false,
+  "scrollWidth": 640,
+  "clientWidth": 640
+ }
+]

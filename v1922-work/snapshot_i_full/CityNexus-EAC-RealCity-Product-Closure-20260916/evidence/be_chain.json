@@ -1,0 +1,98 @@
+{
+ "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+ "city_code": "CN-XIAMEN",
+ "plan_ids": [
+  "89a623c2-4629-5c16-84f5-348cc13aeb74",
+  "5d58d47f-5c02-5e8c-a359-6a000f5da440",
+  "08e6657a-3f51-5f6c-999c-2caca848d16c"
+ ],
+ "selected_plan_id": "89a623c2-4629-5c16-84f5-348cc13aeb74",
+ "plan_stops": [
+  6,
+  5,
+  4
+ ],
+ "stay_selected": "酒店",
+ "final_plan_id": "8c4c6f6f-6991-42d7-bbf2-8b6ab34a91dd",
+ "final_stops": 6,
+ "trace": [
+  {
+   "step": "create",
+   "route": "/journeys",
+   "status": "OK",
+   "note": "city=CN-XIAMEN status=DRAFT"
+  },
+  {
+   "step": "discover",
+   "route": "discover[tourist attraction]",
+   "status": "OK",
+   "note": "candidates=6 try=1"
+  },
+  {
+   "step": "pois",
+   "route": "places",
+   "status": "OK",
+   "note": "6 xiamen POIs"
+  },
+  {
+   "step": "generate",
+   "route": "/plans/generate",
+   "status": "OK",
+   "note": "plans=3 stops=[6, 5, 4]"
+  },
+  {
+   "step": "select",
+   "route": "/plans/89a623c2/select",
+   "status": "OK",
+   "note": ""
+  },
+  {
+   "step": "start",
+   "route": "/start",
+   "status": "OK",
+   "note": "status=None"
+  },
+  {
+   "step": "stay",
+   "route": "/stay-options/generate",
+   "status": "OK",
+   "note": "options=4"
+  },
+  {
+   "step": "stay-select",
+   "route": "/stay-options/{id}/select",
+   "status": "OK",
+   "note": ""
+  },
+  {
+   "step": "event",
+   "route": "/events",
+   "status": "OK",
+   "note": "type=CLOSURE target=Check in · 酒店"
+  },
+  {
+   "step": "replan",
+   "route": "/replans",
+   "status": "OK",
+   "note": "status=PRESENTED preserved=True"
+  },
+  {
+   "step": "proposal-view",
+   "route": "/replans/6a555ab7",
+   "status": "OK",
+   "note": "removed=0 added=0"
+  },
+  {
+   "step": "accept",
+   "route": "/replans/6a555ab7/accept",
+   "status": "OK",
+   "note": "status=ACCEPTED"
+  },
+  {
+   "step": "final",
+   "route": "/experience",
+   "status": "OK",
+   "note": "plan=8c4c6f6f stops=6 recovery=None"
+  }
+ ]
+}

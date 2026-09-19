@@ -1,0 +1,46 @@
+Use the attached:
+
+CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-v2-RoadPrep-20260918.zip
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+This is the final narrow Xiaomi-trial blocker closure.
+
+Do NOT start Frontend vNext.
+Do NOT start unrelated architecture work.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/EAC_FINAL_HOTFIX_V2_MISSION.md
+
+Highest priority:
+
+1. fix the booking-first closure false-protected bug (`None in {None}`);
+2. make closure target resolution deterministic/fail-safe;
+3. dedupe or meaningfully differentiate Live proposals;
+4. remove remaining consumer-facing internal enums/tool names/role keys;
+5. make the Copilot dock yield to high-priority sheets;
+6. make AI planning attribution fail-closed when baseline plan snapshot fails.
+
+Final acceptance must use a fresh Xiamen journey with a CONFIRMED BOOKING before
+the closure/replan step and must include ID-level replan evidence.
+
+Target:
+
+CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-v2-20260918.zip
+
+Final verdict only:
+
+BLOCKED_FOR_REAL_USER_TRIAL
+
+or
+
+READY_FOR_XIAOMI_13_ULTRA_USER_TRIAL
+
+Start now.

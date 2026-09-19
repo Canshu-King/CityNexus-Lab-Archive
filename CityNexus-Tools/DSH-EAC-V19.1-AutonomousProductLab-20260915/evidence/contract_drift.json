@@ -1,0 +1,40 @@
+{
+  "runtime_path_count": 134,
+  "checked_in_path_count": 124,
+  "runtime_prefix_sample": [
+    "/api/v1/agent/hermes/capabilities",
+    "/api/v1/agent/hermes/runs/{run_id}",
+    "/api/v1/agent/hermes/runs/{run_id}/events"
+  ],
+  "checked_in_prefix_sample": [
+    "/agent/hermes/capabilities",
+    "/agent/hermes/runs/{run_id}",
+    "/agent/hermes/runs/{run_id}/events"
+  ],
+  "capability_runtime_paths": [
+    "/api/v1/agent/hermes/capabilities",
+    "/api/v1/capabilities/catalog",
+    "/api/v1/journeys/{journey_id}/accessibility-evidence",
+    "/api/v1/journeys/{journey_id}/capabilities",
+    "/api/v1/journeys/{journey_id}/capabilities/confirm",
+    "/api/v1/journeys/{journey_id}/capability-plan-impact",
+    "/api/v1/places/{place_id}/accessibility-evidence",
+    "/api/v1/travelers/{traveler_id}/capabilities",
+    "/api/v1/travelers/{traveler_id}/capabilities/audit",
+    "/api/v1/travelers/{traveler_id}/capabilities/confirm",
+    "/api/v1/travelers/{traveler_id}/capabilities/extract"
+  ],
+  "capability_paths_missing_from_checked_in": [
+    "/api/v1/capabilities/catalog",
+    "/api/v1/journeys/{journey_id}/accessibility-evidence",
+    "/api/v1/journeys/{journey_id}/capabilities",
+    "/api/v1/journeys/{journey_id}/capabilities/confirm",
+    "/api/v1/journeys/{journey_id}/capability-plan-impact",
+    "/api/v1/places/{place_id}/accessibility-evidence",
+    "/api/v1/travelers/{traveler_id}/capabilities",
+    "/api/v1/travelers/{traveler_id}/capabilities/audit",
+    "/api/v1/travelers/{traveler_id}/capabilities/confirm",
+    "/api/v1/travelers/{traveler_id}/capabilities/extract"
+  ],
+  "base_path_drift": "runtime uses /api/v1 prefix; checked-in paths do not"
+}

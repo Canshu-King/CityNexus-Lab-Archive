@@ -1,0 +1,8 @@
+﻿app
+data
+db
+requirements
+tests
+citynexus.db
+pyproject.toml
+_copied.txt

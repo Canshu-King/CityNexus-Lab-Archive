@@ -1,0 +1,173 @@
+{
+ "steps": [
+  {
+   "n": "1-ai",
+   "v": "plans=3"
+  },
+  {
+   "n": "2-choose",
+   "v": "cards=3 chosen=true"
+  },
+  {
+   "n": "3-hotel",
+   "v": "cards=10 pinned=true"
+  },
+  {
+   "n": "4-attempt",
+   "v": "OSM restaurant -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "4-attempt",
+   "v": "OSM cafe -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "4-attempt",
+   "v": "必胜客 -> 201 "
+  },
+  {
+   "n": "4-attempt",
+   "v": "OSM restaurant -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "4-attempt",
+   "v": "OSM restaurant -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "4-attempt",
+   "v": "Villa 6 -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "4-attempt",
+   "v": "OSM park -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "4-attempt",
+   "v": "OSM park -> 422 no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/404734010"
+  },
+  {
+   "n": "5-summary",
+   "v": "refused=7 proposed=1"
+  },
+  {
+   "n": "6-backend",
+   "v": "{\"openDisruptions\":8,\"ackedDisruptions\":0,\"statuses\":[\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\"],\"flags\":{\"needs_review\":false,\"recovery_required\":false,\"staleness\":false,\"feasibility_failures\":[],\"acknowledged\":false,\"recovery_state\":null}}"
+  },
+  {
+   "n": "7-live",
+   "v": "{\"disruptionBanner\":1,\"disruptionText\":\"发生了什么 有一处地点临时关闭 · 受影响：OSM park 有一处地点临时关闭 · 受影响：OSM park 有一处地点临时关闭 · 受影响：Villa 6\",\"proposals\":1,\"noProposal\":\"\",\"handled\":0,\"handledText\":\"\",\"message\":\"\"}"
+  },
+  {
+   "n": "8-hub",
+   "v": "{\"attention\":\"8 项变化\",\"next\":\"下一步 10:00 厦门高崎国际机场 今天没有安排 住宿 舒曼精品酒店 已确认的住宿 需要关注 8 项变化 打开「实时行程」查看\",\"alerts\":\"通知 · 8 条活跃\"}"
+  }
+ ],
+ "errors": [],
+ "jid": "4198f201-202e-4ac8-8f98-020e9bb9404a",
+ "attempts": [
+  {
+   "target": "OSM restaurant",
+   "at": "2026-11-06T02:28:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "c0d95a8a-cb1c-4ee9-a1b8-f265471c7b08",
+   "proposalId": null
+  },
+  {
+   "target": "OSM cafe",
+   "at": "2026-11-06T03:39:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "d6404f34-9532-4842-987c-4024e000d604",
+   "proposalId": null
+  },
+  {
+   "target": "必胜客",
+   "at": "2026-11-06T04:50:00+00:00",
+   "status": 201,
+   "message": "",
+   "eventId": "50d97aac-539a-4623-af15-ee44ecdff028",
+   "proposalId": "4937e6e4-c5d6-4c1c-bd48-f4691b7261cf"
+  },
+  {
+   "target": "OSM restaurant",
+   "at": "2026-11-06T06:28:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "433979d1-9945-4ad3-ad38-3036ca09049e",
+   "proposalId": null
+  },
+  {
+   "target": "OSM restaurant",
+   "at": "2026-11-07T00:00:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "a44b7ff1-aee4-48ec-be57-59687c1ef0f3",
+   "proposalId": null
+  },
+  {
+   "target": "Villa 6",
+   "at": "2026-11-07T01:04:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "5daf3632-1907-4718-914b-b98e495073de",
+   "proposalId": null
+  },
+  {
+   "target": "OSM park",
+   "at": "2026-11-07T02:14:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "1583c329-dac3-4947-856c-3952bd10f4de",
+   "proposalId": null
+  },
+  {
+   "target": "OSM park",
+   "at": "2026-11-07T03:22:00+00:00",
+   "status": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4047340101:check-in",
+   "eventId": "c0643bc1-13ca-4baf-861d-f8f4be208a3f",
+   "proposalId": null
+  }
+ ],
+ "refusalCount": 7,
+ "proposalCount": 1,
+ "hub": {
+  "attention": "8 项变化",
+  "next": "下一步 10:00 厦门高崎国际机场 今天没有安排 住宿 舒曼精品酒店 已确认的住宿 需要关注 8 项变化 打开「实时行程」查看",
+  "alerts": "通知 · 8 条活跃"
+ },
+ "live": {
+  "disruptionBanner": 1,
+  "disruptionText": "发生了什么 有一处地点临时关闭 · 受影响：OSM park 有一处地点临时关闭 · 受影响：OSM park 有一处地点临时关闭 · 受影响：Villa 6",
+  "proposals": 1,
+  "noProposal": "",
+  "handled": 0,
+  "handledText": "",
+  "message": ""
+ },
+ "backend": {
+  "openDisruptions": 8,
+  "ackedDisruptions": 0,
+  "statuses": [
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED",
+   "CLOSURE:DETECTED"
+  ],
+  "flags": {
+   "needs_review": false,
+   "recovery_required": false,
+   "staleness": false,
+   "feasibility_failures": [],
+   "acknowledged": false,
+   "recovery_state": null
+  }
+ },
+ "proposalStatuses": [
+  "PRESENTED"
+ ]
+}

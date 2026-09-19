@@ -1,0 +1,254 @@
+{
+ "watched": {
+  "a": {
+   "backend/app/capabilities.py": {
+    "present": true,
+    "bytes": 15283,
+    "sha256_16": "7e3ff4cb3a85b7b6"
+   },
+   "backend/app/replanning/feasibility.py": {
+    "present": true,
+    "bytes": 31773,
+    "sha256_16": "a346039ad023ef51"
+   },
+   "backend/app/main.py": {
+    "present": true,
+    "bytes": 363366,
+    "sha256_16": "889a2d91a2f4fc44"
+   },
+   "backend/app/services.py": {
+    "present": true,
+    "bytes": 36457,
+    "sha256_16": "39883320e3ae5901"
+   },
+   "backend/app/stay_mobility.py": {
+    "present": true,
+    "bytes": 40607,
+    "sha256_16": "4565ea8a08b6237b"
+   },
+   "backend/app/execution/traveler_twin.py": {
+    "present": true,
+    "bytes": 15821,
+    "sha256_16": "81dcd851f9c49377"
+   },
+   "backend/app/integrations/ai/semantic_compiler.py": {
+    "present": true,
+    "bytes": 12248,
+    "sha256_16": "9795fdcbbdb684a0"
+   },
+   "backend/app/replanning/protected_commitments.py": {
+    "present": true,
+    "bytes": 1927,
+    "sha256_16": "bda97287914971fa"
+   },
+   "backend/app/db/models.py": {
+    "present": true,
+    "bytes": 57237,
+    "sha256_16": "813a2e4b19e7c383"
+   },
+   "backend/app/agent/mission.py": {
+    "present": true,
+    "bytes": 22753,
+    "sha256_16": "18c4f983eccf9a67"
+   },
+   "contracts/openapi.yaml": {
+    "present": true,
+    "bytes": 88093,
+    "sha256_16": "82fb0964a9efe215"
+   }
+  },
+  "b": {
+   "backend/app/capabilities.py": {
+    "present": true,
+    "bytes": 15283,
+    "sha256_16": "7e3ff4cb3a85b7b6"
+   },
+   "backend/app/replanning/feasibility.py": {
+    "present": true,
+    "bytes": 31773,
+    "sha256_16": "a346039ad023ef51"
+   },
+   "backend/app/main.py": {
+    "present": true,
+    "bytes": 363366,
+    "sha256_16": "889a2d91a2f4fc44"
+   },
+   "backend/app/services.py": {
+    "present": true,
+    "bytes": 36457,
+    "sha256_16": "39883320e3ae5901"
+   },
+   "backend/app/stay_mobility.py": {
+    "present": true,
+    "bytes": 40607,
+    "sha256_16": "e06c755d21b3c84c"
+   },
+   "backend/app/execution/traveler_twin.py": {
+    "present": true,
+    "bytes": 15821,
+    "sha256_16": "81dcd851f9c49377"
+   },
+   "backend/app/integrations/ai/semantic_compiler.py": {
+    "present": true,
+    "bytes": 12248,
+    "sha256_16": "9795fdcbbdb684a0"
+   },
+   "backend/app/replanning/protected_commitments.py": {
+    "present": true,
+    "bytes": 1927,
+    "sha256_16": "bda97287914971fa"
+   },
+   "backend/app/db/models.py": {
+    "present": true,
+    "bytes": 57237,
+    "sha256_16": "813a2e4b19e7c383"
+   },
+   "backend/app/agent/mission.py": {
+    "present": true,
+    "bytes": 22753,
+    "sha256_16": "18c4f983eccf9a67"
+   },
+   "contracts/openapi.yaml": {
+    "present": true,
+    "bytes": 89911,
+    "sha256_16": "814c499ed81b3efb"
+   }
+  },
+  "c": {
+   "backend/app/capabilities.py": {
+    "present": true,
+    "bytes": 19890,
+    "sha256_16": "b342df348c0d62a7"
+   },
+   "backend/app/replanning/feasibility.py": {
+    "present": true,
+    "bytes": 32817,
+    "sha256_16": "8a0de9106818725d"
+   },
+   "backend/app/main.py": {
+    "present": true,
+    "bytes": 363483,
+    "sha256_16": "e357ac67260a7794"
+   },
+   "backend/app/services.py": {
+    "present": true,
+    "bytes": 36457,
+    "sha256_16": "39883320e3ae5901"
+   },
+   "backend/app/stay_mobility.py": {
+    "present": true,
+    "bytes": 40607,
+    "sha256_16": "e06c755d21b3c84c"
+   },
+   "backend/app/execution/traveler_twin.py": {
+    "present": true,
+    "bytes": 15821,
+    "sha256_16": "81dcd851f9c49377"
+   },
+   "backend/app/integrations/ai/semantic_compiler.py": {
+    "present": true,
+    "bytes": 12248,
+    "sha256_16": "9795fdcbbdb684a0"
+   },
+   "backend/app/replanning/protected_commitments.py": {
+    "present": true,
+    "bytes": 1927,
+    "sha256_16": "bda97287914971fa"
+   },
+   "backend/app/db/models.py": {
+    "present": true,
+    "bytes": 57237,
+    "sha256_16": "813a2e4b19e7c383"
+   },
+   "backend/app/agent/mission.py": {
+    "present": true,
+    "bytes": 22753,
+    "sha256_16": "18c4f983eccf9a67"
+   },
+   "contracts/openapi.yaml": {
+    "present": true,
+    "bytes": 89911,
+    "sha256_16": "814c499ed81b3efb"
+   }
+  }
+ },
+ "changes": {
+  "backend/app/capabilities.py": {
+   "a": "7e3ff4cb3a85b7b6",
+   "b": "7e3ff4cb3a85b7b6",
+   "c": "b342df348c0d62a7",
+   "a_to_b": "same",
+   "b_to_c": "CHANGED"
+  },
+  "backend/app/replanning/feasibility.py": {
+   "a": "a346039ad023ef51",
+   "b": "a346039ad023ef51",
+   "c": "8a0de9106818725d",
+   "a_to_b": "same",
+   "b_to_c": "CHANGED"
+  },
+  "backend/app/main.py": {
+   "a": "889a2d91a2f4fc44",
+   "b": "889a2d91a2f4fc44",
+   "c": "e357ac67260a7794",
+   "a_to_b": "same",
+   "b_to_c": "CHANGED"
+  },
+  "backend/app/services.py": {
+   "a": "39883320e3ae5901",
+   "b": "39883320e3ae5901",
+   "c": "39883320e3ae5901",
+   "a_to_b": "same",
+   "b_to_c": "same"
+  },
+  "backend/app/stay_mobility.py": {
+   "a": "4565ea8a08b6237b",
+   "b": "e06c755d21b3c84c",
+   "c": "e06c755d21b3c84c",
+   "a_to_b": "CHANGED",
+   "b_to_c": "same"
+  },
+  "backend/app/execution/traveler_twin.py": {
+   "a": "81dcd851f9c49377",
+   "b": "81dcd851f9c49377",
+   "c": "81dcd851f9c49377",
+   "a_to_b": "same",
+   "b_to_c": "same"
+  },
+  "backend/app/integrations/ai/semantic_compiler.py": {
+   "a": "9795fdcbbdb684a0",
+   "b": "9795fdcbbdb684a0",
+   "c": "9795fdcbbdb684a0",
+   "a_to_b": "same",
+   "b_to_c": "same"
+  },
+  "backend/app/replanning/protected_commitments.py": {
+   "a": "bda97287914971fa",
+   "b": "bda97287914971fa",
+   "c": "bda97287914971fa",
+   "a_to_b": "same",
+   "b_to_c": "same"
+  },
+  "backend/app/db/models.py": {
+   "a": "813a2e4b19e7c383",
+   "b": "813a2e4b19e7c383",
+   "c": "813a2e4b19e7c383",
+   "a_to_b": "same",
+   "b_to_c": "same"
+  },
+  "backend/app/agent/mission.py": {
+   "a": "18c4f983eccf9a67",
+   "b": "18c4f983eccf9a67",
+   "c": "18c4f983eccf9a67",
+   "a_to_b": "same",
+   "b_to_c": "same"
+  },
+  "contracts/openapi.yaml": {
+   "a": "82fb0964a9efe215",
+   "b": "814c499ed81b3efb",
+   "c": "814c499ed81b3efb",
+   "a_to_b": "CHANGED",
+   "b_to_c": "same"
+  }
+ }
+}

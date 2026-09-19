@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "closed activity is protected and cannot be replaced automatically",
+    "trace_id": "08cc05ac-0bb2-41d8-b854-b56cb432b529",
+    "details": null
+  }
+}

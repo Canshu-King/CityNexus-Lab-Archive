@@ -1,0 +1,115 @@
+﻿=== frontend/src tree (2 levels) ===
+api
+  citynexus.ts
+  v10Execution.ts
+  v12Authoritative.ts
+app
+  V8Experience.tsx
+  v8Types.ts
+components
+  JourneyMap.tsx
+  ProductErrorBoundary.tsx
+contracts
+  journeyTwin.ts
+  replan.ts
+  testIds.ts
+demo
+  goldenScenario.ts
+features
+generated
+  api.ts
+i18n
+  LocaleContext.tsx
+  tripOperations.ts
+lib
+  money.ts
+  offlineJourney.ts
+  queryClient.ts
+  v8Formatting.ts
+  viewTransition.ts
+mocks
+  handlers.ts
+routes
+  v8Routes.ts
+state
+  journeyModeMachine.ts
+stories
+  V10Primitives.stories.tsx
+  V12ExecutionStates.stories.tsx
+  V12StatePrimitives.stories.tsx
+=== frontend/src root files ===
+main.tsx
+styles.css
+v10.css
+=== reports dir (recent 40) ===
+09-15 17:50 reports\product-v19-2-1\OPENAPI.md 268
+09-15 17:50 reports\product-v19-2-1\EVIDENCE_SCOPE.md 537
+09-15 17:50 reports\product-v19-2-1\FINAL_REPORT.md 760
+09-15 17:50 reports\product-v19-2-1\TRIAL_READINESS.md 428
+09-15 15:38 reports\product-v19-2\TRIAL_READINESS.md 462
+09-15 15:38 reports\product-v19-2\FINAL_REPORT.md 483
+09-15 14:09 reports\product-v19-1\TEST_RESULTS.md 854
+09-15 14:09 reports\product-v19-1\WEB_MOBILE_EXPERIENCE.md 716
+09-15 14:09 reports\product-v19-1\APPROVAL_BOUNDARY.md 560
+09-15 14:09 reports\product-v19-1\EVIDENCE_SCOPE.md 499
+09-15 14:09 reports\product-v19-1\FINAL_REPORT.md 1132
+09-15 12:50 reports\product-v19\TEST_RESULTS.md 918
+09-15 12:50 reports\product-v19\WEB_MOBILE_EVIDENCE.md 815
+09-15 12:50 reports\product-v19\CAPABILITY_CONTRACT.md 778
+09-15 12:50 reports\product-v19\PLANNER_INTEGRATION.md 734
+09-15 12:50 reports\product-v19\ACCESSIBILITY_TRUTH_EVIDENCE.md 643
+09-15 12:50 reports\product-v19\FINAL_REPORT.md 1723
+09-15 09:46 reports\product-v18-3\FINAL_REPORT.md 2222
+09-15 09:45 reports\product-v18-3\TEST_RESULTS.md 1147
+09-15 09:45 reports\product-v18-3\WEB_MOBILE_EVIDENCE.md 1505
+09-15 09:45 reports\product-v18-3\HERMES_RUNTIME_EVIDENCE.md 2110
+09-15 09:40 reports\product-v18-3\FRONTEND_PERFORMANCE.md 1067
+09-15 09:37 reports\product-v18-3\HARNESS_MERGE_DECISIONS.md 1549
+09-15 03:09 reports\product-v18-2\WEB_MOBILE_EXPERIENCE.md 1587
+09-15 03:09 reports\product-v18-2\TEST_RESULTS.md 1369
+09-15 03:09 reports\product-v18-2\FINAL_REPORT.md 2777
+09-15 03:09 reports\product-v18-2\APPROVAL_BOUNDARY.md 1859
+09-15 03:09 reports\product-v18-2\HERMES_AGENT_EVIDENCE.md 3789
+09-15 00:16 reports\product-v18\PROGRESS.md 898
+09-15 00:16 reports\product-v18\GATE_MATRIX.md 1670
+09-15 00:16 reports\product-v18\FINAL_REPORT.md 3069
+09-15 00:05 reports\product-v18\FRONTEND_EVIDENCE.md 1290
+09-15 00:05 reports\product-v18\SEMANTIC_TIME_EVIDENCE.md 1000
+09-15 00:05 reports\product-v18\HERMES_NATIVE_EVIDENCE.md 1384
+09-14 17:00 reports\product-v17\GATE_MATRIX.md 1110
+09-14 17:00 reports\product-v17\HERMES_NATIVE_EVIDENCE.md 1854
+09-14 17:00 reports\product-v17\SEMANTIC_EVIDENCE.md 1603
+09-14 17:00 reports\product-v17\FINAL_REPORT.md 2543
+09-14 14:45 reports\product-v16\INTEGRATION_REPORT.md 9145
+09-14 07:44 reports\product-v15\REAL_USER_SIMULATION_REPORT.md 5298
+=== screenshot dirs anywhere (recent 30) ===
+09-15 09:45 _v191_release_stage_20260915\output\playwright\v183-desktop-1440.png 108062
+09-15 09:45 output\playwright\v183-desktop-1440.png 108062
+09-15 09:45 _v192_fresh_extract_20260915\output\playwright\v183-desktop-1440.png 108062
+09-15 09:45 _v191_fresh_extract_20260915\output\playwright\v183-desktop-1440.png 108062
+09-15 09:44 _v191_release_stage_20260915\output\playwright\v183-mobile-430.png 55754
+09-15 09:44 output\playwright\v183-mobile-430.png 55754
+09-15 09:44 _v191_fresh_extract_20260915\output\playwright\v183-mobile-430.png 55754
+09-15 09:44 _v192_fresh_extract_20260915\output\playwright\v183-mobile-430.png 55754
+09-15 09:44 _v191_release_stage_20260915\output\playwright\v183-mobile-390.png 53891
+09-15 09:44 output\playwright\v183-mobile-390.png 53891
+09-15 09:44 _v192_fresh_extract_20260915\output\playwright\v183-mobile-390.png 53891
+09-15 09:44 _v191_fresh_extract_20260915\output\playwright\v183-mobile-390.png 53891
+09-15 09:44 output\playwright\v183-desktop-hermes.png 87546
+09-15 09:44 _v191_release_stage_20260915\output\playwright\v183-desktop-hermes.png 87546
+09-15 09:44 _v192_fresh_extract_20260915\output\playwright\v183-desktop-hermes.png 87546
+09-15 09:44 _v191_fresh_extract_20260915\output\playwright\v183-desktop-hermes.png 87546
+09-15 03:01 output\playwright\mobile-430-native-hermes.png 67247
+09-15 03:01 _v191_release_stage_20260915\output\playwright\mobile-430-native-hermes.png 67247
+09-15 03:01 _v191_fresh_extract_20260915\output\playwright\mobile-430-native-hermes.png 67247
+09-15 03:01 _v192_fresh_extract_20260915\output\playwright\mobile-430-native-hermes.png 67247
+09-15 03:01 _v191_release_stage_20260915\output\playwright\mobile-390-native-hermes.png 57247
+09-15 03:01 output\playwright\mobile-390-native-hermes.png 57247
+09-15 03:01 _v192_fresh_extract_20260915\output\playwright\mobile-390-native-hermes.png 57247
+09-15 03:01 _v191_fresh_extract_20260915\output\playwright\mobile-390-native-hermes.png 57247
+09-15 02:59 _v191_release_stage_20260915\output\playwright\desktop-native-hermes.png 111563
+09-15 02:59 output\playwright\desktop-native-hermes.png 111563
+09-15 02:59 _v191_fresh_extract_20260915\output\playwright\desktop-native-hermes.png 111563
+09-15 02:59 _v192_fresh_extract_20260915\output\playwright\desktop-native-hermes.png 111563
+09-14 23:59 _v191_release_stage_20260915\output\playwright\v18-final-mobile.png 64861
+09-14 23:59 output\playwright\v18-final-mobile.png 64861

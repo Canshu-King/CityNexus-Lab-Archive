@@ -1,0 +1,218 @@
+{
+ "snapshot": "B",
+ "hard_vs_c4": {
+  "c4_confirm_status": 200,
+  "c4_level": "C4_Anchored",
+  "baseline_generate": 201,
+  "baseline_plans": 3,
+  "capability_status": 200,
+  "conflict_generate": 422,
+  "conflict_plans": 3,
+  "cruise_present": [
+   true,
+   true,
+   true
+  ],
+  "error_message": "No feasible plan candidates satisfy the journey constraints",
+  "commitments_after": [
+   {
+    "id": "7a05231d-d215-4e5d-8fed-d7eab4157498",
+    "kind": "BOOKING",
+    "level": "C4_Anchored",
+    "status": "ACTIVE",
+    "activity_id": null
+   }
+  ],
+  "commitment_survived": true,
+  "surfaces": {
+   "experience": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": true,
+    "mentions_accessib": true,
+    "mentions_commitment": false,
+    "mentions_capabilit": true
+   },
+   "twin": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": false,
+    "mentions_accessib": false,
+    "mentions_commitment": true,
+    "mentions_capabilit": false
+   },
+   "constraints": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": false,
+    "mentions_accessib": false,
+    "mentions_commitment": false,
+    "mentions_capabilit": false
+   },
+   "traveler_twin": {
+    "status": 200,
+    "mentions_conflict": true,
+    "mentions_step_free": false,
+    "mentions_accessib": true,
+    "mentions_commitment": false,
+    "mentions_capabilit": true
+   },
+   "journey": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": false,
+    "mentions_accessib": false,
+    "mentions_commitment": false,
+    "mentions_capabilit": false
+   }
+  }
+ },
+ "soft_vs_c4": {
+  "c4_confirm_status": 200,
+  "capability_status": 200,
+  "persisted_severity": [
+   "SOFT"
+  ],
+  "generate": 201,
+  "plans": 3,
+  "cruise_present": [
+   true,
+   true,
+   true
+  ],
+  "plan_silently_includes_obstructed_anchor": true,
+  "any_warning_in_body": false,
+  "surfaces": {
+   "experience": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": true,
+    "mentions_accessib": true,
+    "mentions_commitment": false,
+    "mentions_capabilit": true
+   },
+   "twin": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": false,
+    "mentions_accessib": false,
+    "mentions_commitment": true,
+    "mentions_capabilit": false
+   },
+   "constraints": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": false,
+    "mentions_accessib": false,
+    "mentions_commitment": false,
+    "mentions_capabilit": false
+   },
+   "traveler_twin": {
+    "status": 200,
+    "mentions_conflict": true,
+    "mentions_step_free": false,
+    "mentions_accessib": true,
+    "mentions_commitment": false,
+    "mentions_capabilit": true
+   },
+   "journey": {
+    "status": 200,
+    "mentions_conflict": false,
+    "mentions_step_free": false,
+    "mentions_accessib": false,
+    "mentions_commitment": false,
+    "mentions_capabilit": false
+   }
+  }
+ },
+ "robust_flag": {
+  "generate": 422,
+  "plans": 0,
+  "plan_exists": false,
+  "twin_robust": null,
+  "twin_risk_reason_codes": null,
+  "twin_keys": [
+   "active_plan_version_id",
+   "context",
+   "current_activity_id",
+   "journey_id",
+   "latest_event_id",
+   "projection_status",
+   "snapshot_at",
+   "upcoming_commitments"
+  ],
+  "experience_status": 200,
+  "robust_true_while_no_plan": false
+ },
+ "hard_downgrade": {
+  "declare_hard_status": 200,
+  "before": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ],
+  "downgrade_status": 200,
+  "after": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ],
+  "severity_downgraded": true,
+  "class_still_says_hard": true,
+  "generate_after_downgrade": 201,
+  "plans_after_downgrade": 3,
+  "audit": [
+   "traveler.capability.created",
+   "traveler.capability.updated"
+  ]
+ },
+ "traveler_scope_blocks_future_journeys": {
+  "traveler_capability_status": 200,
+  "create_second_status": 201,
+  "second_generate": 422,
+  "second_plans": 0,
+  "second_constraints": [],
+  "second_capabilities": [
+   {
+    "id": "c0f4166f-c9d7-4ebb-bddc-dfa172deb0d5",
+    "traveler_id": "11111111-1111-4111-8111-111111111111",
+    "journey_id": null,
+    "code": "AVOID_STAIRS",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "severity": "HARD",
+    "params": {},
+    "scope": "TRAVELER",
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "explicit": true,
+    "confirmed": true,
+    "active": true,
+    "created_at": "2026-09-15T05:00:25.930122+00:00",
+    "updated_at": "2026-09-15T05:00:25.930122+00:00",
+    "confirmed_at": "2026-09-15T05:00:25.930122+00:00"
+   }
+  ],
+  "error_message": "No feasible plan candidates satisfy the journey constraints",
+  "future_journey_blocked": true
+ }
+}

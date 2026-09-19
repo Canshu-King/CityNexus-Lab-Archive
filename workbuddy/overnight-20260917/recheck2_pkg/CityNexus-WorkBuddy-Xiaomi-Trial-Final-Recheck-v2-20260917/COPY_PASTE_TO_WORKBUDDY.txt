@@ -1,0 +1,40 @@
+Use the attached:
+
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917.zip
+
+Model:
+
+GLM-5.3-Flash
+
+This is a narrow final recheck of the latest EAC hotfix.
+
+Do NOT restart the broad historical audit.
+Do NOT modify D:\moodle\CityNexus.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/TARGETED_RECHECK.md
+
+Highest priority is R1:
+
+the final trace reports a CLOSURE on
+`鼓浪屿风琴博物馆(临时展馆)` and a -1/+1 material replan,
+but the same title still appears in both before/after final-state samples.
+
+Verify exact Activity / Place / semantic identities rather than titles.
+
+Then verify R2-R8.
+
+Final verdict exactly:
+
+BLOCKED
+
+or
+
+WORKBUDDY_ACCEPTS_FOR_XIAOMI_13_ULTRA_TRIAL
+
+Start now.

@@ -1,0 +1,334 @@
+{
+  "citynexus": {
+    "fingerprint": "bb6a6df22db7ebd6",
+    "tools": [
+      {
+        "name": "inspect_journey",
+        "description": "Read the persisted Journey state.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "inspect_twin",
+        "description": "Read the JourneyTwin projection.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "list_replans",
+        "description": "List persisted Replan proposals.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "search_city_services",
+        "description": "Search server-owned city service facts.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "city_code": {
+              "type": "string"
+            },
+            "q": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "service_type": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "request_replan",
+        "description": "Request a proposal without activating a Plan.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "trigger_event_id": {
+              "type": "string"
+            },
+            "candidate_count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          "required": [
+            "journey_id",
+            "trigger_event_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "accept_replan",
+        "description": "Ask the server policy and deterministic gate to accept a proposal.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "proposal_id": {
+              "type": "string"
+            },
+            "approval_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "proposal_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "replace_activity",
+        "description": "Replace a mutable Activity through the server policy and feasibility gate.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "activity_id": {
+              "type": "string"
+            },
+            "replacement_activity_id": {
+              "type": "string"
+            },
+            "replacement_place_id": {
+              "type": "string"
+            },
+            "approval_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id",
+            "activity_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "reschedule_activity",
+        "description": "Reschedule a mutable Activity through the server policy and feasibility gate.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "activity_id": {
+              "type": "string"
+            },
+            "start_at": {
+              "type": "string"
+            },
+            "end_at": {
+              "type": "string"
+            },
+            "approval_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id",
+            "activity_id",
+            "start_at",
+            "end_at"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "create_booking",
+        "description": "Create a provider booking when the server policy permits it.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "activity_id": {
+              "type": "string"
+            },
+            "provider_key": {
+              "type": "string"
+            },
+            "approval_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id",
+            "activity_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "cancel_refundable_booking",
+        "description": "Cancel a refundable booking when the server policy permits it.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "booking_id": {
+              "type": "string"
+            },
+            "approval_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id",
+            "booking_id"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      },
+      {
+        "name": "request_commitment_change",
+        "description": "Request a protected Commitment change through the approval gate.",
+        "inputSchema": {
+          "properties": {
+            "request_id": {
+              "type": "string"
+            },
+            "journey_id": {
+              "type": "string"
+            },
+            "commitment_id": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "approval_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "journey_id",
+            "commitment_id",
+            "reason"
+          ],
+          "type": "object",
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false
+        }
+      }
+    ],
+    "utility_tools": [],
+    "ttl_ms": 0,
+    "written_at": 1789410489.2574825,
+    "cache_scope": "private"
+  }
+}

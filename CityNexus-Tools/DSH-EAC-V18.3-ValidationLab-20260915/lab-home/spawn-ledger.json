@@ -1,0 +1,15 @@
+[
+  {
+    "pid": 43804,
+    "create_time": 1789410488.293933,
+    "purpose": "mcp-helper",
+    "install": "f99c61f2b88e",
+    "spawner_pid": 20392,
+    "spawner_create": 1789410485.0377333,
+    "registered_at": 1789410488.3095074,
+    "argv": "C:\\Users\\\u4ed3\u9f20\u738b\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\hermes\\hermes-agent\\.hermes-runtime\\python\\cpython-3.11.16-windows-x86_64-none\\python.exe D:\\moodle\\CityNexus-Tools\\DSH-EAC-V18.3-ValidationLab-20260915\\tests\\mcp_runner.py --v2",
+    "host": "",
+    "port": null,
+    "profile": ""
+  }
+]

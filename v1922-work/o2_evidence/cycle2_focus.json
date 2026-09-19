@@ -1,0 +1,43 @@
+{
+ "hub": {
+  "heading": "厦门之旅",
+  "stay": "还没有选定",
+  "next": "下一步 | 还没有安排 | 今天没有安排 | 住宿 | 还没有选定 | 去「行程 · 住宿」挑选 | 需要关注 | 一切正常 | 没有影响行程的变化",
+  "glance": "第 1 天 | Friday |  | 厦门高崎国际机场 · Check in · 汉庭酒店 · Overnight · 汉庭酒店 |  | TRANSIT ARRIVAL锚点 | 第 2 天 | Saturday |  | Overnight · 汉庭酒店 |  | WALK STAY锚点 | 第 3 天 | Sunday |  | Check out · 汉庭酒店 · 厦门北站 |  | AUTO DEPARTURE锚点",
+  "glanceCards": 3,
+  "comparisonVisible": 0
+ },
+ "stayExplorer": {
+  "body": "菜单 / 住宿选择 EN XI 住宿选择 · 已采集证据 选择锚点，看见行程。 每个费率都明确标注币种、房型、入住人数、退改政策、新鲜度和它所塑造的行程。 已采集回放 XIAMEN 01 汉庭酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT XIAMEN 02 舒曼精品酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT XIAMEN 03 喜来登酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT XIAMEN 04 厦门磐基酒店 hotel · 2 travelers · 不可退款 ¥0.00 total · ¥0.00//晚 行程影响 22 min walk 417 min slack TRANSIT 1 路线上下文 5 段路程 供应商支持的路线 · WGS84 费率证据 汉庭酒店 总计 / 币种 ¥0.00 · CNY 入住 / 退房 11月6日 14:00 → 11月8日 12:00 取消政策 Non-refundable captured rate 供应商 供应商证据置信度 60% ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+  "firstCard": "XIAMEN | 01 | 汉庭酒店 |  | hotel · 2 travelers · 不可退款 |  | ¥0.00 | total · ¥0.00//晚 | 行程影响 | 22 min walk | 417 min slack | TRANSIT",
+  "cards": 4
+ },
+ "backend": [
+  {
+   "property_name": "汉庭酒店",
+   "total": 0,
+   "nightly": 0,
+   "currency_explicit": true,
+   "price_basis": "per_night × nights",
+   "status": "CANDIDATE"
+  },
+  {
+   "property_name": "舒曼精品酒店",
+   "total": 0,
+   "nightly": 0,
+   "currency_explicit": true,
+   "price_basis": "per_night × nights",
+   "status": "CANDIDATE"
+  },
+  {
+   "property_name": "喜来登酒店",
+   "total": 0,
+   "nightly": 0,
+   "currency_explicit": true,
+   "price_basis": "per_night × nights",
+   "status": "CANDIDATE"
+  }
+ ],
+ "todayStayBackend": null,
+ "errors": []
+}

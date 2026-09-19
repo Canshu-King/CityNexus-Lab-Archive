@@ -1,0 +1,30 @@
+=== CityNexus V18.2 Experience Reference build ===
+2026-09-14T17:56:56Z
+
+--- node/npm ---
+v24.14.0
+11.9.0
+
+--- typecheck (tsc --noEmit) ---
+tsc: PASS
+
+--- production build (vite build) ---
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 48 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     0.52 kB │ gzip:   0.33 kB
+dist/assets/index-BKSB7NqH.css     91.17 kB │ gzip:  14.61 kB
+dist/assets/index-CskFWU4_.js   1,324.79 kB │ gzip: 368.69 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.99s
+
+--- dist files ---
+dist/assets/index-BKSB7NqH.css 92 KB
+dist/assets/index-CskFWU4_.js 1296 KB
+dist/index.html 1 KB

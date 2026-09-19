@@ -1,0 +1,296 @@
+{
+  "status": "FAIL",
+  "plan": "PLAN_TRAVELER_SKELETON_PLANAR_GRID",
+  "seed": 20260908,
+  "topologyGateStatus": "PASS",
+  "orientableGenus": 0.0,
+  "samples": 4,
+  "axisCounts": {
+    "x": 85,
+    "y": 82
+  },
+  "familyCounts": {
+    "A-T-UC-02": 4,
+    "A-T-UC-04": 5,
+    "A-T-UC-05": 5,
+    "A-T-UC-06": 3,
+    "A-T-UC-07": 6,
+    "A-T-UC-08": 6,
+    "A-T-UC-10": 8,
+    "A-T-UC-11": 5,
+    "A-T-UC-12": 5,
+    "A-CD-UC-04": 4,
+    "A-CD-UC-05": 2,
+    "A-CD-UC-10": 8,
+    "A-M-UC-04": 5,
+    "A-M-UC-08": 4,
+    "A-M-UC-10": 3,
+    "A-B-06": 9,
+    "A-PA-07": 8,
+    "A-CE-09": 4
+  },
+  "emptyRoutes": [],
+  "authoritativeCandidateModified": false,
+  "frozenExtendIds": [
+    "EXT-07-06",
+    "EXT-09-08",
+    "EXT-10-09"
+  ],
+  "pairRepairHistory": [
+    {
+      "round": 0,
+      "impossibleBefore": [
+        [
+          "A-T-UC-07",
+          "A-PA-07"
+        ],
+        [
+          "A-T-UC-10",
+          "A-CE-09"
+        ],
+        [
+          "A-CD-UC-04",
+          "A-CD-UC-10"
+        ],
+        [
+          "A-CD-UC-10",
+          "A-M-UC-04"
+        ],
+        [
+          "A-CD-UC-10",
+          "A-B-06"
+        ],
+        [
+          "A-M-UC-10",
+          "A-B-06"
+        ],
+        [
+          "A-B-06",
+          "A-PA-07"
+        ]
+      ],
+      "addedByRoute": {
+        "A-PA-07": 4,
+        "A-T-UC-10": 3,
+        "A-CD-UC-10": 4,
+        "A-M-UC-04": 2,
+        "A-B-06": 6
+      },
+      "impossibleAfter": []
+    }
+  ],
+  "pid": 5026,
+  "poolFeasibilityPrecheck": "PASS",
+  "impossibleRoutePairs": [],
+  "tightRoutePairs": [
+    {
+      "routeA": "A-B-06",
+      "routeB": "A-PA-07",
+      "candidatePairs": 72,
+      "conflictingPairs": 70,
+      "compatiblePairs": 2,
+      "compatibilityRatio": 0.027777777777777776
+    },
+    {
+      "routeA": "A-T-UC-07",
+      "routeB": "A-PA-07",
+      "candidatePairs": 48,
+      "conflictingPairs": 46,
+      "compatiblePairs": 2,
+      "compatibilityRatio": 0.041666666666666664
+    }
+  ],
+  "arcRepairHistory": [
+    {
+      "round": 0,
+      "ac3Before": "FAIL",
+      "emptyBefore": [
+        "A-T-UC-07"
+      ],
+      "repairs": [
+        {
+          "route": "A-T-UC-07",
+          "dominantBlockers": [
+            "A-B-06",
+            "A-PA-07"
+          ],
+          "blockerCounts": {
+            "A-T-UC-06": 5,
+            "A-B-06": 5,
+            "A-PA-07": 5,
+            "A-T-UC-11": 1,
+            "A-T-UC-02": 1,
+            "A-T-UC-04": 1,
+            "A-T-UC-05": 1,
+            "A-CD-UC-04": 1,
+            "A-CD-UC-05": 1
+          },
+          "bundleAttempts": 2,
+          "added": 0
+        }
+      ],
+      "ac3After": "FAIL",
+      "emptyAfter": [
+        "A-T-UC-07"
+      ]
+    }
+  ],
+  "arcConsistency": {
+    "status": "FAIL",
+    "rounds": 1,
+    "emptyRoutes": [
+      "A-T-UC-07"
+    ],
+    "removalCount": 15,
+    "lastRemovals": [
+      {
+        "route": "A-T-UC-02",
+        "candidate": "A-T-UC-02:2",
+        "unsupportedBy": [
+          "A-T-UC-04"
+        ]
+      },
+      {
+        "route": "A-T-UC-04",
+        "candidate": "A-T-UC-04:2",
+        "unsupportedBy": [
+          "A-CD-UC-04"
+        ]
+      },
+      {
+        "route": "A-T-UC-04",
+        "candidate": "A-T-UC-04:3",
+        "unsupportedBy": [
+          "A-T-UC-02"
+        ]
+      },
+      {
+        "route": "A-T-UC-04",
+        "candidate": "A-T-UC-04:1",
+        "unsupportedBy": [
+          "A-T-UC-02"
+        ]
+      },
+      {
+        "route": "A-T-UC-05",
+        "candidate": "A-T-UC-05:3",
+        "unsupportedBy": [
+          "A-T-UC-02",
+          "A-T-UC-04"
+        ]
+      },
+      {
+        "route": "A-T-UC-05",
+        "candidate": "A-T-UC-05:2",
+        "unsupportedBy": [
+          "A-T-UC-06",
+          "A-T-UC-07",
+          "A-T-UC-11",
+          "A-PA-07"
+        ]
+      },
+      {
+        "route": "A-T-UC-05",
+        "candidate": "A-T-UC-05:1",
+        "unsupportedBy": [
+          "A-T-UC-02",
+          "A-T-UC-04"
+        ]
+      },
+      {
+        "route": "A-T-UC-06",
+        "candidate": "A-T-UC-06:0",
+        "unsupportedBy": [
+          "A-T-UC-07",
+          "A-T-UC-11"
+        ]
+      },
+      {
+        "route": "A-T-UC-06",
+        "candidate": "A-T-UC-06:2",
+        "unsupportedBy": [
+          "A-T-UC-07",
+          "A-T-UC-11"
+        ]
+      },
+      {
+        "route": "A-T-UC-07",
+        "candidate": "A-T-UC-07:0",
+        "unsupportedBy": [
+          "A-T-UC-06",
+          "A-B-06",
+          "A-PA-07"
+        ]
+      },
+      {
+        "route": "A-T-UC-07",
+        "candidate": "A-T-UC-07:2",
+        "unsupportedBy": [
+          "A-T-UC-06",
+          "A-T-UC-11",
+          "A-B-06",
+          "A-PA-07"
+        ]
+      },
+      {
+        "route": "A-T-UC-07",
+        "candidate": "A-T-UC-07:1",
+        "unsupportedBy": [
+          "A-T-UC-06",
+          "A-B-06",
+          "A-PA-07"
+        ]
+      },
+      {
+        "route": "A-T-UC-07",
+        "candidate": "A-T-UC-07:3",
+        "unsupportedBy": [
+          "A-T-UC-06",
+          "A-B-06",
+          "A-PA-07"
+        ]
+      },
+      {
+        "route": "A-T-UC-07",
+        "candidate": "A-T-UC-07:a0",
+        "unsupportedBy": [
+          "A-T-UC-02",
+          "A-T-UC-04",
+          "A-T-UC-05",
+          "A-T-UC-06",
+          "A-CD-UC-04",
+          "A-CD-UC-05",
+          "A-PA-07"
+        ]
+      },
+      {
+        "route": "A-T-UC-07",
+        "candidate": "A-T-UC-07:validated-skeleton",
+        "unsupportedBy": [
+          "A-B-06"
+        ]
+      }
+    ],
+    "remainingDomainSizes": {
+      "A-T-UC-02": 3,
+      "A-T-UC-04": 2,
+      "A-T-UC-05": 2,
+      "A-T-UC-06": 1,
+      "A-T-UC-07": 0,
+      "A-T-UC-08": 6,
+      "A-T-UC-10": 8,
+      "A-T-UC-11": 5,
+      "A-T-UC-12": 5,
+      "A-CD-UC-04": 4,
+      "A-CD-UC-05": 2,
+      "A-CD-UC-10": 8,
+      "A-M-UC-04": 5,
+      "A-M-UC-08": 4,
+      "A-M-UC-10": 3,
+      "A-B-06": 9,
+      "A-PA-07": 8,
+      "A-CE-09": 4
+    }
+  },
+  "reason": "arc-consistency-proved-current-pool-infeasible"
+}

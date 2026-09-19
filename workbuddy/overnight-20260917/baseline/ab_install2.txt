@@ -1,0 +1,28 @@
+﻿Installing Chrome...
+  Downloading Chrome 153.0.8010.47 for win64
+  https://storage.googleapis.com/chrome-for-testing-public/153.0.8010.47/win64/chrome-win64.zip
+agent-browser-win32-x64.exe : 
+所在位置 C:\Users\仓鼠王\.workbuddy\binaries\node\versions\22.22.2-3\agent-browser.ps1
+:3 字符: 1
++ & "$basedir\node_modules\agent-browser\bin\agent-browser-win32-x64.ex ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  10/196 MB (5%)
+  20/196 MB (10%)
+  29/196 MB (15%)
+  39/196 MB (20%)
+  49/196 MB (25%)
+  Retrying download (attempt 2/3)
+
+  10/196 MB (5%)
+  20/196 MB (10%)
+  29/196 MB (15%)
+  Retrying download (attempt 3/3)
+
+  10/196 MB (5%)
+  20/196 MB (10%)
+鉁?Download error: error decoding response body: request or response body error:
+ operation timed out
+exit=1

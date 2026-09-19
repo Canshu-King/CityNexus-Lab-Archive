@@ -1,0 +1,48 @@
+{
+ "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+ "trace": [
+  {
+   "ts": "2026-09-16T17:22:12.454Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/hub",
+   "action": "plan-compare",
+   "status": "0 cards",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:22:16.513Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/trips",
+   "action": "itinerary",
+   "status": "4 stops",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:22:18.119Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/trips",
+   "action": "activity-detail",
+   "status": "opened",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:22:28.061Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/trips",
+   "action": "hotel-compare",
+   "status": "10 hotels",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:22:34.208Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/trips",
+   "action": "choose-hotel",
+   "status": "not-selected",
+   "result": ""
+  }
+ ],
+ "errors": [
+  "C:Failed to load resource: the server responded with a status of 422 (Unprocessable Entity)"
+ ]
+}

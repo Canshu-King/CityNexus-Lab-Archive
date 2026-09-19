@@ -1,0 +1,119 @@
+{
+ "jid": "c9696395-3734-4b07-9549-aaa409519a60",
+ "surfaces": {
+  "hub": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 今天 EN XI 下午好 厦门之旅 3 天 · 2 人 · 每人每天约 ¥500这是按你的预算平均下来的参考值，不是最终花费；真实价格以供应商为准。 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 EN 试用其他城市 AI 帮我规划 打开行程工作台 规划就绪 厦门 · journey 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 "
+  },
+  "trips-itinerary": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 行程 EN XI 行程 住宿 预订 花费 行程 3 天行程 逐日安排。已确认的预订会被标记为受保护。 11月6日周五 7 项 11月7日周六 5 项 11月8日周日 2 项 10:00 10:20 厦门高崎国际机场 20 分钟 抵达 当前 详情 › 10:31 11:31 OSM restaurant 1 小时 活动 详情 › 11:42 12:42 OSM cafe 1 小时 活动 详"
+  },
+  "live": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 实时行程 EN XI 正在进行 现在的行程 下一站：厦门高崎国际机场 当前没有需要你决定的调整。 实时行程 · 已保存 9月18日 13:05 选择你的下一段路程。 当前步骤、下一个受保护时刻、最晚出发指引，以及一条清晰的恢复路径。 更新位置 报告降雨 1 2 3 4 5 6 7 8 9 10 11 12 13 14 路线上下文 13 段路程 供应商支持的路线 · WGS84 现在 厦门"
+  },
+  "map": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 地图 EN XI 地图 · 一目了然 整座城市，行程叠加其上。 采集的路线几何和供应商事实在你穿越行程时始终可见。 对比出行方式 1 2 3 4 5 6 7 8 9 10 11 12 13 14 路线上下文 13 段路程 供应商支持的路线 · WGS84 下一段路程 OSM restaurant AUTO 12 min · 2 walk ¥12.00 BICYCLE 17 min · 5"
+  },
+  "copilot": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / Copilot EN XI 随时问关于这趟行程的任何事 你想改什么？ 可以提问、试算改动，或告诉我发生了什么。任何会影响行程的改动都会先说明再应用，你已确认的预订始终受保护。 画像上下文就绪 CN / AI 需要改变什么？ 使用自然语言。你的明确预算和受保护时刻在每一步都可见。 我可以给出建议，但任何花钱或改动已确认预订的操作，都会先等你确认。 消息 行程 · 厦门 · journey "
+  },
+  "me": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 我的 EN XI 我的 我的行程与偏好 这里是你这趟行程的事实：同行人数、预算、住宿和已确认的预订。 这趟行程 厦门 2 位旅行者 · ¥3,000.00 住宿 Millenium Harbour View 已确认的住宿 已确认的预订 还没有 在「行程 · 预订」里导入你的票或确认单。 改动偏好 仅提供建议 任何会影响已确认预订或受保护安排的改动，都会先征得你同意。 开启自动执行 通知 "
+  },
+  "authoritative": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 恢复与执行 EN XI V12 · 方案、移动端、EDGE 与画像 权威行程执行。 你选定的方案是今天、地图、离线使用和所有建议变更的唯一事实来源。 刷新真相 权威行程 从方案到边缘的单一真相 冻结证据 现在 厦门高崎国际机场 活跃 受保护锚点 下一步 OSM restaurant PLANNED 10:31 1 厦门高崎国际机场 活跃 2 OSM restaurant PLANNED "
+  },
+  "twin": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 旅行者画像 EN XI 旅行者画像 · 软上下文 有边界的个性化。 显式意图优先。学习到的证据帮助排序方案，但永远不会扩展预算、支付、承诺或自主权限。 显式 No explicit preferences 来自此次行程请求 直接应用于当前方案目标。 Capability needs No explicit capability facts recorded. 学习到的软信号 No lea"
+  },
+  "wallet": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 旅行票夹 EN XI 行程收件箱 · 旅行票夹 你的真实预订，受保护。 粘贴结构化预订 JSON，审核后，将确认的事实绑定为行程的持久承诺。 住宿证据 Millenium Harbour View hotel · 不可退款 价格未知 合计 未预订 导入预订 在「行程 · 预订」里粘贴确认单、手动录入或上传截图。这个页面只用于结构化数据。 高级：结构化数据 权限始终明确 导入已确认的预订即"
+  },
+  "trips-stay": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 行程 EN XI 行程 住宿 预订 花费 住宿 选一家住的地方 按与行程的关系排序的 10 家住宿。价格未知时我们如实说明。 Millenium Harbour View 已选择 价格 暂无价格 步行 22 分钟 到达/离开衔接 1% / 1% 退改 不可取消 推荐理由：与行程冲突最少，步行负担 22 分钟，预留缓冲 417 分钟。 已选择这家 舒曼精品酒店 价格 暂无价格 步行 22 "
+  },
+  "trips-bookings": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 行程 EN XI 行程 住宿 预订 花费 多模态收件箱 将确认带入行程 已读取 · 已核对 · 已记住 粘贴确认信息 手动填写 粘贴的确认 提取文本草稿 确认截图 图片字节仅用于此次提取请求。 提取图片草稿 权威记忆 Journey Memory 0 个受保护事实 暂无已确认工件绑定到此行程。 高级 / 开发者 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我"
+  },
+  "trips-spend": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "snippet": "菜单 / 行程 EN XI 行程 住宿 预订 花费 花费 这趟旅行花多少 预算 CNY 3000；当前方案 14 个活动。 总预算 CNY 3000 住宿合计（已选） 价格未知（供应商未提供房价） 活动数量 14 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov A"
+  },
+  "studio": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "budgetNotVerified": true,
+   "snippet": "CN CityNexus 行程智能 工作区 行程运营 TODAY 今天 实时行程 地图 PLAN 行程工作台 住宿选择 城市探索 TRAVEL 旅行票夹 Copilot SYSTEM 恢复与执行 智能守护 旅行者画像 行程事实已同步 10 个方案 · 5 种模式 XI Xiamen 2 位旅行者 ••• 行程 / 行程工作台 行程事实就绪 EN ◌ XI 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出"
+  },
+  "stay-explorer": {
+   "zeroYuan": false,
+   "claimsWithinBudget": false,
+   "claimsOverBudget": false,
+   "claimsBudgetVerified": false,
+   "budgetNotVerified": false,
+   "snippet": "CN CityNexus 行程智能 工作区 行程运营 TODAY 今天 实时行程 地图 PLAN 行程工作台 住宿选择 城市探索 TRAVEL 旅行票夹 Copilot SYSTEM 恢复与执行 智能守护 旅行者画像 行程事实已同步 10 个方案 · 5 种模式 XI Xiamen 2 位旅行者 ••• 行程 / 住宿选择 行程事实就绪 EN ◌ XI 住宿选择 · 已采集证据 选择锚点，看见行程。 每个费率都明确标注币种、房型、入住人数、退改政策、新鲜度和它所塑造的行程。 "
+  }
+ },
+ "errors": [],
+ "backend": {
+  "planTotalMinor": 13200,
+  "stops": 14,
+  "pricedStops": 0,
+  "unknownStops": 14,
+  "budget": {
+   "amount_minor": 300000,
+   "currency": "CNY"
+  }
+ },
+ "anyZeroYuan": [],
+ "anyWithinBudgetClaim": [],
+ "anyBudgetVerifiedClaim": []
+}

@@ -1,0 +1,46 @@
+{
+ "jid": "84146d9f-26cd-4693-aa5b-dfc78e618bd7",
+ "discoveryStatus": 200,
+ "discoveryProviders": {
+  "nominatim": "REPLAY_FALLBACK",
+  "overpass": "REPLAY_FALLBACK",
+  "anchor": null,
+  "fallback_reason": "ConnectTimeout"
+ },
+ "places": 3,
+ "aiPlanCount": 2,
+ "aiText": "已生成 2 个可选方案\n\n去“今天”对比这几个方案，选一个再继续。\n\nFirst visit to Tianjin with tight budget and city sightseeing focus. Protect general city overview; keep specific attractions, meals, and transport mutable to minimi",
+ "cards": 2,
+ "bands": [
+  "花费未知",
+  "花费未知"
+ ],
+ "totals": [
+  "暂无价格",
+  "暂无价格"
+ ],
+ "whys": [
+  "",
+  ""
+ ],
+ "comparisonText": "选择你的方案 我们按你的预算和节奏生成了 2 个可选方案。 方案 A 花费未知 总花费 暂无价格 活动数 3 亮点：Haihe Riverside Design Library · Tianjin Italian Style Town Indoor Gallery · Tianjin Ancient Culture Street Tea House 采用这个方案 方案 B 花费未知 总花费 暂无价格 活动数 2 亮点：Haihe Riverside Design Library · Tianjin Italian Style Town Indoor Gallery 采用这个方案",
+ "backendPlans": [
+  {
+   "v": 1,
+   "status": "CANDIDATE",
+   "total": 0,
+   "known": 0,
+   "unknown": 3,
+   "stops": 3
+  },
+  {
+   "v": 2,
+   "status": "CANDIDATE",
+   "total": 0,
+   "known": 0,
+   "unknown": 2,
+   "stops": 2
+  }
+ ],
+ "errors": []
+}

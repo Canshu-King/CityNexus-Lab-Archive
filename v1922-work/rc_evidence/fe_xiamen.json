@@ -1,0 +1,46 @@
+{
+ "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+ "trace": [
+  {
+   "ts": "2026-09-16T09:26:10.010Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/trips",
+   "action": "itinerary tab",
+   "status": "200",
+   "result": "stops=6"
+  },
+  {
+   "ts": "2026-09-16T09:26:19.099Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/trips",
+   "action": "stay tab",
+   "status": "200",
+   "result": "hotels=10 厦门康莱德酒店, 厦门磐基酒店, 汉庭酒店"
+  },
+  {
+   "ts": "2026-09-16T09:26:25.195Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/trips",
+   "action": "select hotel",
+   "status": "200",
+   "result": "chosen=1"
+  },
+  {
+   "ts": "2026-09-16T09:26:27.790Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/trips",
+   "action": "bookings tab",
+   "status": "200",
+   "result": "len=262"
+  },
+  {
+   "ts": "2026-09-16T09:26:29.883Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/trips",
+   "action": "spend tab",
+   "status": "200",
+   "result": ""
+  }
+ ],
+ "errors": []
+}

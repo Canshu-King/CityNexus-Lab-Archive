@@ -1,0 +1,54 @@
+Use the attached package:
+
+CityNexus-EAC-Overnight-Product-Breakthrough-Mission-20260917.zip
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+The user is going to sleep.
+
+This is an 8–9 hour autonomous overnight mission.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/OVERNIGHT_MASTER_MISSION.md
+
+in full.
+
+Important:
+
+- first execute the embedded Snapshot M truth RoadPrep;
+- timebox the remaining backend truth closure to roughly 60–90 minutes unless a
+  real P0 blocks the product;
+- after that, spend the majority of the night on the actual consumer product;
+- do not return another backend-only package;
+- do not stop after the first green build;
+- use the application repeatedly like a first-time traveler;
+- the visible same-Xiamen end-to-end flow is the real acceptance gate;
+- use the user's existing DeepSeek/provider configuration when available, but
+  never print or persist secrets;
+- if an external service is unavailable, implement honest failure states and
+  continue the rest of the product work;
+- keep working autonomously through `AUTONOMOUS_PRODUCT_LAB.md` if the required
+  backlog finishes early.
+
+By morning produce:
+
+CityNexus-EAC-Overnight-Product-Breakthrough-20260917.zip
+
+Final verdict only:
+
+BLOCKED_FOR_REAL_USER_TRIAL
+
+or
+
+READY_FOR_XIAOMI_13_ULTRA_USER_TRIAL
+
+Do not ask the sleeping user for clarification.
+
+Start now and use the full overnight window productively.

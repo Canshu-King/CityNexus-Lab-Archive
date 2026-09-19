@@ -1,0 +1,232 @@
+{
+ "label": "d",
+ "capabilities": "D:\\moodle\\_v1922_work\\redteam\\CityNexus-V19.2-RealPhone-Trial-Gate-20260915\\snapshot_d\\backend\\app\\capabilities.py",
+ "n1_unit_confusion": [
+  {
+   "text": "连续走不能超过 20 分钟",
+   "rule": "MAX_WALKING_PER_LEG_M must not appear",
+   "items": [
+    {
+     "code": "MAX_CONTINUOUS_WALKING_MIN",
+     "severity": "HARD",
+     "params": {
+      "max_min": 20
+     }
+    }
+   ],
+   "violation": false
+  },
+  {
+   "text": "连续走不能超过 45 分钟",
+   "rule": "MAX_WALKING_PER_LEG_M must not appear",
+   "items": [
+    {
+     "code": "MAX_CONTINUOUS_WALKING_MIN",
+     "severity": "HARD",
+     "params": {
+      "max_min": 45
+     }
+    }
+   ],
+   "violation": false
+  },
+  {
+   "text": "每段走 500 米",
+   "rule": "no minutes cap from a metres value",
+   "items": [],
+   "violation": false
+  },
+  {
+   "text": "每隔 60 分钟休息一次",
+   "rule": "MAX_WALKING_PER_LEG_M must not appear",
+   "items": [
+    {
+     "code": "REST_EVERY_MIN",
+     "severity": "STRONG",
+     "params": {
+      "interval_min": 60
+     }
+    }
+   ],
+   "violation": false
+  },
+  {
+   "text": "每隔 90 分钟上厕所",
+   "rule": "MAX_WALKING_PER_LEG_M must not appear",
+   "items": [
+    {
+     "code": "TOILET_BREAK_EVERY_MIN",
+     "severity": "STRONG",
+     "params": {
+      "interval_min": 90
+     }
+    }
+   ],
+   "violation": false
+  },
+  {
+   "text": "我每天走路不能超过 3000 米",
+   "rule": "MAX_WALKING_PER_LEG_M must not duplicate the daily cap",
+   "items": [
+    {
+     "code": "MAX_DAILY_WALKING_M",
+     "severity": "HARD",
+     "params": {
+      "max_m": 3000
+     }
+    }
+   ],
+   "violation": false
+  },
+  {
+   "text": "走路不能超过 500 米",
+   "rule": "MAX_CONTINUOUS_WALKING_MIN must not appear",
+   "items": [
+    {
+     "code": "MAX_WALKING_PER_LEG_M",
+     "severity": "HARD",
+     "params": {
+      "max_m": 500
+     }
+    }
+   ],
+   "violation": false
+  }
+ ],
+ "n4_filtering": [
+  {
+   "text": "如果可能的话我需要无障碍通道",
+   "why": "real need inside an 'if' clause",
+   "items": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "if possible I need step-free access",
+   "why": "real need inside an 'if' clause",
+   "items": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "我可能需要轮椅",
+   "why": "hedged but first-person need",
+   "items": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "maybe I need a wheelchair",
+   "why": "hedged but first-person need",
+   "items": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "我妈妈要午休",
+   "why": "companion journey need",
+   "items": [
+    {
+     "code": "MIDDAY_REST_WINDOW",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "我父亲走不了远路",
+   "why": "companion journey need",
+   "items": [
+    {
+     "code": "MAX_WALKING_PER_LEG_M",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "如果能推婴儿车就方便多了",
+   "why": "soft preference inside an 'if' clause",
+   "items": [
+    {
+     "code": "STROLLER",
+     "severity": "STRONG",
+     "scope": "JOURNEY"
+    }
+   ]
+  },
+  {
+   "text": "我朋友需要轮椅，不是我",
+   "why": "genuine third-party denial - must stay empty",
+   "items": []
+  }
+ ],
+ "n2_n3_decimal": [
+  {
+   "text": "走路不能超过 1.5 公里",
+   "expected_max_m": 1500,
+   "actual_max_m": 1500,
+   "needs_clarification": null,
+   "ok": true
+  },
+  {
+   "text": "走路不能超过 2.5 公里",
+   "expected_max_m": 2500,
+   "actual_max_m": 2500,
+   "needs_clarification": null,
+   "ok": true
+  },
+  {
+   "text": "走路不能超过 0.5 公里",
+   "expected_max_m": 500,
+   "actual_max_m": 500,
+   "needs_clarification": null,
+   "ok": true
+  },
+  {
+   "text": "走路不能超过 1.5 米",
+   "expected_max_m": 2,
+   "actual_max_m": 2,
+   "needs_clarification": null,
+   "ok": true
+  },
+  {
+   "text": "走路不能超过 0.5 米",
+   "expected_max_m": 1,
+   "actual_max_m": 1,
+   "needs_clarification": null,
+   "ok": true
+  },
+  {
+   "text": "走路不能超过 0 米",
+   "expected_max_m": null,
+   "actual_max_m": 0,
+   "needs_clarification": true,
+   "ok": true
+  }
+ ],
+ "summary": {
+  "n1_violations": 0,
+  "n1_total": 7,
+  "n2_n3_defects": 0,
+  "n2_n3_total": 6,
+  "n4_empty": 1,
+  "n4_total": 8
+ }
+}

@@ -1,0 +1,8 @@
+﻿CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\COPY_PASTE_TO_WORKBUDDY.txt
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\PACKAGE_INVENTORY.txt
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\README_FIRST.md
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\docs\REPLAN_IDENTITY_GATE.md
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\docs\RESIDUAL_FINDINGS.md
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\docs\TARGETED_RECHECK.md
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\docs\UI_CONSUMER_GATE.md
+CityNexus-WorkBuddy-Xiaomi-Trial-Final-Recheck-v2-20260917\reference\CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-20260917.zip

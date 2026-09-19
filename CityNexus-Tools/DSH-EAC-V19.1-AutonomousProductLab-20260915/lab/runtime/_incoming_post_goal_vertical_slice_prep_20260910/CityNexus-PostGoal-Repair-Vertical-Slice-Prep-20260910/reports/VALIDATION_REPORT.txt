@@ -1,0 +1,56 @@
+CityNexus Post-Goal Independent Repair Validation
+Date: 2026-09-10
+
+UPLOADED OVERNIGHT CHECKPOINT - INDEPENDENT REPLAY
+Command: python -m pytest -q
+Result: 149 passed, 1 skipped
+
+ADVERSARIAL TESTS ON ORIGINAL CHECKPOINT
+File: backend/tests/test_post_goal_five_defects.py
+Result before repair: 5 failed
+Covered defects:
+  1. F3 effective Event time
+  2. C4 activity_id remap after accept
+  3. frozen MobilitySnapshot injection
+  4. Open-Meteo Unix timestamp / UTC semantics
+  5. TRAFFIC_DELAY extra_minutes semantics
+
+PREPARED PATCH PREFLIGHT ON FRESH CHECKPOINT COPY
+Command: git apply --check patches/POST_GOAL_5_DEFECTS_AND_GOLDEN_GATE_20260910.patch
+Result: PASS
+
+FOCUSED GATE AFTER PATCH
+Files:
+  tests/test_post_goal_five_defects.py
+  tests/test_backend_connected_golden_contract.py
+Result: 6 passed
+
+FULL BACKEND AFTER PATCH
+Command: python -m pytest -q
+Result: 155 passed, 1 skipped in 22.62s
+
+PYTHON BYTECODE CHECK
+Command: python -m compileall -q app tests
+Result: PASS
+
+RUFF
+Final repair patch: NOT independently rerun in GPT sandbox (ruff executable unavailable here).
+Required action: rerun repository Ruff check/format check on Windows.
+
+FRONTEND
+Uploaded checkpoint self-report:
+  npm run build = PASS
+  playwright = 1 passed
+Independent semantic review:
+  existing frontend is hardcoded/localStorage contract shell
+  existing Playwright is UI smoke, not backend-connected Golden E2E
+Prepared future scaffold:
+  API client, demo bootstrap, XState workflow, backend E2E sketch,
+  Vite proxy fragment, multi-server Playwright fragment
+Scaffold build status:
+  NOT VERIFIED in GPT sandbox because npm dependency installation timed out.
+
+DECISION
+Prepared backend repair is evidence-backed on the uploaded checkpoint copy.
+Real Windows repo must first run the focused tests and use semantic merge if it has diverged.
+Next product gate is backend-connected frontend Golden Scenario, not additional feature breadth.

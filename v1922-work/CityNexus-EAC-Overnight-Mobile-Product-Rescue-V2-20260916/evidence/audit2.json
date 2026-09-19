@@ -1,0 +1,57 @@
+{
+ "tabs": [
+  {
+   "key": "hub",
+   "text_len": 645,
+   "white_screen": false,
+   "has_raw_enum": true,
+   "head": "Menu | / | Journey Hub | 中文 | DE | STILL UP | Your next city, already considered. | A calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one. | 中文 | Try another city | Open T",
+   "new_errors": []
+  },
+  {
+   "key": "trips",
+   "text_len": 0,
+   "white_screen": true,
+   "has_raw_enum": false,
+   "head": "",
+   "new_errors": [
+    "ReferenceError: data is not defined"
+   ]
+  },
+  {
+   "key": "map",
+   "text_len": 326,
+   "white_screen": false,
+   "has_raw_enum": false,
+   "head": "Menu | / | Map | 中文 | DE | MAP · ONE GLANCE | The city, with the plan on top. | Captured route geometry and provider facts stay visible while you move through the Journey. | Compare modes | Route context | 0 legs | Provi",
+   "new_errors": []
+  },
+  {
+   "key": "agent",
+   "text_len": 939,
+   "white_screen": false,
+   "has_raw_enum": true,
+   "head": "Menu | / | Copilot | 中文 | DE | AI DESK · HUMAN-READABLE PROGRESS | Tell CityNexus how to carry the weekend. | DeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting actio",
+   "new_errors": []
+  },
+  {
+   "key": "me",
+   "text_len": 561,
+   "white_screen": false,
+   "has_raw_enum": false,
+   "head": "Menu | / | Me | 中文 | DE | ME · AUTHORITY ENVELOPE | Your preferences, your boundary. | CityNexus makes the scope of delegated autonomy legible before it acts. | CURRENT MODE | ADVISORY | Version 1. Actions pause for conf",
+   "new_errors": []
+  }
+ ],
+ "nav_count": 5,
+ "nav_labels": [
+  "Today",
+  "Trips",
+  "Map",
+  "Copilot",
+  "Me"
+ ],
+ "errors": [
+  "ReferenceError: data is not defined"
+ ]
+}

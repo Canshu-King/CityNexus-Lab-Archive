@@ -1,0 +1,6 @@
+﻿{
+  "ok": true,
+  "title": "CityNexus Trip Operations",
+  "url": "http://localhost:5181/v8/hub",
+  "errors": []
+}

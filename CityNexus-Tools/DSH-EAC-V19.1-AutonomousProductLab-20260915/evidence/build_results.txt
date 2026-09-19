@@ -1,0 +1,29 @@
+=== TypeScript feature package ===
+tsc_exit=0
+=== shadow app production build ===
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 46 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/registerSW.js                0.14 kB
+dist/.vite/manifest.json          0.19 kB │ gzip:  0.14 kB
+dist/manifest.webmanifest         0.19 kB
+dist/index.html                   0.59 kB │ gzip:  0.36 kB
+dist/assets/index-CwuDScYO.css   17.29 kB │ gzip:  3.89 kB
+dist/assets/index-BxKJlfaC.js   294.72 kB │ gzip: 86.51 kB
+✓ built in 630ms
+
+PWA v1.3.0
+mode      generateSW
+precache  5 entries (305.42 KiB)
+files generated
+  dist/v19-1-sw.js
+  dist/workbox-ee9d8b34.js
+build_exit=0
+{
+  "file_count": 8,
+  "total_bytes": 330337,
+  "total_gzip_bytes": 96842
+}
+wrote D:\moodle\CityNexus-Tools\DSH-EAC-V19.1-AutonomousProductLab-20260915\evidence\bundle_analysis.json

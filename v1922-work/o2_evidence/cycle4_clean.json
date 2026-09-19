@@ -1,0 +1,141 @@
+{
+ "steps": [
+  {
+   "n": "1-ai",
+   "v": "plans=3"
+  },
+  {
+   "n": "2-choose",
+   "v": "cards=3 chosen=true"
+  },
+  {
+   "n": "3-hotel",
+   "v": "cards=10 pinned=true"
+  },
+  {
+   "n": "4-disruption",
+   "v": "target=OSM restaurant@2026-11-06T04:46:00+00:00 preserved=true removed=1 added=0 moved=6"
+  },
+  {
+   "n": "5-live-before",
+   "v": "{\"disruptions\":1,\"proposals\":1,\"unchanged\":[\"已确认的预订和到达/离开时间保持不变。\"]}"
+  },
+  {
+   "n": "6-accept",
+   "v": "accepted=true message=\"已按新安排更新你的行程。\""
+  },
+  {
+   "n": "7-locked",
+   "v": "lockedSame=true before=6 after=6 missing=[]"
+  },
+  {
+   "n": "8-events",
+   "v": "[\"CLOSURE:DETECTED\",\"CLOSURE:DETECTED\",\"CLOSURE:ACKNOWLEDGED\"]"
+  },
+  {
+   "n": "9-live-after",
+   "v": "{\"disruptions\":1,\"disruptionText\":\"发生了什么 有一处地点临时关闭 有一处地点临时关闭\",\"proposals\":0,\"noProposal\":\"当前没有需要你决定的调整。\",\"handled\":0,\"handledText\":\"\",\"message\":\"\"}"
+  },
+  {
+   "n": "10-trips-agreement",
+   "v": "{\"perDay\":[6,5,2],\"totalStops\":13,\"backendStops\":13,\"protected\":0,\"backendLocked\":6}"
+  },
+  {
+   "n": "11-map",
+   "v": "{\"panel\":1,\"canvas\":1}"
+  },
+  {
+   "n": "page-errors",
+   "v": "0 []"
+  }
+ ],
+ "errors": [],
+ "jid": "df741842-8831-4a65-a4d4-01012308ec74",
+ "before": {
+  "plan": "7eed3941-0caf-498f-b7cb-2a3a4f088544",
+  "n": 14,
+  "locked": [
+   "厦门高崎国际机场@2026-11-06T02:00:00+00:00",
+   "Check in · 7天酒店@2026-11-06T06:00:00+00:00",
+   "Overnight · 7天酒店@2026-11-06T14:30:00+00:00",
+   "Overnight · 7天酒店@2026-11-07T14:30:00+00:00",
+   "Check out · 7天酒店@2026-11-08T04:00:00+00:00",
+   "厦门北站@2026-11-08T11:50:00+00:00"
+  ]
+ },
+ "eventId": "4500ce1e-79e4-4b5d-93ba-9fd50e13c283",
+ "proposalId": "175785f3-f328-4f58-ab01-05fc4f8abd81",
+ "target": {
+  "title": "OSM restaurant",
+  "at": "2026-11-06T04:46:00+00:00"
+ },
+ "liveBefore": {
+  "disruptions": 1,
+  "proposals": 1,
+  "unchanged": [
+   "已确认的预订和到达/离开时间保持不变。"
+  ]
+ },
+ "after": {
+  "plan": "2e98a43a-79fa-41a8-b193-7582775eeefb",
+  "changed": true,
+  "n": 13,
+  "locked": [
+   "厦门高崎国际机场@2026-11-06T10:00:00+08:00",
+   "Check in · 7天酒店@2026-11-06T14:00:00+08:00",
+   "Overnight · 7天酒店@2026-11-06T22:30:00+08:00",
+   "Overnight · 7天酒店@2026-11-07T22:30:00+08:00",
+   "Check out · 7天酒店@2026-11-08T12:00:00+08:00",
+   "厦门北站@2026-11-08T19:50:00+08:00"
+  ],
+  "disruptionsShown": 3
+ },
+ "events": [
+  {
+   "type": "CLOSURE",
+   "status": "DETECTED",
+   "affected": "7680d48c-1b72-400c-bb22-40d8a0b1e00d",
+   "id": "5d2373cb-48d5-4c83-8c20-e4b5b62ce67b"
+  },
+  {
+   "type": "CLOSURE",
+   "status": "DETECTED",
+   "affected": "d2461466-0b77-44d0-a471-c10b45c933ce",
+   "id": "c1749fe7-2b0e-4ee0-8427-82c09255f761"
+  },
+  {
+   "type": "CLOSURE",
+   "status": "ACKNOWLEDGED",
+   "affected": "3518d57a-51e2-49c7-90e6-eb078b813774",
+   "id": "4500ce1e-79e4-4b5d-93ba-9fd50e13c283"
+  }
+ ],
+ "hubAfter": {
+  "attention": "2 项变化",
+  "alerts": "通知 · 2 条活跃"
+ },
+ "liveAfter": {
+  "disruptions": 1,
+  "disruptionText": "发生了什么 有一处地点临时关闭 有一处地点临时关闭",
+  "proposals": 0,
+  "noProposal": "当前没有需要你决定的调整。",
+  "handled": 0,
+  "handledText": "",
+  "message": ""
+ },
+ "trips": {
+  "perDay": [
+   6,
+   5,
+   2
+  ],
+  "totalStops": 13,
+  "backendStops": 13,
+  "protected": 0,
+  "backendLocked": 6
+ },
+ "map": {
+  "panel": 1,
+  "canvas": 1
+ }
+}

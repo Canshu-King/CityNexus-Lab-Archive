@@ -1,0 +1,68 @@
+The package you returned is NOT accepted as the overnight result.
+
+It is now frozen as Checkpoint O1.
+
+Use the attached:
+
+CityNexus-EAC-Overnight-Continuation-NoEarlyExit-20260917.zip
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Resume from the CURRENT repository state.
+Do not redo already-completed work.
+Do not return Checkpoint O1 again.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/CONTINUATION_MASTER_MISSION.md
+
+and obey:
+
+docs/NO_EARLY_EXIT_PROTOCOL.md
+
+The previous package itself admits these major items are still incomplete:
+
+- full visible same-Xiamen browser chain
+- useful Copilot answer
+- Me traveler cleanup
+- meaningful hotel differentiation
+- traveler-first Live UI
+- budget sanity advisory
+- browser booking confirm -> booking appears
+- hostile-user loops
+- failure-state loops
+- full reference-UI implementation
+
+The previous task was an 8–9 hour overnight mission.
+A short partial run is a checkpoint, not completion.
+
+You must now complete:
+- the mandatory same-Xiamen UI flow;
+- SIX distinct end-to-end browser runs;
+- FIVE autonomous product-lab cycles;
+- the wall-clock run ledger;
+- mobile screenshots and evidence.
+
+Do not stop after the first green build.
+Do not return another backend-only package.
+If one external dependency is blocked, continue all other work.
+
+Target NEW package:
+
+CityNexus-EAC-Overnight-Continuation-Final-20260917.zip
+
+Final verdict only:
+
+BLOCKED_FOR_REAL_USER_TRIAL
+
+or
+
+READY_FOR_XIAOMI_13_ULTRA_USER_TRIAL
+
+Start from Checkpoint O1 now.

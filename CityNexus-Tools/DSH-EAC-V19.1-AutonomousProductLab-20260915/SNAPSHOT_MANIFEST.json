@@ -1,0 +1,27 @@
+{
+  "snapshot": "snapshot/main-tree-20260915T1220",
+  "captured_at": "2026-09-15T12:20:00+08:00",
+  "main_worktree": "D:/moodle/CityNexus (read-only)",
+  "files": {
+    "backend/app/main.py": {
+      "bytes": 363366,
+      "sha1": "8dd4a10b52c6b8c1d7e99f0f5edae17ad19641c1"
+    },
+    "backend/app/capabilities.py": {
+      "bytes": 15283,
+      "sha1": "7279797cb3a37b4da99ec9cba88db0fe37808381"
+    },
+    "backend/app/schemas.py": {
+      "bytes": 21611,
+      "sha1": "7aa00122979306e31ba231b0ecc745ee644afe9f"
+    },
+    "backend/app/replanning/feasibility.py": {
+      "bytes": 31773,
+      "sha1": "93b50bcb6982ce808c2731eeaedbe38abd9c511f"
+    },
+    "frontend/src/api/citynexus.ts": {
+      "bytes": 30604,
+      "sha1": "4917f781242c76c14927903a1c5e2885ceaa5f7a"
+    }
+  }
+}

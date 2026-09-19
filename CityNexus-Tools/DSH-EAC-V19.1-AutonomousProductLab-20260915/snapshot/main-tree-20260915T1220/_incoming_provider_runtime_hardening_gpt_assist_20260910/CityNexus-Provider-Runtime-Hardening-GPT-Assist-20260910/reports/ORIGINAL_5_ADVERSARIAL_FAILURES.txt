@@ -1,0 +1,139 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+________________ test_snapshot_facts_are_structurally_immutable ________________
+
+    def test_snapshot_facts_are_structurally_immutable():
+        snapshot = MobilitySnapshot.from_minutes(
+            source_provider_key="valhalla",
+            minutes={("a", "b"): 10},
+            operation_key="replan:event-1",
+        )
+        original = snapshot.estimate_minutes("a", "b")
+>       with pytest.raises(TypeError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'TypeError'>
+
+tests/test_gpt_adversarial_provider_hardening.py:112: Failed
+____________ test_twin_reports_effective_provider_for_fallback_pair ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f07cf55dba0>
+
+    def test_twin_reports_effective_provider_for_fallback_pair(monkeypatch):
+        jid, proposals = _generate_with_partial_fallback(monkeypatch)
+        assert proposals
+        mobility = proposals[0]["diff"]["verified_evidence"]["mobility"]
+        assert mobility["degraded"] is True
+        facts = {
+            (item["origin_key"], item["destination_key"]): item
+            for item in mobility["snapshot"]["facts"]
+        }
+        assert facts[("place-tech-art", "place-river-cruise")]["provider"] == "mock-mobility"
+    
+        twin = client.get(
+            f"/api/v1/journeys/{jid}/twin",
+            params={"now": "2026-10-10T13:25:00+08:00"},
+        )
+        assert twin.status_code == 200, twin.text
+        ctx = twin.json()["context"]["mobility"]
+>       assert ctx["provider"] == "mock-mobility"
+E       AssertionError: assert 'valhalla' == 'mock-mobility'
+E         
+E         - mock-mobility
+E         + valhalla
+
+tests/test_gpt_adversarial_provider_hardening.py:140: AssertionError
+_________ test_degraded_mobility_reduces_robustness_evidence_and_score _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f07ce012d70>
+
+    def test_degraded_mobility_reduces_robustness_evidence_and_score(monkeypatch):
+        _jid, proposals = _generate_with_partial_fallback(monkeypatch)
+        assert proposals
+        for proposal in proposals:
+            diff = proposal["diff"]
+            mobility = diff["verified_evidence"]["mobility"]
+            if not mobility["degraded"]:
+                continue
+            envelope = diff["after_feasibility_envelope"]
+>           assert "valhalla" in envelope["degraded_providers"]
+E           AssertionError: assert 'valhalla' in []
+
+tests/test_gpt_adversarial_provider_hardening.py:154: AssertionError
+___ test_travel_delta_compares_base_and_candidate_under_same_frozen_snapshot ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f07cdfb6210>
+
+    def test_travel_delta_compares_base_and_candidate_under_same_frozen_snapshot(monkeypatch):
+        jid, event = _prepare_disruption()
+        primary = _ConstantProvider(1)
+    
+        def capture_runtime(_session, _journey, pairs, *, operation_key, captured_at=None):
+            return capture_mobility_snapshot(
+                pairs,
+                primary=primary,
+                captured_at=captured_at,
+                operation_key=operation_key,
+            )
+    
+        monkeypatch.setattr(main_module, "capture_runtime_mobility_snapshot", capture_runtime)
+        response = client.post(
+            f"/api/v1/journeys/{jid}/replans",
+            json={"trigger_event_id": event["id"], "candidate_count": 3},
+            headers={"Idempotency-Key": f"gpt-delta-{uuid4()}"},
+        )
+        assert response.status_code == 201, response.text
+        proposals = [
+            item for item in client.get(f"/api/v1/journeys/{jid}/replans").json()
+            if item["trigger_event_id"] == event["id"]
+        ]
+        assert proposals
+        for proposal in proposals:
+            snapshot = proposal["diff"]["verified_evidence"]["mobility"]["snapshot"]
+            base = client.get(f"/api/v1/plans/{proposal['base_plan_version_id']}").json()
+            candidate = client.get(f"/api/v1/plans/{proposal['proposed_plan_version_id']}").json()
+            expected_delta = _snapshot_route_total(candidate, snapshot) - _snapshot_route_total(base, snapshot)
+>           assert proposal["diff"]["travel_delta_min"] == expected_delta
+E           assert -85 == 0
+
+tests/test_gpt_adversarial_provider_hardening.py:215: AssertionError
+_______ test_accept_revalidates_with_the_same_persisted_frozen_snapshot ________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f07cdf51d00>
+
+    def test_accept_revalidates_with_the_same_persisted_frozen_snapshot(monkeypatch):
+        jid, proposals = _generate_with_partial_fallback(monkeypatch)
+        chosen = proposals[0]
+        expected_snapshot_id = chosen["diff"]["verified_evidence"]["mobility"]["snapshot"]["snapshot_id"]
+    
+        original = main_module.validate_plan_feasibility
+        seen = []
+    
+        def wrapped(*args, **kwargs):
+            provider = kwargs.get("mobility_provider")
+            seen.append(provider)
+            return original(*args, **kwargs)
+    
+        monkeypatch.setattr(main_module, "validate_plan_feasibility", wrapped)
+        response = client.post(
+            f"/api/v1/replans/{chosen['id']}/accept",
+            headers={"Idempotency-Key": f"gpt-accept-{uuid4()}"},
+        )
+        assert response.status_code == 200, response.text
+        assert seen
+        provider = seen[-1]
+>       assert isinstance(provider, MobilitySnapshot)
+E       assert False
+E        +  where False = isinstance(None, MobilitySnapshot)
+
+tests/test_gpt_adversarial_provider_hardening.py:239: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_gpt_adversarial_provider_hardening.py::test_snapshot_facts_are_structurally_immutable - Failed: DID NOT RAISE <class 'TypeError'>
+FAILED tests/test_gpt_adversarial_provider_hardening.py::test_twin_reports_effective_provider_for_fallback_pair - AssertionError: assert 'valhalla' == 'mock-mobility'
+  
+  - mock-mobility
+  + valhalla
+FAILED tests/test_gpt_adversarial_provider_hardening.py::test_degraded_mobility_reduces_robustness_evidence_and_score - AssertionError: assert 'valhalla' in []
+FAILED tests/test_gpt_adversarial_provider_hardening.py::test_travel_delta_compares_base_and_candidate_under_same_frozen_snapshot - assert -85 == 0
+FAILED tests/test_gpt_adversarial_provider_hardening.py::test_accept_revalidates_with_the_same_persisted_frozen_snapshot - assert False
+ +  where False = isinstance(None, MobilitySnapshot)
+5 failed in 1.69s

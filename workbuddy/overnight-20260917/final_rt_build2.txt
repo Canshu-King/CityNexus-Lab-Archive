@@ -1,0 +1,5 @@
+﻿rt\data\v9: False
+rt\data files: 0
+pkg frontend src files: 55
+pkg frontend top: public, src, index.html, package.json, playwright.config.ts, vite.config.ts
+pkg backend data: True

@@ -1,0 +1,17 @@
+﻿screen,reference,route_tested,screenshot,status,major_gaps,leaks_found,notes
+01 Today,ui_reference/final_10/01,/v8/today,cp_04_today_diag.png,FAIL,主体完全空白无CTA无空态,无,experience 200 返回正常但 options=[] 时页面零渲染; 行程tab有良好空态反衬遗漏
+02 Setup 创建流程,ui_reference/final_10/03,/ (root),st_* (见 flow_create 时代),PARTIAL,表单无样式参考偏差,无,早期实测见 wb_visible_ui_trace.json; setup 深度核对以 EAC trace 为准
+03 创建向导,ui_reference/final_10/03,/v8/setup,同上,PARTIAL,未复测;EAC 域,无,并发约束:不做写主仓库操作
+06 AI 规划进度,ui_reference/final_10/06,/v8/hub AI 流,fa_* (flow_ai2),FAIL,stepper 全打勾但 plan_versions=0 假成功,无,AI 进度显示与后端真相脱钩 -> Phase3 P0
+07 方案比较,ui_reference/final_10/07,/v8/hub,pc_00_plan_view.png,FAIL,无候选可比较 plans=[] 空转,无,方案比较屏无数据时降级为空;正常态未验证(无 plan)
+08 活动详情,ui_reference/final_10/08,/v8/trips,tab_trips.png,PARTIAL,无 plan 时仅空态;详情未验证,无,空态文案良好
+09 酒店对比,ui_reference/final_10/09,菜单->住宿选择,ht_01_after_select.png,FAIL,空数据渲染伪费率证据卡,"0% confidence;explicit;Provider price unavailable",供应商captured hotel英文;已采集回收文案不通;无真实候选(stay_journey_options=0)
+10 Live 实时,ui_reference/final_10/10,/v8/live,未独立截图,PARTIAL,依赖 plan+执行态;DRAFT journey 无 live 数据,无,offline-snapshot read_only:true financial_actions_allowed:false
+Tab 行程,ui_reference/final_10/07,/v8/trips,tab_trips.png,PASS,空态优秀有AI帮我规划CTA,无,正面样本
+Tab 地图,ui_reference/final_10/(无直接参考),/v8/map,tab_map.png,PASS,诚实空态,无,正面样本
+Tab 我的,ui_reference/final_10/(无直接参考),/v8/me,tab_me.png,PARTIAL,委托策略页信息架构可,ADVISORY 英文枚举,其余中文正常
+汉堡菜单,(设计外),/v8/today+菜单,tab_menu_open.png,FAIL,开发者路由面板直接暴露给消费者,TODAY/PLAN/TRAVEL/SYSTEM 分类;恢复与执行;智能守护,debug 导航不应在旅行者视图
+Bookings JSON 导入,ui_reference/final_10/(无),/v8/bookings,bk_00_page.png,FAIL,raw JSON 作为主导入入口,无,B1: JSON.parse 无try/catch 非JSON零反馈
+Bookings 成功态,ui_reference/final_10/(无),/v8/bookings,bk_02_valid_after_submit.png,PARTIAL,toast反馈好;卡片信息密度低,UNKNOWN_REALTIME;受保护C4,价格被丢弃价格未知;出发地目的地不显示
+多模态收件箱,ui_reference/final_10/(无),/v8/bookings 滚动,ibx_00_workbench.png,PARTIAL,三路导入设计好,DeepSeek 语义(解读);Journey Memory 英文标题;UNKNOWNWB 粘连,手动表单字段完整中文
+Copilot 对话,ui_reference/final_10/(无),dock 展开,cp_06_reply.png,FAIL,回复诚实但行动按钮为原始枚举,DeepSeek;Hermes;REQUEST_PLACE_SEARCH;DISCOVER;Semantic/Execution/Truth 状态条,询问Copilot按钮正常;消息气泡正常

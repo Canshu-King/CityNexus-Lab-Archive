@@ -1,0 +1,20 @@
+{
+  "source": "JiaxI2/Codex-Skills visio-diagram SKILL.md + references",
+  "currentVisioMcp": {
+    "visio_doctor": "UNVERIFIED",
+    "diagram_validate": "UNVERIFIED",
+    "diagram_plan": "UNVERIFIED",
+    "diagram_render": "UNVERIFIED",
+    "diagram_open_visible": "UNVERIFIED",
+    "diagram_inspect": "UNVERIFIED",
+    "diagram_snapshot": "UNVERIFIED",
+    "diagram_quality_check": "UNVERIFIED",
+    "diagram_auto_repair": "UNVERIFIED",
+    "diagram_close": "UNVERIFIED",
+    "schemas": "UNVERIFIED",
+    "style-profile": "UNVERIFIED",
+    "renderer-effective-fields": "UNVERIFIED"
+  },
+  "skillCapabilityClaims": ["schema-driven IR","native rendering","inspection","quality gates","auto repair","SVG/PNG export"],
+  "decision": "EVALUATE_FOR_ADOPTION"
+}

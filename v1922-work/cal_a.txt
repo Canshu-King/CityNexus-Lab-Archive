@@ -1,0 +1,93 @@
+def _reschedule_with_carried(
+    anchors: list[GraphNode],
+    carried: list[GraphNode],
+    arrival_at: datetime,
+    departure_at: datetime,
+    *,
+    journey: Journey | None = None,
+) -> list[GraphNode]:
+    """Merge a chosen itinerary with the stay's structural operations.
+
+    Stay Calendar V2 (docs/STAY_CALENDAR_V2.md).  Beyond "no overlap":
+
+    * **transition time** - a flexible stop must be reachable from the node
+      before it and must still reach the node after it, so free intervals carry
+      their bounding nodes instead of being bare [start, end] pairs;
+    * **day semantics** - an activity keeps its original local date.  Choosing a
+      hotel is not permission to rewrite the traveller's daily plan, so a stop
+      that no longer fits its own day is reported as a conflict rather than
+      silently moved to another day.
+
+    Pinned truth (ARRIVAL, DEPARTURE, locked/C4 activities, LUGGAGE_DROP,
+    CHECK_IN, STAY nights, CHECK_OUT) is validated first and never moved.
+    """
+
+    structural_roles = {"LUGGAGE_DROP", "CHECK_IN", "STAY", "CHECK_OUT"}
+
+    def _copy(node: GraphNode, new_start: datetime, new_end: datetime) -> GraphNode:
+        return GraphNode(
+            key=node.key,
+            title=node.title,
+            role=node.role,
+            start_at=new_start.isoformat(),
+            end_at=new_end.isoformat(),
+            latitude=node.latitude,
+            longitude=node.longitude,
+            place_key=node.place_key,
+            locked=node.locked,
+            estimated_cost_minor=node.estimated_cost_minor,
+            cost_status=node.cost_status,
+        )
+
+    def _key(node: GraphNode) -> str:
+        return str(node.key)
+
+    arrival = next((n for n in anchors if str(n.role).upper() == "ARRIVAL"), None)
+    departure = next((n for n in anchors if str(n.role).upper() == "DEPARTURE"), None)
+    pinned: list[GraphNode] = [n for n in anchors if str(n.role).upper() in structural_roles]
+    if arrival is not None:
+        pinned.append(arrival)
+    if departure is not None:
+        pinned.append(departure)
+
+    flexible: list[GraphNode] = []
+    pinned_keys = {_key(n) for n in pinned}
+    for node in carried:
+        if bool(node.locked):
+            if _key(node) in pinned_keys:
+                continue
+            pinned_keys.add(_key(node))
+            pinned.append(node)
+        else:
+            flexible.append(node)
+
+    pinned.sort(key=lambda n: datetime.fromisoformat(n.start_at))
+
+    conflicts: list[str] = []
+    window_start = datetime.fromisoformat(arrival.end_at) if arrival else arrival_at
+    previous_end: datetime | None = None
+    for node in pinned:
+        node_start = datetime.fromisoformat(node.start_at)
+        node_end = datetime.fromisoformat(node.end_at)
+        if node_end < node_start:
+            conflicts.append(f"INVALID_WINDOW:{_key(node)}")
+            continue
+        if node_start < window_start:
+            conflicts.append(f"PINNED_BEFORE_ARRIVAL:{_key(node)}")
+        if node_end > departure_at:
+            conflicts.append(f"PINNED_AFTER_DEPARTURE:{_key(node)}")
+        if previous_end is not None and node_start < previous_end:
+            conflicts.append(f"PINNED_OVERLAP:{_key(node)}")
+        previous_end = max(previous_end, node_end) if previous_end else node_end
+
+    roles = [str(n.role).upper() for n in pinned]
+    check_in_index = roles.index("CHECK_IN") if "CHECK_IN" in roles else None
+    stay_indices = [i for i, r in enumerate(roles) if r == "STAY"]
+    check_out_index = roles.index("CHECK_OUT") if "CHECK_OUT" in roles else None
+    if check_in_index is not None and stay_indices and check_in_index > stay_indices[0]:
+        conflicts.append("CHECK_IN_AFTER_FIRST_STAY")
+    if check_out_index is not None and stay_indices and check_out_index < stay_indices[-1]:
+        conflicts.append("CHECK_OUT_BEFORE_LAST_STAY")
+
+    if conflicts:
+        raise StayItineraryConflict("STAY_PINNED_CONFLICT:" + ",".join(sorted(set(conflicts))))

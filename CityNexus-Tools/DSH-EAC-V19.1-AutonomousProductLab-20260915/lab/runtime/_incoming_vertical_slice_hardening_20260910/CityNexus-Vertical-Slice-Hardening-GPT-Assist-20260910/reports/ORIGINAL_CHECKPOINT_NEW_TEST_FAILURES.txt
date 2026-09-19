@@ -1,0 +1,33 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+________ test_f3_inbound_uses_authoritative_current_execution_location _________
+
+    def test_f3_inbound_uses_authoritative_current_execution_location():
+        jid, _plan, tech = _active_with_c4_progressed_to_tech_art()
+        proposals = _closure_replans(jid, tech, occurred_at="2026-10-10T13:25:00+08:00")
+        f3 = next(
+            item for item in proposals if item["diff"]["candidate_family"] == "F3_OPPORTUNITY_WINDOW"
+        )
+        evidence = f3["diff"]["opportunity_window_evidence"]
+        added_key = f3["diff"]["added"][0]
+        expected = MockMobilityProvider().estimate_minutes("place-tech-art", added_key)
+>       assert evidence["origin_key"] == "place-tech-art"
+               ^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'origin_key'
+
+tests/test_vertical_slice_hardening_next.py:90: KeyError
+____ test_aware_utc_event_is_normalized_to_journey_local_schedule_before_f3 ____
+
+    def test_aware_utc_event_is_normalized_to_journey_local_schedule_before_f3():
+        jid, _plan, tech = _active_with_c4_progressed_to_tech_art()
+        proposals = _closure_replans(jid, tech, occurred_at="2026-10-10T05:25:00+00:00")
+>       f3 = next(
+            item for item in proposals if item["diff"]["candidate_family"] == "F3_OPPORTUNITY_WINDOW"
+        )
+E       StopIteration
+
+tests/test_vertical_slice_hardening_next.py:97: StopIteration
+=========================== short test summary info ============================
+FAILED tests/test_vertical_slice_hardening_next.py::test_f3_inbound_uses_authoritative_current_execution_location - KeyError: 'origin_key'
+FAILED tests/test_vertical_slice_hardening_next.py::test_aware_utc_event_is_normalized_to_journey_local_schedule_before_f3 - StopIteration
+2 failed in 0.95s

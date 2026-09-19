@@ -1,0 +1,12 @@
+﻿--- tracked? key files ---
+frontend/src/features/planning/PlanWithAiSheet.tsx => tracked:[]
+frontend/src/features/agent/CopilotDock.tsx => tracked:[]
+frontend/src/app/V8Experience.tsx => tracked:[]
+frontend/src/i18n/LocaleContext.tsx => tracked:[]
+frontend/src/features/hotels/HotelsPanel.tsx => tracked:[]
+--- untracked src files (top) ---
+?? _v8_backend.err.log
+?? _v8_backend.out.log
+?? backend/
+?? frontend/
+

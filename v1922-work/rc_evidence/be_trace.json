@@ -1,0 +1,47 @@
+{
+ "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+ "trace": [
+  {
+   "step": "create",
+   "route": "/journeys",
+   "status": "OK",
+   "note": "city=CN-XIAMEN"
+  },
+  {
+   "step": "discover",
+   "route": "discover[tourist attraction]",
+   "status": "OK",
+   "note": "candidates=0 try=1"
+  },
+  {
+   "step": "discover",
+   "route": "discover[tourist attraction]",
+   "status": "OK",
+   "note": "candidates=0 try=2"
+  },
+  {
+   "step": "discover",
+   "route": "discover[restaurant]",
+   "status": "OK",
+   "note": "candidates=6 try=1"
+  },
+  {
+   "step": "pois",
+   "route": "sqlite:places",
+   "status": "OK",
+   "note": "6 xiamen POIs"
+  },
+  {
+   "step": "generate",
+   "route": "/plans/generate",
+   "status": "OK",
+   "note": "plans=3"
+  },
+  {
+   "step": "select",
+   "route": "/plans/db3f8519/select",
+   "status": "OK",
+   "note": ""
+  }
+ ]
+}

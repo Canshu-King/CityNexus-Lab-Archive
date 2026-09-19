@@ -1,0 +1,41 @@
+REPLAN 422 INSTRUMENTATION — fabricated 20-minute legs
+=====================================================
+Journey: d9e7067b-e7b9-42f1-81f3-196eaaf0e5c9  (Xiamen, live Overpass POIs, 1 booking)
+Base plan snapshot: v12-stay-7db53514d6790472f4ff871b3b9b3c91
+Snapshot provider: citynexus-synthetic-fixture
+
+--- BASELINE FROZEN FACTS (real legs of the selected plan) ---
+  v12:...:arrival-anchor              -> real-place-07e7689756fa27109a8bff96 = 11
+  real-place-07e7689756fa27109a8bff96 -> real-place-0f6a7b4b3d5359684929cdbb = 11
+  real-place-0f6a7b4b3d5359684929cdbb -> real-place-1564f860645d87ceaae7949a = 11
+  real-place-1564f860645d87ceaae7949a -> stay:osm:node/583066505:check-in   =  7
+  ... 13 facts total ...
+
+--- _replan_estimate DURING A REAL REPLAN: 115 CALLS ---
+  a82fa86c-...-anchor                 -> real-place-c270d43c4e4c734b010cedf5 = 20
+  real-place-c270d43c4e4c734b010cedf5 -> v12:...:departure-anchor           = 20
+  a82fa86c-...-anchor                 -> real-place-ecea987d32d1dacb62a37e62 = 20
+  real-place-ecea987d32d1dacb62a37e62 -> v12:...:departure-anchor           = 20
+  a82fa86c-...-anchor                 -> real-place-a4edf1a7b720095c69e5a0cb = 20
+  real-place-a4edf1a7b720095c69e5a0cb -> v12:...:departure-anchor           = 20
+  a82fa86c-...-anchor                 -> real-place-ba5fd7c0573fd7b42d8e1fac = 20
+  real-place-ba5fd7c0573fd7b42d8e1fac -> v12:...:departure-anchor           = 20
+  a82fa86c-...-anchor                 -> real-place-d39288fb4b2193c7dbc580a4 = 20
+  real-place-d39288fb4b2193c7dbc580a4 -> v12:...:departure-anchor           = 20
+  a82fa86c-...-anchor                 -> real-place-f92c0b76e934158962ff8938 = 20
+  real-place-f92c0b76e934158962ff8938 -> v12:...:departure-anchor           = 20
+  ... all 115 calls returned exactly 20 ...
+
+--- GATE RESULT ON EVERY PROPOSED PLAN ---
+  passed=False
+  failures=('ACTIVITY_OVERLAP',
+            'INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/583066505:check-in')
+  -> HTTP 422 "no feasible replan proposal: ..."
+  7 of 8 mutable stops fail identically.
+
+--- ROOT CAUSE ---
+  data/mock/mobility_matrix.json = { "minutes": {9 entries}, "default_minutes": 20 }
+  MockMobilityProvider.estimate_minutes returns default_minutes for any absent pair.
+  New replan adjacencies are absent -> every new leg is exactly 20 minutes.
+  The re-timing pass shifts unlocked rows by 20; the locked check-in at 06:00 is
+  pinned and cannot move, so the schedule overlaps and the (correct) gate refuses.

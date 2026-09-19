@@ -1,0 +1,12 @@
+=== git apply --check 01_CAPABILITY_TYPES_ADAPTER.patch ===
+exit=0
+=== git apply --check 02_SETUP_AND_CONFIRMATION_UI.patch ===
+exit=0
+=== git apply --check 03_PLAN_RECOVERY_CAPABILITY_UI.patch ===
+exit=0
+=== git apply --check 04_TWIN_MOBILE_MAP_OPTIONAL.patch ===
+exit=0
+=== main tree status after check (unchanged expected) ===
+ M .gitignore
+?? .env.example
+?? .playwright-cli/

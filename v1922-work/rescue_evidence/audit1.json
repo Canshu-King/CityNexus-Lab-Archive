@@ -1,0 +1,8 @@
+{
+ "root_url": "http://127.0.0.1:5173/",
+ "root_text": "CN | CityNexus | JOURNEY INTELLIGENCE | 中文 | TRY CITYNEXUS WITH YOUR OWN CITY | Start a real journey, not only the Tianjin demo. | Choose your destination and travel anchors. Non-Tianjin journeys use live city providers when enabled; CityNexus will not silently substitute Tianjin replay data. | Generic-city trial | For cities without a sealed replay, use live providers. If providers are unavailable, CityNexus will tell you instead of inventing Tianjin facts. | Use the sealed Tianjin demo | Destination city | Coun",
+ "looks_legacy": false,
+ "mobile_nav_count": 0,
+ "mobile_nav_labels": [],
+ "errors": []
+}

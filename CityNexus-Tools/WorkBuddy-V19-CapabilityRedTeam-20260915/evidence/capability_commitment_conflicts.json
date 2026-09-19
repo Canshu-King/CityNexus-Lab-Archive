@@ -1,0 +1,132 @@
+[
+ {
+  "case": "C4_CREATE",
+  "import_status": 201,
+  "confirm_status": 200,
+  "body": {
+   "reservation": {
+    "id": "866d4b5a-cc1e-4023-bd27-401caa2b9354",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "draft_id": "9d77e846-d15e-46cd-94df-cb513bb87adb",
+    "reservation_type": "FERRY",
+    "provider_key": "user-confirmed-cruise",
+    "confirmation_ref": "V19-CRUISE-PAID",
+    "origin": {
+     "name": "Nexus Pier"
+    },
+    "destination": {
+     "latitude": 39.12,
+     "longitude": 117.21,
+     "name": "Nexus River Cruise"
+    },
+    "scheduled_departure_at": "2026-10-10T15:30:00+08:00",
+    "scheduled_arrival_at": "2026-10-10T16:30:00+08:00",
+    "estimated_arrival_at": null,
+    "actual_arrival_at": null,
+    "status": "CONFIRMED",
+    "realtime_status": "UNKNOWN_REALTIME",
+    "passenger_scope": {},
+    "change_policy": {},
+    "price": {
+     "amount_minor": 12000,
+     "currency": "CNY",
+     "status": "KNOWN"
+    },
+    "source_provenance": "USER_CONFIRMED_IMPORT",
+    "captured_at": "2026-09-15T02:28:18.689394+00:00",
+    "booking_id": "2c639876-edd9-40c1-ba3a-5e1daeb6e6c6",
+    "commitment_id": "c653dc4f-466d-44c9-bdef-7efbb7a5eb90"
+   },
+   "commitment": {
+    "id": "c653dc4f-466d-44c9-bdef-7efbb7a5eb90",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "activity_id": null,
+    "kind": "BOOKING",
+    "level": "C4_Anchored",
+    "status": "ACTIVE",
+    "monetary_value": {
+     "amount_minor": 12000,
+     "currency": "CNY"
+    },
+    "monetary_value_status": "KNOWN",
+    "external_ref": "V19-CRUISE-PAID",
+    "policy": {
+     "anchor_role": "MID_TRIP",
+     "price_status": "KNOWN",
+     "scheduled_start_at": "2026-10-10T16:30:00+08:00",
+     "semantic_key": "place-river-cruise",
+     "semantic_node_key": "place-river-cruise",
+     "source": "USER_CONFIRMED_EXTERNAL_RESERVATION"
+    }
+   }
+  }
+ },
+ {
+  "case": "C4_IDENTITY",
+  "commitment_id": "c653dc4f-466d-44c9-bdef-7efbb7a5eb90",
+  "level": "C4_Anchored",
+  "policy": {
+   "anchor_role": "MID_TRIP",
+   "price_status": "KNOWN",
+   "scheduled_start_at": "2026-10-10T16:30:00+08:00",
+   "semantic_key": "place-river-cruise",
+   "semantic_node_key": "place-river-cruise",
+   "source": "USER_CONFIRMED_EXTERNAL_RESERVATION"
+  }
+ },
+ {
+  "case": "C4_BASELINE_PLANS",
+  "status": 201,
+  "plan_count": 3,
+  "cruise_present": [
+   true,
+   true,
+   true
+  ]
+ },
+ {
+  "case": "C4_PAID_CRUISE_vs_WHEELCHAIR_UNKNOWN",
+  "gen_status": 422,
+  "plan_count": null,
+  "error": "No feasible plan candidates satisfy the journey constraints",
+  "c4_still_active": null
+ },
+ {
+  "case": "C4_STATE_AFTER_CONFLICT",
+  "exists": true,
+  "status": "ACTIVE",
+  "level": "C4_Anchored",
+  "note": "the product did not silently delete the paid commitment"
+ },
+ {
+  "case": "CONFLICT_SURFACED",
+  "experience_mentions_conflict": false,
+  "experience_mentions_step_free": false,
+  "twin_mentions_conflict": false,
+  "twin_risk_reason_codes": [],
+  "note": "the traveler gets a generic 422, not an explicit capability/C4 conflict"
+ },
+ {
+  "case": "C4_RAIL_vs_MIDDAY_REST",
+  "gen_status": 422,
+  "plan_count": null,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "C4_DINNER_vs_INFANT_NAP",
+  "gen_status": 422,
+  "plan_count": null,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "SOFT_CAPABILITY_vs_C4_KNOWN_STAIRS",
+  "gen_status": 201,
+  "plan_count": 3,
+  "cruise_present": [
+   true,
+   true,
+   true
+  ],
+  "note": "a KNOWN_STAIRS conflict against a SOFT capability is silently ignored: no conflict, no warning, the traveler is never told"
+ }
+]

@@ -1,0 +1,6 @@
+{
+  "assemblies": [],
+  "searchedTerms": ["Route", "Routing", "Connector", "Connect", "Layout", "Graph", "Edge", "Orthogonal", "Rectilinear", "RightAngle"],
+  "status": "UNVERIFIED",
+  "reason": "VisioAutomation and Microsoft.Msagl assemblies were not loaded in the PowerShell process used for discovery."
+}

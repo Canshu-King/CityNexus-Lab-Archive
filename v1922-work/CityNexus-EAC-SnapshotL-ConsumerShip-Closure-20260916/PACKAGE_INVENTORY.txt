@@ -1,0 +1,51 @@
+CityNexus Snapshot L Consumer-Ship Closure — package inventory
+================================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+
+Backend: Stay Calendar V2 (all three findings), configurable network policy.
+Product: Activity Detail truthfulness fix.
+Still open: consumer booking import and the full visible-browser chain.
+
+Reports
+-------
+STAY_CALENDAR_V2_RESULTS.md  the three gaps, the new contract, verification
+TEST_RESULTS.md              real numbers, incl. the 1 -> 0 regression history
+REMAINING_PRODUCT_GAPS.md    ordered remaining work
+CHANGED_FILES.txt            0 added, 6 modified
+PACKAGE_INVENTORY.txt        this file
+
+evidence/
+  SNAPSHOT_L_MANIFEST.json   frozen Snapshot K + sha256 (matches Road-Prep)
+  probe_runs/                the Road-Prep probe output after the fix
+  fe_final.json              browser tab sweep, leak scan, activity detail
+  fe_detail.json             activity-detail interaction trace
+
+probes/                      the Road-Prep probe, run before and after the fix
+patches/                     the Road-Prep documents this round executed
+screenshots/before/          Snapshot I acceptance captures
+screenshots/after/           real browser captures after this round
+source/                      the 6 changed source files
+
+Changed sources
+---------------
+  backend/app/stay_mobility.py
+    _reschedule_with_carried   Stay Calendar V2: boundary-aware intervals,
+                               day semantics, pinned validation
+    _offer_of                  superseded-property structural operations dropped
+  backend/app/integrations/provider_config.py
+    provider_network_mode / trust_environment_for_public_providers
+  backend/app/integrations/discovery/real_city.py
+  backend/app/integrations/stay_osm.py
+    public clients now honour the configurable network policy
+  frontend/src/features/trip/ActivityDetail.tsx
+    "nearby" only when actually within 1.5 km; real distances shown
+  frontend/src/styles.css
+
+Explicit non-claims
+-------------------
+* No physical-device testing.
+* No real payment executed.
+* VISIBLE_UI_TRACE.json is NOT included: the full visible chain was not driven.
+* Consumer booking import is not built.
+* Today / Live / Me cleanup and visual parity are partial.

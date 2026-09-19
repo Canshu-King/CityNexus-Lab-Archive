@@ -1,0 +1,3703 @@
+{
+  "summary": {
+    "corpus_size": 182,
+    "changed": 22,
+    "live_only": 8,
+    "b_only": 14,
+    "hard_fixed": 12,
+    "new_hard": 7,
+    "live_hard_total": 59,
+    "b_hard_total": 64,
+    "by_bucket": {
+      "clause_negation": {
+        "cases": 25,
+        "changed": 6,
+        "live_only": 6,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 5,
+        "live_hard": 16,
+        "b_hard": 11
+      },
+      "denial_vs_need": {
+        "cases": 28,
+        "changed": 5,
+        "live_only": 0,
+        "b_only": 5,
+        "hard_fixed": 4,
+        "new_hard": 0,
+        "live_hard": 7,
+        "b_hard": 11
+      },
+      "duplicate_multi": {
+        "cases": 12,
+        "changed": 1,
+        "live_only": 0,
+        "b_only": 1,
+        "hard_fixed": 0,
+        "new_hard": 0,
+        "live_hard": 10,
+        "b_hard": 10
+      },
+      "hard_vs_soft": {
+        "cases": 25,
+        "changed": 1,
+        "live_only": 1,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 1,
+        "live_hard": 7,
+        "b_hard": 6
+      },
+      "hearsay": {
+        "cases": 6,
+        "changed": 2,
+        "live_only": 0,
+        "b_only": 2,
+        "hard_fixed": 2,
+        "new_hard": 0,
+        "live_hard": 4,
+        "b_hard": 6
+      },
+      "hypothetical": {
+        "cases": 3,
+        "changed": 3,
+        "live_only": 0,
+        "b_only": 3,
+        "hard_fixed": 3,
+        "new_hard": 0,
+        "live_hard": 0,
+        "b_hard": 3
+      },
+      "mandated": {
+        "cases": 2,
+        "changed": 2,
+        "live_only": 0,
+        "b_only": 2,
+        "hard_fixed": 2,
+        "new_hard": 0,
+        "live_hard": 0,
+        "b_hard": 2
+      },
+      "mixed_language": {
+        "cases": 9,
+        "changed": 1,
+        "live_only": 0,
+        "b_only": 1,
+        "hard_fixed": 1,
+        "new_hard": 0,
+        "live_hard": 5,
+        "b_hard": 6
+      },
+      "provider_evidence": {
+        "cases": 5,
+        "changed": 0,
+        "live_only": 0,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 0,
+        "live_hard": 2,
+        "b_hard": 2
+      },
+      "rest_nap_window": {
+        "cases": 15,
+        "changed": 0,
+        "live_only": 0,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 0,
+        "live_hard": 0,
+        "b_hard": 0
+      },
+      "scope_permanence": {
+        "cases": 15,
+        "changed": 1,
+        "live_only": 1,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 1,
+        "live_hard": 6,
+        "b_hard": 5
+      },
+      "stroller_luggage": {
+        "cases": 10,
+        "changed": 0,
+        "live_only": 0,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 0,
+        "live_hard": 2,
+        "b_hard": 2
+      },
+      "walking_numeric": {
+        "cases": 27,
+        "changed": 0,
+        "live_only": 0,
+        "b_only": 0,
+        "hard_fixed": 0,
+        "new_hard": 0,
+        "live_hard": 0,
+        "b_hard": 0
+      }
+    },
+    "hard_fixed_examples": [
+      {
+        "id": "denial_vs_need-0021",
+        "text": "I don't need a wheelchair, I can walk fine",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-0023",
+        "text": "朋友说我可能需要轮椅，但我不这么认为",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "mandated-extra0001",
+        "text": "I don't need a wheelchair, I can walk",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "mandated-extra0002",
+        "text": "朋友说我可能需要轮椅，但我不这么认为",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-extra0004",
+        "text": "I don't use a wheelchair",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-extra0006",
+        "text": "no stairs problem for me, I'm fine",
+        "b": [
+          "AVOID_STAIRS"
+        ],
+        "live": []
+      },
+      {
+        "id": "hearsay-extra0013",
+        "text": "my colleague said I might need a wheelchair",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hearsay-extra0016",
+        "text": "同事说我也许需要轮椅",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hypothetical-extra0017",
+        "text": "if I get tired I might need a wheelchair",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hypothetical-extra0018",
+        "text": "如果累了可能需要轮椅",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hypothetical-extra0019",
+        "text": "maybe I should avoid stairs",
+        "b": [
+          "AVOID_STAIRS"
+        ],
+        "live": []
+      },
+      {
+        "id": "mixed_language-extra0061",
+        "text": "no stairs 不要楼梯，please",
+        "b": [
+          "AVOID_STAIRS"
+        ],
+        "live": []
+      }
+    ],
+    "new_hard_examples": [
+      {
+        "id": "clause_negation-0001",
+        "text": "轮椅必须全程无障碍，没有例外",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "clause_negation-0005",
+        "text": "我以前不用轮椅，但现在必须无障碍",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "clause_negation-0007",
+        "text": "过去我坐轮椅，现在必须全程无障碍",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "clause_negation-0009",
+        "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "clause_negation-0019",
+        "text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "scope_permanence-extra0044",
+        "text": "我一直坐轮椅，不是这次才需要",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "hard_vs_soft-extra0059",
+        "text": "必须全程无障碍，没有例外",
+        "b": [],
+        "live": [
+          "STEP_FREE_REQUIRED"
+        ]
+      }
+    ],
+    "regressions": [
+      {
+        "id": "denial_vs_need-0021",
+        "text": "I don't need a wheelchair, I can walk fine",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-0023",
+        "text": "朋友说我可能需要轮椅，但我不这么认为",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-0029",
+        "text": "no stroller this time, ignore that",
+        "b": [
+          "STROLLER"
+        ],
+        "live": []
+      },
+      {
+        "id": "mandated-extra0001",
+        "text": "I don't need a wheelchair, I can walk",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "mandated-extra0002",
+        "text": "朋友说我可能需要轮椅，但我不这么认为",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-extra0004",
+        "text": "I don't use a wheelchair",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "denial_vs_need-extra0006",
+        "text": "no stairs problem for me, I'm fine",
+        "b": [
+          "AVOID_STAIRS"
+        ],
+        "live": []
+      },
+      {
+        "id": "hearsay-extra0013",
+        "text": "my colleague said I might need a wheelchair",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hearsay-extra0016",
+        "text": "同事说我也许需要轮椅",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hypothetical-extra0017",
+        "text": "if I get tired I might need a wheelchair",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hypothetical-extra0018",
+        "text": "如果累了可能需要轮椅",
+        "b": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": []
+      },
+      {
+        "id": "hypothetical-extra0019",
+        "text": "maybe I should avoid stairs",
+        "b": [
+          "AVOID_STAIRS"
+        ],
+        "live": []
+      },
+      {
+        "id": "duplicate_multi-extra0049",
+        "text": "step-free access, no stairs, and a rest every 30 minutes",
+        "b": [
+          "AVOID_STAIRS",
+          "REST_EVERY_MIN",
+          "STEP_FREE_REQUIRED"
+        ],
+        "live": [
+          "REST_EVERY_MIN",
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      {
+        "id": "mixed_language-extra0061",
+        "text": "no stairs 不要楼梯，please",
+        "b": [
+          "AVOID_STAIRS"
+        ],
+        "live": []
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "clause_negation-0001",
+      "bucket": "clause_negation",
+      "text": "轮椅必须全程无障碍，没有例外",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "clause_negation-0002",
+      "bucket": "clause_negation",
+      "text": "轮椅必须全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0003",
+      "bucket": "clause_negation",
+      "text": "wheelchair, must be step-free, no exceptions",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0004",
+      "bucket": "clause_negation",
+      "text": "wheelchair, must be step-free",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0005",
+      "bucket": "clause_negation",
+      "text": "我以前不用轮椅，但现在必须无障碍",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "clause_negation-0006",
+      "bucket": "clause_negation",
+      "text": "我现在必须无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0007",
+      "bucket": "clause_negation",
+      "text": "过去我坐轮椅，现在必须全程无障碍",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "clause_negation-0008",
+      "bucket": "clause_negation",
+      "text": "现在必须全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0009",
+      "bucket": "clause_negation",
+      "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "clause_negation-0010",
+      "bucket": "clause_negation",
+      "text": "我用轮椅，必须全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0011",
+      "bucket": "clause_negation",
+      "text": "不是地铁，我需要出租车因为行李很多",
+      "b_codes": [],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "LARGE_LUGGAGE"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0012",
+      "bucket": "clause_negation",
+      "text": "我需要出租车因为行李很多",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0013",
+      "bucket": "clause_negation",
+      "text": "我不怕晒，但推着婴儿车，需要无障碍通道",
+      "b_codes": [
+        "STEP_FREE_REQUIRED",
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED",
+        "STROLLER"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0014",
+      "bucket": "clause_negation",
+      "text": "推着婴儿车，需要无障碍通道",
+      "b_codes": [
+        "STEP_FREE_REQUIRED",
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED",
+        "STROLLER"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0015",
+      "bucket": "clause_negation",
+      "text": "我们不吃肉，但宝宝下午一点必须睡午觉",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0016",
+      "bucket": "clause_negation",
+      "text": "宝宝下午一点必须睡午觉",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0017",
+      "bucket": "clause_negation",
+      "text": "我从来不坐电梯，只能走楼梯，但其实我走不了楼梯",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0018",
+      "bucket": "clause_negation",
+      "text": "我走不了楼梯",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-0019",
+      "bucket": "clause_negation",
+      "text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "clause_negation-0020",
+      "bucket": "clause_negation",
+      "text": "我坐轮椅，必须全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0021",
+      "bucket": "denial_vs_need",
+      "text": "I don't need a wheelchair, I can walk fine",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0022",
+      "bucket": "denial_vs_need",
+      "text": "I need a wheelchair, I cannot walk",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0023",
+      "bucket": "denial_vs_need",
+      "text": "朋友说我可能需要轮椅，但我不这么认为",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0024",
+      "bucket": "denial_vs_need",
+      "text": "我需要轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0025",
+      "bucket": "denial_vs_need",
+      "text": "说不定到时候我需要轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0026",
+      "bucket": "denial_vs_need",
+      "text": "我需要轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0027",
+      "bucket": "denial_vs_need",
+      "text": "if I end up in a wheelchair I'll tell you",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0028",
+      "bucket": "denial_vs_need",
+      "text": "I am in a wheelchair",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0029",
+      "bucket": "denial_vs_need",
+      "text": "no stroller this time, ignore that",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STROLLER"
+      ],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0030",
+      "bucket": "denial_vs_need",
+      "text": "we have a stroller this time",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0031",
+      "bucket": "denial_vs_need",
+      "text": "我没有怀孕，只是有点累",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0032",
+      "bucket": "denial_vs_need",
+      "text": "我怀孕了，需要多休息",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0033",
+      "bucket": "denial_vs_need",
+      "text": "这次没带大箱子，轻装",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0034",
+      "bucket": "denial_vs_need",
+      "text": "带了一个大箱子",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0035",
+      "bucket": "denial_vs_need",
+      "text": "I can't walk long distances, but honestly I'm fine",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0036",
+      "bucket": "denial_vs_need",
+      "text": "I can't walk long distances",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0037",
+      "bucket": "denial_vs_need",
+      "text": "如果我奶奶来，她可能走不了路",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0038",
+      "bucket": "denial_vs_need",
+      "text": "我奶奶走不了路",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0039",
+      "bucket": "denial_vs_need",
+      "text": "医生没说我不能走路",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-0040",
+      "bucket": "denial_vs_need",
+      "text": "医生说我不能走路",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0041",
+      "bucket": "hard_vs_soft",
+      "text": "我坐轮椅，必须全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0042",
+      "bucket": "hard_vs_soft",
+      "text": "我坐轮椅，最好全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0043",
+      "bucket": "hard_vs_soft",
+      "text": "我最多走 500 米，这是硬性要求",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0044",
+      "bucket": "hard_vs_soft",
+      "text": "我最多走 500 米，尽量吧",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0045",
+      "bucket": "hard_vs_soft",
+      "text": "绝对不能走楼梯",
+      "b_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0046",
+      "bucket": "hard_vs_soft",
+      "text": "尽量少走楼梯",
+      "b_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0047",
+      "bucket": "hard_vs_soft",
+      "text": "中午 12 点到 14 点必须回酒店休息",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0048",
+      "bucket": "hard_vs_soft",
+      "text": "中午能休息一下就更好了",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0049",
+      "bucket": "hard_vs_soft",
+      "text": "宝宝下午 1 点到 3 点必须睡午觉",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0050",
+      "bucket": "hard_vs_soft",
+      "text": "宝宝下午要是能睡一会儿就好了",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0051",
+      "bucket": "hard_vs_soft",
+      "text": "必须能推婴儿车，不然不行",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0052",
+      "bucket": "hard_vs_soft",
+      "text": "如果能推婴儿车就方便多了",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0053",
+      "bucket": "hard_vs_soft",
+      "text": "we must avoid stairs, we have two large suitcases",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0054",
+      "bucket": "hard_vs_soft",
+      "text": "it would be nice to avoid stairs with our suitcases",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0055",
+      "bucket": "hard_vs_soft",
+      "text": "每小时必须上一次厕所",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0056",
+      "bucket": "hard_vs_soft",
+      "text": "希望每小时能上个厕所",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0057",
+      "bucket": "hard_vs_soft",
+      "text": "必须有安静的空间，我不能待在嘈杂的地方",
+      "b_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0058",
+      "bucket": "hard_vs_soft",
+      "text": "安静一点会更好",
+      "b_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0059",
+      "bucket": "hard_vs_soft",
+      "text": "我父亲 80 岁，走不了远路，必须少走路",
+      "b_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-0060",
+      "bucket": "hard_vs_soft",
+      "text": "我父亲 80 岁，走远路会累",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0061",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 500 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0062",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 0 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0063",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 1 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0064",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 499 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0065",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 501 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0066",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 1000 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0067",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 10000 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0068",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 -5 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0069",
+      "bucket": "walking_numeric",
+      "text": "我最多走 500 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0070",
+      "bucket": "walking_numeric",
+      "text": "走路不能超过 500m，这是硬性要求",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0071",
+      "bucket": "walking_numeric",
+      "text": "每段不超过 500 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0072",
+      "bucket": "walking_numeric",
+      "text": "I cannot walk more than 500 metres per leg",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0073",
+      "bucket": "walking_numeric",
+      "text": "avoid long walks, under 400 m per leg",
+      "b_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0074",
+      "bucket": "walking_numeric",
+      "text": "我每天走路不能超过 3000 米",
+      "b_codes": [
+        "MAX_DAILY_WALKING_M"
+      ],
+      "live_codes": [
+        "MAX_DAILY_WALKING_M"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0075",
+      "bucket": "walking_numeric",
+      "text": "走 0.5 公里就不行了",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0076",
+      "bucket": "walking_numeric",
+      "text": "走 1 公里就不行了",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0077",
+      "bucket": "walking_numeric",
+      "text": "连续走不能超过 20 分钟",
+      "b_codes": [
+        "MAX_CONTINUOUS_WALKING_MIN"
+      ],
+      "live_codes": [
+        "MAX_CONTINUOUS_WALKING_MIN"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0078",
+      "bucket": "walking_numeric",
+      "text": "我走五分钟就得歇一下",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0079",
+      "bucket": "walking_numeric",
+      "text": "walking limit 500 m, no negotiation",
+      "b_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-0080",
+      "bucket": "walking_numeric",
+      "text": "我走路不能超过 五百 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0081",
+      "bucket": "rest_nap_window",
+      "text": "中午 12 点到 14 点必须回酒店休息",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0082",
+      "bucket": "rest_nap_window",
+      "text": "中午 12:00-14:00 必须回酒店休息",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0083",
+      "bucket": "rest_nap_window",
+      "text": "宝宝下午 1 点到 3 点必须睡午觉",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0084",
+      "bucket": "rest_nap_window",
+      "text": "I must rest at the hotel between 12:00 and 14:00",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0085",
+      "bucket": "rest_nap_window",
+      "text": "rest from 1pm to 3pm",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0086",
+      "bucket": "rest_nap_window",
+      "text": "the baby needs naptime at 13:00-15:00",
+      "b_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0087",
+      "bucket": "rest_nap_window",
+      "text": "老人中午必须休息两小时",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0088",
+      "bucket": "rest_nap_window",
+      "text": "午休从 13 点开始",
+      "b_codes": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "live_codes": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0089",
+      "bucket": "rest_nap_window",
+      "text": "我中午要午睡",
+      "b_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-0090",
+      "bucket": "rest_nap_window",
+      "text": "nap time is 2pm",
+      "b_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0091",
+      "bucket": "scope_permanence",
+      "text": "我终身不能走楼梯，这是永久性的",
+      "b_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0092",
+      "bucket": "scope_permanence",
+      "text": "这次旅行我走不了太多路",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0093",
+      "bucket": "scope_permanence",
+      "text": "我对花生过敏，一辈子都是",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0094",
+      "bucket": "scope_permanence",
+      "text": "这次行程中我尽量不吃花生",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0095",
+      "bucket": "scope_permanence",
+      "text": "我的腿伤是长期的",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0096",
+      "bucket": "scope_permanence",
+      "text": "我上周崴了脚，这趟先少走路",
+      "b_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_codes": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0097",
+      "bucket": "scope_permanence",
+      "text": "我每次出行都带大箱子",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0098",
+      "bucket": "scope_permanence",
+      "text": "这次我带了一个大箱子",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0099",
+      "bucket": "scope_permanence",
+      "text": "我怀孕 7 个月了",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-0100",
+      "bucket": "scope_permanence",
+      "text": "这趟旅行我容易累",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0101",
+      "bucket": "duplicate_multi",
+      "text": "我坐轮椅，必须无障碍。再说一次，我需要无障碍通道",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0102",
+      "bucket": "duplicate_multi",
+      "text": "我坐轮椅，必须无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0103",
+      "bucket": "duplicate_multi",
+      "text": "必须无障碍，其实无障碍就好",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0104",
+      "bucket": "duplicate_multi",
+      "text": "必须无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0105",
+      "bucket": "duplicate_multi",
+      "text": "我坐轮椅，而且不能走楼梯，还要每小时上厕所",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0106",
+      "bucket": "duplicate_multi",
+      "text": "我坐轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0107",
+      "bucket": "duplicate_multi",
+      "text": "我父亲走不了远路，我妈妈要午休，宝宝要睡午觉",
+      "b_codes": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "live_codes": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-0108",
+      "bucket": "duplicate_multi",
+      "text": "我父亲走不了远路",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-0109",
+      "bucket": "stroller_luggage",
+      "text": "我推着婴儿车，需要无障碍通道",
+      "b_codes": [
+        "STEP_FREE_REQUIRED",
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED",
+        "STROLLER"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-0110",
+      "bucket": "stroller_luggage",
+      "text": "stroller, need lifts everywhere",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-0111",
+      "bucket": "stroller_luggage",
+      "text": "带两个大箱子，不能走楼梯",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-0112",
+      "bucket": "stroller_luggage",
+      "text": "two large suitcases, need luggage storage",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-0113",
+      "bucket": "stroller_luggage",
+      "text": "婴儿车 + 大箱子，都要能放",
+      "b_codes": [
+        "LARGE_LUGGAGE",
+        "STROLLER"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE",
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-0114",
+      "bucket": "stroller_luggage",
+      "text": "we have a buggy and a suitcase",
+      "b_codes": [
+        "LARGE_LUGGAGE",
+        "STROLLER"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE",
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-0115",
+      "bucket": "mixed_language",
+      "text": "我妈妈 wheelchair，必须 step-free",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-0116",
+      "bucket": "mixed_language",
+      "text": "宝宝需要 nap，下午 1 点到 3 点",
+      "b_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-0117",
+      "bucket": "mixed_language",
+      "text": "my 爸爸 cannot walk 太久",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-0118",
+      "bucket": "mixed_language",
+      "text": "轮椅 wheelchair 全程 accessible",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-0119",
+      "bucket": "mixed_language",
+      "text": "大箱子 large luggage 不能走楼梯",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS",
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-0120",
+      "bucket": "mixed_language",
+      "text": "stroller 婴儿车 需要 elevator",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mandated-extra0001",
+      "bucket": "mandated",
+      "text": "I don't need a wheelchair, I can walk",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "mandated-extra0002",
+      "bucket": "mandated",
+      "text": "朋友说我可能需要轮椅，但我不这么认为",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0003",
+      "bucket": "denial_vs_need",
+      "text": "no wheelchair needed, I can walk fine",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0004",
+      "bucket": "denial_vs_need",
+      "text": "I don't use a wheelchair",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0005",
+      "bucket": "denial_vs_need",
+      "text": "I am not a wheelchair user",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0006",
+      "bucket": "denial_vs_need",
+      "text": "no stairs problem for me, I'm fine",
+      "b_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "AVOID_STAIRS"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0007",
+      "bucket": "denial_vs_need",
+      "text": "我不需要轮椅",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0008",
+      "bucket": "denial_vs_need",
+      "text": "我不用轮椅",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0009",
+      "bucket": "denial_vs_need",
+      "text": "我没有轮椅需求",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "denial_vs_need-extra0010",
+      "bucket": "denial_vs_need",
+      "text": "楼梯对我没问题",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hearsay-extra0011",
+      "bucket": "hearsay",
+      "text": "my friend needs a wheelchair, not me",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hearsay-extra0012",
+      "bucket": "hearsay",
+      "text": "my mother uses a wheelchair",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hearsay-extra0013",
+      "bucket": "hearsay",
+      "text": "my colleague said I might need a wheelchair",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "hearsay-extra0014",
+      "bucket": "hearsay",
+      "text": "我朋友需要轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hearsay-extra0015",
+      "bucket": "hearsay",
+      "text": "我妈妈坐轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hearsay-extra0016",
+      "bucket": "hearsay",
+      "text": "同事说我也许需要轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "hypothetical-extra0017",
+      "bucket": "hypothetical",
+      "text": "if I get tired I might need a wheelchair",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "hypothetical-extra0018",
+      "bucket": "hypothetical",
+      "text": "如果累了可能需要轮椅",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "hypothetical-extra0019",
+      "bucket": "hypothetical",
+      "text": "maybe I should avoid stairs",
+      "b_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "AVOID_STAIRS"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "provider_evidence-extra0020",
+      "bucket": "provider_evidence",
+      "text": "the station has an accessible toilet",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "provider_evidence-extra0021",
+      "bucket": "provider_evidence",
+      "text": "the venue has a ramp",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "provider_evidence-extra0022",
+      "bucket": "provider_evidence",
+      "text": "there is an elevator at the museum",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "provider_evidence-extra0023",
+      "bucket": "provider_evidence",
+      "text": "车站有无障碍厕所",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "provider_evidence-extra0024",
+      "bucket": "provider_evidence",
+      "text": "这里有坡道",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-extra0025",
+      "bucket": "clause_negation",
+      "text": "I used to need a wheelchair but not anymore",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-extra0026",
+      "bucket": "clause_negation",
+      "text": "I did not need help before, but now I need step-free access",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-extra0027",
+      "bucket": "clause_negation",
+      "text": "我以前不需要轮椅，现在也不需要",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-extra0028",
+      "bucket": "clause_negation",
+      "text": "not the metro, I need a taxi because of the luggage",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "clause_negation-extra0029",
+      "bucket": "clause_negation",
+      "text": "no allergies, but I use a wheelchair and need step-free access",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0030",
+      "bucket": "walking_numeric",
+      "text": "I can walk at most 400 metres at a time",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0031",
+      "bucket": "walking_numeric",
+      "text": "no more than 20 minutes of walking",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0032",
+      "bucket": "walking_numeric",
+      "text": "I can only walk 300 m per leg",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0033",
+      "bucket": "walking_numeric",
+      "text": "每段最多走 300 米",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0034",
+      "bucket": "walking_numeric",
+      "text": "连续走不超过 15 分钟",
+      "b_codes": [
+        "MAX_CONTINUOUS_WALKING_MIN"
+      ],
+      "live_codes": [
+        "MAX_CONTINUOUS_WALKING_MIN"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0035",
+      "bucket": "walking_numeric",
+      "text": "每天走路不要超过 5 公里",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "walking_numeric-extra0036",
+      "bucket": "walking_numeric",
+      "text": "max 5 km walking per day",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-extra0037",
+      "bucket": "rest_nap_window",
+      "text": "中午 12 点到 2 点要休息",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-extra0038",
+      "bucket": "rest_nap_window",
+      "text": "I need a rest between 12:00 and 14:00",
+      "b_codes": [],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-extra0039",
+      "bucket": "rest_nap_window",
+      "text": "孩子下午 1 点到 3 点要午睡",
+      "b_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_codes": [
+        "INFANT_NAP_WINDOW"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-extra0040",
+      "bucket": "rest_nap_window",
+      "text": "每 30 分钟要上一次厕所",
+      "b_codes": [
+        "TOILET_BREAK_EVERY_MIN"
+      ],
+      "live_codes": [
+        "TOILET_BREAK_EVERY_MIN"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "rest_nap_window-extra0041",
+      "bucket": "rest_nap_window",
+      "text": "a toilet break every 30 minutes",
+      "b_codes": [
+        "REST_EVERY_MIN",
+        "TOILET_BREAK_EVERY_MIN"
+      ],
+      "live_codes": [
+        "REST_EVERY_MIN",
+        "TOILET_BREAK_EVERY_MIN"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-extra0042",
+      "bucket": "scope_permanence",
+      "text": "我长期需要无障碍通道",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-extra0043",
+      "bucket": "scope_permanence",
+      "text": "I permanently need step-free access",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-extra0044",
+      "bucket": "scope_permanence",
+      "text": "我一直坐轮椅，不是这次才需要",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "scope_permanence-extra0045",
+      "bucket": "scope_permanence",
+      "text": "for this trip only I need step-free access",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "scope_permanence-extra0046",
+      "bucket": "scope_permanence",
+      "text": "这次旅行我需要无障碍通道",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-extra0047",
+      "bucket": "duplicate_multi",
+      "text": "wheelchair, must be step-free",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-extra0048",
+      "bucket": "duplicate_multi",
+      "text": "轮椅，必须全程无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-extra0049",
+      "bucket": "duplicate_multi",
+      "text": "step-free access, no stairs, and a rest every 30 minutes",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "REST_EVERY_MIN",
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "REST_EVERY_MIN",
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "AVOID_STAIRS"
+      ],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "duplicate_multi-extra0050",
+      "bucket": "duplicate_multi",
+      "text": "需要无障碍、不要楼梯、每 30 分钟休息",
+      "b_codes": [
+        "AVOID_STAIRS",
+        "REST_EVERY_MIN",
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "AVOID_STAIRS",
+        "REST_EVERY_MIN",
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "AVOID_STAIRS",
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-extra0051",
+      "bucket": "stroller_luggage",
+      "text": "travelling with a stroller",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-extra0052",
+      "bucket": "stroller_luggage",
+      "text": "带着婴儿车",
+      "b_codes": [
+        "STROLLER"
+      ],
+      "live_codes": [
+        "STROLLER"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-extra0053",
+      "bucket": "stroller_luggage",
+      "text": "I have very large luggage",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "stroller_luggage-extra0054",
+      "bucket": "stroller_luggage",
+      "text": "行李很多很大",
+      "b_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_codes": [
+        "LARGE_LUGGAGE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-extra0055",
+      "bucket": "hard_vs_soft",
+      "text": "I'd prefer a quiet environment",
+      "b_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-extra0056",
+      "bucket": "hard_vs_soft",
+      "text": "我更喜欢安静的地方",
+      "b_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_codes": [
+        "QUIET_ENVIRONMENT"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-extra0057",
+      "bucket": "hard_vs_soft",
+      "text": "slow pace would be nice",
+      "b_codes": [
+        "SLOW_PACE"
+      ],
+      "live_codes": [
+        "SLOW_PACE"
+      ],
+      "live_hard": [],
+      "b_hard": [],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-extra0058",
+      "bucket": "hard_vs_soft",
+      "text": "I must have step-free access, no exceptions",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "hard_vs_soft-extra0059",
+      "bucket": "hard_vs_soft",
+      "text": "必须全程无障碍，没有例外",
+      "b_codes": [],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [],
+      "changed": true,
+      "live_only": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": true
+    },
+    {
+      "id": "mixed_language-extra0060",
+      "bucket": "mixed_language",
+      "text": "must be step-free 必须无障碍",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-extra0061",
+      "bucket": "mixed_language",
+      "text": "no stairs 不要楼梯，please",
+      "b_codes": [
+        "AVOID_STAIRS"
+      ],
+      "live_codes": [],
+      "live_hard": [],
+      "b_hard": [
+        "AVOID_STAIRS"
+      ],
+      "changed": true,
+      "live_only": [],
+      "b_only": [
+        "AVOID_STAIRS"
+      ],
+      "live_false_hard_fixed": true,
+      "live_new_hard": false
+    },
+    {
+      "id": "mixed_language-extra0062",
+      "bucket": "mixed_language",
+      "text": "轮椅 wheelchair needed",
+      "b_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_codes": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "live_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b_hard": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "changed": false,
+      "live_only": [],
+      "b_only": [],
+      "live_false_hard_fixed": false,
+      "live_new_hard": false
+    }
+  ]
+}

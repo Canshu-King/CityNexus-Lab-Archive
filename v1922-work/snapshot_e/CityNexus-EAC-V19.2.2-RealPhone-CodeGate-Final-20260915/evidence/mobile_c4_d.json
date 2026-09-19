@@ -1,0 +1,42 @@
+{
+ "viewports": [
+  {
+   "viewport": "390x844",
+   "route": "/v8/authoritative",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "recovery_panel_present": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "route": "/v8/authoritative",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "recovery_panel_present": false,
+   "page_errors": []
+  }
+ ],
+ "flows": [
+  {
+   "viewport": "390x844",
+   "flow": "C4_ANCHORED_JOURNEY",
+   "import": 201,
+   "confirm": 200,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200
+  },
+  {
+   "viewport": "430x932",
+   "flow": "C4_ANCHORED_JOURNEY",
+   "import": 201,
+   "confirm": 200,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200
+  }
+ ]
+}

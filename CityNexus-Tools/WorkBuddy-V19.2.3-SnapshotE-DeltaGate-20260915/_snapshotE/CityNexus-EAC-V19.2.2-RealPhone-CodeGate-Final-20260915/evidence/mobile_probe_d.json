@@ -1,0 +1,120 @@
+{
+ "viewports": [
+  {
+   "viewport": "390x844",
+   "route": "/v8/authoritative",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "recovery_panel_present": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "route": "/v8/authoritative",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "recovery_panel_present": false,
+   "page_errors": []
+  }
+ ],
+ "flows": [
+  {
+   "viewport": "390x844",
+   "flow": "C4_ANCHORED_JOURNEY",
+   "import": 201,
+   "confirm": 200,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status": "ACTIVE"
+  },
+  {
+   "viewport": "390x844",
+   "flow": "MIDTRIP_HARD_RECOVERY",
+   "start_before": 200,
+   "confirm_status": 200,
+   "confirm_recovery": "RECOVERY_REQUIRED",
+   "experience_recovery": "RECOVERY_REQUIRED",
+   "experience_needs_review": true,
+   "ui_panel_visible": true,
+   "ui_replan_action": true,
+   "ui_acknowledge_action": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "STALE_EVIDENCE_WARNING",
+   "start_status": 409,
+   "start_message": "STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired",
+   "journey_status_after": "PLANNED",
+   "experience_flags_staleness": true,
+   "ui_panel_visible": true,
+   "ui_title": "Trip evidence needs re-syncing",
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "GPS_ALLOWED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "GPS_DENIED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "C4_ANCHORED_JOURNEY",
+   "import": 201,
+   "confirm": 200,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status": "ACTIVE"
+  },
+  {
+   "viewport": "430x932",
+   "flow": "MIDTRIP_HARD_RECOVERY",
+   "start_before": 200,
+   "confirm_status": 200,
+   "confirm_recovery": "RECOVERY_REQUIRED",
+   "experience_recovery": "RECOVERY_REQUIRED",
+   "experience_needs_review": true,
+   "ui_panel_visible": true,
+   "ui_replan_action": true,
+   "ui_acknowledge_action": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "STALE_EVIDENCE_WARNING",
+   "start_status": 409,
+   "start_message": "STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired",
+   "journey_status_after": "PLANNED",
+   "experience_flags_staleness": true,
+   "ui_panel_visible": true,
+   "ui_title": "Trip evidence needs re-syncing",
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "GPS_ALLOWED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "GPS_DENIED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  }
+ ]
+}

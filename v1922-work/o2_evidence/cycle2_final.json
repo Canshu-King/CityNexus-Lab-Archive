@@ -1,0 +1,134 @@
+{
+ "cases": [
+  {
+   "case": "A-no-journey",
+   "routes": {
+    "/": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/hub": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/trips": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/live": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/agent": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/map": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/me": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/stay": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/bookings": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/authoritative": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/studio": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/discover": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/intelligence": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    },
+    "/v8/twin": {
+     "len": 135,
+     "blank": false,
+     "setup": 1,
+     "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好"
+    }
+   },
+   "blankRoutes": [],
+   "nonSetupRoutes": [],
+   "errors": []
+  },
+  {
+   "case": "B-no-plan",
+   "jid": "70dff961-5dea-4a33-97c7-4e2b6f1e6269",
+   "backend": {
+    "active_plan": null,
+    "selected_option_id": null,
+    "options": 10
+   },
+   "hub": {
+    "caveat": "以下只是其中一个候选方案的预览，你还没有采用它。",
+    "glanceEmpty": 0,
+    "stay": "还没有选定",
+    "glanceRow": "第 1 天 Friday 厦门高崎国际机场 · Check in · 圣西罗洒店 · Overnight · 圣西罗洒店 TRANSIT ARRIVAL锚点 第 2 天 Saturday Overnight · 圣西罗洒店 WALK STAY锚点 第 3 天 Sunday Check out · 圣"
+   },
+   "studio": {
+    "previewCaveat": "以下只是候选方案的预览，你还没有采用它。",
+    "selectedStayBlock": 0,
+    "asideHeading": "尚未选择住宿 选择住宿",
+    "stayTotal": "尚未选择",
+    "costLines": "住宿总计 尚未选择 日均出行 尚未选择 步行暴露 尚未选择 方案健康度 尚未选择",
+    "feasibility": "尚未核对 你还没有选定方案，因此没有可核对的内容。先选定方案——CityNexus 不会宣称没有做过的检查。",
+    "noPlanChecked": 1
+   },
+   "tripsSpend": {
+    "stayTotal": "还没有选定住宿"
+   },
+   "stayExplorer": {
+    "cards": 0,
+    "firstCard": "",
+    "priceUnknown": 0,
+    "priceKnown": 0,
+    "cancellation": "",
+    "body": "菜单 / 行程 EN XI 行程 住宿 预订 花费 行程 还没有可看的行程 这个行程还没有选定的方案。先让 AI 帮你规划，选定方案后这里会显示逐日安排。 AI 帮我规划 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的"
+   },
+   "errors": []
+  }
+ ],
+ "errors": [],
+ "jid": "70dff961-5dea-4a33-97c7-4e2b6f1e6269"
+}

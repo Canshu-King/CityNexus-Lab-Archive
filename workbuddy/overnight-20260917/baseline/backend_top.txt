@@ -1,0 +1,46 @@
+﻿
+Name                       Mode  
+----                       ----  
+.pytest_cache              d-----
+.ruff_cache                d-----
+.venv                      d-----
+app                        d-----
+citynexus_backend.egg-info d-----
+data                       d-----
+db                         d-----
+tests                      d-----
+__pycache__                d-----
+citynexus.db               -a----
+pyproject.toml             -a----
+uv.lock                    -a----
+_autopilot_iso.db          -a----
+_future_check.db           -a----
+_future_check.py           -a----
+_gate_test.db              -a----
+_server_8000.log           -a----
+_v10_agent_serial.db       -a----
+_v10_backend_after_push.db -a----
+_v10_e2e_final.db          -a----
+_v10_e2e_final_2.db        -a----
+_v10_e2e_final_3.db        -a----
+_v10_final_e2e_ui.db       -a----
+_v10_final_e2e_ui_2.db     -a----
+_v10_final_validation.db   -a----
+_v10_full_serial_2.db      -a----
+_v10_full_serial_3.db      -a----
+_v10_full_serial_4.db      -a----
+_v10_inbox_ui.db           -a----
+_v10_inbox_ui_2.db         -a----
+_v10_sequence.db           -a----
+_v10_sequence_2.db         -a----
+_v10_serial.db             -a----
+_v10_ui.db                 -a----
+_v10_v5_final.db           -a----
+_v10_v6_final.db           -a----
+_v10_v9_final.db           -a----
+_v10_v9_final_2.db         -a----
+_v10_v9_serial.db          -a----
+_v10_visual.db             -a----
+
+
+

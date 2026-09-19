@@ -1,0 +1,11 @@
+﻿=== EAC src writes since 09:01 @ 10:48:03 ===
+10:44:50  frontend\src\features\inbox\JourneyInboxWorkbench.tsx
+10:44:20  frontend\src\app\V8Experience.tsx
+10:18:31  frontend\src\features\agent\CopilotDock.tsx
+count: 3
+=== final zip check ===
+Continuation-Final exists: False
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917.zip  6.69MB  2026/9/17 8:36:43
+CityNexus-EAC-Overnight-Continuation-NoEarlyExit-20260917.zip  16.70MB  2026/9/17 1:07:03
+CityNexus-WorkBuddy-GLM53Flash-Overnight-RedTeam-20260917.zip  16.03MB  2026/9/17 0:51:26
+CityNexus-EAC-Overnight-Product-Breakthrough-Mission-20260917.zip  0.02MB  2026/9/17 0:33:00

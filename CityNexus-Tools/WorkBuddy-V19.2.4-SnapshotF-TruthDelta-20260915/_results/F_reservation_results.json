@@ -1,0 +1,81 @@
+{
+  "D01": {
+    "before": {
+      "R-1": "CONFIRMED",
+      "R-2": "CONFIRMED"
+    },
+    "migration_raised": null,
+    "verdict": "PASS",
+    "after": {
+      "R-1": "CONFIRMED",
+      "R-2": "QUARANTINED_DUPLICATE_IDENTITY"
+    },
+    "events": [
+      {
+        "id": "60bb06e4b5d6934087adf5abdfa762a7",
+        "event_type": "USER_CHANGE",
+        "status": "RESOLVED"
+      }
+    ],
+    "expected": "startup migration must not crash on legacy duplicates"
+  },
+  "D02": {
+    "helper_event_type": "RESERVATION_IDENTITY_DUPLICATE",
+    "allowed_event_types": "TRAFFIC_DELAY, CLOSURE, WEATHER, SCHEDULE_DELAY, SERVICE_UNAVAILABLE, USER_CHANGE, OTHER",
+    "event_type_in_vocabulary": false,
+    "before": {
+      "R-1": "CONFIRMED",
+      "R-2": "CONFIRMED"
+    },
+    "detected_before": [
+      {
+        "journey_id": "J-1",
+        "confirmation_ref": "CONF-DUPE-1",
+        "reservation_ids": [
+          "R-1",
+          "R-2"
+        ],
+        "winner_id": "R-1",
+        "quarantined_ids": [
+          "R-2"
+        ],
+        "repaired": false
+      }
+    ],
+    "raised": null,
+    "repaired": [
+      {
+        "journey_id": "J-1",
+        "confirmation_ref": "CONF-DUPE-1",
+        "reservation_ids": [
+          "R-1",
+          "R-2"
+        ],
+        "winner_id": "R-1",
+        "quarantined_ids": [
+          "R-2"
+        ],
+        "repaired": true
+      }
+    ],
+    "after_commit": {
+      "R-1": "CONFIRMED",
+      "R-2": "QUARANTINED_DUPLICATE_IDENTITY"
+    },
+    "events_after": [
+      {
+        "id": "647f6c7a-a3fd-4acb-bfb3-4bfa1cf4aaea",
+        "event_type": "USER_CHANGE",
+        "status": "RESOLVED"
+      }
+    ],
+    "expected": "must write a valid audit Event, quarantine losers, preserve evidence",
+    "verdict": "PASS"
+  },
+  "D03": {
+    "db_used": "D01 database (loser already quarantined by migration)",
+    "still_detected_after_quarantine": [],
+    "expected": "quarantined losers must be excluded from future duplicate detection",
+    "verdict": "PASS"
+  }
+}

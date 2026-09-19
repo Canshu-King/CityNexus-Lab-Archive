@@ -1,0 +1,185 @@
+=== V15 Night Lab — test evidence ===
+date: 2026-09-14T01:56:08+08:00
+python: 3.12.14
+workspace: D://moodle//CityNexus-Tools//WorkBuddy-V15-NightLab-20260914
+
+### 1. FOCUSED V15 RUN (reference implementation present)
+command: python -m pytest tests/test_v15_copilot_semantic_contract.py tests/test_v15_copilot_authority_boundary.py tests/test_v15_copilot_v14_gaps.py tests/test_v15_cross_city_genericity.py -q -rxX
+
+............................................................xxxxxxxxxxxx [ 77%]
+...............xxxxxx                                                    [100%]
+============================== warnings summary ===============================
+..\..\..\_citynexus_v14_env\Lib\site-packages\fastapi\testclient.py:1
+
+..\..\..\_citynexus_v14_env\Lib\site-packages\starlette\testclient.py:53
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_explain_plan_creates_no_event - V14 gap: every >=8-char free-text command fabricates a WEATHER Event
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_hypothetical_rain_creates_no_event - V14 gap: every >=8-char free-text command fabricates a WEATHER Event
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_discover_creates_no_event - V14 gap: every >=8-char free-text command fabricates a WEATHER Event
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_preference_change_creates_no_event - V14 gap: every >=8-char free-text command fabricates a WEATHER Event
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_authority_override_phrase_creates_no_event - V14 gap: every >=8-char free-text command fabricates a WEATHER Event
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_short_chinese_question_is_accepted - V14 gap: command min_length=8 rejects short Chinese messages with 422
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_short_present_tense_disruption_is_not_dropped - V14 gap: command min_length=8 rejects short Chinese messages with 422
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_short_road_closure_is_not_dropped - V14 gap: command min_length=8 rejects short Chinese messages with 422
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_road_closure_is_traffic_not_weather - V14 gap: traffic token list misses 封闭/道路封闭, so closures become WEATHER
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_zh_and_en_preference_have_the_same_event_decision - V14 gap: command min_length=8 rejects short Chinese messages with 422
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_non_chinese_asian_journey_does_not_get_a_chinese_reply[JP-TOKYO-Asia/Tokyo-JPY-2026-10-01T09:00:00+09:00-2026-10-03T18:00:00+09:00] - V14 gap: copilot locale uses timezone.startswith('Asia/'), so Tokyo/Singapore get Chinese
+XFAIL tests/test_v15_copilot_v14_gaps.py::test_non_chinese_asian_journey_does_not_get_a_chinese_reply[SG-SINGAPORE-Asia/Singapore-SGD-2026-10-01T09:00:00+08:00-2026-10-03T18:00:00+08:00] - V14 gap: copilot locale uses timezone.startswith('Asia/'), so Tokyo/Singapore get Chinese
+XFAIL tests/test_v15_cross_city_genericity.py::test_asian_non_chinese_city_does_not_get_a_chinese_reply[SG-SINGAPORE-Asia/Singapore-SGD-en-2026-10-01T09:00:00+08:00-2026-10-03T18:00:00+08:00] - cross-city gap: Asia/* timezone forces the Chinese copilot locale
+XFAIL tests/test_v15_cross_city_genericity.py::test_asian_non_chinese_city_does_not_get_a_chinese_reply[JP-TOKYO-Asia/Tokyo-JPY-ja-2026-10-01T09:00:00+09:00-2026-10-03T18:00:00+09:00] - cross-city gap: Asia/* timezone forces the Chinese copilot locale
+XFAIL tests/test_v15_cross_city_genericity.py::test_london_journey_does_not_receive_a_tianjin_place_hint - cross-city gap: 海河沿线 is injected into non-Tianjin journeys
+XFAIL tests/test_v15_cross_city_genericity.py::test_english_budget_keyword_is_recognised - cross-city gap: deterministic money regex misses the English word 'budget'
+XFAIL tests/test_v15_cross_city_genericity.py::test_mission_cost_bound_carries_a_currency - cross-city gap: mission cost bound carries no currency and assumes 2 decimals
+XFAIL tests/test_v15_cross_city_genericity.py::test_jpy_bound_is_not_scaled_as_if_it_had_two_decimals - cross-city gap: mission cost bound carries no currency and assumes 2 decimals
+75 passed, 18 xfailed, 2 warnings in 7.33s
+
+### 2. ONE BROAD BACKEND RUN (whole backend/tests, no V15 filter)
+command: python -m pytest tests/ -q --no-header -p no:cacheprovider
+
+........................................................................ [ 14%]
+.................................s...................................... [ 29%]
+........................................................................ [ 44%]
+........................................................................ [ 59%]
+.............................xxxxxxxxxxxx...............xxxxxx.......... [ 73%]
+....s................................................................... [ 88%]
+.......................................................                  [100%]
+============================== warnings summary ===============================
+..\..\..\_citynexus_v14_env\Lib\site-packages\fastapi\testclient.py:1
+
+..\..\..\_citynexus_v14_env\Lib\site-packages\starlette\testclient.py:53
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+467 passed, 2 skipped, 18 xfailed, 2 warnings in 113.43s (0:01:53)
+[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {"count":122,"threshold":50,"scope":"turn","targets":["\\\\?\\C:\\Users\\仓鼠王\\AppData\\Local\\Temp\\pytest-of-仓鼠王\\garbage-632ac9bd-6ce1-4813-bb9f-2962e6c8318a"],"targetCount":1}
+Exception ignored in atexit callback: <function cleanup_numbered_dir at 0x0000017B54AE58A0>
+Traceback (most recent call last):
+  File "D:\moodle\_citynexus_v14_env\Lib\site-packages\_pytest\pathlib.py", line 370, in cleanup_numbered_dir
+    try_cleanup(path, consider_lock_dead_if_created_before)
+  File "D:\moodle\_citynexus_v14_env\Lib\site-packages\_pytest\pathlib.py", line 341, in try_cleanup
+    maybe_delete_a_numbered_dir(path)
+  File "D:\moodle\_citynexus_v14_env\Lib\site-packages\_pytest\pathlib.py", line 293, in maybe_delete_a_numbered_dir
+    rm_rf(garbage)
+  File "D:\moodle\_citynexus_v14_env\Lib\site-packages\_pytest\pathlib.py", line 168, in rm_rf
+    shutil.rmtree(str(path), onexc=onerror)
+  File "C:\Program Files\WorkBuddyAI\resources\app.asar.unpacked\cli\vendor\shim\sitecustomize.py", line 1144, in _safe_shutil_rmtree
+    _try_trash(abs_path, recursive=True)
+  File "C:\Program Files\WorkBuddyAI\resources\app.asar.unpacked\cli\vendor\shim\sitecustomize.py", line 967, in _try_trash
+    _check_bulk_delete_guard(abs_path)
+  File "C:\Program Files\WorkBuddyAI\resources\app.asar.unpacked\cli\vendor\shim\sitecustomize.py", line 851, in _check_bulk_delete_guard
+    _exit_bulk_guard_control(
+  File "C:\Program Files\WorkBuddyAI\resources\app.asar.unpacked\cli\vendor\shim\sitecustomize.py", line 826, in _exit_bulk_guard_control
+    raise SystemExit(1)
+SystemExit: 1
+
+### 2b. NOTE ON THE TRAILING TRACEBACK ABOVE
+The `[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED]` / `SystemExit: 1` lines that follow
+the pytest summary are NOT a test failure and NOT a product defect. They come from this
+sandbox's own file-deletion shim (sitecustomize.py), which raises SystemExit(1) when
+pytest's atexit hook tries to garbage-collect its numbered tmp directories
+(`%TEMP%\pytest-of-*`) after the session already finished. The session itself had
+already reported: 467 passed, 2 skipped, 18 xfailed.
+
+### 2c. BROAD RUN INTERPRETATION
+- 467 passed / 2 skipped / 18 xfailed / 0 failed / 0 errors
+- The 18 xfailed are the V15 named-gap ledger (see section 1 and test_v15_copilot_v14_gaps.py).
+  xfail(strict=False) means: "expected to fail on V14 today; if Codex fixes it, the test
+  XPASSes and stays green rather than breaking the build."
+- The 2 skipped are environment-gated (importorskip / optional runtime), not regressions.
+- No test in the pre-existing V14 suite was broken by the V15 additions.
+
+### 3. PATCH VERIFICATION — fresh pristine V14 tree (re-verified after the
+###    continuation-queue additions of 2026-09-14 ~02:00)
+baseline: D:/moodle/_v14_trial_release_stage_20260914_012126/CityNexus/backend
+verify root: D:/moodle/CityNexus-Tools/_v15_patch_verify2  (backend/ only, 206 files)
+all 8 patch target paths confirmed ABSENT before applying (nothing to conflict with)
+
+git apply --check patches/V15_COPILOT_TESTS_ONLY.patch
+    Checking patch backend/tests/v15_copilot_helpers.py...
+    Checking patch backend/tests/_v15_semantic_cases.py...
+    Checking patch backend/tests/test_v15_copilot_semantic_contract.py...
+    Checking patch backend/tests/test_v15_copilot_authority_boundary.py...
+    Checking patch backend/tests/test_v15_copilot_v14_gaps.py...
+    Checking patch backend/tests/test_v15_cross_city_genericity.py...
+    Checking patch backend/tests/test_v15_semantic_contrast.py...
+    -> clean, 7/7 new files
+
+git apply --check patches/V15_REFERENCE_IMPLEMENTATION_OPTIONAL.patch
+    Checking patch backend/app/agent/semantic_router.py...
+    -> clean, 1/1 new file
+
+--- RUN A: tests-only applied, tree has NO router (worst case for the patch) ---
+27 passed, 2 skipped, 18 xfailed, 2 warnings in 6.03s
+The 2 skipped are the two importorskip modules (semantic contract + contrast).
+=> the tests-only patch is safe to apply BEFORE the router exists.
+
+--- RUN B: tests-only + reference router both applied ---
+118 passed, 2 skipped, 18 xfailed, 2 warnings in 6.60s
+
+Note: pytest was pointed at the five V15 test modules explicitly. A whole-directory
+run inside this verify root also collects pre-existing V14 tests that read
+../data and ../tools, which were not copied into the scratch tree; those two
+collection errors are an artefact of the scratch copy, not of the patch.
+
+### 4. CONTINUATION-QUEUE ADDITIONS (2026-09-14)
+item 2  zh/en translation-invariance pairs .................. 20/20 invariant
+item 3  what-if vs real-disruption contrast fixtures ........ 10/10 separated
+item 4  explain vs request-change contrast fixtures ......... 10/10 separated
+item 5  cross-city locale/currency/city leakage ............. found + documented (see CROSS_CITY_GENERICITY_FINDINGS.md)
+item 7  script-layer benchmark runner ....................... tools/v15_benchmark/ (5 scripts, offline-capable)
+
+reference router after the continuation-queue fixes, on the unchanged 213 cases:
+  intent 99.1%  policy 96.7%  confirmation 97.7%  event boundary 100.0%
+  event_false_positives 0   authority_override_permissive 0   confirmation_missed 1
+  => no regression from the additions.
+
+### 5. LIVE BROWSER USER-JOURNEY TRIAL (real Chromium, isolated stack)
+stack: vite 4173 -> uvicorn 8010 -> this workspace's own citynexus.db
+(Codex's own servers on 5173 / 8000 were left untouched)
+script: frontend/_v15_trial/ui_trial.mjs
+raw   : evidence/ui_trial/trial_report.json,
+        evidence/ui_trial/authoritative_state_after_ai_desk.json,
+        12 screenshots in evidence/ui_trial/
+
+  console errors .................. 0
+  uncaught page errors ............ 0
+  HTTP 4xx/5xx requests ........... 0
+  desktop routes walked ........... 10 / 10 rendered
+  mobile shell (390x844) .......... renders
+
+AI desk, typed into the real textarea, authoritative state read back from the
+backend afterwards (journey c7787d9a-b821-4e65-bc08-4133cf89884b):
+
+  input                                        len  sent?   result
+  ------------------------------------------------------------------------
+  product's own demo command                   42   yes     TRAFFIC_DELAY MAJOR USER_REPORTED
+  "如果下雨会怎样？"  (What if it rains?)        8   yes     WEATHER MAJOR USER_REPORTED   <-- HYPOTHETICAL
+  "现在正在下雨。"    (It is raining now.)       7   NO      submit button disabled
+  "现在正在下雨了。"  (same, padded to 8)        8   yes     WEATHER MAJOR
+  "我想少走路。"      (I want to walk less.)     6   NO      submit button disabled
+
+The stored payload for row 2 is literally:
+  {"description": "如果下雨会怎样？", "event_type": "WEATHER", "severity": "MAJOR",
+   "provenance": "USER_REPORTED", "source": "agent_command"}
+
+So the two boundaries the V15 brief names both FAIL in the real UI:
+  * a hypothetical question becomes a permanent, user-reported MAJOR weather event;
+  * a real 7-character disruption report never leaves the browser.
+The length gate is exactly 8 characters: 6 and 7 are refused, 8 is accepted.
+
+Standing mission created from "现在正在下雨了。":
+  trigger_event_id = null            <-- not bound to the WEATHER event it caused
+  preferences = {"indoor": true}     <-- a statement compiled into a preference
+  compiler.provider_key = "deterministic", model_key = "mission-compiler-v2-fallback",
+  confidence = 1.0                   <-- a fallback advertising certainty
+
+CORRECTION RECORDED: a first pass of this trial reported the 8-character
+hypothetical as blocked as well. That was a defect in the test, not the product —
+it sampled the button while the previous 42-character submit was still in flight
+(`disabled={busy || command.trim().length < 8}`). The script now waits for the
+button label to return to its idle value ("Handle this plan") before every probe.
+Only the corrected numbers are used above; the superseded screenshot is kept as
+`_superseded_first_pass_c_short_real_rain.png`.

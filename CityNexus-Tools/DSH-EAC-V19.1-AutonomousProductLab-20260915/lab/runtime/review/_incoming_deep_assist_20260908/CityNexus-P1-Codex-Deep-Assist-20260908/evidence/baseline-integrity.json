@@ -1,0 +1,96 @@
+{
+  "sourceReviewZip": "CityNexus-P1-Route-Repair-V3-Codex-Review-20260908.zip",
+  "sourceReviewZipSha256": "941765ab65b2015e5f8641338e71bfd0d29bb6573501cdbfb1544365c3ea090b",
+  "candidateSha256": "8c1661ebb1a9d5a371f48ef800316dd643f391beec559eb2a4b8065eed75182d",
+  "semanticSha256": "6e2b9876177803f05a9397dfa6d4d64da1d2feac01f3946925864f64fc6d24c5",
+  "candidateMetadataStatus": "PLANNING_REQUIRED",
+  "frozenExtendSnapshot": {
+    "EXT-07-06": {
+      "id": "EXT-07-06",
+      "connectorType": "extend",
+      "source": "UC-07",
+      "target": "UC-06",
+      "sourceSide": "TOP",
+      "targetSide": "BOTTOM",
+      "sourcePortFraction": 0.5,
+      "targetPortFraction": 0.5,
+      "waypoints": [
+        [
+          17.2,
+          6.6
+        ],
+        [
+          8.3,
+          6.6
+        ],
+        [
+          8.3,
+          9.7
+        ],
+        [
+          11.1,
+          9.7
+        ]
+      ],
+      "planningStatus": "FROZEN_FROM_C4E1"
+    },
+    "EXT-09-08": {
+      "id": "EXT-09-08",
+      "connectorType": "extend",
+      "source": "UC-09",
+      "target": "UC-08",
+      "sourceSide": "TOP",
+      "targetSide": "BOTTOM",
+      "sourcePortFraction": 0.5,
+      "targetPortFraction": 0.5,
+      "waypoints": [
+        [
+          17.2,
+          10.2
+        ],
+        [
+          7.5,
+          10.2
+        ],
+        [
+          7.5,
+          13.4
+        ],
+        [
+          11.1,
+          13.4
+        ]
+      ],
+      "planningStatus": "FROZEN_FROM_C4E1"
+    },
+    "EXT-10-09": {
+      "id": "EXT-10-09",
+      "connectorType": "extend",
+      "source": "UC-10",
+      "target": "UC-09",
+      "sourceSide": "TOP",
+      "targetSide": "BOTTOM",
+      "sourcePortFraction": 0.5,
+      "targetPortFraction": 0.5,
+      "waypoints": [
+        [
+          23.3,
+          9.4
+        ],
+        [
+          27.0,
+          9.4
+        ],
+        [
+          27.0,
+          14.2
+        ],
+        [
+          17.2,
+          14.2
+        ]
+      ],
+      "planningStatus": "FROZEN_FROM_C4E1"
+    }
+  }
+}

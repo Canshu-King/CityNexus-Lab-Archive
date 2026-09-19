@@ -1,0 +1,19 @@
+{
+  "path": "D:\\moodle\\CityNexus-Tools\\smoke\\visioautomation-custom-property-smoke.vsdx",
+  "property": "Prop.SpecId",
+  "expected": "TEST-PROP-SPEC-ID",
+  "comFormulaU": "\"TEST-PROP-SPEC-ID\"",
+  "comResult": "TEST-PROP-SPEC-ID",
+  "comStatus": "PASS",
+  "xmlRowFound": true,
+  "xmlValueFormula": "TEST-PROP-SPEC-ID",
+  "xmlStatus": "PASS",
+  "vsdxValue": "UNSUPPORTED",
+  "vsdxStatus": "UNSUPPORTED",
+  "formulaErrors": {
+    "VALUE": 0,
+    "REF": 0,
+    "NAME": 0
+  },
+  "errors": []
+}

@@ -1,0 +1,37 @@
+{
+  "A_ARRIVAL_1230_with_0900_POI": {
+    "gate_passed": true,
+    "failures": [],
+    "effective_window": [
+      "09:00",
+      "19:00"
+    ],
+    "expected": "gate must FAIL (POI before confirmed arrival)",
+    "verdict": "FAIL"
+  },
+  "B_DEPARTURE_1530_with_1700_POI": {
+    "gate_passed": true,
+    "failures": [],
+    "effective_window": [
+      "09:00",
+      "19:00"
+    ],
+    "expected": "gate must FAIL (POI after confirmed departure)",
+    "verdict": "FAIL"
+  },
+  "C_CONTROL_clean_plan": {
+    "gate_passed": true,
+    "failures": [],
+    "note": "control: a genuinely clean plan should pass; a gate that fails here would be unusable"
+  },
+  "D_ARRIVAL_AFTER_DEPARTURE": {
+    "gate_passed": true,
+    "failures": [],
+    "effective_window": [
+      "09:00",
+      "19:00"
+    ],
+    "expected": "gate must FAIL with a precise ordering conflict",
+    "verdict": "FAIL"
+  }
+}

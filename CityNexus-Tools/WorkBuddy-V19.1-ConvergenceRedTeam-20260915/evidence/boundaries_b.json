@@ -1,0 +1,1096 @@
+{
+ "snapshot": "B",
+ "control": {
+  "generate_status": 201,
+  "plans": 3
+ },
+ "max_walking_per_leg_m": {
+  "zero": {
+   "params_sent": {
+    "max_m": 0
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 0
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "one": {
+   "params_sent": {
+    "max_m": 1
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 1
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "100": {
+   "params_sent": {
+    "max_m": 100
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 100
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "499": {
+   "params_sent": {
+    "max_m": 499
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 499
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "500": {
+   "params_sent": {
+    "max_m": 500
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 500
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "501": {
+   "params_sent": {
+    "max_m": 501
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 501
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "1000": {
+   "params_sent": {
+    "max_m": 1000
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 1000
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "10000": {
+   "params_sent": {
+    "max_m": 10000
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 10000
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "negative": {
+   "params_sent": {
+    "max_m": -1
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": -1
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "huge": {
+   "params_sent": {
+    "max_m": 1000000000000
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 1000000000000
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "string_500": {
+   "params_sent": {
+    "max_m": "500"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": "500"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "string_500m": {
+   "params_sent": {
+    "max_m": "500m"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": "500m"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "null": {
+   "params_sent": {
+    "max_m": null
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": null
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing_key": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "float": {
+   "params_sent": {
+    "max_m": 500.7
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 500.7
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 15,
+   "blocked": 15,
+   "accepted": 0
+  }
+ },
+ "max_continuous_walking_min": {
+  "zero_min": {
+   "params_sent": {
+    "max_min": 0
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 0
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "one_min": {
+   "params_sent": {
+    "max_min": 1
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 1
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "30_min": {
+   "params_sent": {
+    "max_min": 30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 30
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "negative": {
+   "params_sent": {
+    "max_min": -10
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": -10
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "string": {
+   "params_sent": {
+    "max_min": "30"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": "30"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 6,
+   "blocked": 6,
+   "accepted": 0
+  }
+ },
+ "max_daily_walking_m": {
+  "1000_m": {
+   "params_sent": {
+    "max_m": 1000
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 1000
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "zero": {
+   "params_sent": {
+    "max_m": 0
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": 0
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "negative": {
+   "params_sent": {
+    "max_m": -5
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_m": -5
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 4,
+   "blocked": 4,
+   "accepted": 0
+  }
+ },
+ "midday_rest_window": {
+  "normal_12_14": {
+   "params_sent": {
+    "start": "12:00",
+    "end": "14:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "14:00",
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "narrow_12_1215": {
+   "params_sent": {
+    "start": "12:00",
+    "end": "12:15"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "12:15",
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "whole_day": {
+   "params_sent": {
+    "start": "00:00",
+    "end": "23:59"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "23:59",
+    "start": "00:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "end_before_start": {
+   "params_sent": {
+    "start": "14:00",
+    "end": "12:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "12:00",
+    "start": "14:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "equal": {
+   "params_sent": {
+    "start": "12:00",
+    "end": "12:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "12:00",
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "cross_midnight": {
+   "params_sent": {
+    "start": "22:00",
+    "end": "02:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "02:00",
+    "start": "22:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "minutes_ints": {
+   "params_sent": {
+    "start": 720,
+    "end": 840
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": 840,
+    "start": 720
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "out_of_range": {
+   "params_sent": {
+    "start": "25:00",
+    "end": "26:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "26:00",
+    "start": "25:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "malformed": {
+   "params_sent": {
+    "start": "noon",
+    "end": "2pm"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "2pm",
+    "start": "noon"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing_both": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "only_start": {
+   "params_sent": {
+    "start": "12:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "iso_datetimes": {
+   "params_sent": {
+    "start": "2026-10-10T12:00:00+08:00",
+    "end": "2026-10-10T14:00:00+08:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "2026-10-10T14:00:00+08:00",
+    "start": "2026-10-10T12:00:00+08:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 12,
+   "blocked": 12,
+   "accepted": 0
+  }
+ },
+ "infant_nap_window": {
+  "normal_12_14": {
+   "params_sent": {
+    "start": "12:00",
+    "end": "14:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "14:00",
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "narrow_12_1215": {
+   "params_sent": {
+    "start": "12:00",
+    "end": "12:15"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "12:15",
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "whole_day": {
+   "params_sent": {
+    "start": "00:00",
+    "end": "23:59"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "23:59",
+    "start": "00:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "end_before_start": {
+   "params_sent": {
+    "start": "14:00",
+    "end": "12:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "12:00",
+    "start": "14:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "equal": {
+   "params_sent": {
+    "start": "12:00",
+    "end": "12:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "12:00",
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "cross_midnight": {
+   "params_sent": {
+    "start": "22:00",
+    "end": "02:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "02:00",
+    "start": "22:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "minutes_ints": {
+   "params_sent": {
+    "start": 720,
+    "end": 840
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": 840,
+    "start": 720
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "out_of_range": {
+   "params_sent": {
+    "start": "25:00",
+    "end": "26:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "26:00",
+    "start": "25:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "malformed": {
+   "params_sent": {
+    "start": "noon",
+    "end": "2pm"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "2pm",
+    "start": "noon"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing_both": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "only_start": {
+   "params_sent": {
+    "start": "12:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "start": "12:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "iso_datetimes": {
+   "params_sent": {
+    "start": "2026-10-10T12:00:00+08:00",
+    "end": "2026-10-10T14:00:00+08:00"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "end": "2026-10-10T14:00:00+08:00",
+    "start": "2026-10-10T12:00:00+08:00"
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 12,
+   "blocked": 12,
+   "accepted": 0
+  }
+ },
+ "rest_every_min": {
+  "every_30": {
+   "params_sent": {
+    "max_min": 30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 30
+   },
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "every_0": {
+   "params_sent": {
+    "max_min": 0
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 0
+   },
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "every_negative": {
+   "params_sent": {
+    "max_min": -30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": -30
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "every_string": {
+   "params_sent": {
+    "max_min": "45"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": "45"
+   },
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "every_wrong_key": {
+   "params_sent": {
+    "every_min": 30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "every_min": 30
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 6,
+   "blocked": 3,
+   "accepted": 3
+  }
+ },
+ "toilet_break_every_min": {
+  "every_30": {
+   "params_sent": {
+    "max_min": 30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 30
+   },
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "every_0": {
+   "params_sent": {
+    "max_min": 0
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": 0
+   },
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "every_negative": {
+   "params_sent": {
+    "max_min": -30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": -30
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "every_string": {
+   "params_sent": {
+    "max_min": "45"
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "max_min": "45"
+   },
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "every_wrong_key": {
+   "params_sent": {
+    "every_min": 30
+   },
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {
+    "every_min": 30
+   },
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "missing": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "_summary": {
+   "total": 6,
+   "blocked": 3,
+   "accepted": 3
+  }
+ },
+ "evidence_symmetry": {
+  "stroller_metadata_absent": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "stroller_explicitly_denied": {
+   "params_sent": {},
+   "place_metadata": {
+    "stroller_accessible": false
+   },
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "stroller_explicitly_allowed": {
+   "params_sent": {},
+   "place_metadata": {
+    "stroller_accessible": true
+   },
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "luggage_metadata_absent": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "luggage_explicitly_denied": {
+   "params_sent": {},
+   "place_metadata": {
+    "luggage_accessible": false
+   },
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "luggage_explicitly_allowed": {
+   "params_sent": {},
+   "place_metadata": {
+    "luggage_accessible": true
+   },
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  },
+  "step_free_metadata_absent": {
+   "params_sent": {},
+   "place_metadata": null,
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "step_free_explicitly_denied": {
+   "params_sent": {},
+   "place_metadata": {
+    "step_free": false
+   },
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 422,
+   "plans": 0,
+   "gate_blocked": true,
+   "gate_message": "No feasible plan candidates satisfy the journey constraints"
+  },
+  "step_free_explicitly_allowed": {
+   "params_sent": {},
+   "place_metadata": {
+    "step_free": true
+   },
+   "declare_status": 200,
+   "persisted_params": {},
+   "persisted": true,
+   "generate_status": 201,
+   "plans": 3,
+   "gate_blocked": false,
+   "gate_message": null
+  }
+ }
+}

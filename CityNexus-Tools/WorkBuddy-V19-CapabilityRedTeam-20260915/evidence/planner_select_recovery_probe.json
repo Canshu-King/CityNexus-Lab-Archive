@@ -1,0 +1,1785 @@
+[
+ {
+  "case": "SETUP_ADD_ON_DRAFT",
+  "add_status": 201,
+  "note": "DRAFT journey: add-time gate has nothing to validate"
+ },
+ {
+  "case": "SETUP_GENERATE",
+  "gen_status": 422,
+  "plan_count": null
+ },
+ {
+  "case": "SOFT_VERIFIED_STEP_FREE_NO_EFFECT",
+  "soft_identical_to_baseline": true,
+  "note": "declaring a SOFT step-free requirement changes nothing at all"
+ },
+ {
+  "case": "RECOVERY_PROPOSAL_SUPPORTED_HARD",
+  "status": "PRESENTED",
+  "hard_constraints_passed": true,
+  "locked_commitments_preserved": true,
+  "utility_score": 0.7038,
+  "diff": {
+   "candidate_family": "F0_SAME_SLOT_REPLACEMENT",
+   "kept": [
+    "place-food-hall",
+    "place-old-town",
+    "place-river-cruise",
+    "place-riverside-museum",
+    "place-skyline-dinner"
+   ],
+   "moved": [],
+   "removed": [
+    "place-tech-art"
+   ],
+   "added": [
+    "place-design-library"
+   ],
+   "cost_delta_minor": -3000,
+   "travel_delta_min": -5,
+   "end_time_delta_min": 0,
+   "preserved_protected": [
+    "place-river-cruise"
+   ],
+   "before_feasibility_envelope": {
+    "next_commitment_buffer_min": null,
+    "journey_end_slack_min": 30,
+    "budget_remaining_minor": 13000,
+    "preserved_commitment_count": 0,
+    "degraded_providers": [],
+    "risk_reason_codes": [],
+    "robust": true
+   },
+   "after_feasibility_envelope": {
+    "next_commitment_buffer_min": null,
+    "journey_end_slack_min": 30,
+    "budget_remaining_minor": 16000,
+    "preserved_commitment_count": 0,
+    "degraded_providers": [],
+    "risk_reason_codes": [],
+    "robust": true
+   },
+   "opportunity_window_evidence": null,
+   "verified_evidence": {
+    "family": "F0_SAME_SLOT_REPLACEMENT",
+    "baseline_plan_evidence": {
+     "plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "snapshot_id": "45f2fa81-72b8-4a8f-93d4-4bbf84c75f6c",
+     "captured_at": "2026-09-15T02:29:40.764337+00:00",
+     "source_provider": "mock-mobility",
+     "runtime_label": null,
+     "immutable": true
+    },
+    "incident_recovery_evidence": {
+     "evidence_id": "incident:748240d8-55ad-4347-a81f-e2f1a1cb769a:c37b0ace-7709-4a7f-865a-3a8376dc1f51",
+     "event_id": "748240d8-55ad-4347-a81f-e2f1a1cb769a",
+     "event_type": "CLOSURE",
+     "event_occurred_at": "2026-10-10T09:00:00+0800",
+     "captured_at": "2026-10-10T09:00:00+08:00",
+     "route_provenance": "RUNTIME_CAPTURE",
+     "source_provider": "mock-mobility",
+     "degraded": false,
+     "baseline_snapshot_id": "45f2fa81-72b8-4a8f-93d4-4bbf84c75f6c",
+     "mobility_reused_from_baseline": false,
+     "routing_conditions_assumption": "CAPTURED_AT_INCIDENT",
+     "mobility_snapshot": {
+      "snapshot_id": "c37b0ace-7709-4a7f-865a-3a8376dc1f51",
+      "operation_key": "replan:748240d8-55ad-4347-a81f-e2f1a1cb769a:incident",
+      "captured_at": "2026-10-10T09:00:00+08:00",
+      "source_provider": "mock-mobility",
+      "degraded": false,
+      "provider_capabilities": {},
+      "facts": [
+       {
+        "origin_key": "place-city-park",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.202,
+          39.113
+         ],
+         [
+          117.20599999999999,
+          39.1165
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-design-library",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.207,
+          39.117
+         ],
+         [
+          117.20849999999999,
+          39.1185
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-city-park",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.1985,
+          39.1115
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-design-library",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.201,
+          39.1135
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.20249999999999,
+          39.114999999999995
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-tech-art",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.19999999999999,
+          39.1125
+         ],
+         [
+          117.205,
+          39.115
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-city-park",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.191,
+          39.1065
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-design-library",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.1935,
+          39.1085
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-riverside-museum",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.185,
+          39.1025
+         ],
+         [
+          117.19,
+          39.105
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-river-cruise",
+        "destination_key": "place-skyline-dinner",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.21,
+          39.12
+         ],
+         [
+          117.2125,
+          39.1225
+         ],
+         [
+          117.215,
+          39.125
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-riverside-museum",
+        "destination_key": "place-food-hall",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.19,
+          39.105
+         ],
+         [
+          117.1925,
+          39.1075
+         ],
+         [
+          117.195,
+          39.11
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-tech-art",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.205,
+          39.115
+         ],
+         [
+          117.2075,
+          39.1175
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       }
+      ]
+     },
+     "weather": null,
+     "provider_capabilities": {},
+     "provider_observation_id": "642f1f7b-f18d-4e70-b346-7fd67bf82ea9"
+    },
+    "impact_resolution": {
+     "status": "VALIDATED",
+     "maturity_stage": "VALIDATED_IMPACT",
+     "provider_key": "deterministic",
+     "model_key": "server-rules",
+     "selected_activity_id": "98af0be5-966b-5f49-b699-5dfdceea8ab6",
+     "primary_recovery_target_id": "98af0be5-966b-5f49-b699-5dfdceea8ab6",
+     "secondary_risk_activity_ids": [],
+     "selected_corroboration_refs": [
+      "event.payload.place_id"
+     ],
+     "independent_evidence_count": 1,
+     "uncertain": false,
+     "reason_codes": [
+      "DETERMINISTIC_IMPACT_VALIDATION_PASSED",
+      "VALIDATED_IMPACT_EVIDENCE"
+     ],
+     "rejected_activity_ids": [],
+     "failure_code": null,
+     "response_hash": null,
+     "semantic_reason": "Structured event mapping was sufficient.",
+     "semantic_explanation": "The event place matches a place on the active Journey plan."
+    },
+    "generation_rank": 0,
+    "generator": {
+     "kind": "DETERMINISTIC_HEURISTIC",
+     "solver_status": "DISABLED",
+     "fallback_reason": "SOLVER_DISABLED",
+     "problem_fingerprint": null,
+     "mobility_snapshot_id": "c37b0ace-7709-4a7f-865a-3a8376dc1f51",
+     "rank": 0
+    },
+    "feasibility_authority": "CITYNEXUS_DETERMINISTIC_GATE",
+    "feasible": true,
+    "hard_constraint_result": {
+     "passed": true,
+     "failures": []
+    },
+    "commitment_preservation": {
+     "preserved": true,
+     "protected_count": 0
+    },
+    "stability": {
+     "score": 0.666667,
+     "moved_count": 0,
+     "removed_count": 1,
+     "added_count": 1
+    },
+    "budget": {
+     "remaining_minor": 16000,
+     "currency": "CNY"
+    },
+    "mobility": {
+     "travel_delta_min": -5,
+     "provider": "mock-mobility",
+     "degraded": false,
+     "snapshot": {
+      "snapshot_id": "c37b0ace-7709-4a7f-865a-3a8376dc1f51",
+      "operation_key": "replan:748240d8-55ad-4347-a81f-e2f1a1cb769a:incident",
+      "captured_at": "2026-10-10T09:00:00+08:00",
+      "source_provider": "mock-mobility",
+      "degraded": false,
+      "provider_capabilities": {},
+      "facts": [
+       {
+        "origin_key": "place-city-park",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.202,
+          39.113
+         ],
+         [
+          117.20599999999999,
+          39.1165
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-design-library",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.207,
+          39.117
+         ],
+         [
+          117.20849999999999,
+          39.1185
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-city-park",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.1985,
+          39.1115
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-design-library",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.201,
+          39.1135
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.20249999999999,
+          39.114999999999995
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-tech-art",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.19999999999999,
+          39.1125
+         ],
+         [
+          117.205,
+          39.115
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-city-park",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.191,
+          39.1065
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-design-library",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.1935,
+          39.1085
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-riverside-museum",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.185,
+          39.1025
+         ],
+         [
+          117.19,
+          39.105
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-river-cruise",
+        "destination_key": "place-skyline-dinner",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.21,
+          39.12
+         ],
+         [
+          117.2125,
+          39.1225
+         ],
+         [
+          117.215,
+          39.125
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-riverside-museum",
+        "destination_key": "place-food-hall",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.19,
+          39.105
+         ],
+         [
+          117.1925,
+          39.1075
+         ],
+         [
+          117.195,
+          39.11
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-tech-art",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.205,
+          39.115
+         ],
+         [
+          117.2075,
+          39.1175
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       }
+      ]
+     },
+     "failed_primary_pairs": [],
+     "fallback_pairs": []
+    },
+    "time": {
+     "journey_end_slack_min": 30,
+     "end_time_delta_min": 0
+    },
+    "preference": {
+     "fit": 0.36
+    },
+    "opportunity": {
+     "value": null,
+     "evidence": null
+    },
+    "reason_codes": [
+     "COMMITMENT_PRESERVED",
+     "DISRUPTED_ACTIVITY_REPLACED",
+     "INDOOR_ALTERNATIVE",
+     "MINIMAL_DISRUPTION",
+     "MINIMAL_SCHEDULE_CHANGE"
+    ]
+   },
+   "reason_codes": [
+    "COMMITMENT_PRESERVED",
+    "DISRUPTED_ACTIVITY_REPLACED",
+    "INDOOR_ALTERNATIVE",
+    "MINIMAL_DISRUPTION",
+    "MINIMAL_SCHEDULE_CHANGE"
+   ],
+   "execution_partition": {
+    "terminal_prefix_ids": [],
+    "current_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+    "c4_anchor_ids": [],
+    "mutable_suffix_ids": [
+     "abe4e842-249e-516f-ac43-b41695083792",
+     "61e3096d-89bc-5702-ab7d-21ad8289c1ee",
+     "98af0be5-966b-5f49-b699-5dfdceea8ab6",
+     "74f10240-fc4d-500e-b6ac-e520bcab1036",
+     "2cbb2a5d-fe92-5400-b91b-7a6f69e41837"
+    ]
+   }
+  },
+  "explanation": "{'summary': 'Reality-aware recovery proposal', 'reasons': ['provider-backed recovery evidence', 'F0_SAME_SLOT_REPLACEMENT', 'Structured event mapping was sufficient.'], 'impact_type': 'CLOSURE', 'impact_provider': 'deterministic', 'impact_model': 'server-rules', 'baseline_snapshot_id': '45f2fa81-72b"
+ },
+ {
+  "case": "RECOVERY_WITH_PLACE_BLOCKED",
+  "status": "PRESENTED",
+  "hard_constraints_passed": true,
+  "locked_commitments_preserved": true,
+  "utility_score": 0.7038,
+  "diff": {
+   "candidate_family": "F0_SAME_SLOT_REPLACEMENT",
+   "kept": [
+    "place-food-hall",
+    "place-old-town",
+    "place-river-cruise",
+    "place-riverside-museum",
+    "place-skyline-dinner"
+   ],
+   "moved": [],
+   "removed": [
+    "place-tech-art"
+   ],
+   "added": [
+    "place-design-library"
+   ],
+   "cost_delta_minor": -3000,
+   "travel_delta_min": -5,
+   "end_time_delta_min": 0,
+   "preserved_protected": [
+    "place-river-cruise"
+   ],
+   "before_feasibility_envelope": {
+    "next_commitment_buffer_min": null,
+    "journey_end_slack_min": 30,
+    "budget_remaining_minor": 13000,
+    "preserved_commitment_count": 0,
+    "degraded_providers": [],
+    "risk_reason_codes": [],
+    "robust": true
+   },
+   "after_feasibility_envelope": {
+    "next_commitment_buffer_min": null,
+    "journey_end_slack_min": 30,
+    "budget_remaining_minor": 16000,
+    "preserved_commitment_count": 0,
+    "degraded_providers": [],
+    "risk_reason_codes": [],
+    "robust": true
+   },
+   "opportunity_window_evidence": null,
+   "verified_evidence": {
+    "family": "F0_SAME_SLOT_REPLACEMENT",
+    "baseline_plan_evidence": {
+     "plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "snapshot_id": "6ab8a60e-6928-4f0b-807e-842155b95e7e",
+     "captured_at": "2026-09-15T02:29:40.878892+00:00",
+     "source_provider": "mock-mobility",
+     "runtime_label": null,
+     "immutable": true
+    },
+    "incident_recovery_evidence": {
+     "evidence_id": "incident:6342fc32-2751-49a8-af05-0f13d6baf779:6cfe61b1-857d-4fdb-ba2c-9244f3654ef2",
+     "event_id": "6342fc32-2751-49a8-af05-0f13d6baf779",
+     "event_type": "CLOSURE",
+     "event_occurred_at": "2026-10-10T09:00:00+0800",
+     "captured_at": "2026-10-10T09:00:00+08:00",
+     "route_provenance": "RUNTIME_CAPTURE",
+     "source_provider": "mock-mobility",
+     "degraded": false,
+     "baseline_snapshot_id": "6ab8a60e-6928-4f0b-807e-842155b95e7e",
+     "mobility_reused_from_baseline": false,
+     "routing_conditions_assumption": "CAPTURED_AT_INCIDENT",
+     "mobility_snapshot": {
+      "snapshot_id": "6cfe61b1-857d-4fdb-ba2c-9244f3654ef2",
+      "operation_key": "replan:6342fc32-2751-49a8-af05-0f13d6baf779:incident",
+      "captured_at": "2026-10-10T09:00:00+08:00",
+      "source_provider": "mock-mobility",
+      "degraded": false,
+      "provider_capabilities": {},
+      "facts": [
+       {
+        "origin_key": "place-city-park",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.202,
+          39.113
+         ],
+         [
+          117.20599999999999,
+          39.1165
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-design-library",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.207,
+          39.117
+         ],
+         [
+          117.20849999999999,
+          39.1185
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-city-park",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.1985,
+          39.1115
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-design-library",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.201,
+          39.1135
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.20249999999999,
+          39.114999999999995
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-tech-art",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.19999999999999,
+          39.1125
+         ],
+         [
+          117.205,
+          39.115
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-city-park",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.191,
+          39.1065
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-design-library",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.1935,
+          39.1085
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-riverside-museum",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.185,
+          39.1025
+         ],
+         [
+          117.19,
+          39.105
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-river-cruise",
+        "destination_key": "place-skyline-dinner",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.21,
+          39.12
+         ],
+         [
+          117.2125,
+          39.1225
+         ],
+         [
+          117.215,
+          39.125
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-riverside-museum",
+        "destination_key": "place-food-hall",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.19,
+          39.105
+         ],
+         [
+          117.1925,
+          39.1075
+         ],
+         [
+          117.195,
+          39.11
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-tech-art",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.205,
+          39.115
+         ],
+         [
+          117.2075,
+          39.1175
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       }
+      ]
+     },
+     "weather": null,
+     "provider_capabilities": {},
+     "provider_observation_id": "39c1fec2-aa45-4059-95b5-9bffda935125"
+    },
+    "impact_resolution": {
+     "status": "VALIDATED",
+     "maturity_stage": "VALIDATED_IMPACT",
+     "provider_key": "deterministic",
+     "model_key": "server-rules",
+     "selected_activity_id": "98af0be5-966b-5f49-b699-5dfdceea8ab6",
+     "primary_recovery_target_id": "98af0be5-966b-5f49-b699-5dfdceea8ab6",
+     "secondary_risk_activity_ids": [],
+     "selected_corroboration_refs": [
+      "event.payload.place_id"
+     ],
+     "independent_evidence_count": 1,
+     "uncertain": false,
+     "reason_codes": [
+      "DETERMINISTIC_IMPACT_VALIDATION_PASSED",
+      "VALIDATED_IMPACT_EVIDENCE"
+     ],
+     "rejected_activity_ids": [],
+     "failure_code": null,
+     "response_hash": null,
+     "semantic_reason": "Structured event mapping was sufficient.",
+     "semantic_explanation": "The event place matches a place on the active Journey plan."
+    },
+    "generation_rank": 0,
+    "generator": {
+     "kind": "DETERMINISTIC_HEURISTIC",
+     "solver_status": "DISABLED",
+     "fallback_reason": "SOLVER_DISABLED",
+     "problem_fingerprint": null,
+     "mobility_snapshot_id": "6cfe61b1-857d-4fdb-ba2c-9244f3654ef2",
+     "rank": 0
+    },
+    "feasibility_authority": "CITYNEXUS_DETERMINISTIC_GATE",
+    "feasible": true,
+    "hard_constraint_result": {
+     "passed": true,
+     "failures": []
+    },
+    "commitment_preservation": {
+     "preserved": true,
+     "protected_count": 0
+    },
+    "stability": {
+     "score": 0.666667,
+     "moved_count": 0,
+     "removed_count": 1,
+     "added_count": 1
+    },
+    "budget": {
+     "remaining_minor": 16000,
+     "currency": "CNY"
+    },
+    "mobility": {
+     "travel_delta_min": -5,
+     "provider": "mock-mobility",
+     "degraded": false,
+     "snapshot": {
+      "snapshot_id": "6cfe61b1-857d-4fdb-ba2c-9244f3654ef2",
+      "operation_key": "replan:6342fc32-2751-49a8-af05-0f13d6baf779:incident",
+      "captured_at": "2026-10-10T09:00:00+08:00",
+      "source_provider": "mock-mobility",
+      "degraded": false,
+      "provider_capabilities": {},
+      "facts": [
+       {
+        "origin_key": "place-city-park",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.202,
+          39.113
+         ],
+         [
+          117.20599999999999,
+          39.1165
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-design-library",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.207,
+          39.117
+         ],
+         [
+          117.20849999999999,
+          39.1185
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-city-park",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.1985,
+          39.1115
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-design-library",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.201,
+          39.1135
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.20249999999999,
+          39.114999999999995
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-food-hall",
+        "destination_key": "place-tech-art",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.195,
+          39.11
+         ],
+         [
+          117.19999999999999,
+          39.1125
+         ],
+         [
+          117.205,
+          39.115
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-city-park",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.191,
+          39.1065
+         ],
+         [
+          117.202,
+          39.113
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-design-library",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.1935,
+          39.1085
+         ],
+         [
+          117.207,
+          39.117
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-old-town",
+        "destination_key": "place-riverside-museum",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.18,
+          39.1
+         ],
+         [
+          117.185,
+          39.1025
+         ],
+         [
+          117.19,
+          39.105
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-river-cruise",
+        "destination_key": "place-skyline-dinner",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.21,
+          39.12
+         ],
+         [
+          117.2125,
+          39.1225
+         ],
+         [
+          117.215,
+          39.125
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-riverside-museum",
+        "destination_key": "place-food-hall",
+        "minutes": 15,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.19,
+          39.105
+         ],
+         [
+          117.1925,
+          39.1075
+         ],
+         [
+          117.195,
+          39.11
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       },
+       {
+        "origin_key": "place-tech-art",
+        "destination_key": "place-river-cruise",
+        "minutes": 20,
+        "provider": "mock-mobility",
+        "captured_at": "2026-10-10T09:00:00+08:00",
+        "degraded": false,
+        "fallback_reason": null,
+        "route_geometry": [
+         [
+          117.205,
+          39.115
+         ],
+         [
+          117.2075,
+          39.1175
+         ],
+         [
+          117.21,
+          39.12
+         ]
+        ],
+        "geometry_provider": "mock-mobility",
+        "route_provenance": "SYNTHETIC_FIXTURE",
+        "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+        "time_basis": "PROVIDER_CAPTURED_AT",
+        "distance_m": null
+       }
+      ]
+     },
+     "failed_primary_pairs": [],
+     "fallback_pairs": []
+    },
+    "time": {
+     "journey_end_slack_min": 30,
+     "end_time_delta_min": 0
+    },
+    "preference": {
+     "fit": 0.36
+    },
+    "opportunity": {
+     "value": null,
+     "evidence": null
+    },
+    "reason_codes": [
+     "COMMITMENT_PRESERVED",
+     "DISRUPTED_ACTIVITY_REPLACED",
+     "INDOOR_ALTERNATIVE",
+     "MINIMAL_DISRUPTION",
+     "MINIMAL_SCHEDULE_CHANGE"
+    ]
+   },
+   "reason_codes": [
+    "COMMITMENT_PRESERVED",
+    "DISRUPTED_ACTIVITY_REPLACED",
+    "INDOOR_ALTERNATIVE",
+    "MINIMAL_DISRUPTION",
+    "MINIMAL_SCHEDULE_CHANGE"
+   ],
+   "execution_partition": {
+    "terminal_prefix_ids": [],
+    "current_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+    "c4_anchor_ids": [],
+    "mutable_suffix_ids": [
+     "abe4e842-249e-516f-ac43-b41695083792",
+     "61e3096d-89bc-5702-ab7d-21ad8289c1ee",
+     "98af0be5-966b-5f49-b699-5dfdceea8ab6",
+     "74f10240-fc4d-500e-b6ac-e520bcab1036",
+     "2cbb2a5d-fe92-5400-b91b-7a6f69e41837"
+    ]
+   }
+  },
+  "explanation": "{'summary': 'Reality-aware recovery proposal', 'reasons': ['provider-backed recovery evidence', 'F0_SAME_SLOT_REPLACEMENT', 'Structured event mapping was sufficient.'], 'impact_type': 'CLOSURE', 'impact_provider': 'deterministic', 'impact_model': 'server-rules', 'baseline_snapshot_id': '6ab8a60e-692"
+ },
+ {
+  "case": "RECOVERY_PROPOSAL_PLACES",
+  "places": [
+   "place-old-town",
+   "place-riverside-museum",
+   "place-food-hall",
+   "place-design-library",
+   "place-river-cruise",
+   "place-skyline-dinner"
+  ],
+  "blocked_place_still_present": false,
+  "note": "a blocked place reappearing in the recovery proposal means recovery ignores the constraint"
+ },
+ {
+  "case": "C4_RECOVERY_GENERATE",
+  "gen_status": 201,
+  "plan_count": 3
+ },
+ {
+  "case": "C4_CONFLICT_EVENT",
+  "event_status": 201,
+  "event_id": "290451a7-5380-42fe-92ea-a546450b2d9d"
+ },
+ {
+  "case": "C4_CONFLICT_REPLAN",
+  "replan_status": 422,
+  "status": null,
+  "hard_constraints_passed": null,
+  "locked_commitments_preserved": null,
+  "utility_score": null,
+  "diff": null,
+  "explanation": "None"
+ },
+ {
+  "case": "C4_CONFLICT_SURFACE",
+  "message": "{'error': {'code': 'VALIDATION_ERROR', 'message': 'closed activity is protected and cannot be replaced automatically', 'trace_id': '6e9db0fa-326d-4baf-ae80-2c9dfdc6bd60', 'details': None}}",
+  "note": "C4-protected closure is refused; the capability dimension is never mentioned"
+ }
+]

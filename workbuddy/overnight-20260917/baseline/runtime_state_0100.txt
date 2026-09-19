@@ -1,0 +1,41 @@
+﻿=== features tree ===
+agent\AgentComposer.tsx 11551
+agent\AgentRunRail.tsx 698
+agent\CopilotDock.tsx 24635
+discovery\RealCityDiscoveryPanel.tsx 10796
+execution\LiveRecovery.tsx 10319
+execution\V10LiveExecutionPanel.tsx 3111
+execution\V12AuthoritativeJourneyPanel.tsx 5365
+execution\V12StatePrimitives.tsx 3485
+inbox\BookingArtifactScanner.tsx 1566
+inbox\JourneyInboxWorkbench.tsx 19678
+intelligence\ControlTowerPanel.tsx 3025
+mobility\MobilitySheet.tsx 2185
+notifications\PushCapabilityCard.tsx 2166
+planning\PlanComparison.tsx 7405
+planning\PlanWithAiSheet.tsx 8194
+recovery\RecoveryRequiredPanel.tsx 6030
+recovery\V14RecoveryTruthPanel.tsx 6493
+setup\JourneyTrialSetup.tsx 22447
+stay\HotelsPanel.tsx 8352
+stay\StayExplorer.tsx 3370
+studio\SortableActivityList.tsx 2221
+studio\V12TripStudioPanel.tsx 4968
+traveler-twin\TwinPanel.tsx 2783
+trip\ActivityDetail.tsx 9547
+trip\TripItinerary.tsx 9442
+=== listening ports (node/python) ===
+port 8000 pid 56296 python
+port 5173 pid 30000 node
+=== frontend package.json scripts ===
+
+
+dev             : vite
+build           : vite build
+test:e2e        : playwright test
+storybook       : set STORYBOOK=1&& storybook dev -p 6006
+storybook:build : set STORYBOOK=1&& storybook build
+
+
+
+

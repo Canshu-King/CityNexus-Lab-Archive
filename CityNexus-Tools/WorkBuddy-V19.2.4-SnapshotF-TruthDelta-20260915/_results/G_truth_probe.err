@@ -1,0 +1,2 @@
+D:\moodle\CityNexus-Tools\WorkBuddy-V19.2.4-SnapshotF-TruthDelta-20260915\_roadprep\CityNexus-V19.2.4-FinalTruth-Closure-RoadPrep-20260915\probes\v1924_truth_probe.py:4: SyntaxWarning: invalid escape sequence '\m'
+  set CITYNEXUS_TREE=D:\moodle\CityNexus\backend

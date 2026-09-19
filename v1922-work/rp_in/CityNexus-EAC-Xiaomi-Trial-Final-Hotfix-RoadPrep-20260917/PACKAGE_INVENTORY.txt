@@ -1,0 +1,8 @@
+COPY_PASTE_TO_EAC.txt
+README_FIRST.md
+docs/BLOCKERS.md
+docs/FINAL_HOTFIX_MISSION.md
+docs/FINAL_TRACE_GATE.md
+docs/WORKBUDDY_RECHECK.md
+reference/CityNexus-EAC-Overnight-Continuation-Final-20260917.zip
+reference/WorkBuddy-Final-Delta-Audit-Results-20260917.zip

@@ -1,0 +1,40 @@
+﻿  File "D:\moodle\CityNexus\.venv\Lib\site-packages\fastapi\routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus\.venv\Lib\site-packages\fastapi\routing.py", line 354, in run_endpoint_function
+    return await run_in_threadpool(dependant.call, **values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus\.venv\Lib\site-packages\starlette\concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus\.venv\Lib\site-packages\anyio\to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 2706, in run_sync_in_worker_thre
+ad
+    return await future
+           ^^^^^^^^^^^^
+  File "D:\moodle\CityNexus\.venv\Lib\site-packages\anyio\_backends\_asyncio.py", line 1100, in run
+    result = context.run(func, *args)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus-WorkBuddy\overnight-20260917\baseline\app_snapshot_0115\backend\app\main.py", line 2301, in
+ get_journey_experience
+    payload = experience_payload(session, journey)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus-WorkBuddy\overnight-20260917\baseline\app_snapshot_0115\backend\app\stay_mobility.py", line
+ 1512, in experience_payload
+    if city_fixture(journey.city_code)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moodle\CityNexus-WorkBuddy\overnight-20260917\baseline\app_snapshot_0115\backend\app\stay_mobility.py", line
+ 142, in city_fixture
+    fixtures = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\浠撻紶鐜媆AppData\Roaming\uv\python\cpython-3.12.14-windows-x86_64-none\Lib\pathlib.py", line 1027, in read
+_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\浠撻紶鐜媆AppData\Roaming\uv\python\cpython-3.12.14-windows-x86_64-none\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\baseline\
+\app_snapshot_0115\\data\\v9\\city_operations.json'

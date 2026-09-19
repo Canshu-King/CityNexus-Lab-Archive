@@ -1,0 +1,6 @@
+﻿root: D:\moodle\CityNexus-WorkBuddy\overnight-20260917\hotfix_pkg\CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-20260917
+evidence/ => 16 files
+reports/ => 6 files
+screenshots/ => 14 files
+source/ => 334 files
+README_FIRST.md

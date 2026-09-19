@@ -1,0 +1,13 @@
+WP04 PRE-FLIGHT
+P0 COMMITMENT_STRENGTH_COUNT SQL currently supports 4 levels: ['FLEXIBLE', 'RESERVED', 'PAID', 'LOCKED']; source requires exactly five
+P0 ORM_MISSING Commitment
+P0 ORM_MISSING Booking
+P0 ORM_MISSING Order
+P0 ORM_MISSING PaymentTransaction
+P0 ORM_MISSING ProviderCall
+P0 ORM_MISSING IdempotencyKey
+P0 PORT_MISSING BookingProvider
+P0 PORT_MISSING PaymentProvider
+P1 CONTRACT_COVERAGE IR-006 missing contract tokens: ['booking-slots', '/bookings/{booking_id}:']
+P1 CONTRACT_COVERAGE IR-007 missing contract tokens: ['/transactions/{transaction_id}:']
+SUMMARY p0=9 p1=2

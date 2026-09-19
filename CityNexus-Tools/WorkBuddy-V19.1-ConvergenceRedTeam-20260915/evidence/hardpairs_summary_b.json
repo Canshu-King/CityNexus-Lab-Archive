@@ -1,0 +1,13 @@
+{
+ "snapshot": "B",
+ "cases": 120,
+ "live_ok": 120,
+ "live_failed": 0,
+ "model_vs_server_diverged": 67,
+ "model_produced_capability": 5,
+ "server_produced_capability": 63,
+ "merged_produced_capability": 63,
+ "cases_where_server_dropped_model_hard": 2,
+ "cases_where_server_added_hard": 36,
+ "elapsed_seconds": 44.2
+}

@@ -1,0 +1,18 @@
+{
+  "name": "CityNexus V18.3 Experience Reference",
+  "short_name": "CityNexus",
+  "description": "Traveler-first journey operations reference with runtime adapters and offline truth.",
+  "start_url": "./index.html#/journey",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071217",
+  "theme_color": "#0c1b22",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

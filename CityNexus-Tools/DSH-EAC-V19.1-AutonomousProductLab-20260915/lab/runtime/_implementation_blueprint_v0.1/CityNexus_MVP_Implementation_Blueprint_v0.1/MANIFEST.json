@@ -1,0 +1,262 @@
+{
+  "package": "CityNexus_MVP_Implementation_Blueprint_v0.1",
+  "version": "0.1.0",
+  "payload_count": 51,
+  "payload": [
+    {
+      "path": "00_SOURCE_AND_SCOPE.md",
+      "size": 3526,
+      "sha256": "be540c65c34da6a258d876af80a662ac45fd2b62326950cda351566689a606b8"
+    },
+    {
+      "path": "01_ARCHITECTURE.md",
+      "size": 4891,
+      "sha256": "62584a7093b3c8f0e524eca8c05f7aefd2286af64553d34b2007118d7bd07327"
+    },
+    {
+      "path": "02_DIRECTORY_STRUCTURE.md",
+      "size": 3516,
+      "sha256": "298c8e2c9cdf81a8e7a0691eb5e242779e3fc713a03646defade21f9d89f5196"
+    },
+    {
+      "path": "03_DATABASE_SCHEMA.md",
+      "size": 1854,
+      "sha256": "44f2298fd18272659214048d078767f14c7fa784838d725fc10908e37d7eb4a3"
+    },
+    {
+      "path": "04_API_CONTRACT.md",
+      "size": 2227,
+      "sha256": "55c16702edbbcf666c71367448b54040f4fc253b8f290568a97ade30638ddb92"
+    },
+    {
+      "path": "05_STATE_MACHINES.md",
+      "size": 3543,
+      "sha256": "6d7443518f4e5a42c3150fbd876d6c0f7c820d61169843ab53242b485cd0d8bb"
+    },
+    {
+      "path": "06_MOCK_DATA.md",
+      "size": 1428,
+      "sha256": "7b35be5d8776c1cb392ed2539a11f4305de0ead753380e2b688d8e6ba6621617"
+    },
+    {
+      "path": "07_REPLANNING_ALGORITHM.md",
+      "size": 8948,
+      "sha256": "7742e4e6c189e1e5599351432640c3549bcb20afe29c675760b802dfb16bd8d3"
+    },
+    {
+      "path": "08_TEST_PLAN.md",
+      "size": 2200,
+      "sha256": "322717a9519398e09befa5a95e7f1c0236a0339ca360480275b8d4d2d0344e3b"
+    },
+    {
+      "path": "09_WORK_PACKAGES.md",
+      "size": 6352,
+      "sha256": "fafbb5311164bc6e770f5d5e09a81572644cc0fe5d787ba887f7b5e8c6cea12f"
+    },
+    {
+      "path": "10_TRACEABILITY_AND_STATUS.md",
+      "size": 1233,
+      "sha256": "f8eb988a2f89175951530d505846cb4fcd60b1aeb18fec0c54d12ac0a3856963"
+    },
+    {
+      "path": "11_UI_AND_DEMO_FLOW.md",
+      "size": 2266,
+      "sha256": "d670b0cdf2b0b0a1bacde1d3f4bfa85b47c231cec3a257dd94852cde5d2cde1d"
+    },
+    {
+      "path": "12_API_EXAMPLES.md",
+      "size": 1572,
+      "sha256": "89a5763ed82ea01a8ed18621ce860353057e3b22e6834341b1c26f4c5bfe2152"
+    },
+    {
+      "path": "13_NON_GOALS_AND_RISKS.md",
+      "size": 1548,
+      "sha256": "c87b5b90011309cb2d2c7549c50e38cd55e0ba4b78dc7501a892e95b3b8f3937"
+    },
+    {
+      "path": "BLUEPRINT_SUMMARY.json",
+      "size": 1120,
+      "sha256": "08bc5a5bdf4eaebf27b69fcba2240072228060b456dec3fde59781f1a17233c7"
+    },
+    {
+      "path": "CODEX_COPY_PASTE_INSTRUCTION.txt",
+      "size": 1095,
+      "sha256": "48f99bb79df51e74a02339a6dba175af186e5ab255c38b30f3c457281eeeeb42"
+    },
+    {
+      "path": "CODEX_QUOTA_STRATEGY.md",
+      "size": 1457,
+      "sha256": "096c7e9fbd2604963f77db5c797b4898487de51c29f1ff862218498e857a0f80"
+    },
+    {
+      "path": "CODEX_START_HERE.md",
+      "size": 2569,
+      "sha256": "073f812da200cb2adecea6f684cff32e9dd6105aa881ac1c8499321783dbe557"
+    },
+    {
+      "path": "IMPLEMENTATION_STATUS_TEMPLATE.csv",
+      "size": 424,
+      "sha256": "e2da46a21487d98ab99c58ba3f8ccfbbd37f790ae2966e9a702f7bab11014c19"
+    },
+    {
+      "path": "README.md",
+      "size": 3037,
+      "sha256": "fcb9b101ebaaa29cb133230caa9e07b8c64ff43400727fd3fef6fe4119242de3"
+    },
+    {
+      "path": "VALIDATION_REPORT.txt",
+      "size": 653,
+      "sha256": "e57a0dcce0758d1953bff20ab3e900d29f15327d1c5d7c82ebfed7436c87a27f"
+    },
+    {
+      "path": "adr/ADR-001-modular-monolith.md",
+      "size": 402,
+      "sha256": "553ddedc67d37aa2f8871046124ae41b0ef260821327da2e4df439580482aad7"
+    },
+    {
+      "path": "adr/ADR-002-sqlite-first.md",
+      "size": 307,
+      "sha256": "b430563f34195f0458547d0dbb10b4dae2f512c14fb05faecddc0e9651a8df89"
+    },
+    {
+      "path": "adr/ADR-003-deterministic-ai-boundary.md",
+      "size": 356,
+      "sha256": "d9843e2ead012d1e50590843031198788807b3aaf1eab453708781b4f0d9cecb"
+    },
+    {
+      "path": "api/openapi.yaml",
+      "size": 31062,
+      "sha256": "487dc50ade1440b6d07cc0645f911d833e127c172a8b9755ea59f49818d92b75"
+    },
+    {
+      "path": "bootstrap/.env.example",
+      "size": 327,
+      "sha256": "4f5b93aa221be44d6f5f83223581e51174dd3dcb450f30bd656f99a5c5d69be8"
+    },
+    {
+      "path": "bootstrap/.gitignore",
+      "size": 136,
+      "sha256": "eff09647a7d79b76b77e56d60b6177889c8ca804b807e412be164e079bedd28c"
+    },
+    {
+      "path": "bootstrap/README.md",
+      "size": 274,
+      "sha256": "4c3c7c75d0bb3f848ceb25e93889a47b82b3dfa1030b1f55aee6c3f5cada92e3"
+    },
+    {
+      "path": "bootstrap/backend/app/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bootstrap/backend/app/main.py",
+      "size": 212,
+      "sha256": "1d997afb648fa430049dd70e3e38e5961c2e2bc01654683cfb3b93690b2303ff"
+    },
+    {
+      "path": "bootstrap/backend/pyproject.toml",
+      "size": 464,
+      "sha256": "fdfdfd7bf67b51b2d8a5cce2c83a316f162d71d6cb08360661faadc69b1ac332"
+    },
+    {
+      "path": "bootstrap/backend/tests/test_health.py",
+      "size": 226,
+      "sha256": "08247c2725b172a2e80de55f8ce6911214cb9bf092463d4ae4b4cb018a2dcaa0"
+    },
+    {
+      "path": "bootstrap/frontend/index.html",
+      "size": 296,
+      "sha256": "ea7709be5a0d2672db50083c1a9c159f6621ce54e2c158b6bfc85fade0837d69"
+    },
+    {
+      "path": "bootstrap/frontend/package.json",
+      "size": 551,
+      "sha256": "c7f0aba1dcb3f10cced495dfd8d39c6cfefc9df955b1217814700ccccfb2c1a2"
+    },
+    {
+      "path": "bootstrap/frontend/src/main.tsx",
+      "size": 443,
+      "sha256": "716875d25c34809b7f15950f296df1042ed6f8d537781048b4097afe3a7d7758"
+    },
+    {
+      "path": "db/schema.sql",
+      "size": 11966,
+      "sha256": "3bba7c1e5daffcc3c197e1eebf424ccfc4c7cd78559efc5dbd621c050590fd13"
+    },
+    {
+      "path": "mock/ai_fallback_messages.json",
+      "size": 513,
+      "sha256": "b2069e64deb543a25cd224e24c01c3fbece51abb75b70689626bacf5519c4cc5"
+    },
+    {
+      "path": "mock/city_services.json",
+      "size": 927,
+      "sha256": "accbe2a67a55fcb21e036006a0f96ee5c2971ffcf2f47d3047535d482aa85c04"
+    },
+    {
+      "path": "mock/demo_journey.json",
+      "size": 1342,
+      "sha256": "f1f1cbea5dfe1ae0a906dbc9c0df308ddf7e652eacbbf687b1290369d7cea13f"
+    },
+    {
+      "path": "mock/events.json",
+      "size": 756,
+      "sha256": "a15e38ff0deba636cbcc1201a44b128f69571fa2e47c1aef5ee6fefc1734f682"
+    },
+    {
+      "path": "mock/mobility_matrix.json",
+      "size": 541,
+      "sha256": "a5c2e6198714224dfbb525a3688d5aa444ae8b45d427d1dbe60863979ef7bc09"
+    },
+    {
+      "path": "mock/places.json",
+      "size": 3039,
+      "sha256": "923e5fe3d298321a42e83807896be3478ab871e44b2f8d9c2dd199a6ee4e52f7"
+    },
+    {
+      "path": "mock/provider_behaviors.json",
+      "size": 428,
+      "sha256": "d5d0bd68afc2a64bda60b308adac22a368ec11a0da1cb85af02d3dd569b83c77"
+    },
+    {
+      "path": "mock/traveler_demo.json",
+      "size": 599,
+      "sha256": "52eb9e8967f8d68433dd2f46786668a36c7bb11363ae25839d7247c78cf9bb74"
+    },
+    {
+      "path": "replanning/reference_replanner.py",
+      "size": 3512,
+      "sha256": "47afe0da91986b3befe9154feb1bae74fab954207de0f67cb1cecab5b87886f8"
+    },
+    {
+      "path": "replanning/test_reference_replanner.py",
+      "size": 1835,
+      "sha256": "bcd38fe2f9e9ad28dd1825000bbac9f4581b98fd94de6fe01cf584f5cf40e041"
+    },
+    {
+      "path": "state-machines/state_machines.yaml",
+      "size": 4805,
+      "sha256": "75db3b188a70bf7434e41fe20774b59cc9957c2aa59a68599dfd2f7e77744314"
+    },
+    {
+      "path": "tests/test_matrix.csv",
+      "size": 6029,
+      "sha256": "ca96b06d8d0f5592794bcc6ffdab4f2445f1c9087edb453a08911d62d2d92ef7"
+    },
+    {
+      "path": "tools/reconcile_domain.py",
+      "size": 3486,
+      "sha256": "30d72613b4571b57c0a03d7d7cff7c5ba275f322eb1b8d81f07f9e8968f59cdb"
+    },
+    {
+      "path": "tools/validate_blueprint.py",
+      "size": 4979,
+      "sha256": "5ec3611d6d3613f331c502bc9d104fd2347480263e2a50d9d9e6ca5f0c87ac30"
+    },
+    {
+      "path": "work-packages/work_packages.yaml",
+      "size": 1650,
+      "sha256": "034bdd30809fcc8fb86a0dd26b0793cd3a5ffdf3de469b6a33fe4416208e6cce"
+    }
+  ]
+}

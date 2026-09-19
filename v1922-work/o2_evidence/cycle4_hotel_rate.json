@@ -1,0 +1,126 @@
+{
+ "runs": [
+  {
+   "run": 1,
+   "jid": "e43df477-2cac-4022-896f-21ac45ba7b38",
+   "aiPlans": 3,
+   "cards": 3,
+   "chosen": true,
+   "planBefore": {
+    "id": "f6ea2f17-daf1-5a95-a566-ad5cdaf01bbf",
+    "status": "SELECTED",
+    "activities": 8,
+    "locked": 0,
+    "failures": []
+   },
+   "hotelCards": 10,
+   "tries": [
+    {
+     "name": "7天酒店",
+     "chosen": true,
+     "err": ""
+    }
+   ],
+   "pinned": true,
+   "refusal": "",
+   "planAfter": {
+    "id": "a6ab3f9a-0c63-4090-aa17-d594fa253ebf",
+    "activities": 14,
+    "locked": 6
+   },
+   "pageErrors": []
+  },
+  {
+   "run": 2,
+   "jid": "5d48add3-a070-4488-86ad-79de7aa83c49",
+   "aiPlans": 3,
+   "cards": 3,
+   "chosen": true,
+   "planBefore": {
+    "id": "f4d257f7-3f4a-5569-b233-f1a74f038654",
+    "status": "SELECTED",
+    "activities": 8,
+    "locked": 0,
+    "failures": []
+   },
+   "hotelCards": 10,
+   "tries": [
+    {
+     "name": "Millenium Harbour View",
+     "chosen": true,
+     "err": ""
+    }
+   ],
+   "pinned": true,
+   "refusal": "",
+   "planAfter": {
+    "id": "ac1a3a88-f1f9-415b-9131-ae439ea1c80a",
+    "activities": 14,
+    "locked": 6
+   },
+   "pageErrors": []
+  },
+  {
+   "run": 3,
+   "jid": "3ca4d50b-c7de-475a-8326-ca0aa3551bcc",
+   "aiPlans": 3,
+   "cards": 3,
+   "chosen": true,
+   "planBefore": {
+    "id": "98211f9b-fec5-54d5-8b78-d8b60b9ea4e7",
+    "status": "SELECTED",
+    "activities": 8,
+    "locked": 0,
+    "failures": []
+   },
+   "hotelCards": 10,
+   "tries": [
+    {
+     "name": "厦门艾美酒店",
+     "chosen": true,
+     "err": ""
+    }
+   ],
+   "pinned": true,
+   "refusal": "",
+   "planAfter": {
+    "id": "4aaacf35-0347-4361-a5d4-a6627d7db645",
+    "activities": 14,
+    "locked": 6
+   },
+   "pageErrors": []
+  },
+  {
+   "run": 4,
+   "jid": "196fe63c-2f85-4382-b056-b06939c9f76c",
+   "aiPlans": 3,
+   "cards": 3,
+   "chosen": true,
+   "planBefore": {
+    "id": "7d4b6897-b6a5-5ef1-8bc8-8097d508ec5f",
+    "status": "SELECTED",
+    "activities": 8,
+    "locked": 0,
+    "failures": []
+   },
+   "hotelCards": 10,
+   "tries": [
+    {
+     "name": "汉庭酒店",
+     "chosen": true,
+     "err": ""
+    }
+   ],
+   "pinned": true,
+   "refusal": "",
+   "planAfter": {
+    "id": "e8f21ce1-4a88-4554-83db-b2a10b36f0b2",
+    "activities": 14,
+    "locked": 6
+   },
+   "pageErrors": []
+  }
+ ],
+ "pinnedCount": 4,
+ "total": 4
+}

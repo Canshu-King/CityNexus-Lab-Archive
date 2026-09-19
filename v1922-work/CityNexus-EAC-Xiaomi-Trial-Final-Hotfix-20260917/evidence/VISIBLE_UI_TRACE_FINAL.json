@@ -1,0 +1,351 @@
+{
+ "run": "xiaomi-final-trace",
+ "started": "2026-09-17T10:46:49.188Z",
+ "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+ "candidate_plan_ids": [
+  "53d340c6-9a03-5b18-86f2-53f0ef8609b3",
+  "69320b5c-fe8c-549a-be80-d1d4865e3f9e",
+  "1ab67621-6849-5b10-8aaa-3a884505999a"
+ ],
+ "selected_plan_id": "53d340c6-9a03-5b18-86f2-53f0ef8609b3",
+ "post_replan_active_plan_id": "994ac179-64ae-4240-97fb-bddcab6ffa02",
+ "booking_id": "24bf947e-a3ec-4dbb-a2c6-e14cd42ed179",
+ "stay_identity": {
+  "name": "如家酒店",
+  "status": "SELECTED",
+  "selected_option_id": "23191604-45dd-4b3b-8724-f5f69b7e66d7",
+  "external_offer_id": "osm:node/4412844391",
+  "check_in_at": "2026-11-06T06:00:00+00:00",
+  "check_out_at": "2026-11-08T04:00:00+00:00"
+ },
+ "trace": [
+  {
+   "ts": "2026-09-17T10:47:02.831Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "create-xiamen-journey",
+   "status": "201",
+   "result": "d3f0cf26-7e62-47a7-8c39-111c61adeb95"
+  },
+  {
+   "ts": "2026-09-17T10:47:28.293Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "ai-plan-run-specific",
+   "status": "new-candidates",
+   "result": "baseline=0 new=3 reported=3",
+   "new_plan_ids": [
+    "53d340c6-9a03-5b18-86f2-53f0ef8609b3",
+    "69320b5c-fe8c-549a-be80-d1d4865e3f9e",
+    "1ab67621-6849-5b10-8aaa-3a884505999a"
+   ]
+  },
+  {
+   "ts": "2026-09-17T10:47:34.699Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "plan-compare",
+   "status": "3 cards",
+   "result": "花费未知 / 花费未知 / 花费未知"
+  },
+  {
+   "ts": "2026-09-17T10:47:36.908Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "select-plan",
+   "status": "selected",
+   "result": "53d340c6-9a03-5b18-86f2-53f0ef8609b3",
+   "selected_plan_id": "53d340c6-9a03-5b18-86f2-53f0ef8609b3"
+  },
+  {
+   "ts": "2026-09-17T10:47:41.046Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "trips-multiday",
+   "status": "4 stops shown",
+   "result": "day-strips=1"
+  },
+  {
+   "ts": "2026-09-17T10:47:43.272Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "activity-detail",
+   "status": "opened",
+   "result": "cost_status=UNKNOWN cost=\"暂无价格\"",
+   "cost_status": "UNKNOWN"
+  },
+  {
+   "ts": "2026-09-17T10:47:50.694Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "hotel-compare",
+   "status": "10 hotels",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T10:47:56.433Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "select-hotel",
+   "status": "selected",
+   "result": "如家酒店"
+  },
+  {
+   "ts": "2026-09-17T10:47:56.634Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "stay-truth",
+   "status": "SELECTED",
+   "result": "name=如家酒店 in=2026-11-06T06:00:00+00:00 out=2026-11-08T04:00:00+00:00",
+   "stay_truth": {
+    "entity_set": "stay-options where status == SELECTED, joined to offers by external_offer_id",
+    "found": true,
+    "property_name": "如家酒店",
+    "selected_option_id": "23191604-45dd-4b3b-8724-f5f69b7e66d7",
+    "external_offer_id": "osm:node/4412844391",
+    "check_in_at": "2026-11-06T06:00:00+00:00",
+    "check_out_at": "2026-11-08T04:00:00+00:00",
+    "undefined_fields": []
+   }
+  },
+  {
+   "ts": "2026-09-17T10:48:19.586Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "booking-import-confirm",
+   "status": "confirmed",
+   "result": "ref=E2E-XIAOMI-FINAL-1 amount=18000 origin=厦门北站",
+   "booking_truth": {
+    "entity_set": "wallet.reservations",
+    "count": 1,
+    "confirmation_ref": "E2E-XIAOMI-FINAL-1",
+    "amount_minor": 18000,
+    "amount_status": "KNOWN",
+    "origin": "厦门北站",
+    "destination": "深圳北站"
+   }
+  },
+  {
+   "ts": "2026-09-17T10:48:31.915Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "copilot-place-question",
+   "status": "answered",
+   "result": "CityNexus 我查不到「鼓浪屿」的可信资料，所以不会编一个评价给你。供应商只返回了附近几处地点（OSM cafe、褚家园咖啡馆、OSM restaurant），它们不能代表「鼓浪屿」。你可以换个具体问法，比如“附近有什么咖啡馆”或“附近有什么博物馆”，也可以去“城市发现”里手动搜索。 查找地点 搜索更多地点",
+   "copilot": {
+    "question": "鼓浪屿好玩吗？",
+    "answer": "CityNexus\n\n我查不到「鼓浪屿」的可信资料，所以不会编一个评价给你。供应商只返回了附近几处地点（OSM cafe、褚家园咖啡馆、OSM restaurant），它们不能代表「鼓浪屿」。你可以换个具体问法，比如“附近有什么咖啡馆”或“附近有什么博物馆”，也可以去“城市发现”里手动搜索。\n\n查找地点\n搜索更多地点",
+    "answered": true,
+    "raw_vocabulary_leak": false,
+    "answered_about_place": true,
+    "honest_when_unknown": true
+   }
+  },
+  {
+   "ts": "2026-09-17T10:48:36.681Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "xiamen-map",
+   "status": "panel",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T10:48:42.038Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "live",
+   "status": "has-next",
+   "result": "下一站：厦门高崎国际机场"
+  },
+  {
+   "ts": "2026-09-17T10:48:42.342Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "disruption-event",
+   "status": "201",
+   "result": "CLOSURE -> 鼓浪屿风琴博物馆(临时展馆)"
+  },
+  {
+   "ts": "2026-09-17T10:48:42.568Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "replan-proposal",
+   "status": "201",
+   "result": "preserved=true -1/+1",
+   "replan": {
+    "proposal_id": "593b49bd-6a77-46ef-a88b-a1cc5ed6f72f",
+    "status": "PRESENTED",
+    "http": 201,
+    "locked_commitments_preserved": true,
+    "removed_count": 1,
+    "added_count": 1,
+    "material_diff": true
+   }
+  },
+  {
+   "ts": "2026-09-17T10:48:50.810Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "accept-replan",
+   "status": "accepted",
+   "result": "已按新安排更新你的行程。"
+  },
+  {
+   "ts": "2026-09-17T10:49:00.751Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "trips-vs-backend",
+   "status": "match",
+   "result": "ui=14 backend=14 days=[7,5,2]",
+   "triple_mapping": {
+    "entity_set": "Trips itinerary stop cards vs /experience active_plan.activities",
+    "ui_stops_per_day": [
+     7,
+     5,
+     2
+    ],
+    "ui_stops_total_across_days": 14,
+    "ui_day_buttons": 3,
+    "backend_activities_total": 14,
+    "backend_types": [
+     "arrival",
+     "activity",
+     "activity",
+     "check_in",
+     "activity",
+     "activity",
+     "stay",
+     "activity",
+     "activity",
+     "activity",
+     "activity",
+     "stay",
+     "check_out",
+     "departure"
+    ],
+    "expected": "UI total equals backend activity count because the itinerary lists every activity",
+    "comparison_valid": true
+   }
+  },
+  {
+   "ts": "2026-09-17T10:49:05.968Z",
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "action": "final-state",
+   "status": "compared",
+   "result": "{\"journey_id\":\"d3f0cf26-7e62-47a7-8c39-111c61adeb95\",\"active_plan_before_disruption\":\"1f0469d5-e40f-45d4-af6e-320190c2651e\",\"active_plan_after_accept\":\"994ac179-64ae-4240-97fb-bddcab6ffa02\",\"plan_chan",
+   "final_state": {
+    "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+    "active_plan_before_disruption": "1f0469d5-e40f-45d4-af6e-320190c2651e",
+    "active_plan_after_accept": "994ac179-64ae-4240-97fb-bddcab6ffa02",
+    "plan_changed": true,
+    "locked_before": 6,
+    "locked_after": 6,
+    "locked_preserved": true,
+    "stop_titles_before_sample": [
+     "厦门高崎国际机场",
+     "鼓浪屿风琴博物馆(临时展馆)",
+     "OSM museum",
+     "Check in · 如家酒店"
+    ],
+    "stop_titles_after_sample": [
+     "厦门高崎国际机场",
+     "鼓浪屿风琴博物馆(临时展馆)",
+     "OSM museum",
+     "Check in · 如家酒店"
+    ],
+    "live_next": "下一站：厦门高崎国际机场"
+   }
+  }
+ ],
+ "errors": [],
+ "assertions": {
+  "ai_run_specific": {
+   "baseline_count": 0,
+   "reported_new_count": 3,
+   "reported_new_ids": [
+    "53d340c6-9a03-5b18-86f2-53f0ef8609b3",
+    "69320b5c-fe8c-549a-be80-d1d4865e3f9e",
+    "1ab67621-6849-5b10-8aaa-3a884505999a"
+   ],
+   "backend_new_ids": [
+    "53d340c6-9a03-5b18-86f2-53f0ef8609b3",
+    "69320b5c-fe8c-549a-be80-d1d4865e3f9e",
+    "1ab67621-6849-5b10-8aaa-3a884505999a"
+   ],
+   "old_plans_excluded": true,
+   "match": true
+  },
+  "stay_truth": {
+   "entity_set": "stay-options where status == SELECTED, joined to offers by external_offer_id",
+   "found": true,
+   "property_name": "如家酒店",
+   "selected_option_id": "23191604-45dd-4b3b-8724-f5f69b7e66d7",
+   "external_offer_id": "osm:node/4412844391",
+   "check_in_at": "2026-11-06T06:00:00+00:00",
+   "check_out_at": "2026-11-08T04:00:00+00:00",
+   "undefined_fields": []
+  },
+  "booking_truth": {
+   "entity_set": "wallet.reservations",
+   "count": 1,
+   "confirmation_ref": "E2E-XIAOMI-FINAL-1",
+   "amount_minor": 18000,
+   "amount_status": "KNOWN",
+   "origin": "厦门北站",
+   "destination": "深圳北站"
+  },
+  "copilot": {
+   "question": "鼓浪屿好玩吗？",
+   "answer": "CityNexus\n\n我查不到「鼓浪屿」的可信资料，所以不会编一个评价给你。供应商只返回了附近几处地点（OSM cafe、褚家园咖啡馆、OSM restaurant），它们不能代表「鼓浪屿」。你可以换个具体问法，比如“附近有什么咖啡馆”或“附近有什么博物馆”，也可以去“城市发现”里手动搜索。\n\n查找地点\n搜索更多地点",
+   "answered": true,
+   "raw_vocabulary_leak": false,
+   "answered_about_place": true,
+   "honest_when_unknown": true
+  },
+  "replan": {
+   "proposal_id": "593b49bd-6a77-46ef-a88b-a1cc5ed6f72f",
+   "status": "PRESENTED",
+   "http": 201,
+   "locked_commitments_preserved": true,
+   "removed_count": 1,
+   "added_count": 1,
+   "material_diff": true
+  },
+  "triple_mapping": {
+   "entity_set": "Trips itinerary stop cards vs /experience active_plan.activities",
+   "ui_stops_per_day": [
+    7,
+    5,
+    2
+   ],
+   "ui_stops_total_across_days": 14,
+   "ui_day_buttons": 3,
+   "backend_activities_total": 14,
+   "backend_types": [
+    "arrival",
+    "activity",
+    "activity",
+    "check_in",
+    "activity",
+    "activity",
+    "stay",
+    "activity",
+    "activity",
+    "activity",
+    "activity",
+    "stay",
+    "check_out",
+    "departure"
+   ],
+   "expected": "UI total equals backend activity count because the itinerary lists every activity",
+   "comparison_valid": true
+  },
+  "final_state": {
+   "journey_id": "d3f0cf26-7e62-47a7-8c39-111c61adeb95",
+   "active_plan_before_disruption": "1f0469d5-e40f-45d4-af6e-320190c2651e",
+   "active_plan_after_accept": "994ac179-64ae-4240-97fb-bddcab6ffa02",
+   "plan_changed": true,
+   "locked_before": 6,
+   "locked_after": 6,
+   "locked_preserved": true,
+   "stop_titles_before_sample": [
+    "厦门高崎国际机场",
+    "鼓浪屿风琴博物馆(临时展馆)",
+    "OSM museum",
+    "Check in · 如家酒店"
+   ],
+   "stop_titles_after_sample": [
+    "厦门高崎国际机场",
+    "鼓浪屿风琴博物馆(临时展馆)",
+    "OSM museum",
+    "Check in · 如家酒店"
+   ],
+   "live_next": "下一站：厦门高崎国际机场"
+  }
+ },
+ "plan_ids_before_run": [],
+ "finished": "2026-09-17T10:49:05.968Z"
+}

@@ -1,0 +1,22 @@
+requirement_id,summary,wp04_target,evidence_or_test,status_after_wp04_if_pass
+FR-029,Create or Strengthen Commitments,confirmed booking creates and successful payment strengthens one semantic commitment,CNX-I-011;CNX-I-012;WP04-COM-004,PARTIAL
+FR-030,Support Five Commitment Strengths,lossless exact five source strength values accepted and invalid value rejected,WP04-COM-001,IMPLEMENTED
+FR-032,Query Bookable Time Windows,mock booking availability returns normalized slots/provenance,WP04-BKG-001,SIMULATED
+FR-033,Create a Provider-Confirmed Booking,success CONFIRMED and rejection explicit, CNX-I-011;WP04-BKG-004,SIMULATED
+FR-034,Cancel a Booking,cancellable confirmed unpaid fixture follows provider outcome,WP04-BKG-005,SIMULATED
+FR-035,Create an Order for a Tradable Service,valid order items/total/window persisted,WP04-ORD-001,PARTIAL
+FR-036,Initiate Payment for an Order,transaction/provider request without client/provider secrets,CNX-I-012;WP04-PAY-003,SIMULATED
+FR-037,Persist Payment Outcomes,success/failure persisted with provider ref; refund remains deferred until original-transaction semantics are explicit,WP04-PAY-004;WP04-PAY-005,PARTIAL
+FR-038,Provide a Traceable Receipt,successful transaction external_ref retained,WP04-PAY-006,PARTIAL
+BR-017,Treat Booking Provider State as Authoritative,local Booking follows normalized mock provider outcome,WP04-BKG-006,SIMULATED
+BR-018,Treat Payment Provider State as Authoritative,Transaction follows normalized mock provider outcome,WP04-PAY-007,SIMULATED
+BR-011,Derive Commitment Strength from Multiple Factors,payment-alone negative test and canonical multi-factor C4 test,WP04-COM-002;WP04-COM-003,PARTIAL
+IR-006,Provide Booking Adapter Operations,availability/create/cancel/status provider port,WP04-C-BOOKING,SIMULATED
+IR-007,Provide Payment Adapter Operations,authorize/capture/refund/void/status provider port,WP04-C-PAYMENT,SIMULATED
+IR-015,Provide Mock Integrations for Demo,booking/payment mock work offline and deterministic,CNX-C-006;CNX-C-007,SIMULATED
+NFR-007,Persist Journey and Commerce State Across Restart,new session/restart retrieves booking/transaction/commitment unchanged,WP04-RES-001,PARTIAL
+SR-005,Do Not Persist Full Sensitive Card Credentials,no card/CVV fields in request/schema/log/provider_call,WP04-SEC-001,IMPLEMENTED
+SR-008,Validate Client and Provider Input,malformed ownership/amount/provider responses rejected before state corruption,WP04-SEC-002,PARTIAL
+SR-011,Audit High-Risk Changes,booking/payment success/failure/idempotency conflict audited without secrets,WP04-SEC-003,PARTIAL
+BG-004,Protect High-Strength Commitments,canonical C4 commitment created as future WP06 preservation input,WP04-COM-003,PARTIAL
+BR-009,Protect Anchored Commitments,WP04 establishes stable C4 identity/time but actual replan protection is WP06,WP04-COM-003,PARTIAL

@@ -1,0 +1,28 @@
+{
+  "githubDirect": "PASS_HTTP_200",
+  "apiGithubDirect": "HTTP_STATUS_404_REPOSITORY_NOT_FOUND",
+  "rawGithubDirect": "DNS_FAILURE",
+  "codeloadDirect": "HTTP_STATUS_404",
+  "windowsProxyEnabled": true,
+  "windowsProxy": "127.0.0.1:7892",
+  "winhttpProxy": "DIRECT",
+  "proxyProcess": "NONE_DETECTED",
+  "explicitProxyCurl": "PASS_GITHUB_HOME; TARGET_CLAIM_404",
+  "explicitProxyGit": "TIMEOUT_OR_NO_HEAD",
+  "downloadMethod": "none",
+  "hiungSkillsObtained": false,
+  "authenticatedBrowserCheck": {
+    "url": "https://github.com/hiung/skills",
+    "result": "GitHub Page not found (HTTP 404) while logged-in browser session was active"
+  },
+  "correctCodeloadUrlTested": "https://codeload.github.com/hiung/skills/zip/refs/heads/main",
+  "archiveEndpointTested": "https://github.com/hiung/skills/archive/refs/heads/main.zip",
+  "notes": [
+    "u1s1 local proxy confirmed by Windows Internet Settings as 127.0.0.1:7892.",
+    "Official GitHub homepage is reachable direct and through the detected proxy.",
+    "GitHub API and both official archive endpoints return 404 for hiung/skills; this is not treated as a successful download.",
+    "Authenticated Chrome session independently showed Page not found for https://github.com/hiung/skills.",
+    "No mirror, third-party proxy, global git config, or permanent environment change was used.",
+    "Invalid 14-byte error download was removed; no extraction was performed."
+  ]
+}

@@ -1,0 +1,41 @@
+# 复现顺序（全部写入仅在 D:\moodle\_qoder_recovery_20260919）
+# 三棵受保护树与 Codex 树全程只读。
+
+VENV=D:\moodle\CityNexus\.venv\Scripts\python.exe        # 含 ortools，官方 827 数以此为准
+CODEX_VENV=D:\moodle\_codex_sol_extreme_v2_20260919\snapshot\citynexus\backend\.venv\Scripts\python.exe   # 缺 ortools，勿用于报数
+
+# 1. 冻结孤儿改动（把 Codex 未提交工作树变成提交）
+git clone --no-hardlinks D:\moodle\_codex_sol_extreme_v2_20260919\snapshot\citynexus verify\citynexus
+git -C verify\citynexus checkout --detach 0fa1f6c
+git -C verify\citynexus switch -c qoder/recovery-extreme-v2
+# 复制 7 个文件（4 改 + 3 新）后 git add -A && git commit  -> f331e43
+
+# 2. 切分补丁
+git -C verify\citynexus diff 0fa1f6c HEAD -- backend/app/operations/v9.py                > patches\CX-REC-001-backend-stale-cursor-fail-closed.patch
+git -C verify\citynexus diff 0fa1f6c HEAD -- frontend/src/app/V8Experience.tsx frontend/e2e/extreme-live-projection.spec.ts frontend/playwright.extreme.config.ts > patches\CX-REC-002-frontend-live-cursor-window.patch
+git -C verify\citynexus diff 0fa1f6c HEAD -- backend/app/main.py backend/app/commerce/service_impl.py backend/app/concurrency_guards.py > patches\CX-REC-003-journey-write-serialization.patch
+git -C verify\citynexus diff --binary 0fa1f6c HEAD                                        > patches\CX-REC-ALL-extreme-v2-recovery.patch
+
+# 3. 可应用性（注意：--check 的补丁路径必须绝对，git -C 会重解析相对路径）
+git -C verify\integration worktree add --detach verify\wt_tip        7f2f5bb
+git -C verify\integration worktree add --detach verify\wt_tip_clean  7f2f5bb
+git -C verify\citynexus  worktree add --detach verify\wt_base        0fa1f6c
+git -C verify\wt_tip       apply --check <绝对路径>\patches\CX-REC-ALL-extreme-v2-recovery.patch
+git -C verify\wt_base      apply --check <绝对路径>\patches\CX-REC-ALL-extreme-v2-recovery.patch
+
+# 4. 全量对照（每次 60 秒级）
+cd verify\wt_tip_clean\backend && set PYTHONPATH=%CD% && set DEEPSEEK_API_KEY= && set CITYNEXUS_AI_API_KEY=
+%VENV% -m pytest -q -p no:cacheprovider            # 827 passed / 15 skipped
+cd ..\..\wt_tip\backend && （先 apply CX-REC-ALL）
+%VENV% -m pytest -q -p no:cacheprovider            # 827 passed / 15 skipped（同名单）
+# 再放入 tests\test_rx1_*.py tests\test_rx2_*.py    # 831 passed / 15 skipped
+
+# 5. 突变杀伤验证（wt_mut = 7f2f5bb + 反例断言）
+git -C verify\wt_tip_clean worktree add --detach verify\wt_mut 7f2f5bb   # 实际用 integration 克隆建
+# 对 J-CROSS-JOURNEY-TRIGGER：main.py  'if trigger_event is None or trigger_event.journey_id != journey.id:' -> 'if trigger_event is None:'
+# 对 J-MOCK-HARD-FALLBACK   ：runtime.py 'fallback=None if hard_capture else mock,' -> 'fallback=mock,'
+# 期望：干净态 4 passed；变异态 rx1 / rx2 各失败一条 -> 两个存活突变均被杀掉
+# 审计完用 git checkout -- 还原变异文件
+
+# 6. 三个"假杀掉"的全量复核
+%D%\...\raw\mutation_audit.py    # 逐条注入 + 跑全量，写 raw\mutation_audit.json

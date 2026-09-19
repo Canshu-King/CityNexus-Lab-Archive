@@ -1,0 +1,40 @@
+Use the attached package:
+
+CityNexus-WorkBuddy-Final-Delta-Audit-20260917.zip
+
+Model:
+
+GLM-5.3-Flash
+
+This is the FINAL targeted delta audit of the current EAC candidate.
+
+Do NOT restart the historical WorkBuddy overnight audit.
+
+Read:
+
+README_FIRST.md
+
+then execute:
+
+docs/FINAL_DELTA_MISSION.md
+
+Focus on F1-F12 in:
+
+docs/FINDINGS_TO_VERIFY.md
+
+Pay special attention to whether browser evidence was captured AFTER the relevant
+source fix.
+
+Do not modify:
+
+D:\moodle\CityNexus
+
+Final verdict exactly:
+
+BLOCKED
+
+or
+
+WORKBUDDY_ACCEPTS_FOR_XIAOMI_13_ULTRA_TRIAL
+
+Start now.

@@ -1,0 +1,76 @@
+:root {
+  color-scheme: dark;
+  --cn-motion-instant: 90ms;
+  --cn-motion-fast: 160ms;
+  --cn-motion-base: 220ms;
+  --cn-motion-slow: 420ms;
+  --cn-motion-map: 650ms;
+  --cn-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --cn-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --bg: #071217;
+  --bg-raised: #0d1d25;
+  --bg-card: #102630;
+  --line: #1d3a45;
+  --text: #eaf6f4;
+  --muted: #93aeb4;
+  --accent: #42d3b0;
+  --accent-strong: #7bf0cf;
+  --warn: #f5b942;
+  --danger: #ff6b5f;
+  --info: #7bd8ff;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  --nav-height: 64px;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --cn-motion-instant: 0ms;
+    --cn-motion-fast: 0ms;
+    --cn-motion-base: 0ms;
+    --cn-motion-slow: 0ms;
+    --cn-motion-map: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+::view-transition-old(root) {
+  animation: cn-route-out var(--cn-motion-fast) ease both;
+}
+
+::view-transition-new(root) {
+  animation: cn-route-in var(--cn-motion-base) var(--cn-ease-enter) both;
+}
+
+@keyframes cn-route-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cn-route-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

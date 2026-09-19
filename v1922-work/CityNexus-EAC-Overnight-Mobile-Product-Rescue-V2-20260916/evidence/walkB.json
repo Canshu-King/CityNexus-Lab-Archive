@@ -1,0 +1,8 @@
+{
+ "offline_text": "CONNECTION | Can't reach the server | Your trip data has not been lost. Check your connection and try again. | Try again",
+ "offline_white": false,
+ "offline_boundary": false,
+ "recovered_text": "Menu | / | Today | 中文 | DE | STILL UP | Your next city, already considered. | A calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one. | 中文 | Try another",
+ "recovered_ok": true,
+ "errors": []
+}

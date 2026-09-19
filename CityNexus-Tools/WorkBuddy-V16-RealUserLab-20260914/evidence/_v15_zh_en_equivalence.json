@@ -1,0 +1,489 @@
+{
+  "generated_by": "tools/v15_benchmark/build_contrast_fixtures.py",
+  "scorer": "optional reference router (app.agent.semantic_router.route), offline",
+  "pair_count": 20,
+  "invariant_count": 20,
+  "invariance_rate": 1.0,
+  "pairs": [
+    {
+      "label": "explain_why",
+      "expected_intent": "EXPLAIN_PLAN",
+      "zh": {
+        "message": "为什么这么安排？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "en": {
+        "message": "Why is the plan arranged this way?",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "explain_order",
+      "expected_intent": "EXPLAIN_PLAN",
+      "zh": {
+        "message": "为什么先去博物馆？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "en": {
+        "message": "Why are we going to the museum first?",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "explain_cost",
+      "expected_intent": "EXPLAIN_PLAN",
+      "zh": {
+        "message": "这趟大概要花多少钱？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "en": {
+        "message": "How much will this trip cost?",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "explain_next",
+      "expected_intent": "EXPLAIN_PLAN",
+      "zh": {
+        "message": "接下来是什么？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "en": {
+        "message": "What is next on the plan?",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "explain_boat",
+      "expected_intent": "EXPLAIN_PLAN",
+      "zh": {
+        "message": "游船是几点？",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "en": {
+        "message": "What time is the boat cruise?",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": false
+    },
+    {
+      "label": "whatif_rain",
+      "expected_intent": "WHAT_IF",
+      "zh": {
+        "message": "如果下雨会怎样？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "en": {
+        "message": "What if it rains?",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "whatif_delay",
+      "expected_intent": "WHAT_IF",
+      "zh": {
+        "message": "要是延误了怎么办？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "en": {
+        "message": "What happens if we are delayed?",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "whatif_budget",
+      "expected_intent": "WHAT_IF",
+      "zh": {
+        "message": "如果超预算呢？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "en": {
+        "message": "What if we go over budget?",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "whatif_close",
+      "expected_intent": "WHAT_IF",
+      "zh": {
+        "message": "万一景点关门呢？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "en": {
+        "message": "What if the attraction is closed?",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "discover_food",
+      "expected_intent": "DISCOVER",
+      "zh": {
+        "message": "附近有什么好吃的？",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "en": {
+        "message": "What food is nearby?",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "discover_indoor",
+      "expected_intent": "DISCOVER",
+      "zh": {
+        "message": "下雨天有什么室内的？",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "en": {
+        "message": "What indoor options are there?",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "discover_kids",
+      "expected_intent": "DISCOVER",
+      "zh": {
+        "message": "适合小孩的地方有哪些？",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "en": {
+        "message": "What places are good for kids?",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "discover_coffee",
+      "expected_intent": "DISCOVER",
+      "zh": {
+        "message": "附近有咖啡馆吗？",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "en": {
+        "message": "Is there a cafe nearby?",
+        "intent": "DISCOVER",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.85,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "pref_less_walk",
+      "expected_intent": "PREFERENCE_CHANGE",
+      "zh": {
+        "message": "我想少走路。",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "en": {
+        "message": "I want to walk less.",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "pref_cheaper",
+      "expected_intent": "PREFERENCE_CHANGE",
+      "zh": {
+        "message": "我想省钱一点。",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "en": {
+        "message": "I would like to spend less.",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "pref_indoor",
+      "expected_intent": "PREFERENCE_CHANGE",
+      "zh": {
+        "message": "我想多安排室内。",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "en": {
+        "message": "I prefer indoor activities.",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "replan_swap",
+      "expected_intent": "REPLAN_REQUEST",
+      "zh": {
+        "message": "把下午换成博物馆。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "en": {
+        "message": "Swap the afternoon to the museum.",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_WITH_CONFIRMATION",
+        "requires_confirmation": true,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    },
+    {
+      "label": "replan_later",
+      "expected_intent": "REPLAN_REQUEST",
+      "zh": {
+        "message": "把开始时间推迟一小时。",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "en": {
+        "message": "Push the start back by an hour.",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": false
+    },
+    {
+      "label": "replan_avoid",
+      "expected_intent": "REPLAN_REQUEST",
+      "zh": {
+        "message": "避开那座桥。",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "en": {
+        "message": "Avoid that bridge.",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": false
+    },
+    {
+      "label": "unknown_weather_q",
+      "expected_intent": "UNKNOWN",
+      "zh": {
+        "message": "明天天气怎么样？",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "en": {
+        "message": "What is the weather tomorrow?",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "invariant": true,
+      "both_match_expected": true
+    }
+  ]
+}

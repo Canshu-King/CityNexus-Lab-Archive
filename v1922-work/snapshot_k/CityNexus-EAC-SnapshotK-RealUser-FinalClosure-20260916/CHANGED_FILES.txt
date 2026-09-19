@@ -1,0 +1,23 @@
+# CityNexus Snapshot K Real-User Final Closure — changed files
+# Baseline: Snapshot J overlay -> Snapshot I -> Snapshot H -> V19.2.4 full tree.
+
+## Added (3)
+A  backend/tests/test_snapshot_j_backend_truth_gaps.py
+A  backend/tests/test_snapshot_k_stay_timeline.py
+A  frontend/src/features/trip/ActivityDetail.tsx
+
+## Modified (12)
+M  backend/app/integrations/discovery/real_city.py
+M  backend/app/integrations/mobility/runtime.py
+M  backend/app/main.py
+M  backend/app/stay_mobility.py
+M  backend/tests/test_gpt_agent_authority_v2.py
+M  backend/tests/test_wp04_hardening_wp05.py
+M  backend/tests/test_wp05_integrity_next.py
+M  frontend/src/app/V8Experience.tsx
+M  frontend/src/features/agent/AgentComposer.tsx
+M  frontend/src/features/trip/TripItinerary.tsx
+M  frontend/src/i18n/LocaleContext.tsx
+M  frontend/src/styles.css
+
+## Removed (0)

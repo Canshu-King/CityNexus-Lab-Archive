@@ -1,0 +1,9 @@
+﻿CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\COPY_PASTE_TO_EAC.txt
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\PACKAGE_INVENTORY.txt
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\README_FIRST.md
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\docs\EAC_INTEGRATION_TASK.md
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\docs\HIGH_CONFIDENCE_FINDINGS.md
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\docs\INDEPENDENT_REVIEW_OF_WORKBUDDY.md
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\docs\PATCH_SAFETY_NOTE.md
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\docs\WORKBUDDY_NEXT_DELTA.md
+CityNexus-EAC-WorkBuddy-Findings-Integration-20260917\reference\CityNexus-WorkBuddy-GLM53Flash-Overnight-RedTeam-20260917(1).zip

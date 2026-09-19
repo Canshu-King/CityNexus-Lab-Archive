@@ -1,0 +1,3 @@
+﻿place-gulangyu-organ 'CN-鍘﹂棬'
+place-gulangyu-pier 'CN-鍘﹂棬'
+place-longtou-food 'CN-鍘﹂棬'

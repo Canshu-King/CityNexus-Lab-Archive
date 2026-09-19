@@ -1,0 +1,56 @@
+[WebServer] (node:46108) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 42 tests using 1 worker
+
+(node:46008) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [desktop-chromium] › tests\acceptance.spec.ts:14:3 › V18.2 traveler-first experience acceptance › 1 · desktop shell keeps SYSTEM secondary and Journey Pulse primary (578ms)
+  ok  2 [desktop-chromium] › tests\acceptance.spec.ts:38:3 › V18.2 traveler-first experience acceptance › 2 · journey page orders Pulse → Today timeline → Live map and keeps detail collapsed (479ms)
+  ok  3 [desktop-chromium] › tests\acceptance.spec.ts:54:3 › V18.2 traveler-first experience acceptance › 3 · DIRECT What-If creates no Agent run (306ms)
+  ok  4 [desktop-chromium] › tests\acceptance.spec.ts:63:3 › V18.2 traveler-first experience acceptance › 4 · recorded Hermes run is truthful, approval-gated, and never advances on a timer (2.4s)
+  ok  5 [desktop-chromium] › tests\acceptance.spec.ts:92:3 › V18.2 traveler-first experience acceptance › 5 · failed and stopped runs stay readable; long tool names stay contained (903ms)
+  ok  6 [desktop-chromium] › tests\acceptance.spec.ts:117:3 › V18.2 traveler-first experience acceptance › 6 · recovery diff explains why, protects commitments, and makes approval distinct (355ms)
+  -   7 [desktop-chromium] › tests\acceptance.spec.ts:137:3 › V18.2 traveler-first experience acceptance › 7 · mobile mini composer and bottom sheet surface mission, step, approval
+  -   8 [desktop-chromium] › tests\acceptance.spec.ts:162:3 › V18.2 traveler-first experience acceptance › 8 · mobile map sheet content changes by 24/55/90 state
+  ok  9 [desktop-chromium] › tests\acceptance.spec.ts:180:3 › V18.2 traveler-first experience acceptance › 9 · Chinese long content stays readable without horizontal overflow (390ms)
+  ok 10 [desktop-chromium] › tests\acceptance.spec.ts:190:3 › V18.2 traveler-first experience acceptance › 10 · reduced motion keeps state clarity with zero-duration motion (553ms)
+  ok 11 [desktop-chromium] › tests\acceptance.spec.ts:204:3 › V18.2 traveler-first experience acceptance › 11 · failure and offline states show a useful next action (954ms)
+  ok 12 [desktop-chromium] › tests\acceptance.spec.ts:215:3 › V18.2 traveler-first experience acceptance › 12 · Copilot is keyboard openable and Escape returns focus (454ms)
+  ok 13 [desktop-chromium] › tests\acceptance.spec.ts:232:3 › V18.2 traveler-first experience acceptance › 13 · key routes produce no console or page errors (430ms)
+  ok 14 [desktop-chromium] › tests\acceptance.spec.ts:245:3 › V18.2 traveler-first experience acceptance › 14 · unresolved and stale evidence block approval with a clear next action (369ms)
+(node:38536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  15 [mobile-chromium] › tests\acceptance.spec.ts:14:3 › V18.2 traveler-first experience acceptance › 1 · desktop shell keeps SYSTEM secondary and Journey Pulse primary
+  ok 16 [mobile-chromium] › tests\acceptance.spec.ts:38:3 › V18.2 traveler-first experience acceptance › 2 · journey page orders Pulse → Today timeline → Live map and keeps detail collapsed (550ms)
+  ok 17 [mobile-chromium] › tests\acceptance.spec.ts:54:3 › V18.2 traveler-first experience acceptance › 3 · DIRECT What-If creates no Agent run (330ms)
+  ok 18 [mobile-chromium] › tests\acceptance.spec.ts:63:3 › V18.2 traveler-first experience acceptance › 4 · recorded Hermes run is truthful, approval-gated, and never advances on a timer (2.5s)
+  ok 19 [mobile-chromium] › tests\acceptance.spec.ts:92:3 › V18.2 traveler-first experience acceptance › 5 · failed and stopped runs stay readable; long tool names stay contained (897ms)
+  ok 20 [mobile-chromium] › tests\acceptance.spec.ts:117:3 › V18.2 traveler-first experience acceptance › 6 · recovery diff explains why, protects commitments, and makes approval distinct (380ms)
+  ok 21 [mobile-chromium] › tests\acceptance.spec.ts:137:3 › V18.2 traveler-first experience acceptance › 7 · mobile mini composer and bottom sheet surface mission, step, approval (715ms)
+  ok 22 [mobile-chromium] › tests\acceptance.spec.ts:162:3 › V18.2 traveler-first experience acceptance › 8 · mobile map sheet content changes by 24/55/90 state (951ms)
+  ok 23 [mobile-chromium] › tests\acceptance.spec.ts:180:3 › V18.2 traveler-first experience acceptance › 9 · Chinese long content stays readable without horizontal overflow (413ms)
+  ok 24 [mobile-chromium] › tests\acceptance.spec.ts:190:3 › V18.2 traveler-first experience acceptance › 10 · reduced motion keeps state clarity with zero-duration motion (651ms)
+  ok 25 [mobile-chromium] › tests\acceptance.spec.ts:204:3 › V18.2 traveler-first experience acceptance › 11 · failure and offline states show a useful next action (1.1s)
+  -  26 [mobile-chromium] › tests\acceptance.spec.ts:215:3 › V18.2 traveler-first experience acceptance › 12 · Copilot is keyboard openable and Escape returns focus
+  ok 27 [mobile-chromium] › tests\acceptance.spec.ts:232:3 › V18.2 traveler-first experience acceptance › 13 · key routes produce no console or page errors (514ms)
+  ok 28 [mobile-chromium] › tests\acceptance.spec.ts:245:3 › V18.2 traveler-first experience acceptance › 14 · unresolved and stale evidence block approval with a clear next action (371ms)
+(node:51400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  29 [mobile-large-chromium] › tests\acceptance.spec.ts:14:3 › V18.2 traveler-first experience acceptance › 1 · desktop shell keeps SYSTEM secondary and Journey Pulse primary
+  ok 30 [mobile-large-chromium] › tests\acceptance.spec.ts:38:3 › V18.2 traveler-first experience acceptance › 2 · journey page orders Pulse → Today timeline → Live map and keeps detail collapsed (575ms)
+  ok 31 [mobile-large-chromium] › tests\acceptance.spec.ts:54:3 › V18.2 traveler-first experience acceptance › 3 · DIRECT What-If creates no Agent run (343ms)
+  ok 32 [mobile-large-chromium] › tests\acceptance.spec.ts:63:3 › V18.2 traveler-first experience acceptance › 4 · recorded Hermes run is truthful, approval-gated, and never advances on a timer (2.5s)
+  ok 33 [mobile-large-chromium] › tests\acceptance.spec.ts:92:3 › V18.2 traveler-first experience acceptance › 5 · failed and stopped runs stay readable; long tool names stay contained (888ms)
+  ok 34 [mobile-large-chromium] › tests\acceptance.spec.ts:117:3 › V18.2 traveler-first experience acceptance › 6 · recovery diff explains why, protects commitments, and makes approval distinct (407ms)
+  ok 35 [mobile-large-chromium] › tests\acceptance.spec.ts:137:3 › V18.2 traveler-first experience acceptance › 7 · mobile mini composer and bottom sheet surface mission, step, approval (806ms)
+  ok 36 [mobile-large-chromium] › tests\acceptance.spec.ts:162:3 › V18.2 traveler-first experience acceptance › 8 · mobile map sheet content changes by 24/55/90 state (1.2s)
+  ok 37 [mobile-large-chromium] › tests\acceptance.spec.ts:180:3 › V18.2 traveler-first experience acceptance › 9 · Chinese long content stays readable without horizontal overflow (431ms)
+  ok 38 [mobile-large-chromium] › tests\acceptance.spec.ts:190:3 › V18.2 traveler-first experience acceptance › 10 · reduced motion keeps state clarity with zero-duration motion (665ms)
+  ok 39 [mobile-large-chromium] › tests\acceptance.spec.ts:204:3 › V18.2 traveler-first experience acceptance › 11 · failure and offline states show a useful next action (1.1s)
+  -  40 [mobile-large-chromium] › tests\acceptance.spec.ts:215:3 › V18.2 traveler-first experience acceptance › 12 · Copilot is keyboard openable and Escape returns focus
+  ok 41 [mobile-large-chromium] › tests\acceptance.spec.ts:232:3 › V18.2 traveler-first experience acceptance › 13 · key routes produce no console or page errors (600ms)
+  ok 42 [mobile-large-chromium] › tests\acceptance.spec.ts:245:3 › V18.2 traveler-first experience acceptance › 14 · unresolved and stale evidence block approval with a clear next action (440ms)
+
+  6 skipped
+  36 passed (30.0s)

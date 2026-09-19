@@ -1,0 +1,126 @@
+{
+  "gate": "SNAPSHOT_E_DELTA_GATE",
+  "reviewer": "WorkBuddy AI (independent read-only red-team)",
+  "date": "2026-09-15",
+  "verdict": "BLOCKED",
+  "frozen_snapshot": {
+    "name": "CityNexus-EAC-V19.2.2-RealPhone-CodeGate-Final-20260915.zip",
+    "sha256": "20b91aa97b523d97b83a44bed1d810bea7dde4578da1a2bde792388a7465ab36",
+    "submitted_source_files": 17,
+    "source_matches_live_main_tree": "17/17 byte-identical"
+  },
+  "declared_patch_baseline": {
+    "name": "CityNexus-V19.2.1-RealPhone-ShadowTrial-Gate-20260915.zip",
+    "sha256": "797239dc2652a38f96cf1b37aa03cc432188d3d6b485e86ff5344c97d9e8839e"
+  },
+  "main_tree_modified": false,
+  "gates": [
+    {
+      "id": 1,
+      "name": "C4 temporal ordering",
+      "verdict": "FAIL",
+      "sub_results": {
+        "T01_ARRIVAL_1230": "FAIL",
+        "T02_DEPARTURE_1530": "FAIL",
+        "T03_MIDTRIP_1300": "PASS",
+        "T04_ARRIVAL_MIDTRIP_DEPARTURE": "FAIL",
+        "T05_ARRIVAL_AFTER_DEPARTURE": "FAIL",
+        "gate_accepts_impossible_plan": true
+      },
+      "evidence": ["_results/c4_probe.json", "_results/gate_probe.json"]
+    },
+    {
+      "id": 2,
+      "name": "HARD recovery governance",
+      "verdict": "FAIL",
+      "sub_results": {
+        "R01_client_only_dismissal": "FAIL",
+        "button_label": "Continue without changes",
+        "backend_call_on_acknowledge": false,
+        "acknowledge_endpoint_exists": false
+      },
+      "evidence": ["_tree/frontend/src/features/recovery/RecoveryRequiredPanel.tsx:75-78,123", "_results/recovery_probe.json"]
+    },
+    {
+      "id": 3,
+      "name": "Recovery resolution lifecycle",
+      "verdict": "FAIL",
+      "sub_results": {
+        "R02": "FAIL",
+        "projection_state": "RESOLVED",
+        "event_status": "DETECTED",
+        "flags_recovery_required": true,
+        "resolve_call_sites": ["main.py:2008 (capability confirm only)"]
+      },
+      "evidence": ["_results/recovery_probe.json"]
+    },
+    {
+      "id": 4,
+      "name": "No-alternative state",
+      "verdict": "FAIL",
+      "sub_results": {
+        "R03": "FAIL",
+        "derived_from": "is_feasible is None",
+        "candidate_plan_count_at_decision": 1,
+        "replan_attempted": false
+      },
+      "evidence": ["_tree/backend/app/planning/hard_recovery.py:165", "_results/recovery_probe.json"]
+    },
+    {
+      "id": 5,
+      "name": "Stale candidate listing",
+      "verdict": "FAIL",
+      "sub_results": {
+        "S01_stale_candidate_flagged": "FAIL",
+        "S02_start_blocked_409": "PASS"
+      },
+      "evidence": ["_tree/backend/app/main.py:3857-3865", "_snapshotE/.../evidence/stale_candidates_d.json"]
+    },
+    {
+      "id": 6,
+      "name": "Legacy duplicate DB migration",
+      "verdict": "FAIL",
+      "sub_results": {
+        "D00_quarantine_helper_runs": "FAIL (CHECK constraint on events.event_type)",
+        "D01_migration_survives_legacy_db": "FAIL (ensure_schema raises)",
+        "D02_uniqueness_enforceable": "FAIL (index absent)",
+        "D03_concurrent_duplicate_rejected": "FAIL (new duplicate accepted)"
+      },
+      "evidence": ["_results/db_migration_probe.json", "_results/db_migration_probe2.json"]
+    },
+    {
+      "id": 7,
+      "name": "Patch portability",
+      "verdict": "FAIL",
+      "sub_results": {
+        "P01_git_apply_check_clean_baseline": "FAIL (exit 1)",
+        "failing_paths": ["contracts/openapi.yaml"],
+        "passing_paths": 16,
+        "root_cause": "baseline openapi.yaml is mixed CRLF(792)/LF(1551); patch emitted from LF-normalised content"
+      },
+      "evidence": ["_results/p01_apply_check.txt", "_results/p01_apply_check_excluded.txt", "_results/p01_apply_check_lf.txt"]
+    }
+  ],
+  "new_blockers_not_in_review": [
+    {
+      "id": "D00",
+      "summary": "quarantine_duplicate_confirmation_identities() writes event_type='RESERVATION_IDENTITY_DUPLICATE', which violates the events.event_type CHECK in db/schema.sql. The transaction always rolls back: 0 events written, 0 statuses changed. The claimed repair path is dead code."
+    }
+  ],
+  "acceptance_matrix": {
+    "T01": "FAIL", "T02": "FAIL", "T03": "PASS", "T04": "FAIL", "T05": "FAIL",
+    "R01": "FAIL", "R02": "FAIL", "R03": "FAIL", "R04": "NOT_MEASURED",
+    "S01": "FAIL", "S02": "PASS",
+    "D01": "FAIL", "D02": "FAIL", "D03": "FAIL",
+    "P01": "FAIL", "P02": "NOT_MEASURED",
+    "G01": "NOT_MEASURED", "G02": "NOT_MEASURED", "G03": "NOT_MEASURED",
+    "G04": "NOT_MEASURED", "G05": "NOT_MEASURED", "A01": "NOT_MEASURED"
+  },
+  "notes": [
+    "R04/G01-G05/A01/P02 are out of scope for a narrow delta gate and were deliberately not re-run; they are not claimed as passing.",
+    "No live DeepSeek canary was run. No physical-device pass is claimed.",
+    "The authoritative main tree D:\\moodle\\CityNexus was never modified.",
+    "BASELINE DRIFT: the main tree was modified by another agent during this audit (22:07-22:20). This verdict is bound to the frozen Snapshot E zip and is unaffected. See ADDENDUM_V1923_INFLIGHT_DELTA.md.",
+    "IN-FLIGHT V19.2.3 (not a verdict, build still running): C4 T01-T05 now pass; R03 derivation fixed; DB migration reworked with a partial unique index; resolve_recovery_events added to plan-select and /experience; POST /journeys/{id}/recovery/acknowledge added. STILL OPEN in flight: app/replanning/feasibility.py untouched so the gate still accepts pre-arrival/post-departure/impossible-anchor plans (measured passed=true); RecoveryRequiredPanel.tsx byte-identical to Snapshot E so the new acknowledge endpoint is not wired to any client; reservation_identity.py unchanged so D00 likely still reproduces."
+  ]
+}

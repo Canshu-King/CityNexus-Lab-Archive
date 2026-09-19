@@ -1,0 +1,70 @@
+[
+  {
+    "ts": "2026-09-16T18:58:39.128Z",
+    "step": "shot",
+    "n": "00_nonjson_error",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\pt_00_nonjson_error.png"
+  },
+  {
+    "ts": "2026-09-16T18:58:39.132Z",
+    "step": "P1a_nonjson_error",
+    "alert": "暂时无法识别这段内容。可以把确认短信粘贴到下方多模态收件箱、使用手动填写，或检查 JSON 格式后重试。"
+  },
+  {
+    "ts": "2026-09-16T18:58:43.228Z",
+    "step": "shot",
+    "n": "01_valid_after_patch",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\pt_01_valid_after_patch.png"
+  },
+  {
+    "ts": "2026-09-16T18:58:43.231Z",
+    "step": "P1b_card",
+    "cardText": "· 实时状态待确认 WB-PATCH-TEST-001 厦门北 → 福州南 9月21日 09:30 → 9月21日 10:42 价格未知 已保护"
+  },
+  {
+    "ts": "2026-09-16T18:58:49.441Z",
+    "step": "shot",
+    "n": "02_dock_patched",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\pt_02_dock_patched.png"
+  },
+  {
+    "ts": "2026-09-16T18:58:49.443Z",
+    "step": "P3_dock_head",
+    "hasDeepSeek": false,
+    "hasHermes": false,
+    "hasSemanticBar": false
+  },
+  {
+    "ts": "2026-09-16T18:59:04.539Z",
+    "step": "shot",
+    "n": "03_reply_patched",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\pt_03_reply_patched.png"
+  },
+  {
+    "ts": "2026-09-16T18:59:04.541Z",
+    "step": "P3_reply_scan",
+    "leaks": {},
+    "hasFriendlySearch": true,
+    "hasExploreChip": true,
+    "snippet": "菜单 / 今天 EN CN CityNexus Copilot 基于你行程的真实数据作答，绝不编造 × 你 鼓浪屿好玩吗？适合下午去吗？ CityNexus 我会基于当前城市和行程上下文搜索候选地点；搜索结果不会直接写入方案。 探索 搜索候选地点 询问 Copilot 今天 行程 地图 Copilot 我的"
+  },
+  {
+    "ts": "2026-09-16T18:59:10.255Z",
+    "step": "shot",
+    "n": "04_ai_filled",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\pt_04_ai_filled.png"
+  },
+  {
+    "ts": "2026-09-16T18:59:35.366Z",
+    "step": "shot",
+    "n": "05_ai_terminal",
+    "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\pt_05_ai_terminal.png"
+  },
+  {
+    "ts": "2026-09-16T18:59:35.368Z",
+    "step": "P2_terminal",
+    "text": "AI 帮我规划 用你自己的话描述这趟旅行，越具体越好。 × 旅行需求 我和朋友两个人去厦门，想轻松一点，想… 带爸妈去厦门三天，不要走太多路，下午… 这次没能生成方案 规划助手没有找到足够真实的候选地点来生成方案。你的行程没有被改动，可以换个说法重试，或先添加想去的地点。 用户计划两人厦门休闲游，核心诉求是鼓浪屿、环岛路、沙茶面和海鲜，并强调节奏轻松、不赶行程。 稍后 开始规划",
+    "honestReady": true,
+    "fakeReady": false
+  }
+]

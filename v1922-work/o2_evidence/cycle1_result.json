@@ -1,0 +1,91 @@
+{
+ "cycle": 1,
+ "hypothesis": "chosen plan + hotel survive hard refresh, browser back/forward and tab re-entry with no stale/contradictory readings across Today/Trips/Live/backend",
+ "steps": [
+  {
+   "name": "wizard-create",
+   "value": "jid=dd2d8d72-9f81-460a-bf7a-3fe8d64c0fbc inferred=\"已自动设置：中国 · 人民币 · 中国标准时间\""
+  },
+  {
+   "name": "ai-plan",
+   "value": "plan_count=3 text=\"已生成 3 个可选方案 去“今天”对比这几个方案，选一个再继续。 厦门首次到访，核心想体验看海、老街和日落，节奏偏轻松，可调整用餐、交通、休息和购物安排，避免行程过赶。\""
+  },
+  {
+   "name": "choose-plan",
+   "value": "cards=3 chosen=true bands=预算内/预算内/预算内"
+  },
+  {
+   "name": "choose-hotel",
+   "value": "cards=10 chosen=true name=\"汉庭酒店\" err=\"\""
+  },
+  {
+   "name": "backend-baseline",
+   "value": "{\"active_plan\":\"fd10ad3a-0803-40b7-a1b4-c865f6d2d6bf\",\"activities\":14,\"activity_ids\":\"16a04ee4-8344-4ad1-b5a1-45860d4706a4,ac72a21c-692e-462b-88d2-da6996dd253f,7198bb3b-3ff8-4471-b7f2-c11035688799,59259145-8790-4562-851c-aae03dba1e29,26f9abfc-f8bb-4020-a803-da91f725c683,08d5a703-"
+  },
+  {
+   "name": "hub-read",
+   "value": "{\"today_stay\":\"汉庭酒店\",\"today_next\":\"下一步\\n02:00 厦门高崎国际机场\\n今天没有安排\\n住宿\\n汉庭酒店\\n已确认的住宿\\n需要关注\\n一切正常\\n没有影响行程的变化\",\"trips_stops\":0,\"live_current\":\"\",\"hotel_selected\":0}"
+  },
+  {
+   "name": "trips-read",
+   "value": "{\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":7,\"live_current\":\"\",\"hotel_selected\":0}"
+  },
+  {
+   "name": "trips-stay-read",
+   "value": "{\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":0,\"live_current\":\"\",\"hotel_selected\":1}"
+  },
+  {
+   "name": "map-read",
+   "value": "panels=1"
+  },
+  {
+   "name": "hub-reentry",
+   "value": "{\"today_stay\":\"汉庭酒店\",\"today_next\":\"下一步\\n02:00 厦门高崎国际机场\\n今天没有安排\\n住宿\\n汉庭酒店\\n已确认的住宿\\n需要关注\\n一切正常\\n没有影响行程的变化\",\"trips_stops\":0,\"live_current\":\"\",\"hotel_selected\":0}"
+  },
+  {
+   "name": "refresh-trips",
+   "value": "before={\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":7,\"live_current\":\"\",\"hotel_selected\":0} after={\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":7,\"live_current\":\"\",\"hotel_selected\":0}"
+  },
+  {
+   "name": "refresh-hub",
+   "value": "before={\"today_stay\":\"汉庭酒店\",\"today_next\":\"下一步\\n02:00 厦门高崎国际机场\\n今天没有安排\\n住宿\\n汉庭酒店\\n已确认的住宿\\n需要关注\\n一切正常\\n没有影响行程的变化\",\"trips_stops\":0,\"live_current\":\"\",\"hotel_selected\":0} after={\"today_stay\":\"汉庭酒店\",\"today_next\":\"下一步\\n02:00 厦门高崎国际机场\\n今天没有安排\\n住宿\\n汉庭酒店\\n已确认的住宿\\n需要关注\\n一切正常\\n没有影响行程的变化\",\"trips_stops\":0,\"live_c"
+  },
+  {
+   "name": "refresh-live",
+   "value": "before={\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":0,\"live_current\":\"厦门高崎国际机场\",\"hotel_selected\":0} after={\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":0,\"live_current\":\"厦门高崎国际机场\",\"hotel_selected\":0}"
+  },
+  {
+   "name": "back-forward",
+   "value": "/v8/trips -> /v8/hub -> /v8/trips -> /v8/live"
+  },
+  {
+   "name": "after-backforward",
+   "value": "{\"today_stay\":\"\",\"today_next\":\"\",\"trips_stops\":0,\"live_current\":\"厦门高崎国际机场\",\"hotel_selected\":0}"
+  },
+  {
+   "name": "backend-after",
+   "value": "{\"active_plan\":\"fd10ad3a-0803-40b7-a1b4-c865f6d2d6bf\",\"activities\":14,\"activity_ids\":\"16a04ee4-8344-4ad1-b5a1-45860d4706a4,ac72a21c-692e-462b-88d2-da6996dd253f,7198bb3b-3ff8-4471-b7f2-c11035688799,59259145-8790-4562-851c-aae03dba1e29,26f9abfc-f8bb-4020-a803-da91f725c683,08d5a703-"
+  },
+  {
+   "name": "verdict-inputs",
+   "value": "planSame=true stopsSame=true staySame=true => identical=true"
+  }
+ ],
+ "errors": [],
+ "jid": "dd2d8d72-9f81-460a-bf7a-3fe8d64c0fbc",
+ "baseline": {
+  "active_plan": "fd10ad3a-0803-40b7-a1b4-c865f6d2d6bf",
+  "activities": 14,
+  "activity_ids": "16a04ee4-8344-4ad1-b5a1-45860d4706a4,ac72a21c-692e-462b-88d2-da6996dd253f,7198bb3b-3ff8-4471-b7f2-c11035688799,59259145-8790-4562-851c-aae03dba1e29,26f9abfc-f8bb-4020-a803-da91f725c683,08d5a703-b107-4f14-9120-f6123f0e8994,0c184f7d-b67a-448b-a35b-09df52f47ae1,291e98ed-cf88-4094-85a4-261dbc840b80,82790efe-ef09-45b2-b1e4-839b52205e6b,cd3471c0-f026-4575-bbd8-58d4003ff32a,e1cbab63-73b1-45af-a850-aa3e82e88fc9,bd88ab63-6949-43e4-baaf-e38eb72ea712,a259d917-1ed7-4c7d-81f7-5e68ba034eba,2f8d7213-2505-4c66-a6f7-41d4c9efb703",
+  "selected_stay": "11397a91-22cc-471a-a0fa-4f3019be0e9f",
+  "stay_selected": "11397a91-22cc-471a-a0fa-4f3019be0e9f",
+  "stay_name": "汉庭酒店"
+ },
+ "after": {
+  "active_plan": "fd10ad3a-0803-40b7-a1b4-c865f6d2d6bf",
+  "activities": 14,
+  "activity_ids": "16a04ee4-8344-4ad1-b5a1-45860d4706a4,ac72a21c-692e-462b-88d2-da6996dd253f,7198bb3b-3ff8-4471-b7f2-c11035688799,59259145-8790-4562-851c-aae03dba1e29,26f9abfc-f8bb-4020-a803-da91f725c683,08d5a703-b107-4f14-9120-f6123f0e8994,0c184f7d-b67a-448b-a35b-09df52f47ae1,291e98ed-cf88-4094-85a4-261dbc840b80,82790efe-ef09-45b2-b1e4-839b52205e6b,cd3471c0-f026-4575-bbd8-58d4003ff32a,e1cbab63-73b1-45af-a850-aa3e82e88fc9,bd88ab63-6949-43e4-baaf-e38eb72ea712,a259d917-1ed7-4c7d-81f7-5e68ba034eba,2f8d7213-2505-4c66-a6f7-41d4c9efb703",
+  "selected_stay": "11397a91-22cc-471a-a0fa-4f3019be0e9f",
+  "stay_selected": "11397a91-22cc-471a-a0fa-4f3019be0e9f"
+ }
+}

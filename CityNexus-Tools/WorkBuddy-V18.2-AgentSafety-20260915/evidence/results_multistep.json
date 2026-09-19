@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "harness": "tests/multistep_agent.py",
+    "base_url": "http://127.0.0.1:8021",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "generated_at": "2026-09-14T17:45:55.240395+00:00"
+  },
+  "summary": {
+    "PASS": 6,
+    "FAIL": 0,
+    "NOT_TESTED": 0
+  },
+  "scenarios": [
+    {
+      "id": "C1",
+      "name": "read chain executes with ALLOW_AUTO and no gating",
+      "expected": "all four reads 200/ALLOW_AUTO",
+      "actual": "inspect_journey:200/ALLOW_AUTO; inspect_twin:200/ALLOW_AUTO; list_replans:200/ALLOW_AUTO; search_city_services:200/ALLOW_AUTO",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "C2",
+      "name": "same request_id is idempotent: one approval, no double execution",
+      "expected": "identical approval_id and executed=false on replay",
+      "actual": "first=a5442ec7-6c23-452b-accd-5a008e660fe6 second=a5442ec7-6c23-452b-accd-5a008e660fe6 executed_2nd=False",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "C3",
+      "name": "a RESCHEDULE receipt cannot authorise CREATE_BOOKING",
+      "expected": "refused (409/422 envelope) and executed != true",
+      "actual": "http=409 decision=None executed=None",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "C4",
+      "name": "a receipt from journey A cannot be consumed on journey B",
+      "expected": "refused and executed != true",
+      "actual": "http=409 executed=False",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "C5",
+      "name": "accept_replan on a real proposal is never auto-executed",
+      "expected": "gated decision and executed=false",
+      "actual": "http=200 decision=REQUIRE_CONFIRMATION executed=False",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "C6",
+      "name": "act -> verify: inspect_journey reads back the same authoritative journey",
+      "expected": "execute succeeds and a follow-up read returns the journey",
+      "actual": "executed=True read_back_journey=22222222-2222-4222-8222-222222222222",
+      "status": "PASS",
+      "evidence": null
+    }
+  ]
+}

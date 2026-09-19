@@ -1,0 +1,54 @@
+{
+  "setup_event_id": "41f8db27-acb6-4a58-af7c-27db522765e9",
+  "R01": {
+    "projected_state": "RECOVERY_REQUIRED",
+    "event_status": "DETECTED",
+    "db_event_status": "DETECTED",
+    "expected": "must NOT be RESOLVED while Event is open",
+    "verdict": "PASS",
+    "finding": null
+  },
+  "R02": {
+    "db_event_status": "DETECTED",
+    "experience_recovery_state": "RECOVERY_REQUIRED",
+    "experience_flags_recovery_state": "RECOVERY_REQUIRED",
+    "experience_flags_recovery_required": true,
+    "expected": "must not contradict (RESOLVED projection requires a resolved Event)",
+    "verdict": "PASS"
+  },
+  "R03": {
+    "db_event_status_before_GET": "DETECTED",
+    "projection_state": "RECOVERY_REQUIRED",
+    "flags_state": "RECOVERY_REQUIRED",
+    "handler_calls_resolve_recovery_events": false,
+    "resolve_returned": 0,
+    "db_event_status_after_projection": "DETECTED",
+    "expected": "GET must not mutate durable recovery state",
+    "verdict": "PASS",
+    "finding": "GET /experience is a pure projection; the durable Event is unchanged"
+  },
+  "R04": {
+    "a_no_replan_attempted": {
+      "replan_attempted": false,
+      "candidate_plan_count": 0,
+      "candidate_plan_ids": [],
+      "expected": "zero candidates (no validated replan outcome exists)",
+      "verdict": "PASS"
+    },
+    "b_replan_zero_feasible": {
+      "replan_attempted": true,
+      "no_alternative": true,
+      "state": "RECOVERY_REQUIRED_NO_ALTERNATIVE",
+      "candidate_plan_count": 0,
+      "candidate_plan_ids": [],
+      "expected": "zero candidates when no_alternative is True",
+      "verdict": "PASS"
+    },
+    "contradiction": null
+  },
+  "S04_acknowledge": {
+    "event_status_after_ack": "ACKNOWLEDGED",
+    "recovery_state_after_ack": "RECOVERY_REQUIRED_NO_ALTERNATIVE",
+    "expected": "ACKNOWLEDGED must not resolve; backend helper is wired at main.py:2024 POST /journeys/{id}/recovery/acknowledge"
+  }
+}

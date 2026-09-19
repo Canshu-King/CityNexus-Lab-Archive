@@ -1,0 +1,46 @@
+CityNexus Snapshot J Final Trial Closure — package inventory
+============================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+
+All five named backend truth gaps (B1-B5) were addressed.
+The consumer product items and the canonical visible-UI run are NOT done.
+
+Reports
+-------
+BACKEND_TRUTH_GAP_RESULTS.md  B1-B5: root cause, fix, verification
+TEST_RESULTS.md               real numbers incl. the 5->0 regression history
+REMAINING_PRODUCT_GAPS.md     ordered remaining work
+CHANGED_FILES.txt             1 added, 4 modified
+PACKAGE_INVENTORY.txt         this file
+
+evidence/
+  SNAPSHOT_J_MANIFEST.json    frozen Snapshot J + sha256 (matches Road-Prep)
+
+patches/                      the Road-Prep documents this round executed
+screenshots/before/           Snapshot I acceptance captures
+source/                       the 5 changed source files
+
+Changed sources
+---------------
+  backend/app/stay_mobility.py
+    _reschedule_with_carried   all four structural roles survive (B1)
+                               locked nodes pinned (B2)
+  backend/app/main.py
+    replan metadata merges instead of replacing semantic_key (B5)
+    server-owned Place providers excluded from candidates (B5)
+    mobility pairs normalised to one canonical key space (B5)
+    precise unresolved reason evaluated before the generic fallback (B3)
+    ambiguous CLOSURE/WEATHER is no longer guessed (B4)
+  backend/app/integrations/mobility/runtime.py
+    _place_lookup resolves a structural semantic_key via activity metadata (B5)
+  backend/app/integrations/discovery/real_city.py
+    discovery clients use trust_env=False (machine proxy caused ConnectTimeout)
+  backend/tests/test_snapshot_j_backend_truth_gaps.py   NEW (7 tests)
+
+Explicit non-claims
+-------------------
+* No physical-device testing.
+* No real payment executed.
+* VISIBLE_UI_TRACE.json is NOT included: the canonical browser run was not
+  completed, so there is nothing truthful to put in it

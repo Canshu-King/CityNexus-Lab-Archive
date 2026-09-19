@@ -1,0 +1,146 @@
+You are continuing the real CityNexus repo at D:\moodle\CityNexus.
+
+Current externally accepted milestones before this batch:
+- Integrated backend-connected Vertical Slice: FROZEN_PASS
+- Provider Runtime / frozen MobilitySnapshot: FROZEN_PASS
+
+The uploaded Weather Runtime checkpoint is strong and its reported baseline was independently reproduced:
+- 12 WRT tests PASS
+- weather trigger/scope hardening PASS
+- Provider/Golden regressions PASS
+- full submitted backend 188 passed, 1 skipped
+
+However external adversarial review found 6 additional semantic defects. Do NOT start OR-Tools yet.
+
+First:
+  git status --short
+  git diff --stat
+
+Never reset/clean/checkout-away existing user work.
+
+==================================================
+A. TEST FIRST
+==================================================
+
+Copy only:
+  tests/test_gpt_weather_adversarial_next.py
+into:
+  backend/tests/test_gpt_weather_adversarial_next.py
+
+Run from backend:
+  python -m pytest -q tests/test_gpt_weather_adversarial_next.py
+
+The submitted checkpoint fails all 6. The current Windows tree may already contain later changes, so merge only what is still missing.
+
+WRH-01
+Open-Meteo requested hourly arrays must have equal length. Malformed parallel arrays must fail closed as OpenMeteoProviderError, not silently fill missing values with None.
+
+WRH-02
+Persist weather snapshot capture time into trusted evidence. Forecast valid time and provider capture time are different facts.
+
+WRH-03
+A future forecast bucket must not become the current Journey clock. A weather Event detected/captured at 11:00 for a 15:00 risk must become actionable at capture/detection time while keeping 15:00-16:00 as forecast validity.
+
+WRH-04
+When a later successful Open-Meteo response explicitly covers the same bucket/scope and the risk falls below threshold, resolve the prior active WEATHER Event with auditable FORECAST_CLEARED evidence. Failure/no coverage must NOT clear it.
+
+WRH-05
+Repeated polling of the same stable weather phenomenon should reuse Event identity but refresh trusted provider evidence and latest snapshot_captured_at. Do not keep stale 80% evidence when the same bucket later reports 95%.
+
+WRH-06
+Downstream Replan must use the latest provider capture/decision time, not forecast_valid_from, when capturing MobilitySnapshot and evaluating current recovery time.
+
+==================================================
+B. REFERENCE IMPLEMENTATION
+==================================================
+
+Use semantic merge. Reference only:
+  patches/02_WEATHER_RUNTIME_HARDENING_CODE.patch
+  reference_overlay/
+
+The reference changes are intentionally narrow:
+- strict Open-Meteo parallel-array validation
+- WeatherRiskFact carries snapshot_captured_at
+- provider Event persists capture time separately from forecast validity
+- stable Event identity refreshes evidence instead of duplicating
+- coverage-aware forecast-cleared resolution
+- provider WEATHER replan derives effective decision time from latest snapshot_captured_at
+
+Do not broaden this into a scheduler, background worker, new database architecture, or generic event-sourcing rewrite.
+
+==================================================
+C. REQUIRED GATE
+==================================================
+
+Run:
+
+python -m pytest -q \
+  tests/test_gpt_weather_adversarial_next.py \
+  tests/test_weather_runtime_gate_gpt.py \
+  tests/test_weather_runtime_hardening.py \
+  tests/test_weather_refresh_endpoint.py \
+  tests/test_provider_runtime_gate.py \
+  tests/test_gpt_adversarial_provider_hardening.py \
+  tests/test_backend_connected_golden_contract.py \
+  tests/test_wp07_foundation_assist.py
+
+Then:
+  python -m pytest -q
+  python -m compileall -q app tests
+  ruff check app tests
+  ruff format --check app tests
+  python ..\tools\verify_openapi_parity.py
+
+If frontend/API behavior changed, also:
+  npm run build
+  npm run test:e2e
+
+Reference copy results:
+- WRH-01..06: 6 PASS
+- combined targeted regression: 44 PASS
+- full backend printed: 194 passed, 1 skipped
+- compileall PASS
+- this Linux review environment does not have Ruff installed; Windows must run it
+
+==================================================
+D. REVIEW PACKAGE
+==================================================
+
+Create a fresh clean checkpoint after all gates pass.
+Exclude:
+- .venv
+- node_modules
+- dist
+- .pytest_cache
+- __pycache__
+- *.pyc
+- runtime *.db / *.sqlite*
+- test-results
+- .ruff_cache
+
+Include all source/tests/schema/fixtures/contracts needed for fresh extraction.
+
+Report actual results, not stale prose.
+
+==================================================
+E. HARD STOP
+==================================================
+
+After Weather Runtime Hardening is green, STOP and hand the checkpoint back for external freeze.
+
+Do not start OR-Tools in the same mutation batch.
+
+The next solver stage is already mapped in:
+  contracts/SOLVER_RUNTIME_GAP_ANALYSIS.md
+  contracts/NEXT_SOLVER_RUNTIME_BLUEPRINT.md
+
+Important long-term rules remain:
+- durable C4 Commitment is reality authority
+- deterministic feasibility is decision authority
+- Provider != judge
+- OR-Tools != judge
+- AI != judge
+- JourneyTwin != source of truth
+- same operation uses frozen provider reality
+- offline Golden Scenario must survive
+- no hidden live network inside feasibility or GET/Twin

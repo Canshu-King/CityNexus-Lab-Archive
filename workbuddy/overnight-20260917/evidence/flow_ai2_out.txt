@@ -1,0 +1,11 @@
+﻿node.exe : FATAL locator.click: Timeout 30000ms exceeded.
+所在位置 行:445 字符: 163
++ ... e_modules"; & "C:\Users\仓鼠王\.workbuddy\binaries\node\versions\22.22.2 ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FATAL locator.c...000ms exceeded. 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Call log:
+[2m  - waiting for getByRole('button', { name: /AI 甯垜瑙勫垝|AI/ }).first()[22m
+

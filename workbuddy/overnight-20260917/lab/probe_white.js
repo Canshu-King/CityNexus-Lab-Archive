@@ -1,0 +1,20 @@
+const { chromium } = require("playwright-core");
+const fs = require("fs");
+const OUT = "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots";
+(async () => {
+  const browser = await chromium.launch({ executablePath: process.env.LOCALAPPDATA + "\\ms-playwright\\chromium-1243\\chrome-win64\\chrome.exe", headless: true });
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: "zh-CN" });
+  const page = await ctx.newPage();
+  const errs = [];
+  page.on("console", (m) => errs.push(`[${m.type()}] ${m.text()}`));
+  page.on("pageerror", (e) => errs.push("[pageerror] " + e.message + "\n" + (e.stack || "")));
+  page.on("response", (r) => { if (r.status() >= 400) errs.push(`[HTTP ${r.status()}] ${r.url()}`); });
+  await page.goto("http://localhost:5181/v8/hub", { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => localStorage.setItem("citynexus.v8.journey_id", "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9"));
+  await page.goto("http://localhost:5181/v8/hub", { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(8000);
+  const html = await page.content();
+  fs.writeFileSync(OUT + "\\white_screen_report.txt", errs.join("\n") + "\n\nHTML len: " + html.length + "\n\nHTML head:\n" + html.slice(0, 1200), "utf8");
+  console.log(errs.slice(0, 12).join("\n"));
+  await browser.close();
+})().catch((e) => { console.error("FAIL", e.message); process.exit(1); });

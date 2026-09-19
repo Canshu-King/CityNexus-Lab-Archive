@@ -1,0 +1,50 @@
+{
+ "gate_files_used": [
+  "tests/test_v1924_final_truth_gate.py",
+  "tests/test_v1923_final_code_gate.py",
+  "tests/test_v13_integrity.py",
+  "tests/test_wp06_postgate_hardening_next.py",
+  "tests/test_v12_authoritative_trip_execution.py",
+  "tests/test_backend_connected_golden_contract.py",
+  "tests/test_agent_runtime_gate.py"
+ ],
+ "results": [
+  {
+   "id": "J-ACK-RESOLVED",
+   "codex_claim": "KILLED (exit 5, 21 deselected -> 0 跑到)",
+   "mutation_sites": 1,
+   "clean_baseline": {
+    "exit": 0,
+    "summary": "79 passed, 2 warnings in 17.91s",
+    "ran_anything": true
+   },
+   "mutated": {
+    "exit": 1,
+    "summary": "2 failed, 77 passed, 2 warnings in 19.61s",
+    "ran_anything": true,
+    "first_failures": [
+     "FAILED tests/test_v1923_final_code_gate.py::test_v1923_acknowledge_never_resolves_or_hides_recovery",
+     "FAILED tests/test_v1923_final_code_gate.py::test_v1923_acknowledge_does_not_make_infeasible_plan_selectable"
+    ]
+   },
+   "verdict": "KILLED"
+  },
+  {
+   "id": "J-PROTECTED-C4-DROPPED",
+   "codex_claim": "KILLED (exit 4, gate 文件路径不存在 -> 从未运行)",
+   "mutation_sites": 4,
+   "clean_baseline": {
+    "exit": 0,
+    "summary": "79 passed, 2 warnings in 18.79s",
+    "ran_anything": true
+   },
+   "mutated": {
+    "exit": 0,
+    "summary": "79 passed, 2 warnings in 18.98s",
+    "ran_anything": true,
+    "first_failures": []
+   },
+   "verdict": "SURVIVED"
+  }
+ ]
+}

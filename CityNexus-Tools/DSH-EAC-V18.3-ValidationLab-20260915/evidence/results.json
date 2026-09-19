@@ -1,0 +1,104 @@
+{
+  "lab": "DSH-EAC V18.3 6H Independent Validation Lab",
+  "generated_at_note": "aggregated by WorkBuddy continuation run",
+  "backend": {
+    "base_url": "http://127.0.0.1:8022",
+    "isolated": true,
+    "ai": "enabled (DeepSeek process-scope)"
+  },
+  "gateway": {
+    "base_url": "http://127.0.0.1:8653",
+    "profile": "citynexus-harness-lab"
+  },
+  "main_tree_modified": false,
+  "streams": {
+    "A_native_hermes_e2e": {
+      "status": "COMPLETED",
+      "runtime_identity": "HERMES_NATIVE_MCP",
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "event_count": 19,
+      "real_tool_events": 18,
+      "tool_names_seen": [
+        "inspect_journey",
+        "inspect_twin",
+        "list_replans",
+        "request_replan",
+        "search_city_services",
+        "tool_call",
+        "tool_describe"
+      ],
+      "gate": "7-gate isolated native E2E: gateway reachable + real run_id + HERMES_NATIVE_MCP + SSE tool event + gateway sees tool + result from throwaway DB + no authoritative mutation",
+      "result": "PASS (real tool events observed: inspect_journey, inspect_twin, list_replans, request_replan, search_city_services, tool_call, tool_describe)"
+    },
+    "B_semantic_corpus": {
+      "total": 5764,
+      "passed": 5764,
+      "failed": 0,
+      "injection_cases": 4,
+      "method": "offline apply_semantic_policy() vs independent oracle",
+      "result": "PASS"
+    },
+    "C_api_contract": {
+      "f1_resolved_in_snapshot": true,
+      "f2_unconfigured_missing_ready": "SOURCE-CONFIRMED (native_client.native_hermes_status unconfigured branch omits 'ready')",
+      "checks": [
+        "C1_runtime_status",
+        "C2_capabilities_configured",
+        "C3_global_unknown_run_F1",
+        "C4_journey_unknown_run_F1",
+        "C5_stop_unknown_run_F1",
+        "C6_sse_unknown_global",
+        "C7_sse_unknown_journey",
+        "C8_copilot_contract",
+        "C9_plans_generate_seeded",
+        "C10_health"
+      ],
+      "result": "F1 RESOLVED in current snapshot; F2 STILL PRESENT (source-confirmed)"
+    },
+    "D_chaos": {
+      "passed": 5,
+      "total": 6,
+      "cases": [
+        "CH1_unknown_run_get",
+        "CH2_stop_unknown_run",
+        "CH3_sse_unknown_run",
+        "CH4_sse_unknown_run_journey",
+        "CH5_reconnect_dedup",
+        "CH6_stop_completed_run"
+      ],
+      "result": "PASS (safely-injectable cases); gateway-kill/backend-kill/DeepSeek-kill recorded as recipes"
+    },
+    "E_concurrency": {
+      "passed": 2,
+      "total": 4,
+      "cases": [
+        "CN-A_concurrent_same_journey",
+        "CN-B_different_journey_isolation",
+        "CN-C_approval_discovery",
+        "CN-C_approval_discovery"
+      ],
+      "result": "PARTIAL: CN-A/CN-B PASS; CN-C (approval replay) N/A this window (DeepSeek busy -> no ActionApproval produced). Source-level idempotency guarantee documented."
+    },
+    "F_web_mobile_a11y": {
+      "result": "LIMITED: frontend not served in this continuation; F3 (.v8-runtime-card missing CSS) confirmed in source; runtime-truth/a11y recipe documented."
+    }
+  },
+  "defects": {
+    "F1_native_hermes_unconfigured_bare_500": {
+      "status_in_current_snapshot": "RESOLVED",
+      "evidence": "GET/POST unknown run -> 502 (not 500); client now constructed inside try in main.py:491"
+    },
+    "F2_capabilities_unconfigured_missing_ready_key": {
+      "status": "OPEN",
+      "evidence": "native_client.native_hermes_status() unconfigured branch returns configured/reachable/runs/events/approval/stop/profile/provider/model but NO 'ready'; consumers reading caps['ready'] raise KeyError",
+      "file_symbol": "backend/app/integrations/hermes/native_client.py :: native_hermes_status()",
+      "fix": "add 'ready': False to the unconfigured branch"
+    },
+    "F3_v8_runtime_card_missing_css": {
+      "status": "OPEN",
+      "evidence": "frontend/src/styles.css has no .v8-runtime-card rule; <b>/<small> stay display:inline -> label+value+disclaimer collapse into one line across all 3 viewports",
+      "file_symbol": "frontend/src/styles.css (.v8-runtime-card)",
+      "fix": "add .v8-runtime-card { display:block } (sibling .v8-intel-facts already does this)"
+    }
+  }
+}

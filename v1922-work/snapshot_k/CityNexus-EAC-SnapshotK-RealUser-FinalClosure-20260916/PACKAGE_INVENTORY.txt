@@ -1,0 +1,63 @@
+CityNexus Snapshot K Real-User Final Closure — package inventory
+=================================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+
+Backend: both stay-timeline P0s fixed via a pinned constraint calendar;
+disruption-target truth tightened. Probe 2/2 PASS, zero new regressions.
+Product: activity detail implemented; Copilot cleanup done.
+Still open: consumer booking import and the full visible-browser chain.
+
+Reports
+-------
+STAY_TIMELINE_RESULTS.md   probe reproduction, the calendar, all invariants
+PRODUCT_RESULTS.md         what was built, with browser evidence
+TEST_RESULTS.md            real numbers, incl. the 5 -> 0 regression history
+REMAINING_PRODUCT_GAPS.md  ordered remaining work
+CHANGED_FILES.txt          3 added, 12 modified
+PACKAGE_INVENTORY.txt      this file
+
+evidence/
+  SNAPSHOT_K_MANIFEST.json  frozen Snapshot K candidate + sha256 (matches Road-Prep)
+  fe_final.json             browser tab sweep, leak scan, activity detail, errors
+  fe_detail.json            activity-detail interaction trace
+
+probes/                    the Road-Prep probe, run before and after the fix
+patches/                   the Road-Prep documents this round executed
+screenshots/before/        Snapshot I acceptance captures
+screenshots/after/         real browser captures after this round
+source/                    the 15 changed source files
+
+Backend changes
+---------------
+  backend/app/stay_mobility.py
+    _reschedule_with_carried  replaced with a pinned temporal-constraint calendar
+    StayItineraryConflict     explicit conflict instead of dropping a POI
+    build_candidate_nodes     returns the calendar directly; no cursor filtering
+  backend/app/main.py
+    CLOSURE/WEATHER target must be explicitly grounded
+    REPLAN_TARGET_UNRESOLVED + audit when it is not
+  backend/app/integrations/mobility/runtime.py
+  backend/app/integrations/discovery/real_city.py
+  backend/tests/test_snapshot_k_stay_timeline.py        NEW (8 invariant tests)
+  backend/tests/test_snapshot_j_backend_truth_gaps.py   NEW (7 tests)
+  backend/tests/test_wp05_integrity_next.py             target grounding asserted
+  backend/tests/test_wp04_hardening_wp05.py             target grounding asserted
+  backend/tests/test_gpt_agent_authority_v2.py          ungrounded retry refused
+
+Frontend changes
+----------------
+  frontend/src/features/trip/ActivityDetail.tsx   NEW (reference screen 08)
+  frontend/src/features/trip/TripItinerary.tsx    stops open the detail
+  frontend/src/app/V8Experience.tsx               detail routing
+  frontend/src/features/agent/AgentComposer.tsx   internal vocabulary behind Advanced
+  frontend/src/i18n/LocaleContext.tsx             traveller-language copy
+  frontend/src/styles.css                         activity-detail styling
+
+Explicit non-claims
+-------------------
+* No physical-device testing.
+* No real payment executed.
+* VISIBLE_UI_TRACE.json is NOT included: the full visible chain was not driven.
+* Consumer booking import is not built.
+* Visual parity with the ten reference screens is partial.

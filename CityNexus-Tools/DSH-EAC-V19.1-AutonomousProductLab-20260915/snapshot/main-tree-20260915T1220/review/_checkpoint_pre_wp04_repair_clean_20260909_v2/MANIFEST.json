@@ -1,0 +1,40 @@
+{
+  "package": "CityNexus MVP WP00-WP03 pre-WP04 minimal-repair checkpoint",
+  "date": "2026-09-09",
+  "contract": "CityNexus_MVP_Implementation_Blueprint_v0.1.zip",
+  "instruction": "contract-source/PRE_WP04_MINIMAL_REPAIR_INSTRUCTION.md",
+  "scope": ["WP00", "WP01", "WP02", "WP03"],
+  "deferred": [
+    "WP04",
+    "WP05",
+    "WP06",
+    "frontend",
+    "AI",
+    "Visio",
+    "real_network_providers"
+  ],
+  "gate": {
+    "backend_tests": "52 passed",
+    "ruff_check": "PASS",
+    "ruff_format": "PASS",
+    "contract_bootstrap_validator": "PASS",
+    "canonical_candidates": 3,
+    "canonical_journey_state": "PLANNED",
+    "canonical_selected_plan_state": "SELECTED",
+    "locked_cruise_revalidated": true,
+    "internet_dependency": false
+  },
+  "layout": {
+    "implementation_paths_preserved": true,
+    "contract_source": "contract-source/",
+    "entrypoint": "README.md"
+  },
+  "included": [
+    "backend/",
+    "contracts/openapi.yaml",
+    "data/mock/",
+    "scripts/",
+    "docs/implementation/",
+    "contract-source/"
+  ]
+}

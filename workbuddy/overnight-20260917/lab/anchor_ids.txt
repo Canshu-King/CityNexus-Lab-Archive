@@ -1,0 +1,5 @@
+﻿4bc50a59 None
+616695f0 None
+wallet-like tables:
+ table: external_reservation_drafts
+ table: transport_reservations

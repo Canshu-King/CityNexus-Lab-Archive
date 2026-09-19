@@ -1,0 +1,38 @@
+{
+ "journey_id": "ac321549-339c-402d-809d-9ea841eaaa1b",
+ "trace": [
+  {
+   "ts": "2026-09-16T16:19:59.707Z",
+   "journey_id": "ac321549-339c-402d-809d-9ea841eaaa1b",
+   "route": "/v8/trips",
+   "action": "itinerary-open",
+   "status": "4 stops",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:20:01.288Z",
+   "journey_id": "ac321549-339c-402d-809d-9ea841eaaa1b",
+   "route": "/v8/trips",
+   "action": "open-detail",
+   "status": "opened",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:20:01.292Z",
+   "journey_id": "ac321549-339c-402d-809d-9ea841eaaa1b",
+   "route": "/v8/trips",
+   "action": "detail-fields",
+   "status": "厦门景点0 | 1 小时 | 暂无价格 | 暂无数据 | 暂无坐标",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T16:20:02.551Z",
+   "journey_id": "ac321549-339c-402d-809d-9ea841eaaa1b",
+   "route": "/v8/trips",
+   "action": "back-to-itinerary",
+   "status": "ok",
+   "result": ""
+  }
+ ],
+ "errors": []
+}

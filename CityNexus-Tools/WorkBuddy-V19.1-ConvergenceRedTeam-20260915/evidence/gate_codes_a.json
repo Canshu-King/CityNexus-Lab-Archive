@@ -1,0 +1,333 @@
+{
+ "snapshot": "A",
+ "cases": {
+  "control_no_capability": {
+   "declared": null,
+   "generate_status": 201,
+   "plans": 3,
+   "api_message": null,
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [],
+   "gate_failures_all": [],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "walk_500": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-design-library|place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-design-library",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-old-town|place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-river-cruise|place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-riverside-museum|place-food-hall"
+   ],
+   "gate_failures_all": [
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-city-park|place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-design-library|place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-city-park",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-design-library",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-tech-art",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-old-town|place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-river-cruise|place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-riverside-museum|place-food-hall",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-tech-art|place-river-cruise"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "walk_huge": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-design-library|place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-design-library",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-old-town|place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-river-cruise|place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-riverside-museum|place-food-hall"
+   ],
+   "gate_failures_all": [
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-city-park|place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-design-library|place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-city-park",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-design-library",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-tech-art",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-old-town|place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-river-cruise|place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-riverside-museum|place-food-hall",
+    "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-tech-art|place-river-cruise"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "walk_missing": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "CAPABILITY_PARAMS_INVALID:MAX_WALKING_PER_LEG_M"
+   ],
+   "gate_failures_all": [
+    "CAPABILITY_PARAMS_INVALID:MAX_WALKING_PER_LEG_M"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "rest_12_14": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "REST_WINDOW_UNSATISFIED:MIDDAY_REST_WINDOW"
+   ],
+   "gate_failures_all": [
+    "REST_WINDOW_UNSATISFIED:MIDDAY_REST_WINDOW"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "rest_whole_day": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "REST_WINDOW_UNSATISFIED:MIDDAY_REST_WINDOW"
+   ],
+   "gate_failures_all": [
+    "REST_WINDOW_UNSATISFIED:MIDDAY_REST_WINDOW"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "rest_invalid": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "CAPABILITY_PARAMS_INVALID:MIDDAY_REST_WINDOW"
+   ],
+   "gate_failures_all": [
+    "CAPABILITY_PARAMS_INVALID:MIDDAY_REST_WINDOW"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "step_free_no_evidence": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "ACCESSIBILITY_UNVERIFIED:place-design-library",
+    "ACCESSIBILITY_UNVERIFIED:place-food-hall",
+    "ACCESSIBILITY_UNVERIFIED:place-old-town",
+    "ACCESSIBILITY_UNVERIFIED:place-river-cruise",
+    "ACCESSIBILITY_UNVERIFIED:place-riverside-museum",
+    "ACCESSIBILITY_UNVERIFIED:place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:place-design-library",
+    "NEEDS_LIVE_EVIDENCE:place-food-hall",
+    "NEEDS_LIVE_EVIDENCE:place-old-town",
+    "NEEDS_LIVE_EVIDENCE:place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:place-skyline-dinner"
+   ],
+   "gate_failures_all": [
+    "ACCESSIBILITY_UNVERIFIED:place-city-park",
+    "ACCESSIBILITY_UNVERIFIED:place-design-library",
+    "ACCESSIBILITY_UNVERIFIED:place-food-hall",
+    "ACCESSIBILITY_UNVERIFIED:place-old-town",
+    "ACCESSIBILITY_UNVERIFIED:place-river-cruise",
+    "ACCESSIBILITY_UNVERIFIED:place-riverside-museum",
+    "ACCESSIBILITY_UNVERIFIED:place-skyline-dinner",
+    "ACCESSIBILITY_UNVERIFIED:place-tech-art",
+    "NEEDS_LIVE_EVIDENCE:place-city-park",
+    "NEEDS_LIVE_EVIDENCE:place-design-library",
+    "NEEDS_LIVE_EVIDENCE:place-food-hall",
+    "NEEDS_LIVE_EVIDENCE:place-old-town",
+    "NEEDS_LIVE_EVIDENCE:place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:place-tech-art"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "avoid_stairs_no_evidence": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "ACCESSIBILITY_UNVERIFIED:place-design-library",
+    "ACCESSIBILITY_UNVERIFIED:place-food-hall",
+    "ACCESSIBILITY_UNVERIFIED:place-old-town",
+    "ACCESSIBILITY_UNVERIFIED:place-river-cruise",
+    "ACCESSIBILITY_UNVERIFIED:place-riverside-museum",
+    "ACCESSIBILITY_UNVERIFIED:place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:place-design-library",
+    "NEEDS_LIVE_EVIDENCE:place-food-hall",
+    "NEEDS_LIVE_EVIDENCE:place-old-town",
+    "NEEDS_LIVE_EVIDENCE:place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:place-skyline-dinner"
+   ],
+   "gate_failures_all": [
+    "ACCESSIBILITY_UNVERIFIED:place-city-park",
+    "ACCESSIBILITY_UNVERIFIED:place-design-library",
+    "ACCESSIBILITY_UNVERIFIED:place-food-hall",
+    "ACCESSIBILITY_UNVERIFIED:place-old-town",
+    "ACCESSIBILITY_UNVERIFIED:place-river-cruise",
+    "ACCESSIBILITY_UNVERIFIED:place-riverside-museum",
+    "ACCESSIBILITY_UNVERIFIED:place-skyline-dinner",
+    "ACCESSIBILITY_UNVERIFIED:place-tech-art",
+    "NEEDS_LIVE_EVIDENCE:place-city-park",
+    "NEEDS_LIVE_EVIDENCE:place-design-library",
+    "NEEDS_LIVE_EVIDENCE:place-food-hall",
+    "NEEDS_LIVE_EVIDENCE:place-old-town",
+    "NEEDS_LIVE_EVIDENCE:place-river-cruise",
+    "NEEDS_LIVE_EVIDENCE:place-riverside-museum",
+    "NEEDS_LIVE_EVIDENCE:place-skyline-dinner",
+    "NEEDS_LIVE_EVIDENCE:place-tech-art"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "stroller": {
+   "declared": 200,
+   "generate_status": 201,
+   "plans": 3,
+   "api_message": null,
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [],
+   "gate_failures_all": [],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "large_luggage": {
+   "declared": 200,
+   "generate_status": 201,
+   "plans": 3,
+   "api_message": null,
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [],
+   "gate_failures_all": [],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  },
+  "rest_every_30": {
+   "declared": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "api_message": "No feasible plan candidates satisfy the journey constraints",
+   "gate_calls": 3,
+   "gate_feasible_any": false,
+   "gate_failures_last": [
+    "CAPABILITY_PARAMS_INVALID:REST_EVERY_MIN"
+   ],
+   "gate_failures_all": [
+    "CAPABILITY_PARAMS_INVALID:REST_EVERY_MIN"
+   ],
+   "gate_constraint_codes": [
+    "BUDGET_MAX",
+    "JOURNEY_END_BY",
+    "MINIMISE_PLAN_CHANGES"
+   ]
+  }
+ },
+ "client_visibility": {
+  "distinct_api_messages": [
+   "No feasible plan candidates satisfy the journey constraints"
+  ],
+  "distinct_gate_codes": [
+   "ACCESSIBILITY_UNVERIFIED:place-city-park",
+   "ACCESSIBILITY_UNVERIFIED:place-design-library",
+   "ACCESSIBILITY_UNVERIFIED:place-food-hall",
+   "ACCESSIBILITY_UNVERIFIED:place-old-town",
+   "ACCESSIBILITY_UNVERIFIED:place-river-cruise",
+   "ACCESSIBILITY_UNVERIFIED:place-riverside-museum",
+   "ACCESSIBILITY_UNVERIFIED:place-skyline-dinner",
+   "ACCESSIBILITY_UNVERIFIED:place-tech-art",
+   "CAPABILITY_PARAMS_INVALID:MAX_WALKING_PER_LEG_M",
+   "CAPABILITY_PARAMS_INVALID:MIDDAY_REST_WINDOW",
+   "CAPABILITY_PARAMS_INVALID:REST_EVERY_MIN",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-city-park|place-river-cruise",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-design-library|place-river-cruise",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-city-park",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-design-library",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-food-hall|place-tech-art",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-old-town|place-riverside-museum",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-river-cruise|place-skyline-dinner",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-riverside-museum|place-food-hall",
+   "NEEDS_LIVE_EVIDENCE:MAX_WALKING_PER_LEG_M:place-tech-art|place-river-cruise",
+   "NEEDS_LIVE_EVIDENCE:place-city-park",
+   "NEEDS_LIVE_EVIDENCE:place-design-library",
+   "NEEDS_LIVE_EVIDENCE:place-food-hall",
+   "NEEDS_LIVE_EVIDENCE:place-old-town",
+   "NEEDS_LIVE_EVIDENCE:place-river-cruise",
+   "NEEDS_LIVE_EVIDENCE:place-riverside-museum",
+   "NEEDS_LIVE_EVIDENCE:place-skyline-dinner",
+   "NEEDS_LIVE_EVIDENCE:place-tech-art",
+   "REST_WINDOW_UNSATISFIED:MIDDAY_REST_WINDOW"
+  ]
+ }
+}

@@ -1,0 +1,5 @@
+﻿frontend exists: True
+frontend files: 28034
+backend app files: 498
+db: True
+node_modules: True

@@ -1,0 +1,25 @@
+===== A-low-budget ca0adba2-bddd-4c43-ba84-1466f99c39f0
+  budgetCny :: 300
+  stayBudgetCny :: 100
+  backendBudget :: {"amount_minor": 30000, "currency": "CNY"}
+  backendStayBudget :: {"amount_minor": 10000, "currency": "CNY"}
+  aiPlanCount :: 3
+  aiText :: "已生成 3 个可选方案\n\n去“今天”对比这几个方案，选一个再继续。\n\nFirst-time Xiamen visitor prioritizing sea views and old streets with a very tight budget. Protect core sea and old-street experiences; keep transport, meals, paid a"
+  comparison :: {"cards": 3, "bands": ["花费未知", "花费未知", "花费未知"], "totals": ["暂无价格", "暂无价格", "暂无价格"], "whys": ["", "", ""]}
+  comparisonText :: "选择你的方案 我们按你的预算和节奏生成了 3 个可选方案。 方案 A 花费未知 总花费 暂无价格 活动数 8 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案 方案 B 花费未知 总花费 暂无价格 活动数 7 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案 方案 C 花费未知 总花费 暂无价格 活动数 6 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案"
+  backendPlans :: [{"v": 1, "status": "CANDIDATE", "total": {"amount_minor": 0, "currency": "CNY"}, "unknownStops": 8, "stops": 8}, {"v": 2, "status": "CANDIDATE", "total": {"amount_minor": 0, "currency": "CNY"}, "unknownStops": 7, "stops": 7}, {"v": 3, "status": "CANDIDATE", "total": {"amount_minor": 0, "currency": "CNY"}, "unknownStops": 6, "stops": 6}]
+  spendTab :: "花费 这趟旅行花多少 预算 CNY 300；当前方案 0 个活动。 总预算 CNY 300 住宿合计（已选） 还没有选定住宿 活动数量 0 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 以下只是候选方案的预览，你还没有采用它。 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check in · 厦门康莱德酒店 ○ Overnight · 厦门康莱德酒店 02 Saturday · 07 Nov STAY anchor · WALK • Overnight · 厦门康莱德酒店 03 Sunday · 08 Nov DEPARTURE anchor · AUTO • Check out · 厦门康莱德酒店 受保护 ○ 厦"
+  errors :: []
+===== B-comfortable-budget 371a9ad0-3190-418a-9373-77eceebe8551
+  budgetCny :: 8000
+  aiPlanCount :: 3
+  comparison :: {"cards": 3, "bands": ["花费未知", "花费未知", "花费未知"], "totals": ["暂无价格", "暂无价格", "暂无价格"]}
+  errors :: []
+===== C-unknown-price-sweep c9696395-3734-4b07-9549-aaa409519a60
+  aiPlanCount :: 3
+  hotelCards :: 10
+  pinned :: true
+  sweep :: {"trips-itinerary": {"hasZeroYuan": false, "snippet": "行程 3 天行程 逐日安排。已确认的预订会被标记为受保护。 11月6日周五 7 项 11月7日周六 5 项 11月8日周日 2 项 10:00 10:20 厦门高崎国际机场 20 分钟 抵达 当前 详情 › 10:31 11:31 OSM restaurant 1 小时 活动 详情 › 11:42 12:42 OSM cafe 1 小时 活动 详情 › 12:53 13:53 必胜客 1 小时 活动 详情 › 14:00 14:20 C"}, "trips-spend": {"hasZeroYuan": false, "snippet": "花费 这趟旅行花多少 预算 CNY 3000；当前方案 14 个活动。 总预算 CNY 3000 住宿合计（已选） 价格未知（供应商未提供房价） 活动数量 14 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check"}, "trips-bookings": {"hasZeroYuan": false, "snippet": "菜单 / 行程 EN XI 行程 住宿 预订 花费 多模态收件箱 将确认带入行程 已读取 · 已核对 · 已记住 粘贴确认信息 手动填写 粘贴的确认 提取文本草稿 确认截图 图片字节仅用于
+  backend :: {"total": {"amount_minor": 13200, "currency": "CNY"}, "unknownStops": 14, "stops": 14}
+  backendStay :: {"options": 10, "zeroPriced": 10, "selected": ["Millenium Harbour View"]}
+  errors :: []

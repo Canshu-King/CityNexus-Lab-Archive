@@ -1,0 +1,4 @@
+﻿journey city_code: ('CN-鍘﹂棬',)
+('place-gulangyu-organ', 'osm', 'CN-XIAMEN', 'museum', '{"duration_min":90,"cost_minor":0}')
+('place-gulangyu-pier', 'osm', 'CN-XIAMEN', 'transport', '{}')
+('place-longtou-food', 'osm', 'CN-XIAMEN', 'food', '{}')

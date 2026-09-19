@@ -1,0 +1,92 @@
+{
+ "run": "degraded",
+ "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+ "viewport": "390x844",
+ "trace": [
+  {
+   "ts": "2026-09-17T03:25:41.641Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "create-journey",
+   "status": "201",
+   "result": "932fbcdc-6283-4d85-adc1-ccea5cabeb22"
+  },
+  {
+   "ts": "2026-09-17T03:25:41.679Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "degraded-offline-snapshot",
+   "status": 200,
+   "result": "journey_id,sequence,valid_until,snapshot,provider_freshness,updated_at"
+  },
+  {
+   "ts": "2026-09-17T03:26:07.961Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "ai-plan",
+   "status": "plans-ready(3)",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:26:14.098Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "choose-plan",
+   "status": "selected",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:26:17.196Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "itinerary",
+   "status": "4 stops",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:26:28.861Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "choose-hotel",
+   "status": "selected",
+   "result": "10 hotels "
+  },
+  {
+   "ts": "2026-09-17T03:26:35.528Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "copilot",
+   "status": "answered",
+   "result": "CityNexus 当前使用 PlanVersion 4 (ACTIVE)，服务器已核验 0 个受保护承诺。解释基于已选方案事实，不会修改行程。 解释当前安排 查看安排理由"
+  },
+  {
+   "ts": "2026-09-17T03:26:35.672Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "disruption+replan",
+   "status": "201 preserved=true -1/+1",
+   "result": "target=鼓浪屿风琴博物馆(临时展馆)"
+  },
+  {
+   "ts": "2026-09-17T03:26:43.769Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "accept-replan",
+   "status": "accepted",
+   "result": "已按新安排更新你的行程。 disruption=1 proposal=3"
+  },
+  {
+   "ts": "2026-09-17T03:26:43.819Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "final-truth",
+   "status": "14 activities",
+   "result": "locked=6"
+  },
+  {
+   "ts": "2026-09-17T03:26:53.984Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "hard-refresh",
+   "status": "stable",
+   "result": "before=1 after=1"
+  },
+  {
+   "ts": "2026-09-17T03:27:04.620Z",
+   "journey_id": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+   "action": "back-forward",
+   "status": "ok",
+   "result": "trips=1 back=1 fwd=1"
+  }
+ ],
+ "errors": []
+}

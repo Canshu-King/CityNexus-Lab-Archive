@@ -1,0 +1,689 @@
+你正在 `D:\moodle\CityNexus` 上执行一个 Overnight Goal。
+
+辅助资料说明：本 Goal 配套 Assist 包应解压在 CityNexus repo 之外。先定位 `CityNexus-Overnight-Agent-Foundation-GPT-Prep-20260910` 目录，并把它记为 `ASSIST_ROOT`。推荐位置：`D:\moodle\CityNexus-Tools\GPT-Assist\Overnight-Agent-Foundation-20260910`。如果文件是作为 Codex task 附件提供，则使用实际附件路径。后文所有 `reports/...`、`contracts/...`、`solver_hardening/...`、`agent_reference/...` 都相对于 `ASSIST_ROOT`。如果 Assist 文件暂时不可读，不要停止：本 Prompt 本身是自包含执行规范，继续按 Prompt 做，并在报告里记录缺失辅助资料。
+
+目标不是写报告，而是在今晚持续推进 CityNexus，直到完成下面定义的 Hard Stop，并留下可供外部 GPT 复验的 fresh-extract checkpoint。
+
+==================================================
+A. 项目身份和不可破坏的 authority
+==================================================
+
+CityNexus 是 Smart City Traveler System #11 的真实软件实现。
+产品定位：Adaptive Urban Journey Orchestration Platform。
+
+核心产品价值：Journey Continuity。
+
+已经冻结的 authority chain：
+
+Provider facts
+-> frozen/verified snapshot
+-> candidate generation
+-> CityNexus deterministic feasibility
+-> C4/locked Commitment protection
+-> verified scoring / ReplanDiff
+-> authorized accept
+-> Domain Truth
+
+绝对规则：
+
+1. JourneyTwin 是 projection，不是 source of truth。
+2. OR-Tools 是 candidate generator，不是 judge。
+3. Hermes/AI 是 agent brain，不是 judge。
+4. Valhalla/Open-Meteo 是 fact provider，不是 judge。
+5. durable C4 Commitment 是现实约束。
+6. accept-time deterministic revalidation 不得绕过。
+7. AI/Hermes 不得直接写 SQLite。
+8. AI/Hermes 不得直接获得 SQLAlchemy Session。
+9. Agent 不能修改自己的授权 policy。
+10. payment/refund/C4 mutation 今晚不开放给 Agent 自动执行。
+
+==================================================
+B. 当前已知里程碑
+==================================================
+
+以下视为已冻结，除非 regression tests 证明失败：
+
+- Backend-connected Vertical Slice = FROZEN_PASS
+- Mobility Provider Runtime / frozen MobilitySnapshot = FROZEN_PASS
+- Open-Meteo Weather Runtime Hardening = FROZEN_PASS
+
+最新 Solver Runtime checkpoint 自报：
+
+- ORT-01..20 = 20 PASS
+- focused inherited = 73 PASS / 1 SKIP
+- full backend = 230 PASS / 2 SKIP, exit code 0
+- compileall PASS
+- Ruff check/format PASS
+- OpenAPI 39/39
+- frontend build PASS
+- backend-connected Playwright PASS
+
+但是外部 GPT 又发现 SRH-01..05 五个 hardening gap。
+今晚 Phase 1 必须先处理它们，然后才能进入 Agent runtime mutation。
+
+==================================================
+C. 开工前先保护真实工作树
+==================================================
+
+第一步必须执行：
+
+cd D:\moodle\CityNexus
+
+git status --short
+git diff --stat
+git log --oneline -n 12
+
+把输出写到：
+
+reports\overnight\00_WORKTREE_BASELINE.txt
+
+不要执行：
+
+- git reset --hard
+- git checkout -- .
+- git clean -fd
+- 对 frozen domain/requirements/visio 做无关修改
+
+如果真实 repo 已经比 review checkpoint 更新：
+
+使用 semantic merge。
+不要为了套 GPT patch 覆盖 Codex 自己的新代码。
+
+==================================================
+D. Phase 1：Solver Runtime post-freeze hardening
+==================================================
+
+先阅读 GPT Assist：
+
+- reports/SOLVER_EXTERNAL_REVIEW.md
+- solver_hardening/tests/test_gpt_solver_hardening_next.py
+- solver_hardening/patches/02_SOLVER_HARDENING_CODE.patch
+
+不要先 apply code patch。
+
+只把 SRH test 放到真实 repo：
+
+backend/tests/test_gpt_solver_hardening_next.py
+
+先运行：
+
+cd backend
+python -m pytest -q tests/test_gpt_solver_hardening_next.py
+
+记录原始结果到：
+
+reports/overnight/01_SRH_BASELINE.txt
+
+然后只修真实失败项。
+
+SRH-01
+Solver Problem 必须获得 verified traveler preference signal。
+不要把所有 `preference_milli` 写 0。
+使用现有 verified preference facts。
+无 verified evidence 时沿用 neutral 0.5，而不是伪造偏好。
+
+SRH-02
+Solver V1 不得对“受影响 Activity 位于下一 C4 之后”的错误 window 运行。
+V1 不建模跨 C4 recovery。
+
+SRH-03
+Solver V1 不得对尚未执行、且 current 与 affected 之间有未建模 Activities 的 future slot 假装自己已经求解。
+V1 最安全边界：affected current execution slot -> next C4。
+未来多 slot Solver 再扩大。
+
+SRH-04
+如果某 OR-Tools schedule 被 authoritative gate 拒绝，不能因为它曾被 Solver 生成过就提前删除同 semantic option 的 deterministic heuristic fallback。
+只有 assignment 真正 PASS gate 成为 proposal 后，才抑制 duplicate semantic assignment。
+
+SRH-05
+provenance 必须诚实区分：
+
+- ORTOOLS_CANDIDATE_SET_COMPLEMENT
+- ORTOOLS_POST_GATE_FALLBACK
+- ORTOOLS_UNAVAILABLE
+- ORTOOLS_UNKNOWN
+- SOLVER_V1_UNSUPPORTED
+
+不要把正常 heuristic complement 写成 post-gate failure。
+
+修完先跑：
+
+python -m pytest -q tests/test_gpt_solver_hardening_next.py
+python -m pytest -q tests/test_solver_runtime_gate.py
+python -m pytest -q tests/test_solver_reference_contract.py tests/test_ortools_optional_boundary.py tests/test_solver_runtime_policy.py
+
+因为 Windows 环境已有 ortools==9.15.6755，必须真实跑 CP-SAT，不允许通过卸载 OR-Tools 把测试变 SKIP。
+
+然后跑 inherited core：
+
+python -m pytest -q \
+  tests/test_backend_connected_golden_contract.py \
+  tests/test_provider_runtime_gate.py \
+  tests/test_gpt_adversarial_provider_hardening.py \
+  tests/test_weather_runtime_gate_gpt.py \
+  tests/test_gpt_weather_adversarial_next.py \
+  tests/test_weather_runtime_hardening.py
+
+Phase 1 Gate：
+
+- SRH 5/5 PASS
+- ORT 20/20 PASS
+- no Solver regression
+
+如果 Phase 1 失败：
+
+不要开始 Agent runtime mutation。
+你可以继续写 Agent docs/tests/reference scaffold，但不接入主 app。
+
+如果同一个 bug 连续 3 次仍无法解决：
+
+- 记录最小 reproduction
+- 记录已尝试方案
+- 保持当前工作树
+- 转去做与其独立的 Agent tests/docs/scaffold
+- 不降低 Gate
+
+==================================================
+E. Phase 2：建立 Agent Domain Contract 和 Delegation Policy
+==================================================
+
+目标：
+把当前 explanation-only Copilot 升级为“受约束可行动 Agent”的基础设施。
+
+先读：
+
+- contracts/AGENT_RUNTIME_ARCHITECTURE.md
+- contracts/AGENT_GATE_TEST_MATRIX.md
+- agent_reference/
+
+参考代码只是语义 oracle，不要求逐字复制。
+结合真实 repo 自己实现更合适的结构。
+
+建议新增模块：
+
+backend/app/agent/
+  contracts.py
+  delegation_policy.py
+  gateway.py
+  audit.py 或复用 core/audit.py
+
+建议持久化最小 policy：
+
+traveler_agent_policies
+
+至少字段：
+
+- traveler_id
+- mode: ADVISORY / ASSISTED / AUTONOMOUS
+- auto_accept_replan
+- max_auto_replan_cost_delta_minor
+- allow_auto_when_provider_degraded
+- allow_auto_on_critical_event
+- version
+- created_at
+- updated_at
+
+如果 repo 当前 schema/migration 机制更适合别的命名，可以调整，但必须：
+
+- fresh DB 可创建；
+- policy server-owned；
+- Agent 不能自我升级 policy。
+
+user-facing policy API 可以：
+
+GET /api/v1/travelers/{traveler_id}/agent-policy
+PUT /api/v1/travelers/{traveler_id}/agent-policy
+
+这是用户配置面，不属于 Hermes MCP tools。
+
+默认 policy 必须保守：
+
+ADVISORY
+no auto accept
+cost limit 0
+provider degraded -> no auto
+critical event -> no auto
+
+==================================================
+F. Phase 3：Safe Agent Tool Gateway
+==================================================
+
+实现一个明确 allowlist，不允许 generic arbitrary HTTP/SQL dispatch。
+
+V1 tools：
+
+1. inspect_journey
+2. inspect_twin
+3. list_replans
+4. search_city_services
+5. request_replan
+6. accept_replan
+
+其中：
+
+inspect_* / list / search
+= read-only
+
+request_replan
+= proposal-only，可以自动调用，但不能 activate Plan。
+
+accept_replan
+= guarded mutation，必须 Delegation Policy -> existing deterministic accept-time gate。
+
+Agent 请求中不允许传：
+
+- hard_constraints_passed
+- c4_preserved
+- provider_ready
+- cost_delta
+- feasibility result
+
+这些全部必须服务器自己从 persisted facts 派生。
+
+强烈优先复用现有业务函数。
+如果现有 endpoint 把逻辑全写在 FastAPI handler 内，允许做“小型 service extraction”，但不要把整套 main.py 大重构成新架构。
+
+==================================================
+G. Phase 4：Authorization Policy
+==================================================
+
+至少实现：
+
+READ ACTION
+-> ALLOW_AUTO
+
+REQUEST_REPLAN
+-> ALLOW_AUTO
+因为只生成 proposal，不激活 Domain Truth。
+
+ACCEPT_REPLAN：
+
+如果 hard constraints != PASS
+-> DENY
+
+如果 C4 / locked commitment 没 preserved
+-> DENY
+
+ADVISORY
+-> REQUIRE_CONFIRMATION
+
+ASSISTED/AUTONOMOUS + auto_accept_replan=true：
+
+只有同时满足：
+
+- cost_delta_minor <= policy threshold
+- provider evidence not degraded，除非 policy 明确允许
+- event severity not CRITICAL，除非 policy 明确允许
+- proposal still PRESENTED
+- base plan still current
+- trigger event still actionable
+
+才可以 ALLOW_AUTO。
+
+但即使 Policy ALLOW_AUTO，真正执行时仍必须调用现有 accept-time deterministic feasibility revalidation。
+
+付款 / 退款 / 修改 C4：
+
+今晚只定义 `REQUIRE_STEP_UP` 语义。
+不要真正开放 MCP tool。
+
+==================================================
+H. Phase 5：Audit + Idempotency
+==================================================
+
+现有 audit_logs 可复用。
+
+如需要，向后兼容地扩展 `record_audit()`：
+
+actor_type="system"
+actor_id=None
+
+Agent mutation 时：
+
+actor_type="AI_AGENT"
+actor_id="hermes" 或 provider-neutral agent id
+
+Audit 至少写：
+
+- action
+- journey id
+- proposal id
+- policy version
+- authorization decision
+- reason codes
+- before/after status
+
+不要写：
+
+- API key
+- access token
+- full hidden prompt
+- provider secret
+
+Agent mutation 必须 idempotent。
+
+重复 request_id 不得：
+
+- 二次 accept
+- 二次 supersede
+- 二次 C4 remap
+- 二次 audit mutation event
+
+==================================================
+I. Phase 6：AGT-01..24 tests-first
+==================================================
+
+按 contracts/AGENT_GATE_TEST_MATRIX.md 实现真实 tests。
+
+重点必须有：
+
+AGT-04 low-risk assisted auto accept
+AGT-06 hard fail -> deny
+AGT-07 C4 damage -> deny
+AGT-08 degraded provider -> confirmation
+AGT-10 protected action step-up/not exposed
+AGT-11 Agent cannot set own policy
+AGT-12 model cannot forge gate facts
+AGT-14 stale proposal rejected
+AGT-15 resolved Event old proposal rejected
+AGT-16 accept-time gate still authoritative
+AGT-17 idempotency
+AGT-18 AI_AGENT audit
+AGT-19 MCP allowlist
+AGT-20 Hermes unavailable -> CityNexus survives
+AGT-21 prompt-injection intent cannot bypass policy
+AGT-24 auto accept refreshes Twin and preserves C4
+
+不要写只检查函数存在的 smoke。
+尽量走 DB/API/domain runtime。
+
+==================================================
+J. Phase 7：CityNexus MCP adapter
+==================================================
+
+读：
+
+contracts/HERMES_MCP_BOUNDARY.md
+
+建议建立独立：
+
+agent-mcp/
+
+MCP adapter 只调用 CityNexus safe Agent API/Gateway。
+
+严禁：
+
+MCP -> sqlite3
+MCP -> SQLAlchemy Session
+MCP -> arbitrary backend URL
+
+Server 只注册 V1 allowlist tools。
+
+如果 `mcp` Python SDK 未安装：
+
+- optional dependency
+- unit/mock tests
+- live MCP smoke = SKIP_EXTERNAL_DEPENDENCY
+
+不要为下载依赖卡几个小时。
+
+==================================================
+K. Phase 8：Hermes isolated integration
+==================================================
+
+Hermes 是 Agent orchestration layer，不是 CityNexus runtime authority。
+
+如果机器上已经有 Hermes：
+
+1. 检查版本；
+2. 检查当前 MCP 配置方式；
+3. 添加 CityNexus MCP server；
+4. 先 tool discovery；
+5. 确认只看到 safe tools；
+6. 禁止 product profile 的 terminal/file/browser；
+7. 再做一次 read/request smoke。
+
+不要直接修改 Hermes core repo。
+不要 fork Hermes 到 CityNexus。
+
+如果 Hermes 没装、网络失败、模型凭证缺失：
+
+- 最多花 20 分钟确认；
+- 不让它阻塞 Night Goal；
+- 写 `HERMES_INTEGRATION_STATUS.md`；
+- 保留 config example + mock MCP integration tests。
+
+如果 live model 可用，可以做一条 smoke：
+
+“Tech Art Center 关闭了。不要影响已付款 River Cruise，预算最多额外增加 30 元。在我的授权范围内处理。”
+
+期望链：
+
+Hermes
+-> inspect_twin
+-> request_replan
+-> inspect/list proposals
+-> accept_replan only if policy ALLOW_AUTO
+
+不允许 Hermes 直接声称“我已经修改行程”而没有 tool receipt。
+
+==================================================
+L. Phase 9：Agent Golden Scenario
+==================================================
+
+无论 Hermes live smoke 是否可用，都必须实现 deterministic/fake-agent E2E。
+
+场景：
+
+1. reset demo
+2. generate/select Balanced
+3. book + capture River Cruise -> C4
+4. start Journey
+5. advance to Tech Art
+6. Closure Event
+7. Agent inspect Twin
+8. Agent request Replan
+9. Policy ASSISTED：
+   - auto_accept_replan=true
+   - max cost delta = 3000 minor CNY
+10. Agent asks to accept best low-risk proposal
+11. Gateway derives authoritative facts
+12. Policy ALLOW_AUTO
+13. existing accept-time feasibility runs
+14. proposal ACCEPTED
+15. old Plan SUPERSEDED
+16. new Plan ACTIVE
+17. C4 remapped/preserved
+18. Twin refreshed
+19. audit shows AI_AGENT + policy version
+20. repeat same request -> idempotent replay
+
+再做反例：
+
+- cost limit exceeded -> no auto accept
+- provider degraded -> no auto accept
+- hard gate fail -> deny
+- C4 damage -> deny
+
+==================================================
+M. Phase 10：全回归
+==================================================
+
+Backend：
+
+python -m pytest -q
+python -m compileall -q app tests
+ruff check app tests
+ruff format --check app tests
+
+OpenAPI parity：
+
+运行当前 repo 的 parity checker。
+
+如果 API contract 改了：
+
+- 更新 formal OpenAPI；
+- runtime/formal 必须一致。
+
+如果 frontend 未碰：
+
+不要为了“顺便漂亮一点”改 frontend。
+
+如果 frontend 被 Agent policy UI stretch 修改：
+
+npm run build
+npm run test:e2e
+
+==================================================
+N. Stretch，只在 Core 全绿后
+==================================================
+
+如果 Phase 1-10 全部绿，而且还有大量时间：
+
+只允许做下面一个 stretch：
+
+Frontend 增加轻量 Agent Control：
+
+- ADVISORY / ASSISTED / AUTONOMOUS
+- auto replan accept toggle
+- max auto cost delta
+- latest agent decision/audit summary
+
+不要做完整聊天产品。
+不要做 MapLibre。
+不要做 payment automation。
+不要做 Hermes memory/cron/multi-agent。
+
+==================================================
+O. 今晚明确禁止
+==================================================
+
+不要开始：
+
+- 自动付款
+- 自动退款
+- 自动取消不可退款 booking
+- 自动修改 C4
+- SimpleWebAuthn
+- Hermes memory migration
+- Hermes cron
+- Hermes multi-agent delegation
+- MapLibre rebuild
+- full-day/multi-day OR-Tools
+- microservices
+- Kafka
+- Postgres-only migration
+- PPT / Visio
+
+不要因为 Goal 还没到早晨就自行扩张 scope。
+完成 Hard Stop 就停止。
+
+==================================================
+P. 进度记录，防止 Goal 中途断连
+==================================================
+
+每完成一个 Phase，都更新：
+
+reports/overnight/GOAL_PROGRESS.md
+
+格式：
+
+Phase
+status
+changed files
+tests
+remaining blocker
+next action
+
+这样即使 Goal/模型断开，新窗口也能继续。
+
+不要只把进度放在聊天上下文里。
+
+==================================================
+Q. 晨间最终交付
+==================================================
+
+生成：
+
+CityNexus-Overnight-Agent-Foundation-Checkpoint-20260911.zip
+
+必须 fresh-extract 再验证至少核心 backend gate。
+
+包内至少：
+
+CURRENT_STATUS.md
+BLOCKERS.md
+TEST_RESULTS.md
+AGENT_RUNTIME_ARCHITECTURE.md
+DELEGATION_POLICY.md
+AGENT_TOOL_CATALOG.md
+HERMES_INTEGRATION_STATUS.md
+CHANGED_FILES.txt
+NEXT_RECOMMENDATION.md
+reports/overnight/GOAL_PROGRESS.md
+backend source/tests/schema/fixtures
+agent-mcp source/tests if created
+contracts/openapi.yaml
+frontend source/tests if touched
+
+排除：
+
+.venv
+node_modules
+dist
+__pycache__
+*.pyc
+*.db
+*.sqlite*
+.pytest_cache
+.ruff_cache
+test-results
+
+==================================================
+R. 最终必须诚实标状态
+==================================================
+
+不要为了成果好看写全部 IMPLEMENTED。
+
+使用：
+
+IMPLEMENTED
+PARTIAL
+SIMULATED
+PLANNED
+SKIPPED_EXTERNAL_DEPENDENCY
+
+特别是 Hermes：
+
+如果只有 MCP contract/mock test，没有真实 Hermes model smoke：
+
+写：
+
+Hermes live integration = PARTIAL / SKIPPED_EXTERNAL_DEPENDENCY
+
+不要写 FULLY IMPLEMENTED。
+
+==================================================
+S. 成功标准
+==================================================
+
+今晚最重要的成功不是接入多少 AI 库。
+
+成功应该是：
+
+User Delegation Policy
+-> Hermes-ready Safe Tool
+-> server-derived authoritative facts
+-> policy decision
+-> existing deterministic gate
+-> Domain Command
+-> C4 preserved
+-> audit + idempotency
+
+也就是说：
+
+AI 可以真正行动，
+但 AI 没有能力绕过 CityNexus 的现实规则。
+
+现在持续执行，不要停在“我已经分析完，下一步建议……”这种状态汇报。
+只在遇到需要用户密码/登录/不可推断外部凭证的硬阻塞时记录并跳过对应 live integration，继续完成不依赖该阻塞的工作。

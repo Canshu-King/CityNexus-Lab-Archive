@@ -1,0 +1,236 @@
+diff --git a/backend/app/commerce/service_impl.py b/backend/app/commerce/service_impl.py
+index 1207e42..c65043b 100644
+--- a/backend/app/commerce/service_impl.py
++++ b/backend/app/commerce/service_impl.py
+@@ -59,6 +59,53 @@ def dump(value: Any) -> str:
+     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+ 
+ 
++def _remap_commitment_to_active_plan(session: Session, commitment: Commitment) -> None:
++    """Keep a booking commitment addressable after a concurrent replan.
++
++    ``activity_id`` is PlanVersion-local.  A capture that arrives after an
++    accept must either move the commitment to the equivalent activity on the
++    now-active plan or fail closed; it must never promote a stale pointer to
++    C4 truth.
++    """
++
++    journey = session.get(Journey, commitment.journey_id)
++    if journey is None or not journey.active_plan_version_id or not commitment.activity_id:
++        return
++    current = session.get(Activity, commitment.activity_id)
++    if current is None or current.plan_version_id == journey.active_plan_version_id:
++        return
++    policy = json.loads(commitment.policy_json or "{}")
++    wanted = {
++        str(policy.get("semantic_key") or ""),
++        str(policy.get("semantic_node_key") or ""),
++        str(current.place_id or ""),
++        str(current.city_service_id or ""),
++    }
++    wanted = {item for item in wanted if item}
++    scheduled_start = str(policy.get("scheduled_start_at") or "")
++    boundary = "END" if str(policy.get("anchor_role") or "").upper() == "DEPARTURE" else "START"
++    candidates = session.scalars(
++        select(Activity).where(Activity.plan_version_id == journey.active_plan_version_id)
++    ).all()
++    for candidate in candidates:
++        metadata = json.loads(candidate.metadata_json or "{}")
++        tokens = {
++            str(candidate.place_id or ""),
++            str(candidate.city_service_id or ""),
++            str(metadata.get("semantic_key") or ""),
++            str(metadata.get("semantic_node_key") or ""),
++        }
++        moment = candidate.end_at if boundary == "END" else candidate.start_at
++        if wanted.intersection(tokens) and scheduled_start and moment:
++            try:
++                if datetime.fromisoformat(moment) == datetime.fromisoformat(scheduled_start):
++                    commitment.activity_id = candidate.id
++                    return
++            except ValueError:
++                continue
++    raise CommerceConflict("captured booking cannot be attached to the active Journey plan")
++
++
+ def _canonical_iso(value: str) -> str:
+     """Normalize persisted fixture timestamps to the contract's +08:00 form."""
+ 
+@@ -462,6 +509,41 @@ def create_transaction(
+     idempotency_key: str,
+     source_strength_codes: Sequence[str],
+     force_failure: bool = False,
++) -> PaymentTransaction:
++    """Serialize payment truth changes with replans for the same Journey."""
++
++    from app.concurrency_guards import journey_write_lock
++
++    with journey_write_lock(journey_id):
++        session.expire_all()
++        return _create_transaction_serialized(
++            session,
++            journey_id=journey_id,
++            booking_id=booking_id,
++            order_id=order_id,
++            transaction_type=transaction_type,
++            requested_amount_minor=requested_amount_minor,
++            requested_currency=requested_currency,
++            provider=provider,
++            idempotency_key=idempotency_key,
++            source_strength_codes=source_strength_codes,
++            force_failure=force_failure,
++        )
++
++
++def _create_transaction_serialized(
++    session: Session,
++    *,
++    journey_id: str,
++    booking_id: str | None,
++    order_id: str | None,
++    transaction_type: str,
++    requested_amount_minor: int,
++    requested_currency: str,
++    provider: PaymentProvider,
++    idempotency_key: str,
++    source_strength_codes: Sequence[str],
++    force_failure: bool = False,
+ ) -> PaymentTransaction:
+     _validate_source_codes(source_strength_codes)
+     if transaction_type not in {"AUTHORIZE", "CAPTURE"}:
+@@ -571,6 +653,7 @@ def create_transaction(
+         commitment = session.get(Commitment, commitment_id)
+         if commitment is None:
+             raise CommerceConflict("target commitment is missing")
++        _remap_commitment_to_active_plan(session, commitment)
+         policy = json.loads(commitment.policy_json or "{}")
+         decision = derive_strength_rank(
+             CommitmentFacts(
+diff --git a/backend/app/concurrency_guards.py b/backend/app/concurrency_guards.py
+new file mode 100644
+index 0000000..29e10ca
+--- /dev/null
++++ b/backend/app/concurrency_guards.py
+@@ -0,0 +1,30 @@
++"""Process-local serialization for Journey-scoped authoritative writes.
++
++The API currently runs SQLite in the reference/test deployment. SQLite does not
++honour ``SELECT .. FOR UPDATE``, so two request sessions can both validate the
++same active plan before either commits.  This guard keeps the complete
++read/validate/write transaction atomic inside one API worker.  A distributed
++deployment must replace or supplement it with a database/advisory lock.
++"""
++
++from __future__ import annotations
++
++from collections import defaultdict
++from contextlib import contextmanager
++from threading import RLock
++from typing import Iterator
++
++
++_registry_guard = RLock()
++_journey_locks: defaultdict[str, RLock] = defaultdict(RLock)
++
++
++@contextmanager
++def journey_write_lock(journey_id: str) -> Iterator[None]:
++    """Serialize authoritative mutations for one Journey in this worker."""
++
++    key = str(journey_id)
++    with _registry_guard:
++        lock = _journey_locks[key]
++    with lock:
++        yield
+diff --git a/backend/app/main.py b/backend/app/main.py
+index c27f903..222e081 100644
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -8574,6 +8574,36 @@ def accept_replan(
+ 
+ 
+ def _accept_replan_impl(
++    proposal_id: UUID,
++    idempotency_key: str | None,
++    session: Session,
++    **audit_context: Any,
++):
++    """Serialize Journey-scoped acceptance before validating mutable state."""
++
++    from app.concurrency_guards import journey_write_lock
++
++    journey_id = session.scalar(
++        select(ReplanProposalModel.journey_id).where(
++            ReplanProposalModel.id == str(proposal_id)
++        )
++    )
++    if journey_id is None:
++        raise HTTPException(404, f"Replan proposal {proposal_id} was not found")
++    with journey_write_lock(str(journey_id)):
++        # The proposal may have changed while this request waited for the lock;
++        # expire the identity map so all validation below observes committed
++        # authoritative state from the preceding writer.
++        session.expire_all()
++        return _accept_replan_serialized_impl(
++            proposal_id,
++            idempotency_key,
++            session,
++            **audit_context,
++        )
++
++
++def _accept_replan_serialized_impl(
+     proposal_id: UUID,
+     idempotency_key: str | None,
+     session: Session,
+@@ -9802,25 +9832,31 @@ def create_journey_transaction(
+     if idempotency_key is None:
+         raise HTTPException(422, "Idempotency-Key header is required")
+     try:
+-        provider, provider_failure = _mock_payment_provider(payload.provider_key)
+-        item = commerce_create_transaction(
+-            session,
+-            journey_id=str(journey_id),
+-            booking_id=str(payload.booking_id) if payload.booking_id else None,
+-            order_id=str(payload.order_id) if payload.order_id else None,
+-            transaction_type=payload.transaction_type,
+-            requested_amount_minor=payload.amount.amount_minor,
+-            requested_currency=payload.amount.currency,
+-            provider=provider,
+-            idempotency_key=idempotency_key,
+-            source_strength_codes=SOURCE_COMMITMENT_STRENGTHS,
+-            force_failure=provider_failure
+-            or payload.force_failure
+-            or payload.failure_token is not None
+-            or x_mock_failure == "FORCE_PAYMENT_FAIL",
+-        )
+-        session.commit()
+-        return _transaction_payload(item)
++        from app.concurrency_guards import journey_write_lock
++
++        # Hold the Journey guard through commit.  Releasing it after flush but
++        # before commit lets accept_replan miss a just-promoted C4 commitment.
++        with journey_write_lock(str(journey_id)):
++            session.expire_all()
++            provider, provider_failure = _mock_payment_provider(payload.provider_key)
++            item = commerce_create_transaction(
++                session,
++                journey_id=str(journey_id),
++                booking_id=str(payload.booking_id) if payload.booking_id else None,
++                order_id=str(payload.order_id) if payload.order_id else None,
++                transaction_type=payload.transaction_type,
++                requested_amount_minor=payload.amount.amount_minor,
++                requested_currency=payload.amount.currency,
++                provider=provider,
++                idempotency_key=idempotency_key,
++                source_strength_codes=SOURCE_COMMITMENT_STRENGTHS,
++                force_failure=provider_failure
++                or payload.force_failure
++                or payload.failure_token is not None
++                or x_mock_failure == "FORCE_PAYMENT_FAIL",
++            )
++            session.commit()
++            return _transaction_payload(item)
+     except (IdempotencyConflict, CommerceConflict) as exc:
+         session.rollback()
+         raise HTTPException(409, str(exc)) from exc

@@ -1,0 +1,470 @@
+from __future__ import annotations
+
+import json
+import re
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from typing import Any
+from uuid import uuid4
+
+import httpx
+from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app.db.models import Activity, Journey, JourneyMission, Place
+
+
+class MissionIntentDraft(BaseModel):
+    """Strict model output; every entity reference still requires server resolution."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    objective_codes: list[str] = Field(default_factory=list, max_length=20)
+    protected_activity_references: list[str] = Field(default_factory=list, max_length=20)
+    mutable_activity_references: list[str] = Field(default_factory=list, max_length=20)
+    max_cost_delta_minor: int = Field(default=0, ge=0)
+    max_loss_minor: int = Field(default=0, ge=0)
+    max_schedule_drift_min: int = Field(default=0, ge=0)
+    preferences: dict[str, Any] = Field(default_factory=dict)
+    confidence: float = Field(default=0.5, ge=0, le=1)
+    reasoning_summary: str = Field(default="", max_length=500)
+
+
+_NUMBER_TOKEN = r"(?:\d+(?:\.\d+)?|[零〇一二两三四五六七八九十百千万亿点]+)"
+_MONEY_PATTERN = re.compile(
+    rf"(?:最多(?:可以|可)?(?:多花|增加)?|不超过|多花|增加|预算)\s*({_NUMBER_TOKEN})\s*(?:元|块|CNY)?",
+    re.IGNORECASE,
+)
+_DRIFT_PATTERN = re.compile(
+    rf"(?:最多|不超过|延误|漂移|偏移)\s*({_NUMBER_TOKEN})\s*分钟", re.IGNORECASE
+)
+_PROTECTED_ALIASES = {
+    "place-river-cruise": ("游船", "海河游船", "river cruise", "cruise", "游轮"),
+    "place-skyline-dinner": ("晚餐", "吃饭", "dinner", "餐厅"),
+}
+
+
+@dataclass(frozen=True)
+class MissionSpec:
+    objective_codes: tuple[str, ...]
+    protected_activity_ids: tuple[str, ...]
+    mutable_activity_ids: tuple[str, ...]
+    max_cost_delta_minor: int
+    max_loss_minor: int
+    max_schedule_drift_min: int
+    preferences: dict[str, Any]
+    requested_autonomy: str
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "objective_codes": list(self.objective_codes),
+            "protected_activity_ids": list(self.protected_activity_ids),
+            "mutable_activity_ids": list(self.mutable_activity_ids),
+            "max_cost_delta_minor": self.max_cost_delta_minor,
+            "max_loss_minor": self.max_loss_minor,
+            "max_schedule_drift_min": self.max_schedule_drift_min,
+            "preferences": self.preferences,
+            "requested_autonomy": self.requested_autonomy,
+        }
+
+
+def _text(value: str) -> str:
+    return value.casefold()
+
+
+def _parse_number(value: str) -> float:
+    """Parse Arabic or ordinary Chinese cardinal numbers without locale guessing."""
+
+    value = value.strip()
+    try:
+        return float(value)
+    except ValueError:
+        pass
+    digits = {
+        "零": 0,
+        "〇": 0,
+        "一": 1,
+        "二": 2,
+        "两": 2,
+        "三": 3,
+        "四": 4,
+        "五": 5,
+        "六": 6,
+        "七": 7,
+        "八": 8,
+        "九": 9,
+    }
+    if "点" in value:
+        whole, fraction = value.split("点", 1)
+        fraction_digits = "".join(str(digits[char]) for char in fraction if char in digits)
+        return _parse_number(whole or "零") + float(f"0.{fraction_digits or '0'}")
+    units = {"十": 10, "百": 100, "千": 1000, "万": 10_000, "亿": 100_000_000}
+    total = section = number = 0
+    for char in value:
+        if char in digits:
+            number = digits[char]
+            continue
+        unit = units.get(char)
+        if unit is None:
+            raise ValueError(f"unsupported numeric token: {value}")
+        if unit < 10_000:
+            section += (number or 1) * unit
+        else:
+            section = (section + number) * unit
+            total += section
+            section = 0
+        number = 0
+    return float(total + section + number)
+
+
+def _active_activities(session: Session, journey: Journey) -> list[Activity]:
+    if not journey.active_plan_version_id:
+        return []
+    return list(
+        session.scalars(
+            select(Activity)
+            .where(Activity.plan_version_id == journey.active_plan_version_id)
+            .order_by(Activity.sequence_no, Activity.id)
+        ).all()
+    )
+
+
+def _resolve_activity_authority(
+    session: Session, journey: Journey, command: str
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Resolve protected and explicitly mutable activities clause by clause.
+
+    This is the deterministic Mission Compiler fallback.  Polarity belongs to
+    the local clause, so “cruise may be cancelled, don't touch dinner” cannot
+    accidentally protect both entities just because both names occur.
+    """
+
+    activities = _active_activities(session, journey)
+    place_ids = {activity.place_id for activity in activities if activity.place_id}
+    places = {
+        place.id: place
+        for place in session.scalars(select(Place).where(Place.id.in_(place_ids))).all()
+    }
+    clauses = [
+        part.strip() for part in re.split(r"[，,。；;！？!?\n]+", _text(command)) if part.strip()
+    ]
+    protected: list[str] = []
+    mutable: list[str] = []
+    protect_tokens = (
+        "别动",
+        "不要动",
+        "不能动",
+        "别改",
+        "不要改",
+        "保留",
+        "保护",
+        "必须保留",
+        "don't change",
+        "do not change",
+        "protect",
+        "keep",
+    )
+    mutable_tokens = (
+        "可以取消",
+        "可取消",
+        "可以改",
+        "可调整",
+        "可以调整",
+        "可以换",
+        "可替换",
+        "不用保留",
+        "无需保留",
+        "may cancel",
+        "can cancel",
+        "may change",
+        "flexible",
+    )
+    for activity in activities:
+        semantic_id = activity.place_id or activity.city_service_id
+        if not semantic_id:
+            continue
+        place = places.get(activity.place_id or "")
+        haystack = _text(
+            " ".join(
+                part for part in (activity.title, place.name if place else "", semantic_id) if part
+            )
+        )
+        aliases = _PROTECTED_ALIASES.get(semantic_id, ())
+        matching_clauses = [
+            clause
+            for clause in clauses
+            if any(alias.casefold() in clause for alias in aliases)
+            or any(token and token in clause for token in haystack.split())
+        ]
+        for clause in matching_clauses:
+            is_mutable = any(token in clause for token in mutable_tokens)
+            is_protected = any(token in clause for token in protect_tokens)
+            # Explicit mutability is the more specific instruction when a
+            # phrase happens to contain a generic “keep/change” substring.
+            if is_mutable:
+                mutable.append(activity.id)
+            elif is_protected:
+                protected.append(activity.id)
+    return tuple(dict.fromkeys(protected)), tuple(dict.fromkeys(mutable))
+
+
+def _resolve_protected_activities(
+    session: Session, journey: Journey, command: str
+) -> tuple[str, ...]:
+    """Compatibility surface used by V3 callers and external verification."""
+
+    return _resolve_activity_authority(session, journey, command)[0]
+
+
+def compile_mission(
+    session: Session,
+    journey: Journey,
+    command: str,
+    *,
+    requested_autonomy: str,
+) -> MissionSpec:
+    normalized = _text(command)
+    objectives: set[str] = set()
+    preferences: dict[str, Any] = {}
+    if any(token in normalized for token in ("淋雨", "下雨", "室内", "indoor", "rain")):
+        objectives.add("PREFER_INDOOR")
+        preferences["indoor"] = True
+    if any(token in normalized for token in ("少走", "不想走", "步行少", "low walking", "walking")):
+        objectives.add("MINIMIZE_WALKING")
+        preferences["low_walking"] = True
+    protected_activity_ids = _resolve_protected_activities(session, journey, command)
+    # Tests and integrations may replace the legacy resolver.  Resolve mutable
+    # IDs independently only when the real resolver remains installed.
+    mutable_activity_ids = (
+        _resolve_activity_authority(session, journey, command)[1]
+        if getattr(_resolve_protected_activities, "__module__", __name__) == __name__
+        else ()
+    )
+    if protected_activity_ids:
+        objectives.add("PROTECT_EXPLICIT_ACTIVITIES")
+        preferences["protected_activity_ids"] = list(protected_activity_ids)
+    if any(token in normalized for token in ("交通管制", "拥堵", "封路", "traffic", "closure")):
+        objectives.add("RECOVER_FROM_CITY_DISRUPTION")
+    if any(token in normalized for token in ("自己安排", "自行", "自动", "autonomous")):
+        objectives.add("EXECUTE_WITHIN_BOUNDS")
+    match = _MONEY_PATTERN.search(command)
+    max_cost = round(_parse_number(match.group(1)) * 100) if match else 0
+    drift_match = _DRIFT_PATTERN.search(command)
+    max_drift = round(_parse_number(drift_match.group(1))) if drift_match else 0
+    return MissionSpec(
+        objective_codes=tuple(sorted(objectives)),
+        protected_activity_ids=protected_activity_ids,
+        mutable_activity_ids=mutable_activity_ids,
+        max_cost_delta_minor=max_cost,
+        max_loss_minor=0,
+        max_schedule_drift_min=max_drift,
+        preferences=preferences,
+        requested_autonomy=requested_autonomy,
+    )
+
+
+def _model_draft(command: str) -> MissionIntentDraft | None:
+    from app.core.config import settings
+
+    if not settings.ai_api_key:
+        return None
+    schema = MissionIntentDraft.model_json_schema()
+    try:
+        response = httpx.post(
+            settings.deepseek_api_url,
+            headers={"Authorization": f"Bearer {settings.ai_api_key}"},
+            timeout=settings.impact_timeout_seconds,
+            json={
+                "model": settings.ai_model.removeprefix("deepseek/"),
+                "temperature": 0,
+                "response_format": {"type": "json_object"},
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": (
+                            "Compile the user's Journey mission into JSON matching this schema exactly. "
+                            "Distinguish protected activities from explicitly mutable activities. "
+                            "Money is in integer minor units. Never invent database IDs. Return only a short "
+                            "user-safe reasoning_summary, never private chain-of-thought. Schema: "
+                            + json.dumps(schema, ensure_ascii=False)
+                        ),
+                    },
+                    {"role": "user", "content": command},
+                ],
+            },
+        )
+        response.raise_for_status()
+        content = response.json()["choices"][0]["message"]["content"]
+        return MissionIntentDraft.model_validate_json(content)
+    except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError):
+        return None
+
+
+def _resolve_model_references(
+    session: Session,
+    journey: Journey,
+    references: list[str],
+) -> tuple[str, ...]:
+    activities = _active_activities(session, journey)
+    resolved: list[str] = []
+    for reference in references:
+        needle = re.sub(r"\s+", "", _text(reference))
+        if not needle:
+            continue
+        for activity in activities:
+            semantic_id = activity.place_id or activity.city_service_id or ""
+            candidates = [activity.title, semantic_id, *_PROTECTED_ALIASES.get(semantic_id, ())]
+            if any(
+                needle in re.sub(r"\s+", "", _text(candidate))
+                or re.sub(r"\s+", "", _text(candidate)) in needle
+                for candidate in candidates
+                if candidate
+            ):
+                resolved.append(activity.id)
+    return tuple(dict.fromkeys(resolved))
+
+
+def create_mission(
+    session: Session,
+    journey: Journey,
+    *,
+    command: str,
+    requested_autonomy: str,
+    trigger_event_id: str | None,
+    is_standing: bool = False,
+    parent_mission_id: str | None = None,
+) -> JourneyMission:
+    spec = compile_mission(
+        session,
+        journey,
+        command,
+        requested_autonomy=requested_autonomy,
+    )
+    draft = _model_draft(command)
+    compiler_provider = "deterministic"
+    compiler_model = "mission-compiler-v2-fallback"
+    compiler_confidence = 1.0
+    reasoning_summary = (
+        "Resolved named activities against the active plan, then intersected the mission "
+        "envelope with the persisted traveler policy."
+    )
+    if draft is not None:
+        model_protected = _resolve_model_references(
+            session, journey, draft.protected_activity_references
+        )
+        model_mutable = _resolve_model_references(
+            session, journey, draft.mutable_activity_references
+        )
+        mutable = tuple(dict.fromkeys((*spec.mutable_activity_ids, *model_mutable)))
+        protected = tuple(
+            item
+            for item in dict.fromkeys((*spec.protected_activity_ids, *model_protected))
+            if item not in set(mutable)
+        )
+        spec = MissionSpec(
+            objective_codes=tuple(sorted(set(spec.objective_codes) | set(draft.objective_codes))),
+            protected_activity_ids=protected,
+            mutable_activity_ids=mutable,
+            max_cost_delta_minor=draft.max_cost_delta_minor,
+            max_loss_minor=draft.max_loss_minor,
+            max_schedule_drift_min=draft.max_schedule_drift_min,
+            preferences={**spec.preferences, **draft.preferences},
+            requested_autonomy=requested_autonomy,
+        )
+        compiler_provider = "deepseek"
+        from app.core.config import settings
+
+        compiler_model = settings.ai_model.removeprefix("deepseek/")
+        compiler_confidence = draft.confidence
+        reasoning_summary = draft.reasoning_summary
+    now = datetime.now(timezone.utc).isoformat()
+    from app.agent.delegation_policy import get_or_create_policy, policy_payload
+
+    policy = policy_payload(get_or_create_policy(session, journey.traveler_id))
+    resolved_cost = min(
+        spec.max_cost_delta_minor,
+        int(policy["max_auto_replan_cost_delta_minor"]),
+    )
+    resolved_loss = min(spec.max_loss_minor, int(policy["max_auto_loss_minor"]))
+    requested_drift = spec.max_schedule_drift_min
+    resolved_drift = min(requested_drift, int(policy["max_auto_schedule_drift_min"]))
+    intent = spec.as_dict()
+    resolved_intent = {
+        **intent,
+        "max_cost_delta_minor": resolved_cost,
+        "max_loss_minor": resolved_loss,
+        "max_schedule_drift_min": resolved_drift,
+        "policy_version": policy["version"],
+        "policy_mode": policy["mode"],
+        "authority_intersection": "MISSION_AND_TRAVELER_POLICY",
+    }
+    allowed_actions = ["REQUEST_REPLAN"]
+    if requested_autonomy == "EXECUTE_WITHIN_BOUNDS":
+        allowed_actions.append("ACCEPT_REPLAN")
+    mission = JourneyMission(
+        id=str(uuid4()),
+        journey_id=journey.id,
+        traveler_id=journey.traveler_id,
+        trigger_event_id=trigger_event_id,
+        user_text=command,
+        objective_codes_json=json.dumps(list(spec.objective_codes), ensure_ascii=False),
+        protected_activity_ids_json=json.dumps(
+            list(spec.protected_activity_ids), ensure_ascii=False
+        ),
+        mutable_activity_ids_json=json.dumps(list(spec.mutable_activity_ids), ensure_ascii=False),
+        intent_json=json.dumps(intent, ensure_ascii=False, sort_keys=True),
+        resolved_intent_json=json.dumps(resolved_intent, ensure_ascii=False, sort_keys=True),
+        allowed_action_classes_json=json.dumps(allowed_actions, sort_keys=True),
+        unresolved_references_json="[]",
+        compiler_provider_key=compiler_provider,
+        compiler_model_key=compiler_model,
+        compiler_confidence=compiler_confidence,
+        reasoning_summary=reasoning_summary,
+        is_standing=is_standing,
+        parent_mission_id=parent_mission_id,
+        max_cost_delta_minor=spec.max_cost_delta_minor,
+        max_loss_minor=spec.max_loss_minor,
+        max_schedule_drift_min=spec.max_schedule_drift_min,
+        preferences_json=json.dumps(spec.preferences, ensure_ascii=False, sort_keys=True),
+        requested_autonomy=spec.requested_autonomy,
+        status="CREATED",
+        created_at=now,
+    )
+    session.add(mission)
+    session.flush()
+    return mission
+
+
+def mission_payload(mission: JourneyMission) -> dict[str, Any]:
+    return {
+        "id": mission.id,
+        "journey_id": mission.journey_id,
+        "trigger_event_id": mission.trigger_event_id,
+        "user_text": mission.user_text,
+        "objective_codes": json.loads(mission.objective_codes_json or "[]"),
+        "protected_activity_ids": json.loads(mission.protected_activity_ids_json or "[]"),
+        "mutable_activity_ids": json.loads(mission.mutable_activity_ids_json or "[]"),
+        "intent": json.loads(mission.intent_json or "{}"),
+        "resolved_intent": json.loads(mission.resolved_intent_json or "{}"),
+        "allowed_action_classes": json.loads(mission.allowed_action_classes_json or "[]"),
+        "unresolved_references": json.loads(mission.unresolved_references_json or "[]"),
+        "compiler": {
+            "provider_key": mission.compiler_provider_key,
+            "model_key": mission.compiler_model_key,
+            "confidence": mission.compiler_confidence,
+        },
+        "reasoning_summary": mission.reasoning_summary,
+        "is_standing": bool(mission.is_standing),
+        "parent_mission_id": mission.parent_mission_id,
+        "max_cost_delta_minor": mission.max_cost_delta_minor,
+        "max_loss_minor": mission.max_loss_minor,
+        "max_schedule_drift_min": mission.max_schedule_drift_min,
+        "preferences": json.loads(mission.preferences_json or "{}"),
+        "requested_autonomy": mission.requested_autonomy,
+        "status": mission.status,
+        "created_at": mission.created_at,
+        "started_at": mission.started_at,
+        "completed_at": mission.completed_at,
+        "failure_reason": mission.failure_reason,
+    }

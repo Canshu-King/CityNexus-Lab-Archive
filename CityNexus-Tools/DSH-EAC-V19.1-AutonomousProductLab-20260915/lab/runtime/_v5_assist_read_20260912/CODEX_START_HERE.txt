@@ -1,0 +1,16 @@
+CITYNEXUS V5 — CODEX START HERE
+
+1. Read README.md and CODEX_NEXT_GOAL.txt first.
+2. Load the temporary DeepSeek credential from TEMP_DEEPSEEK.env into the CURRENT PROCESS ENVIRONMENT only.
+3. Use that credential for real DeepSeek/Hermes model-backed smoke tests and the V5 live Journey Autopilot work.
+4. Do NOT copy the raw credential into source code, frontend code, logs, Markdown reports, audit rows, database records, test snapshots, Git diffs, or the final checkpoint.
+5. Do NOT commit TEMP_DEEPSEEK.env to the CityNexus repository.
+6. Before creating the final CityNexus checkpoint, run a secret scan and ensure the temporary credential is absent from the repository and final deliverable.
+7. Continue with the complete V5 goal. Do not stop after setup or model smoke tests. The completion gate is the ZERO-TOUCH autonomous Journey recovery E2E.
+
+Suggested PowerShell loading pattern after extracting this assist package OUTSIDE the repository:
+
+$env:DEEPSEEK_API_KEY = (Get-Content .\TEMP_DEEPSEEK.env | Select-String '^DEEPSEEK_API_KEY=').ToString().Split('=',2)[1]
+
+Then execute the V5 work against:
+D:\moodle\CityNexus

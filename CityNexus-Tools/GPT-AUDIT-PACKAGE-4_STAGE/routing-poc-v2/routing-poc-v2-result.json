@@ -1,0 +1,16 @@
+{
+  "connectorCount": 5,
+  "rawConnectEntries": 10,
+  "fullyGluedRatio": 1.0,
+  "endpointTargetCells": "PinX (explicit side point unavailable in native Association test)",
+  "orthogonalRouteRatio": 0.4,
+  "connectorConnectorCrossingCount": 2,
+  "connectorThroughUnrelatedNodeCount": 0,
+  "endpointIntrusionCount": 0,
+  "outOfPageCount": 0,
+  "MSAGL": "NOT_EXECUTED",
+  "nativeAssociationRouting": "FAIL",
+  "dynamicRoutingControl": "UNVERIFIED",
+  "status": "ROUTING_FALLBACK_REQUIRED",
+  "measurementNotes": "Raw VSDX Connect entries and exported SVG were inspected; 3/5 relations are diagonal and crossings remain."
+}

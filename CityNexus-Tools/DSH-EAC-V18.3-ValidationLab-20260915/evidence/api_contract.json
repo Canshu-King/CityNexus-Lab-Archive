@@ -1,0 +1,90 @@
+{
+  "f1_resolved_in_snapshot": true,
+  "f2_unconfigured_missing_ready": "SOURCE-CONFIRMED (native_client.native_hermes_status unconfigured branch omits 'ready')",
+  "checks": [
+    {
+      "id": "C1_runtime_status",
+      "status": 200,
+      "body": {
+        "runtime_identity": "HERMES_NATIVE_MCP",
+        "native_binary_detected": true,
+        "native_mcp_proven": false,
+        "mcp_server": "citynexus-v2",
+        "deepseek_configured": true,
+        "hermes_compat_configured": false,
+        "hermes_native_gateway": {
+          "configured": true,
+          "reachable": true,
+          "runs": true,
+          "events": true,
+          "approval": true,
+          "stop": true,
+          "ready": true,
+          "profile": "citynexus-harness-lab",
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash"
+        }
+      }
+    },
+    {
+      "id": "C2_capabilities_configured",
+      "status": 200,
+      "has_ready_key": true,
+      "body": {
+        "configured": true,
+        "reachable": true,
+        "runs": true,
+        "events": true,
+        "approval": true,
+        "stop": true,
+        "ready": true,
+        "profile": "citynexus-harness-lab",
+        "provider": "deepseek",
+        "model": "deepseek-v4-flash"
+      }
+    },
+    {
+      "id": "C3_global_unknown_run_F1",
+      "status": 502,
+      "body": "{\"error\":{\"code\":\"REQUEST_ERROR\",\"message\":\"native Hermes run status is unavailable\",\"trace_id\":\"2dcf3585-2a84-49fb-957c-669d89452951\",\"details\":null}}"
+    },
+    {
+      "id": "C4_journey_unknown_run_F1",
+      "status": 502,
+      "body": "{\"error\":{\"code\":\"REQUEST_ERROR\",\"message\":\"native Hermes run status is unavailable\",\"trace_id\":\"bfd0aaa4-c8d3-4772-9a3c-1d4f7a76b62e\",\"details\":null}}"
+    },
+    {
+      "id": "C5_stop_unknown_run_F1",
+      "status": 502,
+      "body": "{\"error\":{\"code\":\"REQUEST_ERROR\",\"message\":\"native Hermes run stop is unavailable\",\"trace_id\":\"8913cb79-f330-4605-983b-428b1fb28b42\",\"details\":null}}"
+    },
+    {
+      "id": "C6_sse_unknown_global",
+      "status": null,
+      "body_len": 107,
+      "body_head": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)"
+    },
+    {
+      "id": "C7_sse_unknown_journey",
+      "status": null,
+      "body_len": 107,
+      "body_head": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)"
+    },
+    {
+      "id": "C8_copilot_contract",
+      "status": 200,
+      "runtime_identity": null,
+      "has_run_id": false
+    },
+    {
+      "id": "C9_plans_generate_seeded",
+      "status": 201,
+      "body_head": "[{\"id\":\"0e4dbc0b-64c3-53fd-b505-cad367a6de65\",\"journey_id\":\"22222222-2222-4222-8222-222222222222\",\"version_no\":9,\"planning_mode\":\"balanced\",\"status\":\"CANDIDATE\",\"source\":\"INITIAL\",\"parent_plan_version"
+    },
+    {
+      "id": "C10_health",
+      "status": 200,
+      "ai": "enabled"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "status": "FAIL",
+  "meaning": "PASS proves only pairwise separability for this port plan and sampled family search; it does not prove a global 18-route embedding.",
+  "plan": "PLAN_TRAVELER_SKELETON_PLANAR_GRID",
+  "topologyGateStatus": "PASS",
+  "orientableGenus": 0.0,
+  "routeA": "A-T-UC-07",
+  "routeB": "A-PA-07",
+  "baseSamples": 4,
+  "synthSamplesPerFixedCandidate": 3,
+  "fixedCandidateLimitPerDirection": 3,
+  "basePoolCounts": {
+    "A-T-UC-07": 4,
+    "A-PA-07": 2
+  },
+  "directCompatiblePairCount": 0,
+  "synthesizedCompatiblePairCount": 0,
+  "uniqueCompatiblePairCount": 0,
+  "examples": [],
+  "authoritativeCandidateModified": false
+}

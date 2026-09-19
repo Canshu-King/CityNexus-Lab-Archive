@@ -1,0 +1,32 @@
+{
+  "R02_event_status_at_start": "DETECTED",
+  "R02_experience_recovery_state": "RESOLVED",
+  "R02_experience_recovery_event_status": "DETECTED",
+  "R02_experience_candidate_plan_count": 1,
+  "R02_experience_actions": [
+    "REPLAN",
+    "ACKNOWLEDGE_WARNING"
+  ],
+  "R02_experience_flags": {
+    "needs_review": true,
+    "recovery_required": true,
+    "acknowledged": false,
+    "recovery_event_id": "EV-1",
+    "recovery_capability_code": "STEP_FREE_REQUIRED",
+    "recovery_state": "RECOVERY_REQUIRED"
+  },
+  "R02_event_status_after_projection": "DETECTED",
+  "R02_DISAGREEMENT": "projection says RESOLVED but event_status is still DETECTED",
+  "R02_flags_disagree_with_projection": true,
+  "R02_resolve_call_returned": 1,
+  "R02_event_status_after_explicit_resolve": "RESOLVED",
+  "R03_state_when_is_feasible_is_None": "RECOVERY_REQUIRED",
+  "R03_NO_ALTERNATIVE_without_any_replan_attempt": false,
+  "R03_candidate_plan_count_at_that_moment": 1,
+  "R03_state_when_is_feasible_is_False": "RECOVERY_REQUIRED",
+  "R01_ack_endpoint_present_in_openapi": null,
+  "R01_openapi_paths_containing_recovery": [
+    "/journeys/{journey_id}/stay-options/{option_id}/autopilot/recover"
+  ],
+  "R01_openapi_paths_containing_acknowledge": []
+}

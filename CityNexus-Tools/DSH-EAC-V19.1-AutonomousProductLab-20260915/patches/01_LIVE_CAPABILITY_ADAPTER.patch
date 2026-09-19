@@ -1,0 +1,3240 @@
+diff --git a/backend/app/main.py b/backend/app/main.py
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -66,7 +66,6 @@
+ from app.capabilities import (
+     CAPABILITY_CODES,
+     canonicalize_capabilities,
+-    capability_payload,
+     summarize_capabilities,
+ )
+ from app.commerce.idempotency import IdempotencyConflict, canonical_request_signature
+@@ -153,6 +152,7 @@
+ from app.db.session import SessionLocal, ensure_schema, get_session
+ from app.execution.clock import execution_clock
+ from app.execution.traveler_twin import (
++    capability_payload,
+     clear_learned,
+     learn_from_journey,
+     planning_preference_items,
+diff --git a/backend/app/capabilities.py b/backend/app/capabilities.py
+--- a/backend/app/capabilities.py
++++ b/backend/app/capabilities.py
+@@ -192,23 +192,26 @@
+     return any(marker in value for marker in _HARD_MARKERS)
+ 
+ 
+-def extract_capabilities_from_text(
+-    text: str,
++def _split_clauses(text: str) -> list[str]:
++    """Split natural language into bounded clauses for negation scoping."""
++
++    value = str(text or "").replace("；", ";").replace("，", ",")
++    parts: list[str] = []
++    for line in value.splitlines():
++        for chunk in re.split(r"[。！？!?;]+", line):
++            parts.extend(re.split(r"[,，]", chunk))
++    return [part.strip() for part in parts if part.strip()]
++
++def _extract_from_clause(
++    clause: str,
+     *,
+-    scope: str = "JOURNEY",
+-    source: str = "SEMANTIC",
+-    provenance: str = "USER_STATED",
+-) -> tuple[dict[str, Any], ...]:
+-    """Extract bounded capability candidates from natural language.
+-
+-    This is a conservative fallback and a post-model safety net.  It returns
+-    meaning only: no provider/evidence claim is generated here.  Negated or
+-    historical statements return no active capability for the matching clause.
+-    """
+-
+-    value = str(text or "").strip().casefold()
+-    if not value or any(marker in value for marker in _NEGATED_MARKERS):
+-        return ()
++    scope: str,
++    source: str,
++    provenance: str,
++) -> list[dict[str, Any]]:
++    value = str(clause or "").strip().casefold()
++    if not value:
++        return []
+     hard = _hard_asserted(value)
+     found: list[CapabilityItem] = []
+ 
+@@ -235,21 +238,43 @@
+         for token in ("无障碍", "轮椅", "wheelchair", "step-free", "step free", "accessible")
+     )
+     stairs = any(token in value for token in ("楼梯", "台阶", "stairs", "stair"))
+-    if accessibility and (hard or "全程" in value or "must" in value or "required" in value):
+-        add("STEP_FREE_REQUIRED", {"requirement": "step_free"})
+-    elif accessibility:
+-        add("STEP_FREE_REQUIRED", {"requirement": "step_free", "needs_confirmation": True}, severity="STRONG")
+-    if stairs and any(token in value for token in ("不能", "避免", "不要", "no ", "avoid", "cannot", "can't")):
++    if accessibility:
++        if hard or any(token in value for token in ("全程", "must", "required", "必须", "务必", "需要")):
++            add("STEP_FREE_REQUIRED", {"requirement": "step_free"})
++        else:
++            add(
++                "STEP_FREE_REQUIRED",
++                {"requirement": "step_free", "needs_confirmation": True},
++                severity="STRONG",
++            )
++    if stairs and any(token in value for token in ("不能", "避免", "不要", "no ", "avoid", "cannot", "can't", "不走")):
+         add("AVOID_STAIRS", {"avoid": True})
+ 
++    max_leg = _number_before(
++        value,
++        ("每段", "每程", "每腿", "每次", "per leg", "each leg", "最多", "不超过", "under", "less than"),
++    )
++    if max_leg is None and any(unit in value for unit in ("米", "meter", "metre", " m", "m ")):
++        max_leg = _number_before(value, ("走", "步行", "walking", "walk"))
+     walking = any(
+         token in value
+-        for token in ("少走", "少步行", "不能走太多", "步行少", "走路少", "low walking", "walk less", "avoid long walks", "avoid walking", "walking limit")
++        for token in (
++            "少走",
++            "少步行",
++            "不能走太多",
++            "步行少",
++            "走路少",
++            "low walking",
++            "walk less",
++            "avoid long walks",
++            "avoid walking",
++            "walking limit",
++            "走不动",
++            "膝盖",
++            "knee",
++        )
+     )
+-    if walking:
+-        max_leg = _number_before(value, ("每段", "每程", "每腿", "每次", "per leg", "each leg", "under", "less than"))
+-        if max_leg is None:
+-            max_leg = _number_before(value, ("走", "walking", "walk"))
++    if walking or max_leg is not None:
+         add(
+             "MAX_WALKING_PER_LEG_M",
+             {"max_m": max_leg, "needs_clarification": max_leg is None},
+@@ -263,10 +288,22 @@
+         add("MAX_DAILY_WALKING_M", {"max_m": daily}, severity="HARD" if hard else "STRONG")
+ 
+     window = _time_window(value)
+-    if any(token in value for token in ("午休", "中午休息", "midday rest", "midday break", "rest at noon")):
+-        add("MIDDAY_REST_WINDOW", {"start": window[0] if window else "12:00", "end": window[1] if window else "14:00"}, severity="HARD" if hard else "STRONG")
++    midday_rest = (
++        any(token in value for token in ("午休", "中午休息", "中午要休息", "midday rest", "midday break", "rest at noon"))
++        or ("中午" in value and any(token in value for token in ("休息", "午休", "rest")))
++    )
++    if midday_rest:
++        add(
++            "MIDDAY_REST_WINDOW",
++            {"start": window[0] if window else "12:00", "end": window[1] if window else "14:00"},
++            severity="HARD" if hard else "STRONG",
++        )
+     if any(token in value for token in ("午睡", "nap", "naptime")):
+-        add("INFANT_NAP_WINDOW", {"start": window[0] if window else "13:00", "end": window[1] if window else "15:00"}, severity="HARD" if hard else "STRONG")
++        add(
++            "INFANT_NAP_WINDOW",
++            {"start": window[0] if window else "13:00", "end": window[1] if window else "15:00"},
++            severity="HARD" if hard else "STRONG",
++        )
+     rest_every = _number_before(value, ("每", "every", "rest every"))
+     if rest_every is not None and any(token in value for token in ("休息", "rest", "break")):
+         add("REST_EVERY_MIN", {"max_min": rest_every}, severity="HARD" if hard else "STRONG")
+@@ -286,7 +323,39 @@
+         add("SENSORY_LOW_STIMULATION", {"preferred": True})
+     if any(token in value for token in ("室内", "indoor")):
+         add("INDOOR_PREFERRED", {"preferred": True})
+-    return tuple(item.as_dict() for item in found)
++    return [item.as_dict() for item in found]
++
++
++def extract_capabilities_from_text(
++    text: str,
++    *,
++    scope: str = "JOURNEY",
++    source: str = "SEMANTIC",
++    provenance: str = "USER_STATED",
++) -> tuple[dict[str, Any], ...]:
++    """Extract bounded capability candidates from natural language.
++
++    Negation and historical statements are scoped to the clause that contains
++    them.  For example, "以前不能走，现在想少走路" keeps the current low-walking
++    candidate and does not let the historical clause suppress the whole text.
++    """
++
++    merged: dict[str, dict[str, Any]] = {}
++    for clause in _split_clauses(text):
++        folded = clause.casefold()
++        if any(marker in folded for marker in _NEGATED_MARKERS):
++            continue
++        for item in _extract_from_clause(clause, scope=scope, source=source, provenance=provenance):
++            code = str(item["code"])
++            existing = merged.get(code)
++            if existing is None or _severity_rank(item["severity"]) > _severity_rank(existing["severity"]):
++                merged[code] = item
++            else:
++                merged[code] = {**existing, "params": {**existing.get("params", {}), **item.get("params", {})}}
++    return tuple(merged.values())
++
++def _severity_rank(value: str) -> int:
++    return {"SOFT": 0, "STRONG": 1, "HARD": 2}.get(str(value).upper(), 0)
+ 
+ 
+ def canonicalize_capabilities(
+@@ -298,9 +367,16 @@
+     explicit: bool | None = None,
+     confirmed: bool = False,
+ ) -> tuple[dict[str, Any], ...]:
+-    """Validate model/API candidates and enforce hard-severity invariants."""
+-
+-    result: list[dict[str, Any]] = []
++    """Validate model/API candidates and enforce hard-severity invariants.
++
++    Resolution is deterministic when the same code appears more than once:
++    parameters are merged, and the strongest severity wins (HARD > STRONG >
++    SOFT).  A hard accessibility code cannot be downgraded unless the caller
++    explicitly marked it as needing confirmation, in which case it is at least
++    STRONG and still cannot become a quiet HARD fact.
++    """
++
++    merged: dict[str, CapabilityItem] = {}
+     for raw in candidates or ():
+         if not isinstance(raw, Mapping):
+             continue
+@@ -312,18 +388,27 @@
+         if raw_class not in CAPABILITY_CLASSES:
+             raw_class = klass
+         params = raw.get("params") if isinstance(raw.get("params"), Mapping) else {}
+-        severity = str(raw.get("severity") or default_severity(code, hard_asserted=False)).upper()
+-        if severity not in CAPABILITY_SEVERITIES:
+-            severity = default_severity(code, hard_asserted=False)
+-        # A hard accessibility capability may not be downgraded by a model or
+-        # by an API client that mislabeled its class.
+-        if code in HARD_ACCESSIBILITY_CODES and str(raw.get("severity") or "").upper() == "HARD":
+-            severity = "HARD"
++        params = dict(params)
++        raw_severity = str(raw.get("severity") or default_severity(code, hard_asserted=False)).upper()
++        if raw_severity not in CAPABILITY_SEVERITIES:
++            raw_severity = default_severity(code, hard_asserted=False)
++        severity = raw_severity
++        if code in HARD_ACCESSIBILITY_CODES:
++            klass = capability_class_for(code)
++            if bool(params.get("needs_confirmation")):
++                # "I might need step-free access" is a candidate, not a
++                # durable HARD fact.  It stays STRONG until the explicit
++                # confirmation endpoint turns it into a HARD fact.
++                severity = "STRONG"
++            else:
++                # The code itself is a hard accessibility requirement.  A
++                # model/client cannot downgrade it to SOFT.
++                severity = "HARD"
+         item = CapabilityItem(
+             code=code,
+             capability_class=klass if code in HARD_ACCESSIBILITY_CODES else raw_class,
+             severity=severity,
+-            params=dict(params),
++            params=params,
+             scope=str(raw.get("scope") or scope).upper() if str(raw.get("scope") or scope).upper() in CAPABILITY_SCOPES else "JOURNEY",
+             source=str(raw.get("source") or source),
+             provenance=str(raw.get("provenance") or provenance),
+@@ -331,9 +416,38 @@
+             active=bool(raw.get("active", True)),
+             confirmed=bool(raw.get("confirmed", confirmed)),
+         )
+-        result.append(item.as_dict())
+-    return tuple(result)
+-
++        existing = merged.get(code)
++        if existing is None:
++            merged[code] = item
++            continue
++        merged_params = {**dict(existing.params), **dict(item.params)}
++        if _severity_rank(item.severity) > _severity_rank(existing.severity):
++            merged[code] = CapabilityItem(
++                code=item.code,
++                capability_class=item.capability_class,
++                severity=item.severity,
++                params=merged_params,
++                scope=item.scope,
++                source=item.source,
++                provenance=item.provenance,
++                explicit=item.explicit or existing.explicit,
++                active=item.active or existing.active,
++                confirmed=item.confirmed or existing.confirmed,
++            )
++        else:
++            merged[code] = CapabilityItem(
++                code=existing.code,
++                capability_class=existing.capability_class,
++                severity=existing.severity,
++                params=merged_params,
++                scope=existing.scope,
++                source=existing.source,
++                provenance=existing.provenance,
++                explicit=existing.explicit or item.explicit,
++                active=existing.active or item.active,
++                confirmed=existing.confirmed or item.confirmed,
++            )
++    return tuple(item.as_dict() for item in merged.values())
+ 
+ def capability_constraints(capabilities: Iterable[Mapping[str, Any]] | None) -> list[dict[str, Any]]:
+     """Translate active canonical capabilities into existing gate constraints."""
+diff --git a/frontend/src/features/capability-experience/types.ts b/frontend/src/features/capability-experience/types.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/types.ts
+@@ -0,0 +1,304 @@
++/**
++ * CityNexus V19 Traveler Capability / Accessibility UI contract.
++ *
++ * UI-facing only. Nothing here writes localStorage or claims planning
++ * authority. UNKNOWN != ACCESSIBLE: missing / unrecognised / stale /
++ * conflicting evidence normalises to NEEDS_LIVE_EVIDENCE or CONFLICT.
++ */
++
++export const CAPABILITY_KINDS = [
++  "HARD_ACCESSIBILITY_NEED",
++  "CARE_REQUIREMENT",
++  "PHYSICAL_LIMIT",
++  "TRIP_CONTEXT",
++  "SOFT_PREFERENCE",
++  "PROTECTED_COMMITMENT",
++  "UNKNOWN_CAPABILITY",
++] as const;
++export type CapabilityKind = (typeof CAPABILITY_KINDS)[number];
++
++export const EVIDENCE_STATES = [
++  "VERIFIED",
++  "UNVERIFIED",
++  "CONFLICT",
++  "NEEDS_LIVE_EVIDENCE",
++] as const;
++export type CapabilityEvidenceState = (typeof EVIDENCE_STATES)[number];
++
++export const CAPABILITY_STRENGTHS = ["HARD", "STRONG", "SOFT", "AMBIGUOUS"] as const;
++export type CapabilityStrength = (typeof CAPABILITY_STRENGTHS)[number];
++
++export const CAPABILITY_SCOPES = ["THIS_JOURNEY", "FUTURE_JOURNEYS", "TRAVELER"] as const;
++export type CapabilityScope = (typeof CAPABILITY_SCOPES)[number];
++
++export const CAPABILITY_SOURCES = [
++  "TRAVELER_STATED",
++  "COPILOT_DETECTED",
++  "PROVIDER_EVIDENCE",
++  "RECORDED_FIXTURE",
++  "LEARNED_SOFT",
++  "IMPORTED",
++] as const;
++export type CapabilitySource = (typeof CAPABILITY_SOURCES)[number];
++
++export type ProvenanceKind = "LIVE" | "RECORDED_FIXTURE" | "LOCAL_UI_ONLY";
++
++export interface CapabilityProvenance {
++  kind: ProvenanceKind;
++  label: string;
++  sourceSystem: string;
++  observedAt?: string | null;
++  expiresAt?: string | null;
++  providerKey?: string | null;
++  recordedOn?: string | null;
++  notes?: string;
++}
++
++export interface CapabilityEvidence {
++  state: CapabilityEvidenceState;
++  provenance: CapabilityProvenance;
++  summary: string;
++  detail?: string;
++  lastVerifiedAt?: string | null;
++  liveChecks?: string[];
++  conflictsWith?: string[];
++  facts?: Record<string, unknown>;
++}
++
++export type CapabilityConstraintOperator = "LTE" | "GTE" | "BETWEEN" | "REQUIRED" | "FORBIDDEN";
++
++export interface CapabilityConstraint {
++  key:
++    | "max_walking_per_leg_m"
++    | "max_continuous_walking_m"
++    | "rest_frequency_min"
++    | "nap_window"
++    | "toilet_frequency_min"
++    | "pace"
++    | "quiet_sensory"
++    | string;
++  operator: CapabilityConstraintOperator;
++  value: number | string | boolean | [number, number];
++  unit?: string;
++  hard: boolean;
++}
++
++export interface TravelerCapability {
++  id: string;
++  kind: CapabilityKind;
++  label: string;
++  description?: string;
++  strength: CapabilityStrength;
++  scope: CapabilityScope;
++  source: CapabilitySource;
++  sourceLabel: string;
++  evidence: CapabilityEvidence;
++  active: boolean;
++  confirmed: boolean;
++  explicit: boolean;
++  learned: boolean;
++  travelerStated: boolean;
++  appliesToActivityIds?: string[];
++  constraints?: CapabilityConstraint[];
++  confidence?: number;
++  strengthScore?: number;
++  evidenceCount?: number;
++  createdAt?: string;
++  updatedAt?: string;
++  extra?: Record<string, unknown>;
++}
++
++export type CapabilityImpactStatus =
++  | "PRESERVED"
++  | "IMPROVED"
++  | "AT_RISK"
++  | "VIOLATED"
++  | "UNKNOWN";
++
++export interface CapabilityImpact {
++  id: string;
++  capabilityId: string;
++  capabilityLabel: string;
++  kind: CapabilityKind;
++  status: CapabilityImpactStatus;
++  explanation: string;
++  evidence: CapabilityEvidence;
++  candidateId?: string;
++  candidateLabel?: string;
++  observedValue?: string;
++  limitValue?: string;
++  plannedValue?: string;
++}
++
++export interface CapabilityConflict {
++  id: string;
++  capabilityId: string;
++  capabilityLabel: string;
++  summary: string;
++  severity: "INFO" | "WARNING" | "BLOCKING";
++  evidence: CapabilityEvidence;
++}
++
++export interface CapabilityConfirmation {
++  id: string;
++  statement: string;
++  detectedLabel: string;
++  capability: TravelerCapability;
++  ambiguous: boolean;
++  ambiguityPrompt?: string;
++  ambiguityOptions?: Array<{
++    id: string;
++    label: string;
++    description?: string;
++    capabilityPatch: Partial<TravelerCapability>;
++  }>;
++  selectedOptionId?: string;
++}
++
++export interface CapabilityConfirmationDecision {
++  id: string;
++  action: "CONFIRM" | "JOURNEY_ONLY" | "DISMISS" | "EDIT";
++  capabilities: TravelerCapability[];
++  acknowledgedFuturePersistence?: boolean;
++}
++
++export interface PlanCapabilityExplanationModel {
++  candidateId: string;
++  candidateLabel: string;
++  candidateSubtitle?: string;
++  selected: boolean;
++  why: CapabilityImpact[];
++  rejected: CapabilityImpact[];
++  unknown: CapabilityEvidence[];
++  protectedCommitments: Array<{
++    id: string;
++    label: string;
++    level: string;
++    preserved: boolean;
++    detail?: string;
++  }>;
++  authority: "BACKEND_PLANNING" | "RECORDED_FIXTURE_REFERENCE" | "UI_LOCAL_DRAFT";
++}
++
++export interface RecoveryCapabilityDiffModel {
++  journeyId: string;
++  before: CapabilityImpact[];
++  after: CapabilityImpact[];
++  preserved: CapabilityImpact[];
++  atRisk: CapabilityImpact[];
++  evidenceGaps: CapabilityEvidence[];
++  protectedCommitments: Array<{
++    id: string;
++    label: string;
++    level: string;
++    preserved: boolean;
++    detail?: string;
++  }>;
++  authority: "BACKEND_PLANNING" | "RECORDED_FIXTURE_REFERENCE" | "UI_LOCAL_DRAFT";
++}
++
++export interface MobileCapabilityShieldModel {
++  protectedCount: number;
++  needs: TravelerCapability[];
++  evidenceGap: {
++    label: string;
++    capabilityId: string;
++    evidence: CapabilityEvidence;
++  } | null;
++  primaryActionLabel: string;
++  onPrimaryAction?: () => void;
++}
++
++export interface CapabilityMapMarker {
++  id: string;
++  kind:
++    | "VERIFIED_ACCESSIBILITY"
++    | "UNKNOWN_ACCESSIBILITY"
++    | "CONFLICT"
++    | "REST_STOP"
++    | "NAP_WINDOW"
++    | "WALKING_LIMIT_WARNING"
++    | "PROTECTED_COMMITMENT";
++  label: string;
++  detail?: string;
++  evidence?: CapabilityEvidence;
++  longitude?: number;
++  latitude?: number;
++}
++
++export interface JourneySetupNeedsDraft {
++  quickNeedIds: string[];
++  advanced: {
++    maxWalkingPerLegM?: number;
++    maxContinuousWalkingM?: number;
++    restFrequencyMin?: number;
++    napWindow?: { start: string; end: string } | null;
++    toiletFrequencyMin?: number;
++    pace?: "RELAXED" | "BALANCED" | "BRISK";
++    quietSensory?: boolean;
++  };
++  note?: string;
++}
++
++export const QUICK_NEEDS = [
++  { id: "less_walking", labelZh: "少走路", labelEn: "Less walking", kind: "PHYSICAL_LIMIT" },
++  { id: "wheelchair_access", labelZh: "无障碍/轮椅", labelEn: "Step-free / wheelchair", kind: "HARD_ACCESSIBILITY_NEED" },
++  { id: "avoid_stairs", labelZh: "避免楼梯", labelEn: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED" },
++  { id: "stroller", labelZh: "婴儿车", labelEn: "Stroller", kind: "CARE_REQUIREMENT" },
++  { id: "large_luggage", labelZh: "大件行李", labelEn: "Large luggage", kind: "TRIP_CONTEXT" },
++  { id: "midday_rest", labelZh: "中午休息", labelEn: "Midday rest", kind: "CARE_REQUIREMENT" },
++  { id: "baby_nap", labelZh: "婴儿午睡", labelEn: "Baby nap", kind: "CARE_REQUIREMENT" },
++] as const satisfies ReadonlyArray<{
++  id: string;
++  labelZh: string;
++  labelEn: string;
++  kind: CapabilityKind;
++}>;
++export type QuickNeedId = (typeof QUICK_NEEDS)[number]["id"];
++
++export interface CapabilityCopy {
++  locale: "zh-CN" | "en";
++  journeySetup: {
++    title: string; lede: string; optional: string; quickTitle: string; quickHelp: string;
++    advancedToggle: string; advancedHelp: string; maxWalkingPerLeg: string; maxContinuousWalking: string;
++    restFrequency: string; napWindow: string; toiletFrequency: string; pace: string;
++    paceRelaxed: string; paceBalanced: string; paceBrisk: string; quietSensory: string;
++    note: string; notePlaceholder: string; save: string; clear: string; sourceNotice: string; activeSummary: string;
++  };
++  confirmation: {
++    title: string; detected: string; classLabel: string; scopeLabel: string; sourceLabel: string; sourceValue: string;
++    actions: { confirm: string; edit: string; journeyOnly: string; dismiss: string; cancel: string; saveEdit: string };
++    ambiguity: string; hardPersistenceWarning: string; hardPersistenceAcknowledge: string;
++    thisJourney: string; futureJourneys: string; travelerProfile: string;
++    hard: string; strong: string; soft: string; ambiguous: string; sheetTitle: string;
++    confirmed: string; journeyOnlyConfirmed: string; dismissed: string;
++  };
++  evidence: {
++    verified: string; unverified: string; conflict: string; needsLiveEvidence: string;
++    verifiedShort: string; unverifiedShort: string; conflictShort: string; needsLiveShort: string;
++    details: string; unknownIsNotAccessible: string; recordedFixture: string; live: string;
++  };
++  plan: {
++    title: string; whySelected: string; rejected: string; unknown: string; evidenceGap: string;
++    capabilityPreserved: string; capabilityAtRisk: string; hardLimit: string; noRejections: string; noUnknowns: string;
++    protectedCommitments: string; commitmentPreserved: string; commitmentAtRisk: string;
++  };
++  recovery: {
++    title: string; before: string; after: string; preserved: string; atRisk: string; evidenceGaps: string;
++    noAtRisk: string; noGaps: string;
++  };
++  twin: {
++    title: string; explicitCapability: string; explicitPreference: string; learnedSoft: string;
++    hardAccessibility: string; travelerStated: string; active: string; scope: string; evidence: string;
++    learnedStrength: string; confidence: string; evidenceCount: string; noExplicit: string; noLearned: string;
++    authorityNotice: string; explicit: string; learned: string;
++  };
++  mobile: {
++    protectedTitle: string; protectedCount: string; noNeeds: string; evidenceGapTitle: string;
++    evidenceGapNotVerified: string; primaryAction: string; openDetails: string;
++  };
++  map: {
++    legendTitle: string; verified: string; unknown: string; conflict: string; restStop: string;
++    napWindow: string; walkingLimit: string; protectedCommitment: string; mapSummary: string;
++  };
++}
+diff --git a/frontend/src/features/capability-experience/copy.ts b/frontend/src/features/capability-experience/copy.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/copy.ts
+@@ -0,0 +1,269 @@
++import type { CapabilityCopy } from "./types";
++
++const zh: CapabilityCopy = {
++  locale: "zh-CN",
++  journeySetup: {
++    title: "出行需求",
++    lede: "可选。告诉我们哪些必须满足、哪些只是偏好；未知信息不会被当成无障碍可用。",
++    optional: "可选 · 可随时修改",
++    quickTitle: "快速选择",
++    quickHelp: "点选后会作为候选需求，确认前不会写入后端规划。",
++    advancedToggle: "更多细节（步行、休息、节奏、感官）",
++    advancedHelp: "这些是行程约束，不是医疗病历。只填写你愿意提供的部分。",
++    maxWalkingPerLeg: "每段最大步行（米）",
++    maxContinuousWalking: "最长连续步行（米）",
++    restFrequency: "休息频率（分钟）",
++    napWindow: "午睡时间窗",
++    toiletFrequency: "如厕/休息间隔（分钟）",
++    pace: "节奏",
++    paceRelaxed: "轻松",
++    paceBalanced: "适中",
++    paceBrisk: "较快",
++    quietSensory: "需要安静/低感官刺激环境",
++    note: "补充说明",
++    notePlaceholder: "例如：妈妈膝盖不好，中午最好休息。",
++    save: "保存为行程需求",
++    clear: "清空",
++    sourceNotice: "UI 草稿 · 保存后仍需后端能力契约确认；不会写入 localStorage 冒充规划权威。",
++    activeSummary: "已选需求",
++  },
++  confirmation: {
++    title: "Copilot 检测到的出行需求",
++    detected: "检测到",
++    classLabel: "级别",
++    scopeLabel: "适用范围",
++    sourceLabel: "来源",
++    sourceValue: "你告诉 CityNexus",
++    actions: { confirm: "确认", edit: "编辑", journeyOnly: "仅本次行程", dismiss: "忽略", cancel: "取消", saveEdit: "保存编辑" },
++    ambiguity: "这句话可能有多种含义，请选择一项后再确认。",
++    hardPersistenceWarning: "HARD 需求不会静默持久化到未来行程。",
++    hardPersistenceAcknowledge: "我确认：这是一个硬性无障碍/照护需求，可保存到未来行程。",
++    thisJourney: "仅本次行程",
++    futureJourneys: "未来行程",
++    travelerProfile: "Traveler Profile",
++    hard: "HARD",
++    strong: "STRONG",
++    soft: "SOFT",
++    ambiguous: "待确认",
++    sheetTitle: "检测到的需求",
++    confirmed: "已确认；规划仍需后端 capability contract 处理。",
++    journeyOnlyConfirmed: "已设为仅本次行程。",
++    dismissed: "已忽略，本次不会保存该需求。",
++  },
++  evidence: {
++    verified: "已核实",
++    unverified: "未核实",
++    conflict: "存在冲突",
++    needsLiveEvidence: "需要实时证据",
++    verifiedShort: "已核实",
++    unverifiedShort: "未核实",
++    conflictShort: "冲突",
++    needsLiveShort: "需实时证据",
++    details: "证据详情",
++    unknownIsNotAccessible: "未知 ≠ 无障碍可用。没有证据时不会显示绿色对勾。",
++    recordedFixture: "录制夹具 RECORDED_FIXTURE",
++    live: "实时 LIVE",
++  },
++  plan: {
++    title: "能力感知的方案说明",
++    whySelected: "为什么选择",
++    rejected: "已排除",
++    unknown: "未知证据",
++    evidenceGap: "证据缺口",
++    capabilityPreserved: "能力已保护",
++    capabilityAtRisk: "能力有风险",
++    hardLimit: "硬性上限",
++    noRejections: "本方案没有因能力约束被排除的候选。",
++    noUnknowns: "本方案没有已声明的能力证据缺口。",
++    protectedCommitments: "受保护承诺 C4",
++    commitmentPreserved: "已保护",
++    commitmentAtRisk: "有风险",
++  },
++  recovery: {
++    title: "Recovery 能力差异",
++    before: "变更前 BEFORE",
++    after: "变更后 AFTER",
++    preserved: "继续保护的能力",
++    atRisk: "有风险的能力",
++    evidenceGaps: "证据缺口",
++    noAtRisk: "未发现能力风险，但这不等于所有无障碍信息均已核实。",
++    noGaps: "未声明证据缺口。",
++  },
++  twin: {
++    title: "Traveler Twin 能力摘要",
++    explicitCapability: "明确能力需求",
++    explicitPreference: "明确偏好",
++    learnedSoft: "学习到的软偏好",
++    hardAccessibility: "硬性无障碍需求",
++    travelerStated: "旅行者明确说明",
++    active: "生效中",
++    scope: "范围",
++    evidence: "证据",
++    learnedStrength: "学习强度",
++    confidence: "置信度",
++    evidenceCount: "证据条数",
++    noExplicit: "尚未记录明确能力需求。",
++    noLearned: "尚未形成学习到的软偏好。",
++    authorityNotice: "Twin 只提供排序/解释上下文，不拥有规划权威。",
++    explicit: "明确",
++    learned: "学习",
++  },
++  mobile: {
++    protectedTitle: "出行需求保护",
++    protectedCount: "{n} 项出行需求受保护",
++    noNeeds: "尚未添加出行需求",
++    evidenceGapTitle: "证据缺口",
++    evidenceGapNotVerified: "无障碍通行尚未核实",
++    primaryAction: "查看或修改需求",
++    openDetails: "查看详情",
++  },
++  map: {
++    legendTitle: "地图证据图例",
++    verified: "已核实的无障碍点",
++    unknown: "未知无障碍信息",
++    conflict: "已知冲突",
++    restStop: "休息点",
++    napWindow: "午睡时间窗",
++    walkingLimit: "步行上限警告",
++    protectedCommitment: "受保护承诺",
++    mapSummary: "地图标记只表达证据状态，不把未知画成可用。",
++  },
++};
++
++const en: CapabilityCopy = {
++  locale: "en",
++  journeySetup: {
++    title: "Traveler needs",
++    lede: "Optional. Mark what must be met and what is only a preference. Unknown never means accessible.",
++    optional: "Optional · editable anytime",
++    quickTitle: "Quick choices",
++    quickHelp: "Selected needs become candidates; they do not change backend planning before confirmation.",
++    advancedToggle: "More details (walking, rest, pace, sensory)",
++    advancedHelp: "These are journey constraints, not a medical intake form. Share only what you want.",
++    maxWalkingPerLeg: "Max walking per leg (m)",
++    maxContinuousWalking: "Max continuous walking (m)",
++    restFrequency: "Rest frequency (min)",
++    napWindow: "Nap window",
++    toiletFrequency: "Toilet / rest interval (min)",
++    pace: "Pace",
++    paceRelaxed: "Relaxed",
++    paceBalanced: "Balanced",
++    paceBrisk: "Brisk",
++    quietSensory: "Quiet / low-sensory environment needed",
++    note: "Notes",
++    notePlaceholder: "e.g. My mother has knee pain and needs a midday rest.",
++    save: "Save journey needs",
++    clear: "Clear",
++    sourceNotice: "UI draft · backend capability contract still required; never stored in localStorage as planning authority.",
++    activeSummary: "Selected needs",
++  },
++  confirmation: {
++    title: "Copilot detected traveler needs",
++    detected: "Detected",
++    classLabel: "Class",
++    scopeLabel: "Scope",
++    sourceLabel: "Source",
++    sourceValue: "You told CityNexus",
++    actions: { confirm: "Confirm", edit: "Edit", journeyOnly: "This Journey only", dismiss: "Dismiss", cancel: "Cancel", saveEdit: "Save edit" },
++    ambiguity: "This may mean more than one thing. Choose an interpretation before confirming.",
++    hardPersistenceWarning: "HARD needs are never silently persisted to future journeys.",
++    hardPersistenceAcknowledge: "I confirm this is a hard accessibility/care need and may be saved for future journeys.",
++    thisJourney: "This Journey",
++    futureJourneys: "Future Journeys",
++    travelerProfile: "Traveler Profile",
++    hard: "HARD",
++    strong: "STRONG",
++    soft: "SOFT",
++    ambiguous: "Needs confirmation",
++    sheetTitle: "Detected needs",
++    confirmed: "Confirmed; planning still requires the backend capability contract.",
++    journeyOnlyConfirmed: "Set to This Journey only.",
++    dismissed: "Dismissed; nothing saved for this Journey.",
++  },
++  evidence: {
++    verified: "Verified",
++    unverified: "Unverified",
++    conflict: "Conflict",
++    needsLiveEvidence: "Needs live evidence",
++    verifiedShort: "Verified",
++    unverifiedShort: "Unverified",
++    conflictShort: "Conflict",
++    needsLiveShort: "Live evidence needed",
++    details: "Evidence details",
++    unknownIsNotAccessible: "Unknown is not accessible. No green check is shown without evidence.",
++    recordedFixture: "RECORDED_FIXTURE",
++    live: "LIVE",
++  },
++  plan: {
++    title: "Capability-aware plan explanation",
++    whySelected: "Why selected",
++    rejected: "Rejected",
++    unknown: "Unknown evidence",
++    evidenceGap: "Evidence gap",
++    capabilityPreserved: "Capability preserved",
++    capabilityAtRisk: "Capability at risk",
++    hardLimit: "Hard limit",
++    noRejections: "No candidate was rejected by a declared capability constraint.",
++    noUnknowns: "No declared capability evidence gaps in this explanation.",
++    protectedCommitments: "Protected commitments C4",
++    commitmentPreserved: "Preserved",
++    commitmentAtRisk: "At risk",
++  },
++  recovery: {
++    title: "Recovery capability diff",
++    before: "BEFORE",
++    after: "AFTER",
++    preserved: "Capabilities preserved",
++    atRisk: "Capabilities at risk",
++    evidenceGaps: "Evidence gaps",
++    noAtRisk: "No capability risk found, but this is not a claim that all accessibility information is verified.",
++    noGaps: "No declared evidence gaps.",
++  },
++  twin: {
++    title: "Traveler Twin capability summary",
++    explicitCapability: "Explicit capability",
++    explicitPreference: "Explicit preference",
++    learnedSoft: "Learned soft preference",
++    hardAccessibility: "Hard accessibility need",
++    travelerStated: "Traveler stated",
++    active: "Active",
++    scope: "Scope",
++    evidence: "Evidence",
++    learnedStrength: "Learned strength",
++    confidence: "Confidence",
++    evidenceCount: "Evidence count",
++    noExplicit: "No explicit capability needs recorded yet.",
++    noLearned: "No learned soft preferences yet.",
++    authorityNotice: "Twin supplies ranking and explanation context only; it has no planning authority.",
++    explicit: "Explicit",
++    learned: "Learned",
++  },
++  mobile: {
++    protectedTitle: "Capability protection",
++    protectedCount: "{n} travel needs protected",
++    noNeeds: "No travel needs added yet",
++    evidenceGapTitle: "Evidence gap",
++    evidenceGapNotVerified: "Step-free access not verified",
++    primaryAction: "Review or edit needs",
++    openDetails: "View details",
++  },
++  map: {
++    legendTitle: "Map evidence legend",
++    verified: "Verified accessibility point",
++    unknown: "Unknown accessibility information",
++    conflict: "Known conflict",
++    restStop: "Rest stop",
++    napWindow: "Nap window",
++    walkingLimit: "Walking limit warning",
++    protectedCommitment: "Protected commitment",
++    mapSummary: "Map markers express evidence state; unknown is never rendered as available.",
++  },
++};
++
++export function capabilityCopy(locale: "zh-CN" | "en"): CapabilityCopy {
++  return locale === "en" ? en : zh;
++}
++
++export function fillCount(template: string, count: number): string {
++  return template.replace("{n}", String(count));
++}
+diff --git a/frontend/src/features/capability-experience/evidence.ts b/frontend/src/features/capability-experience/evidence.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/evidence.ts
+@@ -0,0 +1,197 @@
++import type { CapabilityCopy, CapabilityEvidence, CapabilityEvidenceState, ProvenanceKind } from "./types";
++
++export interface EvidenceVisual {
++  state: CapabilityEvidenceState;
++  label: string;
++  shortLabel: string;
++  glyph: string;
++  tone: "verified" | "unknown" | "conflict" | "live";
++  ariaDescription: string;
++}
++
++export function evidenceVisual(state: CapabilityEvidenceState, copy: CapabilityCopy): EvidenceVisual {
++  switch (state) {
++    case "VERIFIED":
++      return {
++        state,
++        label: copy.evidence.verified,
++        shortLabel: copy.evidence.verifiedShort,
++        glyph: "✓",
++        tone: "verified",
++        ariaDescription: copy.evidence.verified,
++      };
++    case "CONFLICT":
++      return {
++        state,
++        label: copy.evidence.conflict,
++        shortLabel: copy.evidence.conflictShort,
++        glyph: "!",
++        tone: "conflict",
++        ariaDescription: copy.evidence.conflict,
++      };
++    case "UNVERIFIED":
++      return {
++        state,
++        label: copy.evidence.unverified,
++        shortLabel: copy.evidence.unverifiedShort,
++        glyph: "?",
++        tone: "unknown",
++        ariaDescription: copy.evidence.unverified,
++      };
++    case "NEEDS_LIVE_EVIDENCE":
++      return {
++        state,
++        label: copy.evidence.needsLiveEvidence,
++        shortLabel: copy.evidence.needsLiveShort,
++        glyph: "⌛",
++        tone: "live",
++        ariaDescription: copy.evidence.needsLiveEvidence,
++      };
++    default:
++      // Unknown future evidence states are never promoted to VERIFIED.
++      return {
++        state: "NEEDS_LIVE_EVIDENCE",
++        label: copy.evidence.needsLiveEvidence,
++        shortLabel: copy.evidence.needsLiveShort,
++        glyph: "⌛",
++        tone: "live",
++        ariaDescription: copy.evidence.needsLiveEvidence,
++      };
++  }
++}
++
++export function provenanceKindLabel(kind: ProvenanceKind, copy: CapabilityCopy): string {
++  if (kind === "LIVE") return copy.evidence.live;
++  if (kind === "RECORDED_FIXTURE") return copy.evidence.recordedFixture;
++  return "LOCAL_UI_ONLY";
++}
++
++export function makeEvidence(
++  state: CapabilityEvidenceState,
++  summary: string,
++  provenance: CapabilityEvidence["provenance"],
++  extras: Partial<CapabilityEvidence> = {},
++): CapabilityEvidence {
++  return { state, summary, provenance, ...extras };
++}
++
++export function makeRecordedEvidence(summary: string, extras: Partial<CapabilityEvidence> = {}): CapabilityEvidence {
++  return makeEvidence("NEEDS_LIVE_EVIDENCE", summary, {
++    kind: "RECORDED_FIXTURE",
++    label: "RECORDED_FIXTURE",
++    sourceSystem: "citynexus_v19_capability_fixture",
++    recordedOn: "2026-09-15",
++  }, extras);
++}
++
++export function makeLiveEvidence(summary: string, sourceSystem: string, extras: Partial<CapabilityEvidence> = {}): CapabilityEvidence {
++  return makeEvidence("NEEDS_LIVE_EVIDENCE", summary, {
++    kind: "LIVE",
++    label: "LIVE",
++    sourceSystem,
++    observedAt: new Date().toISOString(),
++  }, extras);
++}
++
++export function makeUiOnlyEvidence(summary: string, extras: Partial<CapabilityEvidence> = {}): CapabilityEvidence {
++  return makeEvidence("NEEDS_LIVE_EVIDENCE", summary, {
++    kind: "LOCAL_UI_ONLY",
++    label: "LOCAL_UI_ONLY",
++    sourceSystem: "capability_experience_ui",
++  }, { liveChecks: ["Backend capability contract has not returned this evidence yet."], ...extras });
++}
++
++export function isUnknownEvidence(evidence: CapabilityEvidence): boolean {
++  return evidence.state === "UNVERIFIED" || evidence.state === "NEEDS_LIVE_EVIDENCE";
++}
++
++export function isEvidenceGap(evidence: CapabilityEvidence): boolean {
++  return evidence.state !== "VERIFIED";
++}
++
++export function evidenceNeedsLiveCheck(evidence: CapabilityEvidence): boolean {
++  return evidence.state === "NEEDS_LIVE_EVIDENCE" || evidence.state === "UNVERIFIED";
++}
++
++export function evidenceAriaLabel(evidence: CapabilityEvidence, copy: CapabilityCopy): string {
++  const visual = evidenceVisual(evidence.state, copy);
++  return `${visual.label}: ${evidence.summary}`;
++}
++
++export function capabilityKindLabel(kind: string, copy: CapabilityCopy): string {
++  const zh = copy.locale === "zh-CN";
++  switch (kind) {
++    case "HARD_ACCESSIBILITY_NEED":
++      return zh ? "硬性无障碍需求" : "Hard accessibility need";
++    case "CARE_REQUIREMENT":
++      return zh ? "照护要求" : "Care requirement";
++    case "PHYSICAL_LIMIT":
++      return zh ? "身体限制" : "Physical limit";
++    case "TRIP_CONTEXT":
++      return zh ? "行程背景" : "Trip context";
++    case "SOFT_PREFERENCE":
++      return zh ? "软偏好" : "Soft preference";
++    case "PROTECTED_COMMITMENT":
++      return zh ? "受保护承诺" : "Protected commitment";
++    default:
++      return zh ? "未知能力类型" : "Unknown capability type";
++  }
++}
++
++export function strengthLabel(strength: string, copy: CapabilityCopy): string {
++  switch (strength) {
++    case "HARD":
++      return copy.confirmation.hard;
++    case "STRONG":
++      return copy.confirmation.strong;
++    case "SOFT":
++      return copy.confirmation.soft;
++    default:
++      return copy.confirmation.ambiguous;
++  }
++}
++
++export function scopeLabel(scope: string, copy: CapabilityCopy): string {
++  switch (scope) {
++    case "THIS_JOURNEY":
++      return copy.confirmation.thisJourney;
++    case "FUTURE_JOURNEYS":
++      return copy.confirmation.futureJourneys;
++    case "TRAVELER":
++      return copy.confirmation.travelerProfile;
++    default:
++      return copy.confirmation.thisJourney;
++  }
++}
++
++export function impactStatusLabel(status: string, copy: CapabilityCopy): string {
++  const zh = copy.locale === "zh-CN";
++  switch (status) {
++    case "PRESERVED":
++      return zh ? "已保护" : "Preserved";
++    case "IMPROVED":
++      return zh ? "改善" : "Improved";
++    case "AT_RISK":
++      return zh ? "有风险" : "At risk";
++    case "VIOLATED":
++      return zh ? "被违反" : "Violated";
++    default:
++      return zh ? "未知" : "Unknown";
++  }
++}
++
++export function capabilityLabel(capability: { label: string; extra?: Record<string, unknown> }, locale: "zh-CN" | "en"): string {
++  if (locale === "en") {
++    const english = capability.extra?.labelEn ?? capability.extra?.label_en;
++    if (typeof english === "string" && english.trim()) return english;
++  }
++  return capability.label;
++}
++
++export function capabilityDescription(capability: { description?: string; extra?: Record<string, unknown> }, locale: "zh-CN" | "en"): string | undefined {
++  if (locale === "en") {
++    const english = capability.extra?.descriptionEn ?? capability.extra?.description_en;
++    if (typeof english === "string" && english.trim()) return english;
++  }
++  return capability.description;
++}
+diff --git a/frontend/src/features/capability-experience/adapter.ts b/frontend/src/features/capability-experience/adapter.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/adapter.ts
+@@ -0,0 +1,626 @@
++import type {
++  CapabilityConfirmation,
++  CapabilityConstraint,
++  CapabilityEvidence,
++  CapabilityEvidenceState,
++  CapabilityImpact,
++  CapabilityKind,
++  CapabilityScope,
++  CapabilitySource,
++  CapabilityStrength,
++  JourneySetupNeedsDraft,
++  PlanCapabilityExplanationModel,
++  ProvenanceKind,
++  QuickNeedId,
++  RecoveryCapabilityDiffModel,
++  TravelerCapability,
++} from "./types";
++import { EVIDENCE_STATES, QUICK_NEEDS } from "./types";
++import { makeEvidence, makeLiveEvidence, makeRecordedEvidence, makeUiOnlyEvidence } from "./evidence";
++
++export class CapabilityAdapterNotConfiguredError extends Error {
++  readonly code = "CAPABILITY_CONTRACT_NOT_AVAILABLE";
++  constructor(message = "Capability backend contract is not available; use RECORDED_FIXTURE explicitly.") {
++    super(message);
++    this.name = "CapabilityAdapterNotConfiguredError";
++  }
++}
++
++export interface CapabilityDataSource {
++  readonly sourceKind: ProvenanceKind;
++  fetchCapabilities(travelerId: string): Promise<TravelerCapability[]>;
++  fetchPlanExplanation(journeyId: string): Promise<PlanCapabilityExplanationModel>;
++  fetchRecoveryDiff(journeyId: string): Promise<RecoveryCapabilityDiffModel>;
++}
++
++export function isRecord(value: unknown): value is Record<string, unknown> {
++  return typeof value === "object" && value !== null && !Array.isArray(value);
++}
++
++export function asString(value: unknown, fallback = ""): string {
++  return typeof value === "string" ? value : fallback;
++}
++
++export function asNumber(value: unknown): number | undefined {
++  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
++}
++
++export function asBoolean(value: unknown, fallback = false): boolean {
++  return typeof value === "boolean" ? value : fallback;
++}
++
++export function asArray(value: unknown): unknown[] {
++  return Array.isArray(value) ? value : [];
++}
++
++export function asRecord(value: unknown): Record<string, unknown> {
++  return isRecord(value) ? value : {};
++}
++
++const EVIDENCE_STATE_ALIASES: Record<string, CapabilityEvidenceState> = {
++  verified: "VERIFIED",
++  live_verified: "VERIFIED",
++  provider_verified: "VERIFIED",
++  accessible: "VERIFIED",
++  unverified: "UNVERIFIED",
++  not_verified: "UNVERIFIED",
++  unknown: "NEEDS_LIVE_EVIDENCE",
++  missing: "NEEDS_LIVE_EVIDENCE",
++  needs_live_evidence: "NEEDS_LIVE_EVIDENCE",
++  needs_live: "NEEDS_LIVE_EVIDENCE",
++  stale: "NEEDS_LIVE_EVIDENCE",
++  expired: "NEEDS_LIVE_EVIDENCE",
++  conflict: "CONFLICT",
++  conflicting: "CONFLICT",
++  contradicted: "CONFLICT",
++};
++
++export function normalizeEvidenceState(value: unknown): CapabilityEvidenceState {
++  if (typeof value === "string") {
++    const normalized = value.trim().toLowerCase().replace(/[\s-]+/g, "_");
++    if ((EVIDENCE_STATES as readonly string[]).includes(value.trim().toUpperCase())) {
++      return value.trim().toUpperCase() as CapabilityEvidenceState;
++    }
++    return EVIDENCE_STATE_ALIASES[normalized] ?? "NEEDS_LIVE_EVIDENCE";
++  }
++  if (isRecord(value)) {
++    return normalizeEvidenceState(value.state ?? value.status ?? value.evidence_state ?? value.evidenceStatus);
++  }
++  return "NEEDS_LIVE_EVIDENCE";
++}
++
++const KIND_ALIASES: Record<string, CapabilityKind> = {
++  hard_accessibility_need: "HARD_ACCESSIBILITY_NEED",
++  accessibility: "HARD_ACCESSIBILITY_NEED",
++  wheelchair: "HARD_ACCESSIBILITY_NEED",
++  step_free: "HARD_ACCESSIBILITY_NEED",
++  care_requirement: "CARE_REQUIREMENT",
++  care: "CARE_REQUIREMENT",
++  physical_limit: "PHYSICAL_LIMIT",
++  mobility_limit: "PHYSICAL_LIMIT",
++  trip_context: "TRIP_CONTEXT",
++  soft_preference: "SOFT_PREFERENCE",
++  preference: "SOFT_PREFERENCE",
++  protected_commitment: "PROTECTED_COMMITMENT",
++  commitment: "PROTECTED_COMMITMENT",
++};
++
++export function normalizeKind(value: unknown): CapabilityKind {
++  if (typeof value === "string") {
++    const normalized = value.trim().toLowerCase().replace(/[\s-]+/g, "_");
++    const direct = normalized.toUpperCase() as CapabilityKind;
++    if (direct === "UNKNOWN_CAPABILITY") return direct;
++    if (KIND_ALIASES[normalized]) return KIND_ALIASES[normalized];
++  }
++  return "UNKNOWN_CAPABILITY";
++}
++
++export function normalizeStrength(value: unknown): CapabilityStrength {
++  if (typeof value === "string") {
++    const normalized = value.trim().toLowerCase().replace(/[\s-]+/g, "_");
++    if (normalized === "hard" || normalized === "hard_accessibility_need") return "HARD";
++    if (normalized === "strong" || normalized === "care_requirement") return "STRONG";
++    if (normalized === "soft" || normalized === "preference") return "SOFT";
++    if (normalized === "ambiguous" || normalized === "needs_confirmation") return "AMBIGUOUS";
++  }
++  if (isRecord(value)) {
++    if (asBoolean(value.hard, false)) return "HARD";
++    return normalizeStrength(value.strength ?? value.class ?? value.level);
++  }
++  return "AMBIGUOUS";
++}
++
++export function normalizeScope(value: unknown): CapabilityScope {
++  if (typeof value === "string") {
++    const normalized = value.trim().toLowerCase().replace(/[\s-]+/g, "_");
++    if (["this_journey", "journey", "current_journey"].includes(normalized)) return "THIS_JOURNEY";
++    if (["future_journeys", "future", "standing"].includes(normalized)) return "FUTURE_JOURNEYS";
++    if (["traveler", "profile", "traveler_profile", "global"].includes(normalized)) return "TRAVELER";
++  }
++  return "THIS_JOURNEY";
++}
++
++export function normalizeSource(value: unknown): CapabilitySource {
++  if (typeof value === "string") {
++    const normalized = value.trim().toLowerCase().replace(/[\s-]+/g, "_");
++    if (["traveler_stated", "user_stated", "explicit"].includes(normalized)) return "TRAVELER_STATED";
++    if (["copilot_detected", "detected", "ai_detected"].includes(normalized)) return "COPILOT_DETECTED";
++    if (["provider_evidence", "provider", "verified_provider"].includes(normalized)) return "PROVIDER_EVIDENCE";
++    if (["recorded_fixture", "fixture"].includes(normalized)) return "RECORDED_FIXTURE";
++    if (["learned_soft", "learned"].includes(normalized)) return "LEARNED_SOFT";
++  }
++  return "IMPORTED";
++}
++
++export function adaptEvidence(raw: unknown, fallbackSummary: string): CapabilityEvidence {
++  if (typeof raw === "string") {
++    const state = normalizeEvidenceState(raw);
++    return makeEvidence(state, fallbackSummary, {
++      kind: "LOCAL_UI_ONLY",
++      label: "LOCAL_UI_ONLY",
++      sourceSystem: "capability_experience_ui",
++    });
++  }
++  const record = asRecord(raw);
++  const state = normalizeEvidenceState(record.state ?? record.status ?? record.evidence_state ?? raw);
++  const summary = asString(record.summary ?? record.label, fallbackSummary);
++  const provenanceCandidate = isRecord(record.provenance) ? record.provenance : record;
++  const sourceKind = asString(provenanceCandidate.kind ?? provenanceCandidate.source_kind, "LOCAL_UI_ONLY");
++  const provenanceKind: ProvenanceKind =
++    sourceKind === "LIVE" || sourceKind === "RECORDED_FIXTURE" || sourceKind === "LOCAL_UI_ONLY"
++      ? sourceKind
++      : "LOCAL_UI_ONLY";
++  const evidence: CapabilityEvidence = {
++    state,
++    summary,
++    provenance: {
++      kind: provenanceKind,
++      label: asString(provenanceCandidate.label, provenanceKind),
++      sourceSystem: asString(provenanceCandidate.source_system ?? provenanceCandidate.sourceSystem, "unknown"),
++      observedAt: asString(provenanceCandidate.observed_at ?? provenanceCandidate.observedAt, "") || null,
++      expiresAt: asString(provenanceCandidate.expires_at ?? provenanceCandidate.expiresAt, "") || null,
++      providerKey: asString(provenanceCandidate.provider_key ?? provenanceCandidate.providerKey, "") || null,
++      recordedOn: asString(provenanceCandidate.recorded_on ?? provenanceCandidate.recordedOn, "") || null,
++      notes: asString(provenanceCandidate.notes, "") || undefined,
++    },
++  };
++  const detail = asString(record.detail ?? record.description, "");
++  if (detail) evidence.detail = detail;
++  const lastVerifiedAt = asString(record.last_verified_at ?? record.lastVerifiedAt, "");
++  if (lastVerifiedAt) evidence.lastVerifiedAt = lastVerifiedAt;
++  const liveChecks = asArray(record.live_checks ?? record.liveChecks).filter((item): item is string => typeof item === "string");
++  if (liveChecks.length) evidence.liveChecks = liveChecks;
++  const conflictsWith = asArray(record.conflicts_with ?? record.conflictsWith).filter((item): item is string => typeof item === "string");
++  if (conflictsWith.length) evidence.conflictsWith = conflictsWith;
++  if (isRecord(record.facts)) evidence.facts = record.facts;
++  else if (isRecord(record.extra)) evidence.facts = record.extra;
++  return evidence;
++}
++
++export function adaptCapability(raw: unknown, index = 0, defaults: Partial<TravelerCapability> = {}): TravelerCapability {
++  const record = isRecord(raw) ? raw : {};
++  const source = normalizeSource(record.source ?? record.source_type ?? defaults.source);
++  const kind = normalizeKind(record.kind ?? record.capability_kind ?? record.type ?? defaults.kind);
++  const strength = normalizeStrength(record.strength ?? record.class ?? record.level ?? record.priority ?? defaults.strength);
++  const scope = normalizeScope(record.scope ?? record.applies_to ?? defaults.scope);
++  const explicit = asBoolean(record.explicit, defaults.explicit ?? source === "TRAVELER_STATED");
++  const learned = asBoolean(record.learned, defaults.learned ?? source === "LEARNED_SOFT");
++  const travelerStated = asBoolean(record.traveler_stated ?? record.travelerStated, defaults.travelerStated ?? explicit);
++  const label = asString(record.label ?? record.name ?? record.dimension ?? defaults.label, `Capability ${index + 1}`);
++  const id = asString(record.id ?? record.capability_id ?? record.dimension, defaults.id ?? `capability-${index + 1}`);
++  const evidence = adaptEvidence(
++    record.evidence ?? record.provenance ?? record.capability_evidence,
++    asString(record.evidence_summary, label),
++  );
++  const capability: TravelerCapability = {
++    id,
++    kind,
++    label,
++    strength,
++    scope,
++    source,
++    sourceLabel: asString(record.source_label ?? record.sourceLabel, source),
++    evidence,
++    active: asBoolean(record.active, defaults.active ?? true),
++    confirmed: asBoolean(record.confirmed, defaults.confirmed ?? false),
++    explicit,
++    learned,
++    travelerStated,
++  };
++  const description = asString(record.description, "");
++  if (description) capability.description = description;
++  const appliesTo = asArray(record.applies_to_activity_ids ?? record.appliesToActivityIds).filter(
++    (item): item is string => typeof item === "string",
++  );
++  if (appliesTo.length) capability.appliesToActivityIds = appliesTo;
++  const rawConstraints = asArray(record.constraints).filter(isRecord);
++  if (rawConstraints.length) {
++    capability.constraints = rawConstraints.map((item) => {
++      const constraint: CapabilityConstraint = {
++        key: asString(item.key ?? item.name, "unknown_constraint"),
++        operator: (["LTE", "GTE", "BETWEEN", "REQUIRED", "FORBIDDEN"].includes(String(item.operator).toUpperCase())
++          ? String(item.operator).toUpperCase()
++          : "REQUIRED") as CapabilityConstraint["operator"],
++        value: (typeof item.value === "number" || typeof item.value === "string" || typeof item.value === "boolean" || Array.isArray(item.value))
++          ? (item.value as CapabilityConstraint["value"])
++          : true,
++        hard: asBoolean(item.hard, strength === "HARD"),
++      };
++      const unit = asString(item.unit, "");
++      if (unit) constraint.unit = unit;
++      return constraint;
++    });
++  }
++  const confidence = asNumber(record.confidence);
++  if (learned && confidence !== undefined) capability.confidence = confidence;
++  const strengthScore = asNumber(record.strength_score ?? record.strengthScore);
++  if (learned && strengthScore !== undefined) capability.strengthScore = strengthScore;
++  const evidenceCount = asNumber(record.evidence_count ?? record.evidenceCount);
++  if (evidenceCount !== undefined) capability.evidenceCount = evidenceCount;
++  const createdAt = asString(record.created_at ?? record.createdAt, "");
++  if (createdAt) capability.createdAt = createdAt;
++  const updatedAt = asString(record.updated_at ?? record.updatedAt, "");
++  if (updatedAt) capability.updatedAt = updatedAt;
++  const extra = Object.fromEntries(Object.entries(record).filter(([key]) => !KNOWN_CAPABILITY_KEYS.has(key)));
++  if (Object.keys(extra).length) capability.extra = extra;
++  return capability;
++}
++
++const KNOWN_CAPABILITY_KEYS = new Set([
++  "id", "capability_id", "dimension", "kind", "capability_kind", "type", "strength", "class", "level", "priority",
++  "scope", "applies_to", "explicit", "learned", "traveler_stated", "travelerStated", "label", "name",
++  "source", "source_type", "source_label", "sourceLabel", "evidence", "provenance", "capability_evidence",
++  "evidence_summary", "active", "confirmed", "description", "applies_to_activity_ids", "appliesToActivityIds",
++  "constraints", "confidence", "strength_score", "strengthScore", "evidence_count", "evidenceCount",
++  "created_at", "createdAt", "updated_at", "updatedAt",
++]);
++
++export function adaptCapabilities(raw: unknown, defaults: Partial<TravelerCapability> = {}): TravelerCapability[] {
++  return asArray(raw).map((item, index) => adaptCapability(item, index, defaults));
++}
++
++export function adaptTravelerTwinEvidence(twin: unknown): TravelerCapability[] {
++  const record = asRecord(twin);
++  const output: TravelerCapability[] = [];
++  asArray(record.explicit_preferences).forEach((item, index) => {
++    const raw = asRecord(item);
++    const label = asString(raw.dimension ?? raw.label ?? raw.name, `Explicit preference ${index + 1}`);
++    output.push(
++      adaptCapability(
++        {
++          id: asString(raw.id, `twin-explicit-${index + 1}`),
++          label,
++          kind: "SOFT_PREFERENCE",
++          strength: "STRONG",
++          scope: "TRAVELER",
++          source: "TRAVELER_STATED",
++          explicit: true,
++          traveler_stated: true,
++          active: true,
++          confirmed: true,
++          evidence: {
++            state: "UNVERIFIED",
++            summary: `Traveler Twin explicit dimension: ${label}; planning evidence still requires the capability contract.`,
++            provenance: {
++              kind: "LIVE",
++              label: "LIVE",
++              sourceSystem: "traveler_twin_explicit",
++              observedAt: asString(record.updated_at, "") || null,
++            },
++          },
++        },
++        index,
++      ),
++    );
++  });
++  asArray(record.learned_soft_preferences).forEach((item, index) => {
++    const raw = asRecord(item);
++    const label = asString(raw.dimension ?? raw.label ?? raw.name, `Learned soft preference ${index + 1}`);
++    output.push(
++      adaptCapability(
++        {
++          id: asString(raw.id, `twin-learned-${index + 1}`),
++          label,
++          kind: "SOFT_PREFERENCE",
++          strength: "SOFT",
++          scope: "TRAVELER",
++          source: "LEARNED_SOFT",
++          learned: true,
++          active: true,
++          confidence: asNumber(raw.confidence),
++          strength_score: asNumber(raw.strength),
++          evidence_count: asNumber(raw.evidence_count),
++          evidence: {
++            state: "UNVERIFIED",
++            summary: asString(raw.explanation, `Learned soft preference: ${label}`),
++            provenance: {
++              kind: "LIVE",
++              label: "LIVE",
++              sourceSystem: "traveler_twin_learned_soft",
++              observedAt: asString(raw.last_evidence_at, "") || null,
++              expiresAt: asString(raw.expires_at, "") || null,
++            },
++          },
++        },
++        index,
++      ),
++    );
++  });
++  return output;
++}
++
++export function adaptDetectedNeed(raw: unknown, index = 0): CapabilityConfirmation {
++  const record = asRecord(raw);
++  const ambiguous = asBoolean(record.ambiguous ?? record.needs_confirmation, false);
++  const label = asString(record.detected_label ?? record.label ?? record.name, `Detected need ${index + 1}`);
++  const strength = ambiguous ? "AMBIGUOUS" : normalizeStrength(record.strength ?? record.class ?? record.level);
++  const capability = adaptCapability(
++    {
++      id: asString(record.id, `detected-${index + 1}`),
++      label,
++      kind: normalizeKind(record.kind ?? record.capability_kind),
++      strength,
++      scope: normalizeScope(record.scope),
++      source: "COPILOT_DETECTED",
++      source_label: "You told CityNexus",
++      explicit: false,
++      traveler_stated: true,
++      confirmed: false,
++      active: false,
++      evidence: record.evidence ?? {
++        state: "NEEDS_LIVE_EVIDENCE",
++        summary: "Copilot language detection is not planning evidence.",
++        provenance: {
++          kind: "LOCAL_UI_ONLY",
++          label: "COPILOT_DETECTION",
++          sourceSystem: "copilot",
++        },
++      },
++    },
++    index,
++  );
++  return {
++    id: capability.id,
++    statement: asString(record.statement ?? record.user_text, ""),
++    detectedLabel: label,
++    capability,
++    ambiguous,
++    ambiguityPrompt: asString(record.ambiguity_prompt ?? record.ambiguityPrompt, "") || undefined,
++    ambiguityOptions: asArray(record.ambiguity_options ?? record.ambiguityOptions)
++      .filter(isRecord)
++      .map((item, optionIndex) => ({
++        id: asString(item.id, `option-${optionIndex + 1}`),
++        label: asString(item.label, `Option ${optionIndex + 1}`),
++        description: asString(item.description, "") || undefined,
++        capabilityPatch: isRecord(item.capability_patch) ? (item.capability_patch as Partial<TravelerCapability>) : {},
++      })),
++  };
++}
++
++export function adaptDetectedNeeds(raw: unknown): CapabilityConfirmation[] {
++  return asArray(raw).map((item, index) => adaptDetectedNeed(item, index));
++}
++
++export function adaptImpact(raw: unknown, index = 0): CapabilityImpact {
++  const record = asRecord(raw);
++  const statusRaw = asString(record.status ?? record.impact, "UNKNOWN").toUpperCase();
++  const status = (["PRESERVED", "IMPROVED", "AT_RISK", "VIOLATED", "UNKNOWN"].includes(statusRaw)
++    ? statusRaw
++    : "UNKNOWN") as CapabilityImpact["status"];
++  return {
++    id: asString(record.id, `impact-${index + 1}`),
++    capabilityId: asString(record.capability_id ?? record.capabilityId, `impact-capability-${index + 1}`),
++    capabilityLabel: asString(record.capability_label ?? record.label, `Capability ${index + 1}`),
++    kind: normalizeKind(record.kind),
++    status,
++    explanation: asString(record.explanation ?? record.reason, ""),
++    evidence: adaptEvidence(record.evidence, asString(record.explanation, "Evidence state unknown")),
++    candidateId: asString(record.candidate_id ?? record.candidateId, "") || undefined,
++    candidateLabel: asString(record.candidate_label ?? record.candidateLabel, "") || undefined,
++    observedValue: asString(record.observed_value ?? record.observedValue, "") || undefined,
++    limitValue: asString(record.limit_value ?? record.limitValue, "") || undefined,
++    plannedValue: asString(record.planned_value ?? record.plannedValue, "") || undefined,
++  };
++}
++
++export function adaptPlanExplanation(raw: unknown): PlanCapabilityExplanationModel {
++  const record = asRecord(raw);
++  const authorityRaw = asString(record.authority, "RECORDED_FIXTURE_REFERENCE");
++  return {
++    candidateId: asString(record.candidate_id ?? record.candidateId, "candidate-unknown"),
++    candidateLabel: asString(record.candidate_label ?? record.candidateLabel, "Candidate"),
++    candidateSubtitle: asString(record.candidate_subtitle ?? record.candidateSubtitle, "") || undefined,
++    selected: asBoolean(record.selected, true),
++    why: asArray(record.why).map((item, index) => adaptImpact(item, index)),
++    rejected: asArray(record.rejected).map((item, index) => adaptImpact(item, index)),
++    unknown: asArray(record.unknown).map((item) => adaptEvidence(item, "Evidence unavailable")),
++    protectedCommitments: asArray(record.protected_commitments ?? record.protectedCommitments).filter(isRecord).map((item, index) => ({
++      id: asString(item.id, `commitment-${index + 1}`),
++      label: asString(item.label, `Protected commitment ${index + 1}`),
++      level: asString(item.level, "C4_ANCHORED"),
++      preserved: asBoolean(item.preserved, true),
++      detail: asString(item.detail, "") || undefined,
++    })),
++    authority: authorityRaw === "BACKEND_PLANNING" || authorityRaw === "UI_LOCAL_DRAFT"
++      ? authorityRaw
++      : "RECORDED_FIXTURE_REFERENCE",
++  };
++}
++
++export function adaptRecoveryDiff(raw: unknown): RecoveryCapabilityDiffModel {
++  const record = asRecord(raw);
++  const authorityRaw = asString(record.authority, "RECORDED_FIXTURE_REFERENCE");
++  return {
++    journeyId: asString(record.journey_id ?? record.journeyId, "journey-unknown"),
++    before: asArray(record.before).map((item, index) => adaptImpact(item, index)),
++    after: asArray(record.after).map((item, index) => adaptImpact(item, index)),
++    preserved: asArray(record.preserved).map((item, index) => adaptImpact(item, index)),
++    atRisk: asArray(record.at_risk ?? record.atRisk).map((item, index) => adaptImpact(item, index)),
++    evidenceGaps: asArray(record.evidence_gaps ?? record.evidenceGaps).map((item) => adaptEvidence(item, "Evidence unavailable")),
++    protectedCommitments: asArray(record.protected_commitments ?? record.protectedCommitments).filter(isRecord).map((item, index) => ({
++      id: asString(item.id, `commitment-${index + 1}`),
++      label: asString(item.label, `Protected commitment ${index + 1}`),
++      level: asString(item.level, "C4_ANCHORED"),
++      preserved: asBoolean(item.preserved, true),
++      detail: asString(item.detail, "") || undefined,
++    })),
++    authority: authorityRaw === "BACKEND_PLANNING" || authorityRaw === "UI_LOCAL_DRAFT"
++      ? authorityRaw
++      : "RECORDED_FIXTURE_REFERENCE",
++  };
++}
++
++function quickNeed(id: QuickNeedId) {
++  return QUICK_NEEDS.find((item) => item.id === id);
++}
++
++function draftEvidence(summary: string): CapabilityEvidence {
++  return makeUiOnlyEvidence(summary, {
++    liveChecks: ["Backend capability contract must confirm this setup selection before planning uses it."],
++  });
++}
++
++export function draftToCapabilities(
++  draft: JourneySetupNeedsDraft,
++  locale: "zh-CN" | "en" = "zh-CN",
++): TravelerCapability[] {
++  const capabilities: TravelerCapability[] = [];
++  draft.quickNeedIds.forEach((id, index) => {
++    const item = quickNeed(id as QuickNeedId);
++    if (!item) return;
++    const isHard = item.id === "wheelchair_access" || item.id === "avoid_stairs";
++    const strength: CapabilityStrength = isHard
++      ? "HARD"
++      : item.id === "less_walking" || item.id === "midday_rest" || item.id === "baby_nap" || item.id === "stroller"
++        ? "STRONG"
++        : "SOFT";
++    capabilities.push(
++      adaptCapability(
++        {
++          id: `setup-${item.id}`,
++          label: locale === "zh-CN" ? item.labelZh : item.labelEn,
++          kind: item.kind,
++          strength,
++          scope: "THIS_JOURNEY",
++          source: "TRAVELER_STATED",
++          source_label: locale === "zh-CN" ? "出行需求设置" : "Journey setup",
++          explicit: true,
++          traveler_stated: true,
++          active: true,
++          confirmed: false,
++          evidence: draftEvidence(
++            locale === "zh-CN"
++              ? "来自本地 UI 草稿；尚未由后端能力契约确认。"
++              : "Local UI draft; not yet confirmed by the backend capability contract.",
++          ),
++        },
++        index,
++      ),
++    );
++  });
++  const advanced = draft.advanced;
++  const pushConstraint = (
++    id: string,
++    labelZh: string,
++    labelEn: string,
++    kind: CapabilityKind,
++    key: CapabilityConstraint["key"],
++    operator: CapabilityConstraint["operator"],
++    value: CapabilityConstraint["value"],
++    unit?: string,
++  ) => {
++    const label = locale === "zh-CN" ? labelZh : labelEn;
++    capabilities.push(
++      adaptCapability(
++        {
++          id: `setup-advanced-${id}`,
++          label,
++          kind,
++          strength: "STRONG",
++          scope: "THIS_JOURNEY",
++          source: "TRAVELER_STATED",
++          source_label: locale === "zh-CN" ? "出行需求设置 · 高级" : "Journey setup · advanced",
++          explicit: true,
++          traveler_stated: true,
++          active: true,
++          confirmed: false,
++          constraints: [{ key, operator, value, unit, hard: false }],
++          evidence: draftEvidence(
++            locale === "zh-CN"
++              ? "高级设置是 UI 草稿，需后端规划验证后才会成为约束。"
++              : "Advanced setup is a UI draft; backend planning must validate it before it becomes a constraint.",
++          ),
++        },
++        capabilities.length,
++      ),
++    );
++  };
++  if (advanced.maxWalkingPerLegM !== undefined) pushConstraint("max-walk-leg", "每段最大步行", "Max walking per leg", "PHYSICAL_LIMIT", "max_walking_per_leg_m", "LTE", advanced.maxWalkingPerLegM, "m");
++  if (advanced.maxContinuousWalkingM !== undefined) pushConstraint("max-walk-continuous", "最长连续步行", "Max continuous walking", "PHYSICAL_LIMIT", "max_continuous_walking_m", "LTE", advanced.maxContinuousWalkingM, "m");
++  if (advanced.restFrequencyMin !== undefined) pushConstraint("rest-frequency", "休息频率", "Rest frequency", "CARE_REQUIREMENT", "rest_frequency_min", "LTE", advanced.restFrequencyMin, "min");
++  if (advanced.napWindow) pushConstraint("nap-window", "午睡时间窗", "Nap window", "CARE_REQUIREMENT", "nap_window", "BETWEEN", [0, 0]);
++  if (advanced.toiletFrequencyMin !== undefined) pushConstraint("toilet-frequency", "如厕/休息间隔", "Toilet / rest interval", "CARE_REQUIREMENT", "toilet_frequency_min", "LTE", advanced.toiletFrequencyMin, "min");
++  if (advanced.pace) pushConstraint("pace", "节奏", "Pace", "SOFT_PREFERENCE", "pace", "REQUIRED", advanced.pace);
++  if (advanced.quietSensory) pushConstraint("quiet-sensory", "安静/低感官环境", "Quiet / low-sensory", "SOFT_PREFERENCE", "quiet_sensory", "REQUIRED", true);
++  return capabilities;
++}
++
++export interface LiveCapabilityAdapterOptions {
++  baseUrl?: string;
++  fetcher?: typeof fetch;
++}
++
++function trimBaseUrl(baseUrl?: string): string {
++  return (baseUrl ?? "").replace(/\/+$/, "");
++}
++
++async function requestCapabilityJson(
++  path: string,
++  options: LiveCapabilityAdapterOptions,
++): Promise<unknown> {
++  const fetcher = options.fetcher ?? fetch;
++  const response = await fetcher(`${trimBaseUrl(options.baseUrl)}${path}`, {
++    headers: { Accept: "application/json" },
++  });
++  if (response.status === 404) {
++    throw new CapabilityAdapterNotConfiguredError(
++      `Capability endpoint not implemented yet: ${path}. Use RECORDED_FIXTURE explicitly.`,
++    );
++  }
++  if (!response.ok) {
++    throw new Error(`Capability request failed: ${response.status} ${response.statusText}`);
++  }
++  return (await response.json()) as unknown;
++}
++
++/**
++ * Live adapter for the proposed capability contract. It maps only known fields
++ * and does not infer hard accessibility needs from soft Traveler Twin data.
++ */
++export function createLiveCapabilityAdapter(options: LiveCapabilityAdapterOptions = {}): CapabilityDataSource {
++  return {
++    sourceKind: "LIVE",
++    async fetchCapabilities(travelerId: string): Promise<TravelerCapability[]> {
++      const payload = await requestCapabilityJson(`/api/v1/travelers/${encodeURIComponent(travelerId)}/capabilities`, options);
++      const record = asRecord(payload);
++      const items = record.items ?? record.capabilities ?? payload;
++      const mapped = adaptCapabilities(items, { confirmed: true, active: true });
++      if (record.traveler_twin && mapped.length === 0) {
++        return adaptTravelerTwinEvidence(record.traveler_twin);
++      }
++      return mapped;
++    },
++    async fetchPlanExplanation(journeyId: string): Promise<PlanCapabilityExplanationModel> {
++      const payload = await requestCapabilityJson(`/api/v1/journeys/${encodeURIComponent(journeyId)}/capability-plan`, options);
++      return adaptPlanExplanation(payload);
++    },
++    async fetchRecoveryDiff(journeyId: string): Promise<RecoveryCapabilityDiffModel> {
++      const payload = await requestCapabilityJson(`/api/v1/journeys/${encodeURIComponent(journeyId)}/recovery/capability-diff`, options);
++      return adaptRecoveryDiff(payload);
++    },
++  };
++}
++
++export function describeAdapterSource(source: CapabilityDataSource): string {
++  return source.sourceKind;
++}
+diff --git a/frontend/src/features/capability-experience/recordedFixture.ts b/frontend/src/features/capability-experience/recordedFixture.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/recordedFixture.ts
+@@ -0,0 +1,548 @@
++import type {
++  CapabilityConfirmation,
++  CapabilityEvidence,
++  CapabilityImpact,
++  CapabilityMapMarker,
++  JourneySetupNeedsDraft,
++  MobileCapabilityShieldModel,
++  PlanCapabilityExplanationModel,
++  RecoveryCapabilityDiffModel,
++  TravelerCapability,
++} from "./types";
++import { makeEvidence } from "./evidence";
++import { adaptCapability, adaptDetectedNeed, adaptImpact, adaptPlanExplanation, adaptRecoveryDiff, type CapabilityDataSource } from "./adapter";
++
++const recordedOn = "2026-09-15";
++
++function fixtureEvidence(summary: string, state: CapabilityEvidence["state"] = "NEEDS_LIVE_EVIDENCE", detail?: string): CapabilityEvidence {
++  return makeEvidence(state, summary, {
++    kind: "RECORDED_FIXTURE",
++    label: "RECORDED_FIXTURE",
++    sourceSystem: "citynexus_v19_capability_fixture",
++    recordedOn,
++  }, detail ? { detail } : {});
++}
++
++export interface CapabilityScenario {
++  id: "A" | "B" | "C" | "D" | "E";
++  titleZh: string;
++  titleEn: string;
++  summaryZh: string;
++  summaryEn: string;
++  sourceLabel: string;
++  setup: JourneySetupNeedsDraft;
++  detected: CapabilityConfirmation[];
++  capabilities: TravelerCapability[];
++  plan: PlanCapabilityExplanationModel;
++  recovery: RecoveryCapabilityDiffModel;
++  mobile: {
++    shield: MobileCapabilityShieldModel;
++    mapMarkers: CapabilityMapMarker[];
++  };
++}
++
++function capability(
++  id: string,
++  labelZh: string,
++  labelEn: string,
++  kind: TravelerCapability["kind"],
++  strength: TravelerCapability["strength"],
++  scope: TravelerCapability["scope"],
++  evidence: CapabilityEvidence,
++  source: TravelerCapability["source"] = "RECORDED_FIXTURE",
++  extras: Partial<TravelerCapability> = {},
++): TravelerCapability {
++  const base = adaptCapability(
++    {
++      id,
++      label: labelZh,
++      kind,
++      strength,
++      scope,
++      source,
++      source_label: "RECORDED_FIXTURE",
++      explicit: true,
++      traveler_stated: true,
++      active: true,
++      confirmed: true,
++      evidence,
++    },
++    0,
++  );
++  return { ...base, label: labelZh, extra: { labelEn, ...(base.extra ?? {}) }, ...extras };
++}
++
++function impact(
++  id: string,
++  capabilityId: string,
++  labelZh: string,
++  labelEn: string,
++  kind: TravelerCapability["kind"],
++  status: CapabilityImpact["status"],
++  explanationZh: string,
++  explanationEn: string,
++  evidence: CapabilityEvidence,
++  extras: Partial<CapabilityImpact> = {},
++): CapabilityImpact {
++  const base = adaptImpact(
++    {
++      id,
++      capability_id: capabilityId,
++      capability_label: labelZh,
++      kind,
++      status,
++      explanation: explanationZh,
++      evidence,
++      ...extras,
++    },
++    0,
++  );
++  return { ...base, ...extras, explanation: explanationZh };
++}
++
++
++const scenarioA: CapabilityScenario = {
++  id: "A",
++  titleZh: "A · 老人 / 膝盖不好",
++  titleEn: "A · Older adult / knee pain",
++  summaryZh: "低步行上限 + 中午休息。系统必须区分硬性限制与偏好，并把未知无障碍证据说清楚。",
++  summaryEn: "Low walking limit + midday rest. Hard limit and preference must be distinct; unknown evidence must stay unknown.",
++  sourceLabel: "RECORDED_FIXTURE",
++  setup: {
++    quickNeedIds: ["less_walking", "midday_rest"],
++    advanced: { maxWalkingPerLegM: 500, maxContinuousWalkingM: 500, restFrequencyMin: 90, napWindow: { start: "12:00", end: "14:00" } },
++    note: "我妈膝盖不好，不能走太多，中午最好休息。",
++  },
++  detected: [
++    adaptDetectedNeed({
++      id: "detected-a-low-walking",
++      statement: "我妈膝盖不好，不能走太多，中午最好休息。",
++      detected_label: "Low walking",
++      kind: "PHYSICAL_LIMIT",
++      strength: "HARD",
++      scope: "THIS_JOURNEY",
++      evidence: fixtureEvidence("Copilot language detection requires confirmation and route evidence.", "NEEDS_LIVE_EVIDENCE"),
++    }),
++    adaptDetectedNeed({
++      id: "detected-a-midday-rest",
++      statement: "中午最好休息。",
++      detected_label: "Midday rest",
++      kind: "CARE_REQUIREMENT",
++      strength: "STRONG",
++      scope: "THIS_JOURNEY",
++      evidence: fixtureEvidence("Copilot language detection requires confirmation.", "NEEDS_LIVE_EVIDENCE"),
++    }),
++  ],
++  capabilities: [
++    capability("cap-a-walking", "低步行上限", "Low walking limit", "PHYSICAL_LIMIT", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated. Live route walking must be checked.", "NEEDS_LIVE_EVIDENCE", "Max walking per leg 500 m."), "TRAVELER_STATED", { constraints: [{ key: "max_walking_per_leg_m", operator: "LTE", value: 500, unit: "m", hard: true }] }),
++    capability("cap-a-rest", "中午休息", "Midday rest", "CARE_REQUIREMENT", "STRONG", "THIS_JOURNEY", fixtureEvidence("Traveler-stated nap window. Provider opening hours not yet checked.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED", { constraints: [{ key: "nap_window", operator: "BETWEEN", value: [720, 840], hard: false }] }),
++  ],
++  plan: adaptPlanExplanation({
++    candidate_id: "candidate-a-1",
++    candidate_label: "Indoor museum + short taxi legs",
++    candidate_subtitle: "320 m longest walking leg",
++    selected: true,
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    why: [
++      {
++        id: "why-a-walk",
++        capability_id: "cap-a-walking",
++        capability_label: "Low walking",
++        kind: "PHYSICAL_LIMIT",
++        status: "PRESERVED",
++        explanation: "walking leg 320m < 500m limit",
++        observed_value: "320 m",
++        limit_value: "500 m",
++        evidence: fixtureEvidence("Recorded route fixture. Live provider evidence required before release.", "NEEDS_LIVE_EVIDENCE"),
++      },
++      {
++        id: "why-a-indoor",
++        capability_id: "cap-a-rest",
++        capability_label: "Indoor rest context",
++        kind: "TRIP_CONTEXT",
++        status: "PRESERVED",
++        explanation: "indoor and close to a rest stop",
++        evidence: fixtureEvidence("Indoor tag from recorded place fixture.", "UNVERIFIED"),
++      },
++      {
++        id: "why-a-rest",
++        capability_id: "cap-a-rest",
++        capability_label: "Midday rest",
++        kind: "CARE_REQUIREMENT",
++        status: "PRESERVED",
++        explanation: "rest window preserved 12:00–14:00",
++        evidence: fixtureEvidence("Recorded schedule fixture; live schedule not checked.", "NEEDS_LIVE_EVIDENCE"),
++      },
++    ],
++    rejected: [
++      {
++        id: "reject-a-walk",
++        capability_id: "cap-a-walking",
++        capability_label: "Low walking",
++        kind: "PHYSICAL_LIMIT",
++        status: "VIOLATED",
++        explanation: "route walking 780m exceeds hard limit",
++        observed_value: "780 m",
++        limit_value: "500 m",
++        evidence: fixtureEvidence("Recorded route fixture shows a hard-limit violation.", "VERIFIED"),
++      },
++    ],
++    unknown: [
++      fixtureEvidence("step-free evidence unavailable for Candidate B", "NEEDS_LIVE_EVIDENCE"),
++    ],
++    protected_commitments: [
++      { id: "c4-a-dinner", label: "Family dinner reservation", level: "C4_ANCHORED", preserved: true, detail: "Kept as a separate protected commitment." },
++    ],
++  }),
++  recovery: adaptRecoveryDiff({
++    journey_id: "journey-a",
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    before: [
++      { id: "before-a-walk", capability_id: "cap-a-walking", capability_label: "Low walking", kind: "PHYSICAL_LIMIT", status: "PRESERVED", explanation: "320 m before recovery", evidence: fixtureEvidence("Recorded before fixture.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "before-a-rest", capability_id: "cap-a-rest", capability_label: "Midday rest", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "Rest window preserved", evidence: fixtureEvidence("Recorded before fixture.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    after: [
++      { id: "after-a-walk", capability_id: "cap-a-walking", capability_label: "Low walking", kind: "PHYSICAL_LIMIT", status: "PRESERVED", explanation: "310 m after recovery", evidence: fixtureEvidence("Recorded recovery fixture. Live evidence required.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "after-a-rest", capability_id: "cap-a-rest", capability_label: "Midday rest", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "Rest window preserved 12:00–13:50", evidence: fixtureEvidence("Recorded recovery fixture.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "after-a-stepfree", capability_id: "cap-a-stepfree", capability_label: "Step-free access", kind: "HARD_ACCESSIBILITY_NEED", status: "UNKNOWN", explanation: "step-free evidence unavailable after recovery", evidence: fixtureEvidence("No provider evidence in fixture.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    preserved: [
++      { id: "preserved-a-walk", capability_id: "cap-a-walking", capability_label: "Low walking", kind: "PHYSICAL_LIMIT", status: "PRESERVED", explanation: "310 m < 500 m", evidence: fixtureEvidence("Recorded recovery fixture.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    at_risk: [
++      { id: "risk-a-stepfree", capability_id: "cap-a-stepfree", capability_label: "Step-free access", kind: "HARD_ACCESSIBILITY_NEED", status: "AT_RISK", explanation: "evidence gap could hide a step-free conflict", evidence: fixtureEvidence("Unknown, not accessible.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    evidence_gaps: [
++      fixtureEvidence("step-free evidence unavailable after recovery", "NEEDS_LIVE_EVIDENCE"),
++    ],
++    protected_commitments: [
++      { id: "c4-a-dinner", label: "Family dinner reservation", level: "C4_ANCHORED", preserved: true },
++    ],
++  }),
++  mobile: {
++    shield: {
++      protectedCount: 2,
++      needs: [
++        capability("cap-a-walking", "低步行上限", "Low walking limit", "PHYSICAL_LIMIT", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated hard limit.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++        capability("cap-a-rest", "中午休息", "Midday rest", "CARE_REQUIREMENT", "STRONG", "THIS_JOURNEY", fixtureEvidence("Traveler-stated rest window.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++      ],
++      evidenceGap: { label: "Step-free access not verified", capabilityId: "cap-a-stepfree", evidence: fixtureEvidence("Live provider evidence required.", "NEEDS_LIVE_EVIDENCE") },
++      primaryActionLabel: "查看或修改需求",
++    },
++    mapMarkers: [
++      { id: "map-a-verified", kind: "VERIFIED_ACCESSIBILITY", label: "Tianjin Museum step-free entrance", detail: "Verified step-free evidence", evidence: fixtureEvidence("Verified in recorded fixture.", "VERIFIED"), longitude: 117.22, latitude: 39.08 },
++      { id: "map-a-unknown", kind: "UNKNOWN_ACCESSIBILITY", label: "Candidate B accessibility not verified", detail: "Unknown is not accessible", evidence: fixtureEvidence("No provider evidence.", "NEEDS_LIVE_EVIDENCE"), longitude: 117.21, latitude: 39.09 },
++      { id: "map-a-conflict", kind: "CONFLICT", label: "Candidate C known stairs conflict", detail: "Recorded stairs conflict", evidence: fixtureEvidence("Conflict recorded in fixture.", "CONFLICT"), longitude: 117.2, latitude: 39.1 },
++      { id: "map-a-rest", kind: "REST_STOP", label: "Rest stop", detail: "Seating and toilet", evidence: fixtureEvidence("Recorded place tag.", "UNVERIFIED"), longitude: 117.19, latitude: 39.11 },
++      { id: "map-a-nap", kind: "NAP_WINDOW", label: "Midday nap / rest window", detail: "12:00–14:00", evidence: fixtureEvidence("Traveler-stated.", "UNVERIFIED") },
++      { id: "map-a-walk", kind: "WALKING_LIMIT_WARNING", label: "Walking limit warning", detail: "Candidate C: 780 m exceeds 500 m hard limit", evidence: fixtureEvidence("Recorded route fixture.", "VERIFIED") },
++    ],
++  },
++};
++
++const scenarioB: CapabilityScenario = {
++  id: "B",
++  titleZh: "B · 轮椅 / 无障碍",
++  titleEn: "B · Wheelchair / step-free",
++  summaryZh: "必须区分已核实的无台阶入口、未核实候选和被排除的楼梯冲突。",
++  summaryEn: "Verified step-free entrance, unverified candidate, and known stairs conflict must be visually distinct.",
++  sourceLabel: "RECORDED_FIXTURE",
++  setup: {
++    quickNeedIds: ["wheelchair_access", "avoid_stairs"],
++    advanced: { maxWalkingPerLegM: 400, maxContinuousWalkingM: 400, restFrequencyMin: 60 },
++    note: "需要轮椅，不能走楼梯。",
++  },
++  detected: [
++    adaptDetectedNeed({
++      id: "detected-b-stepfree",
++      statement: "需要轮椅，不能走楼梯。",
++      detected_label: "Step-free requirement",
++      kind: "HARD_ACCESSIBILITY_NEED",
++      strength: "HARD",
++      scope: "THIS_JOURNEY",
++      evidence: fixtureEvidence("Copilot detection; provider step-free evidence required.", "NEEDS_LIVE_EVIDENCE"),
++    }),
++  ],
++  capabilities: [
++    capability("cap-b-stepfree", "无台阶通行", "Step-free access", "HARD_ACCESSIBILITY_NEED", "HARD", "THIS_JOURNEY", fixtureEvidence("Tianjin Museum verified step-free evidence in recorded fixture.", "VERIFIED"), "PROVIDER_EVIDENCE"),
++    capability("cap-b-stairs", "避免楼梯", "Avoid stairs", "HARD_ACCESSIBILITY_NEED", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated; live venue evidence required.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++  ],
++  plan: adaptPlanExplanation({
++    candidate_id: "candidate-b-1",
++    candidate_label: "Candidate A · Tianjin Museum",
++    candidate_subtitle: "Verified step-free entrance",
++    selected: true,
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    why: [
++      { id: "why-b-stepfree", capability_id: "cap-b-stepfree", capability_label: "Step-free requirement", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "Tianjin Museum: verified step-free evidence", evidence: fixtureEvidence("Recorded provider evidence.", "VERIFIED") },
++      { id: "why-b-walk", capability_id: "cap-b-stepfree", capability_label: "Wheelchair walking limit", kind: "PHYSICAL_LIMIT", status: "PRESERVED", explanation: "walking leg 180m < 400m limit", observed_value: "180 m", limit_value: "400 m", evidence: fixtureEvidence("Recorded route fixture; live route required.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    rejected: [
++      { id: "reject-b-stairs", capability_id: "cap-b-stairs", capability_label: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED", status: "VIOLATED", explanation: "Candidate C: known stairs conflict", evidence: fixtureEvidence("Provider-recorded stairs conflict.", "CONFLICT") },
++    ],
++    unknown: [
++      fixtureEvidence("Candidate B: accessibility not verified", "UNVERIFIED"),
++    ],
++    protected_commitments: [
++      { id: "c4-b-train", label: "Outbound train reservation", level: "C4_ANCHORED", preserved: true },
++    ],
++  }),
++  recovery: adaptRecoveryDiff({
++    journey_id: "journey-b",
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    before: [
++      { id: "before-b-stepfree", capability_id: "cap-b-stepfree", capability_label: "Step-free requirement", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "Verified step-free entrance before recovery", evidence: fixtureEvidence("Recorded provider evidence.", "VERIFIED") },
++    ],
++    after: [
++      { id: "after-b-stepfree", capability_id: "cap-b-stepfree", capability_label: "Step-free requirement", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "Recovery keeps verified step-free entrance", evidence: fixtureEvidence("Recorded recovery provider evidence.", "VERIFIED") },
++      { id: "after-b-unknown", capability_id: "cap-b-unknown", capability_label: "Candidate B step-free access", kind: "HARD_ACCESSIBILITY_NEED", status: "UNKNOWN", explanation: "Candidate B accessibility not verified", evidence: fixtureEvidence("Unknown is not accessible.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    preserved: [
++      { id: "pres-b-stepfree", capability_id: "cap-b-stepfree", capability_label: "Step-free requirement", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "Verified entrance retained", evidence: fixtureEvidence("Recorded provider evidence.", "VERIFIED") },
++    ],
++    at_risk: [
++      { id: "risk-b-unknown", capability_id: "cap-b-unknown", capability_label: "Candidate B step-free access", kind: "HARD_ACCESSIBILITY_NEED", status: "AT_RISK", explanation: "Unknown step-free evidence cannot be treated as accessible", evidence: fixtureEvidence("Unknown is not accessible.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    evidence_gaps: [fixtureEvidence("Candidate B: accessibility not verified", "UNVERIFIED")],
++    protected_commitments: [{ id: "c4-b-train", label: "Outbound train reservation", level: "C4_ANCHORED", preserved: true }],
++  }),
++  mobile: {
++    shield: {
++      protectedCount: 1,
++      needs: [capability("cap-b-stepfree", "无台阶通行", "Step-free access", "HARD_ACCESSIBILITY_NEED", "HARD", "THIS_JOURNEY", fixtureEvidence("Verified recorded provider evidence.", "VERIFIED"), "PROVIDER_EVIDENCE")],
++      evidenceGap: { label: "Candidate B step-free access not verified", capabilityId: "cap-b-unknown", evidence: fixtureEvidence("Unknown is not accessible.", "UNVERIFIED") },
++      primaryActionLabel: "查看无障碍证据",
++    },
++    mapMarkers: [
++      { id: "map-b-verified", kind: "VERIFIED_ACCESSIBILITY", label: "Tianjin Museum: Verified step-free evidence", detail: "Verified step-free entrance", evidence: fixtureEvidence("Recorded provider evidence.", "VERIFIED"), longitude: 117.22, latitude: 39.08 },
++      { id: "map-b-unknown", kind: "UNKNOWN_ACCESSIBILITY", label: "Candidate B: Accessibility not verified", detail: "Unknown is not accessible", evidence: fixtureEvidence("No provider evidence.", "NEEDS_LIVE_EVIDENCE"), longitude: 117.205, latitude: 39.095 },
++      { id: "map-b-conflict", kind: "CONFLICT", label: "Candidate C: Known stairs conflict", detail: "Rejected by HARD avoid-stairs", evidence: fixtureEvidence("Provider-recorded conflict.", "CONFLICT"), longitude: 117.19, latitude: 39.105 },
++      { id: "map-b-walk", kind: "WALKING_LIMIT_WARNING", label: "Wheelchair walking limit", detail: "180 m < 400 m for selected candidate", evidence: fixtureEvidence("Recorded route fixture.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++  },
++};
++
++const scenarioC: CapabilityScenario = {
++  id: "C",
++  titleZh: "C · 婴儿家庭",
++  titleEn: "C · Family with infant",
++  summaryZh: "婴儿车、午睡、如厕/休息频率。照护需求不等于医疗诊断。",
++  summaryEn: "Stroller, nap, and toilet/rest frequency. Care needs are not a medical diagnosis.",
++  sourceLabel: "RECORDED_FIXTURE",
++  setup: {
++    quickNeedIds: ["stroller", "baby_nap", "midday_rest"],
++    advanced: { maxContinuousWalkingM: 300, napWindow: { start: "13:00", end: "15:00" }, toiletFrequencyMin: 60, quietSensory: true },
++    note: "带婴儿车，中午要午睡，别安排太久的户外步行。",
++  },
++  detected: [
++    adaptDetectedNeed({ id: "detected-c-stroller", statement: "带婴儿车。", detected_label: "Stroller access", kind: "CARE_REQUIREMENT", strength: "STRONG", scope: "THIS_JOURNEY", evidence: fixtureEvidence("Copilot detection; venue stroller access not verified.", "NEEDS_LIVE_EVIDENCE") }),
++    adaptDetectedNeed({ id: "detected-c-nap", statement: "中午要午睡。", detected_label: "Baby nap", kind: "CARE_REQUIREMENT", strength: "HARD", scope: "THIS_JOURNEY", evidence: fixtureEvidence("Copilot detection; schedule evidence required.", "NEEDS_LIVE_EVIDENCE") }),
++  ],
++  capabilities: [
++    capability("cap-c-stroller", "婴儿车可通行", "Stroller accessible", "CARE_REQUIREMENT", "STRONG", "THIS_JOURNEY", fixtureEvidence("Traveler-stated; venue elevator/step-free data required.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++    capability("cap-c-nap", "婴儿午睡窗", "Baby nap window", "CARE_REQUIREMENT", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated; live schedule feasibility required.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED", { constraints: [{ key: "nap_window", operator: "BETWEEN", value: [780, 900], hard: true }] }),
++  ],
++  plan: adaptPlanExplanation({
++    candidate_id: "candidate-c-1",
++    candidate_label: "Indoor museum + nearby park rest",
++    candidate_subtitle: "Nap window preserved",
++    selected: true,
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    why: [
++      { id: "why-c-nap", capability_id: "cap-c-nap", capability_label: "Baby nap", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "nap window 13:00–15:00 preserved", evidence: fixtureEvidence("Recorded schedule fixture; live schedule required.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "why-c-walk", capability_id: "cap-c-stroller", capability_label: "Stroller walking", kind: "PHYSICAL_LIMIT", status: "PRESERVED", explanation: "continuous walking 220m < 300m limit", observed_value: "220 m", limit_value: "300 m", evidence: fixtureEvidence("Recorded route fixture.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "why-c-indoor", capability_id: "cap-c-indoor", capability_label: "Indoor / quiet option", kind: "TRIP_CONTEXT", status: "PRESERVED", explanation: "indoor backup space with restroom", evidence: fixtureEvidence("Recorded place tags.", "UNVERIFIED") },
++    ],
++    rejected: [
++      { id: "reject-c-walk", capability_id: "cap-c-stroller", capability_label: "Stroller walking", kind: "PHYSICAL_LIMIT", status: "VIOLATED", explanation: "outdoor route continuous walking 640m exceeds 300m", observed_value: "640 m", limit_value: "300 m", evidence: fixtureEvidence("Recorded route fixture.", "VERIFIED") },
++    ],
++    unknown: [fixtureEvidence("stroller elevator availability not verified", "UNVERIFIED"), fixtureEvidence("quiet/sensory evidence unavailable", "NEEDS_LIVE_EVIDENCE")],
++    protected_commitments: [{ id: "c4-c-hotel", label: "Hotel check-in window", level: "C4_ANCHORED", preserved: true }],
++  }),
++  recovery: adaptRecoveryDiff({
++    journey_id: "journey-c",
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    before: [
++      { id: "before-c-nap", capability_id: "cap-c-nap", capability_label: "Baby nap", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "Nap window preserved", evidence: fixtureEvidence("Recorded before fixture.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "before-c-stroller", capability_id: "cap-c-stroller", capability_label: "Stroller accessible", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "Stroller route available", evidence: fixtureEvidence("Recorded before fixture.", "UNVERIFIED") },
++    ],
++    after: [
++      { id: "after-c-nap", capability_id: "cap-c-nap", capability_label: "Baby nap", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "Nap window preserved after recovery", evidence: fixtureEvidence("Recorded recovery fixture.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "after-c-stepfree", capability_id: "cap-c-stepfree", capability_label: "Stroller step-free route", kind: "CARE_REQUIREMENT", status: "UNKNOWN", explanation: "stroller elevator evidence unavailable", evidence: fixtureEvidence("No provider evidence.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    preserved: [{ id: "pres-c-nap", capability_id: "cap-c-nap", capability_label: "Baby nap", kind: "CARE_REQUIREMENT", status: "PRESERVED", explanation: "Nap remains protected", evidence: fixtureEvidence("Recorded recovery fixture.", "NEEDS_LIVE_EVIDENCE") }],
++    at_risk: [{ id: "risk-c-stroller", capability_id: "cap-c-stroller", capability_label: "Stroller accessible", kind: "CARE_REQUIREMENT", status: "AT_RISK", explanation: "elevator/step-free evidence unknown", evidence: fixtureEvidence("Unknown is not accessible.", "UNVERIFIED") }],
++    evidence_gaps: [fixtureEvidence("stroller elevator availability not verified", "UNVERIFIED")],
++    protected_commitments: [{ id: "c4-c-hotel", label: "Hotel check-in window", level: "C4_ANCHORED", preserved: true }],
++  }),
++  mobile: {
++    shield: {
++      protectedCount: 2,
++      needs: [
++        capability("cap-c-stroller", "婴儿车可通行", "Stroller accessible", "CARE_REQUIREMENT", "STRONG", "THIS_JOURNEY", fixtureEvidence("Traveler-stated.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++        capability("cap-c-nap", "婴儿午睡窗", "Baby nap window", "CARE_REQUIREMENT", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++      ],
++      evidenceGap: { label: "Stroller access not verified", capabilityId: "cap-c-stroller", evidence: fixtureEvidence("Elevator/step-free evidence required.", "UNVERIFIED") },
++      primaryActionLabel: "查看或修改需求",
++    },
++    mapMarkers: [
++      { id: "map-c-unknown", kind: "UNKNOWN_ACCESSIBILITY", label: "Stroller elevator not verified", detail: "Unknown is not accessible", evidence: fixtureEvidence("No provider evidence.", "UNVERIFIED"), longitude: 117.2, latitude: 39.08 },
++      { id: "map-c-rest", kind: "REST_STOP", label: "Rest / changing area", detail: "Recorded family rest stop", evidence: fixtureEvidence("Recorded place tag.", "UNVERIFIED"), longitude: 117.21, latitude: 39.09 },
++      { id: "map-c-nap", kind: "NAP_WINDOW", label: "Baby nap window", detail: "13:00–15:00", evidence: fixtureEvidence("Traveler-stated.", "UNVERIFIED") },
++      { id: "map-c-walk", kind: "WALKING_LIMIT_WARNING", label: "Continuous walking warning", detail: "Rejected route 640 m exceeds 300 m", evidence: fixtureEvidence("Recorded route fixture.", "VERIFIED") },
++    ],
++  },
++};
++
++const scenarioD: CapabilityScenario = {
++  id: "D",
++  titleZh: "D · 大件行李",
++  titleEn: "D · Large luggage",
++  summaryZh: "行李是行程背景，但可能升级为照护/无障碍需求，例如换乘楼梯。",
++  summaryEn: "Luggage is trip context, but can become a care or accessibility need when stairs or transfers are involved.",
++  sourceLabel: "RECORDED_FIXTURE",
++  setup: {
++    quickNeedIds: ["large_luggage", "avoid_stairs", "less_walking"],
++    advanced: { maxWalkingPerLegM: 600, restFrequencyMin: 90 },
++    note: "带两个大箱子，尽量少换乘、不要楼梯。",
++  },
++  detected: [
++    adaptDetectedNeed({ id: "detected-d-luggage", statement: "带两个大箱子。", detected_label: "Large luggage", kind: "TRIP_CONTEXT", strength: "STRONG", scope: "THIS_JOURNEY", evidence: fixtureEvidence("Copilot detection; station transfer evidence not verified.", "NEEDS_LIVE_EVIDENCE") }),
++    adaptDetectedNeed({ id: "detected-d-stairs", statement: "不要楼梯。", detected_label: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED", strength: "HARD", scope: "THIS_JOURNEY", evidence: fixtureEvidence("Copilot detection; step-free evidence required.", "NEEDS_LIVE_EVIDENCE") }),
++  ],
++  capabilities: [
++    capability("cap-d-luggage", "大件行李友好", "Large luggage friendly", "TRIP_CONTEXT", "STRONG", "THIS_JOURNEY", fixtureEvidence("Traveler-stated; transfer lift/escalator evidence required.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++    capability("cap-d-stairs", "避免楼梯/换乘", "Avoid stairs / transfers", "HARD_ACCESSIBILITY_NEED", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated; live transfer evidence required.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++  ],
++  plan: adaptPlanExplanation({
++    candidate_id: "candidate-d-1",
++    candidate_label: "Direct taxi with luggage space",
++    candidate_subtitle: "No station stairs",
++    selected: true,
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    why: [
++      { id: "why-d-taxi", capability_id: "cap-d-luggage", capability_label: "Large luggage", kind: "TRIP_CONTEXT", status: "PRESERVED", explanation: "direct taxi with confirmed luggage capacity in fixture", evidence: fixtureEvidence("Recorded provider fixture.", "VERIFIED") },
++      { id: "why-d-stairs", capability_id: "cap-d-stairs", capability_label: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "no station stairs in selected route", evidence: fixtureEvidence("Recorded route fixture.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    rejected: [
++      { id: "reject-d-transfer", capability_id: "cap-d-stairs", capability_label: "Avoid stairs / transfers", kind: "HARD_ACCESSIBILITY_NEED", status: "VIOLATED", explanation: "metro transfer includes 42 stairs", evidence: fixtureEvidence("Recorded station conflict.", "CONFLICT") },
++      { id: "reject-d-walk", capability_id: "cap-d-luggage", capability_label: "Large luggage", kind: "PHYSICAL_LIMIT", status: "VIOLATED", explanation: "walking leg 900m exceeds 600m with luggage", observed_value: "900 m", limit_value: "600 m", evidence: fixtureEvidence("Recorded route fixture.", "VERIFIED") },
++    ],
++    unknown: [fixtureEvidence("taxi luggage capacity live availability not verified", "UNVERIFIED")],
++    protected_commitments: [{ id: "c4-d-flight", label: "Flight departure", level: "C4_ANCHORED", preserved: true }],
++  }),
++  recovery: adaptRecoveryDiff({
++    journey_id: "journey-d",
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    before: [
++      { id: "before-d-stairs", capability_id: "cap-d-stairs", capability_label: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "No stairs in before route", evidence: fixtureEvidence("Recorded before fixture.", "NEEDS_LIVE_EVIDENCE") },
++    ],
++    after: [
++      { id: "after-d-stairs", capability_id: "cap-d-stairs", capability_label: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "Recovery keeps no-stairs route", evidence: fixtureEvidence("Recorded recovery fixture.", "NEEDS_LIVE_EVIDENCE") },
++      { id: "after-d-luggage", capability_id: "cap-d-luggage", capability_label: "Large luggage", kind: "TRIP_CONTEXT", status: "AT_RISK", explanation: "replacement taxi luggage capacity not live-verified", evidence: fixtureEvidence("Unknown taxi availability.", "UNVERIFIED") },
++    ],
++    preserved: [{ id: "pres-d-stairs", capability_id: "cap-d-stairs", capability_label: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED", status: "PRESERVED", explanation: "No stairs preserved", evidence: fixtureEvidence("Recorded recovery fixture.", "NEEDS_LIVE_EVIDENCE") }],
++    at_risk: [{ id: "risk-d-luggage", capability_id: "cap-d-luggage", capability_label: "Large luggage", kind: "TRIP_CONTEXT", status: "AT_RISK", explanation: "luggage capacity unknown", evidence: fixtureEvidence("Unknown is not a guarantee.", "UNVERIFIED") }],
++    evidence_gaps: [fixtureEvidence("replacement taxi luggage capacity not verified", "UNVERIFIED")],
++    protected_commitments: [{ id: "c4-d-flight", label: "Flight departure", level: "C4_ANCHORED", preserved: true }],
++  }),
++  mobile: {
++    shield: {
++      protectedCount: 2,
++      needs: [
++        capability("cap-d-luggage", "大件行李友好", "Large luggage friendly", "TRIP_CONTEXT", "STRONG", "THIS_JOURNEY", fixtureEvidence("Traveler-stated.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++        capability("cap-d-stairs", "避免楼梯/换乘", "Avoid stairs / transfers", "HARD_ACCESSIBILITY_NEED", "HARD", "THIS_JOURNEY", fixtureEvidence("Traveler-stated.", "NEEDS_LIVE_EVIDENCE"), "TRAVELER_STATED"),
++      ],
++      evidenceGap: { label: "Taxi luggage capacity not verified", capabilityId: "cap-d-luggage", evidence: fixtureEvidence("Live provider evidence required.", "UNVERIFIED") },
++      primaryActionLabel: "查看行李方案",
++    },
++    mapMarkers: [
++      { id: "map-d-conflict", kind: "CONFLICT", label: "Metro transfer: 42 stairs", detail: "Rejected by HARD avoid-stairs", evidence: fixtureEvidence("Recorded station conflict.", "CONFLICT"), longitude: 117.21, latitude: 39.09 },
++      { id: "map-d-unknown", kind: "UNKNOWN_ACCESSIBILITY", label: "Taxi luggage capacity not verified", detail: "Unknown", evidence: fixtureEvidence("No live taxi evidence.", "UNVERIFIED"), longitude: 117.23, latitude: 39.07 },
++      { id: "map-d-walk", kind: "WALKING_LIMIT_WARNING", label: "Walking with luggage warning", detail: "Rejected route 900 m exceeds 600 m", evidence: fixtureEvidence("Recorded route fixture.", "VERIFIED") },
++    ],
++  },
++};
++
++const scenarioE: CapabilityScenario = {
++  id: "E",
++  titleZh: "E · 普通软偏好",
++  titleEn: "E · Ordinary soft preference",
++  summaryZh: "没有 HARD 需求时，不能把未知或默认状态包装成“全程无障碍”。",
++  summaryEn: "When there is no HARD need, the UI still must not turn unknown or default state into an accessibility claim.",
++  sourceLabel: "RECORDED_FIXTURE",
++  setup: {
++    quickNeedIds: [],
++    advanced: { pace: "RELAXED", quietSensory: true },
++    note: "想安静一点，最好室内，别太赶。",
++  },
++  detected: [
++    adaptDetectedNeed({ id: "detected-e-quiet", statement: "想安静一点，最好室内，别太赶。", detected_label: "Quiet / sensory preference", kind: "SOFT_PREFERENCE", strength: "SOFT", scope: "FUTURE_JOURNEYS", evidence: fixtureEvidence("Soft preference; never treated as accessibility evidence.", "UNVERIFIED") }),
++    adaptDetectedNeed({ id: "detected-e-indoor", statement: "最好室内。", detected_label: "Prefer indoor", kind: "SOFT_PREFERENCE", strength: "SOFT", scope: "THIS_JOURNEY", evidence: fixtureEvidence("Soft preference; no provider evidence required for planning authority.", "UNVERIFIED") }),
++  ],
++  capabilities: [
++    capability("cap-e-quiet", "安静/低感官", "Quiet / low-sensory", "SOFT_PREFERENCE", "SOFT", "FUTURE_JOURNEYS", fixtureEvidence("Traveler-stated soft preference.", "UNVERIFIED"), "TRAVELER_STATED", { confidence: 0.74, strengthScore: 0.6, learned: false }),
++    capability("cap-e-indoor", "偏好室内", "Prefer indoor", "SOFT_PREFERENCE", "SOFT", "THIS_JOURNEY", fixtureEvidence("Traveler-stated soft preference.", "UNVERIFIED"), "TRAVELER_STATED"),
++  ],
++  plan: adaptPlanExplanation({
++    candidate_id: "candidate-e-1",
++    candidate_label: "Quiet indoor afternoon",
++    candidate_subtitle: "No hard constraints",
++    selected: true,
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    why: [
++      { id: "why-e-indoor", capability_id: "cap-e-indoor", capability_label: "Prefer indoor", kind: "SOFT_PREFERENCE", status: "PRESERVED", explanation: "indoor venue selected for comfort", evidence: fixtureEvidence("Soft preference; not an accessibility claim.", "UNVERIFIED") },
++      { id: "why-e-quiet", capability_id: "cap-e-quiet", capability_label: "Quiet / low-sensory", kind: "SOFT_PREFERENCE", status: "PRESERVED", explanation: "scheduled outside known peak noise window in fixture", evidence: fixtureEvidence("Recorded noise fixture; live noise evidence not available.", "UNVERIFIED") },
++    ],
++    rejected: [],
++    unknown: [fixtureEvidence("live noise level not verified", "UNVERIFIED")],
++    protected_commitments: [],
++  }),
++  recovery: adaptRecoveryDiff({
++    journey_id: "journey-e",
++    authority: "RECORDED_FIXTURE_REFERENCE",
++    before: [
++      { id: "before-e-quiet", capability_id: "cap-e-quiet", capability_label: "Quiet / low-sensory", kind: "SOFT_PREFERENCE", status: "PRESERVED", explanation: "soft preference preserved", evidence: fixtureEvidence("Recorded before fixture.", "UNVERIFIED") },
++    ],
++    after: [
++      { id: "after-e-quiet", capability_id: "cap-e-quiet", capability_label: "Quiet / low-sensory", kind: "SOFT_PREFERENCE", status: "PRESERVED", explanation: "soft preference still ranked", evidence: fixtureEvidence("Recorded recovery fixture.", "UNVERIFIED") },
++    ],
++    preserved: [{ id: "pres-e-quiet", capability_id: "cap-e-quiet", capability_label: "Quiet / low-sensory", kind: "SOFT_PREFERENCE", status: "PRESERVED", explanation: "Soft preference remains a ranking input", evidence: fixtureEvidence("Recorded recovery fixture.", "UNVERIFIED") }],
++    at_risk: [],
++    evidence_gaps: [fixtureEvidence("live noise level not verified", "UNVERIFIED")],
++    protected_commitments: [],
++  }),
++  mobile: {
++    shield: {
++      protectedCount: 0,
++      needs: [],
++      evidenceGap: null,
++      primaryActionLabel: "添加出行需求",
++    },
++    mapMarkers: [
++      { id: "map-e-unknown", kind: "UNKNOWN_ACCESSIBILITY", label: "Noise level not verified", detail: "Unknown is not a quiet guarantee", evidence: fixtureEvidence("No live noise evidence.", "UNVERIFIED"), longitude: 117.2, latitude: 39.08 },
++      { id: "map-e-rest", kind: "REST_STOP", label: "Quiet rest corner", detail: "Soft preference only", evidence: fixtureEvidence("Recorded place tag.", "UNVERIFIED"), longitude: 117.21, latitude: 39.09 },
++    ],
++  },
++};
++
++export const RECORDED_SCENARIOS: CapabilityScenario[] = [scenarioA, scenarioB, scenarioC, scenarioD, scenarioE];
++
++export function scenarioById(id: string): CapabilityScenario {
++  return RECORDED_SCENARIOS.find((scenario) => scenario.id === id) ?? RECORDED_SCENARIOS[0];
++}
++
++export function createRecordedFixtureAdapter(scenario: CapabilityScenario = scenarioA): CapabilityDataSource {
++  return {
++    sourceKind: "RECORDED_FIXTURE",
++    async fetchCapabilities() {
++      return scenario.capabilities;
++    },
++    async fetchPlanExplanation() {
++      return scenario.plan;
++    },
++    async fetchRecoveryDiff() {
++      return scenario.recovery;
++    },
++  };
++}
+diff --git a/frontend/src/features/capability-experience/styles/capability-experience.css b/frontend/src/features/capability-experience/styles/capability-experience.css
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/styles/capability-experience.css
+@@ -0,0 +1,255 @@
++/* CityNexus V19 capability experience. Prefix cne- to avoid collisions. */
++:root {
++  --cne-ink: #102a30;
++  --cne-muted: #53666b;
++  --cne-line: #c9d6d3;
++  --cne-panel: #ffffff;
++  --cne-panel-alt: #f3f7f5;
++  --cne-brand: #0b5b63;
++  --cne-brand-strong: #073f46;
++  --cne-verified: #0b6b5d;
++  --cne-unknown: #8a5a00;
++  --cne-conflict: #a32323;
++  --cne-live: #3f4a68;
++  --cne-focus: #0a6cff;
++  --cne-radius: 18px;
++  --cne-shadow: 0 14px 40px rgba(16, 42, 48, 0.1);
++  --cne-target: 44px;
++}
++
++.cne-surface__head,
++.cne-setup,
++.cne-confirmation,
++.cne-plan,
++.cne-recovery,
++.cne-twin,
++.cne-mobile-shield,
++.cne-map {
++  color: var(--cne-ink);
++  font: inherit;
++}
++
++.cne-kicker {
++  display: inline-block;
++  font-size: 0.72rem;
++  font-weight: 800;
++  letter-spacing: 0.08em;
++  text-transform: uppercase;
++  color: var(--cne-brand);
++}
++
++.cne-help { color: var(--cne-muted); font-size: 0.88rem; line-height: 1.45; }
++.cne-rule { border-left: 4px solid var(--cne-unknown); background: #fff8e8; padding: 0.65rem 0.8rem; border-radius: 10px; color: #4f3a08; font-weight: 600; }
++.cne-source-notice { color: var(--cne-muted); font-size: 0.82rem; }
++.cne-sr-only {
++  position: absolute !important;
++  width: 1px; height: 1px; padding: 0; margin: -1px;
++  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
++}
++
++.cne-button {
++  min-height: var(--cne-target);
++  min-width: var(--cne-target);
++  padding: 0.68rem 0.95rem;
++  border-radius: 12px;
++  border: 1px solid transparent;
++  font-weight: 750;
++  cursor: pointer;
++  touch-action: manipulation;
++}
++.cne-button:focus-visible,
++.cne-chip:focus-visible,
++.cne-disclosure:focus-visible,
++.cne-map-marker:focus-visible,
++.cne-evidence:focus-visible {
++  outline: 3px solid var(--cne-focus);
++  outline-offset: 2px;
++}
++.cne-button--primary { background: var(--cne-brand); color: #fff; }
++.cne-button--secondary { background: #e8f1ef; color: var(--cne-brand-strong); border-color: #b9d2cd; }
++.cne-button--ghost { background: transparent; color: var(--cne-brand-strong); border-color: var(--cne-line); }
++.cne-button:disabled { opacity: 0.55; cursor: not-allowed; }
++.cne-surface__actions { display: flex; gap: 0.6rem; justify-content: flex-end; flex-wrap: wrap; }
++.cne-surface__actions--wrap { flex-wrap: wrap; }
++.cne-surface__head { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; }
++.cne-surface__head h2 { margin: 0.15rem 0; font-size: clamp(1.1rem, 2vw, 1.35rem); }
++.cne-surface__head p { margin: 0.2rem 0; color: var(--cne-muted); }
++
++.cne-evidence {
++  display: inline-flex;
++  align-items: center;
++  gap: 0.35rem;
++  min-height: 28px;
++  padding: 0.2rem 0.55rem;
++  border: 2px solid currentColor;
++  border-radius: 999px;
++  font-size: 0.78rem;
++  font-weight: 800;
++  line-height: 1.2;
++}
++.cne-evidence__glyph { font-size: 0.95em; line-height: 1; }
++.cne-evidence__provenance { border-left: 1px solid currentColor; padding-left: 0.35rem; font-size: 0.68rem; text-transform: uppercase; }
++.cne-evidence--verified { color: var(--cne-verified); background: #edf8f5; border-style: solid; }
++.cne-evidence--unknown { color: var(--cne-unknown); background: #fff8e8; border-style: dashed; }
++.cne-evidence--conflict { color: var(--cne-conflict); background: #fff0f0; border-style: double; }
++.cne-evidence--live { color: var(--cne-live); background: #f0f2fa; border-style: dotted; }
++
++.cne-setup { background: var(--cne-panel); border: 1px solid var(--cne-line); border-radius: var(--cne-radius); box-shadow: var(--cne-shadow); padding: clamp(1rem, 2.5vw, 1.5rem); display: grid; gap: 1rem; }
++.cne-setup__group { border: 0; padding: 0; margin: 0; min-width: 0; }
++.cne-setup__group legend { font-weight: 800; margin-bottom: 0.2rem; }
++.cne-chiplist { display: flex; flex-wrap: wrap; gap: 0.55rem; }
++.cne-chip { min-height: var(--cne-target); padding: 0.6rem 0.8rem; border-radius: 999px; border: 2px solid var(--cne-line); background: var(--cne-panel-alt); color: var(--cne-ink); font-weight: 700; cursor: pointer; }
++.cne-chip.is-selected { border-color: var(--cne-brand); background: #dff0ed; box-shadow: inset 0 0 0 1px var(--cne-brand); }
++.cne-chip__mark { margin-right: 0.35rem; font-weight: 900; }
++.cne-disclosure { min-height: var(--cne-target); display: inline-flex; align-items: center; gap: 0.4rem; width: 100%; border: 1px solid var(--cne-line); border-radius: 12px; background: var(--cne-panel-alt); padding: 0.6rem 0.8rem; font-weight: 750; text-align: left; cursor: pointer; }
++.cne-disclosure__arrow { transition: transform 120ms ease; }
++.cne-disclosure__arrow.is-open { transform: rotate(90deg); }
++.cne-setup__advanced-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: 0.7rem; }
++.cne-setup__advanced-grid label,
++.cne-setup__note { display: grid; gap: 0.32rem; font-weight: 700; }
++.cne-setup__advanced-grid input,
++.cne-setup__advanced-grid select,
++.cne-setup__note textarea { min-height: var(--cne-target); border: 1px solid var(--cne-line); border-radius: 10px; padding: 0.55rem 0.65rem; font: inherit; background: #fff; color: var(--cne-ink); }
++.cne-grid-full { grid-column: 1 / -1; }
++.cne-nap-window { display: flex; align-items: end; gap: 0.4rem; border: 1px solid var(--cne-line); border-radius: 12px; padding: 0.5rem; }
++.cne-nap-window input { width: 100%; }
++.cne-check { display: flex; align-items: flex-start; gap: 0.55rem; font-weight: 650; }
++.cne-check input { width: 1.25rem; height: 1.25rem; margin-top: 0.15rem; }
++.cne-active-summary { border-top: 1px solid var(--cne-line); padding-top: 0.8rem; display: flex; gap: 0.7rem; align-items: flex-start; flex-wrap: wrap; }
++.cne-active-summary ul { display: flex; gap: 0.4rem; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
++.cne-active-summary li { background: #e8f1ef; border-radius: 999px; padding: 0.25rem 0.6rem; font-size: 0.82rem; }
++
++.cne-confirmation { background: var(--cne-panel); border: 1px solid var(--cne-line); border-radius: var(--cne-radius); box-shadow: var(--cne-shadow); padding: clamp(1rem, 2.5vw, 1.5rem); display: grid; gap: 0.9rem; }
++.cne-confirmation--sheet { border-radius: 22px 22px 0 0; max-height: min(88vh, 720px); overflow: auto; position: relative; }
++.cne-quote { margin: 0.5rem 0 0; padding: 0.55rem 0.75rem; border-left: 4px solid var(--cne-brand); background: #f1f7f5; border-radius: 0 10px 10px 0; }
++.cne-source-pill { border: 1px solid var(--cne-line); border-radius: 999px; padding: 0.3rem 0.65rem; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
++.cne-confirmation__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
++.cne-confirmation__item { border: 1px solid var(--cne-line); border-radius: 14px; padding: 0.8rem; display: grid; gap: 0.55rem; }
++.cne-confirmation__item-main { display: flex; justify-content: space-between; gap: 0.8rem; align-items: flex-start; }
++.cne-confirmation__edit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
++.cne-confirmation__edit label { display: grid; gap: 0.25rem; font-weight: 700; }
++.cne-ambiguity { border: 2px dashed var(--cne-unknown); border-radius: 12px; padding: 0.6rem 0.75rem; margin: 0; }
++.cne-choice { display: flex; gap: 0.55rem; align-items: flex-start; min-height: var(--cne-target); padding: 0.3rem 0; }
++.cne-choice small { display: block; color: var(--cne-muted); }
++.cne-hard-warning { border: 2px solid var(--cne-conflict); background: #fff5f5; border-radius: 12px; padding: 0.7rem; display: grid; gap: 0.45rem; }
++.cne-blocked-note { background: #fff8e8; border: 1px dashed var(--cne-unknown); border-radius: 10px; padding: 0.55rem 0.7rem; color: #4f3a08; font-weight: 650; }
++.cne-status { margin: 0; color: var(--cne-brand-strong); font-weight: 700; }
++.cne-evidence-summary { display: grid; gap: 0.35rem; border-top: 1px dashed var(--cne-line); padding-top: 0.5rem; }
++.cne-evidence-summary p { margin: 0; }
++.cne-evidence-summary__checks { margin: 0; padding-left: 1.2rem; color: var(--cne-muted); }
++.cne-evidence-summary__rule { font-size: 0.8rem; color: #4f3a08; font-weight: 700; }
++
++.cne-plan, .cne-recovery, .cne-twin, .cne-map { background: var(--cne-panel); border: 1px solid var(--cne-line); border-radius: var(--cne-radius); box-shadow: var(--cne-shadow); padding: clamp(1rem, 2.5vw, 1.5rem); display: grid; gap: 1rem; }
++.cne-plan__selected { border: 1px solid var(--cne-brand); color: var(--cne-brand-strong); border-radius: 999px; padding: 0.25rem 0.6rem; font-size: 0.78rem; font-weight: 800; }
++.cne-plan__block { display: grid; gap: 0.55rem; }
++.cne-plan__block h3, .cne-recovery__block h3 { margin: 0; font-size: 1rem; }
++.cne-impact-list, .cne-unknown-list, .cne-diff-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
++.cne-impact { border: 1px solid var(--cne-line); border-radius: 12px; padding: 0.65rem; display: grid; gap: 0.35rem; }
++.cne-impact__head { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
++.cne-impact__status { font-weight: 850; color: var(--cne-brand-strong); }
++.cne-impact__kind { color: var(--cne-muted); font-size: 0.82rem; }
++.cne-impact__values { display: flex; gap: 1rem; margin: 0; }
++.cne-impact__values div { display: flex; gap: 0.35rem; align-items: baseline; margin: 0; }
++.cne-impact__values dt { color: var(--cne-muted); font-size: 0.78rem; }
++.cne-impact__values dd { margin: 0; font-weight: 750; }
++.cne-c4 { border: 2px solid #b8860b; background: #fffaf0; border-radius: 14px; padding: 0.75rem; }
++.cne-c4 h3 { margin: 0 0 0.5rem; }
++.cne-c4 ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
++.cne-c4 li { display: flex; gap: 0.6rem; align-items: center; }
++.cne-c4__glyph { font-weight: 900; background: #6b4300; color: #fff; border-radius: 8px; padding: 0.2rem 0.35rem; }
++.cne-c4 small { display: block; color: var(--cne-muted); }
++.cne-recovery__columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem; }
++.cne-recovery__columns > section, .cne-recovery__block { border: 1px solid var(--cne-line); border-radius: 12px; padding: 0.65rem; }
++.cne-recovery__block--risk { border-color: var(--cne-conflict); background: #fff8f8; }
++.cne-recovery__block--good { border-color: var(--cne-verified); background: #f4fbf9; }
++.cne-diff-row { display: flex; gap: 0.55rem; align-items: flex-start; padding: 0.45rem 0; border-bottom: 1px dashed var(--cne-line); }
++.cne-diff-row:last-child { border-bottom: 0; }
++.cne-diff-row__head { display: flex; gap: 0.5rem; align-items: baseline; justify-content: space-between; }
++.cne-diff-row p { margin: 0.1rem 0; }
++.cne-diff-row small { color: var(--cne-muted); }
++
++.cne-twin__group { display: grid; gap: 0.5rem; }
++.cne-twin__group h3 { margin: 0; }
++.cne-twin__group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
++.cne-twin__group--hard { border-left: 5px solid var(--cne-conflict); padding-left: 0.75rem; }
++.cne-twin-row { border: 1px solid var(--cne-line); border-radius: 12px; padding: 0.7rem; display: grid; gap: 0.4rem; }
++.cne-twin-row__head { display: flex; justify-content: space-between; gap: 0.6rem; align-items: flex-start; }
++.cne-twin-row__head small { display: block; color: var(--cne-muted); }
++.cne-facts { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 0; }
++.cne-facts div { display: flex; gap: 0.3rem; margin: 0; }
++.cne-facts dt { color: var(--cne-muted); font-size: 0.78rem; }
++.cne-facts dd { margin: 0; font-weight: 750; }
++.cne-hard-fact { margin: 0; color: var(--cne-conflict); font-weight: 750; }
++.cne-learned-meter { display: grid; gap: 0.25rem; }
++.cne-learned-meter p { margin: 0; }
++.cne-meter { height: 0.6rem; background: #e7ecea; border-radius: 999px; overflow: hidden; }
++.cne-meter span { display: block; height: 100%; background: var(--cne-brand); }
++
++.cne-mobile-shield { background: var(--cne-panel); border: 1px solid var(--cne-line); border-radius: var(--cne-radius); box-shadow: var(--cne-shadow); padding: 0.85rem; display: grid; gap: 0.6rem; }
++.cne-mobile-shield__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.7rem; }
++.cne-mobile-shield__head h2 { margin: 0.1rem 0 0; font-size: 1rem; }
++.cne-mobile-shield__badge { background: var(--cne-brand); color: #fff; border-radius: 999px; min-width: 2rem; min-height: 2rem; display: grid; place-items: center; font-weight: 850; }
++.cne-mobile-shield__needs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
++.cne-mobile-shield__needs li { display: flex; gap: 0.45rem; align-items: center; font-weight: 650; }
++.cne-mobile-shield__gap { border: 2px dashed var(--cne-unknown); background: #fff8e8; border-radius: 12px; padding: 0.55rem; display: grid; gap: 0.25rem; }
++.cne-mobile-shield__gap p { margin: 0; color: #4f3a08; }
++.cne-mobile-shield__action { width: 100%; }
++
++.cne-map { display: grid; gap: 0.75rem; }
++.cne-map__canvas { position: relative; min-height: 320px; border: 1px solid var(--cne-line); border-radius: 14px; background: linear-gradient(135deg, #edf3f1, #e2ece9 45%, #f7faf8); overflow: hidden; }
++.cne-map__pin { position: absolute; display: grid; gap: 0.25rem; justify-items: start; max-width: 42%; }
++.cne-map-marker { min-height: 34px; display: inline-flex; gap: 0.35rem; align-items: center; border: 2px solid currentColor; background: #fff; border-radius: 10px; padding: 0.3rem 0.45rem; font-weight: 750; cursor: default; }
++.cne-map-marker__glyph { font-weight: 900; }
++.cne-map-marker__label { font-size: 0.72rem; line-height: 1.1; }
++.cne-map-marker--verified { color: var(--cne-verified); border-style: solid; }
++.cne-map-marker--unknown { color: var(--cne-unknown); border-style: dashed; }
++.cne-map-marker--conflict { color: var(--cne-conflict); border-style: double; }
++.cne-map-marker--rest { color: var(--cne-brand-strong); border-style: dotted; }
++.cne-map-marker--warning { color: #a05a00; border-style: dashed; background: #fff8e8; }
++.cne-map-marker--commitment { color: #7a5a00; border-style: solid; background: #fffaf0; }
++.cne-map-legend { display: grid; gap: 0.35rem; }
++.cne-map-legend h3 { margin: 0; }
++.cne-map-legend ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.45rem 0.9rem; }
++.cne-map-legend li { display: flex; gap: 0.35rem; align-items: center; font-size: 0.82rem; }
++.cne-map-legend__swatch { border: 2px solid currentColor; border-radius: 8px; padding: 0.1rem 0.3rem; font-weight: 800; }
++.cne-map-legend__swatch--verified { color: var(--cne-verified); border-style: solid; }
++.cne-map-legend__swatch--unknown { color: var(--cne-unknown); border-style: dashed; }
++.cne-map-legend__swatch--conflict { color: var(--cne-conflict); border-style: double; }
++.cne-map-legend__swatch--rest { color: var(--cne-brand-strong); border-style: dotted; }
++.cne-map-legend__swatch--warning { color: #a05a00; border-style: dashed; }
++.cne-map-legend__swatch--commitment { color: #7a5a00; border-style: solid; }
++
++@media (max-width: 720px) {
++  .cne-setup__advanced-grid,
++  .cne-confirmation__edit,
++  .cne-recovery__columns { grid-template-columns: 1fr; }
++  .cne-map__pin { position: static; max-width: none; }
++  .cne-map__canvas { display: grid; gap: 0.5rem; min-height: 0; padding: 0.7rem; }
++  .cne-map-marker { width: 100%; }
++}
++@media (max-width: 360px) {
++  .cne-chip, .cne-button { width: 100%; justify-content: center; }
++  .cne-chiplist { flex-direction: column; }
++}
++@media (prefers-reduced-motion: reduce) {
++  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
++  .cne-disclosure__arrow { transition: none; }
++}
++@media (forced-colors: active) {
++  .cne-evidence, .cne-map-marker, .cne-chip, .cne-button { forced-color-adjust: auto; }
++  .cne-evidence__glyph, .cne-map-marker__glyph { forced-color-adjust: none; }
++}
++
++/* V19.1 live shadow + provider evidence */
++.cne-provider-evidence { background: var(--cne-panel); border: 1px solid var(--cne-line); border-radius: var(--cne-radius); box-shadow: var(--cne-shadow); padding: clamp(1rem, 2.5vw, 1.5rem); display: grid; gap: 0.8rem; }
++.cne-provider-evidence__overall { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; border-top: 1px solid var(--cne-line); padding-top: 0.6rem; }
++.cne-provider-evidence__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; }
++.cne-provider-evidence__list > li { border: 1px solid var(--cne-line); border-radius: 12px; padding: 0.65rem; display: grid; gap: 0.35rem; }
++.cne-provider-evidence__head { display: flex; justify-content: space-between; gap: 0.6rem; align-items: flex-start; }
++.cne-provider-evidence__head small { display: block; color: var(--cne-muted); }
++.cne-provider-evidence__raw { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin: 0; }
++.cne-provider-evidence__raw div { display: flex; gap: 0.3rem; margin: 0; }
++.cne-provider-evidence__raw dt { color: var(--cne-muted); font-size: 0.78rem; }
++.cne-provider-evidence__raw dd { margin: 0; font-weight: 700; }
++.cne-shadow-experience { display: grid; gap: 1rem; }
++.cne-source-pill.is-live { border-color: var(--cne-brand); background: #e8f6ff; }
+diff --git a/frontend/src/features/capability-experience/README.md b/frontend/src/features/capability-experience/README.md
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/README.md
+@@ -0,0 +1,23 @@
++# CityNexus V19 Capability Experience package
++
++Additive, low-conflict frontend package for Traveler Capability / Accessibility.
++It does not replace `main.tsx`, `router`, or `LocaleProvider`.
++
++## Import surfaces
++
++- `types.ts`, `adapter.ts`, `recordedFixture.ts`: UI contract, normalisers, and explicitly labelled `RECORDED_FIXTURE` scenarios.
++- `components/JourneySetupNeeds.tsx`, `components/CopilotNeedsConfirmation.tsx`: setup and detected-needs confirmation.
++- `components/CapabilityPlanExplanation.tsx`, `components/RecoveryDiffCapability.tsx`: capability-aware plan/recovery explanation.
++- `components/TwinCapabilitySummary.tsx`, `components/MobileCapabilityShield.tsx`, `components/CapabilityMapOverlay.tsx`: Twin, mobile shield, map markers.
++
++## Honesty rules
++
++1. `UNKNOWN != ACCESSIBLE`. Missing, unrecognised, stale, or conflicting evidence normalises to `NEEDS_LIVE_EVIDENCE` or `CONFLICT`.
++2. `RECORDED_FIXTURE` is always rendered as recorded fixture. The live adapter throws `CapabilityAdapterNotConfiguredError` instead of silently substituting fixture data.
++3. No component writes `localStorage`. Confirmations call caller-owned callbacks; the backend capability contract remains planning authority.
++4. HARD needs are never silently persisted to future journeys. The confirmation surface requires explicit acknowledgement or `This Journey only`.
++5. Learned soft preferences may show strength/confidence. HARD accessibility needs never show a confidence progress bar.
++
++## Apply order
++
++Apply `01` → `02` → `03` → `04`. Patch 02+ depend on the core types/evidence adapter in patch 01. All patches add new files only.
+diff --git a/frontend/src/features/capability-experience/liveShadowAdapter.ts b/frontend/src/features/capability-experience/liveShadowAdapter.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/liveShadowAdapter.ts
+@@ -0,0 +1,394 @@
++import type {
++  CapabilityConstraint,
++  CapabilityEvidence,
++  CapabilityScope,
++  CapabilitySource,
++  CapabilityStrength,
++  CapabilityKind,
++  TravelerCapability,
++} from "./types";
++import { makeEvidence } from "./evidence";
++
++export type CapabilitySourceMode = "LIVE_SHADOW" | "RECORDED_FIXTURE" | "OFFLINE_STALE";
++
++export interface BackendCapabilityDto {
++  id?: string;
++  traveler_id?: string;
++  journey_id?: string | null;
++  code: string;
++  class?: string;
++  severity: "HARD" | "STRONG" | "SOFT";
++  params?: Record<string, unknown>;
++  scope?: "TRAVELER" | "JOURNEY";
++  source?: string;
++  provenance?: string;
++  explicit?: boolean;
++  confirmed?: boolean;
++  active?: boolean;
++  confirmed_at?: string | null;
++  updated_at?: string | null;
++  created_at?: string | null;
++}
++
++export interface CapabilityApiResponse {
++  traveler_id?: string;
++  journey_id?: string;
++  capabilities?: BackendCapabilityDto[];
++  summary?: Record<string, unknown>;
++  traveler_twin?: Record<string, unknown>;
++  [key: string]: unknown;
++}
++
++export interface CapabilityShadowClient {
++  getTravelerCapabilities(travelerId: string): Promise<CapabilityApiResponse>;
++  getJourneyCapabilities(journeyId: string): Promise<CapabilityApiResponse>;
++  confirmTravelerCapabilities(travelerId: string, capabilities: Array<Record<string, unknown>>): Promise<CapabilityApiResponse>;
++  confirmJourneyCapabilities(journeyId: string, capabilities: Array<Record<string, unknown>>): Promise<CapabilityApiResponse>;
++  getTravelerTwin(travelerId: string): Promise<Record<string, unknown>>;
++}
++
++export interface CapabilitySourceResult {
++  mode: CapabilitySourceMode;
++  capabilities: TravelerCapability[];
++  fetchedAt: string;
++  staleAt?: string;
++  error?: string;
++  contractGap?: string[];
++  label: string;
++}
++
++const CACHE_KEY = "citynexus.v19_1.capability.cache.v1";
++
++const CODE_LABELS: Record<string, { zh: string; en: string; kind: CapabilityKind }> = {
++  STEP_FREE_REQUIRED: { zh: "无台阶通行", en: "Step-free access", kind: "HARD_ACCESSIBILITY_NEED" },
++  AVOID_STAIRS: { zh: "避免楼梯", en: "Avoid stairs", kind: "HARD_ACCESSIBILITY_NEED" },
++  MAX_WALKING_PER_LEG_M: { zh: "每段最大步行", en: "Max walking per leg", kind: "PHYSICAL_LIMIT" },
++  MAX_CONTINUOUS_WALKING_MIN: { zh: "最长连续步行", en: "Max continuous walking", kind: "PHYSICAL_LIMIT" },
++  MAX_DAILY_WALKING_M: { zh: "每日最大步行", en: "Max daily walking", kind: "PHYSICAL_LIMIT" },
++  MIDDAY_REST_WINDOW: { zh: "中午休息", en: "Midday rest window", kind: "CARE_REQUIREMENT" },
++  REST_EVERY_MIN: { zh: "休息频率", en: "Rest frequency", kind: "CARE_REQUIREMENT" },
++  INFANT_NAP_WINDOW: { zh: "婴儿午睡窗", en: "Infant nap window", kind: "CARE_REQUIREMENT" },
++  TOILET_BREAK_EVERY_MIN: { zh: "如厕/休息间隔", en: "Toilet break interval", kind: "CARE_REQUIREMENT" },
++  STROLLER: { zh: "婴儿车", en: "Stroller", kind: "TRIP_CONTEXT" },
++  LARGE_LUGGAGE: { zh: "大件行李", en: "Large luggage", kind: "TRIP_CONTEXT" },
++  SLOW_PACE: { zh: "慢节奏", en: "Slow pace", kind: "SOFT_PREFERENCE" },
++  QUIET_ENVIRONMENT: { zh: "安静环境", en: "Quiet environment", kind: "SOFT_PREFERENCE" },
++  INDOOR_PREFERRED: { zh: "偏好室内", en: "Prefer indoor", kind: "SOFT_PREFERENCE" },
++  SENSORY_LOW_STIMULATION: { zh: "低感官刺激", en: "Low sensory stimulation", kind: "SOFT_PREFERENCE" },
++};
++
++export function capabilityLabelForCode(code: string, locale: "zh-CN" | "en" = "zh-CN"): string {
++  const entry = CODE_LABELS[code];
++  if (!entry) return code.replaceAll("_", " ").toLowerCase();
++  return locale === "zh-CN" ? entry.zh : entry.en;
++}
++
++function capabilityKindForCode(code: string): CapabilityKind {
++  return CODE_LABELS[code]?.kind ?? "UNKNOWN_CAPABILITY";
++}
++
++function mapScope(scope: string | undefined): CapabilityScope {
++  if (scope === "TRAVELER") return "TRAVELER";
++  return "THIS_JOURNEY";
++}
++
++function mapSource(source: string | undefined): CapabilitySource {
++  const value = String(source ?? "").toUpperCase();
++  if (value === "USER_CONFIRMED" || value === "USER_STATED") return "TRAVELER_STATED";
++  if (value === "SEMANTIC" || value === "COPILOT") return "COPILOT_DETECTED";
++  if (value === "LEARNED_SOFT") return "LEARNED_SOFT";
++  return "IMPORTED";
++}
++
++function isAccessibilityRequirement(code: string): boolean {
++  return ["STEP_FREE_REQUIRED", "AVOID_STAIRS", "STROLLER", "LARGE_LUGGAGE"].includes(code);
++}
++
++function evidenceForCapability(dto: BackendCapabilityDto): CapabilityEvidence {
++  const accessibility = isAccessibilityRequirement(dto.code);
++  const summary = accessibility
++    ? "Requirement recorded. Provider/route evidence is still required; this row is not an accessibility claim."
++    : "Traveler-stated capability context; provider/planner evidence is not yet verified.";
++  return makeEvidence(
++    accessibility ? "NEEDS_LIVE_EVIDENCE" : "UNVERIFIED",
++    summary,
++    {
++      kind: "LIVE",
++      label: "LIVE_SHADOW",
++      sourceSystem: "capability_api",
++      observedAt: dto.updated_at ?? dto.confirmed_at ?? null,
++      notes: "Capability rows come from the isolated V19 API. They do not contain provider accessibility evidence by themselves.",
++    },
++    {
++      liveChecks: accessibility
++        ? ["Provider/frozen accessibility tags must verify the relevant place or route."]
++        : undefined,
++    },
++  );
++}
++
++function constraintsFromParams(code: string, params: Record<string, unknown> | undefined): CapabilityConstraint[] {
++  const value = params ?? {};
++  const constraints: CapabilityConstraint[] = [];
++  const push = (key: string, operator: CapabilityConstraint["operator"], raw: unknown, unit?: string) => {
++    if (raw === undefined || raw === null) return;
++    constraints.push({
++      key,
++      operator,
++      value: raw as CapabilityConstraint["value"],
++      unit,
++      hard: false,
++    });
++  };
++  if (typeof value.max_m === "number") push("max_walking_per_leg_m", "LTE", value.max_m, "m");
++  if (typeof value.max_min === "number") {
++    if (code === "REST_EVERY_MIN" || code === "TOILET_BREAK_EVERY_MIN") push("rest_frequency_min", "LTE", value.max_min, "min");
++    else push("max_continuous_walking_m", "LTE", value.max_min, "min");
++  }
++  if (code === "MIDDAY_REST_WINDOW" || code === "INFANT_NAP_WINDOW") {
++    if (value.start || value.end) push("nap_window", "BETWEEN", [String(value.start ?? ""), String(value.end ?? "")]);
++  }
++  if (typeof value.present === "boolean") push("present", "REQUIRED", value.present);
++  if (typeof value.preferred === "boolean") push("preferred", "REQUIRED", value.preferred);
++  if (typeof value.requirement === "string") push("requirement", "REQUIRED", value.requirement);
++  return constraints;
++}
++
++export function mapBackendCapability(dto: BackendCapabilityDto, locale: "zh-CN" | "en" = "zh-CN"): TravelerCapability {
++  const code = String(dto.code);
++  const source = mapSource(dto.source);
++  const confirmed = Boolean(dto.confirmed);
++  const severity = (dto.severity ?? "SOFT") as CapabilityStrength;
++  return {
++    id: dto.id ?? `${dto.scope ?? "JOURNEY"}:${code}`,
++    kind: capabilityKindForCode(code),
++    label: capabilityLabelForCode(code, locale),
++    strength: severity,
++    scope: mapScope(dto.scope),
++    source,
++    sourceLabel: source === "TRAVELER_STATED" ? "Traveler stated" : source,
++    evidence: evidenceForCapability(dto),
++    active: dto.active !== false,
++    confirmed,
++    explicit: dto.explicit !== false,
++    learned: source === "LEARNED_SOFT",
++    travelerStated: true,
++    constraints: constraintsFromParams(code, dto.params),
++    extra: {
++      backend_code: code,
++      backend_class: dto.class,
++      backend_source: dto.source,
++      backend_provenance: dto.provenance,
++      backend_params: dto.params,
++      backend_journey_id: dto.journey_id,
++      backend_traveler_id: dto.traveler_id,
++      labelEn: capabilityLabelForCode(code, "en"),
++    },
++  };
++}
++
++
++export function mapBackendCapabilities(
++  payload: CapabilityApiResponse | undefined,
++  locale: "zh-CN" | "en" = "zh-CN",
++): TravelerCapability[] {
++  const rows = Array.isArray(payload?.capabilities) ? payload?.capabilities : [];
++  return rows
++    .filter((row): row is BackendCapabilityDto => Boolean(row && row.code))
++    .map((row) => mapBackendCapability(row, locale));
++}
++
++function readCache(): { capabilities: TravelerCapability[]; savedAt: string } | null {
++  try {
++    const raw = localStorage.getItem(CACHE_KEY);
++    if (!raw) return null;
++    const parsed = JSON.parse(raw) as { capabilities?: TravelerCapability[]; savedAt?: string };
++    if (!Array.isArray(parsed.capabilities) || !parsed.savedAt) return null;
++    return { capabilities: parsed.capabilities, savedAt: parsed.savedAt };
++  } catch {
++    return null;
++  }
++}
++
++function writeCache(capabilities: TravelerCapability[]): string {
++  const savedAt = new Date().toISOString();
++  try {
++    localStorage.setItem(CACHE_KEY, JSON.stringify({ capabilities, savedAt }));
++  } catch {
++    // Cache is best-effort. OFFLINE_STALE will report unavailable if absent.
++  }
++  return savedAt;
++}
++
++export async function loadCapabilitySource(
++  client: CapabilityShadowClient,
++  options: {
++    mode: CapabilitySourceMode;
++    travelerId?: string;
++    journeyId?: string;
++    locale?: "zh-CN" | "en";
++    fixtureCapabilities?: TravelerCapability[];
++    fetcher?: () => Promise<CapabilityApiResponse>;
++  },
++): Promise<CapabilitySourceResult> {
++  const locale = options.locale ?? "zh-CN";
++  const now = new Date().toISOString();
++  if (options.mode === "RECORDED_FIXTURE") {
++    return {
++      mode: "RECORDED_FIXTURE",
++      capabilities: options.fixtureCapabilities ?? [],
++      fetchedAt: now,
++      label: "RECORDED_FIXTURE",
++      contractGap: ["Fixture mode is explicitly labelled and is not live planning authority."],
++    };
++  }
++  if (options.mode === "OFFLINE_STALE") {
++    const cached = readCache();
++    if (!cached) {
++      return {
++        mode: "OFFLINE_STALE",
++        capabilities: [],
++        fetchedAt: now,
++        label: "OFFLINE_STALE",
++        error: "No last-known capability data in cache.",
++      };
++    }
++    return {
++      mode: "OFFLINE_STALE",
++      capabilities: cached.capabilities,
++      fetchedAt: cached.savedAt,
++      staleAt: cached.savedAt,
++      label: "OFFLINE_STALE",
++      contractGap: ["Showing last-known authoritative data; not a live claim."],
++    };
++  }
++
++  try {
++    const response = options.fetcher
++      ? await options.fetcher()
++      : options.travelerId
++        ? await client.getTravelerCapabilities(options.travelerId)
++        : options.journeyId
++          ? await client.getJourneyCapabilities(options.journeyId)
++          : { capabilities: [] };
++    const capabilities = mapBackendCapabilities(response, locale);
++    const savedAt = writeCache(capabilities);
++    return {
++      mode: "LIVE_SHADOW",
++      capabilities,
++      fetchedAt: savedAt,
++      label: "LIVE_SHADOW",
++      contractGap: response.capabilities?.length
++        ? []
++        : ["Live contract responded with zero capability rows for this journey."],
++    };
++  } catch (error) {
++    const cached = readCache();
++    const message = error instanceof Error ? error.message : String(error);
++    if (cached) {
++      return {
++        mode: "OFFLINE_STALE",
++        capabilities: cached.capabilities,
++        fetchedAt: cached.savedAt,
++        staleAt: cached.savedAt,
++        label: "OFFLINE_STALE",
++        error: `LIVE_SHADOW failed (${message}); showing last-known data at ${cached.savedAt}.`,
++        contractGap: ["Live backend unavailable. Cached data is stale and never labelled live."],
++      };
++    }
++    return {
++      mode: "LIVE_SHADOW",
++      capabilities: [],
++      fetchedAt: now,
++      label: "LIVE_SHADOW",
++      error: `LIVE_SHADOW unavailable: ${message}`,
++      contractGap: ["No live capability backend and no cached last-known data. CONTRACT_NOT_AVAILABLE."],
++    };
++  }
++}
++
++async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
++  const response = await fetch(url, { headers: { Accept: "application/json" }, ...init });
++  if (!response.ok) {
++    const text = await response.text();
++    throw new Error(`${response.status} ${response.statusText}: ${text.slice(0, 180)}`);
++  }
++  return (await response.json()) as T;
++}
++
++export function createHttpShadowClient(baseUrl = ""): CapabilityShadowClient & {
++  getPlaceAccessibilityEvidence(placeId: string): Promise<Record<string, unknown>>;
++  getJourneyAccessibilityEvidence(journeyId: string): Promise<Record<string, unknown>>;
++  getCapabilityPlanImpact(journeyId: string, planVersionId?: string): Promise<Record<string, unknown>>;
++} {
++  const root = baseUrl.replace(/\/+$/, "");
++  return {
++    getTravelerCapabilities: (travelerId) => fetchJson(`${root}/api/v1/travelers/${encodeURIComponent(travelerId)}/capabilities`),
++    getJourneyCapabilities: (journeyId) => fetchJson(`${root}/api/v1/journeys/${encodeURIComponent(journeyId)}/capabilities`),
++    confirmTravelerCapabilities: (travelerId, capabilities) =>
++      fetchJson(`${root}/api/v1/travelers/${encodeURIComponent(travelerId)}/capabilities/confirm`, {
++        method: "POST",
++        headers: { "Content-Type": "application/json", Accept: "application/json" },
++        body: JSON.stringify(capabilities),
++      }),
++    confirmJourneyCapabilities: (journeyId, capabilities) =>
++      fetchJson(`${root}/api/v1/journeys/${encodeURIComponent(journeyId)}/capabilities/confirm`, {
++        method: "POST",
++        headers: { "Content-Type": "application/json", Accept: "application/json" },
++        body: JSON.stringify(capabilities),
++      }),
++    getTravelerTwin: (travelerId) => fetchJson(`${root}/api/v1/travelers/${encodeURIComponent(travelerId)}/traveler-twin`),
++    getPlaceAccessibilityEvidence: (placeId) =>
++      fetchJson(`${root}/api/v1/places/${encodeURIComponent(placeId)}/accessibility-evidence`),
++    getJourneyAccessibilityEvidence: (journeyId) =>
++      fetchJson(`${root}/api/v1/journeys/${encodeURIComponent(journeyId)}/accessibility-evidence`),
++    getCapabilityPlanImpact: (journeyId, planVersionId) => {
++      const query = planVersionId ? `?plan_version_id=${encodeURIComponent(planVersionId)}` : "";
++      return fetchJson(`${root}/api/v1/journeys/${encodeURIComponent(journeyId)}/capability-plan-impact${query}`);
++    },
++  };
++}
++
++export function mapJourneySetupDraftToBackend(draft: {
++  quickNeedIds: string[];
++  advanced: {
++    maxWalkingPerLegM?: number;
++    maxContinuousWalkingM?: number;
++    restFrequencyMin?: number;
++    napWindow?: { start: string; end: string } | null;
++    toiletFrequencyMin?: number;
++    pace?: string;
++    quietSensory?: boolean;
++  };
++}): Array<Record<string, unknown>> {
++  const payload: Array<Record<string, unknown>> = [];
++  const add = (code: string, klass: string, severity: string, params: Record<string, unknown>, scope = "JOURNEY") => {
++    payload.push({
++      code,
++      class: klass,
++      severity,
++      params,
++      scope,
++      source: "USER_STATED",
++      provenance: "USER_STATED",
++      explicit: true,
++      active: true,
++      confirmed: false,
++    });
++  };
++  for (const id of draft.quickNeedIds) {
++    if (id === "less_walking") add("MAX_WALKING_PER_LEG_M", "PHYSICAL_LIMIT", "STRONG", { max_m: draft.advanced.maxWalkingPerLegM ?? null });
++    if (id === "wheelchair_access") add("STEP_FREE_REQUIRED", "HARD_ACCESSIBILITY_NEED", "HARD", { requirement: "step_free" });
++    if (id === "avoid_stairs") add("AVOID_STAIRS", "HARD_ACCESSIBILITY_NEED", "HARD", { avoid: true });
++    if (id === "stroller") add("STROLLER", "TRIP_CONTEXT", "STRONG", { present: true });
++    if (id === "large_luggage") add("LARGE_LUGGAGE", "TRIP_CONTEXT", "STRONG", { present: true });
++    if (id === "midday_rest") add("MIDDAY_REST_WINDOW", "CARE_REQUIREMENT", "STRONG", { start: draft.advanced.napWindow?.start ?? "12:00", end: draft.advanced.napWindow?.end ?? "14:00" });
++    if (id === "baby_nap") add("INFANT_NAP_WINDOW", "CARE_REQUIREMENT", "STRONG", { start: draft.advanced.napWindow?.start ?? "13:00", end: draft.advanced.napWindow?.end ?? "15:00" });
++  }
++  if (draft.advanced.maxContinuousWalkingM !== undefined) add("MAX_CONTINUOUS_WALKING_MIN", "PHYSICAL_LIMIT", "STRONG", { max_min: draft.advanced.maxContinuousWalkingM });
++  if (draft.advanced.restFrequencyMin !== undefined) add("REST_EVERY_MIN", "CARE_REQUIREMENT", "STRONG", { max_min: draft.advanced.restFrequencyMin });
++  if (draft.advanced.toiletFrequencyMin !== undefined) add("TOILET_BREAK_EVERY_MIN", "CARE_REQUIREMENT", "STRONG", { max_min: draft.advanced.toiletFrequencyMin });
++  if (draft.advanced.pace) add("SLOW_PACE", "SOFT_PREFERENCE", "SOFT", { preferred: true });
++  if (draft.advanced.quietSensory) add("QUIET_ENVIRONMENT", "SOFT_PREFERENCE", "SOFT", { preferred: true });
++  return payload;
++}
+diff --git a/frontend/src/features/capability-experience/livePlanAdapter.ts b/frontend/src/features/capability-experience/livePlanAdapter.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/livePlanAdapter.ts
+@@ -0,0 +1,125 @@
++import type {
++  CapabilityEvidence,
++  CapabilityImpact,
++  PlanCapabilityExplanationModel,
++  RecoveryCapabilityDiffModel,
++} from "./types";
++import { mapBackendCapabilities, type BackendCapabilityDto } from "./liveShadowAdapter";
++
++export interface BackendImpactDto {
++  id: string;
++  capability_id: string;
++  capability_label: string;
++  kind: string;
++  status: "PRESERVED" | "IMPROVED" | "AT_RISK" | "VIOLATED" | "UNKNOWN";
++  explanation: string;
++  candidate_id?: string;
++  failure?: string | null;
++  evidence?: {
++    state?: string;
++    summary?: string;
++    failure?: string | null;
++    provenance?: Record<string, unknown>;
++  };
++}
++
++export interface BackendPlanImpactResponse {
++  journey_id: string;
++  plan_version_id?: string;
++  status: "PASS" | "FAIL" | "CONTRACT_NOT_AVAILABLE";
++  gate_failures: string[];
++  capabilities: BackendCapabilityDto[];
++  impacts?: {
++    candidate_id: string;
++    authority: string;
++    gate_failures: string[];
++    why: BackendImpactDto[];
++    rejected: BackendImpactDto[];
++    unknown: BackendImpactDto[];
++    capabilities: BackendCapabilityDto[];
++    unknown_accessibility_is_not_accessible?: boolean;
++  } | null;
++  reason?: string;
++  unknown_accessibility_is_not_accessible?: boolean;
++}
++
++function mapEvidence(evidence: BackendImpactDto["evidence"], fallback: string): CapabilityEvidence {
++  const stateRaw = String(evidence?.state ?? "NEEDS_LIVE_EVIDENCE").toUpperCase();
++  const state = ["VERIFIED", "UNVERIFIED", "CONFLICT", "NEEDS_LIVE_EVIDENCE"].includes(stateRaw)
++    ? (stateRaw as CapabilityEvidence["state"])
++    : "NEEDS_LIVE_EVIDENCE";
++  return {
++    state,
++    summary: evidence?.summary ?? fallback,
++    provenance: {
++      kind: "LIVE",
++      label: "BACKEND_GATE",
++      sourceSystem: "capability-plan-impact",
++      notes: "Derived from the isolated V19 deterministic feasibility gate.",
++    },
++    detail: evidence?.failure ?? undefined,
++    facts: evidence?.provenance,
++  };
++}
++
++function mapImpact(dto: BackendImpactDto): CapabilityImpact {
++  const kind = (
++    ["HARD_ACCESSIBILITY_NEED", "CARE_REQUIREMENT", "PHYSICAL_LIMIT", "TRIP_CONTEXT", "SOFT_PREFERENCE", "PROTECTED_COMMITMENT"].includes(dto.kind)
++      ? dto.kind
++      : "SOFT_PREFERENCE"
++  ) as CapabilityImpact["kind"];
++  return {
++    id: dto.id,
++    capabilityId: dto.capability_id,
++    capabilityLabel: dto.capability_label,
++    kind,
++    status: dto.status,
++    explanation: dto.explanation,
++    evidence: mapEvidence(dto.evidence, dto.explanation),
++    candidateId: dto.candidate_id,
++  };
++}
++
++export function mapPlanImpactResponse(response: BackendPlanImpactResponse): PlanCapabilityExplanationModel | null {
++  if (!response.impacts) return null;
++  const why = (response.impacts.why ?? []).map(mapImpact);
++  const rejected = (response.impacts.rejected ?? []).map(mapImpact);
++  const unknownImpacts = (response.impacts.unknown ?? []).map(mapImpact);
++  return {
++    candidateId: response.impacts.candidate_id || response.plan_version_id || "live-plan",
++    candidateLabel: response.plan_version_id ? `Plan ${response.plan_version_id.slice(0, 8)}` : "Live plan",
++    candidateSubtitle: `gate=${response.status}`,
++    selected: true,
++    why,
++    rejected,
++    unknown: unknownImpacts.map((item) => item.evidence),
++    protectedCommitments: (response.gate_failures ?? [])
++      .filter((failure) => failure.includes("LOCKED_COMMITMENT") || failure.includes("JOURNEY_END_BY"))
++      .map((failure, index) => ({
++        id: `c4-gate-${index}`,
++        label: failure,
++        level: "C4_ANCHORED",
++        preserved: false,
++        detail: "Protected commitment/Journey boundary failure from the live gate.",
++      })),
++    authority: "BACKEND_PLANNING",
++  };
++}
++
++export function mapRecoveryDiffFromPlan(
++  response: BackendPlanImpactResponse,
++  journeyId: string,
++): RecoveryCapabilityDiffModel {
++  const mapped = mapPlanImpactResponse(response);
++  const all = mapped ? [...mapped.why, ...mapped.rejected] : [];
++  return {
++    journeyId,
++    before: all,
++    after: all,
++    preserved: all.filter((impact) => impact.status === "PRESERVED" || impact.status === "IMPROVED"),
++    atRisk: all.filter((impact) => impact.status === "AT_RISK" || impact.status === "VIOLATED"),
++    evidenceGaps: mapped?.unknown ?? [],
++    protectedCommitments: mapped?.protectedCommitments ?? [],
++    authority: "BACKEND_PLANNING",
++  };
++}
+diff --git a/frontend/src/features/capability-experience/providerEvidence.ts b/frontend/src/features/capability-experience/providerEvidence.ts
+new file mode 100644
+--- /dev/null
++++ b/frontend/src/features/capability-experience/providerEvidence.ts
+@@ -0,0 +1,165 @@
++import type { CapabilitySourceMode } from "./liveShadowAdapter";
++
++export interface ProviderEvidenceRaw {
++  key: string | null;
++  value: string | null;
++}
++
++export interface ProviderEvidenceItem {
++  state: "ACCESSIBILITY_VERIFIED" | "ACCESSIBILITY_UNVERIFIED" | "ACCESSIBILITY_CONFLICT" | "NEEDS_LIVE_EVIDENCE";
++  code: string;
++  subject: string;
++  summary: string;
++  raw: ProviderEvidenceRaw;
++  provider: string;
++  source_key: string;
++  place_id?: string | null;
++  city_code?: string | null;
++  captured_at: string;
++  confidence_type: string;
++  provenance: Record<string, unknown>;
++}
++
++export interface ProviderEvidenceResponse {
++  place_id?: string;
++  place_name?: string;
++  journey_id?: string;
++  city_code?: string;
++  provider?: string;
++  source_key?: string;
++  captured_at?: string | null;
++  items?: ProviderEvidenceItem[];
++  overall_state?: ProviderEvidenceItem["state"];
++  unknown_is_not_accessible?: boolean;
++  [key: string]: unknown;
++}
++
++export interface ProviderEvidenceResult {
++  mode: CapabilitySourceMode;
++  items: ProviderEvidenceItem[];
++  overallState: ProviderEvidenceItem["state"];
++  fetchedAt: string;
++  staleAt?: string;
++  label: string;
++  error?: string;
++  contractGap?: string[];
++}
++
++const CACHE_KEY = "citynexus.v19_1.provider_evidence.cache.v1";
++
++export function resolveOverallState(items: ProviderEvidenceItem[]): ProviderEvidenceItem["state"] {
++  const states = new Set(items.map((item) => item.state));
++  if (states.has("ACCESSIBILITY_CONFLICT")) return "ACCESSIBILITY_CONFLICT";
++  if (states.has("NEEDS_LIVE_EVIDENCE")) return "NEEDS_LIVE_EVIDENCE";
++  if (states.has("ACCESSIBILITY_UNVERIFIED")) return "ACCESSIBILITY_UNVERIFIED";
++  if (states.has("ACCESSIBILITY_VERIFIED")) return "ACCESSIBILITY_VERIFIED";
++  return "NEEDS_LIVE_EVIDENCE";
++}
++
++function readCache(): { items: ProviderEvidenceItem[]; savedAt: string } | null {
++  try {
++    const raw = localStorage.getItem(CACHE_KEY);
++    if (!raw) return null;
++    const parsed = JSON.parse(raw) as { items?: ProviderEvidenceItem[]; savedAt?: string };
++    if (!Array.isArray(parsed.items) || !parsed.savedAt) return null;
++    return { items: parsed.items, savedAt: parsed.savedAt };
++  } catch {
++    return null;
++  }
++}
++
++function writeCache(items: ProviderEvidenceItem[]): string {
++  const savedAt = new Date().toISOString();
++  try {
++    localStorage.setItem(CACHE_KEY, JSON.stringify({ items, savedAt }));
++  } catch {
++    // Best-effort cache only.
++  }
++  return savedAt;
++}
++
++function normalizeResponse(response: ProviderEvidenceResponse): ProviderEvidenceItem[] {
++  const rows = Array.isArray(response.items) ? response.items : [];
++  return rows.filter((item): item is ProviderEvidenceItem => Boolean(item && item.state && item.code));
++}
++
++export async function loadProviderEvidence(
++  options: {
++    mode: CapabilitySourceMode;
++    placeId?: string;
++    journeyId?: string;
++    fetcher: () => Promise<ProviderEvidenceResponse>;
++    fixtureItems?: ProviderEvidenceItem[];
++  },
++): Promise<ProviderEvidenceResult> {
++  const now = new Date().toISOString();
++  if (options.mode === "RECORDED_FIXTURE") {
++    const items = options.fixtureItems ?? [];
++    return {
++      mode: "RECORDED_FIXTURE",
++      items,
++      overallState: resolveOverallState(items),
++      fetchedAt: now,
++      label: "RECORDED_FIXTURE",
++      contractGap: ["Provider evidence fixture mode is explicitly labelled and not a live claim."],
++    };
++  }
++  if (options.mode === "OFFLINE_STALE") {
++    const cached = readCache();
++    if (!cached) {
++      return {
++        mode: "OFFLINE_STALE",
++        items: [],
++        overallState: "NEEDS_LIVE_EVIDENCE",
++        fetchedAt: now,
++        label: "OFFLINE_STALE",
++        error: "No last-known provider evidence cache.",
++      };
++    }
++    return {
++      mode: "OFFLINE_STALE",
++      items: cached.items,
++      overallState: resolveOverallState(cached.items),
++      fetchedAt: cached.savedAt,
++      staleAt: cached.savedAt,
++      label: "OFFLINE_STALE",
++      contractGap: ["Showing last-known provider evidence; not a live provider response."],
++    };
++  }
++  try {
++    const response = await options.fetcher();
++    const items = normalizeResponse(response);
++    const savedAt = writeCache(items);
++    return {
++      mode: "LIVE_SHADOW",
++      items,
++      overallState: response.overall_state ?? resolveOverallState(items),
++      fetchedAt: savedAt,
++      label: "LIVE_SHADOW",
++      contractGap: items.length ? [] : ["Live accessibility-evidence contract returned no facts."],
++    };
++  } catch (error) {
++    const cached = readCache();
++    const message = error instanceof Error ? error.message : String(error);
++    if (cached) {
++      return {
++        mode: "OFFLINE_STALE",
++        items: cached.items,
++        overallState: resolveOverallState(cached.items),
++        fetchedAt: cached.savedAt,
++        staleAt: cached.savedAt,
++        label: "OFFLINE_STALE",
++        error: `LIVE_SHADOW provider evidence failed (${message}); showing last-known data at ${cached.savedAt}.`,
++      };
++    }
++    return {
++      mode: "LIVE_SHADOW",
++      items: [],
++      overallState: "NEEDS_LIVE_EVIDENCE",
++      fetchedAt: now,
++      label: "LIVE_SHADOW",
++      error: `LIVE_SHADOW provider evidence unavailable: ${message}`,
++      contractGap: ["CONTRACT_NOT_AVAILABLE: accessibility evidence endpoint did not answer."],
++    };
++  }
++}

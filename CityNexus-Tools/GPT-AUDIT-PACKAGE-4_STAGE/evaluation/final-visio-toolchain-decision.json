@@ -1,0 +1,9 @@
+{
+  "VisioAutomation": {"ShapeDataTypedStrings":"PASS","UserCells":"PASS","nativeUmlRouting":"FAIL","dynamicRouting":"UNVERIFIED","decision":"ADOPT_PARTIALLY"},
+  "MSAGL": {"decision":"DO_NOT_USE","role":"NOT_EXECUTED"},
+  "JiaxI2-visio-diagram": {"decision":"ADOPT_GUIDELINES_ONLY","reason":"MCP execution interface incompatible; QA rules reusable"},
+  "vsdx-0.6.1": {"decision":"ADOPT_PARTIALLY","scope":["page","shape","child-shape traversal"]},
+  "exitDecision":"ROUTING_FALLBACK_REQUIRED",
+  "nextRoutingStrategy":"CityNexus phase1-routing.yaml plus explicit native Association geometry/waypoints",
+  "newGithubProjects":"NONE"
+}

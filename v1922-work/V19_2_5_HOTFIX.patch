@@ -1,0 +1,27 @@
+--- a/backend/app/replanning/feasibility.py
++++ b/backend/app/replanning/feasibility.py
+@@ -657,7 +657,9 @@
+         failures.append("INVALID_LOCKED_COMMITMENT")
+         locked_specs = []
+ 
+-    anchor_keys = {commitment.activity_key for commitment, _role in locked_specs}
++    anchor_roles = {
++        commitment.activity_key: role for commitment, role in locked_specs
++    }
+     arrival_end_min: int | None = None
+     departure_start_min: int | None = None
+     # An anchor is only "outside the Journey" relative to the anchor-widened
+@@ -705,7 +707,12 @@
+ 
+     for item in ordered:
+         item_key = _location_key(item) or item.key
+-        if item_key in anchor_keys:
++        # ARRIVAL and DEPARTURE are structural edge markers and therefore do
++        # not constrain themselves. Every interior C4 activity, including
++        # MID_TRIP and role-less booking/order locks, must still live inside
++        # those structural boundaries.
++        item_anchor_role = anchor_roles.get(item_key, "")
++        if item_anchor_role in {"ARRIVAL", "DEPARTURE"}:
+             continue
+         start_min = _minutes_from_start(item.start_at, context.journey_start)
+         end_min = _minutes_from_start(item.end_at, context.journey_start)

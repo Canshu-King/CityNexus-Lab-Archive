@@ -1,0 +1,3 @@
+PASS case_inbound_outbound_pinned_travel
+PASS case_pinned_overlap_rejected
+PASS case_no_silent_cross_day_compaction

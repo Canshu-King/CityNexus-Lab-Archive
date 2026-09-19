@@ -1,0 +1,26 @@
+{
+  "a_schema_executescript_error": "IntegrityError: UNIQUE constraint failed: transport_reservations.journey_id, transport_reservations.confirmation_ref",
+  "a_schema_sql_contains_unique_index": true,
+  "a_index_line_number": 902,
+  "b_manual_index_creation": "raised IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: transport_reservations.journey_id, transport_reservations.confirmation_ref\n[SQL: CREATE UNIQUE INDEX IF NOT EXISTS uq_transport_reservations_journey_confirmation ON transport_reservations(journey_id, confirmation_ref)]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)",
+  "b_would_be_silently_swallowed_by_session_py": true,
+  "b_index_present": false,
+  "c_quarantine_committed": false,
+  "c_quarantine_error": "IntegrityError: (sqlite3.IntegrityError) CHECK constraint failed: event_type IN ('TRAFFIC_DELAY','CLOSURE','WEATHER','SCHEDULE_DELAY','SERVICE_UNAVAILABLE','USER_CHANGE','OTHER')",
+  "c_quarantine_tail": [
+    "[parameters: ('742f38cc-7d8c-44b5-bcfc-f2b31caff7a0', 'J-LEGACY', 'citynexus-reservation', 'SYSTEM_DERIVED', 'RESERVATION_IDENTITY_DUPLICATE', 'MAJOR', 'RESOLVED', None, '2026-09-15T14:04:43.883356+00:00', '2026-09-15T14:04:43.883356+00:00', '2026-09-15T14:04:43.883356+00:00', '{\"confirmation_ref\":\"REF-DUP\",\"policy\":\"QUARANTINED_DUPLICATE_IDENTITY\",\"quarantined_ids\":[\"RES-2\"],\"winner_id\":\"RES-1\"}', '2026-09-15T14:04:43.883356+00:00')]",
+    "(Background on this error at: https://sqlalche.me/e/20/gkpj)"
+  ],
+  "c_status_after": [
+    [
+      "RES-1",
+      "CONFIRMED"
+    ],
+    [
+      "RES-2",
+      "CONFIRMED"
+    ]
+  ],
+  "c_events_written": 0,
+  "c_allowed_event_types": "'TRAFFIC_DELAY','CLOSURE','WEATHER','SCHEDULE_DELAY','SERVICE_UNAVAILABLE','USER_CHANGE','OTHER'"
+}

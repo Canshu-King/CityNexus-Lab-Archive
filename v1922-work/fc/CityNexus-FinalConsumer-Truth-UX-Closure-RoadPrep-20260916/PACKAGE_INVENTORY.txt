@@ -1,0 +1,15 @@
+COPY_PASTE_TO_EAC.txt
+README_FIRST.md
+docs/EAC_FINAL_CLOSURE_MISSION.md
+docs/INDEPENDENT_AUDIT.md
+docs/TRUTH_BLOCKERS.md
+docs/VISIBLE_UI_ACCEPTANCE.md
+docs/VISUAL_PRODUCT_GATE.md
+docs/WORKBUDDY_FINAL_DELTA.md
+evidence/snapshot_i/F_hub_390x844.png
+evidence/snapshot_i/F_trips_390x844.png
+evidence/snapshot_i/X4_copilot.png
+evidence/snapshot_i/Y2_hotels.png
+evidence/snapshot_i/Y4_bookings.png
+evidence/snapshot_i/Z1_live_disruption.png
+evidence/snapshot_i/Z2_live_accepted.png

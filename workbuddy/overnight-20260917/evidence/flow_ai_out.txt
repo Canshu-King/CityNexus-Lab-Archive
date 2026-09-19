@@ -1,0 +1,16 @@
+﻿sheet visible: true
+shot 00_sheet_open @ http://localhost:5181/v8/hub
+shot 01_filled @ http://localhost:5181/v8/hub
+shot 02_progress @ http://localhost:5181/v8/hub
+steps: 鉁?| 鐞嗚В浣犵殑闇€姹?| 鉁?| 鎼滅储鐪熷疄鍦扮偣 | 鉁?| 妫€鏌ユ椂闂翠笌浜ら€?| 鈼?| 鐢熸垚鍙€夋柟妗?shot 03_progress @ http://localhost:5181/v8/hub
+steps: 鉁?| 鐞嗚В浣犵殑闇€姹?| 鉁?| 鎼滅储鐪熷疄鍦扮偣 | 鉁?| 妫€鏌ユ椂闂翠笌浜ら€?| 鈼?| 鐢熸垚鍙€夋柟妗?shot 04_progress @ http://localhost:5181/v8/hub
+steps: 鉁?| 鐞嗚В浣犵殑闇€姹?| 鉁?| 鎼滅储鐪熷疄鍦扮偣 | 鉁?| 妫€鏌ユ椂闂翠笌浜ら€?| 鈼?| 鐢熸垚鍙€夋柟妗?shot 05_progress @ http://localhost:5181/v8/hub
+node.exe : FATAL Cannot read properties of undefined (reading '1')
+所在位置 行:445 字符: 163
++ ... e_modules"; & "C:\Users\仓鼠王\.workbuddy\binaries\node\versions\22.22.2 ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FATAL Cannot re...d (reading '1') 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+steps: 鉁?| 鐞嗚В浣犵殑闇€姹?| 鉁?| 鎼滅储鐪熷疄鍦扮偣 | 鉁?| 妫€鏌ユ椂闂翠笌浜ら€?| 鈼?| 鐢熸垚鍙€夋柟妗?

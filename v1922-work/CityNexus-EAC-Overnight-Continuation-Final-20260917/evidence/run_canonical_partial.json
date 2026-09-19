@@ -1,0 +1,42 @@
+{
+ "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+ "trace": [
+  {
+   "ts": "2026-09-16T17:18:09.805Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "open-root",
+   "status": "200",
+   "result": "用你自己的城市试用 CITYNEXUS\n\n新建行程\n\n三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。\n\nEN\n1\n目的地与时间\n2\n人数",
+   "plan_id": null
+  },
+  {
+   "ts": "2026-09-16T17:18:10.196Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "step1",
+   "status": "filled",
+   "result": "已自动设置：中国 · 人民币 · 中国标准时间",
+   "plan_id": null
+  },
+  {
+   "ts": "2026-09-16T17:18:11.525Z",
+   "journey_id": null,
+   "route": "/",
+   "action": "step3-review",
+   "status": "shown",
+   "result": "",
+   "plan_id": null
+  },
+  {
+   "ts": "2026-09-16T17:18:18.612Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/",
+   "action": "create-confirmed",
+   "status": "201",
+   "result": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "plan_id": null
+  }
+ ],
+ "errors": []
+}

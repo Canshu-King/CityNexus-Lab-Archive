@@ -1,0 +1,591 @@
+[
+ {
+  "case": "WALK_zero",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_one",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_hundred",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_just_below_500",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_at_500",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_just_above_500",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_thousand",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_huge",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_negative",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_string_numeric",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_string_units",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_null",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_absent",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_wrong_key",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_km_key",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "WALK_VALUE_SENSITIVITY",
+  "interpretation": "All values produce the same outcome => the numeric value is never read; only the presence of the unsupported HARD rule matters.",
+  "distinct_outcomes": 1,
+  "outcomes": {
+   "zero": [
+    422,
+    null
+   ],
+   "one": [
+    422,
+    null
+   ],
+   "hundred": [
+    422,
+    null
+   ],
+   "just_below_500": [
+    422,
+    null
+   ],
+   "at_500": [
+    422,
+    null
+   ],
+   "just_above_500": [
+    422,
+    null
+   ],
+   "thousand": [
+    422,
+    null
+   ],
+   "huge": [
+    422,
+    null
+   ],
+   "negative": [
+    422,
+    null
+   ],
+   "string_numeric": [
+    422,
+    null
+   ],
+   "string_units": [
+    422,
+    null
+   ],
+   "null": [
+    422,
+    null
+   ],
+   "absent": [
+    422,
+    null
+   ],
+   "wrong_key": [
+    422,
+    null
+   ],
+   "km_key": [
+    422,
+    null
+   ]
+  }
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::normal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::cross_midnight",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::start_after_end",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::equal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::invalid_text",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::hour_24",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::empty",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::minutes_only",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::max_continuous",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::rest_every_zero",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MIDDAY_REST_WINDOW::rest_every_negative",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::normal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::cross_midnight",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::start_after_end",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::equal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::invalid_text",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::hour_24",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::empty",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::minutes_only",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::max_continuous",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::rest_every_zero",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "INFANT_NAP_WINDOW::rest_every_negative",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::normal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::cross_midnight",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::start_after_end",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::equal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::invalid_text",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::hour_24",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::empty",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::minutes_only",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::max_continuous",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::rest_every_zero",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "MAX_CONTINUOUS_WALKING_MIN::rest_every_negative",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::normal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::cross_midnight",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::start_after_end",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::equal",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::invalid_text",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::hour_24",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::empty",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::minutes_only",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::max_continuous",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::rest_every_zero",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "REST_EVERY_MIN::rest_every_negative",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "blocked": true,
+  "error": "No feasible plan candidates satisfy the journey constraints"
+ },
+ {
+  "case": "DROP_delete_then_generate",
+  "delete_status": 204
+ },
+ {
+  "case": "DROP_after_delete",
+  "gen_status": 201,
+  "plan_count": 3,
+  "note": "deleting the HARD capability restores planning => capability is not durable"
+ },
+ {
+  "case": "DROP_active_flag_zero",
+  "gen_status": 201,
+  "plan_count": 3,
+  "note": "active=0 silences a HARD capability with no audit and no UI warning"
+ },
+ {
+  "case": "DROP_active_audit",
+  "constraints": [
+   {
+    "kind": "HARD",
+    "category": "capability",
+    "rule_code": "STEP_FREE_REQUIRED",
+    "params": {},
+    "weight": 1.0,
+    "id": "566bad17-0f3b-4529-884a-cba553797e3e",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": false
+   }
+  ]
+ },
+ {
+  "case": "CONFLICT_hard_and_soft_same_rule",
+  "gen_status": 422,
+  "plan_count": null,
+  "note": "HARD still wins (fail-closed); no explicit conflict is surfaced to the traveler"
+ },
+ {
+  "case": "EMPTY_RULE_CODE",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null,
+  "failures": []
+ },
+ {
+  "case": "CATEGORY_ONLY_ACCESSIBILITY",
+  "add_status": 201,
+  "gen_status": 422,
+  "plan_count": null
+ }
+]

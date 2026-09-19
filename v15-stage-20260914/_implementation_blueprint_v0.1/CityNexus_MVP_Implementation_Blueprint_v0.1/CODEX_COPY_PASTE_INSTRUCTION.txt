@@ -1,0 +1,9 @@
+Use the attached CityNexus MVP Implementation Blueprint v0.1 as the implementation contract.
+
+Do not redesign the architecture or reopen Visio routing work. First read CODEX_START_HERE.md, 00_SOURCE_AND_SCOPE.md and 09_WORK_PACKAGES.md. Perform WP00 read-only reconciliation against the actual local v0.4.2 RC3 domain YAML and requirements v0.3. Do not modify frozen baselines.
+
+Then execute work packages in order. For the first milestone, implement only WP00-WP03 and stop with a checkpoint package after tests pass. Reuse api/openapi.yaml, db/schema.sql, state-machines/state_machines.yaml, mock fixtures and the replanning reference/tests rather than rewriting them.
+
+Critical invariants: hard constraints are non-negotiable; locked commitments are preserved; deterministic feasibility is authoritative; AI is optional; user confirmation is required before replan activation; planning modes are balanced/budget/explore/strict_schedule.
+
+Do not spend quota on real payment/booking providers, microservices, production OAuth or completing all 138 requirements before the vertical slice works.

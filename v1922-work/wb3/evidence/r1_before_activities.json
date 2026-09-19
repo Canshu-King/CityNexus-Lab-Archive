@@ -1,0 +1,35 @@
+{
+  "plan_id": "ee14668f-faa7-4c04-b604-18139ea00d9b",
+  "activities": [
+    {
+      "id": "ee14668f-a1",
+      "place_id": null,
+      "city_service_id": null,
+      "semantic_key": null,
+      "title": "Gulangyu Pier Meetup",
+      "type": "ATTRACTION",
+      "start_at": "2026-09-17T13:03:47+00:00",
+      "locked": false
+    },
+    {
+      "id": "ee14668f-a2",
+      "place_id": null,
+      "city_service_id": null,
+      "semantic_key": null,
+      "title": "鼓浪屿风琴博物馆(临时展馆)",
+      "type": "ATTRACTION",
+      "start_at": "2026-09-17T15:33:47+00:00",
+      "locked": false
+    },
+    {
+      "id": "ee14668f-a3",
+      "place_id": null,
+      "city_service_id": null,
+      "semantic_key": null,
+      "title": "Longtou Road Lunch",
+      "type": "FOOD",
+      "start_at": "2026-09-17T18:03:47+00:00",
+      "locked": false
+    }
+  ]
+}

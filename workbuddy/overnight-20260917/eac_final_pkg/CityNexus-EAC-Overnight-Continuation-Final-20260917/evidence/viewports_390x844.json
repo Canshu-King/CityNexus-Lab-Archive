@@ -1,0 +1,47 @@
+{
+ "viewport": {
+  "name": "390x844",
+  "width": 390,
+  "height": 844,
+  "dpr": 2
+ },
+ "screens": [
+  {
+   "viewport": "390x844",
+   "route": "/v8/hub",
+   "chars": 90,
+   "sample": "菜单 / 今天 EN XI 下午好 厦门之旅 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 EN 试用其他城市 AI 帮我规划 打开行程工作台 "
+  },
+  {
+   "viewport": "390x844",
+   "route": "/v8/trips",
+   "chars": 90,
+   "sample": "菜单 / 行程 EN XI 行程 住宿 预订 花费 行程 3 天行程 逐日安排。已确认的预订会被标记为受保护。 11月6日周五 7 项 11月7日周六 5 项 11月8日周日 2 "
+  },
+  {
+   "viewport": "390x844",
+   "route": "/v8/map",
+   "chars": 90,
+   "sample": "菜单 / 地图 EN XI 地图 · 一目了然 整座城市，行程叠加其上。 采集的路线几何和供应商事实在你穿越行程时始终可见。 对比出行方式 1 2 3 4 5 6 7 8 9 10"
+  },
+  {
+   "viewport": "390x844",
+   "route": "/v8/live",
+   "chars": 90,
+   "sample": "菜单 / 实时行程 EN XI 正在进行 现在的行程 下一站：厦门高崎国际机场 发生了什么 有一处地点临时关闭 当前没有需要你决定的调整。 实时行程 · 已保存 9月17日 11:"
+  },
+  {
+   "viewport": "390x844",
+   "route": "/v8/me",
+   "chars": 90,
+   "sample": "菜单 / 我的 EN XI 我的 · 权限边界 你的偏好，你的边界。 CityNexus 在采取行动前，让委托自主权的范围清晰可见。 当前模式 ADVISORY 版本 1。 操作暂"
+  },
+  {
+   "viewport": "390x844",
+   "route": "/v8/agent(dock-open)",
+   "chars": 1,
+   "sample": "dock open"
+  }
+ ],
+ "errors": []
+}

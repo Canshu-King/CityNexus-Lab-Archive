@@ -1,0 +1,101 @@
+{
+ "beforeClick": {
+  "url": "http://127.0.0.1:4193/v8/hub",
+  "bodyText": "CN\nCityNexus\nJOURNEY INTELLIGENCE\n中文\n\nTRY CITYNEXUS WITH YOUR OWN CITY\n\nStart a real journey, not only the Tianjin demo.\n\nChoose your destination and travel anchors. Non-Tianjin journeys use live city providers when enabled; CityNexus will not silently substitute Tianjin replay data.\n\nGeneric-city trial\nFor cities without a sealed replay, use live providers. If providers are unavailable, CityNexus",
+  "buttons": [
+   "中文",
+   "Use the sealed Tianjin demo",
+   "Create journey"
+  ],
+  "links": []
+ },
+ "afterClick": {
+  "url": "http://127.0.0.1:4193/v8/discover",
+  "bodyText": "CN\nCityNexus\nJOURNEY INTELLIGENCE\nWORKSPACE\nTrip operations\nTODAY\nJourney Hub\nLive Journey\nMap\nPLAN\nTrip Studio\nStay Explorer\nCity Discovery\nTRAVEL\nTravel Wallet\nCopilot\nSYSTEM\nRecovery\nIntelligence\nTraveler Twin\nJourney facts synced\n4 plans · 5 modes\nTI\nTianjin\n2 travelers\n•••\nJourneys\n/\nCity Discovery\nJourney facts ready\n中文\n◌\nTI\n\nGROUNDED CITY DISCOVERY\n\nAsk for the kind of city day you actually want.\n\nDeepSeek interprets the meaning. CityNexus supplies the coordinates, provider evidence, commitments, and feasible PlanVersion.\n\nSealed real replay\nCN / DISCOVERY\nShape the city stop\n\nDescribe ",
+  "buttons": [
+   "Journey Hub",
+   "Live Journey",
+   "Map",
+   "Trip Studio",
+   "Stay Explorer",
+   "City Discovery",
+   "Travel Wallet",
+   "Copilot",
+   "Recovery",
+   "Intelligence",
+   "Traveler Twin",
+   "TI\nTianjin\n2 travelers\n•••",
+   "Menu",
+   "中文",
+   "◌",
+   "TI",
+   "Discover and compose",
+   "✦\nCityNexus Copilot",
+   "Today",
+   "Map",
+   "Copilot",
+   "Wallet",
+   "Me"
+  ],
+  "links": []
+ },
+ "routes": {
+  "hub": {
+   "url": "http://127.0.0.1:4193/v8/hub",
+   "textLength": 1315,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 6
+  },
+  "live": {
+   "url": "http://127.0.0.1:4193/v8/live",
+   "textLength": 1159,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 6
+  },
+  "map": {
+   "url": "http://127.0.0.1:4193/v8/map",
+   "textLength": 696,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 4
+  },
+  "studio": {
+   "url": "http://127.0.0.1:4193/v8/studio",
+   "textLength": 1219,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 4
+  },
+  "bookings": {
+   "url": "http://127.0.0.1:4193/v8/bookings",
+   "textLength": 1366,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 1,
+   "statusChips": 3
+  },
+  "agent": {
+   "url": "http://127.0.0.1:4193/v8/agent",
+   "textLength": 1224,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 4
+  },
+  "authoritative": {
+   "url": "http://127.0.0.1:4193/v8/authoritative",
+   "textLength": 656,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 4
+  },
+  "twin": {
+   "url": "http://127.0.0.1:4193/v8/twin",
+   "textLength": 915,
+   "head": "CN CityNexus JOURNEY INTELLIGENCE WORKSPACE Trip operations TODAY Journey Hub Live Journey Map PLAN Trip Studio Stay Explorer City Discovery TRAVEL Travel Wallet Copilot SYSTEM Recovery Intelligence Traveler Twin Journey facts synced 4 plans · 5 modes TI Tianj",
+   "inputs": 0,
+   "statusChips": 3
+  }
+ },
+ "consoleErrors": []
+}

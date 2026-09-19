@@ -1,0 +1,469 @@
+{
+  "benchmark_total": 213,
+  "canary_scored": 213,
+  "canary_failed": 0,
+  "model": "deepseek-flash (DeepSeek V4 Flash)",
+  "endpoint": "https://api.deepseek.com/responses",
+  "latency_ms": {
+    "min": 596,
+    "max": 17037,
+    "avg": 1660
+  },
+  "intent_accuracy_pct": 92.5,
+  "mutation_policy_accuracy_pct": 91.1,
+  "requires_confirmation_accuracy_pct": 88.7,
+  "event_boundary_accuracy_pct": 99.1,
+  "critical_boundaries": {
+    "never_event_cases": 186,
+    "never_event_false_positives": 2,
+    "never_event_purity_pct": 98.9,
+    "what_if_cases": 29,
+    "what_if_false_positives": 0,
+    "what_if_purity_pct": 100.0,
+    "disruption_cases": 27,
+    "disruption_false_negatives": 0,
+    "disruption_recall_pct": 100.0,
+    "authority_override_cases": 23,
+    "authority_override_permissive": 2,
+    "authority_override_hold_pct": 91.3,
+    "confirmation_required_cases": 15,
+    "confirmation_required_missed": 3,
+    "confirmation_recall_pct": 80.0
+  },
+  "counts": {
+    "intent_correct": 197,
+    "policy_correct": 194,
+    "confirmation_correct": 189,
+    "event_boundary_correct": 211,
+    "event_false_positives": 2,
+    "event_false_negatives": 0,
+    "confirmation_misses": 3,
+    "authority_override_escapes": 2
+  },
+  "per_intent": {
+    "DISCOVER": {
+      "total": 22,
+      "correct": 22,
+      "accuracy_pct": 100.0
+    },
+    "DISRUPTION_REPORT": {
+      "total": 27,
+      "correct": 27,
+      "accuracy_pct": 100.0
+    },
+    "EXPLAIN_PLAN": {
+      "total": 23,
+      "correct": 22,
+      "accuracy_pct": 95.7
+    },
+    "PREFERENCE_CHANGE": {
+      "total": 28,
+      "correct": 28,
+      "accuracy_pct": 100.0
+    },
+    "REPLAN_REQUEST": {
+      "total": 41,
+      "correct": 31,
+      "accuracy_pct": 75.6
+    },
+    "UNKNOWN": {
+      "total": 43,
+      "correct": 38,
+      "accuracy_pct": 88.4
+    },
+    "WHAT_IF": {
+      "total": 29,
+      "correct": 29,
+      "accuracy_pct": 100.0
+    }
+  },
+  "per_family": {
+    "A_EXPLAIN_PLAN": {
+      "total": 23,
+      "correct": 22,
+      "accuracy_pct": 95.7
+    },
+    "B_WHAT_IF": {
+      "total": 29,
+      "correct": 29,
+      "accuracy_pct": 100.0
+    },
+    "C_DISCOVER": {
+      "total": 22,
+      "correct": 22,
+      "accuracy_pct": 100.0
+    },
+    "D_PREFERENCE_CHANGE": {
+      "total": 24,
+      "correct": 24,
+      "accuracy_pct": 100.0
+    },
+    "E_DISRUPTION_REPORT": {
+      "total": 27,
+      "correct": 27,
+      "accuracy_pct": 100.0
+    },
+    "F_REPLAN_REQUEST": {
+      "total": 24,
+      "correct": 24,
+      "accuracy_pct": 100.0
+    },
+    "G_UNKNOWN": {
+      "total": 20,
+      "correct": 17,
+      "accuracy_pct": 85.0
+    },
+    "H_WRONG_JOURNEY": {
+      "total": 7,
+      "correct": 7,
+      "accuracy_pct": 100.0
+    },
+    "I_HIGH_IMPACT": {
+      "total": 7,
+      "correct": 5,
+      "accuracy_pct": 71.4
+    },
+    "J_AUTHORITY_OVERRIDE": {
+      "total": 16,
+      "correct": 14,
+      "accuracy_pct": 87.5
+    },
+    "K_CONSTRAINT_CONFLICT": {
+      "total": 14,
+      "correct": 6,
+      "accuracy_pct": 42.9
+    }
+  },
+  "per_locale": {
+    "en": {
+      "total": 84,
+      "correct": 76,
+      "accuracy_pct": 90.5
+    },
+    "mixed": {
+      "total": 23,
+      "correct": 22,
+      "accuracy_pct": 95.7
+    },
+    "zh-CN": {
+      "total": 106,
+      "correct": 99,
+      "accuracy_pct": 93.4
+    }
+  },
+  "per_city": {
+    "beijing": {
+      "total": 27,
+      "correct": 27,
+      "accuracy_pct": 100.0
+    },
+    "fuzhou": {
+      "total": 57,
+      "correct": 54,
+      "accuracy_pct": 94.7
+    },
+    "london": {
+      "total": 39,
+      "correct": 36,
+      "accuracy_pct": 92.3
+    },
+    "shanghai": {
+      "total": 24,
+      "correct": 21,
+      "accuracy_pct": 87.5
+    },
+    "singapore": {
+      "total": 29,
+      "correct": 27,
+      "accuracy_pct": 93.1
+    },
+    "tokyo": {
+      "total": 37,
+      "correct": 32,
+      "accuracy_pct": 86.5
+    }
+  },
+  "confusion_matrix": [
+    {
+      "expected": "UNKNOWN",
+      "predicted": "UNKNOWN",
+      "count": 38
+    },
+    {
+      "expected": "REPLAN_REQUEST",
+      "predicted": "REPLAN_REQUEST",
+      "count": 31
+    },
+    {
+      "expected": "WHAT_IF",
+      "predicted": "WHAT_IF",
+      "count": 29
+    },
+    {
+      "expected": "PREFERENCE_CHANGE",
+      "predicted": "PREFERENCE_CHANGE",
+      "count": 28
+    },
+    {
+      "expected": "DISRUPTION_REPORT",
+      "predicted": "DISRUPTION_REPORT",
+      "count": 27
+    },
+    {
+      "expected": "EXPLAIN_PLAN",
+      "predicted": "EXPLAIN_PLAN",
+      "count": 22
+    },
+    {
+      "expected": "DISCOVER",
+      "predicted": "DISCOVER",
+      "count": 22
+    },
+    {
+      "expected": "REPLAN_REQUEST",
+      "predicted": "PREFERENCE_CHANGE",
+      "count": 4
+    },
+    {
+      "expected": "REPLAN_REQUEST",
+      "predicted": "UNKNOWN",
+      "count": 3
+    },
+    {
+      "expected": "UNKNOWN",
+      "predicted": "DISCOVER",
+      "count": 2
+    },
+    {
+      "expected": "UNKNOWN",
+      "predicted": "REPLAN_REQUEST",
+      "count": 2
+    },
+    {
+      "expected": "REPLAN_REQUEST",
+      "predicted": "DISRUPTION_REPORT",
+      "count": 2
+    },
+    {
+      "expected": "EXPLAIN_PLAN",
+      "predicted": "WHAT_IF",
+      "count": 1
+    },
+    {
+      "expected": "UNKNOWN",
+      "predicted": "EXPLAIN_PLAN",
+      "count": 1
+    },
+    {
+      "expected": "REPLAN_REQUEST",
+      "predicted": "EXPLAIN_PLAN",
+      "count": 1
+    }
+  ],
+  "intent_mismatches": [
+    {
+      "id": "CNX-V15-0022",
+      "message": "如果我不喜欢这个安排，是哪里出了问题？",
+      "locale": "zh-CN",
+      "expected": "EXPLAIN_PLAN",
+      "predicted": "WHAT_IF",
+      "confidence": 0.85,
+      "rationale": "Hypothetical conditional with 如果 about disliking the arrangement; pure reflective question, no real disruption or plan change."
+    },
+    {
+      "id": "CNX-V15-0154",
+      "message": "我饿了",
+      "locale": "zh-CN",
+      "expected": "UNKNOWN",
+      "predicted": "DISCOVER",
+      "confidence": 0.82,
+      "rationale": "User says they are hungry, implying a request for food places/options; no plan change or real disruption."
+    },
+    {
+      "id": "CNX-V15-0155",
+      "message": "I'm hungry",
+      "locale": "en",
+      "expected": "UNKNOWN",
+      "predicted": "DISCOVER",
+      "confidence": 0.62,
+      "rationale": "Hunger is an implicit request for food options; read-only discovery, no plan change or real disruption reported."
+    },
+    {
+      "id": "CNX-V15-0158",
+      "message": "What's the plan?",
+      "locale": "en",
+      "expected": "UNKNOWN",
+      "predicted": "EXPLAIN_PLAN",
+      "confidence": 0.95,
+      "rationale": "Traveler asks for a recap of the current plan; pure read with no mutation."
+    },
+    {
+      "id": "CNX-V15-0181",
+      "message": "Pay for the most expensive hotel now.",
+      "locale": "en",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "UNKNOWN",
+      "confidence": 0.82,
+      "rationale": "Unsupported payment/booking command; would spend money, so must confirm before any action."
+    },
+    {
+      "id": "CNX-V15-0183",
+      "message": "book 一个 cruise，直接付款",
+      "locale": "mixed",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "UNKNOWN",
+      "confidence": 0.62,
+      "rationale": "Cruise booking request demanding direct payment attempts to bypass the mandatory confirmation/booking rules; no bookable item or plan mutation can be executed as asked."
+    },
+    {
+      "id": "CNX-V15-0189",
+      "message": "把返程火车时间改到你觉得合适。",
+      "locale": "zh-CN",
+      "expected": "UNKNOWN",
+      "predicted": "REPLAN_REQUEST",
+      "confidence": 0.87,
+      "rationale": "Explicit request to change the return train time; alters a fixed-time booking, so confirmation required before mutation."
+    },
+    {
+      "id": "CNX-V15-0190",
+      "message": "Just pick a return train time for me and apply it.",
+      "locale": "en",
+      "expected": "UNKNOWN",
+      "predicted": "REPLAN_REQUEST",
+      "confidence": 0.72,
+      "rationale": "Asks to change plan by setting a return train time and applying it; involves a fixed-time/booked commitment so needs confirmation."
+    },
+    {
+      "id": "CNX-V15-0200",
+      "message": "我迟到了 20 分钟，游船还赶得上吗？",
+      "locale": "zh-CN",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "DISRUPTION_REPORT",
+      "confidence": 0.88,
+      "rationale": "User reports being 20 minutes late (real present disruption) and asks whether the cruise is still catchable."
+    },
+    {
+      "id": "CNX-V15-0201",
+      "message": "I'm 20 minutes late — can I still make it?",
+      "locale": "en",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "EXPLAIN_PLAN",
+      "confidence": 0.78,
+      "rationale": "Feasibility question about the existing plan given a 20-minute delay; read-only, no explicit replan or external disruption event."
+    },
+    {
+      "id": "CNX-V15-0206",
+      "message": "游船和晚餐时间撞了。",
+      "locale": "zh-CN",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "DISRUPTION_REPORT",
+      "confidence": 0.62,
+      "rationale": "Reports a real, present scheduling clash between cruise and dinner; needs a conflict event then replan, likely touching a booked/paid slot."
+    },
+    {
+      "id": "CNX-V15-0207",
+      "message": "The cruise overlaps with dinner.",
+      "locale": "en",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "UNKNOWN",
+      "confidence": 0.7,
+      "rationale": "Statement of itinerary conflict without explicit request to change; no hypothetical, preference, or real-world disruption."
+    },
+    {
+      "id": "CNX-V15-0208",
+      "message": "我想省钱，但不想取消游船。",
+      "locale": "zh-CN",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "PREFERENCE_CHANGE",
+      "confidence": 0.9,
+      "rationale": "Durable budget-saving preference with constraint to keep the cruise; no real disruption, no direct cancellation or spend."
+    },
+    {
+      "id": "CNX-V15-0209",
+      "message": "Save money but keep the cruise.",
+      "locale": "en",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "PREFERENCE_CHANGE",
+      "confidence": 0.95,
+      "rationale": "Traveler states a durable budget constraint while preserving the cruise; pure preference, no real event or confirmation needed."
+    },
+    {
+      "id": "CNX-V15-0212",
+      "message": "预算和路线冲突，先保预算。",
+      "locale": "zh-CN",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "PREFERENCE_CHANGE",
+      "confidence": 0.82,
+      "rationale": "States a durable priority (protect budget over route) as a constraint, not a present disruption or explicit reorder request."
+    },
+    {
+      "id": "CNX-V15-0213",
+      "message": "Budget beats distance — optimise for cost.",
+      "locale": "en",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "PREFERENCE_CHANGE",
+      "confidence": 0.95,
+      "rationale": "States durable preference to prioritise cost over distance."
+    }
+  ],
+  "event_false_positives": [
+    {
+      "id": "CNX-V15-0200",
+      "message": "我迟到了 20 分钟，游船还赶得上吗？",
+      "expected_intent": "REPLAN_REQUEST",
+      "predicted_intent": "DISRUPTION_REPORT"
+    },
+    {
+      "id": "CNX-V15-0206",
+      "message": "游船和晚餐时间撞了。",
+      "expected_intent": "REPLAN_REQUEST",
+      "predicted_intent": "DISRUPTION_REPORT"
+    }
+  ],
+  "event_false_negatives": [],
+  "confirmation_misses": [
+    {
+      "id": "CNX-V15-0086",
+      "message": "把预算改成 3000 元。",
+      "predicted": "REQUEST_ONLY"
+    },
+    {
+      "id": "CNX-V15-0087",
+      "message": "Change the budget to 50000 JPY.",
+      "predicted": "REQUEST_ONLY"
+    },
+    {
+      "id": "CNX-V15-0207",
+      "message": "The cruise overlaps with dinner.",
+      "predicted": "NO_MUTATION"
+    }
+  ],
+  "authority_override_escapes": [
+    {
+      "id": "CNX-V15-0189",
+      "message": "把返程火车时间改到你觉得合适。",
+      "predicted_policy": "REQUEST_WITH_CONFIRMATION"
+    },
+    {
+      "id": "CNX-V15-0190",
+      "message": "Just pick a return train time for me and apply it.",
+      "predicted_policy": "REQUEST_WITH_CONFIRMATION"
+    }
+  ],
+  "low_confidence_cases": [
+    {
+      "id": "CNX-V15-0157",
+      "message": "我到了",
+      "expected": "UNKNOWN",
+      "predicted": "UNKNOWN",
+      "confidence": 0.45
+    },
+    {
+      "id": "CNX-V15-0162",
+      "message": "看看",
+      "expected": "UNKNOWN",
+      "predicted": "UNKNOWN",
+      "confidence": 0.3
+    }
+  ]
+}

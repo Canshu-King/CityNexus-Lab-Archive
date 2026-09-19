@@ -1,0 +1,26 @@
+You are continuing the CityNexus DSH EAC V19 Capability Experience task at the scheduled noon half-price API window.
+
+Workspace root (write here only):
+D:\moodle\CityNexus-Tools\DSH-EAC-V19-CapabilityExperience-20260915
+
+Read-only reference (never modify, never run write commands there):
+D:\moodle\CityNexus
+
+The package already contains:
+- citynexus_eac_v19_capability_experience task docs
+- reference-app (Vite React lab)
+- patches/01..04 low-conflict additive patches
+- tests/ Playwright spec and config
+- evidence/screenshots and results
+- CAPABILITY_UI_CONTRACT.md, ACCESSIBILITY_EVIDENCE_UX.md, MOBILE_CAPABILITY_UX.md, A11Y_VALIDATION.md, CODEX_MERGE_GUIDE_V19.md
+
+Continue autonomously, without asking the user questions:
+1. Re-read the task docs and verify all requested surfaces exist: Journey Setup, Copilot Detected Needs confirmation, HARD/STRONG/SOFT, Traveler/Journey scope, evidence states, plan explanation, recovery diff, TravelerTwin presentation, mobile shield, map markers, keyboard/screen-reader/200% zoom/reduced motion.
+2. Run TypeScript, production build, and Playwright. Fix issues only inside the workspace root.
+3. Verify patches with `git apply --check` from D:\moodle\CityNexus; do not write to the main worktree.
+4. Keep `UNKNOWN != ACCESSIBLE`; no green check for missing evidence.
+5. Never write localStorage as planning authority.
+6. Do not overwrite main.tsx/router/LocaleProvider; keep patches additive.
+7. Ensure the final zip exists at:
+   D:\moodle\CityNexus-Tools\CityNexus-DSH-EAC-V19-CapabilityExperience-20260915.zip
+8. Append concise findings to evidence/noon_codex_notes.md, including anything you changed and any remaining honest boundary.

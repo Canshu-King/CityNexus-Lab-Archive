@@ -1,0 +1,9 @@
+{
+ "cta_present": true,
+ "cta_label": "Plan my trip with AI",
+ "sheet_open": true,
+ "result": "AI is unavailable right now\n\nThe planning assistant could not be reached. Your trip is unchanged; you can retry.\n\nTechnical detail",
+ "reason": "",
+ "leaks_enum": false,
+ "errors": []
+}

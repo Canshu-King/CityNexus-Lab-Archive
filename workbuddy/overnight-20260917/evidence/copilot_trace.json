@@ -1,0 +1,71 @@
+{
+  "trace": [
+    {
+      "ts": "2026-09-16T18:44:49.248Z",
+      "step": "shot",
+      "n": "00_today_check",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_00_today_check.png"
+    },
+    {
+      "ts": "2026-09-16T18:44:49.263Z",
+      "step": "today_text",
+      "sample": "菜单 / 今天 EN CN ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的"
+    },
+    {
+      "ts": "2026-09-16T18:44:51.863Z",
+      "step": "shot",
+      "n": "01_dock_open",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_01_dock_open.png"
+    },
+    {
+      "ts": "2026-09-16T18:44:51.867Z",
+      "step": "inputs_after_open",
+      "count": 1
+    },
+    {
+      "ts": "2026-09-16T18:44:51.870Z",
+      "step": "dock_text",
+      "sample": "菜单 / 今天 EN CN CityNexus Copilot DeepSeek 语义 · Hermes 真实事件 · CityNexus 真相 × Semantic: DeepSeek Execution: DIRECT Truth: CityNexus 问我为什么这样安排、试算变化，或报告已经确认的中断。 询问 Copilot 今天 行程 地图 Copilot 我的"
+    },
+    {
+      "ts": "2026-09-16T18:44:51.935Z",
+      "step": "shot",
+      "n": "02_filled",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_02_filled.png"
+    },
+    {
+      "ts": "2026-09-16T18:44:53.959Z",
+      "step": "send_fallback",
+      "note": "clicked send-like button"
+    },
+    {
+      "ts": "2026-09-16T18:45:42.165Z",
+      "step": "shot",
+      "n": "03_reply",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_03_reply.png"
+    },
+    {
+      "ts": "2026-09-16T18:45:42.168Z",
+      "step": "reply_scan",
+      "leaks": {
+        "DeepSeek": true,
+        "Hermes": true
+      },
+      "buttons": [
+        "菜单",
+        "EN",
+        "CN",
+        "×",
+        "询问 Copilot",
+        "今天",
+        "行程",
+        "地图",
+        "Copilot",
+        "我的"
+      ],
+      "replySnippet": "",
+      "bodySample": "菜单 / 今天 EN CN CityNexus Copilot DeepSeek 语义 · Hermes 真实事件 · CityNexus 真相 × Semantic: DeepSeek Execution: DIRECT Truth: CityNexus 问我为什么这样安排、试算变化，或报告已经确认的中断。 询问 Copilot 今天 行程 地图 Copilot 我的"
+    }
+  ],
+  "consoleErrors": []
+}

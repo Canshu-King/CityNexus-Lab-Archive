@@ -1,0 +1,9 @@
+import { useState } from "react";
+import type { V8Data } from "../../app/v8Types";
+import { useT } from "../../i18n/LocaleContext";
+
+export function AgentComposer({ data, onSubmit, busy }: { data: V8Data; onSubmit: (command: string) => Promise<void>; busy: boolean }) {
+  const t = useT();
+  const [command, setCommand] = useState(t("agent.defaultMission"));
+  return <section className="v8-page" data-testid="v8-agent-composer"><div className="v8-page-intro compact"><div><p className="v8-kicker">{t("agent.kicker")}</p><h1>{t("agent.title")}</h1><p className="v8-lede">{t("agent.lede")}</p></div><span className="v8-status-pill violet">{data.traveler_twin?.learned_soft_dimensions?.length ? t("agent.twinActive") : t("agent.twinReady")}</span></div><div className="v8-agent-composer-card"><div className="v8-agent-copy"><span className="v8-agent-mark">{t("agent.brand")}</span><h2>{t("agent.whatChange")}</h2><p>{t("agent.whatChangeSub")}</p><div className="v8-agent-boundary"><b>{t("agent.authorityBoundary")}</b><span>{t("agent.boundarySub")}</span></div></div><div className="v8-agent-input"><label htmlFor="v8-agent-input">{t("agent.mission")}</label><textarea id="v8-agent-input" value={command} onChange={(event) => setCommand(event.target.value)} data-testid="v8-agent-input" /><div className="v8-agent-toolbar"><span>{t("agent.journeyPrefix")} {data.journey.title}</span><button className="v8-primary" data-testid="v8-agent-submit" disabled={busy || command.trim().length < 8} onClick={() => void onSubmit(command)}>{busy ? t("agent.working") : t("agent.handlePlan")}</button></div></div></div><div className="v8-agent-progress"><span className="v8-kicker">{t("agent.recentUnderstanding")}</span><div><b>{t("agent.stayMobility")}</b><span>{t("agent.staySummary")}</span></div><div><b>{t("agent.protected")}</b><span>{t("agent.protectedSummary")}</span></div></div></section>;
+}

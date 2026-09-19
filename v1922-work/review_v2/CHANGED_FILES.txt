@@ -1,0 +1,95 @@
+CHANGED_FILES.txt
+=================
+Package: CityNexus-EAC-Review-20260918.zip
+Round:  CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-v2
+Date:   2026-09-18
+Base:    CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-v2-20260918.zip
+
+This package contains ONLY the changes listed below, plus evidence. No
+frontend vNext work and no unrelated architecture work was started.
+
+------------------------------------------------------------------
+1. PHYSICAL VENUE IDENTITY (the real defect behind the false "recovered")
+------------------------------------------------------------------
+FILE: backend/app/replanning/mock_replan_engine.py
+WHY:  A closed venue must never be offered as its own replacement.
+      One physical venue can exist as two Place rows:
+        * a domain wrapper (provider citynexus-v9-domain,
+          external_id "CN-XIAMEN:real-place-<hex>")
+        * the provider row it wraps (provider overpass)
+      They have different ids but identical coordinates and cross-referencing
+      identifiers. Excluding candidates by id alone let a replan "replace" a
+      closed restaurant with that same restaurant under a new id: the plan
+      looked recovered, the diff was minimal, and the traveller was still
+      sent to a closed venue.
+ADDED:
+  - _coordinates(place)
+  - _identity_tokens(place)         tokenises id + external_id (>=8 chars, has a digit)
+  - is_same_physical_venue(left, right)
+      true when: same id, OR identical rounded coordinates, OR shared identity token
+  - rank_closure_replacements(..., occupied_places=None)
+      new optional argument; candidates are now also excluded when they are
+      physically the same venue as an already-used stop.
+CHANGED:
+  - the exclusion loop now uses is_same_physical_venue instead of id equality.
+
+FILE: backend/app/main.py
+WHY:  both replan call sites must supply the rows, not just the ids, so the
+      physical check can run.
+CHANGED:
+  - generate_replan(): passes occupied_places=[...] to rank_closure_replacements
+    (closure/weather candidate family, ~line 6731)
+  - the per-slot candidate loop builds occupied_places once (~line 6874) and
+    passes it to every rank_closure_replacements call (~line 6898)
+
+------------------------------------------------------------------
+2. HARNESS FALSE POSITIVE (same family as the R1-a "None in {None}" bug)
+------------------------------------------------------------------
+FILE: D:/moodle/_v1922_work/run_final_v2.cjs   (evidence harness, not shipped product)
+WHY:  the closed-place assertion was
+        postActs.some((a) => (a.place_id ?? null) === targetPlace)
+      but the /experience payload has NO top-level place_id -- it exposes
+      identity through metadata.semantic_key. So targetPlace was always null
+      and the assertion degenerated to "does any activity have a null
+      place_id", which is trivially true. It reported
+      closedPlaceReappeared=true on every run, including correct ones, and
+      simultaneously hid the real defect in item 1.
+CHANGED:
+  - compares metadata.semantic_key via semOf(a) instead of place_id
+  - records closed_place_reappeared_checked_via = "metadata.semantic_key"
+  - removed a dangling closedPlaceStillPresent reference in the log line
+
+------------------------------------------------------------------
+3. REGRESSION TESTS
+------------------------------------------------------------------
+FILE: backend/tests/test_hotfix_v2_closure_truth.py  (extended)
+ADDED (R1-d, 3 tests + 2 helpers):
+  - test_wrapper_and_provider_row_are_one_venue
+  - test_closed_venue_is_not_its_own_replacement
+  - test_occupied_venue_is_not_reused_under_another_id
+FILE NOW CONTAINS 14 TESTS, ALL PASSING.
+
+------------------------------------------------------------------
+4. NOT FIXED - DOCUMENTED ONLY
+------------------------------------------------------------------
+FILE: MOCK_MOBILITY_LIMITATION.md (this package)
+The replan path prices every NEW leg at the mock fixture's constant
+default_minutes = 20 (data/mock/mobility_matrix.json has only 9 real routes).
+That inflated travel shifts unlocked rows into the pinned check-in, so the
+deterministic gate correctly returns 422 ACTIVITY_OVERLAP /
+INSUFFICIENT_TRAVEL_GAP for 7 of 8 mutable stops. Root cause identified and
+evidenced; deliberately NOT changed in this package (see the file).
+
+------------------------------------------------------------------
+FILES IN THIS PACKAGE
+------------------------------------------------------------------
+  MOCK_MOBILITY_LIMITATION.md          root cause of the 422, with options
+  MOCK_MOBILITY_FIXTURE.json           the fixture showing default_minutes=20
+  REPLAN_422_INSTRUMENTATION.txt       115 calls, all = 20; gate failures
+  AUTONOMOUS_CYCLE_1.md                subagent verdict: CONFIRMED_DEFECT
+  AUTONOMOUS_CYCLE_2.md                subagent verdict: CONFIRMED_DEFECT
+  AUTONOMOUS_CYCLE_3.md                subagent verdict: NOT_REPRODUCIBLE
+  AUTONOMOUS_CYCLE_4.md                subagent verdict: CONFIRMED_DEFECT
+  AUTONOMOUS_CYCLE_5.md                subagent verdict: CONFIRMED_DEFECT
+  TEST_RESULTS.md                      backend suite result
+  CHANGED_FILES.txt                    this file

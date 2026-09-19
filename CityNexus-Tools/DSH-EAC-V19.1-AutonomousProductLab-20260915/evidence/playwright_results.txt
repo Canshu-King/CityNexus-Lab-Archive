@@ -1,0 +1,22 @@
+[WebServer] INFO:     Started server process [2196]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8052 (Press CTRL+C to quit)
+[WebServer] (node:42184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:45368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\v19_1_shadow.spec.ts:15:1 › LIVE_SHADOW uses isolated backend and labels source honestly (609ms)
+  ok 2 tests\v19_1_shadow.spec.ts:30:1 › RECORDED_FIXTURE and OFFLINE_STALE never retain the LIVE_SHADOW label (591ms)
+  ok 3 tests\v19_1_shadow.spec.ts:43:1 › provider evidence unknown state remains non-green and traceable (358ms)
+  ok 4 tests\v19_1_shadow.spec.ts:55:1 › mobile 390x844 keeps capability shield action reachable (485ms)
+  ok 5 tests\v19_1_shadow.spec.ts:70:1 › keyboard mode controls and 200% zoom shell (556ms)
+  ok 6 tests\v19_1_shadow.spec.ts:83:1 › 430x932, 1440x900, reduced motion, and long bilingual copy (768ms)
+  ok 7 tests\v19_1_shadow.spec.ts:101:1 › axe scan of shadow capability surface (1.0s)
+
+  7 passed (8.7s)

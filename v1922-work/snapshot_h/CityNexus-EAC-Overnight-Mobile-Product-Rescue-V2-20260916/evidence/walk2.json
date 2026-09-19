@@ -1,0 +1,12 @@
+{
+ "no_journey_map": {
+  "text": "TRY CITYNEXUS WITH YOUR OWN CITY | Create a trip | Three steps. Pick a destination, tell us how you like to travel, and let CityNexus handle the rest. | 中文 | 1 | Destination & dates | 2 | Travellers &",
+  "errors": []
+ },
+ "demo_map": {
+  "empty_state": true,
+  "map_panel": false,
+  "text": "Menu | / | Map | 中文 | DE | MAP · ONE GLANCE | The city, with the plan on top. | Captured route geometry and provider facts stay visible while you move through the Journey. | Compare modes | No map loc",
+  "errors": []
+ }
+}

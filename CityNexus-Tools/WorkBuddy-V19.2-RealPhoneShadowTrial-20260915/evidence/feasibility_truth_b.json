@@ -1,0 +1,154 @@
+{
+ "snapshot": "B",
+ "snapshot_dir": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\snapshot_b",
+ "cases": [
+  {
+   "scenario": "control: no reservation",
+   "generate_status": 201,
+   "generate_failure_codes": [
+    "Deterministic provider-backed candidate"
+   ],
+   "generate_body_head": "[{\"id\": \"55523d40-cafe-5bd2-b30a-de057ec7a839\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"version_no\": 1, \"planning_mode\": \"balanced\", \"status\": \"CANDIDATE\", \"source\": \"INITIAL\", \"parent_plan_version_id\": null, \"total_cost\": {\"amount_minor\": 37000, \"currency\": \"CNY\"}, \"utility_score\": 0",
+   "plans_after_generate": 3,
+   "validator": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "feasible": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "feasible": true,
+     "failures": []
+    }
+   ],
+   "generator_produced_plans_the_validator_rejects": false,
+   "select": 200,
+   "select_body_head": "{\"id\": \"22222222-2222-4222-8222-222222222222\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"title\": \"One Day in Nexus City\", \"city_code\": \"CNX-DEMO\", \"timezone\": \"Asia/Shanghai\", \"start_at\": \"2026-10-10T09:00:00+08:00\", \"end_at\": \"2026-10-",
+   "product_let_user_select": true,
+   "booking": 422,
+   "booking_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "booking_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"activity has no supported tradable commerce service\", \"trace_id\": \"93ee8426-2697-414d-b554-00e8c0348d60\", \"details\": null}}",
+   "product_let_user_select_a_plan_it_will_not_let_them_use": true,
+   "journey_status": "PLANNED",
+   "experience": 200,
+   "twin": 200
+  },
+  {
+   "scenario": "ARRIVAL C4 (routable anchor missing)",
+   "import": 201,
+   "confirm": 200,
+   "commitment": {
+    "level": "C4_Anchored",
+    "status": "ACTIVE",
+    "semantic_key": "ea06631e-f5b4-598a-8a96-2483c271a825"
+   },
+   "generate_status": 422,
+   "generate_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "generate_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"No feasible plan candidates satisfy the journey constraints\", \"trace_id\": \"a666867e-86dc-436e-9cd6-193bc767e4b7\", \"details\": null}}",
+   "plans_after_generate": 0,
+   "validator": "no plans to validate",
+   "select": "skipped (no plans)",
+   "booking": "skipped (no plans)",
+   "journey_status": "DRAFT"
+  },
+  {
+   "scenario": "DEPARTURE C4",
+   "import": 201,
+   "confirm": 200,
+   "commitment": {
+    "level": "C4_Anchored",
+    "status": "ACTIVE",
+    "semantic_key": "21493e6c-9533-5d97-9f04-9dcf9384f2e0"
+   },
+   "generate_status": 422,
+   "generate_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "generate_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"No feasible plan candidates satisfy the journey constraints\", \"trace_id\": \"95985394-164d-44c3-813f-179f0328353a\", \"details\": null}}",
+   "plans_after_generate": 0,
+   "validator": "no plans to validate",
+   "select": "skipped (no plans)",
+   "booking": "skipped (no plans)",
+   "journey_status": "DRAFT"
+  },
+  {
+   "scenario": "control: generic compose, no reservation",
+   "generate_status": 201,
+   "generate_failure_codes": [
+    "Generic Compose Engine from explicit POIs",
+    "place-old-town",
+    "place-riverside-museum"
+   ],
+   "generate_body_head": "[{\"id\": \"a021874e-e9cc-5fd2-b4c7-1b67cb8fc6c8\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"version_no\": 1, \"planning_mode\": \"balanced\", \"status\": \"CANDIDATE\", \"source\": \"INITIAL\", \"parent_plan_version_id\": null, \"total_cost\": {\"amount_minor\": 4000, \"currency\": \"CNY\"}, \"utility_score\": 0.",
+   "plans_after_generate": 1,
+   "validator": [
+    {
+     "plan_id": "a021874e-e9cc-5fd2-b4c7-1b67cb8fc6c8",
+     "feasible": true,
+     "failures": []
+    }
+   ],
+   "generator_produced_plans_the_validator_rejects": false,
+   "select": 200,
+   "select_body_head": "{\"id\": \"22222222-2222-4222-8222-222222222222\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"title\": \"One Day in Nexus City\", \"city_code\": \"CNX-DEMO\", \"timezone\": \"Asia/Shanghai\", \"start_at\": \"2026-10-10T09:00:00+08:00\", \"end_at\": \"2026-10-",
+   "product_let_user_select": true,
+   "booking": 422,
+   "booking_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "booking_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"activity has no supported tradable commerce service\", \"trace_id\": \"0f1fc247-3376-4e2c-8060-95d03c50ee80\", \"details\": null}}",
+   "product_let_user_select_a_plan_it_will_not_let_them_use": true,
+   "journey_status": "PLANNED",
+   "experience": 200,
+   "twin": 200
+  },
+  {
+   "scenario": "capability: impossible HARD walking cap (1 m)",
+   "capability_put": 409,
+   "capability_confirm": 200,
+   "generate_status": 422,
+   "generate_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "generate_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"No feasible plan candidates satisfy the journey constraints\", \"trace_id\": \"1859257a-6c93-49af-a570-020e2d50f59d\", \"details\": null}}",
+   "plans_after_generate": 0,
+   "validator": "no plans to validate",
+   "select": "skipped (no plans)",
+   "booking": "skipped (no plans)",
+   "journey_status": "DRAFT"
+  },
+  {
+   "scenario": "capability: reasonable HARD walking cap (800 m)",
+   "capability_put": 409,
+   "capability_confirm": 200,
+   "generate_status": 422,
+   "generate_failure_codes": [
+    "VALIDATION_ERROR"
+   ],
+   "generate_body_head": "{\"error\": {\"code\": \"VALIDATION_ERROR\", \"message\": \"No feasible plan candidates satisfy the journey constraints\", \"trace_id\": \"4822b044-1d3b-4b50-b289-89d3a6edc3bf\", \"details\": null}}",
+   "plans_after_generate": 0,
+   "validator": "no plans to validate",
+   "select": "skipped (no plans)",
+   "booking": "skipped (no plans)",
+   "journey_status": "DRAFT"
+  }
+ ],
+ "summary": {
+  "split_brain_select_ok_booking_rejected": [
+   "control: no reservation",
+   "control: generic compose, no reservation"
+  ],
+  "generator_produced_plans_the_validator_rejects": [],
+  "single_feasibility_truth": false
+ }
+}

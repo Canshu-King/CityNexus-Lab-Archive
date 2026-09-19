@@ -1,0 +1,258 @@
+{
+ "snapshot": "D",
+ "snapshot_dir": "D:\\moodle\\_v1922_work\\redteam\\CityNexus-V19.2-RealPhone-Trial-Gate-20260915\\snapshot_d",
+ "anchor_matrix": [
+  {
+   "anchor_role": "ARRIVAL",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": null,
+   "generate_before_anchor": 201,
+   "plans_before_anchor": 3,
+   "validator_before_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": true,
+     "failures": []
+    }
+   ],
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "commitments_after_confirm": 1,
+   "validator_after_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+     ]
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+     ]
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+     ]
+    }
+   ],
+   "anchor_blocks_existing_plans": true,
+   "select": 422,
+   "select_body": "{\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"PlanVersion 55523d40-cafe-5bd2-b30a-de057ec7a839 is infeasible: LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor\",\"trace_id\":\"c2354b4f-952b-4d1",
+   "generate_after_anchor": 201
+  },
+  {
+   "anchor_role": "DEPARTURE",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": null,
+   "generate_before_anchor": 201,
+   "plans_before_anchor": 3,
+   "validator_before_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": true,
+     "failures": []
+    }
+   ],
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "commitments_after_confirm": 1,
+   "validator_after_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:departure-anchor"
+     ]
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:departure-anchor"
+     ]
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:departure-anchor"
+     ]
+    }
+   ],
+   "anchor_blocks_existing_plans": true,
+   "select": 422,
+   "select_body": "{\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"PlanVersion 55523d40-cafe-5bd2-b30a-de057ec7a839 is infeasible: LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:departure-anchor\",\"trace_id\":\"af8e721a-2138-4",
+   "generate_after_anchor": 201
+  },
+  {
+   "anchor_role": "MID_TRIP",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": "place-old-town",
+   "generate_before_anchor": 201,
+   "plans_before_anchor": 3,
+   "validator_before_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": true,
+     "failures": []
+    }
+   ],
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "commitments_after_confirm": 1,
+   "validator_after_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:place-old-town"
+     ]
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:place-old-town"
+     ]
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:place-old-town"
+     ]
+    }
+   ],
+   "anchor_blocks_existing_plans": true,
+   "select": 422,
+   "select_body": "{\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"PlanVersion 55523d40-cafe-5bd2-b30a-de057ec7a839 is infeasible: LOCKED_COMMITMENT_LOST:place-old-town\",\"trace_id\":\"e0c5bd03-65a0-4464-a4fe-697c1d66e979\",\"details\":null}}",
+   "generate_after_anchor": 201
+  },
+  {
+   "anchor_role": "ARRIVAL",
+   "scheduled_arrival_at": "2026-10-10T07:00:00+08:00",
+   "semantic_node_key": null,
+   "generate_before_anchor": 201,
+   "plans_before_anchor": 3,
+   "validator_before_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": true,
+     "failures": []
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": true,
+     "failures": []
+    }
+   ],
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "commitments_after_confirm": 1,
+   "validator_after_anchor": [
+    {
+     "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+     ]
+    },
+    {
+     "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+     ]
+    },
+    {
+     "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+     "passed": false,
+     "failures": [
+      "LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor"
+     ]
+    }
+   ],
+   "anchor_blocks_existing_plans": true,
+   "select": 422,
+   "select_body": "{\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"PlanVersion 55523d40-cafe-5bd2-b30a-de057ec7a839 is infeasible: LOCKED_COMMITMENT_LOST:v12:22222222-2222-4222-8222-222222222222:arrival-anchor\",\"trace_id\":\"0890abf5-9af7-47d",
+   "generate_after_anchor": 201
+  }
+ ],
+ "idempotency": {
+  "import_1": 201,
+  "import_2_same_ref": 201,
+  "import_2_body_head": "{\"id\":\"63730f9e-0bab-41ae-ac55-636d24264c0d\",\"journey_id\":\"22222222-2222-4222-8222-222222222222\",\"artifact_type\":\"STRUCTURED_JSON\",\"extracted\":{\"anchor_role\":\"DEPARTURE\",\"confirmation_ref\":\"C4R-IDEMPO",
+  "drafts_after_two_imports": 0,
+  "confirm_1": 200,
+  "commitments_after_confirm_1": 1,
+  "confirm_2_same_draft": 200,
+  "confirm_2_body_head": "{\"reservation\":{\"id\":\"b9ac76b8-777f-4738-bd12-7e808c4fb846\",\"journey_id\":\"22222222-2222-4222-8222-222222222222\",\"draft_id\":\"eb92d114-fe37-40c6-af80-cb5c27d62eaf\",\"reservation_type\":\"RAIL\",\"provider_ke",
+  "commitments_after_confirm_2": 1,
+  "confirm_other_draft": 409,
+  "commitments_after_confirm_3": 1,
+  "commitment_refs": [
+   null
+  ],
+  "one_confirmation_one_commitment": true
+ },
+ "summary": {
+  "anchors_blocking_existing_plans": [
+   "ARRIVAL@2026-10-10T12:30:00+08:00",
+   "DEPARTURE@2026-10-10T12:30:00+08:00",
+   "MID_TRIP@2026-10-10T12:30:00+08:00",
+   "ARRIVAL@2026-10-10T07:00:00+08:00"
+  ],
+  "start_statuses": {},
+  "any_start_5xx": false,
+  "one_confirmation_one_commitment": true
+ }
+}

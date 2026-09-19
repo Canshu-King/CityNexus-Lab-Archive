@@ -1,0 +1,15 @@
+{
+ "cells": 64,
+ "loaded": 64,
+ "screenshots": 64,
+ "distinctScreens": 16,
+ "horizontalOverflowCells": 0,
+ "cellsWithCapabilityVocabulary": 32,
+ "namelessStatusNodes": 248,
+ "colourOnlyStatusNodes": 0,
+ "clippedTextNodes": 24,
+ "unlabelledControls": 40,
+ "pageErrors": 0,
+ "capabilityProbeAnyRouteShowsCapability": true,
+ "capabilityProbeAnyRouteShowsEvidenceState": true
+}

@@ -1,0 +1,7 @@
+{
+  "coreTools": {"diagram_validate":"MISSING","diagram_plan":"MISSING","diagram_render":"MISSING","diagram_open_visible":"MISSING","diagram_inspect":"MISSING","diagram_quality_check":"MISSING","diagram_close":"MISSING"},
+  "executionCompatibility":"INCOMPATIBLE",
+  "guidelineCompatibility":"COMPATIBLE",
+  "globalSkillInstall":"NOT_PERFORMED",
+  "reason":"Current visio MCP exposes generic create/draw/connect/export/list/read tools but not JiaxI2 diagram_* execution interface."
+}

@@ -1,0 +1,28 @@
+{
+  "name": "citynexus-v18-experience-reference",
+  "private": true,
+  "version": "18.0.0-reference.1",
+  "type": "module",
+  "description": "Isolated CityNexus V18 Experience Reference implementation (Web + Mobile + Motion + Agent Runtime UX). No main-worktree mutation.",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/scope-css.mjs && vite build",
+    "preview": "vite preview --port 4178",
+    "test:e2e": "playwright test",
+    "serve:dist": "node scripts/serve-dist.mjs",
+    "typecheck": "tsc --noEmit",
+    "bundle:analyze": "node scripts/bundle-analysis.mjs",
+    "test:adapters": "node --experimental-strip-types scripts/adapter-contract-test.ts"
+  },
+  "dependencies": {
+    "maplibre-gl": "^5.24.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.0"
+  }
+}

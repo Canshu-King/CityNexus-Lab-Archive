@@ -1,0 +1,17 @@
+COPY_PASTE_TO_EAC.txt
+README_FIRST.md
+docs/EAC_NEXT_MISSION.md
+docs/INDEPENDENT_AUDIT.md
+docs/SAME_JOURNEY_PROOF.md
+docs/UI_CLOSURE_SPEC.md
+docs/WORKBUDDY_DELTA_PROMPT.md
+evidence/snapshot_h/10_create_step1.png
+evidence/snapshot_h/12_create_step2.png
+evidence/snapshot_h/13_create_step3.png
+evidence/snapshot_h/31_today.png
+evidence/snapshot_h/50_after_create_xiamen.png
+evidence/snapshot_h/61_copilot_sent.png
+evidence/snapshot_h/71_trips_with_plan.png
+evidence/snapshot_h/80_backend_offline.png
+evidence/snapshot_h/95_plan_compare.png
+evidence/snapshot_h/A6_live.png

@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "generated_at": "2026-09-14T17:29:02.654333",
+    "harness": "tests/semantic_policy_offline.py",
+    "repo": "D:/moodle/CityNexus-Tools/WorkBuddy-V18.1-BlackBox-20260915/repo_copy/backend"
+  },
+  "summary": {
+    "PASS": 14,
+    "FAIL": 0,
+    "NOT_TESTED": 0
+  },
+  "scenarios": [
+    {
+      "id": "F1",
+      "name": "ASSERTED NOW CLOSURE -> live Event",
+      "expected": "route=DISRUPTION_REPORT create_event=True",
+      "actual": "route=DISRUPTION_REPORT create_event=True",
+      "status": "PASS",
+      "evidence": {
+        "reason": "asserted city disruption enters the existing recovery gate"
+      }
+    },
+    {
+      "id": "F2",
+      "name": "ASSERTED FUTURE WEATHER -> live Event",
+      "expected": "route=DISRUPTION_REPORT create_event=True",
+      "actual": "route=DISRUPTION_REPORT create_event=True",
+      "status": "PASS",
+      "evidence": {
+        "reason": "asserted city disruption enters the existing recovery gate"
+      }
+    },
+    {
+      "id": "F3",
+      "name": "HYPOTHETICAL -> WHAT_IF, no Event",
+      "expected": "route=WHAT_IF create_event=False",
+      "actual": "route=WHAT_IF create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "hypothetical request remains read-only"
+      }
+    },
+    {
+      "id": "F4",
+      "name": "UNVERIFIED -> VERIFY_FACT, no Event",
+      "expected": "route=VERIFY_FACT create_event=False",
+      "actual": "route=VERIFY_FACT create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "unverified claim requires evidence before any Event"
+      }
+    },
+    {
+      "id": "F5",
+      "name": "NEGATED -> UNKNOWN, no Event",
+      "expected": "route=UNKNOWN create_event=False",
+      "actual": "route=UNKNOWN create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "negated or historical statement is not a live Event"
+      }
+    },
+    {
+      "id": "F6",
+      "name": "HISTORICAL -> UNKNOWN, no Event",
+      "expected": "route=UNKNOWN create_event=False",
+      "actual": "route=UNKNOWN create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "negated or historical statement is not a live Event"
+      }
+    },
+    {
+      "id": "F7",
+      "name": "PERSONAL -> no city Event",
+      "expected": "route=PERSONAL_ASSISTANCE create_event=False",
+      "actual": "route=PERSONAL_ASSISTANCE create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "personal assistance does not create a city Event"
+      }
+    },
+    {
+      "id": "F8",
+      "name": "ASSERTED PAST -> not a live Event",
+      "expected": "route=DISRUPTION_REPORT create_event=False",
+      "actual": "route=DISRUPTION_REPORT create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "t"
+      }
+    },
+    {
+      "id": "F9",
+      "name": "EXPLAIN_PLAN -> no Event",
+      "expected": "route=EXPLAIN_PLAN create_event=False",
+      "actual": "route=EXPLAIN_PLAN create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "reason": "t"
+      }
+    },
+    {
+      "id": "F10",
+      "name": "missing key rejected",
+      "expected": "None (rejected)",
+      "actual": "None",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "F11",
+      "name": "out-of-enum assertion rejected",
+      "expected": "None (rejected)",
+      "actual": "None",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "F12",
+      "name": "confidence out of range rejected",
+      "expected": "None (rejected)",
+      "actual": "None",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "F13",
+      "name": "semantic policy overrides substring temptation (hypothetical)",
+      "expected": "WHAT_IF / create_event=False regardless of fallback",
+      "actual": "fallback=WHAT_IF policy=WHAT_IF create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "fallback_intent": "WHAT_IF",
+        "policy_route": "WHAT_IF"
+      }
+    },
+    {
+      "id": "F14",
+      "name": "negated claim never creates a live Event",
+      "expected": "UNKNOWN / create_event=False",
+      "actual": "fallback=UNKNOWN policy=UNKNOWN create_event=False",
+      "status": "PASS",
+      "evidence": {
+        "fallback_intent": "UNKNOWN"
+      }
+    }
+  ]
+}

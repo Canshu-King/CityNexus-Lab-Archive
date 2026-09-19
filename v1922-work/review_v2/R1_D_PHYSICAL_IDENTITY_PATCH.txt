@@ -1,0 +1,147 @@
+R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=R1-d PHYSICAL VENUE IDENTITY — exact code added
+=
+
+FILE: backend/app/replanning/mock_replan_engine.py
+
+#: Decimal places used when comparing coordinates.  ~5 places is about one
+#: metre, which is finer than any two distinct venues are ever recorded.
+_COORD_QUANTUM = 5
+
+
+def _coordinates(place: Any) -> tuple[float, float] | None:
+    try:
+        return (
+            round(float(getattr(place, "latitude")), _COORD_QUANTUM),
+            round(float(getattr(place, "longitude")), _COORD_QUANTUM),
+        )
+    except (TypeError, ValueError, AttributeError):
+        return None
+
+
+def _identity_tokens(place: Any) -> set[str]:
+    """Opaque identifiers that name the physical venue behind a Place row.
+
+    A domain wrapper and the provider row it wraps are *different* Place rows
+    with different ``id`` values, so comparing ids alone cannot tell that they
+    are one venue.  The wrapper stores the provider identity inside its
+    ``external_id`` (``CN-XIAMEN:real-place-<hex>``), so tokenising both rows'
+    identifiers recovers the shared identity.  Short human labels such as a
+    city code are deliberately ignored: only tokens that carry a digit and are
+    long enough to be machine identifiers can name a venue.
+    """
+
+    tokens: set[str] = set()
+    raw_id = str(getattr(place, "id", "") or "")
+    if raw_id:
+        tokens.add(raw_id)
+    raw = str(getattr(place, "external_id", "") or "")
+    for separator in (":", "/", "|", ",", "#"):
+        raw = raw.replace(separator, " ")
+    for token in raw.split():
+        if len(token) >= 8 and any(character.isdigit() for character in token):
+            tokens.add(token)
+    return tokens
+
+
+def is_same_physical_venue(left: Any, right: Any) -> bool:
+    """Whether two Place rows describe one and the same real-world venue.
+
+    Used to keep a closed venue out of its own replacement family.  A domain
+    wrapper row and the provider row it wraps have different ids but identical
+    coordinates and cross-referencing identifiers; treating them as different
+    places let a replan "replace" a closed restaurant with that same
+    restaurant under a new id, so the plan looked recovered while the traveller
+    was still sent to a closed venue.
+    """
+
+    if left is None or right is None:
+        return False
+    if str(getattr(left, "id", "")) == str(getattr(right, "id", "")):
+        return True
+    left_coordinates = _coordinates(left)
+    right_coordinates = _coordinates(right)
+    if left_coordinates is not None and left_coordinates == right_coordinates:
+        return True
+    return bool(_identity_tokens(left) & _identity_tokens(right))
+
+
+
+------------------------------------------------------------
+
+CHANGED EXCLUSION LOOP IN rank_closure_replacements:
+
+    affected_tags = set(_json(getattr(affected_place, "tags_json", "[]"), []))
+    occupied_places = list(occupied_places or ())
+    ranked: list[tuple[tuple[Any, ...], ReplacementChoice]] = []
+    for place in candidate_places:
+        place_id = str(place.id)
+        # A closed venue must never be offered as its own replacement, and a
+        # venue already used elsewhere in the plan must not be reused.  Both
+        # checks are physical, because one venue can be stored under several
+        # id namespaces (domain wrapper vs provider row).
+        if place_id in occupied_place_ids or is_same_physical_venue(place, affected_place):
+            continue
+        if any(is_same_physical_venue(place, other) for other in occupied_places):
+            continue
+        meta = _json(getattr(place, "metadata_json", "{}"), {})
+        tags = set(_json(getattr(place, "tags_json", "[]"), []))
+   

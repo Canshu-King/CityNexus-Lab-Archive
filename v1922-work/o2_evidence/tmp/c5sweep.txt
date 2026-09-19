@@ -1,0 +1,25 @@
+hub                    zero=False within=False over=False budgetVerified=False notVerified=None 
+trips-itinerary        zero=False within=False over=False budgetVerified=False notVerified=None 
+live                   zero=False within=False over=False budgetVerified=False notVerified=None 
+map                    zero=False within=False over=False budgetVerified=False notVerified=None 
+copilot                zero=False within=False over=False budgetVerified=False notVerified=None 
+me                     zero=False within=False over=False budgetVerified=False notVerified=None 
+authoritative          zero=False within=False over=False budgetVerified=False notVerified=None 
+twin                   zero=False within=False over=False budgetVerified=False notVerified=None 
+wallet                 zero=False within=False over=False budgetVerified=False notVerified=None 
+trips-stay             zero=False within=False over=False budgetVerified=False notVerified=None 
+trips-bookings         zero=False within=False over=False budgetVerified=False notVerified=None 
+trips-spend            zero=False within=False over=False budgetVerified=False notVerified=None 
+studio                 zero=False within=False over=False budgetVerified=False notVerified=True 
+stay-explorer          zero=False within=False over=False budgetVerified=False notVerified=False
+
+backend: {"planTotalMinor": 13200, "stops": 14, "pricedStops": 0, "unknownStops": 14, "budget": {"amount_minor": 300000, "currency": "CNY"}}
+anyZeroYuan: []
+anyWithinBudgetClaim: []
+anyBudgetVerifiedClaim: []
+
+--- studio snippet ---
+CN CityNexus 行程智能 工作区 行程运营 TODAY 今天 实时行程 地图 PLAN 行程工作台 住宿选择 城市探索 TRAVEL 旅行票夹 Copilot SYSTEM 恢复与执行 智能守护 旅行者画像 行程事实已同步 10 个方案 · 5 种模式 XI Xiamen 2 位旅行者 ••• 行程 / 行程工作台 行程事实就绪 EN ◌ XI 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出
+
+--- spend snippet ---
+菜单 / 行程 EN XI 行程 住宿 预订 花费 花费 这趟旅行花多少 预算 CNY 3000；当前方案 14 个活动。 总预算 CNY 3000 住宿合计（已选） 价格未知（供应商未提供房价） 活动数量 14 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov A

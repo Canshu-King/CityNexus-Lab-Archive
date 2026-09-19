@@ -1,0 +1,6 @@
+[submodule "external/drawio-skill"]
+	path = external/drawio-skill
+	url = https://github.com/Agents365-ai/drawio-skill.git
+[submodule "external/mattpocock-skills"]
+	path = external/mattpocock-skills
+	url = https://github.com/mattpocock/skills.git

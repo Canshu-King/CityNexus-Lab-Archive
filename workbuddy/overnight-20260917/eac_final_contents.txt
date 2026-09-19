@@ -1,0 +1,51 @@
+﻿== evidence ==
+LAB_CYCLES.jsonl  2.4KB  2026/9/17 14:51:00
+LAB_PROBE_RESULTS.json  3.7KB  2026/9/17 14:47:42
+OVERNIGHT_RUN_LEDGER.jsonl  13.7KB  2026/9/17 15:05:36
+PRODUCT_ACCEPTANCE_RESULTS.md  8KB  2026/9/17 14:38:06
+run_ai.json  1.1KB  2026/9/17 1:18:48
+run_canonical_partial.json  1.1KB  2026/9/17 1:18:18
+run_chain2.json  1.1KB  2026/9/17 1:22:34
+scenario_bookingfirst.json  1.1KB  2026/9/17 11:26:34
+scenario_budget.json  2.4KB  2026/9/17 11:21:42
+scenario_degraded.json  2.6KB  2026/9/17 11:27:04
+scenario_hostile.json  2.3KB  2026/9/17 14:35:08
+scenario_longtrip.json  2.4KB  2026/9/17 11:21:44
+viewports_390x844.json  1.6KB  2026/9/17 14:36:34
+viewports_430x932.json  3.1KB  2026/9/17 14:37:06
+viewports_xiaomi13ultra-412x915.json  4.7KB  2026/9/17 14:37:38
+VIEWPORT_EVIDENCE.json  4.5KB  2026/9/17 14:37:38
+VISIBLE_UI_TRACE.json  9.7KB  2026/9/17 11:17:40
+VISIBLE_UI_TRACE_run1.json  9.7KB  2026/9/17 14:55:30
+== reports ==
+AUTONOMOUS_CYCLE_1.md
+AUTONOMOUS_CYCLE_2.md
+AUTONOMOUS_CYCLE_3.md
+AUTONOMOUS_CYCLE_4.md
+AUTONOMOUS_CYCLE_5.md
+WORKBUDDY_FINDINGS_REVALIDATION.md
+== screenshots (first 20) ==
+bookingfirst_01_created.png  2026/9/17 11:25:36
+bookingfirst_02_booking_first.png  2026/9/17 11:25:54
+bookingfirst_05_hotel.png  2026/9/17 11:26:14
+bookingfirst_08_refresh.png  2026/9/17 11:26:24
+budget_01_created.png  2026/9/17 11:20:02
+budget_03_ai.png  2026/9/17 11:20:46
+budget_04_itinerary.png  2026/9/17 11:20:56
+budget_05_hotel.png  2026/9/17 11:21:06
+budget_06_copilot.png  2026/9/17 11:21:14
+budget_07_accepted.png  2026/9/17 11:21:22
+budget_08_refresh.png  2026/9/17 11:21:32
+C1_01_root.png  2026/9/17 14:52:18
+C1_02_step1.png  2026/9/17 14:52:18
+C1_03_step2.png  2026/9/17 14:52:18
+C1_04_step3.png  2026/9/17 14:52:20
+C1_05_created.png  2026/9/17 14:52:26
+C1_06_ai.png  2026/9/17 14:52:52
+C1_07_compare.png  2026/9/17 14:52:56
+C1_08_today.png  2026/9/17 14:53:00
+C1_09_itinerary.png  2026/9/17 14:53:04
+== source top ==
+backend
+docs
+frontend

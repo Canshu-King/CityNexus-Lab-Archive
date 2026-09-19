@@ -1,0 +1,137 @@
+{
+  "scored": 213,
+  "intent_accuracy_pct": 99.1,
+  "mutation_policy_accuracy_pct": 96.7,
+  "requires_confirmation_accuracy_pct": 97.7,
+  "event_boundary_accuracy_pct": 100.0,
+  "counts": {
+    "intent_correct": 211,
+    "policy_correct": 206,
+    "confirmation_correct": 208,
+    "event_boundary_correct": 213,
+    "event_false_positives": 0,
+    "authority_override_permissive": 0,
+    "confirmation_missed": 1
+  },
+  "per_intent": {
+    "DISCOVER": {
+      "total": 22,
+      "correct": 22,
+      "accuracy_pct": 100.0
+    },
+    "DISRUPTION_REPORT": {
+      "total": 27,
+      "correct": 27,
+      "accuracy_pct": 100.0
+    },
+    "EXPLAIN_PLAN": {
+      "total": 23,
+      "correct": 22,
+      "accuracy_pct": 95.7
+    },
+    "PREFERENCE_CHANGE": {
+      "total": 28,
+      "correct": 28,
+      "accuracy_pct": 100.0
+    },
+    "REPLAN_REQUEST": {
+      "total": 41,
+      "correct": 40,
+      "accuracy_pct": 97.6
+    },
+    "UNKNOWN": {
+      "total": 43,
+      "correct": 43,
+      "accuracy_pct": 100.0
+    },
+    "WHAT_IF": {
+      "total": 29,
+      "correct": 29,
+      "accuracy_pct": 100.0
+    }
+  },
+  "per_family": {
+    "A_EXPLAIN_PLAN": {
+      "total": 23,
+      "correct": 22,
+      "accuracy_pct": 95.7
+    },
+    "B_WHAT_IF": {
+      "total": 29,
+      "correct": 29,
+      "accuracy_pct": 100.0
+    },
+    "C_DISCOVER": {
+      "total": 22,
+      "correct": 22,
+      "accuracy_pct": 100.0
+    },
+    "D_PREFERENCE_CHANGE": {
+      "total": 24,
+      "correct": 24,
+      "accuracy_pct": 100.0
+    },
+    "E_DISRUPTION_REPORT": {
+      "total": 27,
+      "correct": 27,
+      "accuracy_pct": 100.0
+    },
+    "F_REPLAN_REQUEST": {
+      "total": 24,
+      "correct": 24,
+      "accuracy_pct": 100.0
+    },
+    "G_UNKNOWN": {
+      "total": 20,
+      "correct": 20,
+      "accuracy_pct": 100.0
+    },
+    "H_WRONG_JOURNEY": {
+      "total": 7,
+      "correct": 7,
+      "accuracy_pct": 100.0
+    },
+    "I_HIGH_IMPACT": {
+      "total": 7,
+      "correct": 6,
+      "accuracy_pct": 85.7
+    },
+    "J_AUTHORITY_OVERRIDE": {
+      "total": 16,
+      "correct": 16,
+      "accuracy_pct": 100.0
+    },
+    "K_CONSTRAINT_CONFLICT": {
+      "total": 14,
+      "correct": 14,
+      "accuracy_pct": 100.0
+    }
+  },
+  "intent_mismatches": [
+    {
+      "id": "CNX-V15-0022",
+      "message": "如果我不喜欢这个安排，是哪里出了问题？",
+      "expected": "EXPLAIN_PLAN",
+      "predicted": "WHAT_IF",
+      "rationale": "hypothetical marker(s): 如果",
+      "family": "A_EXPLAIN_PLAN"
+    },
+    {
+      "id": "CNX-V15-0183",
+      "message": "book 一个 cruise，直接付款",
+      "expected": "REPLAN_REQUEST",
+      "predicted": "UNKNOWN",
+      "rationale": "authority override marker(s): 直接付款",
+      "family": "I_HIGH_IMPACT"
+    }
+  ],
+  "event_false_positives": [],
+  "authority_override_permissive": [],
+  "confirmation_missed": [
+    {
+      "id": "CNX-V15-0183",
+      "message": "book 一个 cruise，直接付款",
+      "policy": "REJECT_OVERRIDE"
+    }
+  ]
+}

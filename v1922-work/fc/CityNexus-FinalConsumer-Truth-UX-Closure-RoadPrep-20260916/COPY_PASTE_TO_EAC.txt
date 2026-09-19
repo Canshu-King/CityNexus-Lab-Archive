@@ -1,0 +1,31 @@
+Use the attached:
+
+CityNexus-FinalConsumer-Truth-UX-Closure-RoadPrep-20260916.zip
+
+together with Snapshot I:
+
+CityNexus-EAC-RealCity-Product-Closure-20260916.zip
+
+and the existing UI reference package:
+
+CityNexus-EAC-Overnight-Mobile-Product-Rescue-V2-UIReference-20260916.zip
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Read README_FIRST.md and execute docs/EAC_FINAL_CLOSURE_MISSION.md.
+
+Two newly identified truth blockers are highest priority:
+
+1. selecting a hotel currently appears to erase the real Xiamen sightseeing POIs;
+2. the accepted CLOSURE replan in Snapshot I was a no-op (`removed=0`, `added=0`).
+
+Fix those before further visual polish.
+
+Then complete the full same-Xiamen visible-UI chain, consumer order import,
+activity detail, Copilot cleanup and final visual/product closure.
+
+Do not start unrelated architecture work.
+
+Start now.

@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "lab": "V18.2 Agent Safety & Black-Box",
+    "generated_at": "2026-09-14T17:50:31.893870+00:00",
+    "families": {}
+  },
+  "summary": {
+    "PASS": 88,
+    "FAIL": 5,
+    "NOT_TESTED": 0
+  },
+  "suites": {
+    "authority_matrix": {
+      "file": "results_authority.json",
+      "summary": {
+        "PASS": 27,
+        "FAIL": 0,
+        "NOT_TESTED": 0
+      },
+      "meta": {
+        "harness": "tests/test_authority_matrix.py",
+        "repo": "D:/moodle/CityNexus-Tools/WorkBuddy-V18.2-AgentSafety-20260915/repo_copy/backend",
+        "note": "deterministic adversarial matrix over evaluate_action"
+      }
+    },
+    "agent_safety": {
+      "file": "results_agent_safety.json",
+      "summary": {
+        "PASS": 22,
+        "FAIL": 0,
+        "NOT_TESTED": 0
+      },
+      "meta": {
+        "harness": "tests/blackbox_agent_safety.py",
+        "base_url": "http://127.0.0.1:8021",
+        "journey_id": "22222222-2222-4222-8222-222222222222",
+        "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+        "fixtures": {
+          "unlocked": "3a58c470-524c-5854-aa39-6c37a350eb80",
+          "locked": "74f10240-fc4d-500e-b6ac-e520bcab1036",
+          "booking": "15871f24-e41a-422e-b81b-f79d026fd6ff",
+          "commitment": "e5f67f36-c0c6-4734-bbb0-2a9bb5141b0a",
+          "proposal": "d367ccaa-24e9-4e21-914e-d5fa75c77704"
+        },
+        "generated_at": "2026-09-14T17:43:08.748319+00:00"
+      }
+    },
+    "runtime_truth": {
+      "file": "results_runtime_truth.json",
+      "summary": {
+        "PASS": 4,
+        "FAIL": 2,
+        "NOT_TESTED": 0
+      },
+      "meta": {
+        "harness": "tests/runtime_truth.py",
+        "base_url": "http://127.0.0.1:8021",
+        "generated_at": "2026-09-14T17:44:13.306810+00:00"
+      }
+    },
+    "semantic_boundary": {
+      "file": "results_semantic_boundary.json",
+      "summary": {
+        "PASS": 17,
+        "FAIL": 0,
+        "NOT_TESTED": 0
+      },
+      "meta": {
+        "harness": "tests/semantic_boundary.py",
+        "base_url": "http://127.0.0.1:8021",
+        "journey_id": "22222222-2222-4222-8222-222222222222",
+        "generated_at": "2026-09-14T17:44:40.965496+00:00"
+      }
+    },
+    "multistep": {
+      "file": "results_multistep.json",
+      "summary": {
+        "PASS": 6,
+        "FAIL": 0,
+        "NOT_TESTED": 0
+      },
+      "meta": {
+        "harness": "tests/multistep_agent.py",
+        "base_url": "http://127.0.0.1:8021",
+        "journey_id": "22222222-2222-4222-8222-222222222222",
+        "generated_at": "2026-09-14T17:45:55.240395+00:00"
+      }
+    },
+    "frontend": {
+      "file": "results_frontend.json",
+      "summary": {
+        "PASS": 12,
+        "FAIL": 3,
+        "NOT_TESTED": 0
+      },
+      "meta": {
+        "harness": "tests/frontend_runtime_truth.mjs",
+        "base": "http://127.0.0.1:4173",
+        "viewports": [
+          "F-desktop 1440x900",
+          "F-iphone 390x844",
+          "F-iphone-max 430x932"
+        ],
+        "generated_at": "2026-09-14T17:50:22.485Z"
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+ "steps": [
+  {
+   "n": "create",
+   "v": "9036d51f-2764-4933-9b8f-d84bc053be30"
+  },
+  {
+   "n": "ai",
+   "v": "count=3"
+  },
+  {
+   "n": "choose",
+   "v": "cards=3 chosen=true"
+  },
+  {
+   "n": "hotel",
+   "v": "cards=10 chosen=true"
+  },
+  {
+   "n": "backend-base",
+   "v": "plan=5a1380ec-b8b3-47bc-94ff-87c93a61783e n=14 stay=3b966b98-afbd-4046-ae74-255bdefe35bb"
+  },
+  {
+   "n": "hub",
+   "v": "{\"todayWhen\":\"11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天\",\"todayStay\":\"厦门磐基酒店\",\"todayNext\":\"下一步 | 10:00 厦门高崎国际机场 | 今天没有安排 | 住宿 | 厦门磐基酒店 | 已确认的住宿 | 需要关注 | 一切正常 | 没\",\"tripsStops\":0,\"firstStopClock\":\"\",\"liveCurrent\":\"\",\"liveClock\":\"\",\"hotelSel\":0}"
+  },
+  {
+   "n": "trips",
+   "v": "{\"todayWhen\":\"\",\"todayStay\":\"\",\"todayNext\":\"\",\"tripsStops\":7,\"firstStopClock\":\"10:00\",\"liveCurrent\":\"\",\"liveClock\":\"\",\"hotelSel\":0}"
+  },
+  {
+   "n": "map",
+   "v": "panels=1"
+  },
+  {
+   "n": "hub-reentry",
+   "v": "{\"todayWhen\":\"11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天\",\"todayStay\":\"厦门磐基酒店\",\"todayNext\":\"下一步 | 10:00 厦门高崎国际机场 | 今天没有安排 | 住宿 | 厦门磐基酒店 | 已确认的住宿 | 需要关注 | 一切正常 | 没\",\"tripsStops\":0,\"firstStopClock\":\"\",\"liveCurrent\":\"\",\"liveClock\":\"\",\"hotelSel\":0}"
+  },
+  {
+   "n": "refresh-trips",
+   "v": "before={\"todayWhen\":\"\",\"todayStay\":\"\",\"todayNext\":\"\",\"tripsStops\":7,\"firstStopClock\":\"10:00\",\"liveCurrent\":\"\",\"liveClock\":\"\",\"hotelSel\":0} after={\"todayWhen\":\"\",\"todayStay\":\"\",\"todayNext\":\"\",\"tripsStops\":7,\"firstStopClock\":\"10:00\",\"liveCurrent\":\"\",\"liveClock\":"
+  },
+  {
+   "n": "refresh-hub",
+   "v": "before={\"todayWhen\":\"11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天\",\"todayStay\":\"厦门磐基酒店\",\"todayNext\":\"下一步 | 10:00 厦门高崎国际机场 | 今天没有安排 | 住宿 | 厦门磐基酒店 | 已确认的住宿 | 需要关注 | 一切正常 | 没\",\"tripsStops\":0,\"firstStopClock\":\"\",\"liveCurrent\":\"\",\"liveClock\":\"\",\"hotelSel\":0} after={\"to"
+  },
+  {
+   "n": "refresh-live",
+   "v": "before={\"todayWhen\":\"\",\"todayStay\":\"\",\"todayNext\":\"\",\"tripsStops\":0,\"firstStopClock\":\"\",\"liveCurrent\":\"厦门高崎国际机场\",\"liveClock\":\"10:00\",\"hotelSel\":0} after={\"todayWhen\":\"\",\"todayStay\":\"\",\"todayNext\":\"\",\"tripsStops\":0,\"firstStopClock\":\"\",\"liveCurrent\":\"厦门高崎国际机场\",\""
+  },
+  {
+   "n": "back-forward",
+   "v": "/v8/hub -> /v8/trips -> /v8/hub -> /v8/trips -> /v8/hub -> /v8/live"
+  },
+  {
+   "n": "backend-after",
+   "v": "plan=5a1380ec-b8b3-47bc-94ff-87c93a61783e n=14 stay=3b966b98-afbd-4046-ae74-255bdefe35bb"
+  },
+  {
+   "n": "integrity",
+   "v": "planSame=true stopsSame=true staySame=true"
+  },
+  {
+   "n": "clock-consistency-final",
+   "v": "{\"todayWhen\":\"11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天\",\"todayStay\":\"厦门磐基酒店\",\"todayNext\":\"下一步 | 10:00 厦门高崎国际机场 | 今天没有安排 | 住宿 | 厦门磐基酒店 | 已确认的住宿 | 需要关注 | 一切正常 | 没\",\"tripsStops\":0,\"firstStopClock\":\"\",\"liveCurrent\":\"\",\"liveClock\":\"\",\"hotelSel\":0}"
+  }
+ ],
+ "errors": [],
+ "jid": "9036d51f-2764-4933-9b8f-d84bc053be30"
+}

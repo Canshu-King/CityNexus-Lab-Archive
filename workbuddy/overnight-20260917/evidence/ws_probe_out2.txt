@@ -1,0 +1,28 @@
+﻿{
+ "label": "fresh_no_journey",
+ "withJourney": false,
+ "rootChildren": 1,
+ "errors": [
+  "[console.debug] [vite] connecting...",
+  "[console.debug] [vite] connected.",
+  "[console.info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+  "[console.debug] [vite] connecting...",
+  "[console.debug] [vite] connected.",
+  "[console.info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+ ],
+ "shot": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ws_fresh_no_journey.png"
+}
+{
+ "label": "with_journey",
+ "withJourney": true,
+ "rootChildren": 1,
+ "errors": [
+  "[console.debug] [vite] connecting...",
+  "[console.debug] [vite] connected.",
+  "[console.info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+  "[console.debug] [vite] connecting...",
+  "[console.debug] [vite] connected.",
+  "[console.info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"
+ ],
+ "shot": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ws_with_journey.png"
+}

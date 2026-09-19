@@ -1,0 +1,31 @@
+{
+ "viewports": [],
+ "flows": [
+  {
+   "viewport": "390x844",
+   "flow": "MIDTRIP_HARD_RECOVERY",
+   "start_before": 200,
+   "confirm_status": 200,
+   "confirm_recovery": "RECOVERY_REQUIRED",
+   "experience_recovery": "RECOVERY_REQUIRED",
+   "experience_needs_review": true,
+   "ui_panel_visible": true,
+   "ui_replan_action": true,
+   "ui_acknowledge_action": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "MIDTRIP_HARD_RECOVERY",
+   "start_before": 200,
+   "confirm_status": 200,
+   "confirm_recovery": "RECOVERY_REQUIRED",
+   "experience_recovery": "RECOVERY_REQUIRED",
+   "experience_needs_review": true,
+   "ui_panel_visible": true,
+   "ui_replan_action": true,
+   "ui_acknowledge_action": true,
+   "page_errors": []
+  }
+ ]
+}

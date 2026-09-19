@@ -1,0 +1,183 @@
+{
+  "money_pattern": [
+    {
+      "label": "zh CNY budget bound",
+      "message": "最多多花 500 元",
+      "matched": true,
+      "captured": "500",
+      "currency_suffix_present": true
+    },
+    {
+      "label": "zh CNY cap",
+      "message": "不超过 3000 元",
+      "matched": true,
+      "captured": "3000",
+      "currency_suffix_present": true
+    },
+    {
+      "label": "zh budget keyword",
+      "message": "预算 5000 元",
+      "matched": true,
+      "captured": "5000",
+      "currency_suffix_present": true
+    },
+    {
+      "label": "en under, SGD",
+      "message": "under 500 SGD",
+      "matched": true,
+      "captured": "500",
+      "currency_suffix_present": false
+    },
+    {
+      "label": "en budget keyword, JPY",
+      "message": "budget 50000 JPY",
+      "matched": false,
+      "captured": null,
+      "currency_suffix_present": false
+    },
+    {
+      "label": "en less-than, GBP",
+      "message": "less than 200 GBP",
+      "matched": true,
+      "captured": "200",
+      "currency_suffix_present": false
+    },
+    {
+      "label": "en loss limit",
+      "message": "loss limit 100 EUR",
+      "matched": false,
+      "captured": null,
+      "currency_suffix_present": false
+    },
+    {
+      "label": "zh loss limit",
+      "message": "最多损失 200 元",
+      "matched": false,
+      "captured": null,
+      "currency_suffix_present": false
+    },
+    {
+      "label": "zh JPY word",
+      "message": "不超过 8000 日元",
+      "matched": true,
+      "captured": "8000",
+      "currency_suffix_present": false
+    },
+    {
+      "label": "en yen word",
+      "message": "under 3000 yen",
+      "matched": true,
+      "captured": "3000",
+      "currency_suffix_present": false
+    },
+    {
+      "label": "zh SGD word",
+      "message": "预算不超过 100 新加坡元",
+      "matched": true,
+      "captured": "100",
+      "currency_suffix_present": false
+    }
+  ],
+  "place_hint": [
+    {
+      "label": "zh Tianjin river name",
+      "message": "现在海河那边涨水了。",
+      "hints": [
+        "海河沿线"
+      ]
+    },
+    {
+      "label": "en generic river, London journey",
+      "message": "The river is flooding near the pier.",
+      "hints": [
+        "海河沿线"
+      ]
+    },
+    {
+      "label": "en transliteration",
+      "message": "haihe is flooded",
+      "hints": [
+        "海河沿线"
+      ]
+    }
+  ],
+  "copilot_locale": [
+    {
+      "city": "CN-FUZHOU",
+      "timezone": "Asia/Shanghai",
+      "currency": "CNY",
+      "ui_locale": "zh-CN",
+      "reply_has_han": true,
+      "reply_head": "已根据已验证事实生成说明。原因：NO_REASON_CODES。证据：current_activity_id=None,"
+    },
+    {
+      "city": "CN-SHANGHAI",
+      "timezone": "Asia/Shanghai",
+      "currency": "CNY",
+      "ui_locale": "zh-CN",
+      "reply_has_han": true,
+      "reply_head": "已根据已验证事实生成说明。原因：NO_REASON_CODES。证据：current_activity_id=None,"
+    },
+    {
+      "city": "SG-SINGAPORE",
+      "timezone": "Asia/Singapore",
+      "currency": "SGD",
+      "ui_locale": "en",
+      "reply_has_han": true,
+      "reply_head": "已根据已验证事实生成说明。原因：NO_REASON_CODES。证据：current_activity_id=None,"
+    },
+    {
+      "city": "JP-TOKYO",
+      "timezone": "Asia/Tokyo",
+      "currency": "JPY",
+      "ui_locale": "ja",
+      "reply_has_han": true,
+      "reply_head": "已根据已验证事实生成说明。原因：NO_REASON_CODES。证据：current_activity_id=None,"
+    },
+    {
+      "city": "GB-LONDON",
+      "timezone": "Europe/London",
+      "currency": "GBP",
+      "ui_locale": "en",
+      "reply_has_han": false,
+      "reply_head": "Explanation based on verified facts. Reasons: NO_REASON_CODE"
+    }
+  ],
+  "journey_roundtrip": [
+    {
+      "city": "CN-FUZHOU",
+      "expected_currency": "CNY",
+      "actual_currency": "CNY",
+      "expected_timezone": "Asia/Shanghai",
+      "actual_timezone": "Asia/Shanghai"
+    },
+    {
+      "city": "CN-SHANGHAI",
+      "expected_currency": "CNY",
+      "actual_currency": "CNY",
+      "expected_timezone": "Asia/Shanghai",
+      "actual_timezone": "Asia/Shanghai"
+    },
+    {
+      "city": "SG-SINGAPORE",
+      "expected_currency": "SGD",
+      "actual_currency": "SGD",
+      "expected_timezone": "Asia/Singapore",
+      "actual_timezone": "Asia/Singapore"
+    },
+    {
+      "city": "JP-TOKYO",
+      "expected_currency": "JPY",
+      "actual_currency": "JPY",
+      "expected_timezone": "Asia/Tokyo",
+      "actual_timezone": "Asia/Tokyo"
+    },
+    {
+      "city": "GB-LONDON",
+      "expected_currency": "GBP",
+      "actual_currency": "GBP",
+      "expected_timezone": "Europe/London",
+      "actual_timezone": "Europe/London"
+    }
+  ]
+}

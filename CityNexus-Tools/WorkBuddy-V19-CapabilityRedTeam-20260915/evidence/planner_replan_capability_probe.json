@@ -1,0 +1,395 @@
+[
+ {
+  "case": "A_ACTIVATE_CONTROL",
+  "generate_status": 201,
+  "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+  "select_status": 200,
+  "start_status": 200,
+  "journey_status": "ACTIVE",
+  "start_body": {
+   "journey_id": "22222222-2222-4222-8222-222222222222",
+   "active_plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+   "current_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+   "latest_event_id": null,
+   "projection_status": "READY",
+   "snapshot_at": "2026-09-15T02:29:22.040276Z",
+   "upcoming_commitments": [],
+   "context": {
+    "journey_status": "ACTIVE",
+    "provider_level": 1,
+    "degraded_providers": [],
+    "feasibility_envelope": {
+     "next_commitment_buffer_min": null,
+     "journey_end_slack_min": 30,
+     "budget_remaining_minor": 13000,
+     "preserved_commitment_count": 0,
+     "degraded_providers": [],
+     "risk_reason_codes": [],
+     "robust": true
+    },
+    "opportunity_window": null,
+    "mobility": {
+     "provider": "mock-mobility",
+     "snapshot_id": null,
+     "degraded": false,
+     "source": "deterministic-offline"
+    },
+    "execution": {
+     "now": {
+      "id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+      "title": "Old Town Gate",
+      "state": "ACTIVE",
+      "start_at": "2026-10-10T09:00:00+0800",
+      "end_at": "2026-10-10T10:15:00+0800",
+      "locked": false
+     },
+     "next": {
+      "id": "abe4e842-249e-516f-ac43-b41695083792",
+      "title": "Riverside Museum",
+      "state": "PLANNED",
+      "start_at": "2026-10-10T10:30:00+0800",
+      "end_at": "2026-10-10T11:45:00+0800",
+      "locked": false
+     },
+     "now_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+     "next_activity_id": "abe4e842-249e-516f-ac43-b41695083792",
+     "now_state": "ACTIVE",
+     "next_state": "PLANNED",
+     "next_mode": "NONE",
+     "next_eta_min": 0
+    }
+   }
+  }
+ },
+ {
+  "case": "A_REPLAN_WITH_SUPPORTED_HARD",
+  "event_status": 201,
+  "event_id": "4cc82695-5df1-40ce-89d3-110f8f311a6e",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "B_ACTIVATE",
+  "generate_status": 201,
+  "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+  "select_status": 200,
+  "start_status": 200,
+  "journey_status": "ACTIVE",
+  "start_body": {
+   "journey_id": "22222222-2222-4222-8222-222222222222",
+   "active_plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+   "current_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+   "latest_event_id": null,
+   "projection_status": "READY",
+   "snapshot_at": "2026-09-15T02:29:22.161014Z",
+   "upcoming_commitments": [],
+   "context": {
+    "journey_status": "ACTIVE",
+    "provider_level": 1,
+    "degraded_providers": [],
+    "feasibility_envelope": {
+     "next_commitment_buffer_min": null,
+     "journey_end_slack_min": 30,
+     "budget_remaining_minor": 13000,
+     "preserved_commitment_count": 0,
+     "degraded_providers": [],
+     "risk_reason_codes": [],
+     "robust": true
+    },
+    "opportunity_window": null,
+    "mobility": {
+     "provider": "mock-mobility",
+     "snapshot_id": null,
+     "degraded": false,
+     "source": "deterministic-offline"
+    },
+    "execution": {
+     "now": {
+      "id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+      "title": "Old Town Gate",
+      "state": "ACTIVE",
+      "start_at": "2026-10-10T09:00:00+0800",
+      "end_at": "2026-10-10T10:15:00+0800",
+      "locked": false
+     },
+     "next": {
+      "id": "abe4e842-249e-516f-ac43-b41695083792",
+      "title": "Riverside Museum",
+      "state": "PLANNED",
+      "start_at": "2026-10-10T10:30:00+0800",
+      "end_at": "2026-10-10T11:45:00+0800",
+      "locked": false
+     },
+     "now_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+     "next_activity_id": "abe4e842-249e-516f-ac43-b41695083792",
+     "now_state": "ACTIVE",
+     "next_state": "PLANNED",
+     "next_mode": "NONE",
+     "next_eta_min": 0
+    }
+   }
+  }
+ },
+ {
+  "case": "B_MIDTRIP_CAPABILITY_ADD",
+  "add_status": 422,
+  "body": "{'error': {'code': 'VALIDATION_ERROR', 'message': 'Constraint would make the selected plan infeasible: UNSUPPORTED_HARD_CONSTRAINT:STEP_FREE_REQUIRED', 'trace_id': '8977ff4e-51a8-4d2d-a4fe-cf055b9e26ff', 'details': None}}",
+  "note": "journey is ACTIVE: the add-time gate now has a selected plan to validate"
+ },
+ {
+  "case": "B_REPLAN_WITH_HARD_CAPABILITY",
+  "event_status": 201,
+  "event_id": "13724ff0-d41f-4e4f-8480-02c06ee10d40",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "B_JOURNEY_AFTER_FAILED_RECOVERY",
+  "journey_status": "ACTIVE",
+  "active_plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+  "note": "the traveler is stranded mid-trip with no recovery candidate"
+ },
+ {
+  "case": "C_ACTIVATE",
+  "generate_status": 201,
+  "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+  "select_status": 200,
+  "start_status": 200,
+  "journey_status": "ACTIVE",
+  "start_body": {
+   "journey_id": "22222222-2222-4222-8222-222222222222",
+   "active_plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+   "current_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+   "latest_event_id": null,
+   "projection_status": "READY",
+   "snapshot_at": "2026-09-15T02:29:22.221405Z",
+   "upcoming_commitments": [],
+   "context": {
+    "journey_status": "ACTIVE",
+    "provider_level": 1,
+    "degraded_providers": [],
+    "feasibility_envelope": {
+     "next_commitment_buffer_min": null,
+     "journey_end_slack_min": 30,
+     "budget_remaining_minor": 13000,
+     "preserved_commitment_count": 0,
+     "degraded_providers": [],
+     "risk_reason_codes": [],
+     "robust": true
+    },
+    "opportunity_window": null,
+    "mobility": {
+     "provider": "mock-mobility",
+     "snapshot_id": null,
+     "degraded": false,
+     "source": "deterministic-offline"
+    },
+    "execution": {
+     "now": {
+      "id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+      "title": "Old Town Gate",
+      "state": "ACTIVE",
+      "start_at": "2026-10-10T09:00:00+0800",
+      "end_at": "2026-10-10T10:15:00+0800",
+      "locked": false
+     },
+     "next": {
+      "id": "abe4e842-249e-516f-ac43-b41695083792",
+      "title": "Riverside Museum",
+      "state": "PLANNED",
+      "start_at": "2026-10-10T10:30:00+0800",
+      "end_at": "2026-10-10T11:45:00+0800",
+      "locked": false
+     },
+     "now_activity_id": "3a58c470-524c-5854-aa39-6c37a350eb80",
+     "next_activity_id": "abe4e842-249e-516f-ac43-b41695083792",
+     "now_state": "ACTIVE",
+     "next_state": "PLANNED",
+     "next_mode": "NONE",
+     "next_eta_min": 0
+    }
+   }
+  }
+ },
+ {
+  "case": "C_REPLAN_WITH_SOFT_CAPABILITY",
+  "event_status": 201,
+  "event_id": "57d17eed-32f7-475a-81aa-878c1a0daae9",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "C_ACTIVE_PLAN_STILL_HAS_STAIRS",
+  "note": "SOFT capability never gates recovery; the replacement activity is chosen freely"
+ },
+ {
+  "case": "D_REPLAN_WITH_PLACE_BLOCKED",
+  "event_status": 201,
+  "event_id": "9acc7ef4-0e92-4f92-99ef-06634fa89ec9",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "E_REPLAN_ROUND_1",
+  "event_status": 201,
+  "event_id": "3a7b89a0-7d00-44eb-bab7-831c9c7f4410",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "E_REPLAN_ROUND_2",
+  "event_status": 201,
+  "event_id": "43dbd217-c7b2-41a6-843b-0b3b15ddcdcb",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "E_REPLAN_ROUND_3",
+  "event_status": 201,
+  "event_id": "2bfe691e-da73-4d09-aff6-1600ccf39a55",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "E_REPEATED_RECOVERY_STABILITY",
+  "statuses": [
+   201,
+   201,
+   201
+  ]
+ },
+ {
+  "case": "F_FAILED_RECOVERY_WITH_CAPABILITY",
+  "event_status": 201,
+  "event_id": "a970bc6c-445e-4658-98a7-ea8e1ffb7bad",
+  "replan_status": 201,
+  "replan_error": null,
+  "proposal_keys": [
+   "base_plan_version_id",
+   "diff",
+   "explanation",
+   "hard_constraints_passed",
+   "id",
+   "journey_id",
+   "locked_commitments_preserved",
+   "proposed_plan_version_id",
+   "score_breakdown",
+   "status",
+   "trigger_event_id",
+   "utility_score"
+  ],
+  "candidate_count": 0
+ },
+ {
+  "case": "F_STATE_INTEGRITY",
+  "journey_status": "ACTIVE",
+  "active_plan_version_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+  "events": 1,
+  "replans": 2
+ }
+]

@@ -1,0 +1,3 @@
+﻿PS OK
+True
+key_len=35

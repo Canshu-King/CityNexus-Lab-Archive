@@ -1,0 +1,252 @@
+[
+ {
+  "case": "CREATE_TWO_JOURNEYS",
+  "a": 201,
+  "b": 201,
+  "journey_a": "afc77589-8790-43d6-97ce-cd74345150af",
+  "journey_b": "af29cda4-0282-4e73-9ce8-636e6f62790c"
+ },
+ {
+  "case": "BASELINE_PLANS",
+  "a": [
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-tech-art",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-city-park",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-design-library",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ]
+  ],
+  "b": [
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-tech-art",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-city-park",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-design-library",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ]
+  ]
+ },
+ {
+  "case": "MISSION_SCOPED_SET_ON_A",
+  "status": 200,
+  "body": "{'id': 'bc8e6fac-12ca-4632-b25d-385881a1584e', 'journey_id': 'afc77589-8790-43d6-97ce-cd74345150af', 'trigger_event_id': None, 'user_text': '这次旅程我想多安排室内活动，尽量少走路', 'objective_codes': ['MINIMIZE_WALKING', 'PREFER_INDOOR'], 'protected_activity_ids': [], 'mutable_"
+ },
+ {
+  "case": "THIS_JOURNEY_ONLY_LEAK_CHECK",
+  "journey_a_changed": false,
+  "journey_b_changed": false,
+  "journey_b_plan": [
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-tech-art",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-city-park",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-design-library",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ]
+  ],
+  "note": "a mission preference set on Journey A must not change Journey B"
+ },
+ {
+  "case": "TRAVELER_PREFERENCE_SET",
+  "status": 200,
+  "body": "[{'category': 'interest', 'key': 'indoor', 'value': True, 'weight': 1.0, 'id': 'cba32689-1703-452b-b3f5-5f7bae8417a6', 'traveler_id': '11111111-1111-4111-8111-111111111111'}]"
+ },
+ {
+  "case": "TRAVELER_SCOPE_LEAK",
+  "journey_a": [
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-tech-art",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-city-park",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-design-library",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ]
+  ],
+  "journey_b": [
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-tech-art",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-city-park",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-design-library",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ]
+  ],
+  "note": "the preferences table has no journey_id: a 'this journey only' intent stored here silently becomes a permanent traveller-scope preference"
+ },
+ {
+  "case": "PREFERENCE_SCOPE_FIELDS",
+  "preference_count": 1,
+  "keys": [
+   "category",
+   "id",
+   "key",
+   "traveler_id",
+   "value",
+   "weight"
+  ]
+ },
+ {
+  "case": "HARD_CAPABILITY_BLOCKS",
+  "gen_status": 422
+ },
+ {
+  "case": "OUTCOME_EVIDENCE_SEEDED",
+  "journey": "22222222-2222-4222-8222-222222222222"
+ },
+ {
+  "case": "LEARNED_EVIDENCE",
+  "learned": [
+   {
+    "confidence": 0.95,
+    "conflict": null,
+    "dimension": "low_walking",
+    "direction": "low_walking",
+    "evidence_count": 6,
+    "evidence_ids": [
+     "d05dcfce-a022-495c-b247-c6782c10a522"
+    ],
+    "expires_at": "2027-03-14T02:46:35.131623+00:00",
+    "explanation": "Journey outcome evidence recorded 6 actual decision(s): the traveler accepted/completed evidence consistent with low_walking.",
+    "journey_ids": [
+     "22222222-2222-4222-8222-222222222222"
+    ],
+    "last_evidence_at": "2026-09-15T02:46:35.129368+00:00",
+    "source": "LEARNED_SOFT",
+    "strength": 1.0
+   }
+  ],
+  "source_labels": [
+   "LEARNED_SOFT"
+  ],
+  "note": "learned evidence is labelled LEARNED_SOFT and lives in learned_soft_preferences_json"
+ },
+ {
+  "case": "LEARNED_FED_TO_PLANNER",
+  "learned_item_count": 1,
+  "weights": [
+   1.0
+  ],
+  "categories": [
+   "interest"
+  ],
+  "note": "learned evidence reaches the planner as weight-1.0 interest preferences, not as constraints"
+ },
+ {
+  "case": "LEARNED_TO_CONSTRAINT_ESCALATION",
+  "constraint_rule_codes": [
+   "BUDGET_MAX",
+   "JOURNEY_END_BY",
+   "MINIMISE_PLAN_CHANGES",
+   "STEP_FREE_REQUIRED"
+  ],
+  "learned_created_any_constraint": false,
+  "note": "the only capability row present is the STEP_FREE_REQUIRED injected by this probe; learned evidence created no JourneyConstraint at all"
+ },
+ {
+  "case": "LEARNED_CLEARED",
+  "status": 200,
+  "body": "{'traveler_id': '11111111-1111-4111-8111-111111111111', 'explicit_preferences': [{'category': 'interest', 'dimension': 'culture', 'direction': 'culture', 'explanation': 'Explicit traveler preference.', 'id': '42afcd29-8495-5682-ada6-204453c7a98b', 'source': 'E"
+ },
+ {
+  "case": "TWIN_AFTER_CLEAR",
+  "learned_soft": [],
+  "evidence_count": 0
+ },
+ {
+  "case": "AUDIT_TRAIL",
+  "actions": [
+   "constraint.created"
+  ],
+  "constraint_actions": [
+   "constraint.created"
+  ],
+  "capability_actions": [],
+  "note": "there is no capability-specific audit vocabulary"
+ }
+]

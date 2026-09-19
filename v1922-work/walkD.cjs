@@ -1,0 +1,44 @@
+const { createRequire } = require("node:module");
+const req = createRequire("D:/moodle/CityNexus/frontend/package.json");
+const { chromium } = req("@playwright/test");
+const fs = require("fs");
+const BASE = "http://127.0.0.1:5173";
+const API = "http://127.0.0.1:8000/api/v1";
+const JID = "22222222-2222-4222-8222-222222222222";
+const SHOTS = "D:/moodle/_v1922_work/rescue_evidence/shots";
+(async () => {
+  await fetch(API + "/demo/reset", { method: "POST" });
+  await fetch(`${API}/journeys/${JID}/plans/generate`, { method: "POST", headers: {"Content-Type":"application/json"}, body: "{}" });
+  const browser = await chromium.launch({ channel: "chrome" });
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, locale: "zh-CN" });
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(String(e).slice(0, 160)));
+  page.on("console", (m) => { if (m.type() === "error") errors.push("C: " + m.text().slice(0, 160)); });
+  await page.addInitScript(() => localStorage.setItem("citynexus.v8.journey_id", "22222222-2222-4222-8222-222222222222"));
+  const out = {};
+  await page.goto(BASE + "/v8/hub", { waitUntil: "networkidle", timeout: 60000 });
+  await page.waitForTimeout(3000);
+  out.cmp_present = await page.locator('[data-testid="plan-comparison"]').count() > 0;
+  out.cards = await page.locator('[data-testid="plan-cmp-card"]').count();
+  out.bands = [];
+  const bands = await page.locator('[data-testid="plan-cmp-band"]').all();
+  for (const b of bands) out.bands.push((await b.innerText()).trim());
+  out.text = (await page.locator('[data-testid="plan-comparison"]').innerText().catch(()=> "")).replace(/\n+/g," | ").slice(0, 400);
+  await page.screenshot({ path: SHOTS + "/95_plan_compare.png", fullPage: true });
+
+  // 采用第一个
+  await page.locator('[data-testid="plan-cmp-choose"]').first().click();
+  await page.waitForTimeout(4000);
+  out.after_choose_cmp = await page.locator('[data-testid="plan-comparison"]').count();
+  out.after_choose_trips_hint = (await page.locator("body").innerText()).includes("行程");
+  await page.goto(BASE + "/v8/trips", { waitUntil: "networkidle", timeout: 60000 });
+  await page.waitForTimeout(2500);
+  out.itinerary_after = await page.locator('[data-testid="trip-itinerary"]').count() > 0;
+  out.stops = await page.locator('[data-testid="trip-stop"]').count();
+  await page.screenshot({ path: SHOTS + "/96_after_choose.png", fullPage: true });
+  out.errors = errors.slice(0, 6);
+  fs.writeFileSync("D:/moodle/_v1922_work/rescue_evidence/walkD.json", JSON.stringify(out, null, 1));
+  console.log(JSON.stringify(out, null, 1));
+  await browser.close();
+})().catch((e) => { console.error("FAIL", e); process.exit(1); });

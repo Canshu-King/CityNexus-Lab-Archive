@@ -1,0 +1,158 @@
+diff --git a/frontend/public/manifest.webmanifest b/frontend/public/manifest.webmanifest
+new file mode 100644
+index 0000000..758e503
+--- /dev/null
++++ b/frontend/public/manifest.webmanifest
+@@ -0,0 +1,18 @@
++{
++  "name": "CityNexus V18.3 Experience Reference",
++  "short_name": "CityNexus",
++  "description": "Traveler-first journey operations reference with runtime adapters and offline truth.",
++  "start_url": "./index.html#/journey",
++  "scope": "./",
++  "display": "standalone",
++  "background_color": "#071217",
++  "theme_color": "#0c1b22",
++  "icons": [
++    {
++      "src": "./favicon.svg",
++      "sizes": "any",
++      "type": "image/svg+xml",
++      "purpose": "any maskable"
++    }
++  ]
++}
+diff --git a/frontend/public/v18.3-sw.js b/frontend/public/v18.3-sw.js
+new file mode 100644
+index 0000000..a9f2eb5
+--- /dev/null
++++ b/frontend/public/v18.3-sw.js
+@@ -0,0 +1,65 @@
++/* CityNexus V18.3 experience reference service worker (optional merge patch 04). */
++const CACHE = "citynexus-v18.3-experience-v1";
++const APP_SHELL = ["./", "./index.html", "./manifest.webmanifest", "./favicon.svg"];
++const LAST_UPDATED_KEY = "citynexus.v18.3.lastUpdated";
++
++self.addEventListener("install", (event) => {
++  event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
++});
++
++self.addEventListener("activate", (event) => {
++  event.waitUntil(
++    caches
++      .keys()
++      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
++      .then(() => self.clients.claim()),
++  );
++});
++
++async function touchLastUpdated() {
++  const stamp = new Date().toISOString();
++  await caches.open(CACHE).then((cache) => cache.put(LAST_UPDATED_KEY, new Response(JSON.stringify({ lastUpdated: stamp }))));
++  return stamp;
++}
++
++self.addEventListener("fetch", (event) => {
++  const request = event.request;
++  if (request.method !== "GET") return;
++  const url = new URL(request.url);
++  if (url.origin !== self.location.origin) return;
++
++  // API truth is network-first; never serve stale API as if it were current.
++  if (url.pathname.startsWith("/api/")) {
++    event.respondWith(
++      fetch(request)
++        .then(async (response) => {
++          await touchLastUpdated();
++          return response;
++        })
++        .catch(
++          () =>
++            new Response(JSON.stringify({ detail: "OFFLINE_STALE_SNAPSHOT", lastUpdated: null }), {
++              status: 503,
++              headers: { "content-type": "application/json", "x-citynexus-offline": "true" },
++            }),
++        ),
++    );
++    return;
++  }
++
++  // App shell: stale-while-revalidate.
++  event.respondWith(
++    caches.match(request).then((cached) => {
++      const network = fetch(request)
++        .then(async (response) => {
++          const copy = response.clone();
++          const cache = await caches.open(CACHE);
++          await cache.put(request, copy);
++          await touchLastUpdated();
++          return response;
++        })
++        .catch(() => cached ?? caches.match("./index.html"));
++      return cached ?? network;
++    }),
++  );
++});
+diff --git a/frontend/src/features/experience-lab/pwa/onlineStatus.ts b/frontend/src/features/experience-lab/pwa/onlineStatus.ts
+new file mode 100644
+index 0000000..bead598
+--- /dev/null
++++ b/frontend/src/features/experience-lab/pwa/onlineStatus.ts
+@@ -0,0 +1,36 @@
++import { useEffect, useState } from "react";
++
++export interface OnlineStatus {
++  online: boolean;
++  lastChangedAt: string;
++}
++
++export function useOnlineStatus(): OnlineStatus {
++  const [state, setState] = useState<OnlineStatus>(() => ({
++    online: typeof navigator === "undefined" ? true : navigator.onLine,
++    lastChangedAt: new Date().toISOString(),
++  }));
++
++  useEffect(() => {
++    const update = () => setState({ online: navigator.onLine, lastChangedAt: new Date().toISOString() });
++    window.addEventListener("online", update);
++    window.addEventListener("offline", update);
++    return () => {
++      window.removeEventListener("online", update);
++      window.removeEventListener("offline", update);
++    };
++  }, []);
++
++  return state;
++}
++
++export function useLastUpdated(kind: "live" | "offline"): string | null {
++  const [stamp, setStamp] = useState<string | null>(null);
++  useEffect(() => {
++    if (kind !== "offline") return undefined;
++    const raw = window.localStorage.getItem("citynexus.v18.3.lastUpdated");
++    setStamp(raw);
++    return undefined;
++  }, [kind]);
++  return stamp;
++}
+diff --git a/frontend/src/features/experience-lab/pwa/serviceWorker.ts b/frontend/src/features/experience-lab/pwa/serviceWorker.ts
+new file mode 100644
+index 0000000..9459935
+--- /dev/null
++++ b/frontend/src/features/experience-lab/pwa/serviceWorker.ts
+@@ -0,0 +1,15 @@
++/**
++ * PWA registration is opt-in so the reference app and its Playwright suite are
++ * deterministic. The optional merge patch 04 sets VITE_ENABLE_PWA=1.
++ */
++export function registerExperienceServiceWorker(): void {
++  if (import.meta.env.VITE_ENABLE_PWA !== "1") return;
++  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) return;
++  window.addEventListener("load", () => {
++    navigator.serviceWorker
++      .register("./v18.3-sw.js", { scope: "./" })
++      .catch(() => {
++        // Offline registration failure must never break the live experience.
++      });
++  });
++}

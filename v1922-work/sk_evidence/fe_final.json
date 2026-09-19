@@ -1,0 +1,134 @@
+{
+ "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+ "trace": [
+  {
+   "ts": "2026-09-16T17:00:06.356Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/hub 390x844",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 今天 | EN | XI | 还没休息 | Xiamen之旅 | 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 | EN | 试用其他城市 | A"
+  },
+  {
+   "ts": "2026-09-16T17:00:08.946Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips 390x844",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 行程 | EN | XI | 行程 | 住宿 | 预订 | 花费 | 行程 | 1 天行程 | 逐日安排。已确认的预订会被标记为受保护。 | 11月6日周五 | 4 项 | 11:0"
+  },
+  {
+   "ts": "2026-09-16T17:00:11.521Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/map 390x844",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 地图 | EN | XI | 地图 · 一目了然 | 整座城市，行程叠加其上。 | 采集的路线几何和供应商事实在你穿越行程时始终可见。 | 对比出行方式 | 尚未获取地图位置 | 这"
+  },
+  {
+   "ts": "2026-09-16T17:00:14.037Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/agent 390x844",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | Copilot | EN | XI | 随时问关于这趟行程的任何事 | 你想改什么？ | 可以提问、试算改动，或告诉我发生了什么。任何会影响行程的改动都会先说明再应用，你已确认的预订"
+  },
+  {
+   "ts": "2026-09-16T17:00:16.546Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/me 390x844",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 我的 | EN | XI | 我的 · 权限边界 | 你的偏好，你的边界。 | CityNexus 在采取行动前，让委托自主权的范围清晰可见。 | 当前模式 | ADVISORY |"
+  },
+  {
+   "ts": "2026-09-16T17:00:19.132Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/live 390x844",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门景点0 | 当前没有需要你决定的调整。 | 实时行程 · 已保存 9月17日 00:48 | 选择你的下一"
+  },
+  {
+   "ts": "2026-09-16T17:00:23.409Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips 390x844",
+   "action": "activity-detail",
+   "status": "opened",
+   "result": "厦门景点0"
+  },
+  {
+   "ts": "2026-09-16T17:00:23.466Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8 390x844",
+   "action": "overflow",
+   "status": "none",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:00:26.192Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/hub 430x932",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 今天 | EN | XI | 还没休息 | Xiamen之旅 | 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 | EN | 试用其他城市 | A"
+  },
+  {
+   "ts": "2026-09-16T17:00:28.682Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips 430x932",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 行程 | EN | XI | 行程 | 住宿 | 预订 | 花费 | 行程 | 1 天行程 | 逐日安排。已确认的预订会被标记为受保护。 | 11月6日周五 | 4 项 | 11:0"
+  },
+  {
+   "ts": "2026-09-16T17:00:31.169Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/map 430x932",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 地图 | EN | XI | 地图 · 一目了然 | 整座城市，行程叠加其上。 | 采集的路线几何和供应商事实在你穿越行程时始终可见。 | 对比出行方式 | 尚未获取地图位置 | 这"
+  },
+  {
+   "ts": "2026-09-16T17:00:33.660Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/agent 430x932",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | Copilot | EN | XI | 随时问关于这趟行程的任何事 | 你想改什么？ | 可以提问、试算改动，或告诉我发生了什么。任何会影响行程的改动都会先说明再应用，你已确认的预订"
+  },
+  {
+   "ts": "2026-09-16T17:00:36.139Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/me 430x932",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 我的 | EN | XI | 我的 · 权限边界 | 你的偏好，你的边界。 | CityNexus 在采取行动前，让委托自主权的范围清晰可见。 | 当前模式 | ADVISORY |"
+  },
+  {
+   "ts": "2026-09-16T17:00:38.645Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/live 430x932",
+   "action": "render",
+   "status": "clean",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门景点0 | 当前没有需要你决定的调整。 | 实时行程 · 已保存 9月17日 00:48 | 选择你的下一"
+  },
+  {
+   "ts": "2026-09-16T17:00:42.847Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8/trips 430x932",
+   "action": "activity-detail",
+   "status": "opened",
+   "result": "厦门景点0"
+  },
+  {
+   "ts": "2026-09-16T17:00:42.848Z",
+   "journey_id": "b20dd368-e961-48b2-92ec-27f84b024625",
+   "route": "/v8 430x932",
+   "action": "overflow",
+   "status": "none",
+   "result": ""
+  }
+ ],
+ "errors": []
+}

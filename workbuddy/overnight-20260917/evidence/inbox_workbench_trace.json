@@ -1,0 +1,50 @@
+{
+  "trace": [
+    {
+      "ts": "2026-09-16T18:40:38.900Z",
+      "step": "shot",
+      "n": "00_workbench",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ibx_00_workbench.png"
+    },
+    {
+      "ts": "2026-09-16T18:40:47.017Z",
+      "step": "shot",
+      "n": "01_text_extract_result",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ibx_01_text_extract_result.png"
+    },
+    {
+      "ts": "2026-09-16T18:40:49.375Z",
+      "step": "text_extract_message",
+      "message": "DeepSeek Responses request failed"
+    },
+    {
+      "ts": "2026-09-16T18:40:50.065Z",
+      "step": "shot",
+      "n": "02_manual_form",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ibx_02_manual_form.png"
+    },
+    {
+      "ts": "2026-09-16T18:40:50.158Z",
+      "step": "shot",
+      "n": "03_manual_filled",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ibx_03_manual_filled.png"
+    },
+    {
+      "ts": "2026-09-16T18:40:53.758Z",
+      "step": "shot",
+      "n": "04_manual_after",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ibx_04_manual_after.png"
+    },
+    {
+      "ts": "2026-09-16T18:41:23.767Z",
+      "step": "manual_message",
+      "message": "(no message)"
+    },
+    {
+      "ts": "2026-09-16T18:41:23.918Z",
+      "step": "done",
+      "consoleErrorCount": 0
+    }
+  ],
+  "consoleErrors": []
+}

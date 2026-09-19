@@ -1,0 +1,102 @@
+{
+  "generated_at_utc": "2026-09-05T16:03:33.3833497Z",
+  "capability_matrix": {
+    "reader": "vsdx 0.6.1",
+    "target": "D:\\moodle\\CityNexus-Tools\\smoke\\visioautomation-capability-smoke.vsdx",
+    "page_count": 1,
+    "shape_count": 3,
+    "shape_text": true,
+    "child_shape_traversal": true,
+    "connector_count": 2,
+    "connector_api": "PASS",
+    "connector_source_target": "UNSUPPORTED",
+    "master_information": "UNSUPPORTED",
+    "user_cell_support": "UNSUPPORTED",
+    "custom_property_support": "UNSUPPORTED",
+    "glue_attempt": "Connect-VisioShape executed"
+  },
+  "custom_property": {
+    "path": "D:\\moodle\\CityNexus-Tools\\smoke\\visioautomation-custom-property-smoke.vsdx",
+    "property": "Prop.SpecId",
+    "expected": "TEST-PROP-SPEC-ID",
+    "comFormulaU": "\"TEST-PROP-SPEC-ID\"",
+    "comResult": "TEST-PROP-SPEC-ID",
+    "comStatus": "PASS",
+    "xmlRowFound": true,
+    "xmlValueFormula": "TEST-PROP-SPEC-ID",
+    "xmlStatus": "PASS",
+    "vsdxValue": "UNSUPPORTED",
+    "vsdxStatus": "UNSUPPORTED",
+    "formulaErrors": {
+      "VALUE": 0,
+      "REF": 0,
+      "NAME": 0
+    },
+    "errors": []
+  },
+  "qa_poc": {
+    "status": "NOT_RUN",
+    "reason": "hiung/skills codeload returned 404; scripts unavailable",
+    "valid": "NOT_RUN",
+    "invalid": "NOT_RUN",
+    "scripts": [
+      "check_cross.py",
+      "verify_topology.py",
+      "verify_label_spacing.py"
+    ]
+  },
+  "github_network_report": {
+    "githubDirect": "PASS_HTTP_200",
+    "apiGithubDirect": "HTTP_STATUS_404_REPOSITORY_NOT_FOUND",
+    "rawGithubDirect": "DNS_FAILURE",
+    "codeloadDirect": "HTTP_STATUS_404",
+    "windowsProxyEnabled": true,
+    "windowsProxy": "127.0.0.1:7892",
+    "winhttpProxy": "DIRECT",
+    "proxyProcess": "NONE_DETECTED",
+    "explicitProxyCurl": "PASS_GITHUB_HOME; TARGET_CLAIM_404",
+    "explicitProxyGit": "TIMEOUT_OR_NO_HEAD",
+    "downloadMethod": "none",
+    "hiungSkillsObtained": false,
+    "correctCodeloadUrlTested": "https://codeload.github.com/hiung/skills/zip/refs/heads/main",
+    "archiveEndpointTested": "https://github.com/hiung/skills/archive/refs/heads/main.zip",
+    "notes": [
+      "u1s1 local proxy confirmed by Windows Internet Settings as 127.0.0.1:7892.",
+      "Official GitHub homepage is reachable direct and through the detected proxy.",
+      "GitHub API and both official archive endpoints return 404 for hiung/skills; this is not treated as a successful download.",
+      "No mirror, third-party proxy, global git config, or permanent environment change was used.",
+      "Invalid 14-byte error download was removed; no extraction was performed."
+    ]
+  },
+  "corrected_vsdx": {
+    "target": "D:\\moodle\\CityNexus-Tools\\smoke\\visioautomation-smoke.vsdx",
+    "reader": "vsdx 0.6.1",
+    "ok": true,
+    "page_count": 1,
+    "vsdx_page_count": 1,
+    "raw_xml_page_count": 1,
+    "pages": [
+      {
+        "index": 0,
+        "name": "页-1",
+        "width": 8.26771653543307,
+        "height": 11.69291338582677,
+        "shape_count": 1,
+        "shapes": [
+          {
+            "id": "1",
+            "shape_name": null,
+            "shape_type": "Shape",
+            "text": "",
+            "width": 4.0,
+            "height": 2.0,
+            "child_count": 0,
+            "children": []
+          }
+        ],
+        "connect_count": 0,
+        "connects_supported": true
+      }
+    ]
+  }
+}

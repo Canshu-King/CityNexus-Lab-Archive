@@ -1,0 +1,105 @@
+{
+ "journey": "932fbcdc-6283-4d85-adc1-ccea5cabeb22",
+ "cycles": [
+  {
+   "n": 1,
+   "hypothesis": "A chosen plan survives hard refresh, back and forward without drift",
+   "method": "Load Trips, reload, then navigate hub->trips->back->forward; compare the plan before/after via the API",
+   "evidence": {
+    "activitiesBefore": 14,
+    "activitiesAfter": 14,
+    "identicalIds": true,
+    "tripsTabsAfterNavigation": 1
+   }
+  },
+  {
+   "n": 2,
+   "hypothesis": "No screen is ever blank, and no internal enum leaks into the Chinese UI",
+   "method": "Visit hub/agent/trips/live with no journey, then with a journey and the API blocked",
+   "evidence": {
+    "noTrip": {
+     "/v8/hub": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的地 抵达厦门 离开厦门 抵达时间 离开时间 高级设置 下一步 使用封存的天津演示",
+     "/v8/agent": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的地 抵达厦门 离开厦门 抵达时间 离开时间 高级设置 下一步 使用封存的天津演示",
+     "/v8/trips": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的地 抵达厦门 离开厦门 抵达时间 离开时间 高级设置 下一步 使用封存的天津演示",
+     "/v8/live": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的地 抵达厦门 离开厦门 抵达时间 离开时间 高级设置 下一步 使用封存的天津演示"
+    },
+    "offlineWithApiBlocked": "连接 连不上服务器 你的行程数据没有丢失。请检查网络后重试。 重试",
+    "internalLeaks": []
+   }
+  },
+  {
+   "n": 3,
+   "hypothesis": "After accepting a replan, Trips/Live/backend agree and no locked commitment was moved or dropped",
+   "method": "Read the authoritative plan and the replan history after the accepted disruption",
+   "evidence": {
+    "activities": 14,
+    "locked": 6,
+    "duplicateIds": 0,
+    "chronological": true,
+    "acceptedReplans": 1
+   }
+  },
+  {
+   "n": 4,
+   "hypothesis": "The product states the budget relationship truthfully and shows unknown prices as unknown, never as 0",
+   "method": "Compare each candidate plan cost against the journey budget; count offers whose price is absent",
+   "evidence": {
+    "planBands": [
+     {
+      "id": "3fd634cd",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     },
+     {
+      "id": "37f59450",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     },
+     {
+      "id": "ab5da7a5",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     },
+     {
+      "id": "b3381189",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     },
+     {
+      "id": "77653ecd",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     },
+     {
+      "id": "98ce0281",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     },
+     {
+      "id": "14a18d94",
+      "cost": 0,
+      "budget": 300000,
+      "ratio": 0
+     }
+    ],
+    "offersWithNoPrice": 10
+   }
+  },
+  {
+   "n": 5,
+   "hypothesis": "Extreme input and repeated dock toggling never break the surface",
+   "method": "Submit a very long Copilot question, then toggle the dock eight times",
+   "evidence": {
+    "longInputSurvived": true,
+    "dockStable": true,
+    "pageErrors": 0
+   }
+  }
+ ]
+}

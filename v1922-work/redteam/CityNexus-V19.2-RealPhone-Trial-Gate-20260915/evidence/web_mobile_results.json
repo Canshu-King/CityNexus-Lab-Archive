@@ -1,0 +1,4202 @@
+[
+ {
+  "viewport": "mobile-390x844",
+  "route": "hub",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1040,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "live",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 882,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "map",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 419,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "studio",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 942,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "bookings",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1089,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "agent",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 947,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "authoritative",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 379,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "twin",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 865,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "hub",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1040,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "live",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 882,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "map",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 419,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "studio",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 942,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "bookings",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1089,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "agent",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 947,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "authoritative",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 379,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-390x844",
+  "route": "twin",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 865,
+   "overflow": {
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-390x844-reduced-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "hub",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1040,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "live",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 882,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "map",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 419,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "studio",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 942,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "bookings",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1089,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "agent",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 947,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "authoritative",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 379,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "twin",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 865,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "hub",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1040,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "live",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 882,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "map",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 419,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "studio",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 942,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "bookings",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1089,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "agent",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 947,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "authoritative",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 379,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "mobile-430x932",
+  "route": "twin",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 865,
+   "overflow": {
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\mobile-430x932-reduced-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "hub",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1317,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "live",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 1159,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "map",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 696,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "studio",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 1219,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "bookings",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1366,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "agent",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 1224,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "authoritative",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 656,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "twin",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 1142,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "hub",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1317,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "live",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 1159,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "map",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 696,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "studio",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 1219,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "bookings",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1366,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "agent",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 1224,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "authoritative",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 656,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1280x720",
+  "route": "twin",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 1142,
+   "overflow": {
+    "scrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1280x720-reduced-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "hub",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1317,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "live",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 1159,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "map",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 696,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "studio",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 1219,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "bookings",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1366,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "agent",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 1224,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "authoritative",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 656,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "twin",
+  "reducedMotion": false,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 1142,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": false
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "hub",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/hub",
+  "analysis": {
+   "textLength": 1317,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified"
+   ],
+   "statusChipCount": 6,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-hub.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "live",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/live",
+  "analysis": {
+   "textLength": 1159,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 7,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot pulse"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [
+    "button[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-live.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "map",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/map",
+  "analysis": {
+   "textLength": 696,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [
+    {
+     "tag": "span",
+     "text": "Provider-backed route · WGS84",
+     "scrollWidth": 150,
+     "clientWidth": 1
+    }
+   ],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-map.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "studio",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/studio",
+  "analysis": {
+   "textLength": 1219,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": true,
+    "conflict": false,
+    "hard": true,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-studio.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "bookings",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/bookings",
+  "analysis": {
+   "textLength": 1366,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 5,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]",
+    "textarea[]",
+    "input[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-bookings.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "agent",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/agent",
+  "analysis": {
+   "textLength": 1224,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [
+    "textarea[]"
+   ],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-agent.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "authoritative",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/authoritative",
+  "analysis": {
+   "textLength": 656,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": false,
+    "step-free": false,
+    "step_free": false,
+    "accessib": false,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": false,
+    "soft": false,
+    "rest window": false,
+    "nap": true
+   },
+   "capabilityVocabularyFound": [
+    "nap"
+   ],
+   "statusChipCount": 4,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-authoritative.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ },
+ {
+  "viewport": "desktop-1440x900",
+  "route": "twin",
+  "reducedMotion": true,
+  "url": "http://127.0.0.1:4213/v8/twin",
+  "analysis": {
+   "textLength": 1142,
+   "overflow": {
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflow": false
+   },
+   "capabilityMatches": {
+    "capability": true,
+    "step-free": false,
+    "step_free": false,
+    "accessib": true,
+    "wheelchair": false,
+    "stroller": false,
+    "unknown evidence": false,
+    "needs evidence": false,
+    "needs_live_evidence": false,
+    "unverified": false,
+    "verified": false,
+    "conflict": false,
+    "hard": true,
+    "soft": true,
+    "rest window": false,
+    "nap": false
+   },
+   "capabilityVocabularyFound": [
+    "capability",
+    "accessib",
+    "hard",
+    "soft"
+   ],
+   "statusChipCount": 3,
+   "namelessStatusNodes": [
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "span",
+     "className": "status-dot"
+    },
+    {
+     "tag": "i",
+     "className": "cn-copilot-status"
+    }
+   ],
+   "colourOnlyStatusNodes": [],
+   "clippedText": [],
+   "unlabelledControls": [],
+   "reducedMotion": true
+  },
+  "title": "CityNexus Trip Operations",
+  "screenshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\evidence\\screenshots\\desktop-1440x900-reduced-twin.png",
+  "ok": true,
+  "consoleErrors": [],
+  "pageErrors": []
+ }
+]

@@ -1,0 +1,11 @@
+{
+  "server": "visio",
+  "tools": {
+    "visio_doctor":"MISSING","diagram_validate":"MISSING","diagram_plan":"MISSING","diagram_render":"MISSING","diagram_open_visible":"MISSING","diagram_inspect":"MISSING","diagram_snapshot":"MISSING","diagram_quality_check":"MISSING","diagram_auto_repair":"MISSING","diagram_export":"MISSING","diagram_close":"MISSING",
+    "create_diagram":"AVAILABLE","batch_draw_shapes":"AVAILABLE","batch_connect_shapes":"AVAILABLE","connect_shapes":"AVAILABLE","export_page_as_image":"AVAILABLE","list_shapes":"AVAILABLE","get_connections":"AVAILABLE","read_shape_data":"AVAILABLE"
+  },
+  "resources": {
+    "visio://schemas/diagram":"MISSING","visio://schemas/style-profile":"MISSING","visio://styles/profiles":"MISSING","visio://schemas/renderer-effective-fields":"MISSING","visio://standards":"AVAILABLE","visio://standards/{diagram_type}":"AVAILABLE"
+  },
+  "discoveryMethod":"Codex current MCP tool inventory + list_mcp_resources/list_mcp_resource_templates"
+}

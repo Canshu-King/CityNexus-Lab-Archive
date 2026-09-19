@@ -1,0 +1,145 @@
+{
+ "steps": [
+  {
+   "n": "1-journey",
+   "v": "951e61ff-f8f9-4547-a894-86db4766487b"
+  },
+  {
+   "n": "2-ai",
+   "v": "plans=3"
+  },
+  {
+   "n": "3-choose",
+   "v": "cards=3 chosen=true"
+  },
+  {
+   "n": "4-hotel",
+   "v": "cards=10 chosen=true name=喜来登酒店"
+  },
+  {
+   "n": "5-before",
+   "v": "plan=8cd17163-0366-4441-9f12-6d01e2833ee4 n=14 locked=6"
+  },
+  {
+   "n": "6-attempt",
+   "v": "OSM restaurant@2026-11-06T02:32:00+00:00 -> 201 PROPOSAL"
+  },
+  {
+   "n": "7-proposal",
+   "v": "preserved=true removed=1 added=1 moved=6"
+  },
+  {
+   "n": "8-live-proposal",
+   "v": "{\"disruption\":1,\"proposals\":3,\"affected\":[\"· 受影响：OSM restaurant\"],\"unchanged\":[\"已确认的预订和到达/离开时间保持不变。\",\"已确认的预订和到达/离开时间保持不变。\",\"已确认的预订和到达/离开时间保持不变。\"],\"removed\":[\"e1ced246-e238-5e48-a816-1b82e8b2953c\",\"e1ced246-e238-5e48-a816-1b82e8b2953c\",\"e1ced246-e238-5e48-a816-1b82e8b2953c\"],\"added\":[\"real-place-9e78bfc328293a332fe51472\",\"real-place-c270d43c4e4c734b010cedf5\",\"real-place-ecea987d"
+  },
+  {
+   "n": "9-accept",
+   "v": "accepted=true message=\"已按新安排更新你的行程。\""
+  },
+  {
+   "n": "10-backend",
+   "v": "plan=7b374d4d-aa00-4e4c-9846-40b99ba23e9d changed=true n=14 acceptedStatus=ACCEPTED lockedBefore=6 lockedAfter=6"
+  },
+  {
+   "n": "11-locked-check",
+   "v": "lockedSame=true missingLocked=[]"
+  },
+  {
+   "n": "12-unaffected-check",
+   "v": "unaffectedCount=13 movedOrDropped=6 sample=[\"OSM cafe@1793936580000\",\"OSM park@1794017640000\",\"OSM park@1794021720000\",\"OSM restaurant@1793951280000\"]"
+  },
+  {
+   "n": "13-agreement",
+   "v": "tripsStops=7 backendStops=14 match=false protectedBadges=0 backendLocked=6 missingOnTrips=[]"
+  },
+  {
+   "n": "14-live-after",
+   "v": "{\"next\":\"下一站：厦门高崎国际机场\",\"current\":\"厦门高崎国际机场\",\"disruption\":0,\"proposals\":0,\"handled\":1}"
+  },
+  {
+   "n": "15-map-after",
+   "v": "{\"panel\":1,\"canvas\":1,\"empty\":0}"
+  },
+  {
+   "n": "16-hub-after",
+   "v": "{\"heading\":\"厦门之旅\",\"next\":\"下一步 10:00 厦门高崎国际机场 今天没有安排 住宿 喜来登酒店 已确认的住宿 需要关注 已处理 刚才的变化已经处理好\",\"attention\":\"已处理\"}"
+  },
+  {
+   "n": "17-live-refresh",
+   "v": "{\"proposals\":0,\"disruption\":0,\"handled\":1,\"next\":\"下一站：厦门高崎国际机场\"}"
+  },
+  {
+   "n": "page-errors",
+   "v": "0 []"
+  }
+ ],
+ "errors": [],
+ "jid": "951e61ff-f8f9-4547-a894-86db4766487b",
+ "before": {
+  "planId": "8cd17163-0366-4441-9f12-6d01e2833ee4",
+  "count": 14,
+  "locked": [
+   "厦门高崎国际机场@2026-11-06T02:00:00+00:00",
+   "Check in · 喜来登酒店@2026-11-06T06:00:00+00:00",
+   "Overnight · 喜来登酒店@2026-11-06T14:30:00+00:00",
+   "Overnight · 喜来登酒店@2026-11-07T14:30:00+00:00",
+   "Check out · 喜来登酒店@2026-11-08T04:00:00+00:00",
+   "厦门北站@2026-11-08T11:50:00+00:00"
+  ]
+ },
+ "attempts": [
+  {
+   "target": "OSM restaurant",
+   "at": "2026-11-06T02:32:00+00:00",
+   "status": 201,
+   "message": "",
+   "id": "1dbc8648-2557-44ad-9987-291d2bd9d095"
+  }
+ ],
+ "proposalId": "1dbc8648-2557-44ad-9987-291d2bd9d095",
+ "liveBefore": {
+  "disruption": 1,
+  "proposals": 3,
+  "affected": [
+   "· 受影响：OSM restaurant"
+  ],
+  "unchanged": [
+   "已确认的预订和到达/离开时间保持不变。",
+   "已确认的预订和到达/离开时间保持不变。",
+   "已确认的预订和到达/离开时间保持不变。"
+  ],
+  "removed": [
+   "e1ced246-e238-5e48-a816-1b82e8b2953c",
+   "e1ced246-e238-5e48-a816-1b82e8b2953c",
+   "e1ced246-e238-5e48-a816-1b82e8b2953c"
+  ],
+  "added": [
+   "real-place-9e78bfc328293a332fe51472",
+   "real-place-c270d43c4e4c734b010cedf5",
+   "real-place-ecea987d32d1dacb62a37e62"
+  ],
+  "moved": [
+   "[object Object]、[object Object]、[object Object]、[object Object]、[object Object]、[object Object]",
+   "[object Object]、[object Object]、[object Object]、[object Object]、[object Object]、[object Object]",
+   "[object Object]、[object Object]、[object Object]、[object Object]、[object Object]、[object Object]"
+  ],
+  "summaries": [
+   "Reality-aware recovery proposal",
+   "Reality-aware recovery proposal",
+   "Reality-aware recovery proposal"
+  ],
+  "next": "下一站：厦门高崎国际机场"
+ },
+ "after": {
+  "planId": "7b374d4d-aa00-4e4c-9846-40b99ba23e9d",
+  "count": 14,
+  "locked": [
+   "厦门高崎国际机场@2026-11-06T10:00:00+08:00",
+   "Check in · 喜来登酒店@2026-11-06T14:00:00+08:00",
+   "Overnight · 喜来登酒店@2026-11-06T22:30:00+08:00",
+   "Overnight · 喜来登酒店@2026-11-07T22:30:00+08:00",
+   "Check out · 喜来登酒店@2026-11-08T12:00:00+08:00",
+   "厦门北站@2026-11-08T19:50:00+08:00"
+  ]
+ }
+}

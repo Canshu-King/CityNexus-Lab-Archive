@@ -1,0 +1,328 @@
+{
+ "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+ "city_code": "CN-XIAMEN",
+ "demo_reset_used": false,
+ "journey_id_switches": [],
+ "single_journey_proven": true,
+ "plan_ids": [
+  "89a623c2-4629-5c16-84f5-348cc13aeb74",
+  "5d58d47f-5c02-5e8c-a359-6a000f5da440",
+  "08e6657a-3f51-5f6c-999c-2caca848d16c"
+ ],
+ "selected_plan_id": "89a623c2-4629-5c16-84f5-348cc13aeb74",
+ "stay_selected": "酒店",
+ "final_plan_id": "8c4c6f6f-6991-42d7-bbf2-8b6ab34a91dd",
+ "final_stops": 6,
+ "entries": [
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/journeys",
+   "action": "create",
+   "status": "OK",
+   "result": "city=CN-XIAMEN status=DRAFT",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "discover[tourist attraction]",
+   "action": "discover",
+   "status": "OK",
+   "result": "candidates=6 try=1",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "places",
+   "action": "pois",
+   "status": "OK",
+   "result": "6 xiamen POIs",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/plans/generate",
+   "action": "generate",
+   "status": "OK",
+   "result": "plans=3 stops=[6, 5, 4]",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/plans/89a623c2/select",
+   "action": "select",
+   "status": "OK",
+   "result": "",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/start",
+   "action": "start",
+   "status": "OK",
+   "result": "status=None",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/stay-options/generate",
+   "action": "stay",
+   "status": "OK",
+   "result": "options=4",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/stay-options/{id}/select",
+   "action": "stay-select",
+   "status": "OK",
+   "result": "",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/events",
+   "action": "event",
+   "status": "OK",
+   "result": "type=CLOSURE target=Check in · 酒店",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/replans",
+   "action": "replan",
+   "status": "OK",
+   "result": "status=PRESENTED preserved=True",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/replans/6a555ab7",
+   "action": "proposal-view",
+   "status": "OK",
+   "result": "removed=0 added=0",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/replans/6a555ab7/accept",
+   "action": "accept",
+   "status": "OK",
+   "result": "status=ACCEPTED",
+   "source": "backend"
+  },
+  {
+   "ts": "n/a",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/experience",
+   "action": "final",
+   "status": "OK",
+   "result": "plan=8c4c6f6f stops=6 recovery=None",
+   "source": "backend"
+  },
+  {
+   "ts": "2026-09-16T10:39:30.921Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/* 390x844",
+   "action": "all-tabs",
+   "status": "200",
+   "result": "rendered",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:39:34.198Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "itinerary",
+   "status": "200",
+   "result": "stops=3",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:39:40.238Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "hotels",
+   "status": "200",
+   "result": "hotels=4",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:04.594Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "live-recovery",
+   "status": "clean",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 | 当前没有需要你决定的调整。 | 实时行程 · 已保存 9月16日 18:38 | 选择你",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:04.596Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live 390x844",
+   "action": "overflow",
+   "status": "none",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:19.889Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/* 430x932",
+   "action": "all-tabs",
+   "status": "200",
+   "result": "rendered",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:23.125Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "itinerary",
+   "status": "200",
+   "result": "stops=3",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:29.160Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/trips",
+   "action": "hotels",
+   "status": "200",
+   "result": "hotels=4",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:33.733Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "live-recovery",
+   "status": "clean",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 | 当前没有需要你决定的调整。 | 实时行程 · 已保存 9月16日 18:38 | 选择你",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T10:40:33.735Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live 430x932",
+   "action": "overflow",
+   "status": "none",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.123Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "live-open",
+   "status": "200",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 · 受影响：Check in · 厦门康莱德酒店 | 有一处地点临时关闭 | 有一处地点临时关闭 | 推荐怎么改 | 已确认的预订和到达/离开时间保持不",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.124Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "disruption-visible",
+   "status": "yes",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.125Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "affected-visible",
+   "status": "yes",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.126Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "proposal-visible",
+   "status": "yes",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.128Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "unchanged-copy",
+   "status": "已确认的预订和到达/离开时间保持不变。",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.128Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "leaks",
+   "status": "clean",
+   "result": "",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:58.243Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "accept",
+   "status": "clicked",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 | 有一处地点临时关闭 | 有一处地点临时关闭 | 当前没有需要你决定的调整。 | 已按新安排更新你的行程。 | 实时行程 · 已保存 9月16日 17:26 | 选择你的",
+   "source": "browser"
+  },
+  {
+   "ts": "2026-09-16T09:40:58.243Z",
+   "journey_id": "89695905-f434-447b-9477-72abffc1903d",
+   "city_code": "CN-XIAMEN",
+   "screen": "/v8/live",
+   "action": "proposal-cleared",
+   "status": "yes",
+   "result": "",
+   "source": "browser"
+  }
+ ]
+}

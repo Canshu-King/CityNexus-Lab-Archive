@@ -1,0 +1,513 @@
+diff --git a/frontend/src/features/capability-experience/components/CopilotNeedsConfirmation.tsx b/frontend/src/features/capability-experience/components/CopilotNeedsConfirmation.tsx
+new file mode 100644
+index 0000000..27de332
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/CopilotNeedsConfirmation.tsx
+@@ -0,0 +1,203 @@
++import { useId, useState, type ChangeEvent } from "react";
++import type { CapabilityConfirmation, CapabilityConfirmationDecision, CapabilityScope, CapabilityStrength, TravelerCapability } from "../types";
++import { CAPABILITY_SCOPES, CAPABILITY_STRENGTHS } from "../types";
++import { capabilityCopy } from "../copy";
++import { EvidenceBadge, EvidenceSummary } from "./EvidenceBadge";
++import { capabilityKindLabel, capabilityLabel, scopeLabel, strengthLabel } from "../evidence";
++import "../styles/capability-experience.css";
++
++export interface CopilotNeedsConfirmationProps {
++  confirmations: CapabilityConfirmation[];
++  statement?: string;
++  locale?: "zh-CN" | "en";
++  surface?: "card" | "sheet";
++  onDecision?: (decision: CapabilityConfirmationDecision) => void;
++  onDismiss?: () => void;
++}
++
++function applyOption(confirmation: CapabilityConfirmation): CapabilityConfirmation {
++  if (!confirmation.selectedOptionId || !confirmation.ambiguityOptions) return confirmation;
++  const option = confirmation.ambiguityOptions.find((item) => item.id === confirmation.selectedOptionId);
++  if (!option) return confirmation;
++  return {
++    ...confirmation,
++    ambiguous: false,
++    capability: { ...confirmation.capability, ...option.capabilityPatch, confirmed: false },
++  };
++}
++
++function editableCapability(confirmation: CapabilityConfirmation): TravelerCapability {
++  return applyOption(confirmation).capability;
++}
++
++export function CopilotNeedsConfirmation({
++  confirmations,
++  statement,
++  locale = "zh-CN",
++  surface = "card",
++  onDecision,
++  onDismiss,
++}: CopilotNeedsConfirmationProps) {
++  const copy = capabilityCopy(locale);
++  const [drafts, setDrafts] = useState<CapabilityConfirmation[]>(confirmations);
++  const [editing, setEditing] = useState(false);
++  const [acknowledged, setAcknowledged] = useState(false);
++  const [status, setStatus] = useState("");
++  const titleId = useId();
++  const warningId = useId();
++
++  const effective = drafts.map(applyOption);
++  const unresolvedAmbiguity = effective.some((item) => item.ambiguous);
++  const hardFuturePersistence = effective.some((item) => item.capability.strength === "HARD" && item.capability.scope !== "THIS_JOURNEY");
++  const confirmBlocked = unresolvedAmbiguity || (hardFuturePersistence && !acknowledged) || effective.length === 0;
++
++  const updateCapability = (id: string, patch: Partial<TravelerCapability>) => {
++    setDrafts((current) => current.map((item) => item.id === id ? { ...item, capability: { ...item.capability, ...patch } } : item));
++  };
++  const selectOption = (id: string, optionId: string) => {
++    setDrafts((current) => current.map((item) => item.id === id ? { ...item, selectedOptionId: optionId, ambiguous: false } : item));
++  };
++  const decide = (action: CapabilityConfirmationDecision["action"], override?: CapabilityConfirmation[]) => {
++    const source = override ?? effective;
++    const capabilities = source.map((item) =>
++      action === "JOURNEY_ONLY" ? { ...item.capability, scope: "THIS_JOURNEY" as const } : item.capability,
++    );
++    if (action === "CONFIRM" && confirmBlocked) return;
++    onDecision?.({ id: capabilities.map((item) => item.id).join(","), action, capabilities, acknowledgedFuturePersistence: acknowledged });
++    if (action === "CONFIRM") setStatus(copy.confirmation.confirmed);
++    if (action === "JOURNEY_ONLY") setStatus(copy.confirmation.journeyOnlyConfirmed);
++    if (action === "DISMISS") setStatus(copy.confirmation.dismissed);
++  };
++  const dismiss = () => {
++    setStatus(copy.confirmation.dismissed);
++    onDismiss?.();
++    onDecision?.({ id: "dismiss", action: "DISMISS", capabilities: [] });
++  };
++
++  return (
++    <section
++      className={`cne-confirmation cne-confirmation--${surface}`}
++      role={surface === "sheet" ? "dialog" : "region"}
++      aria-modal={surface === "sheet" ? true : undefined}
++      aria-labelledby={titleId}
++      data-testid={surface === "sheet" ? "copilot-needs-sheet" : "copilot-needs-confirmation"}
++    >
++      <header className="cne-surface__head">
++        <div>
++          <span className="cne-kicker">{copy.confirmation.detected}</span>
++          <h2 id={titleId}>{surface === "sheet" ? copy.confirmation.sheetTitle : copy.confirmation.title}</h2>
++          {statement ? <blockquote className="cne-quote">{statement}</blockquote> : null}
++        </div>
++        <span className="cne-source-pill">{copy.confirmation.sourceValue}</span>
++      </header>
++
++      <ul className="cne-confirmation__list">
++        {effective.map((item, index) => {
++          const capability = item.capability;
++          return (
++            <li key={item.id} className="cne-confirmation__item" data-testid={`detected-need-${index}`}>
++              <div className="cne-confirmation__item-main">
++                <div>
++                  <strong>{capabilityLabel(capability, locale)}</strong>
++                  <p className="cne-help">{copy.confirmation.classLabel}: {strengthLabel(capability.strength, copy)} · {copy.confirmation.scopeLabel}: {scopeLabel(capability.scope, copy)} · {capabilityKindLabel(capability.kind, copy)}</p>
++                </div>
++                <EvidenceBadge state={capability.evidence.state} evidence={capability.evidence} locale={locale} />
++              </div>
++
++              {item.ambiguous ? (
++                <fieldset className="cne-ambiguity" data-testid={`detected-ambiguity-${index}`}>
++                  <legend>{copy.confirmation.ambiguity}</legend>
++                  {item.ambiguityPrompt ? <p>{item.ambiguityPrompt}</p> : null}
++                  {item.ambiguityOptions?.map((option) => (
++                    <label key={option.id} className="cne-choice">
++                      <input
++                        type="radio"
++                        name={`ambiguity-${item.id}`}
++                        value={option.id}
++                        checked={item.selectedOptionId === option.id}
++                        onChange={() => selectOption(item.id, option.id)}
++                      />
++                      <span><b>{option.label}</b>{option.description ? <small>{option.description}</small> : null}</span>
++                    </label>
++                  ))}
++                </fieldset>
++              ) : null}
++
++              {editing ? (
++                <div className="cne-confirmation__edit">
++                  <label>
++                    {copy.confirmation.classLabel}
++                    <select
++                      value={capability.strength}
++                      onChange={(event: ChangeEvent<HTMLElement>) => updateCapability(item.id, { strength: event.target.value as CapabilityStrength })}
++                      data-testid={`detected-strength-${index}`}
++                    >
++                      {CAPABILITY_STRENGTHS.filter((value) => value !== "AMBIGUOUS").map((value) => (
++                        <option key={value} value={value}>{strengthLabel(value, copy)}</option>
++                      ))}
++                    </select>
++                  </label>
++                  <label>
++                    {copy.confirmation.scopeLabel}
++                    <select
++                      value={capability.scope}
++                      onChange={(event: ChangeEvent<HTMLElement>) => updateCapability(item.id, { scope: event.target.value as CapabilityScope })}
++                      data-testid={`detected-scope-${index}`}
++                    >
++                      {CAPABILITY_SCOPES.map((value) => (
++                        <option key={value} value={value}>{scopeLabel(value, copy)}</option>
++                      ))}
++                    </select>
++                  </label>
++                </div>
++              ) : null}
++              <EvidenceSummary evidence={capability.evidence} locale={locale} />
++            </li>
++          );
++        })}
++      </ul>
++
++      {hardFuturePersistence ? (
++        <div className="cne-hard-warning" id={warningId}>
++          <strong>{copy.confirmation.hardPersistenceWarning}</strong>
++          <label className="cne-check">
++            <input
++              type="checkbox"
++              checked={acknowledged}
++              onChange={(event: ChangeEvent<HTMLElement>) => setAcknowledged(event.target.checked)}
++              data-testid="hard-persistence-ack"
++            />
++            <span>{copy.confirmation.hardPersistenceAcknowledge}</span>
++          </label>
++        </div>
++      ) : null}
++
++      {unresolvedAmbiguity ? <p className="cne-blocked-note" role="status">{copy.confirmation.ambiguity}</p> : null}
++      {status ? <p className="cne-status" role="status" aria-live="polite" data-testid="copilot-status">{status}</p> : null}
++
++      <footer className="cne-surface__actions cne-surface__actions--wrap">
++        <button type="button" className="cne-button cne-button--primary" disabled={confirmBlocked} onClick={() => decide("CONFIRM")} data-testid="copilot-confirm">
++          {copy.confirmation.actions.confirm}
++        </button>
++        <button type="button" className="cne-button cne-button--secondary" onClick={() => setEditing((value) => !value)} data-testid="copilot-edit">
++          {editing ? copy.confirmation.actions.saveEdit : copy.confirmation.actions.edit}
++        </button>
++        <button
++          type="button"
++          className="cne-button cne-button--secondary"
++          onClick={() => {
++            const journeyOnly = effective.map((item) => ({ ...item, capability: { ...item.capability, scope: "THIS_JOURNEY" as const } }));
++            setDrafts(journeyOnly);
++            decide("JOURNEY_ONLY", journeyOnly);
++          }}
++          data-testid="copilot-journey-only"
++        >
++          {copy.confirmation.actions.journeyOnly}
++        </button>
++        <button type="button" className="cne-button cne-button--ghost" onClick={dismiss} data-testid="copilot-dismiss">
++          {copy.confirmation.actions.dismiss}
++        </button>
++      </footer>
++    </section>
++  );
++}
+\ No newline at end of file
+diff --git a/frontend/src/features/capability-experience/components/EvidenceBadge.tsx b/frontend/src/features/capability-experience/components/EvidenceBadge.tsx
+new file mode 100644
+index 0000000..343cabc
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/EvidenceBadge.tsx
+@@ -0,0 +1,54 @@
++import type { CapabilityEvidence, CapabilityEvidenceState } from "../types";
++import { evidenceVisual, provenanceKindLabel } from "../evidence";
++import { capabilityCopy } from "../copy";
++import "../styles/capability-experience.css";
++
++export interface EvidenceBadgeProps {
++  state: CapabilityEvidenceState;
++  evidence?: CapabilityEvidence;
++  locale?: "zh-CN" | "en";
++  showProvenance?: boolean;
++  className?: string;
++  testId?: string;
++}
++
++export function EvidenceBadge({
++  state,
++  evidence,
++  locale = "zh-CN",
++  showProvenance = false,
++  className = "",
++  testId,
++}: EvidenceBadgeProps) {
++  const copy = capabilityCopy(locale);
++  const visual = evidenceVisual(state, copy);
++  const label = evidence ? `${visual.label}: ${evidence.summary}` : visual.label;
++  return (
++    <span className={`cne-evidence cne-evidence--${visual.tone} ${className}`.trim()} data-evidence-state={state} data-testid={testId ?? `evidence-${state.toLowerCase()}`} aria-label={label}>
++      <span className="cne-evidence__glyph" aria-hidden="true">{visual.glyph}</span>
++      <span className="cne-evidence__label">{visual.label}</span>
++      {showProvenance && evidence ? (
++        <span className="cne-evidence__provenance" title={evidence.provenance.notes ?? evidence.summary}>
++          {provenanceKindLabel(evidence.provenance.kind, copy)}
++        </span>
++      ) : null}
++    </span>
++  );
++}
++
++export function EvidenceSummary({ evidence, locale = "zh-CN" }: { evidence: CapabilityEvidence; locale?: "zh-CN" | "en" }) {
++  const copy = capabilityCopy(locale);
++  return (
++    <div className="cne-evidence-summary">
++      <EvidenceBadge state={evidence.state} evidence={evidence} locale={locale} showProvenance />
++      <p>{evidence.summary}</p>
++      {evidence.liveChecks?.length ? (
++        <ul className="cne-evidence-summary__checks">
++          {evidence.liveChecks.map((check) => <li key={check}>{check}</li>)}
++        </ul>
++      ) : null}
++      {evidence.detail ? <p className="cne-evidence-summary__detail">{evidence.detail}</p> : null}
++      {evidence.state !== "VERIFIED" ? <p className="cne-evidence-summary__rule">{copy.evidence.unknownIsNotAccessible}</p> : null}
++    </div>
++  );
++}
+\ No newline at end of file
+diff --git a/frontend/src/features/capability-experience/components/JourneySetupNeeds.tsx b/frontend/src/features/capability-experience/components/JourneySetupNeeds.tsx
+new file mode 100644
+index 0000000..9fb516a
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/JourneySetupNeeds.tsx
+@@ -0,0 +1,235 @@
++import { useId, useState, type ChangeEvent } from "react";
++import type { JourneySetupNeedsDraft, QuickNeedId, TravelerCapability } from "../types";
++import { QUICK_NEEDS } from "../types";
++import { capabilityCopy } from "../copy";
++import { draftToCapabilities } from "../adapter";
++import { EvidenceBadge } from "./EvidenceBadge";
++import { makeUiOnlyEvidence } from "../evidence";
++import "../styles/capability-experience.css";
++
++export const EMPTY_JOURNEY_SETUP_NEEDS: JourneySetupNeedsDraft = {
++  quickNeedIds: [],
++  advanced: {},
++  note: "",
++};
++
++export interface JourneySetupNeedsProps {
++  value: JourneySetupNeedsDraft;
++  onChange: (next: JourneySetupNeedsDraft) => void;
++  locale?: "zh-CN" | "en";
++  onSave?: (capabilities: TravelerCapability[]) => void;
++  disabled?: boolean;
++  showSourceNotice?: boolean;
++}
++
++export function JourneySetupNeeds({
++  value,
++  onChange,
++  locale = "zh-CN",
++  onSave,
++  disabled = false,
++  showSourceNotice = true,
++}: JourneySetupNeedsProps) {
++  const copy = capabilityCopy(locale);
++  const [advancedOpen, setAdvancedOpen] = useState(false);
++  const advancedId = useId();
++  const quickNeedIds = new Set(value.quickNeedIds);
++  const capabilities = draftToCapabilities(value, locale);
++
++  const update = <K extends keyof JourneySetupNeedsDraft>(key: K, next: JourneySetupNeedsDraft[K]) => {
++    onChange({ ...value, [key]: next });
++  };
++  const updateAdvanced = <K extends keyof JourneySetupNeedsDraft["advanced"]>(key: K, next: JourneySetupNeedsDraft["advanced"][K]) => {
++    onChange({ ...value, advanced: { ...value.advanced, [key]: next } });
++  };
++  const toggleQuick = (id: QuickNeedId) => {
++    const nextIds = quickNeedIds.has(id) ? value.quickNeedIds.filter((item) => item !== id) : [...value.quickNeedIds, id];
++    update("quickNeedIds", nextIds);
++  };
++
++  return (
++    <section className="cne-setup" aria-labelledby="cne-setup-title" data-testid="journey-setup-needs">
++      <header className="cne-surface__head">
++        <div>
++          <span className="cne-kicker">{copy.journeySetup.optional}</span>
++          <h2 id="cne-setup-title">{copy.journeySetup.title}</h2>
++          <p>{copy.journeySetup.lede}</p>
++        </div>
++        <EvidenceBadge
++          state="NEEDS_LIVE_EVIDENCE"
++          evidence={makeUiOnlyEvidence(copy.journeySetup.sourceNotice)}
++          locale={locale}
++          showProvenance
++          testId="journey-setup-source"
++        />
++      </header>
++
++      <fieldset className="cne-setup__group" disabled={disabled}>
++        <legend>{copy.journeySetup.quickTitle}</legend>
++        <p className="cne-help" id="cne-quick-help">{copy.journeySetup.quickHelp}</p>
++        <div className="cne-chiplist" role="group" aria-describedby="cne-quick-help">
++          {QUICK_NEEDS.map((need) => {
++            const selected = quickNeedIds.has(need.id);
++            return (
++              <button
++                key={need.id}
++                type="button"
++                className={`cne-chip ${selected ? "is-selected" : ""}`}
++                role="checkbox"
++                aria-checked={selected}
++                data-testid={`setup-quick-${need.id}`}
++                onClick={() => toggleQuick(need.id)}
++              >
++                <span className="cne-chip__mark" aria-hidden="true">{selected ? "✓" : "+"}</span>
++                <span>{locale === "zh-CN" ? need.labelZh : need.labelEn}</span>
++              </button>
++            );
++          })}
++        </div>
++      </fieldset>
++
++      <div className="cne-setup__advanced">
++        <button
++          type="button"
++          className="cne-disclosure"
++          aria-expanded={advancedOpen}
++          aria-controls={advancedId}
++          onClick={() => setAdvancedOpen((open) => !open)}
++        >
++          <span aria-hidden="true" className={`cne-disclosure__arrow ${advancedOpen ? "is-open" : ""}`}>▸</span>
++          {copy.journeySetup.advancedToggle}
++        </button>
++        {advancedOpen ? (
++          <div id={advancedId} className="cne-setup__advanced-grid">
++            <p className="cne-help cne-grid-full">{copy.journeySetup.advancedHelp}</p>
++            <label>
++              {copy.journeySetup.maxWalkingPerLeg}
++              <input
++                type="number"
++                min={0}
++                inputMode="numeric"
++                value={value.advanced.maxWalkingPerLegM ?? ""}
++                onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("maxWalkingPerLegM", event.target.value === "" ? undefined : Number(event.target.value))}
++                data-testid="setup-max-walking-leg"
++              />
++            </label>
++            <label>
++              {copy.journeySetup.maxContinuousWalking}
++              <input
++                type="number"
++                min={0}
++                inputMode="numeric"
++                value={value.advanced.maxContinuousWalkingM ?? ""}
++                onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("maxContinuousWalkingM", event.target.value === "" ? undefined : Number(event.target.value))}
++                data-testid="setup-max-walking-continuous"
++              />
++            </label>
++            <label>
++              {copy.journeySetup.restFrequency}
++              <input
++                type="number"
++                min={0}
++                inputMode="numeric"
++                value={value.advanced.restFrequencyMin ?? ""}
++                onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("restFrequencyMin", event.target.value === "" ? undefined : Number(event.target.value))}
++                data-testid="setup-rest-frequency"
++              />
++            </label>
++            <label>
++              {copy.journeySetup.toiletFrequency}
++              <input
++                type="number"
++                min={0}
++                inputMode="numeric"
++                value={value.advanced.toiletFrequencyMin ?? ""}
++                onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("toiletFrequencyMin", event.target.value === "" ? undefined : Number(event.target.value))}
++                data-testid="setup-toilet-frequency"
++              />
++            </label>
++            <fieldset className="cne-nap-window">
++              <legend>{copy.journeySetup.napWindow}</legend>
++              <label>
++                <span className="cne-sr-only">Start</span>
++                <input
++                  type="time"
++                  value={value.advanced.napWindow?.start ?? ""}
++                  onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("napWindow", { start: event.target.value, end: value.advanced.napWindow?.end ?? "14:00" })}
++                  data-testid="setup-nap-start"
++                />
++              </label>
++              <span aria-hidden="true">–</span>
++              <label>
++                <span className="cne-sr-only">End</span>
++                <input
++                  type="time"
++                  value={value.advanced.napWindow?.end ?? ""}
++                  onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("napWindow", { start: value.advanced.napWindow?.start ?? "12:00", end: event.target.value })}
++                  data-testid="setup-nap-end"
++                />
++              </label>
++            </fieldset>
++            <label>
++              {copy.journeySetup.pace}
++              <select
++                value={value.advanced.pace ?? ""}
++                onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("pace", event.target.value === "" ? undefined : (event.target.value as JourneySetupNeedsDraft["advanced"]["pace"]))}
++                data-testid="setup-pace"
++              >
++                <option value="">—</option>
++                <option value="RELAXED">{copy.journeySetup.paceRelaxed}</option>
++                <option value="BALANCED">{copy.journeySetup.paceBalanced}</option>
++                <option value="BRISK">{copy.journeySetup.paceBrisk}</option>
++              </select>
++            </label>
++            <label className="cne-check cne-grid-full">
++              <input
++                type="checkbox"
++                checked={Boolean(value.advanced.quietSensory)}
++                onChange={(event: ChangeEvent<HTMLElement>) => updateAdvanced("quietSensory", event.target.checked)}
++                data-testid="setup-quiet-sensory"
++              />
++              <span>{copy.journeySetup.quietSensory}</span>
++            </label>
++          </div>
++        ) : null}
++      </div>
++
++      <label className="cne-setup__note">
++        {copy.journeySetup.note}
++        <textarea
++          rows={2}
++          value={value.note ?? ""}
++          placeholder={copy.journeySetup.notePlaceholder}
++          onChange={(event: ChangeEvent<HTMLElement>) => update("note", event.target.value)}
++          data-testid="setup-note"
++        />
++      </label>
++
++      <div className="cne-active-summary" aria-live="polite">
++        <strong>{copy.journeySetup.activeSummary}</strong>
++        {capabilities.length === 0 ? <span>{copy.mobile.noNeeds}</span> : (
++          <ul>
++            {capabilities.slice(0, 6).map((capability) => <li key={capability.id}>{capability.label}</li>)}
++          </ul>
++        )}
++      </div>
++
++      {showSourceNotice ? <p className="cne-source-notice" data-testid="setup-source-notice">{copy.journeySetup.sourceNotice}</p> : null}
++
++      <footer className="cne-surface__actions">
++        <button type="button" className="cne-button cne-button--ghost" onClick={() => onChange(EMPTY_JOURNEY_SETUP_NEEDS)} disabled={disabled} data-testid="setup-clear">
++          {copy.journeySetup.clear}
++        </button>
++        <button
++          type="button"
++          className="cne-button cne-button--primary"
++          disabled={disabled}
++          onClick={() => onSave?.(capabilities)}
++          data-testid="setup-save"
++        >
++          {copy.journeySetup.save}
++        </button>
++      </footer>
++    </section>
++  );
++}
+\ No newline at end of file

@@ -1,0 +1,8 @@
+﻿--- diff PlanWithAiSheet vs HEAD ---
+0
+--- diff main.py vs HEAD ---
+0
+--- diff all tracked vs HEAD (stat tail) ---
+ .gitignore | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+

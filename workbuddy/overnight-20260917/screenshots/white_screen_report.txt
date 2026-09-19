@@ -1,0 +1,27 @@
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[debug] [vite] connecting...
+[debug] [vite] connected.
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+
+HTML len: 171695
+
+HTML head:
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="/@vite/client"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#172945">
+    <title>CityNexus Trip Operations</title>
+  <style type="text/css" data-vite-dev-id="D:/moodle/CityNexus-WorkBuddy/overnight-20260917/baseline/app_snapshot_0115/frontend/src/v10.css">/* V10 execution rail: quiet hierarchy, one primary metric, progressive evidence. */
+.v10-execution-panel { width: min(1180px, calc(100% - 34px)); margin: 0 auto 18px; padding: 20px; border: 1px solid #d9e2df; border-radius: 14px; background: #fbfdfb; box-shadow: 0 10px 30px #173f3a0b; }
+.v10-execution-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }.v10-execution-heading h3 { margin: 5px 0 0; color: #12383b; font-size: 2

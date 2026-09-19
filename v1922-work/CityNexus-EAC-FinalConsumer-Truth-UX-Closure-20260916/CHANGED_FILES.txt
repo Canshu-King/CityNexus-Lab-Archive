@@ -1,0 +1,12 @@
+# CityNexus Final Consumer Truth + UX Closure — changed files
+# Baseline: Snapshot I (files it shipped) -> Snapshot H -> V19.2.4 full tree.
+# Content comparison, line-ending insensitive.
+
+## Added (1)
+A  backend/tests/test_final_consumer_truth_blockers.py
+
+## Modified (2)
+M  backend/app/main.py
+M  backend/app/stay_mobility.py
+
+## Removed (0)

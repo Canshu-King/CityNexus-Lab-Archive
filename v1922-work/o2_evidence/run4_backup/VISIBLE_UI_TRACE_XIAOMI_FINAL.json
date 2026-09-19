@@ -1,0 +1,698 @@
+{
+ "run": "xiaomi-final-v2",
+ "started": "2026-09-17T21:15:25.461Z",
+ "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+ "trace": [
+  {
+   "ts": "2026-09-17T21:15:39.068Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "create-xiamen-journey",
+   "status": "201",
+   "result": "c5d55e1b-801b-4586-bc54-9de65fcd1f43"
+  },
+  {
+   "ts": "2026-09-17T21:16:01.844Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "ai-plan-run-specific",
+   "status": "new-candidates",
+   "result": "baseline=0 new=3 reported=3",
+   "new_plan_ids": [
+    "77808b90-927b-5f98-9169-65edad2ebb87",
+    "0ae8caab-4d42-5de3-a0d5-242ea11ee014",
+    "e1761721-1a93-5907-9d6b-0aedf899e8b6"
+   ]
+  },
+  {
+   "ts": "2026-09-17T21:16:10.157Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "select-plan",
+   "status": "selected",
+   "result": "77808b90-927b-5f98-9169-65edad2ebb87",
+   "selected_plan_id": "77808b90-927b-5f98-9169-65edad2ebb87"
+  },
+  {
+   "ts": "2026-09-17T21:16:14.363Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "trips-multiday",
+   "status": "4 stops",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T21:16:16.516Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "activity-detail",
+   "status": "opened",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T21:16:29.414Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "hotel-select",
+   "status": "selected",
+   "result": "10 hotels | 厦门康莱德酒店"
+  },
+  {
+   "ts": "2026-09-17T21:16:52.441Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "booking-import-confirm",
+   "status": "confirmed",
+   "result": "ref=E2E-V2-BOOKING-1 amount=18000 origin=厦门北站",
+   "booking_truth": {
+    "entity_set": "wallet.reservations",
+    "count": 1,
+    "booking_id": "4bf4133e-bfba-4551-99cf-90b355ed18b7",
+    "commitment_id": "8f6442ec-597a-4736-8290-3a2dc9c93f59",
+    "confirmation_ref": "E2E-V2-BOOKING-1",
+    "amount_minor": 18000,
+    "amount_status": "KNOWN",
+    "origin": "厦门北站",
+    "destination": "深圳北站"
+   }
+  },
+  {
+   "ts": "2026-09-17T21:16:52.571Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "commitments-before-closure",
+   "status": "1 commitments",
+   "result": "activity_id_nulls=1",
+   "commitments": [
+    {
+     "id": "8f6442ec-597a-4736-8290-3a2dc9c93f59",
+     "level": "C4_Anchored",
+     "activity_id": null,
+     "external_ref": "E2E-V2-BOOKING-1"
+    }
+   ]
+  },
+  {
+   "ts": "2026-09-17T21:17:07.255Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "copilot-place-question",
+   "status": "answered",
+   "result": "CityNexus 我查不到「鼓浪屿」的可信资料，所以不会编一个评价给你。供应商只返回了附近几处地点（OSM cafe、褚家园咖啡馆、OSM restaurant），它们不能代表「鼓浪屿」。你可以换个具体问法，比如“附近有什么咖啡馆”或“附近有什么博物馆”，也可以去“城市发现”里手动搜索。 查找地点 搜索更多地点",
+   "copilot": {
+    "question": "鼓浪屿好玩吗？",
+    "answer": "CityNexus\n\n我查不到「鼓浪屿」的可信资料，所以不会编一个评价给你。供应商只返回了附近几处地点（OSM cafe、褚家园咖啡馆、OSM restaurant），它们不能代表「鼓浪屿」。你可以换个具体问法，比如“附近有什么咖啡馆”或“附近有什么博物馆”，也可以去“城市发现”里手动搜索。\n\n查找地点\n搜索更多地点",
+    "answered": true,
+    "raw_vocabulary_leak": false
+   }
+  },
+  {
+   "ts": "2026-09-17T21:17:12.003Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "xiamen-map",
+   "status": "panel",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T21:17:17.353Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "live",
+   "status": "has-next",
+   "result": "下一站：厦门高崎国际机场"
+  },
+  {
+   "ts": "2026-09-17T21:17:17.611Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "replan-before",
+   "status": "captured",
+   "result": "plan=48de4b99 target=OSM restaurant place=null",
+   "replan_before": {
+    "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+    "base_plan_id": "48de4b99-a217-438b-ac75-7ea232801ec2",
+    "affected_activity_id": "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+    "affected_place_id": null,
+    "affected_semantic_key": "real-place-07e7689756fa27109a8bff96",
+    "title": "OSM restaurant",
+    "locked": false,
+    "activity_ids": [
+     "8c47ca27-b615-4c7d-895c-a85479730c61",
+     "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+     "123f1136-7be1-45f4-b250-00667a65ddd0",
+     "12184893-19d5-4f1f-80ff-6273eaa08b47",
+     "cc8730d3-64f5-421e-88d9-e6483a730584",
+     "88d0f1b0-f64e-4c17-a15f-227487169d76",
+     "83168104-0ae0-4d39-b3f1-bbb57a9e303b",
+     "5e95a438-f929-4c30-ad6d-007d2b90f921",
+     "8b934010-6fa4-46e5-a814-c2fdf1374873",
+     "b45b2b94-2eb3-4661-a380-17ec8a7e953b",
+     "5a6137a2-49d3-449e-8381-123888be7ed2",
+     "4898427b-8b68-4e02-b622-1666ba8eab09",
+     "66be0694-834d-430f-83ae-af2bdbc5006e",
+     "cca8ff80-d97f-4609-bb60-a84df49a2b11"
+    ],
+    "place_ids": [
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  {
+   "ts": "2026-09-17T21:17:17.620Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "closure-event",
+   "status": "201",
+   "result": "CLOSURE -> OSM restaurant"
+  },
+  {
+   "ts": "2026-09-17T21:17:17.742Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "closure-proposal",
+   "status": "422",
+   "result": "NO PROPOSAL: no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-4717d938763cdb61c361765e|stay:osm:node/4286887891:check-in",
+   "replan_proposal": {
+    "http": 422,
+    "proposal_id": null,
+    "proposed_plan_id": null,
+    "status": null,
+    "locked_commitments_preserved": null,
+    "removed": [],
+    "added": [],
+    "moved": [],
+    "recovery_family": null,
+    "error": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-4717d938763cdb61c361765e|stay:osm:node/4286887891:check-in"
+   }
+  },
+  {
+   "ts": "2026-09-17T21:17:17.971Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "replan-after",
+   "status": "unchanged",
+   "result": "active=48de4b99 locked 6->6 closedPlaceReappeared=true nonDegenerate=true",
+   "replan_after": {
+    "active_plan_id": "48de4b99-a217-438b-ac75-7ea232801ec2",
+    "plan_changed": false,
+    "activity_ids": [
+     "8c47ca27-b615-4c7d-895c-a85479730c61",
+     "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+     "123f1136-7be1-45f4-b250-00667a65ddd0",
+     "12184893-19d5-4f1f-80ff-6273eaa08b47",
+     "cc8730d3-64f5-421e-88d9-e6483a730584",
+     "88d0f1b0-f64e-4c17-a15f-227487169d76",
+     "83168104-0ae0-4d39-b3f1-bbb57a9e303b",
+     "5e95a438-f929-4c30-ad6d-007d2b90f921",
+     "8b934010-6fa4-46e5-a814-c2fdf1374873",
+     "b45b2b94-2eb3-4661-a380-17ec8a7e953b",
+     "5a6137a2-49d3-449e-8381-123888be7ed2",
+     "4898427b-8b68-4e02-b622-1666ba8eab09",
+     "66be0694-834d-430f-83ae-af2bdbc5006e",
+     "cca8ff80-d97f-4609-bb60-a84df49a2b11"
+    ],
+    "place_ids": [
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN",
+     "UNKNOWN"
+    ],
+    "semantic_keys": [
+     "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:arrival-anchor",
+     "real-place-07e7689756fa27109a8bff96",
+     "real-place-0f6a7b4b3d5359684929cdbb",
+     "real-place-4717d938763cdb61c361765e",
+     "stay:osm:node/4286887891:check-in",
+     "real-place-1564f860645d87ceaae7949a",
+     "stay:osm:node/4286887891:night:1",
+     "real-place-70dedb7f276c0eba33018fe1",
+     "real-place-782b082dad47a70180df9b4c",
+     "real-place-9b7b72332485347018825af6",
+     "real-place-9cdd822bf83d23cad90aa779",
+     "stay:osm:node/4286887891:night:2",
+     "stay:osm:node/4286887891:check-out",
+     "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:departure-anchor"
+    ],
+    "locked_before": 6,
+    "locked_after": 6,
+    "locked_preserved": true,
+    "closed_place_reappeared": true,
+    "closed_place_reappeared_checked_via": "metadata.semantic_key",
+    "closed_semantic_reappeared": true,
+    "closed_place_criterion": {
+     "expression": "postActs.some(a => a.metadata.semantic_key === affected_semantic_key)",
+     "left_operand": {
+      "name": "affected_semantic_key",
+      "value": "real-place-07e7689756fa27109a8bff96"
+     },
+     "right_operand": {
+      "name": "post semantic_keys",
+      "value": [
+       "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:arrival-anchor",
+       "real-place-07e7689756fa27109a8bff96",
+       "real-place-0f6a7b4b3d5359684929cdbb",
+       "real-place-4717d938763cdb61c361765e",
+       "stay:osm:node/4286887891:check-in",
+       "real-place-1564f860645d87ceaae7949a",
+       "stay:osm:node/4286887891:night:1",
+       "real-place-70dedb7f276c0eba33018fe1",
+       "real-place-782b082dad47a70180df9b4c",
+       "real-place-9b7b72332485347018825af6",
+       "real-place-9cdd822bf83d23cad90aa779",
+       "stay:osm:node/4286887891:night:2",
+       "stay:osm:node/4286887891:check-out",
+       "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:departure-anchor"
+      ]
+     },
+     "matches": [
+      "real-place-07e7689756fa27109a8bff96"
+     ],
+     "target_identity_known": true,
+     "non_degenerate": true,
+     "discriminates": true,
+     "self_test": [
+      {
+       "case": "closed venue still present",
+       "keys": [
+        "a",
+        "real-place-07e7689756fa27109a8bff96"
+       ],
+       "target": "real-place-07e7689756fa27109a8bff96",
+       "expected": true,
+       "actual": true,
+       "pass": true
+      },
+      {
+       "case": "closed venue replaced",
+       "keys": [
+        "a",
+        "b"
+       ],
+       "target": "real-place-07e7689756fa27109a8bff96",
+       "expected": false,
+       "actual": false,
+       "pass": true
+      },
+      {
+       "case": "all identities UNKNOWN",
+       "keys": [
+        "UNKNOWN",
+        "UNKNOWN"
+       ],
+       "target": "real-place-07e7689756fa27109a8bff96",
+       "expected": false,
+       "actual": false,
+       "pass": true
+      },
+      {
+       "case": "empty activity set",
+       "keys": [],
+       "target": "real-place-07e7689756fa27109a8bff96",
+       "expected": false,
+       "actual": false,
+       "pass": true
+      },
+      {
+       "case": "target identity UNKNOWN",
+       "keys": [
+        "a",
+        "UNKNOWN"
+       ],
+       "target": null,
+       "expected": false,
+       "actual": false,
+       "pass": true
+      }
+     ],
+     "degenerate_reason": null,
+     "replacement_evidence": {
+      "before_activity_id": "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+      "before_semantic_key": "real-place-07e7689756fa27109a8bff96",
+      "after_activity_ids": [
+       "8c47ca27-b615-4c7d-895c-a85479730c61",
+       "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+       "123f1136-7be1-45f4-b250-00667a65ddd0",
+       "12184893-19d5-4f1f-80ff-6273eaa08b47",
+       "cc8730d3-64f5-421e-88d9-e6483a730584",
+       "88d0f1b0-f64e-4c17-a15f-227487169d76",
+       "83168104-0ae0-4d39-b3f1-bbb57a9e303b",
+       "5e95a438-f929-4c30-ad6d-007d2b90f921",
+       "8b934010-6fa4-46e5-a814-c2fdf1374873",
+       "b45b2b94-2eb3-4661-a380-17ec8a7e953b",
+       "5a6137a2-49d3-449e-8381-123888be7ed2",
+       "4898427b-8b68-4e02-b622-1666ba8eab09",
+       "66be0694-834d-430f-83ae-af2bdbc5006e",
+       "cca8ff80-d97f-4609-bb60-a84df49a2b11"
+      ],
+      "after_semantic_keys": [
+       "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:arrival-anchor",
+       "real-place-07e7689756fa27109a8bff96",
+       "real-place-0f6a7b4b3d5359684929cdbb",
+       "real-place-4717d938763cdb61c361765e",
+       "stay:osm:node/4286887891:check-in",
+       "real-place-1564f860645d87ceaae7949a",
+       "stay:osm:node/4286887891:night:1",
+       "real-place-70dedb7f276c0eba33018fe1",
+       "real-place-782b082dad47a70180df9b4c",
+       "real-place-9b7b72332485347018825af6",
+       "real-place-9cdd822bf83d23cad90aa779",
+       "stay:osm:node/4286887891:night:2",
+       "stay:osm:node/4286887891:check-out",
+       "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:departure-anchor"
+      ],
+      "same_activity_id_survives": true
+     }
+    }
+   }
+  },
+  {
+   "ts": "2026-09-17T21:17:27.644Z",
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "action": "trips-vs-backend",
+   "status": "match",
+   "result": "ui=14 backend=14",
+   "triple_mapping": {
+    "entity_set": "Trips itinerary stop cards vs /experience active_plan.activities",
+    "ui_stops_per_day": [
+     7,
+     5,
+     2
+    ],
+    "ui_stops_total": 14,
+    "ui_day_buttons": 3,
+    "backend_activities_total": 14,
+    "expected": "equal because the itinerary lists every activity",
+    "comparison_valid": true
+   }
+  }
+ ],
+ "errors": [],
+ "assertions": {
+  "ai_run_specific": {
+   "baseline_count": 0,
+   "reported_new_count": 3,
+   "reported_new_ids": [
+    "77808b90-927b-5f98-9169-65edad2ebb87",
+    "0ae8caab-4d42-5de3-a0d5-242ea11ee014",
+    "e1761721-1a93-5907-9d6b-0aedf899e8b6"
+   ],
+   "backend_new_ids": [
+    "77808b90-927b-5f98-9169-65edad2ebb87",
+    "0ae8caab-4d42-5de3-a0d5-242ea11ee014",
+    "e1761721-1a93-5907-9d6b-0aedf899e8b6"
+   ],
+   "old_plans_excluded": true,
+   "match": true
+  },
+  "booking_truth": {
+   "entity_set": "wallet.reservations",
+   "count": 1,
+   "booking_id": "4bf4133e-bfba-4551-99cf-90b355ed18b7",
+   "commitment_id": "8f6442ec-597a-4736-8290-3a2dc9c93f59",
+   "confirmation_ref": "E2E-V2-BOOKING-1",
+   "amount_minor": 18000,
+   "amount_status": "KNOWN",
+   "origin": "厦门北站",
+   "destination": "深圳北站"
+  },
+  "commitments_before_closure": [
+   {
+    "id": "8f6442ec-597a-4736-8290-3a2dc9c93f59",
+    "level": "C4_Anchored",
+    "activity_id": null,
+    "external_ref": "E2E-V2-BOOKING-1"
+   }
+  ],
+  "copilot": {
+   "question": "鼓浪屿好玩吗？",
+   "answer": "CityNexus\n\n我查不到「鼓浪屿」的可信资料，所以不会编一个评价给你。供应商只返回了附近几处地点（OSM cafe、褚家园咖啡馆、OSM restaurant），它们不能代表「鼓浪屿」。你可以换个具体问法，比如“附近有什么咖啡馆”或“附近有什么博物馆”，也可以去“城市发现”里手动搜索。\n\n查找地点\n搜索更多地点",
+   "answered": true,
+   "raw_vocabulary_leak": false
+  },
+  "replan_before": {
+   "journey_id": "c5d55e1b-801b-4586-bc54-9de65fcd1f43",
+   "base_plan_id": "48de4b99-a217-438b-ac75-7ea232801ec2",
+   "affected_activity_id": "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+   "affected_place_id": null,
+   "affected_semantic_key": "real-place-07e7689756fa27109a8bff96",
+   "title": "OSM restaurant",
+   "locked": false,
+   "activity_ids": [
+    "8c47ca27-b615-4c7d-895c-a85479730c61",
+    "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+    "123f1136-7be1-45f4-b250-00667a65ddd0",
+    "12184893-19d5-4f1f-80ff-6273eaa08b47",
+    "cc8730d3-64f5-421e-88d9-e6483a730584",
+    "88d0f1b0-f64e-4c17-a15f-227487169d76",
+    "83168104-0ae0-4d39-b3f1-bbb57a9e303b",
+    "5e95a438-f929-4c30-ad6d-007d2b90f921",
+    "8b934010-6fa4-46e5-a814-c2fdf1374873",
+    "b45b2b94-2eb3-4661-a380-17ec8a7e953b",
+    "5a6137a2-49d3-449e-8381-123888be7ed2",
+    "4898427b-8b68-4e02-b622-1666ba8eab09",
+    "66be0694-834d-430f-83ae-af2bdbc5006e",
+    "cca8ff80-d97f-4609-bb60-a84df49a2b11"
+   ],
+   "place_ids": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "replan_proposal": {
+   "http": 422,
+   "proposal_id": null,
+   "proposed_plan_id": null,
+   "status": null,
+   "locked_commitments_preserved": null,
+   "removed": [],
+   "added": [],
+   "moved": [],
+   "recovery_family": null,
+   "error": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-4717d938763cdb61c361765e|stay:osm:node/4286887891:check-in"
+  },
+  "replan_after": {
+   "active_plan_id": "48de4b99-a217-438b-ac75-7ea232801ec2",
+   "plan_changed": false,
+   "activity_ids": [
+    "8c47ca27-b615-4c7d-895c-a85479730c61",
+    "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+    "123f1136-7be1-45f4-b250-00667a65ddd0",
+    "12184893-19d5-4f1f-80ff-6273eaa08b47",
+    "cc8730d3-64f5-421e-88d9-e6483a730584",
+    "88d0f1b0-f64e-4c17-a15f-227487169d76",
+    "83168104-0ae0-4d39-b3f1-bbb57a9e303b",
+    "5e95a438-f929-4c30-ad6d-007d2b90f921",
+    "8b934010-6fa4-46e5-a814-c2fdf1374873",
+    "b45b2b94-2eb3-4661-a380-17ec8a7e953b",
+    "5a6137a2-49d3-449e-8381-123888be7ed2",
+    "4898427b-8b68-4e02-b622-1666ba8eab09",
+    "66be0694-834d-430f-83ae-af2bdbc5006e",
+    "cca8ff80-d97f-4609-bb60-a84df49a2b11"
+   ],
+   "place_ids": [
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN",
+    "UNKNOWN"
+   ],
+   "semantic_keys": [
+    "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:arrival-anchor",
+    "real-place-07e7689756fa27109a8bff96",
+    "real-place-0f6a7b4b3d5359684929cdbb",
+    "real-place-4717d938763cdb61c361765e",
+    "stay:osm:node/4286887891:check-in",
+    "real-place-1564f860645d87ceaae7949a",
+    "stay:osm:node/4286887891:night:1",
+    "real-place-70dedb7f276c0eba33018fe1",
+    "real-place-782b082dad47a70180df9b4c",
+    "real-place-9b7b72332485347018825af6",
+    "real-place-9cdd822bf83d23cad90aa779",
+    "stay:osm:node/4286887891:night:2",
+    "stay:osm:node/4286887891:check-out",
+    "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:departure-anchor"
+   ],
+   "locked_before": 6,
+   "locked_after": 6,
+   "locked_preserved": true,
+   "closed_place_reappeared": true,
+   "closed_place_reappeared_checked_via": "metadata.semantic_key",
+   "closed_semantic_reappeared": true,
+   "closed_place_criterion": {
+    "expression": "postActs.some(a => a.metadata.semantic_key === affected_semantic_key)",
+    "left_operand": {
+     "name": "affected_semantic_key",
+     "value": "real-place-07e7689756fa27109a8bff96"
+    },
+    "right_operand": {
+     "name": "post semantic_keys",
+     "value": [
+      "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:arrival-anchor",
+      "real-place-07e7689756fa27109a8bff96",
+      "real-place-0f6a7b4b3d5359684929cdbb",
+      "real-place-4717d938763cdb61c361765e",
+      "stay:osm:node/4286887891:check-in",
+      "real-place-1564f860645d87ceaae7949a",
+      "stay:osm:node/4286887891:night:1",
+      "real-place-70dedb7f276c0eba33018fe1",
+      "real-place-782b082dad47a70180df9b4c",
+      "real-place-9b7b72332485347018825af6",
+      "real-place-9cdd822bf83d23cad90aa779",
+      "stay:osm:node/4286887891:night:2",
+      "stay:osm:node/4286887891:check-out",
+      "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:departure-anchor"
+     ]
+    },
+    "matches": [
+     "real-place-07e7689756fa27109a8bff96"
+    ],
+    "target_identity_known": true,
+    "non_degenerate": true,
+    "discriminates": true,
+    "self_test": [
+     {
+      "case": "closed venue still present",
+      "keys": [
+       "a",
+       "real-place-07e7689756fa27109a8bff96"
+      ],
+      "target": "real-place-07e7689756fa27109a8bff96",
+      "expected": true,
+      "actual": true,
+      "pass": true
+     },
+     {
+      "case": "closed venue replaced",
+      "keys": [
+       "a",
+       "b"
+      ],
+      "target": "real-place-07e7689756fa27109a8bff96",
+      "expected": false,
+      "actual": false,
+      "pass": true
+     },
+     {
+      "case": "all identities UNKNOWN",
+      "keys": [
+       "UNKNOWN",
+       "UNKNOWN"
+      ],
+      "target": "real-place-07e7689756fa27109a8bff96",
+      "expected": false,
+      "actual": false,
+      "pass": true
+     },
+     {
+      "case": "empty activity set",
+      "keys": [],
+      "target": "real-place-07e7689756fa27109a8bff96",
+      "expected": false,
+      "actual": false,
+      "pass": true
+     },
+     {
+      "case": "target identity UNKNOWN",
+      "keys": [
+       "a",
+       "UNKNOWN"
+      ],
+      "target": null,
+      "expected": false,
+      "actual": false,
+      "pass": true
+     }
+    ],
+    "degenerate_reason": null,
+    "replacement_evidence": {
+     "before_activity_id": "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+     "before_semantic_key": "real-place-07e7689756fa27109a8bff96",
+     "after_activity_ids": [
+      "8c47ca27-b615-4c7d-895c-a85479730c61",
+      "02823ade-d4a8-4122-9b92-8e9551d3ca99",
+      "123f1136-7be1-45f4-b250-00667a65ddd0",
+      "12184893-19d5-4f1f-80ff-6273eaa08b47",
+      "cc8730d3-64f5-421e-88d9-e6483a730584",
+      "88d0f1b0-f64e-4c17-a15f-227487169d76",
+      "83168104-0ae0-4d39-b3f1-bbb57a9e303b",
+      "5e95a438-f929-4c30-ad6d-007d2b90f921",
+      "8b934010-6fa4-46e5-a814-c2fdf1374873",
+      "b45b2b94-2eb3-4661-a380-17ec8a7e953b",
+      "5a6137a2-49d3-449e-8381-123888be7ed2",
+      "4898427b-8b68-4e02-b622-1666ba8eab09",
+      "66be0694-834d-430f-83ae-af2bdbc5006e",
+      "cca8ff80-d97f-4609-bb60-a84df49a2b11"
+     ],
+     "after_semantic_keys": [
+      "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:arrival-anchor",
+      "real-place-07e7689756fa27109a8bff96",
+      "real-place-0f6a7b4b3d5359684929cdbb",
+      "real-place-4717d938763cdb61c361765e",
+      "stay:osm:node/4286887891:check-in",
+      "real-place-1564f860645d87ceaae7949a",
+      "stay:osm:node/4286887891:night:1",
+      "real-place-70dedb7f276c0eba33018fe1",
+      "real-place-782b082dad47a70180df9b4c",
+      "real-place-9b7b72332485347018825af6",
+      "real-place-9cdd822bf83d23cad90aa779",
+      "stay:osm:node/4286887891:night:2",
+      "stay:osm:node/4286887891:check-out",
+      "v12:c5d55e1b-801b-4586-bc54-9de65fcd1f43:departure-anchor"
+     ],
+     "same_activity_id_survives": true
+    }
+   }
+  },
+  "triple_mapping": {
+   "entity_set": "Trips itinerary stop cards vs /experience active_plan.activities",
+   "ui_stops_per_day": [
+    7,
+    5,
+    2
+   ],
+   "ui_stops_total": 14,
+   "ui_day_buttons": 3,
+   "backend_activities_total": 14,
+   "expected": "equal because the itinerary lists every activity",
+   "comparison_valid": true
+  }
+ },
+ "candidate_plan_ids": [
+  "77808b90-927b-5f98-9169-65edad2ebb87",
+  "0ae8caab-4d42-5de3-a0d5-242ea11ee014",
+  "e1761721-1a93-5907-9d6b-0aedf899e8b6"
+ ],
+ "selected_plan_id": "77808b90-927b-5f98-9169-65edad2ebb87",
+ "booking_id": "4bf4133e-bfba-4551-99cf-90b355ed18b7",
+ "finished": "2026-09-17T21:17:27.764Z"
+}

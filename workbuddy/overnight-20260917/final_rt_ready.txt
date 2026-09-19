@@ -1,0 +1,3 @@
+﻿rt data files: 13
+db+wal+shm: True
+proxy: 1 hit

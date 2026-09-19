@@ -1,0 +1,90 @@
+{
+ "snapshot": "A",
+ "cases": [
+  {
+   "anchor_role": "ARRIVAL",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": null,
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "semantic_key": "ea06631e-f5b4-598a-8a96-2483c271a825",
+   "semantic_key_is_uuid": true,
+   "generate": 422,
+   "plans": 0
+  },
+  {
+   "anchor_role": "DEPARTURE",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": null,
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "semantic_key": "21493e6c-9533-5d97-9f04-9dcf9384f2e0",
+   "semantic_key_is_uuid": true,
+   "generate": 422,
+   "plans": 0
+  },
+  {
+   "anchor_role": "MID_TRIP",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": "place-old-town",
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "semantic_key": "place-old-town",
+   "semantic_key_is_uuid": true,
+   "generate": 422,
+   "plans": 0
+  },
+  {
+   "anchor_role": "MID_TRIP",
+   "scheduled_arrival_at": "2026-10-10T12:30:00+08:00",
+   "semantic_node_key": "place-riverside-museum",
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "semantic_key": "place-riverside-museum",
+   "semantic_key_is_uuid": true,
+   "generate": 422,
+   "plans": 0
+  },
+  {
+   "anchor_role": "ARRIVAL",
+   "scheduled_arrival_at": "2026-10-10T07:00:00+08:00",
+   "semantic_node_key": null,
+   "import": 201,
+   "confirm": 200,
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "semantic_key": "ea06631e-f5b4-598a-8a96-2483c271a825",
+   "semantic_key_is_uuid": true,
+   "generate": 422,
+   "plans": 0
+  },
+  {
+   "anchor_role": null,
+   "note": "control: no reservation imported",
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status_after": "ACTIVE"
+  }
+ ],
+ "crash_frames": {
+  "frames": [],
+  "exception": null,
+  "key_error": null,
+  "note": "generate produced no plans for this anchor, so /start was never reached",
+  "plans_after_generate": 0
+ },
+ "summary": {
+  "stranded_roles": [],
+  "any_stranded": false
+ }
+}

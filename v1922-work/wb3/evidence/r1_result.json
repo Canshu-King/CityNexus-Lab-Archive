@@ -1,0 +1,9 @@
+{
+  "verdict": "ABORT_NO_PROPOSAL",
+  "results": {
+    "steps": [],
+    "before_status": 200,
+    "command_status": 200,
+    "generate_status": 422
+  }
+}

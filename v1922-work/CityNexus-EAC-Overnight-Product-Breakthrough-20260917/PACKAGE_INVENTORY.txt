@@ -1,0 +1,30 @@
+CityNexus EAC Overnight Product Breakthrough — package inventory
+=================================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+
+Closed tonight
+  * Snapshot M truth edges (scheduler V3 rules, Activity Detail coordinates,
+    known-free vs unknown price) with 7 permanent regressions
+  * consumer booking import: manual entry + consumer-first Trips -> 预订
+  * raw-JSON workbench demoted behind Advanced
+
+Still open
+  * the full visible same-Xiamen chain (so VISIBLE_UI_TRACE.json is absent)
+  * Today / Copilot / Me consumer rebuild, hotel differentiation, Live viewport
+  * material implementation of the ten reference screens
+
+Reports
+-------
+PRODUCT_BREAKTHROUGH_REPORT.md  the night, phase by phase, with the honest verdict
+SAME_JOURNEY_RESULTS.md         what was and was not driven in the browser
+BOOKING_IMPORT_RESULTS.md       consumer booking import
+ACTIVITY_DETAIL_RESULTS.md      coordinates, cost states, nearby truth
+COPILOT_RESULTS.md              vocabulary cleanup done, answer quality not
+HOTEL_RESULTS.md                calendar guarantees vs card differentiation
+LIVE_REPLAN_RESULTS.md          backend truth enforced, viewport not reworked
+MOBILE_UI_RESULTS.md            what landed and what did not
+FAILURE_STATE_RESULTS.md        verified states and untested ones
+BUGS_FOUND_AND_FIXED.md         M1-M6 and P1-P2 with root causes
+REMAINING_PRODUCT_GAPS.md       ordered remaining work
+TEST_RESULTS.md            

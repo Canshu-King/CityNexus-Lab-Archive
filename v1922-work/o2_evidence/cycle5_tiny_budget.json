@@ -1,0 +1,59 @@
+{
+ "jid": "0f8a42c4-cbc6-4ad1-9dea-f8ae581afca1",
+ "budgetCny": 60,
+ "aiPlanCount": 3,
+ "aiText": "已生成 3 个可选方案\n\n去“今天”对比这几个方案，选一个再继续。\n\n首次到厦门，核心诉求是看海，预算非常紧；将看海设为受保护活动，交通、住宿、餐饮和付费景点作为可调整项以控制成本。",
+ "cards": 3,
+ "bands": [
+  "花费未知",
+  "花费未知",
+  "花费未知"
+ ],
+ "totals": [
+  "暂无价格",
+  "暂无价格",
+  "暂无价格"
+ ],
+ "whys": [
+  "",
+  "",
+  ""
+ ],
+ "comparisonText": "选择你的方案 我们按你的预算和节奏生成了 3 个可选方案。 方案 A 花费未知 总花费 暂无价格 活动数 8 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案 方案 B 花费未知 总花费 暂无价格 活动数 7 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案 方案 C 花费未知 总花费 暂无价格 活动数 6 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案",
+ "backendPlans": [
+  {
+   "v": 1,
+   "status": "CANDIDATE",
+   "total": {
+    "amount_minor": 0,
+    "currency": "CNY"
+   },
+   "known": 0,
+   "unknown": 8,
+   "stops": 8
+  },
+  {
+   "v": 2,
+   "status": "CANDIDATE",
+   "total": {
+    "amount_minor": 0,
+    "currency": "CNY"
+   },
+   "known": 0,
+   "unknown": 7,
+   "stops": 7
+  },
+  {
+   "v": 3,
+   "status": "CANDIDATE",
+   "total": {
+    "amount_minor": 0,
+    "currency": "CNY"
+   },
+   "known": 0,
+   "unknown": 6,
+   "stops": 6
+  }
+ ],
+ "errors": []
+}

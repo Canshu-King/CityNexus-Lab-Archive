@@ -1,0 +1,296 @@
+你现在继续 CityNexus Provider Runtime Gate，但先不要进入 Open-Meteo / OR-Tools。
+
+GPT 已独立审查你刚生成的 `CityNexus-Provider-Runtime-Gate-Checkpoint-20260910.zip`。
+
+先承认这份 checkpoint 的真实优点：
+- PRT-01..PRT-08 是有效测试；
+- 我独立复现 8 PASS；
+- full backend 我独立复现 165 passed / 1 skipped；
+- operation-scoped MobilitySnapshot、pair-level fallback、Valhalla runtime foundation、JourneyTwin read-safe evidence 都是真实现。
+
+但外部 adversarial review 又找到 5 个真实 semantic defect，所以当前 Provider Runtime 不能直接 FROZEN_PASS。
+
+请先：
+
+    git status --short
+    git diff --stat
+
+禁止 reset --hard / checkout . / clean -fd。
+不要覆盖可能比 checkpoint 更新的真实工作树。
+
+==================================================
+A. 先测试，不要先套 patch
+==================================================
+
+GPT assist 包中有：
+
+    tests/test_gpt_adversarial_provider_hardening.py
+
+把它复制到：
+
+    backend/tests/test_gpt_adversarial_provider_hardening.py
+
+先运行：
+
+    python -m pytest -q tests/test_gpt_adversarial_provider_hardening.py
+
+在 GPT 审查的 checkpoint 上结果是：
+
+    5 failed
+
+如果你的真实工作树已经修了其中一些，只 semantic-merge 剩下失败项。
+
+==================================================
+B. 5 个必须收口的问题
+==================================================
+
+PRH-01 MobilitySnapshot 只是 frozen dataclass，但 facts 还是 mutable dict。
+
+当前能做：
+
+    snapshot.facts[("a", "b")] = ...
+
+这会破坏 same-operation frozen reality。
+
+最小参考方案：MobilitySnapshot.__post_init__ defensive copy + MappingProxyType，并校验 mapping key 与 fact origin/destination 一致。
+
+--------------------------------------------------
+PRH-02 JourneyTwin partial fallback provenance 错。
+
+例：
+
+    snapshot source provider = valhalla
+    TechArt -> RiverCruise 这个具体 fact = mock-mobility fallback
+
+Twin 当前却报告 provider=valhalla。
+
+Twin 应至少区分：
+
+    provider        = 实际用于这个 C4 buffer 的 fact.provider_key
+    source_provider = snapshot.source_provider_key
+    snapshot_id
+    degraded
+    snapshot_degraded
+    fallback_reason
+
+不要把 primary provider 和 effective fact provider 混成一个字段。
+
+--------------------------------------------------
+PRH-03 degraded mobility 没进入 FeasibilityEnvelope / robustness scoring。
+
+目前可能同时出现：
+
+    verified_evidence.mobility.degraded = true
+    after_feasibility_envelope.degraded_providers = []
+    robust = true
+    score_breakdown.robustness = 1.0
+
+这是内部事实矛盾。
+
+把当前 snapshot 的 degraded provider 明确传入 before/after FeasibilityEnvelope，让 PROVIDER_DEGRADED 风险进入 verified robustness score。
+
+--------------------------------------------------
+PRH-04 travel_delta_min 在比较两个不同的 reality。
+
+Candidate 的 travel_from_prev 已由新 frozen snapshot 重算，
+但 base route total 仍使用旧 persisted travel_from_prev_min，通常来自 mock planning。
+
+GPT 用 constant 1-minute provider 证明：
+
+    current diff = -85
+    same-snapshot expected diff = 0
+
+因此当前 score 可能奖励“provider 从 mock 换成 Valhalla”，而不是奖励真正更好的 Replan。
+
+必须：
+
+    base route total
+    candidate route total
+
+都用同一 frozen MobilitySnapshot 计算，再得到 travel_delta_min。
+
+--------------------------------------------------
+PRH-05 Accept Replan 又偷偷回到了默认 MockMobilityProvider。
+
+Generation：
+
+    frozen MobilitySnapshot -> validate_plan_feasibility
+
+Accept：
+
+    validate_plan_feasibility(...)
+    -> implicit MockMobilityProvider
+
+这会让 proposal 在 Valhalla reality 下生成，却在 mock reality 下最终接受/拒绝。
+
+本轮最小安全方案：
+
+    ReplanProposal.diff_json
+    -> reconstruct persisted MobilitySnapshot
+    -> accept-time validate_plan_feasibility(... mobility_provider=snapshot)
+
+如果你认为应该在 Accept 时 capture fresh mobility，这是允许的更高级方案，但必须：
+- provider call 在 Gate 外；
+- 产生一个新的 frozen acceptance snapshot；
+- 持久化 provenance；
+- 明确 freshness policy；
+- 绝不能 silently fallback 到 unrelated default Mock。
+
+当前课程 milestone 为减少变量，优先复用 proposal snapshot。
+
+==================================================
+C. GPT 已经准备好的 reference patch
+==================================================
+
+仅作为 semantic reference：
+
+    patches/01_PROVIDER_RUNTIME_HARDENING_TESTS.patch
+    patches/02_PROVIDER_RUNTIME_HARDENING_CODE.patch
+    patches/ALL_PROVIDER_RUNTIME_HARDENING.patch
+
+GPT 已在 clean checkpoint copy 验证：
+
+    git apply --check = PASS
+
+reference implementation 验证：
+
+    PRT-01..08 + PRH-01..05 = 13 passed
+    full backend = 170 passed, 1 skipped
+    compileall = PASS
+    OpenAPI = formal 38 / runtime 38 / missing 0 / extra 0
+
+不要盲目 apply 到真实工作树。先跑 test，再 semantic merge。
+
+==================================================
+D. Provider Runtime Freeze Gate
+==================================================
+
+完成后至少跑：
+
+    python -m pytest -q tests/test_provider_runtime_gate.py tests/test_gpt_adversarial_provider_hardening.py
+    python -m pytest -q
+    python -m compileall -q app tests
+    ruff check .
+    ruff format --check .
+
+然后 repo root：
+
+    python tools/verify_openapi_parity.py
+
+frontend：
+
+    npm run build
+    npm run test:e2e
+
+要求：
+- old offline Golden Scenario PASS；
+- backend-connected Playwright PASS；
+- no live network required；
+- no hidden network in Gate/Twin GET；
+- no implicit Mock at Accept；
+- no fabricated provider evidence。
+
+第一次全绿后：
+
+    Provider Runtime Gate = FROZEN_PASS
+
+然后 STOP，先打 Review Checkpoint 给 GPT 外部验收。
+
+==================================================
+E. Review package 打包质量也要修
+==================================================
+
+你这次 checkpoint 虽然 fresh extraction 可运行，但包含：
+
+    16 个 __pycache__ directories
+    135 个 .pyc
+    2 个 SQLite .db
+
+Luna 上一轮包没有这些垃圾文件。
+
+下一包排除：
+
+    .venv/
+    node_modules/
+    dist/
+    .pytest_cache/
+    **/__pycache__/
+    **/*.pyc
+    **/*.db
+    **/*.sqlite*
+
+但一定保留测试实际需要的 schema / fixtures / source。
+不要花 token 做 SHA/hash review，只做 fresh-extract executable review。
+
+==================================================
+F. Provider Runtime 真冻结以后，下一步才是 Weather Runtime
+==================================================
+
+不要先跑 OR-Tools。
+
+下一链：
+
+    Open-Meteo
+    -> UTC-safe WeatherObservation
+    -> WeatherRisk
+    -> frozen WeatherSnapshot
+    -> deterministic Activity attribution
+    -> affected_activity_id
+    -> server-owned PROVIDER_VERIFIED Event
+    -> existing Replan pipeline
+
+现有基础已经有：
+- OpenMeteoContextProvider
+- WeatherRisk / WeatherObservation
+- WeatherSnapshot / WeatherRiskFact
+- freeze_weather_risks
+- ingest_provider_verified_weather_event
+- provider degradation / recovery
+
+当前真正缺的不是 parser，而是：
+
+    “这条 weather fact 到底确定性影响 Journey 的哪一项 Activity？”
+
+详细 acceptance tests 见：
+
+    contracts/NEXT_WEATHER_RUNTIME_GATE.md
+
+包括 WRT-01..WRT-12：
+- MockTransport real Open-Meteo contract
+- timezone mapping
+- time intersection
+- explicit location/scope evidence
+- indoor/outdoor deterministic policy
+- completed Activity filtering
+- server-owned PROVIDER_VERIFIED provenance
+- dedup/idempotency
+- degradation not fake weather
+- recovery
+- C4 safety
+- offline Golden regression
+
+==================================================
+G. 你仍有自主权
+==================================================
+
+不要机械照搬 GPT patch。
+如果真实 repo 有更好的实现，保留更好的实现。
+
+但不能破坏：
+
+    Provider fact
+    -> frozen evidence
+    -> deterministic feasibility
+    -> verified scoring
+    -> user confirmation
+
+以及：
+
+    durable C4 = authority
+    JourneyTwin = projection, not source of truth
+    Provider != judge
+    Solver != judge
+    AI != judge
+
+当前先把 PRH-01..05 收口并打 checkpoint。
+不要在同一 mutation batch 继续 Open-Meteo、OR-Tools、AI、MapLibre、Visio 或 PPT。

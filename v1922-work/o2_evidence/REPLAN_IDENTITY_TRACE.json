@@ -1,0 +1,261 @@
+{
+ "journey_id": "4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f",
+ "before": {
+  "journey_id": "4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f",
+  "base_plan_id": "36af0e57-bcd3-4b2e-bfbd-54aed036a842",
+  "affected_activity_id": "f6f51ee7-0932-4d92-a692-5ddef0dc0c4f",
+  "affected_place_id": null,
+  "affected_semantic_key": "real-place-07e7689756fa27109a8bff96",
+  "title": "OSM restaurant",
+  "locked": false,
+  "activity_ids": [
+   "349596b1-3290-49e2-9dfc-abe0e6f71b9d",
+   "f6f51ee7-0932-4d92-a692-5ddef0dc0c4f",
+   "58712988-473b-4e4e-a473-feb54c08c1a3",
+   "4784af76-b6e7-4c50-a7f2-7e01a0e29dbc",
+   "17043951-d2e2-4395-b279-074f9d856c1a",
+   "a4aa84d4-88b9-4abf-916b-61097c2a5258",
+   "e6a17fff-679d-4e1a-ace9-bbfa317d1a46",
+   "a76e8dc8-8214-4652-8e64-67da9988dff7",
+   "92eb37a6-31c4-487d-8efb-831223f52306",
+   "8f15c9eb-83a9-497d-98f9-3930d93de7ac",
+   "8d7472be-9927-4a14-9e05-76d175b12491",
+   "8fffff18-01c2-4062-a2f2-d4ad5b93e2dc",
+   "9baa5eb0-5840-4b56-bc4b-63e3a83906cd",
+   "5517d6ac-3726-439a-a40b-c81f971c886c"
+  ],
+  "place_ids": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ]
+ },
+ "proposal": {
+  "http": 422,
+  "proposal_id": null,
+  "proposed_plan_id": null,
+  "status": null,
+  "locked_commitments_preserved": null,
+  "removed": [],
+  "added": [],
+  "moved": [],
+  "recovery_family": null,
+  "error": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-1564f860645d87ceaae7949a|stay:osm:node/4599775901:check-in"
+ },
+ "after": {
+  "active_plan_id": "36af0e57-bcd3-4b2e-bfbd-54aed036a842",
+  "plan_changed": false,
+  "activity_ids": [
+   "349596b1-3290-49e2-9dfc-abe0e6f71b9d",
+   "f6f51ee7-0932-4d92-a692-5ddef0dc0c4f",
+   "58712988-473b-4e4e-a473-feb54c08c1a3",
+   "4784af76-b6e7-4c50-a7f2-7e01a0e29dbc",
+   "17043951-d2e2-4395-b279-074f9d856c1a",
+   "a4aa84d4-88b9-4abf-916b-61097c2a5258",
+   "e6a17fff-679d-4e1a-ace9-bbfa317d1a46",
+   "a76e8dc8-8214-4652-8e64-67da9988dff7",
+   "92eb37a6-31c4-487d-8efb-831223f52306",
+   "8f15c9eb-83a9-497d-98f9-3930d93de7ac",
+   "8d7472be-9927-4a14-9e05-76d175b12491",
+   "8fffff18-01c2-4062-a2f2-d4ad5b93e2dc",
+   "9baa5eb0-5840-4b56-bc4b-63e3a83906cd",
+   "5517d6ac-3726-439a-a40b-c81f971c886c"
+  ],
+  "place_ids": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN"
+  ],
+  "semantic_keys": [
+   "v12:4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f:arrival-anchor",
+   "real-place-07e7689756fa27109a8bff96",
+   "real-place-0f6a7b4b3d5359684929cdbb",
+   "real-place-1564f860645d87ceaae7949a",
+   "stay:osm:node/4599775901:check-in",
+   "real-place-4717d938763cdb61c361765e",
+   "stay:osm:node/4599775901:night:1",
+   "real-place-70dedb7f276c0eba33018fe1",
+   "real-place-782b082dad47a70180df9b4c",
+   "real-place-9b7b72332485347018825af6",
+   "real-place-9cdd822bf83d23cad90aa779",
+   "stay:osm:node/4599775901:night:2",
+   "stay:osm:node/4599775901:check-out",
+   "v12:4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f:departure-anchor"
+  ],
+  "locked_before": 6,
+  "locked_after": 6,
+  "locked_preserved": true,
+  "closed_place_reappeared": true,
+  "closed_place_reappeared_checked_via": "metadata.semantic_key",
+  "closed_semantic_reappeared": true,
+  "closed_place_criterion": {
+   "expression": "postActs.some(a => a.metadata.semantic_key === affected_semantic_key)",
+   "left_operand": {
+    "name": "affected_semantic_key",
+    "value": "real-place-07e7689756fa27109a8bff96"
+   },
+   "right_operand": {
+    "name": "post semantic_keys",
+    "value": [
+     "v12:4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f:arrival-anchor",
+     "real-place-07e7689756fa27109a8bff96",
+     "real-place-0f6a7b4b3d5359684929cdbb",
+     "real-place-1564f860645d87ceaae7949a",
+     "stay:osm:node/4599775901:check-in",
+     "real-place-4717d938763cdb61c361765e",
+     "stay:osm:node/4599775901:night:1",
+     "real-place-70dedb7f276c0eba33018fe1",
+     "real-place-782b082dad47a70180df9b4c",
+     "real-place-9b7b72332485347018825af6",
+     "real-place-9cdd822bf83d23cad90aa779",
+     "stay:osm:node/4599775901:night:2",
+     "stay:osm:node/4599775901:check-out",
+     "v12:4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f:departure-anchor"
+    ]
+   },
+   "matches": [
+    "real-place-07e7689756fa27109a8bff96"
+   ],
+   "target_identity_known": true,
+   "non_degenerate": true,
+   "discriminates": true,
+   "self_test": [
+    {
+     "case": "closed venue still present",
+     "keys": [
+      "a",
+      "real-place-07e7689756fa27109a8bff96"
+     ],
+     "target": "real-place-07e7689756fa27109a8bff96",
+     "expected": true,
+     "actual": true,
+     "pass": true
+    },
+    {
+     "case": "closed venue replaced",
+     "keys": [
+      "a",
+      "b"
+     ],
+     "target": "real-place-07e7689756fa27109a8bff96",
+     "expected": false,
+     "actual": false,
+     "pass": true
+    },
+    {
+     "case": "all identities UNKNOWN",
+     "keys": [
+      "UNKNOWN",
+      "UNKNOWN"
+     ],
+     "target": "real-place-07e7689756fa27109a8bff96",
+     "expected": false,
+     "actual": false,
+     "pass": true
+    },
+    {
+     "case": "empty activity set",
+     "keys": [],
+     "target": "real-place-07e7689756fa27109a8bff96",
+     "expected": false,
+     "actual": false,
+     "pass": true
+    },
+    {
+     "case": "target identity UNKNOWN",
+     "keys": [
+      "a",
+      "UNKNOWN"
+     ],
+     "target": null,
+     "expected": false,
+     "actual": false,
+     "pass": true
+    }
+   ],
+   "applicable": false,
+   "applicability_reason": "no replan was accepted, so the active plan is unchanged and the closed venue is expected to remain",
+   "degenerate_reason": null,
+   "replacement_evidence": {
+    "before_activity_id": "f6f51ee7-0932-4d92-a692-5ddef0dc0c4f",
+    "before_semantic_key": "real-place-07e7689756fa27109a8bff96",
+    "after_activity_ids": [
+     "349596b1-3290-49e2-9dfc-abe0e6f71b9d",
+     "f6f51ee7-0932-4d92-a692-5ddef0dc0c4f",
+     "58712988-473b-4e4e-a473-feb54c08c1a3",
+     "4784af76-b6e7-4c50-a7f2-7e01a0e29dbc",
+     "17043951-d2e2-4395-b279-074f9d856c1a",
+     "a4aa84d4-88b9-4abf-916b-61097c2a5258",
+     "e6a17fff-679d-4e1a-ace9-bbfa317d1a46",
+     "a76e8dc8-8214-4652-8e64-67da9988dff7",
+     "92eb37a6-31c4-487d-8efb-831223f52306",
+     "8f15c9eb-83a9-497d-98f9-3930d93de7ac",
+     "8d7472be-9927-4a14-9e05-76d175b12491",
+     "8fffff18-01c2-4062-a2f2-d4ad5b93e2dc",
+     "9baa5eb0-5840-4b56-bc4b-63e3a83906cd",
+     "5517d6ac-3726-439a-a40b-c81f971c886c"
+    ],
+    "after_semantic_keys": [
+     "v12:4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f:arrival-anchor",
+     "real-place-07e7689756fa27109a8bff96",
+     "real-place-0f6a7b4b3d5359684929cdbb",
+     "real-place-1564f860645d87ceaae7949a",
+     "stay:osm:node/4599775901:check-in",
+     "real-place-4717d938763cdb61c361765e",
+     "stay:osm:node/4599775901:night:1",
+     "real-place-70dedb7f276c0eba33018fe1",
+     "real-place-782b082dad47a70180df9b4c",
+     "real-place-9b7b72332485347018825af6",
+     "real-place-9cdd822bf83d23cad90aa779",
+     "stay:osm:node/4599775901:night:2",
+     "stay:osm:node/4599775901:check-out",
+     "v12:4bf2b6c9-b177-4f4f-a3ed-33a5ef09f25f:departure-anchor"
+    ],
+    "same_activity_id_survives": true
+   }
+  }
+ },
+ "live_cards": null,
+ "accept": null,
+ "booking": {
+  "entity_set": "wallet.reservations",
+  "count": 1,
+  "booking_id": "1bb6f91b-c052-4e23-8531-fc2d8c56f123",
+  "commitment_id": "103d7b1f-c4f7-4563-b402-876e7d7dc48d",
+  "confirmation_ref": "E2E-V2-BOOKING-1",
+  "amount_minor": 18000,
+  "amount_status": "KNOWN",
+  "origin": "厦门北站",
+  "destination": "深圳北站"
+ },
+ "commitments_before_closure": [
+  {
+   "id": "103d7b1f-c4f7-4563-b402-876e7d7dc48d",
+   "level": "C4_Anchored",
+   "activity_id": null,
+   "external_ref": "E2E-V2-BOOKING-1"
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+这是昨晚 Luna Max Goal 生成的 CityNexus Agent Foundation checkpoint。请不要相信 Goal 自述，直接做外部验收。
+
+当前冻结背景：
+- Backend-connected Vertical Slice = FROZEN_PASS
+- Valhalla/Frozen Mobility Runtime = FROZEN_PASS
+- Open-Meteo Weather Runtime Hardening = EXTERNAL_FROZEN_PASS
+- Solver Runtime V1 在昨晚 Goal 开始前存在 SRH-01..05，需要先确认这些是否真正修复
+
+请依次：
+1. 解压 fresh checkpoint，检查源码、tests、schema/fixtures、Agent/MCP 文件和 reports/overnight/GOAL_PROGRESS.md。
+2. 先验证 SRH-01..05，并确认真实 OR-Tools CP-SAT 路径没有通过卸载依赖/skip 偷过 Gate。
+3. 验证 Agent policy 的 server-derived facts、C4/hard-constraint authority、accept-time revalidation、idempotency、AI_AGENT audit。
+4. 对 Agent Tool Gateway / MCP 做 adversarial review，特别检查是否存在 raw SQL、arbitrary HTTP、terminal/file/browser、policy self-escalation 或客户端伪造 feasibility/evidence 的入口。
+5. 验证 AGT-01..24，不只看函数存在；重点走 DB/API/domain runtime。
+6. 如果有 Hermes live smoke，确认 Hermes 只看到 CityNexus safe tool allowlist，并且 tool receipt 与真实 Domain state 一致；如果没有 live Hermes，只能标 PARTIAL/SKIPPED_EXTERNAL_DEPENDENCY。
+7. 跑 full backend、compileall、Ruff、OpenAPI parity；frontend 只有在被修改时才需要 build/E2E。
+8. 新增你自己的 adversarial tests。能直接修的先修，再决定是否 external freeze。
+9. 明确输出：真实完成度、blocking defects、可冻结项、未完成项、下一阶段建议。
+
+绝对不要因为 README 写了 PASS 就直接宣布 Agent Runtime 完成。

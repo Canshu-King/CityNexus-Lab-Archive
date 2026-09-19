@@ -1,0 +1,28 @@
+# V19.2.2 changed files (generated from the real working-tree diff vs V19.2.1)
+
+## Added (6)
+A  backend/app/operations/reservation_identity.py
+A  backend/app/planning/anchor_schedule.py
+A  backend/app/planning/anchors.py
+A  backend/app/planning/hard_recovery.py
+A  backend/tests/test_v1923_final_code_gate.py
+A  frontend/src/features/recovery/RecoveryRequiredPanel.tsx
+
+## Modified (15)
+M  backend/app/capabilities.py
+M  backend/app/db/session.py
+M  backend/app/integrations/mobility/snapshot_capture.py
+M  backend/app/main.py
+M  backend/app/operations/v9.py
+M  backend/app/replanning/feasibility.py
+M  backend/app/replanning/protected_commitments.py
+M  backend/app/replanning/provider_snapshots.py
+M  backend/app/schemas.py
+M  backend/app/services.py
+M  backend/db/schema.sql
+M  contracts/openapi.yaml
+M  frontend/src/app/V8Experience.tsx
+M  frontend/src/app/v8Types.ts
+M  frontend/src/generated/api.ts
+
+## Removed (0)

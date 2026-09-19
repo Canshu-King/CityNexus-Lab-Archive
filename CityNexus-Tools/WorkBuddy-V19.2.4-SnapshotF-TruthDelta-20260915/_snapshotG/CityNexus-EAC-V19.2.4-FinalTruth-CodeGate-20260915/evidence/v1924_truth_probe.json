@@ -1,0 +1,34 @@
+D:\moodle\_v1922_work\v1924\CityNexus-V19.2.4-FinalTruth-Closure-RoadPrep-20260915\probes\v1924_truth_probe.py:4: SyntaxWarning: invalid escape sequence '\m'
+  set CITYNEXUS_TREE=D:\moodle\CityNexus\backend
+{
+  "F01_prearrival": {
+    "passed": false,
+    "failures": [
+      "C4_ACTIVITY_BEFORE_ARRIVAL:p"
+    ],
+    "expected_passed": false,
+    "verdict": "PASS"
+  },
+  "F02_postdeparture": {
+    "passed": false,
+    "failures": [
+      "C4_ACTIVITY_AFTER_DEPARTURE:p"
+    ],
+    "expected_passed": false,
+    "verdict": "PASS"
+  },
+  "F03_arrival_after_departure": {
+    "passed": false,
+    "failures": [
+      "C4_ANCHOR_ARRIVAL_AFTER_DEPARTURE"
+    ],
+    "expected_passed": false,
+    "verdict": "PASS"
+  },
+  "F04_control": {
+    "passed": true,
+    "failures": [],
+    "expected_passed": true,
+    "verdict": "PASS"
+  }
+}

@@ -1,0 +1,4 @@
+Visio PowerShell module discovery
+Command: Import-Module Visio -Force
+Result: module not installed/loaded; Get-Command -Module Visio returned no commands.
+No VisioAutomation routing cmdlet names or Get-Help output are available in this PowerShell session.

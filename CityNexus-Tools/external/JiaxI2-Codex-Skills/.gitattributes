@@ -1,0 +1,4 @@
+
+plugins/AiCoding/skills/** text eol=lf
+plugins/AiCoding/BUILDINFO.json text eol=lf
+scripts/*.ps1 text eol=lf

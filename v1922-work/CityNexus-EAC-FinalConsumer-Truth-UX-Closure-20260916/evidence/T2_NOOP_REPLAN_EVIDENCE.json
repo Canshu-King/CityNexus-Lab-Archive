@@ -1,0 +1,32 @@
+{
+ "journey_id": "abd8ed7b-585e-4bfd-bddc-83d45cdc4975",
+ "city_code": "CN-XIAMEN",
+ "cases": [
+  {
+   "case": "mutable_real_poi_closure_plain_plan",
+   "target": "OSM restaurant (real-place-308d9a2747db7e02dc855e18)",
+   "proposal_id": "3a6e8fba (earlier run)",
+   "status": "PRESENTED",
+   "removed": 1,
+   "added": 0,
+   "note": "CLOSURE on a mutable real Xiamen POI produced a material removal",
+   "verdict": "PASS_MATERIAL"
+  },
+  {
+   "case": "mutable_real_poi_closure",
+   "target": "OSM restaurant",
+   "rejected_code": "REQUEST_ERROR",
+   "message": "mobility evidence unavailable: mobility fact unavailable for v12:abd8ed7b-585e-4bfd-bddc-83d45cdc4975:arrival-anchor|real-place-77f31662df2c9ef0678c275f: KeyErr",
+   "verdict": "REFUSED_HONESTLY"
+  },
+  {
+   "case": "protected_stay_closure",
+   "target": "Overnight · 厦门康莱德酒店",
+   "rejected_code": "VALIDATION_ERROR",
+   "message": "closed activity is protected and cannot be replaced automatically",
+   "verdict": "PASS_HONEST_REFUSAL"
+  }
+ ],
+ "noop_accepted_anywhere": false,
+ "summary": "No CLOSURE or WEATHER event settled as an accepted no-op. A mutable real POI closure yields a material removal; a protected stay closure is refused explicitly. The stay-materialised plan's closure is refused honestly because its mobility identity is not yet fully aligned - a real remaining gap, recorded rather than faked."
+}

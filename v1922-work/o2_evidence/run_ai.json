@@ -1,0 +1,38 @@
+{
+ "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+ "trace": [
+  {
+   "ts": "2026-09-16T17:18:26.074Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/hub",
+   "action": "today-after-create",
+   "status": "200",
+   "result": "菜单 | / | 今天 | EN | XI | 还没休息 | Xiamen之旅 | 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 | EN | 试用其他城市 | AI 帮我规划 | 打开行程工作台 | 规"
+  },
+  {
+   "ts": "2026-09-16T17:18:26.182Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/hub",
+   "action": "ai-cta-present",
+   "status": "yes",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:18:27.128Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/hub",
+   "action": "ai-sheet-open",
+   "status": "opened",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T17:18:49.807Z",
+   "journey_id": "a47f190a-376a-46c3-ba52-a31342f95c47",
+   "route": "/v8/hub",
+   "action": "ai-result",
+   "status": "shown",
+   "result": "方案已准备好"
+  }
+ ],
+ "errors": []
+}

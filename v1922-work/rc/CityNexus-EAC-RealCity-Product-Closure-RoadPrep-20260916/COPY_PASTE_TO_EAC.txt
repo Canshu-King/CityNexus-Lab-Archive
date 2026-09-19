@@ -1,0 +1,31 @@
+Use the attached:
+
+CityNexus-EAC-RealCity-Product-Closure-RoadPrep-20260916.zip
+
+together with:
+
+CityNexus-EAC-Overnight-Mobile-Product-Rescue-V2-20260916.zip
+
+and keep using the previous UI reference package:
+
+CityNexus-EAC-Overnight-Mobile-Product-Rescue-V2-UIReference-20260916.zip
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Freeze the overnight result as Snapshot H.
+
+Read README_FIRST.md and execute docs/EAC_NEXT_MISSION.md.
+
+The highest-priority correction is acceptance integrity:
+
+the previous evidence created Xiamen, but exercised plan generation/adoption on
+the sealed Tianjin demo. The next READY claim must prove one continuous Xiamen
+journey_id from create through live governed replan.
+
+Do not use /demo/reset to pass the real-Xiamen acceptance gate.
+
+Do not start unrelated architecture expansion.
+
+Start now.

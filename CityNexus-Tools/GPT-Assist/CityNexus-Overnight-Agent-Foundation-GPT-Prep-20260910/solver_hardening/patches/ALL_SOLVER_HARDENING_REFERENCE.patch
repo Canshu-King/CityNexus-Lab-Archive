@@ -1,0 +1,413 @@
+--- /dev/null
++++ b/backend/tests/test_gpt_solver_hardening_next.py
+@@ -0,0 +1,250 @@
++from __future__ import annotations
++
++from datetime import datetime
++from uuid import uuid4
++
++import pytest
++from sqlalchemy import select
++
++import app.main as main_module
++from app.db.models import Activity
++from app.db.session import SessionLocal
++from app.planning.solver_contract import SolverCandidate, solver_problem_fingerprint
++from app.planning.solver_runtime import SolverAttempt
++from test_solver_runtime_gate import (
++    _generate,
++    _prepare_disruption,
++    _proposals,
++    client,
++)
++
++
++def _empty_attempt(problem, *, terminal_status: str = "INFEASIBLE") -> SolverAttempt:
++    return SolverAttempt(
++        candidates=(),
++        engine="DETERMINISTIC_HEURISTIC",
++        terminal_status=terminal_status,
++        fallback_reason=f"ORTOOLS_{terminal_status}",
++        attempted_solves=1,
++        problem_fingerprint=solver_problem_fingerprint(problem),
++        mobility_snapshot_id=problem.frozen_mobility_snapshot_id,
++    )
++
++
++def _valid_design_attempt(problem) -> SolverAttempt:
++    option = next(item for item in problem.replacement_options if item.option_key == "place-design-library")
++    inbound = problem.travel(problem.current_location_key, option.location_key)
++    outbound = problem.travel(option.location_key, problem.next_anchor.location_key)
++    start = max(problem.now_min + inbound, option.earliest_start_min, option.original_start_min)
++    end = start + option.duration_min
++    candidate = SolverCandidate(
++        option_key=option.option_key,
++        location_key=option.location_key,
++        start_min=start,
++        end_min=end,
++        cost_minor=option.cost_minor,
++        inbound_travel_min=inbound,
++        outbound_travel_min=outbound,
++        schedule_shift_min=abs(start - option.original_start_min),
++        preference_milli=option.preference_milli,
++        dropped=False,
++        fingerprint="valid-design-candidate",
++        generator_kind="ORTOOLS_CP_SAT",
++        solver_status="OPTIMAL",
++        generator_rank=0,
++    )
++    return SolverAttempt(
++        candidates=(candidate,),
++        engine="ORTOOLS_CP_SAT",
++        terminal_status="OPTIMAL",
++        fallback_reason=None,
++        attempted_solves=1,
++        problem_fingerprint=solver_problem_fingerprint(problem),
++        mobility_snapshot_id=problem.frozen_mobility_snapshot_id,
++    )
++
++
++def _malicious_design_attempt(problem) -> SolverAttempt:
++    option = next(item for item in problem.replacement_options if item.option_key == "place-design-library")
++    candidate = SolverCandidate(
++        option_key=option.option_key,
++        location_key=option.location_key,
++        start_min=390,  # 15:30, deliberately collides with the protected River Cruise C4.
++        end_min=450,
++        cost_minor=option.cost_minor,
++        inbound_travel_min=20,
++        outbound_travel_min=20,
++        schedule_shift_min=130,
++        preference_milli=option.preference_milli,
++        dropped=False,
++        fingerprint="malicious-design-candidate",
++        generator_kind="ORTOOLS_CP_SAT",
++        solver_status="FEASIBLE",
++        generator_rank=0,
++    )
++    return SolverAttempt(
++        candidates=(candidate,),
++        engine="ORTOOLS_CP_SAT",
++        terminal_status="FEASIBLE",
++        fallback_reason=None,
++        attempted_solves=1,
++        problem_fingerprint=solver_problem_fingerprint(problem),
++        mobility_snapshot_id=problem.frozen_mobility_snapshot_id,
++    )
++
++
++def test_srh01_solver_problem_carries_verified_traveler_preference_signal(monkeypatch):
++    monkeypatch.setenv("CITYNEXUS_SOLVER", "ortools")
++    journey_id, _base, event = _prepare_disruption()
++    captured = {}
++
++    def inspect(problem, *, candidate_count, **_kwargs):
++        captured["problem"] = problem
++        return _empty_attempt(problem)
++
++    monkeypatch.setattr(main_module, "generate_solver_candidates", inspect)
++    _generate(journey_id, event["id"], count=3)
++    problem = captured["problem"]
++    preference = {item.option_key: item.preference_milli for item in problem.replacement_options}
++
++    # Demo traveler has verified interest weights. Culture (Design Library) and
++    # waterfront (City Park) must not both reach CP-SAT as the same zero signal.
++    assert preference["place-design-library"] > 0
++    assert preference["place-city-park"] > 0
++    assert preference["place-design-library"] != preference["place-city-park"]
++
++
++def test_srh02_solver_v1_does_not_optimize_activity_after_its_next_c4_anchor(monkeypatch):
++    monkeypatch.setenv("CITYNEXUS_SOLVER", "ortools")
++    journey_id, base, _tech_event = _prepare_disruption()
++    skyline = next(item for item in base["activities"] if item["place_id"] == "place-skyline-dinner")
++    event = client.post(
++        f"/api/v1/journeys/{journey_id}/events",
++        json={
++            "event_type": "CLOSURE",
++            "severity": "MAJOR",
++            "affected_activity_id": skyline["id"],
++            "occurred_at": "2026-10-10T13:25:00+08:00",
++            "payload": {"reason": "future activity after protected anchor"},
++        },
++    )
++    assert event.status_code == 201, event.text
++    calls = 0
++
++    def should_not_run(problem, *, candidate_count, **_kwargs):
++        nonlocal calls
++        calls += 1
++        return _empty_attempt(problem)
++
++    monkeypatch.setattr(main_module, "generate_solver_candidates", should_not_run)
++    _generate(journey_id, event.json()["id"], count=3)
++    assert calls == 0
++
++
++def test_srh03_solver_v1_fails_closed_when_intervening_mutable_activities_are_not_modeled(monkeypatch):
++    monkeypatch.setenv("CITYNEXUS_SOLVER", "ortools")
++    ids = client.post("/api/v1/demo/reset").json()
++    journey_id = ids["journey_id"]
++    generated = client.post(
++        f"/api/v1/journeys/{journey_id}/plans/generate", json={"candidate_count": 1}
++    )
++    assert generated.status_code == 201, generated.text
++    plan = generated.json()[0]
++    assert client.post(f"/api/v1/journeys/{journey_id}/plans/{plan['id']}/select").status_code == 200
++    cruise = next(item for item in plan["activities"] if item["place_id"] == "place-river-cruise")
++    booking = client.post(
++        f"/api/v1/journeys/{journey_id}/bookings", json={"activity_id": cruise["id"]}
++    ).json()
++    captured = client.post(
++        f"/api/v1/journeys/{journey_id}/transactions",
++        json={
++            "booking_id": booking["id"],
++            "transaction_type": "CAPTURE",
++            "amount": booking["amount"],
++        },
++        headers={"Idempotency-Key": f"srh-capture-{uuid4()}"},
++    )
++    assert captured.status_code == 201, captured.text
++    assert client.post(f"/api/v1/journeys/{journey_id}/start").status_code == 200
++
++    with SessionLocal() as session:
++        current = session.get(Activity, session.get(main_module.Journey, journey_id).current_activity_id)
++        assert current.place_id == "place-old-town"
++
++    tech = next(item for item in plan["activities"] if item["place_id"] == "place-tech-art")
++    event = client.post(
++        f"/api/v1/journeys/{journey_id}/events",
++        json={
++            "event_type": "CLOSURE",
++            "severity": "MAJOR",
++            "affected_activity_id": tech["id"],
++            "occurred_at": "2026-10-10T09:10:00+08:00",
++            "payload": {"reason": "future disruption while earlier activities remain"},
++        },
++    )
++    assert event.status_code == 201, event.text
++    calls = 0
++
++    def should_not_run(problem, *, candidate_count, **_kwargs):
++        nonlocal calls
++        calls += 1
++        return _empty_attempt(problem)
++
++    monkeypatch.setattr(main_module, "generate_solver_candidates", should_not_run)
++    _generate(journey_id, event.json()["id"], count=3)
++    assert calls == 0
++
++
++def test_srh04_post_gate_rejected_solver_assignment_can_be_rescued_by_same_heuristic_assignment(monkeypatch):
++    monkeypatch.setenv("CITYNEXUS_SOLVER", "ortools")
++    journey_id, _base, event = _prepare_disruption()
++    monkeypatch.setattr(
++        main_module,
++        "generate_solver_candidates",
++        lambda problem, **_kwargs: _malicious_design_attempt(problem),
++    )
++
++    _generate(journey_id, event["id"], count=3)
++    proposals = _proposals(journey_id, event["id"])
++    assert proposals
++
++    # The solver's Design Library schedule is malicious and must fail the gate,
++    # but the existing deterministic Design Library schedule is known-good and
++    # should still be eligible as a fallback for the same semantic assignment.
++    design = [
++        item
++        for item in proposals
++        if "place-design-library" in item["diff"].get("added", [])
++    ]
++    assert design
++    assert all(
++        item["diff"]["verified_evidence"]["generator"]["kind"] == "DETERMINISTIC_HEURISTIC"
++        for item in design
++    )
++
++
++def test_srh05_heuristic_complement_does_not_claim_post_gate_failure_when_solver_succeeded(monkeypatch):
++    monkeypatch.setenv("CITYNEXUS_SOLVER", "ortools")
++    journey_id, _base, event = _prepare_disruption()
++    monkeypatch.setattr(
++        main_module,
++        "generate_solver_candidates",
++        lambda problem, **_kwargs: _valid_design_attempt(problem),
++    )
++
++    _generate(journey_id, event["id"], count=3)
++    proposals = _proposals(journey_id, event["id"])
++    solver = [
++        item for item in proposals
++        if item["diff"]["verified_evidence"]["generator"]["kind"] == "ORTOOLS_CP_SAT"
++    ]
++    heuristic = [
++        item for item in proposals
++        if item["diff"]["verified_evidence"]["generator"]["kind"] == "DETERMINISTIC_HEURISTIC"
++    ]
++    assert solver and heuristic
++    assert all(
++        item["diff"]["verified_evidence"]["generator"].get("fallback_reason")
++        != "ORTOOLS_POST_GATE_FALLBACK"
++        for item in heuristic
++    )
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -1604,6 +1604,12 @@
+             _ReplanCandidateSpec(family="F0_STABLE_COPY", replacement_choice=None)
+         )
+ 
++    traveler_preferences = session.scalars(
++        select(Preference)
++        .where(Preference.traveler_id == journey.traveler_id)
++        .order_by(Preference.category, Preference.preference_key)
++    ).all()
++
+     solver_mode = normalize_solver_mode(os.getenv("CITYNEXUS_SOLVER", settings.solver_mode))
+     solver_attempt: SolverAttempt | None = None
+     solver_specs: list[_ReplanCandidateSpec] = []
+@@ -1627,6 +1633,11 @@
+         solver_mode != "deterministic"
+         and trigger_event.event_type in {"CLOSURE", "WEATHER"}
+         and affected is not None
++        # V1 models only the disrupted current slot through the next C4 anchor.
++        # Future affected Activities with intervening mutable Activities remain
++        # on the deterministic path until a later multi-slot solver contract.
++        and current_execution is not None
++        and affected.id == current_execution.id
+         and affected.id not in protected_activity_ids
+         and not affected.locked
+         and bool(replacement_choices)
+@@ -1659,6 +1670,13 @@
+             latest_end_min = _minute_from_start(closes_at)
+             if latest_end_min <= earliest_start_min:
+                 continue
++            candidate_tags = set(json.loads(candidate_place.tags_json or "[]"))
++            solver_preference_fit = verified_interest_preference_fit(
++                traveler_preferences, candidate_tags=candidate_tags
++            )
++            solver_preference_milli = int(
++                round((0.5 if solver_preference_fit is None else solver_preference_fit) * 1000)
++            )
+             solver_options.append(
+                 SolverReplacementOption(
+                     option_key=choice.place_id,
+@@ -1670,7 +1688,7 @@
+                     original_start_min=max(
+                         0, _minute_from_start(datetime.fromisoformat(affected.start_at))
+                     ),
+-                    preference_milli=0,
++                    preference_milli=solver_preference_milli,
+                 )
+             )
+         if solver_options:
+@@ -1742,14 +1760,6 @@
+         else:
+             solver_fallback_reason = "SOLVER_NO_ELIGIBLE_OPTIONS"
+ 
+-    solver_assignment_keys = {
+-        "DROP"
+-        if spec.candidate_remove
+-        else str(spec.replacement_choice.place_id)
+-        if spec.replacement_choice is not None
+-        else spec.family
+-        for spec in solver_specs
+-    }
+     fallback_status = (
+         solver_attempt.terminal_status
+         if solver_attempt is not None
+@@ -1760,17 +1770,19 @@
+     fallback_problem_fingerprint = (
+         solver_attempt.problem_fingerprint if solver_attempt is not None else None
+     )
++    if solver_attempt is not None and solver_attempt.used_solver:
++        heuristic_fallback_reason = "ORTOOLS_CANDIDATE_SET_COMPLEMENT"
++    elif solver_attempt is not None and solver_attempt.fallback_reason:
++        heuristic_fallback_reason = solver_attempt.fallback_reason
++    else:
++        heuristic_fallback_reason = solver_fallback_reason
++
++    # Keep all deterministic assignments behind solver specs. Successful solver
++    # assignments suppress duplicates only after they pass the authoritative gate.
++    # If a solver schedule is rejected, the same semantic option can still be
++    # rescued by the deterministic schedule.
+     fallback_specs: list[_ReplanCandidateSpec] = []
+     for spec in heuristic_specs:
+-        assignment_key = (
+-            "DROP"
+-            if spec.candidate_remove
+-            else str(spec.replacement_choice.place_id)
+-            if spec.replacement_choice is not None
+-            else spec.family
+-        )
+-        if assignment_key in solver_assignment_keys:
+-            continue
+         fallback_specs.append(
+             _ReplanCandidateSpec(
+                 family=spec.family,
+@@ -1781,7 +1793,7 @@
+                 solver_provenance={
+                     "kind": "DETERMINISTIC_HEURISTIC",
+                     "solver_status": fallback_status,
+-                    "fallback_reason": solver_fallback_reason,
++                    "fallback_reason": heuristic_fallback_reason,
+                     "problem_fingerprint": fallback_problem_fingerprint,
+                     "mobility_snapshot_id": mobility.snapshot_id,
+                 },
+@@ -1842,15 +1854,22 @@
+     base_route_total = _frozen_route_total(source)
+     created: list[ReplanProposalModel] = []
+     failed_reasons: set[str] = set()
+-    traveler_preferences = session.scalars(
+-        select(Preference)
+-        .where(Preference.traveler_id == journey.traveler_id)
+-        .order_by(Preference.category, Preference.preference_key)
+-    ).all()
++    accepted_assignment_keys: set[str] = set()
++    rejected_solver_assignment_keys: set[str] = set()
++
++    def _spec_assignment_key(spec: _ReplanCandidateSpec) -> str:
++        if spec.candidate_remove:
++            return "DROP"
++        if spec.replacement_choice is not None:
++            return str(spec.replacement_choice.place_id)
++        return spec.family
+ 
+     for generation_rank, spec in enumerate(specs):
+         if len(created) >= body.candidate_count:
+             break
++        assignment_key = _spec_assignment_key(spec)
++        if assignment_key in accepted_assignment_keys:
++            continue
+         family = spec.family
+         replacement_choice = spec.replacement_choice
+         candidate_delay = spec.candidate_delay
+@@ -1858,6 +1877,11 @@
+         window_evidence = spec.window_evidence
+         generator_evidence = dict(spec.solver_provenance or {})
+         generator_evidence.setdefault("kind", "DETERMINISTIC_HEURISTIC")
++        if (
++            generator_evidence.get("kind") == "DETERMINISTIC_HEURISTIC"
++            and assignment_key in rejected_solver_assignment_keys
++        ):
++            generator_evidence["fallback_reason"] = "ORTOOLS_POST_GATE_FALLBACK"
+         generator_evidence.setdefault("rank", generation_rank)
+         proposed = PlanVersion(
+             id=str(uuid4()),
+@@ -1992,6 +2016,8 @@
+         )
+         if not gate.passed:
+             failed_reasons.update(gate.failures)
++            if generator_evidence.get("kind") == "ORTOOLS_CP_SAT":
++                rejected_solver_assignment_keys.add(assignment_key)
+             session.execute(delete(Activity).where(Activity.plan_version_id == proposed.id))
+             session.delete(proposed)
+             session.flush()
+@@ -2174,6 +2200,7 @@
+             },
+         )
+         created.append(proposal)
++        accepted_assignment_keys.add(assignment_key)
+ 
+     if not created:
+         session.rollback()

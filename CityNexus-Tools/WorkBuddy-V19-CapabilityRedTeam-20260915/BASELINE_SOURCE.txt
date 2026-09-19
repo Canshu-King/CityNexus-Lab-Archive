@@ -1,0 +1,5 @@
+source=D:\moodle\CityNexus
+head=ref: refs/heads/master
+copied_at=2026-09-15T10:23:19
+files=409
+bytes=3676908

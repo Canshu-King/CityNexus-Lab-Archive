@@ -1,0 +1,182 @@
+{
+ "focusOrder": [
+  {
+   "tag": "button",
+   "name": "Open navigation",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Switch language",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "TI",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Switch language",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Try another city",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Open Trip Studio",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "rgba(70, 88, 217, 0.15) 0px 8px 18px 0px",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "View plan →",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Compare stays →",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "DAY 1\nFriday\n\nTianjin West Station · Check i",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "DAY 2\nSaturday\n\nFive Great Avenues · Tianjin",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "DAY 3\nSunday\n\nCheck out · Haihe Riverside Ho",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "CityNexus Copilot",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "rgba(20, 35, 59, 0.125) 0px 18px 50px 0p",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Today",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  },
+  {
+   "tag": "button",
+   "name": "Map",
+   "outlineWidth": "3px",
+   "outlineStyle": "solid",
+   "boxShadow": "none",
+   "visible": true
+  }
+ ],
+ "axe": {
+  "violationCount": 1,
+  "violations": [
+   {
+    "id": "color-contrast",
+    "impact": "serious",
+    "nodes": 21,
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "sample": "<span class=\"v8-status-pill\"><span class=\"status-dot\"></span>Planning ready</span>"
+   }
+  ]
+ },
+ "axeByRoute": {
+  "live": {
+   "violationCount": 0,
+   "violations": []
+  },
+  "studio": {
+   "violationCount": 1,
+   "violations": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "nodes": 12,
+     "help": "Elements must meet minimum color contrast ratio thresholds",
+     "sample": "<small>ARRIVAL anchor · TRANSIT</small>"
+    }
+   ]
+  },
+  "bookings": {
+   "violationCount": 1,
+   "violations": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "nodes": 6,
+     "help": "Elements must meet minimum color contrast ratio thresholds",
+     "sample": "<span class=\"v8-selected-label\">STAY EVIDENCE</span>"
+    }
+   ]
+  },
+  "twin": {
+   "violationCount": 1,
+   "violations": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "nodes": 7,
+     "help": "Elements must meet minimum color contrast ratio thresholds",
+     "sample": "<p>From this Journey request</p>"
+    }
+   ]
+  },
+  "agent": {
+   "violationCount": 1,
+   "violations": [
+    {
+     "id": "color-contrast",
+     "impact": "serious",
+     "nodes": 4,
+     "help": "Elements must meet minimum color contrast ratio thresholds",
+     "sample": "<span class=\"v8-status-pill violet\">Twin context ready</span>"
+    }
+   ]
+  }
+ }
+}

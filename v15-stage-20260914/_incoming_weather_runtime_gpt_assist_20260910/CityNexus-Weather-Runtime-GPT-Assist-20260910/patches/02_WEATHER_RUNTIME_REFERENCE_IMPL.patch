@@ -1,0 +1,705 @@
+diff --git a/backend/app/integrations/context/weather_ingestion.py b/backend/app/integrations/context/weather_ingestion.py
+index 9aac210..8c79133 100644
+--- a/backend/app/integrations/context/weather_ingestion.py
++++ b/backend/app/integrations/context/weather_ingestion.py
+@@ -12,6 +12,66 @@ from app.db.models import Event
+ from app.integrations.context.weather_snapshot import WeatherRiskFact
+ 
+ 
++def _weather_event_identity(
++    *,
++    journey_id: str,
++    fact: WeatherRiskFact,
++    affected_activity_id: str | None,
++) -> dict[str, str | None]:
++    return {
++        "journey_id": str(journey_id),
++        "provider_key": fact.provider_key,
++        "reason_code": fact.code,
++        "forecast_valid_from": fact.at,
++        "forecast_valid_until": fact.valid_until,
++        "affected_activity_id": str(affected_activity_id) if affected_activity_id else None,
++        "scope_place_id": fact.scope.place_id if fact.scope is not None else None,
++    }
++
++
++def _existing_weather_event(
++    session: Session,
++    *,
++    journey_id: str,
++    fact: WeatherRiskFact,
++    affected_activity_id: str | None,
++) -> Event | None:
++    """Return an existing Event for the same provider fact/activity identity."""
++
++    candidates = session.scalars(
++        select(Event).where(
++            Event.journey_id == str(journey_id),
++            Event.provider_key == fact.provider_key,
++            Event.provenance == "PROVIDER_VERIFIED",
++            Event.event_type == "WEATHER",
++            Event.affected_activity_id
++            == (str(affected_activity_id) if affected_activity_id else None),
++            Event.occurred_at == fact.at,
++        )
++    ).all()
++    expected = _weather_event_identity(
++        journey_id=str(journey_id), fact=fact, affected_activity_id=affected_activity_id
++    )
++    for item in candidates:
++        try:
++            payload = json.loads(item.payload_json or "{}")
++        except json.JSONDecodeError:
++            continue
++        if payload.get("weather_identity") == expected:
++            return item
++        # Backward-compatible match for an older event shape that may not have
++        # weather_identity but still represents the exact same provider risk.
++        if (
++            payload.get("reason_code") == fact.code
++            and payload.get("forecast_valid_until") in {None, fact.valid_until}
++        ):
++            scope = payload.get("query_scope") or {}
++            expected_scope = fact.scope.place_id if fact.scope is not None else None
++            if scope.get("place_id") in {None, expected_scope}:
++                return item
++    return None
++
++
+ def ingest_provider_verified_weather_event(
+     session: Session,
+     *,
+@@ -21,9 +81,9 @@ def ingest_provider_verified_weather_event(
+ ) -> Event:
+     """Persist a server-owned Open-Meteo fact as a PROVIDER_VERIFIED Event.
+ 
+-    Public EventCreate input cannot reach this function. Callers must pass a
+-    frozen ``WeatherRiskFact`` produced by ``freeze_weather_risks``; payment,
+-    commitment and feasibility state are never inferred here.
++    The ingestion boundary is idempotent for the same provider risk fact,
++    Journey, Activity and query scope. Repeated provider polling therefore does
++    not create an unbounded stream of duplicate weather Events.
+     """
+ 
+     if fact.provider_key != "open-meteo":
+@@ -36,7 +96,28 @@ def ingest_provider_verified_weather_event(
+     }.get(fact.severity.upper(), fact.severity.upper())
+     if severity not in {"INFO", "MINOR", "MAJOR", "CRITICAL"}:
+         raise ValueError("weather severity does not map to an Event severity")
++
++    existing = _existing_weather_event(
++        session,
++        journey_id=str(journey_id),
++        fact=fact,
++        affected_activity_id=affected_activity_id,
++    )
++    if existing is not None:
++        return existing
++
+     now = datetime.now(timezone.utc).isoformat()
++    weather_identity = _weather_event_identity(
++        journey_id=str(journey_id), fact=fact, affected_activity_id=affected_activity_id
++    )
++    payload = {
++        "reason_code": fact.code,
++        "forecast_valid_from": fact.at,
++        "forecast_valid_until": fact.valid_until,
++        "provider_evidence": dict(fact.evidence),
++        "query_scope": fact.scope.to_evidence() if fact.scope is not None else None,
++        "weather_identity": weather_identity,
++    }
+     item = Event(
+         id=str(uuid4()),
+         journey_id=str(journey_id),
+@@ -48,10 +129,7 @@ def ingest_provider_verified_weather_event(
+         affected_activity_id=affected_activity_id,
+         occurred_at=fact.at,
+         detected_at=now,
+-        payload_json=json.dumps(
+-            {"reason_code": fact.code, "provider_evidence": dict(fact.evidence)},
+-            sort_keys=True,
+-        ),
++        payload_json=json.dumps(payload, sort_keys=True),
+         created_at=now,
+     )
+     session.add(item)
+@@ -61,12 +139,42 @@ def ingest_provider_verified_weather_event(
+         entity_type="Event",
+         entity_id=item.id,
+         journey_id=str(journey_id),
+-        after={"provider_key": item.provider_key, "provenance": item.provenance},
++        after={
++            "provider_key": item.provider_key,
++            "provenance": item.provenance,
++            "affected_activity_id": item.affected_activity_id,
++            "weather_identity": weather_identity,
++        },
+     )
+     session.flush()
+     return item
+ 
+ 
++def _existing_provider_degradation(
++    session: Session,
++    *,
++    journey_id: str,
++    provider_key: str,
++) -> Event | None:
++    rows = session.scalars(
++        select(Event).where(
++            Event.journey_id == str(journey_id),
++            Event.provider_key == provider_key,
++            Event.provenance == "SYSTEM_DERIVED",
++            Event.event_type == "SERVICE_UNAVAILABLE",
++            Event.status.in_(("DETECTED", "ACKNOWLEDGED")),
++        )
++    ).all()
++    for item in rows:
++        try:
++            payload = json.loads(item.payload_json or "{}")
++        except json.JSONDecodeError:
++            continue
++        if provider_key in payload.get("degraded_providers", []):
++            return item
++    return None
++
++
+ def record_provider_degradation(
+     session: Session,
+     *,
+@@ -77,13 +185,19 @@ def record_provider_degradation(
+ ) -> Event:
+     """Record a server-owned provider outage without inventing a weather fact.
+ 
+-    This is an internal status boundary used when a provider call cannot
+-    produce a ``WeatherRiskFact``.  The event intentionally carries only
+-    provider status metadata; it never becomes a weather observation.
++    The unresolved degradation marker is idempotent. Repeated polling failures
++    keep the existing provider state degraded rather than generating an Event
++    storm.
+     """
+ 
+     if provider_key != "open-meteo":
+         raise ValueError("weather provider degradation must identify open-meteo")
++    existing = _existing_provider_degradation(
++        session, journey_id=str(journey_id), provider_key=provider_key
++    )
++    if existing is not None:
++        return existing
++
+     now = datetime.now(timezone.utc).isoformat()
+     item = Event(
+         id=str(uuid4()),
+diff --git a/backend/app/integrations/context/weather_runtime.py b/backend/app/integrations/context/weather_runtime.py
+new file mode 100644
+index 0000000..786993b
+--- /dev/null
++++ b/backend/app/integrations/context/weather_runtime.py
+@@ -0,0 +1,336 @@
++from __future__ import annotations
++
++import json
++from dataclasses import dataclass
++from datetime import datetime, timedelta
++from typing import Protocol
++from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
++
++from sqlalchemy import select
++from sqlalchemy.orm import Session
++
++from app.db.models import Activity, Event, Journey, Place
++from app.integrations.context.open_meteo import OpenMeteoProviderError, WeatherObservation, WeatherRisk
++from app.integrations.context.weather_ingestion import (
++    ingest_provider_verified_weather_event,
++    record_provider_degradation,
++    resolve_provider_degradation,
++)
++from app.integrations.context.weather_snapshot import (
++    WeatherQueryScope,
++    WeatherRiskFact,
++    WeatherSnapshot,
++    freeze_weather_risks,
++)
++
++
++TERMINAL_ACTIVITY_STATES = {"COMPLETED", "SKIPPED", "CANCELLED"}
++
++
++class WeatherForecastProvider(Protocol):
++    provider_key: str
++
++    async def forecast(self, *, latitude: float, longitude: float) -> list[WeatherObservation]: ...
++
++    def risks(self, observations: list[WeatherObservation]) -> list[WeatherRisk]: ...
++
++
++@dataclass(frozen=True)
++class WeatherActivityAttribution:
++    activity_id: str
++    place_id: str
++    fact: WeatherRiskFact
++    activity_start_at: str
++    activity_end_at: str
++    local_risk_start_at: str
++    local_risk_end_at: str
++    reason_codes: tuple[str, ...]
++
++    def to_evidence(self) -> dict[str, object]:
++        return {
++            "activity_id": self.activity_id,
++            "place_id": self.place_id,
++            "activity_start_at": self.activity_start_at,
++            "activity_end_at": self.activity_end_at,
++            "local_risk_start_at": self.local_risk_start_at,
++            "local_risk_end_at": self.local_risk_end_at,
++            "reason_codes": list(self.reason_codes),
++            "weather_fact": self.fact.to_evidence(),
++        }
++
++
++@dataclass(frozen=True)
++class WeatherRuntimeResult:
++    provider_key: str
++    queried_place_ids: tuple[str, ...]
++    successful_place_ids: tuple[str, ...]
++    failed_place_ids: tuple[str, ...]
++    snapshots: tuple[WeatherSnapshot, ...]
++    attributions: tuple[WeatherActivityAttribution, ...]
++    event_ids: tuple[str, ...]
++    created_event_ids: tuple[str, ...]
++    degraded: bool
++
++    def to_evidence(self) -> dict[str, object]:
++        return {
++            "provider": self.provider_key,
++            "queried_place_ids": list(self.queried_place_ids),
++            "successful_place_ids": list(self.successful_place_ids),
++            "failed_place_ids": list(self.failed_place_ids),
++            "degraded": self.degraded,
++            "snapshots": [snapshot.to_evidence() for snapshot in self.snapshots],
++            "attributions": [item.to_evidence() for item in self.attributions],
++            "event_ids": list(self.event_ids),
++            "created_event_ids": list(self.created_event_ids),
++        }
++
++
++def _journey_timezone(journey: Journey) -> ZoneInfo:
++    try:
++        return ZoneInfo(journey.timezone)
++    except (ZoneInfoNotFoundError, ValueError) as exc:
++        raise ValueError(f"Journey timezone is invalid: {journey.timezone}") from exc
++
++
++def _activity_weather_sensitive(place: Place) -> bool:
++    """Small explicit policy: tags decide weather sensitivity.
++
++    There is deliberately no AI/category inference here. `weather_sensitive`
++    is an explicit override, `indoor` is explicitly protected, and `outdoor`
++    makes a Place eligible for rain attribution.
++    """
++
++    try:
++        tags = {str(item).strip().lower() for item in json.loads(place.tags_json or "[]")}
++    except (TypeError, ValueError, json.JSONDecodeError):
++        tags = set()
++    if "weather_sensitive" in tags:
++        return True
++    if "indoor" in tags:
++        return False
++    return "outdoor" in tags
++
++
++def _eligible_weather_activities(session: Session, journey: Journey) -> list[tuple[Activity, Place]]:
++    if not journey.active_plan_version_id:
++        return []
++    activities = session.scalars(
++        select(Activity)
++        .where(Activity.plan_version_id == journey.active_plan_version_id)
++        .order_by(Activity.sequence_no)
++    ).all()
++    current_sequence: int | None = None
++    if journey.current_activity_id:
++        current = next((item for item in activities if item.id == journey.current_activity_id), None)
++        if current is not None:
++            current_sequence = current.sequence_no
++
++    eligible: list[tuple[Activity, Place]] = []
++    for activity in activities:
++        if activity.status in TERMINAL_ACTIVITY_STATES:
++            continue
++        if current_sequence is not None and activity.sequence_no < current_sequence:
++            continue
++        if not activity.place_id:
++            continue
++        place = session.get(Place, activity.place_id)
++        if place is None or not _activity_weather_sensitive(place):
++            continue
++        eligible.append((activity, place))
++    return eligible
++
++
++def attribute_weather_fact_to_activity(
++    *,
++    journey: Journey,
++    activity: Activity,
++    place: Place,
++    fact: WeatherRiskFact,
++) -> WeatherActivityAttribution | None:
++    """Map one frozen provider fact to one Activity with explicit evidence."""
++
++    if activity.status in TERMINAL_ACTIVITY_STATES:
++        return None
++    if activity.place_id != place.id:
++        return None
++    if fact.scope is None or fact.scope.place_id != place.id:
++        return None
++    if not _activity_weather_sensitive(place):
++        return None
++
++    timezone = _journey_timezone(journey)
++    risk_start = datetime.fromisoformat(fact.at)
++    if risk_start.tzinfo is None:
++        raise ValueError("WeatherRiskFact.at must be timezone-aware")
++    risk_end = (
++        datetime.fromisoformat(fact.valid_until)
++        if fact.valid_until is not None
++        else risk_start + timedelta(hours=1)
++    )
++    if risk_end.tzinfo is None:
++        raise ValueError("WeatherRiskFact.valid_until must be timezone-aware")
++    local_risk_start = risk_start.astimezone(timezone)
++    local_risk_end = risk_end.astimezone(timezone)
++
++    activity_start = datetime.fromisoformat(activity.start_at)
++    activity_end = datetime.fromisoformat(activity.end_at)
++    if activity_start.tzinfo is None:
++        activity_start = activity_start.replace(tzinfo=timezone)
++    else:
++        activity_start = activity_start.astimezone(timezone)
++    if activity_end.tzinfo is None:
++        activity_end = activity_end.replace(tzinfo=timezone)
++    else:
++        activity_end = activity_end.astimezone(timezone)
++
++    # Half-open intervals prevent a weather bucket ending exactly when an
++    # Activity begins from being treated as an overlap.
++    if max(local_risk_start, activity_start) >= min(local_risk_end, activity_end):
++        return None
++
++    return WeatherActivityAttribution(
++        activity_id=activity.id,
++        place_id=place.id,
++        fact=fact,
++        activity_start_at=activity_start.isoformat(),
++        activity_end_at=activity_end.isoformat(),
++        local_risk_start_at=local_risk_start.isoformat(),
++        local_risk_end_at=local_risk_end.isoformat(),
++        reason_codes=(
++            "WEATHER_TIME_OVERLAP",
++            "WEATHER_SCOPE_MATCH",
++            "WEATHER_SENSITIVE_PLACE",
++        ),
++    )
++
++
++async def refresh_weather_runtime(
++    session: Session,
++    journey: Journey,
++    *,
++    provider: WeatherForecastProvider,
++    captured_at: str | None = None,
++) -> WeatherRuntimeResult:
++    """Capture Open-Meteo facts and deterministically attribute them to Activities.
++
++    Provider calls happen before event-domain handling. Every provider response
++    is normalized/frozen first; only frozen facts are allowed to become
++    PROVIDER_VERIFIED Events. Reads such as JourneyTwin never call this helper.
++    """
++
++    provider_key = str(getattr(provider, "provider_key", ""))
++    if provider_key != "open-meteo":
++        raise ValueError("weather runtime currently requires the open-meteo provider")
++
++    eligible = _eligible_weather_activities(session, journey)
++    by_place: dict[str, tuple[Place, list[Activity]]] = {}
++    for activity, place in eligible:
++        existing = by_place.get(place.id)
++        if existing is None:
++            by_place[place.id] = (place, [activity])
++        else:
++            existing[1].append(activity)
++
++    snapshots: list[WeatherSnapshot] = []
++    attributions: list[WeatherActivityAttribution] = []
++    event_ids: list[str] = []
++    created_event_ids: list[str] = []
++    successful: list[str] = []
++    failed: list[str] = []
++
++    for place_id in sorted(by_place):
++        place, activities = by_place[place_id]
++        scope = WeatherQueryScope(
++            place_id=place.id,
++            latitude=float(place.latitude),
++            longitude=float(place.longitude),
++        )
++        try:
++            observations = await provider.forecast(
++                latitude=scope.latitude,
++                longitude=scope.longitude,
++            )
++            risks = provider.risks(observations)
++        except OpenMeteoProviderError as exc:
++            failed.append(place_id)
++            record_provider_degradation(
++                session,
++                journey_id=journey.id,
++                provider_key="open-meteo",
++                detail=f"{type(exc).__name__}: {exc}",
++                occurred_at=captured_at,
++            )
++            continue
++        except Exception as exc:  # provider boundary: normalize unknown client failures
++            failed.append(place_id)
++            record_provider_degradation(
++                session,
++                journey_id=journey.id,
++                provider_key="open-meteo",
++                detail=f"{type(exc).__name__}: {exc}",
++                occurred_at=captured_at,
++            )
++            continue
++
++        successful.append(place_id)
++        snapshot = freeze_weather_risks(
++            risks,
++            provider_key=provider_key,
++            captured_at=captured_at,
++            degraded=False,
++            scope=scope,
++        )
++        snapshots.append(snapshot)
++        for fact in snapshot.facts:
++            for activity in activities:
++                attribution = attribute_weather_fact_to_activity(
++                    journey=journey,
++                    activity=activity,
++                    place=place,
++                    fact=fact,
++                )
++                if attribution is None:
++                    continue
++                attributions.append(attribution)
++                before = session.scalars(
++                    select(Event).where(
++                        Event.journey_id == journey.id,
++                        Event.provider_key == "open-meteo",
++                        Event.provenance == "PROVIDER_VERIFIED",
++                        Event.event_type == "WEATHER",
++                        Event.affected_activity_id == activity.id,
++                        Event.occurred_at == fact.at,
++                    )
++                ).all()
++                event = ingest_provider_verified_weather_event(
++                    session,
++                    journey_id=journey.id,
++                    fact=fact,
++                    affected_activity_id=activity.id,
++                )
++                event_ids.append(event.id)
++                if all(item.id != event.id for item in before):
++                    created_event_ids.append(event.id)
++
++    # Recovery is only authoritative when every queried scope succeeded. A
++    # partial provider failure intentionally keeps the Twin degraded.
++    if by_place and not failed:
++        resolve_provider_degradation(
++            session,
++            journey_id=journey.id,
++            provider_key="open-meteo",
++            resolved_at=captured_at,
++        )
++
++    session.flush()
++    return WeatherRuntimeResult(
++        provider_key=provider_key,
++        queried_place_ids=tuple(sorted(by_place)),
++        successful_place_ids=tuple(successful),
++        failed_place_ids=tuple(failed),
++        snapshots=tuple(snapshots),
++        attributions=tuple(attributions),
++        event_ids=tuple(dict.fromkeys(event_ids)),
++        created_event_ids=tuple(dict.fromkeys(created_event_ids)),
++        degraded=bool(failed),
++    )
+diff --git a/backend/app/integrations/context/weather_snapshot.py b/backend/app/integrations/context/weather_snapshot.py
+index 68102a8..78d5885 100644
+--- a/backend/app/integrations/context/weather_snapshot.py
++++ b/backend/app/integrations/context/weather_snapshot.py
+@@ -1,19 +1,76 @@
+ from __future__ import annotations
+ 
+ from dataclasses import dataclass
+-from datetime import datetime, timezone
+-from typing import Any, Iterable
++from datetime import datetime, timedelta, timezone
++from types import MappingProxyType
++from typing import Any, Iterable, Mapping
+ 
+ from app.integrations.context.open_meteo import WeatherRisk
+ 
+ 
++@dataclass(frozen=True)
++class WeatherQueryScope:
++    """Exact provider query scope that produced a weather fact."""
++
++    place_id: str
++    latitude: float
++    longitude: float
++
++    def __post_init__(self) -> None:
++        if not self.place_id:
++            raise ValueError("weather query scope requires place_id")
++        if not -90 <= float(self.latitude) <= 90:
++            raise ValueError("weather query latitude is out of range")
++        if not -180 <= float(self.longitude) <= 180:
++            raise ValueError("weather query longitude is out of range")
++
++    def to_evidence(self) -> dict[str, Any]:
++        return {
++            "place_id": self.place_id,
++            "latitude": self.latitude,
++            "longitude": self.longitude,
++        }
++
++
+ @dataclass(frozen=True)
+ class WeatherRiskFact:
+     code: str
+     severity: str
+     at: str
+     provider_key: str
+-    evidence: dict[str, Any]
++    evidence: Mapping[str, Any]
++    valid_until: str | None = None
++    scope: WeatherQueryScope | None = None
++
++    def __post_init__(self) -> None:
++        start = datetime.fromisoformat(self.at)
++        if start.tzinfo is None:
++            raise ValueError("weather fact timestamp must be timezone-aware")
++        if self.valid_until is not None:
++            end = datetime.fromisoformat(self.valid_until)
++            if end.tzinfo is None:
++                raise ValueError("weather fact validity end must be timezone-aware")
++            if end <= start:
++                raise ValueError("weather fact validity interval must be positive")
++        # Frozen dataclasses do not make nested dicts immutable. Defensive-copy
++        # provider evidence so a captured weather fact cannot be mutated later
++        # in the same operation.
++        object.__setattr__(self, "evidence", MappingProxyType(dict(self.evidence)))
++
++    @property
++    def valid_from(self) -> str:
++        return self.at
++
++    def to_evidence(self) -> dict[str, Any]:
++        return {
++            "code": self.code,
++            "severity": self.severity,
++            "valid_from": self.at,
++            "valid_until": self.valid_until,
++            "provider": self.provider_key,
++            "provider_evidence": dict(self.evidence),
++            "query_scope": self.scope.to_evidence() if self.scope is not None else None,
++        }
+ 
+ 
+ @dataclass(frozen=True)
+@@ -22,6 +79,16 @@ class WeatherSnapshot:
+     captured_at: str
+     facts: tuple[WeatherRiskFact, ...]
+     degraded: bool = False
++    scope: WeatherQueryScope | None = None
++
++    def to_evidence(self) -> dict[str, Any]:
++        return {
++            "provider": self.provider_key,
++            "captured_at": self.captured_at,
++            "degraded": self.degraded,
++            "query_scope": self.scope.to_evidence() if self.scope is not None else None,
++            "facts": [fact.to_evidence() for fact in self.facts],
++        }
+ 
+ 
+ def freeze_weather_risks(
+@@ -30,17 +97,28 @@ def freeze_weather_risks(
+     provider_key: str = "open-meteo",
+     captured_at: str | None = None,
+     degraded: bool = False,
++    scope: WeatherQueryScope | None = None,
++    bucket_minutes: int = 60,
+ ) -> WeatherSnapshot:
+-    """Freeze external weather output before it becomes CityNexus event evidence."""
++    """Freeze external weather output before it becomes CityNexus event evidence.
++
++    Open-Meteo hourly rows describe a validity bucket rather than a timeless
++    point. CityNexus therefore freezes each risk as ``[at, at + bucket)`` so
++    Activity attribution can be deterministic and auditable.
++    """
+ 
++    if bucket_minutes <= 0:
++        raise ValueError("weather bucket_minutes must be positive")
+     stamp = captured_at or datetime.now(timezone.utc).isoformat()
+     facts = tuple(
+         WeatherRiskFact(
+             code=str(item.code),
+             severity=str(item.severity),
+             at=item.at.isoformat(),
++            valid_until=(item.at + timedelta(minutes=bucket_minutes)).isoformat(),
+             provider_key=provider_key,
+             evidence=dict(item.evidence),
++            scope=scope,
+         )
+         for item in sorted(risks, key=lambda row: (row.at, row.code, row.severity))
+     )
+@@ -49,6 +127,7 @@ def freeze_weather_risks(
+         captured_at=stamp,
+         facts=facts,
+         degraded=degraded,
++        scope=scope,
+     )
+ 
+ 
+@@ -67,6 +146,9 @@ def provider_verified_event_payload(fact: WeatherRiskFact) -> dict[str, Any]:
+         "occurred_at": fact.at,
+         "payload": {
+             "reason_code": fact.code,
++            "forecast_valid_from": fact.at,
++            "forecast_valid_until": fact.valid_until,
+             "provider_evidence": dict(fact.evidence),
++            "query_scope": fact.scope.to_evidence() if fact.scope is not None else None,
+         },
+     }
+diff --git a/data/mock/places.json b/data/mock/places.json
+index 8fceaf6..8824d87 100644
+--- a/data/mock/places.json
++++ b/data/mock/places.json
+@@ -11,7 +11,7 @@
+     "close": "18:00",
+     "duration_min": 75,
+     "cost_minor": 0,
+-    "tags": ["culture", "history"]
++    "tags": ["culture", "history", "outdoor"]
+   },
+   {
+     "id": "place-riverside-museum",
+@@ -67,7 +67,7 @@
+     "close": "20:00",
+     "duration_min": 60,
+     "cost_minor": 12000,
+-    "tags": ["waterfront", "scenic"]
++    "tags": ["waterfront", "scenic", "outdoor"]
+   },
+   {
+     "id": "place-skyline-dinner",

@@ -1,0 +1,161 @@
+{
+ "snapshot": "B",
+ "generation_constraints": {
+  "c4_confirm_status": 200,
+  "c4_level": "C4_Anchored",
+  "c4_constraint_objects": [
+   {
+    "kind": "HARD",
+    "category": "commitment",
+    "rule_code": "LOCKED_COMMITMENT",
+    "params": {
+     "semantic_ref": "ea06631e-f5b4-598a-8a96-2483c271a825",
+     "start_at": "2026-10-10T12:30:00+08:00",
+     "time_boundary": "START"
+    },
+    "active": true
+   }
+  ],
+  "generation_constraint_codes": [
+   "BUDGET_MAX",
+   "JOURNEY_END_BY",
+   "MINIMISE_PLAN_CHANGES"
+  ],
+  "generation_includes_locked_commitment": false,
+  "c4_constraint_count": 1
+ },
+ "generator_vs_validator": {
+  "generate_status": 201,
+  "plans_generated": 3,
+  "plan_times": [
+   [
+    [
+     "Old Town Gate",
+     "2026-10-10T09:00:00+08:00"
+    ],
+    [
+     "Riverside Museum",
+     "2026-10-10T10:30:00+08:00"
+    ],
+    [
+     "Central Food Hall",
+     "2026-10-10T12:00:00+08:00"
+    ],
+    [
+     "Tech Art Center",
+     "2026-10-10T13:20:00+08:00"
+    ],
+    [
+     "Nexus River Cruise Pier",
+     "2026-10-10T15:30:00+08:00"
+    ],
+    [
+     "Skyline Dinner House",
+     "2026-10-10T17:00:00+08:00"
+    ]
+   ],
+   [
+    [
+     "Old Town Gate",
+     "2026-10-10T09:00:00+08:00"
+    ],
+    [
+     "Riverside Museum",
+     "2026-10-10T10:30:00+08:00"
+    ],
+    [
+     "Central Food Hall",
+     "2026-10-10T12:00:00+08:00"
+    ],
+    [
+     "Nexus City Park",
+     "2026-10-10T13:20:00+08:00"
+    ],
+    [
+     "Nexus River Cruise Pier",
+     "2026-10-10T15:30:00+08:00"
+    ],
+    [
+     "Skyline Dinner House",
+     "2026-10-10T17:00:00+08:00"
+    ]
+   ],
+   [
+    [
+     "Old Town Gate",
+     "2026-10-10T09:00:00+08:00"
+    ],
+    [
+     "Riverside Museum",
+     "2026-10-10T10:30:00+08:00"
+    ],
+    [
+     "Central Food Hall",
+     "2026-10-10T12:00:00+08:00"
+    ],
+    [
+     "Design Library",
+     "2026-10-10T13:20:00+08:00"
+    ],
+    [
+     "Nexus River Cruise Pier",
+     "2026-10-10T15:30:00+08:00"
+    ],
+    [
+     "Skyline Dinner House",
+     "2026-10-10T17:00:00+08:00"
+    ]
+   ]
+  ],
+  "validator_with_c4": [
+   {
+    "plan_id": "55523d40-cafe-5bd2-b30a-de057ec7a839",
+    "feasible": false,
+    "failures": [
+     "LOCKED_COMMITMENT_LOST:ea06631e-f5b4-598a-8a96-2483c271a825"
+    ]
+   },
+   {
+    "plan_id": "0a1dcd9c-85cc-54bc-943c-5b46d6f3426c",
+    "feasible": false,
+    "failures": [
+     "LOCKED_COMMITMENT_LOST:ea06631e-f5b4-598a-8a96-2483c271a825"
+    ]
+   },
+   {
+    "plan_id": "6c07d3ca-60ed-5699-a09d-e0ac568c6de6",
+    "feasible": false,
+    "failures": [
+     "LOCKED_COMMITMENT_LOST:ea06631e-f5b4-598a-8a96-2483c271a825"
+    ]
+   }
+  ],
+  "generator_produced_plans_the_validator_rejects": true,
+  "failure_codes": [
+   "LOCKED_COMMITMENT_LOST:ea06631e-f5b4-598a-8a96-2483c271a825"
+  ],
+  "api_body": "<3 plans>"
+ },
+ "generic_compose": {
+  "status": 201,
+  "body": "[{\"id\":\"c8cdd795-1927-5d6a-afc0-f1080331f0b1\",\"journey_id\":\"22222222-2222-4222-8222-222222222222\",\"version_no\":1,\"planning_mode\":\"balanced\",\"status\":\"CANDIDATE\",\"source\":\"INITIAL\",\"parent_plan_version_id\":null,\"total_cost\":{\"amount_minor\":10000,\"currency\":\"CNY\"},\"utility_score\":0.8895,\"score_breakdown\":{\"commitment_preservation\":1.0,\"stability\":0.9,\"time_reliability\":0.9,\"preference_fit\":0.8,\"mobi",
+  "plans": 1,
+  "plans_without_c4_reference": true
+ },
+ "select_and_start": {
+  "probe_error": "MobilitySnapshotCaptureError: mobility fact unavailable for place-old-town|ea06631e-f5b4-598a-8a96-2483c271a825: KeyError"
+ },
+ "mutation_revalidation": {
+  "probe_error": "MobilitySnapshotCaptureError: mobility fact unavailable for place-old-town|ea06631e-f5b4-598a-8a96-2483c271a825: KeyError"
+ },
+ "select_booking_consistency": {
+  "generate_status": 201,
+  "plans": 3,
+  "select_status": 200,
+  "select_accepted": true,
+  "booking_status": 422,
+  "booking_body": "{\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"selected plan is no longer feasible: LOCKED_COMMITMENT_LOST:ea06631e-f5b4-598a-8a96-2483c271a825\",\"trace_id\":\"c018c0e2-8106-46e2-ac2b-7e0143f9314c\",\"details\":null}}",
+  "booking_names_locked_commitment": true,
+  "product_let_user_select_a_plan_it_will_not_let_them_use": true
+ }
+}

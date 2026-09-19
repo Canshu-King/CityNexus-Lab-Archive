@@ -1,0 +1,7 @@
+COPY_PASTE_TO_WORKBUDDY.txt
+README_FIRST.md
+docs/REPLAN_IDENTITY_GATE.md
+docs/RESIDUAL_FINDINGS.md
+docs/TARGETED_RECHECK.md
+docs/UI_CONSUMER_GATE.md
+reference/CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-20260917.zip

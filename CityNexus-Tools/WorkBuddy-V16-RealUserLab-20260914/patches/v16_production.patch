@@ -1,0 +1,2537 @@
+diff --git a/backend/app/agent/command_intent.py b/backend/app/agent/command_intent.py
+new file mode 100644
+index 0000000..abe727c
+--- /dev/null
++++ b/backend/app/agent/command_intent.py
+@@ -0,0 +1,368 @@
++"""Turn one free-text traveller command into an auditable server decision.
++
++The V14 endpoint at ``POST /journeys/{id}/agent/commands`` had a two-line
++classifier::
++
++    has_traffic = any(token in normalized for token in ("交通管制", "拥堵", "封路", ...))
++    event_type = "TRAFFIC_DELAY" if has_traffic else "WEATHER"
++
++Everything the traveller typed therefore became a **MAJOR weather event**:
++a self-description, a question, "I'd rather walk less", "my passport is gone".
++The V15 lab built and verified a semantic router that separates exactly these
++cases, but no production path ever imported it — it was reachable only from
++tests.  This module is the missing seam: it consults the router, then adds the
++two things the router deliberately leaves to the server (event *type* and
++*severity*), and returns a frozen decision object that the endpoint can persist
++and audit.
++
++Division of responsibility is unchanged:
++
++* :mod:`app.agent.semantic_router` decides **intent** and **mutation policy**;
++* this module decides **whether a city Event is warranted**, and if so **which
++  of the four actionable types** it is and **how severe**;
++* the endpoint still owns persistence, the Guardian and the mission envelope.
++"""
++
++from __future__ import annotations
++
++import re
++from dataclasses import dataclass
++from typing import Any, Sequence
++
++from app.agent.semantic_router import (
++    EVENT_INTENTS,
++    JourneyContext,
++    SemanticRoute,
++    route as route_message,
++)
++
++__all__ = [
++    "CommandDecision",
++    "ACTIONABLE_EVENT_TYPES",
++    "decide_command",
++    "resolve_event_type",
++    "resolve_severity",
++]
++
++#: The only event types the Guardian and the signal pipeline treat as
++#: actionable.  A user report that maps to none of these is a *personal*
++#: situation (illness, a lost passport) and must not be filed as city weather.
++ACTIONABLE_EVENT_TYPES = ("WEATHER", "TRAFFIC_DELAY", "CLOSURE", "SCHEDULE_DELAY")
++
++_WEATHER_TOKENS = (
++    "台风",
++    "暴雨",
++    "大雨",
++    "雷暴",
++    "雷阵雨",
++    "下雪",
++    "暴雪",
++    "冰雹",
++    "高温",
++    "寒潮",
++    "大风",
++    "沙尘",
++    "雾霾",
++    "洪水",
++    "内涝",
++    "地震",
++    "typhoon",
++    "storm",
++    "heavy rain",
++    "downpour",
++    "thunder",
++    "snow",
++    "blizzard",
++    "hail",
++    "heatwave",
++    "heat wave",
++    "cold snap",
++    "gale",
++    "flood",
++    "earthquake",
++)
++
++_TRAFFIC_TOKENS = (
++    "堵车",
++    "拥堵",
++    "封路",
++    "交通管制",
++    "绕行",
++    "路封",
++    "道路施工",
++    "高速封闭",
++    "traffic",
++    "congestion",
++    "road closed",
++    "road closure",
++    "gridlock",
++    "detour",
++    "roadworks",
++)
++
++_CLOSURE_TOKENS = (
++    "闭馆",
++    "闭园",
++    "关闭",
++    "关门",
++    "停业",
++    "不开放",
++    "暂停开放",
++    "维修",
++    "施工中",
++    "停止营业",
++    "closed",
++    "closure",
++    "shut",
++    "out of service",
++    "under maintenance",
++    "no longer open",
++)
++
++_SCHEDULE_TOKENS = (
++    "晚点",
++    "延误",
++    "误点",
++    "取消航班",
++    "航班取消",
++    "火车取消",
++    "列车取消",
++    "停运",
++    "停飞",
++    "改签",
++    "晚三",
++    "delay",
++    "delayed",
++    "cancelled",
++    "canceled",
++    "suspended",
++    "missed connection",
++    "rescheduled",
++)
++
++_CRITICAL_TOKENS = (
++    "台风",
++    "地震",
++    "洪水",
++    "被困",
++    "滞留",
++    "全部取消",
++    "所有户外",
++    "所有行程",
++    "全部行程",
++    "生命",
++    "受伤",
++    "急诊",
++    "typhoon",
++    "earthquake",
++    "flood",
++    "stranded",
++    "trapped",
++    "everything cancelled",
++    "all activities cancelled",
++    "emergency",
++)
++
++_MINOR_TOKENS = (
++    "小雨",
++    "阵雨",
++    "有点",
++    "轻微",
++    "小延误",
++    "稍微",
++    "一会儿",
++    "drizzle",
++    "light rain",
++    "slight",
++    "minor",
++    "a bit",
++    "small delay",
++)
++
++#: "三个小时" / "3 hours" / "90 分钟" -> a numeric magnitude for severity.
++_DURATION_PATTERN = re.compile(
++    r"(\d+)\s*(?:个)?\s*(小时|钟头|分钟|hours?|hrs?|minutes?|mins?)",
++    re.IGNORECASE,
++)
++_ZH_DURATION_PATTERN = re.compile(r"([一二两三四五六七八九十]+)\s*(?:个)?\s*(小时|钟头|分钟)")
++
++_ZH_NUMBERS = {
++    "一": 1,
++    "二": 2,
++    "两": 2,
++    "三": 3,
++    "四": 4,
++    "五": 5,
++    "六": 6,
++    "七": 7,
++    "八": 8,
++    "九": 9,
++    "十": 10,
++}
++
++
++@dataclass(frozen=True)
++class CommandDecision:
++    """What the server decided one traveller command means."""
++
++    intent: str
++    mutation_policy: str
++    requires_confirmation: bool
++    creates_event: bool
++    event_type: str | None
++    severity: str | None
++    affected_activity_id: str | None
++    confidence: float
++    rationale: str
++    route: SemanticRoute
++
++    def as_dict(self) -> dict[str, Any]:
++        return {
++            "intent": self.intent,
++            "mutation_policy": self.mutation_policy,
++            "requires_confirmation": self.requires_confirmation,
++            "creates_event": self.creates_event,
++            "event_type": self.event_type,
++            "severity": self.severity,
++            "affected_activity_id": self.affected_activity_id,
++            "confidence": self.confidence,
++            "rationale": self.rationale,
++        }
++
++
++def _has_any(text: str, tokens: Sequence[str]) -> str | None:
++    for token in tokens:
++        if token in text:
++            return token
++    return None
++
++
++def _duration_minutes(text: str) -> int | None:
++    match = _DURATION_PATTERN.search(text)
++    if match:
++        value = int(match.group(1))
++        unit = match.group(2).casefold()
++        return value * 60 if unit.startswith(("小时", "钟头", "hour", "hr")) else value
++    match = _ZH_DURATION_PATTERN.search(text)
++    if match:
++        raw = match.group(1)
++        value = _ZH_NUMBERS.get(raw, 0)
++        if raw == "十":
++            value = 10
++        elif raw.startswith("十"):
++            value = 10 + _ZH_NUMBERS.get(raw[1:], 0)
++        elif raw.endswith("十"):
++            value = _ZH_NUMBERS.get(raw[0], 0) * 10
++        unit = match.group(2)
++        return value * 60 if unit in {"小时", "钟头"} else value
++    return None
++
++
++def resolve_event_type(text: str) -> str | None:
++    """Map a real disruption report onto one of the actionable event types.
++
++    Returns ``None`` when the message is a genuine personal situation that the
++    product has no city-event vocabulary for (a lost passport, a fever, a dead
++    phone).  Filing those as ``WEATHER`` was the original defect.
++    """
++
++    folded = text.casefold()
++    # Order matters: "train cancelled" is a schedule problem, not a closure of
++    # a place; "the museum is closed" is a closure even though it has a verb.
++    if _has_any(folded, _SCHEDULE_TOKENS):
++        return "SCHEDULE_DELAY"
++    if _has_any(folded, _TRAFFIC_TOKENS):
++        return "TRAFFIC_DELAY"
++    if _has_any(folded, _WEATHER_TOKENS):
++        return "WEATHER"
++    if _has_any(folded, _CLOSURE_TOKENS):
++        return "CLOSURE"
++    return None
++
++
++def resolve_severity(text: str, event_type: str) -> str:
++    """Derive severity from what the traveller actually said."""
++
++    folded = text.casefold()
++    if _has_any(folded, _CRITICAL_TOKENS):
++        return "CRITICAL"
++    minutes = _duration_minutes(folded)
++    if minutes is not None and minutes >= 120:
++        return "CRITICAL"
++    if minutes is not None and minutes < 30:
++        return "MINOR"
++    if _has_any(folded, _MINOR_TOKENS):
++        return "MINOR"
++    if event_type == "CLOSURE":
++        return "MAJOR"
++    return "MAJOR"
++
++
++def _resolve_activity_hint(
++    text: str, activities: Sequence[Any] | None
++) -> str | None:
++    """Ground a named place onto an Activity that actually exists here.
++
++    The V14 payload hard-coded ``"affected_place_hint": "海河沿线"`` for any
++    message containing "river", which injected Tianjin geography into Fuzhou,
++    London and Tokyo journeys alike.  The field had no reader.  This replaces
++    it with a resolved, city-correct Activity id — or nothing.
++    """
++
++    if not activities:
++        return None
++    folded = text.casefold()
++    for activity in activities:
++        title = str(getattr(activity, "title", "") or "")
++        if len(title) < 2:
++            continue
++        if title.casefold() in folded:
++            return str(getattr(activity, "id", "")) or None
++    return None
++
++
++def decide_command(
++    command: str,
++    *,
++    city_code: str,
++    timezone: str,
++    currency: str,
++    locale: str = "",
++    journey_state: str = "ACTIVE",
++    activities: Sequence[Any] | None = None,
++) -> CommandDecision:
++    """Resolve one traveller command into a server-owned decision."""
++
++    context = JourneyContext(
++        city_code=str(city_code),
++        timezone=str(timezone),
++        currency=str(currency),
++        locale=str(locale or ""),
++        journey_state=str(journey_state or "ACTIVE"),
++    )
++    decision = route_message(command, context)
++
++    creates_event = bool(decision.creates_real_event) and decision.intent in EVENT_INTENTS
++    event_type: str | None = None
++    severity: str | None = None
++    if creates_event:
++        event_type = resolve_event_type(command)
++        if event_type is None:
++            # A real personal disruption, but nothing the city-event vocabulary
++            # can honestly represent.  Open the mission, file no city Event.
++            creates_event = False
++        else:
++            severity = resolve_severity(command, event_type)
++
++    return CommandDecision(
++        intent=decision.intent,
++        mutation_policy=decision.mutation_policy,
++        requires_confirmation=bool(decision.requires_confirmation),
++        creates_event=creates_event,
++        event_type=event_type,
++        severity=severity,
++        affected_activity_id=_resolve_activity_hint(command, activities),
++        confidence=float(decision.confidence),
++        rationale=str(decision.rationale or ""),
++        route=decision,
++    )
+diff --git a/backend/app/agent/mission.py b/backend/app/agent/mission.py
+index 8df4306..eea67f1 100644
+--- a/backend/app/agent/mission.py
++++ b/backend/app/agent/mission.py
+@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
+ 
+ from app.db.models import Activity, Journey, JourneyMission, Place
+ from app.integrations.ai.responses import DeepSeekResponsesClient, DeepSeekResponsesError
++from app.planning.day_rhythm import extract_day_rhythm
+ 
+ 
+ class MissionIntentDraft(BaseModel):
+@@ -267,6 +268,14 @@ def compile_mission(
+         objectives.add("RECOVER_FROM_CITY_DISRUPTION")
+     if any(token in normalized for token in ("自己安排", "自行", "自动", "autonomous")):
+         objectives.add("EXECUTE_WITHIN_BOUNDS")
++    # A traveller's body clock is a hard scheduling fact, not a soft taste:
++    # "I don't get up before 11" is not a preference the planner may average
++    # away.  It is parsed deterministically and persisted with the mission so a
++    # replan can honour it.
++    rhythm = extract_day_rhythm(command)
++    if rhythm is not None:
++        objectives.add("RESPECT_DAY_RHYTHM")
++        preferences["day_rhythm"] = rhythm.as_dict()
+     match = _MONEY_PATTERN.search(command)
+     max_cost = round(_parse_number(match.group(1)) * 100) if match else 0
+     loss_match = _LOSS_PATTERN.search(command)
+@@ -426,6 +435,17 @@ def create_mission(
+             spec.max_schedule_drift_min,
+             draft.max_schedule_drift_min,
+         )
++        # A model draft is semantic evidence, never an authority amplifier. The
++        # deterministic parse of the traveller's own words owns the day rhythm,
++        # so a model cannot widen a waking window the user asked for.
++        model_preferences = {
++            key: value
++            for key, value in draft.preferences.items()
++            if key != "day_rhythm"
++        }
++        merged_preferences = {**spec.preferences, **model_preferences}
++        if "day_rhythm" in spec.preferences:
++            merged_preferences["day_rhythm"] = spec.preferences["day_rhythm"]
+         spec = MissionSpec(
+             objective_codes=tuple(sorted(set(spec.objective_codes) | set(draft.objective_codes))),
+             protected_activity_ids=protected,
+@@ -433,7 +453,7 @@ def create_mission(
+             max_cost_delta_minor=max_cost_delta_minor,
+             max_loss_minor=max_loss_minor,
+             max_schedule_drift_min=max_schedule_drift_min,
+-            preferences={**spec.preferences, **draft.preferences},
++            preferences=merged_preferences,
+             requested_autonomy=requested_autonomy,
+         )
+         compiler_provider = "deepseek"
+diff --git a/backend/app/agent/semantic_router.py b/backend/app/agent/semantic_router.py
+index a3a2986..586bc53 100644
+--- a/backend/app/agent/semantic_router.py
++++ b/backend/app/agent/semantic_router.py
+@@ -136,12 +136,19 @@ DISRUPTION_NOUNS = (
+     "封路", "封闭", "交通管制", "拥堵", "堵死", "堵住", "堵车", "停运",
+     "延误", "晚点", "取消", "关闭", "闭馆", "停业", "停飞", "排队", "等了",
+     "被偷", "丢了", "丢失", "故障", "中断", "涨水", "积水", "停摆", "无法通过",
++    # V16 lab: "博物馆关门了。" was classified UNKNOWN because the vocabulary
++    # had 关闭/闭馆 but not the verb people actually use.  A real closure report
++    # then filed no event at all.
++    "关门", "不开门", "没开门", "歇业", "停止营业", "维修", "检修", "施工中",
++    "暂停开放", "不开放", "停课", "没电", "停电", "停水",
+     "还没准备好", "还没上菜", "房间还没", "上不了菜", "没准备好",
+     "rain", "raining", "storm", "thunderstorm", "typhoon", "snow", "fog",
+     "smog", "flood", "flooding", "closed", "closure", "cancelled", "canceled",
+     "delayed", "delay", "congestion", "traffic jam", "stuck", "outage", "is down", "line is down",
+     "suspended", "sold out", "lost my", "queue", "pouring", "pour",
+     "heavy smog", "air quality", "plans are off", "is off",
++    "shut", "shut down", "out of service", "under maintenance", "no longer open",
++    "power cut", "blackout", "closed today",
+ )
+ 
+ TRAFFIC_NOUNS = (
+diff --git a/backend/app/main.py b/backend/app/main.py
+index da96904..8cc9d22 100644
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -3,8 +3,11 @@ from __future__ import annotations
+ import asyncio
+ import json
+ import hashlib
++import logging
+ import os
+ import time
++
++logger = logging.getLogger(__name__)
+ from dataclasses import dataclass
+ from datetime import datetime, timedelta, timezone
+ from threading import RLock
+@@ -17,6 +20,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request
+ from fastapi.exceptions import RequestValidationError
+ from fastapi.responses import JSONResponse, StreamingResponse
+ from sqlalchemy import delete, select, update
++from sqlalchemy.exc import OperationalError as _OperationalError
+ from sqlalchemy.orm import Session
+ 
+ from app.agent.autorun import (
+@@ -39,6 +43,7 @@ from app.agent.delegation_policy import (
+     policy_payload,
+     update_policy,
+ )
++from app.agent.command_intent import decide_command
+ from app.agent.gateway import AgentToolGateway
+ from app.agent.guardian import guardian_status, scan_guardian
+ from app.agent.mission import create_mission, mission_payload
+@@ -325,6 +330,7 @@ from app.stay_mobility import (
+     option_payload,
+ )
+ from app.planning.authoritative_v12 import compose_authoritative_multiday
++from app.planning.day_rhythm import rhythm_from_preferences
+ 
+ ensure_schema()
+ app = FastAPI(title="CityNexus MVP API", version="0.1.0")
+@@ -494,48 +500,72 @@ def run_agent_command(
+     session: Session = Depends(get_session),
+ ):
+     journey = require(session, Journey, str(journey_id), "Journey")
++    traveler = session.get(Traveler, journey.traveler_id)
+     now = datetime.now(timezone.utc).isoformat()
+-    normalized = payload.command.casefold()
+-    has_traffic = any(
+-        token in normalized for token in ("交通管制", "拥堵", "封路", "traffic", "closure")
+-    )
+-    event_type = "TRAFFIC_DELAY" if has_traffic else "WEATHER"
+-    event = EventModel(
+-        id=str(uuid4()),
+-        journey_id=journey.id,
+-        provider_key="user-command",
+-        provenance="USER_REPORTED",
+-        event_type=event_type,
+-        severity="MAJOR",
+-        status="DETECTED",
+-        # A free-text disruption is scoped to the server's current execution
+-        # position. The model may describe the event, but it must not invent
+-        # an Activity target; the Journey projection supplies the target.
+-        affected_activity_id=journey.current_activity_id if event_type in {"TRAFFIC_DELAY", "WEATHER"} else None,
+-        occurred_at=now,
+-        detected_at=now,
+-        payload_json=json.dumps(
+-            {
+-                "description": payload.command,
+-                "source": "agent_command",
+-                "extra_minutes": 15 if event_type == "TRAFFIC_DELAY" else None,
+-                "affected_place_hint": "海河沿线"
+-                if any(token in normalized for token in ("海河", "haihe", "river"))
+-                else None,
+-            },
+-            ensure_ascii=False,
+-            sort_keys=True,
+-        ),
+-        created_at=now,
+-    )
+-    session.add(event)
+-    session.flush()
++
++    # V16: the endpoint used to type every message as WEATHER unless it
++    # mentioned traffic, which turned the chat box into a disruption-report
++    # button.  A self-description, a question and "I'd rather walk less" all
++    # filed MAJOR weather events.  The semantic router already separates these
++    # cases; this is the seam that finally consults it.
++    active_activities = list(
++        session.scalars(
++            select(Activity)
++            .where(Activity.plan_version_id == journey.active_plan_version_id)
++            .order_by(Activity.sequence_no, Activity.id)
++        ).all()
++    ) if journey.active_plan_version_id else []
++    decision = decide_command(
++        payload.command,
++        city_code=journey.city_code,
++        timezone=journey.timezone,
++        currency=journey.budget_currency,
++        locale=getattr(traveler, "locale", "") or "",
++        journey_state=journey.status,
++        activities=active_activities,
++    )
++
++    event: EventModel | None = None
++    if decision.creates_event and decision.event_type:
++        event = EventModel(
++            id=str(uuid4()),
++            journey_id=journey.id,
++            provider_key="user-command",
++            provenance="USER_REPORTED",
++            event_type=decision.event_type,
++            severity=decision.severity or "MAJOR",
++            status="DETECTED",
++            # A free-text disruption is scoped to the server's current execution
++            # position, or to the Activity the traveller actually named.  The
++            # model may describe the event, but it must not invent a target.
++            affected_activity_id=(
++                decision.affected_activity_id or journey.current_activity_id
++            ),
++            occurred_at=now,
++            detected_at=now,
++            payload_json=json.dumps(
++                {
++                    "description": payload.command,
++                    "source": "agent_command",
++                    "intent": decision.intent,
++                    "confidence": decision.confidence,
++                    "extra_minutes": 15
++                    if decision.event_type == "TRAFFIC_DELAY"
++                    else None,
++                },
++                ensure_ascii=False,
++                sort_keys=True,
++            ),
++            created_at=now,
++        )
++        session.add(event)
++        session.flush()
+     mission = create_mission(
+         session,
+         journey,
+         command=payload.command,
+         requested_autonomy=payload.requested_autonomy,
+-        trigger_event_id=event.id,
++        trigger_event_id=event.id if event is not None else None,
+     )
+     record_audit(
+         session,
+@@ -547,14 +577,22 @@ def run_agent_command(
+         actor_id=journey.traveler_id,
+         after={
+             "mission_id": mission.id,
+-            "event_id": event.id,
++            "event_id": event.id if event is not None else None,
+             "requested_autonomy": mission.requested_autonomy,
++            "intent": decision.intent,
++            "mutation_policy": decision.mutation_policy,
++            "creates_event": decision.creates_event,
+         },
+     )
+     session.commit()
+     if not settings.ai_api_key and not (settings.hermes_api_url and settings.hermes_api_key):
+         run = unavailable_run_payload(session, journey=journey, mission=mission)
+-        return {"mission": mission_payload(mission), "event_id": event.id, "run": run}
++        return {
++            "mission": mission_payload(mission),
++            "event_id": event.id if event is not None else None,
++            "route": decision.as_dict(),
++            "run": run,
++        }
+     runtime = configured_journey_agent(native_factory=DeepSeekJourneyAgent)
+     try:
+         run = runtime.run(session, journey=journey, mission=mission)
+@@ -580,7 +618,12 @@ def run_agent_command(
+         )
+     finally:
+         runtime.close()
+-    return {"mission": mission_payload(mission), "event_id": event.id, "run": run}
++    return {
++        "mission": mission_payload(mission),
++        "event_id": event.id if event is not None else None,
++        "route": decision.as_dict(),
++        "run": run,
++    }
+ 
+ 
+ @app.put("/api/v1/journeys/{journey_id}/guardian/mission")
+@@ -609,6 +652,14 @@ def put_guardian_mission(
+         is_standing=True,
+     )
+     mission.status = "ACTIVE"
++    # A learned day rhythm changes the plan itself, not just a label. Without
++    # this the traveller could say "nothing before 11am" and watch the product
++    # do nothing at all, which is what happened in the V16 lab.
++    rhythm = rhythm_from_preferences(json.loads(mission.preferences_json or "{}"))
++    replanned = False
++    if rhythm is not None:
++        generate_stay_options(session, journey)
++        replanned = True
+     record_audit(
+         session,
+         action="guardian.mission.activated",
+@@ -620,7 +671,10 @@ def put_guardian_mission(
+         after=mission_payload(mission),
+     )
+     session.commit()
+-    return mission_payload(mission)
++    payload_out = mission_payload(mission)
++    payload_out["day_rhythm"] = rhythm.as_dict() if rhythm is not None else None
++    payload_out["options_regenerated"] = replanned
++    return payload_out
+ 
+ 
+ @app.post("/api/v1/journeys/{journey_id}/guardian/scan")
+@@ -4123,7 +4177,21 @@ def _twin_snapshot(
+     twin.upcoming_commitments_json = json.dumps(
+         [_commitment_payload(item) for item in projected_commitments], sort_keys=True
+     )
+-    session.flush()
++    # The twin row is a *cache* of the projection. A transient SQLite write lock
++    # under concurrent twin polling (single-file DB, no busy_timeout) must not
++    # turn a read (GET /twin) into a 500. The snapshot payload above is computed
++    # independently and is returned regardless; persistence is best-effort and is
++    # isolated in a savepoint so a failed write never discards other pending work.
++    savepoint = session.begin_nested()
++    try:
++        session.flush()
++        savepoint.commit()
++    except _OperationalError as exc:
++        savepoint.rollback()
++        if "database is locked" in str(exc).lower():
++            logger.warning("twin snapshot cache skipped: database is locked")
++        else:
++            raise
+     return {
+         "journey_id": journey.id,
+         "active_plan_version_id": active_plan_id,
+diff --git a/backend/app/planning/authoritative_v12.py b/backend/app/planning/authoritative_v12.py
+index a1a50a4..cb556f1 100644
+--- a/backend/app/planning/authoritative_v12.py
++++ b/backend/app/planning/authoritative_v12.py
+@@ -37,6 +37,7 @@ from app.db.models import (
+ from app.planning.stay_mode_solver import solve_mode_choices
+ from app.replanning.provider_snapshots import MobilitySnapshot
+ from app.stay_mobility import GraphNode, _mode_fact, capture_accommodation_offers, city_fixture
++from app.planning.city_registry import city_centre
+ from app.integrations.mobility.runtime import capture_journey_mobility_matrix
+ 
+ MODES = ("WALK", "BICYCLE", "TRANSIT", "AUTO", "RIDE_HAIL")
+@@ -99,7 +100,13 @@ def _anchor(context: JourneyTripContext | None, journey: Journey, kind: str) ->
+ 
+ 
+ def _city_center(journey: Journey) -> tuple[float, float]:
++    # The captured fixture first; otherwise the city registry, so an
++    # uncaptured city is never silently pinned to (0.0, 0.0) — Null Island.
+     center = city_fixture(journey.city_code).get("center", {})
++    if not center:
++        center = city_centre(journey.city_code)
++    if not center:
++        raise ValueError(f"V16_UNKNOWN_CITY_CENTER:{journey.city_code}")
+     return float(center.get("latitude", 0.0)), float(center.get("longitude", 0.0))
+ 
+ 
+@@ -678,7 +685,14 @@ def _capture_mode_matrix(
+                         f"V13_FULL_GROUNDING_MISSING_MOBILITY_PAIR:{origin}->{destination}"
+                     )
+                 elif existing is None:
+-                    existing = _mode_fact(journey.id, None, graph[origin], graph[destination], mode)
++                    existing = _mode_fact(
++                        journey.id,
++                        None,
++                        graph[origin],
++                        graph[destination],
++                        mode,
++                        journey.budget_currency,
++                    )
+                     session.add(existing)
+                 if existing is not None:
+                     facts.append(existing)
+diff --git a/backend/app/planning/city_registry.py b/backend/app/planning/city_registry.py
+new file mode 100644
+index 0000000..8f29908
+--- /dev/null
++++ b/backend/app/planning/city_registry.py
+@@ -0,0 +1,350 @@
++"""City planning profiles for cities without captured provider data.
++
++The V9 stay/mobility planner reads ``data/v9/city_operations.json``, which
++contains exactly two captured cities: ``CN-TIANJIN`` and ``CN-BEIJING``.  For
++every other city :func:`app.stay_mobility.city_fixture` returns ``{}``, and the
++consequences were severe and silent:
++
++* ``CapturedAccommodationProvider.discover`` returned no offers, so
++  ``generate_stay_options`` produced **zero** plan options.  A traveller who
++  created a three-day Fuzhou journey got an empty product.
++* ``_city_center`` fell back to ``(0.0, 0.0)`` — Null Island, in the Gulf of
++  Guinea — so any place the planner did invent sat 12,000 km from the hotel.
++* ``POST /plans/generate`` raised ``MobilitySnapshotCaptureError`` and returned
++  HTTP 500, because the legacy template composer captured mobility for
++  hard-coded demo place ids before checking whether those places existed.
++
++This module makes the product degrade honestly instead of failing:
++
++* :data:`CITY_CENTRES` holds real city centres (an objective fact) for a broad
++  set of destinations, including county-level ones, so geometry is never
++  invented.
++* :func:`derive_generic_profile` builds a **template** city profile — generic
++  POI *categories* and indicative stay rates — and marks it
++  ``provenance="DERIVED_GENERIC"``.  Every synthesised place carries
++  ``cost_status="UNKNOWN"`` or ``"ESTIMATED"``, never ``KNOWN``, so nothing
++  downstream can mistake a template for captured provider truth.
++* :func:`resolve_city_profile` prefers a captured fixture whenever one exists.
++
++Nothing here writes to the database and nothing here is allowed to be presented
++as captured evidence.
++"""
++
++from __future__ import annotations
++
++from typing import Any, Iterable
++
++__all__ = [
++    "CITY_CENTRES",
++    "DERIVED_GENERIC",
++    "CAPTURED_REPLAY",
++    "resolve_city_profile",
++    "derive_generic_profile",
++    "city_centre",
++    "city_scale",
++]
++
++DERIVED_GENERIC = "DERIVED_GENERIC"
++CAPTURED_REPLAY = "CAPTURED_REPLAY"
++
++#: Real city centres.  ``scale`` drives how many template POIs are offered:
++#: a county town does not have a metro and should not be given a metro-shaped
++#: day.  Hong Kong, Macao and Taipei are recorded with a ``CN-`` prefix because
++#: they are parts of China, not separate countries.
++CITY_CENTRES: dict[str, dict[str, Any]] = {
++    # ── Mainland China ────────────────────────────────────────────────────
++    "CN-BEIJING": {"latitude": 39.9042, "longitude": 116.4074, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-SHANGHAI": {"latitude": 31.2304, "longitude": 121.4737, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-GUANGZHOU": {"latitude": 23.1291, "longitude": 113.2644, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-SHENZHEN": {"latitude": 22.5431, "longitude": 114.0579, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-CHENGDU": {"latitude": 30.5728, "longitude": 104.0668, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-CHONGQING": {"latitude": 29.5630, "longitude": 106.5516, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-HANGZHOU": {"latitude": 30.2741, "longitude": 120.1551, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-WUHAN": {"latitude": 30.5928, "longitude": 114.3055, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-XIAN": {"latitude": 34.3416, "longitude": 108.9398, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-NANJING": {"latitude": 32.0603, "longitude": 118.7969, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-TIANJIN": {"latitude": 39.1240, "longitude": 117.2050, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "metro", "metro": True},
++    "CN-QINGDAO": {"latitude": 36.0671, "longitude": 120.3826, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": True},
++    "CN-XIAMEN": {"latitude": 24.4798, "longitude": 118.0894, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": True},
++    "CN-FUZHOU": {"latitude": 26.0745, "longitude": 119.2965, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": True},
++    "CN-KUNMING": {"latitude": 24.8801, "longitude": 102.8329, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": True},
++    "CN-HARBIN": {"latitude": 45.8038, "longitude": 126.5349, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": True},
++    "CN-SANYA": {"latitude": 18.2528, "longitude": 109.5119, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": False},
++    "CN-LHASA": {"latitude": 29.6520, "longitude": 91.1721, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "city", "metro": False},
++    "CN-DALI": {"latitude": 25.6065, "longitude": 100.2676, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-LIJIANG": {"latitude": 26.8721, "longitude": 100.2299, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-WUYUAN": {"latitude": 29.2476, "longitude": 117.8618, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-SHAXIAN": {"latitude": 26.3963, "longitude": 117.7927, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-XIAPU": {"latitude": 26.8859, "longitude": 120.0054, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-DUNHUANG": {"latitude": 40.1421, "longitude": 94.6618, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-PINGYAO": {"latitude": 37.1892, "longitude": 112.1746, "timezone": "Asia/Shanghai", "currency": "CNY", "scale": "county", "metro": False},
++    "CN-HONGKONG": {"latitude": 22.3193, "longitude": 114.1694, "timezone": "Asia/Hong_Kong", "currency": "HKD", "scale": "metro", "metro": True},
++    "CN-MACAO": {"latitude": 22.1987, "longitude": 113.5439, "timezone": "Asia/Macau", "currency": "MOP", "scale": "city", "metro": True},
++    "CN-TAIPEI": {"latitude": 25.0330, "longitude": 121.5654, "timezone": "Asia/Taipei", "currency": "TWD", "scale": "metro", "metro": True},
++    # ── Rest of the world ─────────────────────────────────────────────────
++    "GB-LONDON": {"latitude": 51.5074, "longitude": -0.1278, "timezone": "Europe/London", "currency": "GBP", "scale": "metro", "metro": True},
++    "GB-EDINBURGH": {"latitude": 55.9533, "longitude": -3.1883, "timezone": "Europe/London", "currency": "GBP", "scale": "city", "metro": False},
++    "FR-PARIS": {"latitude": 48.8566, "longitude": 2.3522, "timezone": "Europe/Paris", "currency": "EUR", "scale": "metro", "metro": True},
++    "DE-BERLIN": {"latitude": 52.5200, "longitude": 13.4050, "timezone": "Europe/Berlin", "currency": "EUR", "scale": "metro", "metro": True},
++    "IT-ROME": {"latitude": 41.9028, "longitude": 12.4964, "timezone": "Europe/Rome", "currency": "EUR", "scale": "metro", "metro": True},
++    "ES-MADRID": {"latitude": 40.4168, "longitude": -3.7038, "timezone": "Europe/Madrid", "currency": "EUR", "scale": "metro", "metro": True},
++    "NL-AMSTERDAM": {"latitude": 52.3676, "longitude": 4.9041, "timezone": "Europe/Amsterdam", "currency": "EUR", "scale": "city", "metro": True},
++    "RU-MOSCOW": {"latitude": 55.7558, "longitude": 37.6173, "timezone": "Europe/Moscow", "currency": "RUB", "scale": "metro", "metro": True},
++    "TR-ISTANBUL": {"latitude": 41.0082, "longitude": 28.9784, "timezone": "Europe/Istanbul", "currency": "TRY", "scale": "metro", "metro": True},
++    "JP-TOKYO": {"latitude": 35.6762, "longitude": 139.6503, "timezone": "Asia/Tokyo", "currency": "JPY", "scale": "metro", "metro": True},
++    "JP-OSAKA": {"latitude": 34.6937, "longitude": 135.5023, "timezone": "Asia/Tokyo", "currency": "JPY", "scale": "metro", "metro": True},
++    "JP-KYOTO": {"latitude": 35.0116, "longitude": 135.7681, "timezone": "Asia/Tokyo", "currency": "JPY", "scale": "city", "metro": True},
++    "KR-SEOUL": {"latitude": 37.5665, "longitude": 126.9780, "timezone": "Asia/Seoul", "currency": "KRW", "scale": "metro", "metro": True},
++    "SG-SINGAPORE": {"latitude": 1.3521, "longitude": 103.8198, "timezone": "Asia/Singapore", "currency": "SGD", "scale": "metro", "metro": True},
++    "MY-KUALALUMPUR": {"latitude": 3.1390, "longitude": 101.6869, "timezone": "Asia/Kuala_Lumpur", "currency": "MYR", "scale": "metro", "metro": True},
++    "TH-BANGKOK": {"latitude": 13.7563, "longitude": 100.5018, "timezone": "Asia/Bangkok", "currency": "THB", "scale": "metro", "metro": True},
++    "VN-HANOI": {"latitude": 21.0278, "longitude": 105.8342, "timezone": "Asia/Ho_Chi_Minh", "currency": "VND", "scale": "city", "metro": False},
++    "ID-BALI": {"latitude": -8.4095, "longitude": 115.1889, "timezone": "Asia/Makassar", "currency": "IDR", "scale": "county", "metro": False},
++    "AE-DUBAI": {"latitude": 25.2048, "longitude": 55.2708, "timezone": "Asia/Dubai", "currency": "AED", "scale": "metro", "metro": True},
++    "IN-DELHI": {"latitude": 28.6139, "longitude": 77.2090, "timezone": "Asia/Kolkata", "currency": "INR", "scale": "metro", "metro": True},
++    "US-NEWYORK": {"latitude": 40.7128, "longitude": -74.0060, "timezone": "America/New_York", "currency": "USD", "scale": "metro", "metro": True},
++    "US-SANFRANCISCO": {"latitude": 37.7749, "longitude": -122.4194, "timezone": "America/Los_Angeles", "currency": "USD", "scale": "metro", "metro": True},
++    "CA-TORONTO": {"latitude": 43.6532, "longitude": -79.3832, "timezone": "America/Toronto", "currency": "CAD", "scale": "metro", "metro": True},
++    "AU-SYDNEY": {"latitude": -33.8688, "longitude": 151.2093, "timezone": "Australia/Sydney", "currency": "AUD", "scale": "metro", "metro": True},
++    "NZ-AUCKLAND": {"latitude": -36.8485, "longitude": 174.7633, "timezone": "Pacific/Auckland", "currency": "NZD", "scale": "city", "metro": False},
++    "BR-SAOPAULO": {"latitude": -23.5505, "longitude": -46.6333, "timezone": "America/Sao_Paulo", "currency": "BRL", "scale": "metro", "metro": True},
++    "ZA-CAPETOWN": {"latitude": -33.9249, "longitude": 18.4241, "timezone": "Africa/Johannesburg", "currency": "ZAR", "scale": "city", "metro": False},
++}
++
++#: Indicative nightly stay rates per currency and city scale, in minor units.
++#: These are *template* rates, not market quotes, and are labelled as such.
++_INDICATIVE_NIGHTLY_MINOR: dict[str, dict[str, int]] = {
++    "CNY": {"metro": 48000, "city": 30000, "county": 18000},
++    "HKD": {"metro": 62000, "city": 42000, "county": 26000},
++    "MOP": {"metro": 58000, "city": 40000, "county": 25000},
++    "TWD": {"metro": 260000, "city": 180000, "county": 110000},
++    "JPY": {"metro": 14000, "city": 10000, "county": 7000},
++    "KRW": {"metro": 120000, "city": 85000, "county": 60000},
++    "SGD": {"metro": 19000, "city": 14000, "county": 9000},
++    "MYR": {"metro": 26000, "city": 18000, "county": 11000},
++    "THB": {"metro": 180000, "city": 120000, "county": 70000},
++    "VND": {"metro": 1400000, "city": 900000, "county": 500000},
++    "IDR": {"metro": 900000, "city": 600000, "county": 350000},
++    "AED": {"metro": 45000, "city": 32000, "county": 20000},
++    "INR": {"metro": 600000, "city": 380000, "county": 200000},
++    "GBP": {"metro": 14000, "city": 9500, "county": 7000},
++    "EUR": {"metro": 13500, "city": 9500, "county": 6500},
++    "RUB": {"metro": 700000, "city": 450000, "county": 300000},
++    "TRY": {"metro": 220000, "city": 150000, "county": 95000},
++    "USD": {"metro": 19000, "city": 13000, "county": 8500},
++    "CAD": {"metro": 21000, "city": 14500, "county": 9500},
++    "AUD": {"metro": 20000, "city": 14000, "county": 9000},
++    "NZD": {"metro": 19000, "city": 13000, "county": 8500},
++    "BRL": {"metro": 38000, "city": 25000, "county": 15000},
++    "ZAR": {"metro": 120000, "city": 80000, "county": 50000},
++}
++_DEFAULT_INDICATIVE_NIGHTLY = 12000
++
++#: Slot templates.  Deliberately spread across the whole day so that a
++#: traveller's day rhythm has something to remove; a late riser loses the
++#: ``morning`` slots and keeps the rest.
++_SLOT_TEMPLATES: tuple[tuple[str, str, str], ...] = (
++    ("morning", "09:00", "10:30"),
++    ("late_morning", "11:00", "12:30"),
++    ("midday", "12:40", "13:40"),
++    ("afternoon", "14:30", "16:00"),
++    ("late_afternoon", "16:30", "17:50"),
++    ("evening", "18:30", "20:00"),
++    ("night", "20:30", "22:00"),
++)
++
++_SLOT_TITLES_ZH: dict[str, tuple[str, str]] = {
++    "morning": ("老城街区漫步", "neighborhood"),
++    "late_morning": ("市博物馆", "museum"),
++    "midday": ("本地菜市场", "market"),
++    "afternoon": ("城市公园", "park"),
++    "late_afternoon": ("滨水步道", "waterfront"),
++    "evening": ("地方美食街", "food_street"),
++    "night": ("夜市", "night_market"),
++}
++
++_SLOT_TITLES_EN: dict[str, tuple[str, str]] = {
++    "morning": ("Old town walk", "neighborhood"),
++    "late_morning": ("City museum", "museum"),
++    "midday": ("Central market", "market"),
++    "afternoon": ("City park", "park"),
++    "late_afternoon": ("Riverside walk", "waterfront"),
++    "evening": ("Local food street", "food_street"),
++    "night": ("Night market", "night_market"),
++}
++
++#: Deterministic ring offsets, in degrees, so template POIs do not stack on the
++#: city centre (and never on Null Island).
++_RING_OFFSETS: tuple[tuple[float, float], ...] = (
++    (0.006, 0.008),
++    (-0.011, 0.005),
++    (0.004, -0.013),
++    (-0.008, -0.009),
++    (0.014, 0.001),
++    (-0.003, 0.015),
++    (0.010, 0.012),
++)
++
++_STAY_NAMES_ZH = ("城中商务酒店", "老城精品客栈", "滨水公寓式酒店")
++_STAY_NAMES_EN = ("Central Business Hotel", "Old Town Boutique Inn", "Riverside Apartments")
++
++
++def _norm_code(raw: str) -> str:
++    return str(raw or "").strip().upper().replace("_", "-")
++
++
++def city_centre(city_code: str) -> dict[str, Any]:
++    """Return the registry entry for a city, or an empty dict."""
++
++    return dict(CITY_CENTRES.get(_norm_code(city_code), {}))
++
++
++def city_scale(city_code: str) -> str:
++    entry = CITY_CENTRES.get(_norm_code(city_code), {})
++    return str(entry.get("scale", "city"))
++
++
++def _is_cjk_city(city_code: str) -> bool:
++    return _norm_code(city_code).startswith(("CN-", "HK-", "MO-", "TW-"))
++
++
++def _nightly_minor(currency: str, scale: str) -> int:
++    table = _INDICATIVE_NIGHTLY_MINOR.get(currency.upper())
++    if table is None:
++        return _DEFAULT_INDICATIVE_NIGHTLY
++    return int(table.get(scale, table.get("city", _DEFAULT_INDICATIVE_NIGHTLY)))
++
++
++def derive_generic_profile(
++    city_code: str,
++    *,
++    currency: str | None = None,
++    timezone: str | None = None,
++    days: int = 3,
++    party_size: int = 2,
++) -> dict[str, Any]:
++    """Build a template city profile for a city with no captured data.
++
++    The returned dict has the same shape as a captured fixture so the planner
++    can consume it unchanged, but its ``provenance`` is
++    :data:`DERIVED_GENERIC` and every place it contains is explicitly
++    ``UNKNOWN`` or ``ESTIMATED`` cost.  It is a starting point a traveller can
++    edit, never evidence.
++    """
++
++    code = _norm_code(city_code)
++    entry = CITY_CENTRES.get(code, {})
++    latitude = float(entry.get("latitude", 0.0))
++    longitude = float(entry.get("longitude", 0.0))
++    scale = str(entry.get("scale", "city"))
++    resolved_currency = str(currency or entry.get("currency") or "CNY").upper()
++    resolved_timezone = str(timezone or entry.get("timezone") or "UTC")
++    cjk = _is_cjk_city(code)
++    titles = _SLOT_TITLES_ZH if cjk else _SLOT_TITLES_EN
++
++    # A county town without a metro gets a shorter, walkable day; a metro city
++    # gets the full spread.  This is the same distinction a traveller makes.
++    slots = _SLOT_TEMPLATES if scale != "county" else _SLOT_TEMPLATES[:5]
++    day_offsets = range(0, max(1, min(int(days), 5)))
++
++    activities: list[dict[str, Any]] = []
++    for day_offset in day_offsets:
++        for index, (slot, start, end) in enumerate(slots):
++            title, category = titles[slot]
++            if scale == "county" and category in {"museum", "night_market"}:
++                # A county town realistically has neither a municipal museum nor
++                # a nightly market; offer the local version instead.
++                title = "古村落" if cjk else "Heritage village"
++                category = "heritage"
++            d_lat, d_lon = _RING_OFFSETS[(day_offset * len(slots) + index) % len(_RING_OFFSETS)]
++            activities.append(
++                {
++                    "key": f"{code.lower()}-{slot}-d{day_offset}",
++                    "title": title,
++                    "category": category,
++                    "day_offset": day_offset,
++                    "start": start,
++                    "end": end,
++                    "latitude": round(latitude + d_lat, 6),
++                    "longitude": round(longitude + d_lon, 6),
++                    # Never "KNOWN": the product has no cost evidence here.
++                    "cost_amount_minor": 0,
++                    "cost_status": "UNKNOWN",
++                    "provenance": DERIVED_GENERIC,
++                }
++            )
++
++    nightly = _nightly_minor(resolved_currency, scale)
++    stay_names = _STAY_NAMES_ZH if cjk else _STAY_NAMES_EN
++    room_type = "Family room" if int(party_size) > 3 else "Standard twin"
++    stays: list[dict[str, Any]] = []
++    for index, name in enumerate(stay_names):
++        factor = (0.82, 1.0, 1.24)[index]
++        d_lat, d_lon = _RING_OFFSETS[index]
++        stays.append(
++            {
++                "external_offer_id": f"generic-{code.lower()}-{index + 1}",
++                "property_name": f"{name}",
++                "latitude": round(latitude + d_lat, 6),
++                "longitude": round(longitude + d_lon, 6),
++                "room_type": room_type,
++                "nightly_amount_minor": int(round(nightly * factor)),
++                "refundable": index != 2,
++                "luggage_drop": {
++                    "available": True,
++                    "open_from": "07:00",
++                    "open_to": "23:00",
++                    "pickup_deadline": "22:30",
++                },
++                "provenance": DERIVED_GENERIC,
++                "evidence_confidence": 0.35,
++            }
++        )
++
++    return {
++        "provider": {
++            "provider_key": "citynexus-generic-template",
++            "provenance": DERIVED_GENERIC,
++            "captured_at": None,
++        },
++        "timezone": resolved_timezone,
++        "currency": resolved_currency,
++        "center": {
++            "latitude": latitude,
++            "longitude": longitude,
++            "crs": "WGS84",
++        },
++        "scale": scale,
++        "has_metro": bool(entry.get("metro", False)),
++        "activities": activities,
++        "stays": stays,
++        "provenance": DERIVED_GENERIC,
++    }
++
++
++def resolve_city_profile(
++    city_code: str,
++    *,
++    captured: dict[str, Any] | None = None,
++    currency: str | None = None,
++    timezone: str | None = None,
++    days: int = 3,
++    party_size: int = 2,
++) -> dict[str, Any]:
++    """Captured fixture when one exists, otherwise a labelled template."""
++
++    if captured:
++        profile = dict(captured)
++        profile.setdefault("provenance", CAPTURED_REPLAY)
++        return profile
++    return derive_generic_profile(
++        city_code,
++        currency=currency,
++        timezone=timezone,
++        days=days,
++        party_size=party_size,
++    )
++
++
++def known_cities() -> Iterable[str]:
++    return tuple(CITY_CENTRES)
+diff --git a/backend/app/planning/day_rhythm.py b/backend/app/planning/day_rhythm.py
+new file mode 100644
+index 0000000..bb21100
+--- /dev/null
++++ b/backend/app/planning/day_rhythm.py
+@@ -0,0 +1,473 @@
++"""Traveller day-rhythm model.
++
++The planner historically treated every traveller as the same 09:00-18:30
++sightseer: candidate activities carry absolute clock times in the city fixture
++and the overnight block is hard-coded to ``22:30 -> 06:30``.  Real travellers
++have a body clock.
++
++A couple who go to bed at 02:00 and wake at 11:00 are not served by a 09:30
++museum slot, and a photographer who leaves the hotel at 04:00 is not served by
++a 22:30 lights-out.  Neither case is a language-understanding problem: the
++words are unambiguous, the *planner* simply has no representation for them.
++
++This module supplies that representation and keeps it strictly advisory:
++
++* :func:`extract_day_rhythm` reads a traveller's own words and returns a
++  :class:`DayRhythm`, or ``None`` when the text says nothing about rhythm.
++* :func:`rhythm_from_preferences` reads the same shape back out of persisted
++  mission / preference JSON.
++* :func:`apply_day_rhythm` filters candidate activity nodes against the waking
++  window and re-times the overnight block.
++
++Nothing here mutates authoritative state and nothing here is allowed to drop a
++*locked* anchor (arrival, check-in, check-out, departure).  The rhythm can only
++remove optional sightseeing and move the sleep block; it can never move a
++commitment.
++"""
++
++from __future__ import annotations
++
++import re
++from dataclasses import dataclass, replace
++from datetime import datetime, timedelta
++from typing import Any, Iterable, Sequence
++
++__all__ = [
++    "DayRhythm",
++    "extract_day_rhythm",
++    "rhythm_from_preferences",
++    "apply_day_rhythm",
++    "describe_day_rhythm",
++]
++
++#: A traveller who says nothing about rhythm keeps the historic defaults so the
++#: behaviour of existing journeys is unchanged.
++DEFAULT_WAKE_MINUTE = 7 * 60 + 30
++DEFAULT_BED_MINUTE = 22 * 60 + 30
++
++
++@dataclass(frozen=True)
++class DayRhythm:
++    """One traveller's waking window and meal pattern for a journey."""
++
++    wake_minute: int
++    bed_minute: int
++    #: ``True`` when the traveller explicitly asked to skip breakfast.
++    skip_breakfast: bool = False
++    #: ``True`` when breakfast is replaced by a late brunch (implies skip).
++    brunch: bool = False
++    #: ``True`` when the traveller explicitly asked for late-night activity.
++    late_night: bool = False
++    #: Where the rhythm came from, for evidence and for the merge precedence.
++    source: str = "DEFAULT"
++    #: The exact substrings that produced the rhythm.
++    evidence: tuple[str, ...] = ()
++
++    @property
++    def is_default(self) -> bool:
++        return self.source == "DEFAULT"
++
++    @property
++    def overnight_minutes(self) -> int:
++        """Minutes actually spent asleep, wrapping past midnight."""
++
++        return (self.bed_minute - self.wake_minute) % (24 * 60)
++
++    def as_dict(self) -> dict[str, Any]:
++        return {
++            "wake_minute": self.wake_minute,
++            "bed_minute": self.bed_minute,
++            "wake_hhmm": _hhmm(self.wake_minute),
++            "bed_hhmm": _hhmm(self.bed_minute),
++            "skip_breakfast": self.skip_breakfast,
++            "brunch": self.brunch,
++            "late_night": self.late_night,
++            "source": self.source,
++            "evidence": list(self.evidence),
++        }
++
++    @classmethod
++    def from_dict(cls, raw: dict[str, Any]) -> "DayRhythm | None":
++        if not isinstance(raw, dict):
++            return None
++        try:
++            wake = int(raw["wake_minute"])
++            bed = int(raw["bed_minute"])
++        except (KeyError, TypeError, ValueError):
++            return None
++        if not (0 <= wake < 24 * 60) or not (0 <= bed < 24 * 60):
++            return None
++        return cls(
++            wake_minute=wake,
++            bed_minute=bed,
++            skip_breakfast=bool(raw.get("skip_breakfast", False)),
++            brunch=bool(raw.get("brunch", False)),
++            late_night=bool(raw.get("late_night", False)),
++            source=str(raw.get("source", "PERSISTED")),
++            evidence=tuple(str(item) for item in raw.get("evidence", []) or []),
++        )
++
++
++def _hhmm(minute: int) -> str:
++    minute %= 24 * 60
++    return f"{minute // 60:02d}:{minute % 60:02d}"
++
++
++_NUMBER_TOKEN = r"(?:\d{1,2}(?::\d{2})?|[零〇一二两三四五六七八九十]+)"
++_ZH_DIGITS = {
++    "零": 0,
++    "〇": 0,
++    "一": 1,
++    "二": 2,
++    "两": 2,
++    "三": 3,
++    "四": 4,
++    "五": 5,
++    "六": 6,
++    "七": 7,
++    "八": 8,
++    "九": 9,
++    "十": 10,
++}
++
++
++def _clock_minute(token: str) -> int | None:
++    """Parse ``11``, ``11:30``, ``十一点`` or ``两点`` into minutes past midnight.
++
++    A bare hour without an explicit half is returned as ``hour * 60``; callers
++    that need "around" semantics widen the window themselves.
++    """
++
++    token = token.strip()
++    if not token:
++        return None
++    if ":" in token:
++        hour, _, minute = token.partition(":")
++        try:
++            return (int(hour) % 24) * 60 + int(minute)
++        except ValueError:
++            return None
++    if token.isdigit():
++        hour = int(token)
++        return (hour % 24) * 60 if hour <= 24 else None
++    # Chinese numerals: only the shapes that actually appear in speech.
++    if token == "十":
++        return 10 * 60
++    if token.startswith("十"):
++        rest = _ZH_DIGITS.get(token[1:], None)
++        return (10 + (rest or 0)) * 60
++    if token.endswith("十"):
++        head = _ZH_DIGITS.get(token[0], None)
++        if head is None:
++            return None
++        return head * 10 * 60
++    if len(token) == 2 and token[0] == "二" and token[1] in _ZH_DIGITS:
++        # 二三 / 二五 style clock speech is rare; treat as tens+units.
++        return (2 * 10 + _ZH_DIGITS[token[1]]) * 60
++    value = _ZH_DIGITS.get(token)
++    return value * 60 if value is not None else None
++
++
++#: ``11 点才起`` / ``11点起床`` / ``11 点才睡醒``
++_WAKE_PATTERNS = (
++    re.compile(rf"({_NUMBER_TOKEN})\s*点\s*(?:才|多)?\s*(?:起|醒|起床|睡醒)"),
++    re.compile(rf"({_NUMBER_TOKEN})\s*点\s*(?:才|多)?\s*(?:爬起|起来)"),
++    re.compile(
++        rf"(?:起床|睡醒|get\s+up|wake\s+up|waking\s+up)\s*(?:at|around|about)?\s*({_NUMBER_TOKEN})",
++        re.IGNORECASE,
++    ),
++    re.compile(rf"(?:wake|get\s+up)\s*(?:at|around|about)\s*({_NUMBER_TOKEN})", re.IGNORECASE),
++)
++
++#: ``凌晨两点睡`` / ``2 点才睡`` / ``bed at 2``
++_BED_PATTERNS = (
++    re.compile(rf"(?:凌晨|半夜|晚上)?\s*({_NUMBER_TOKEN})\s*点\s*(?:才|多)?\s*(?:睡|睡觉|睡下|上床)"),
++    re.compile(rf"({_NUMBER_TOKEN})\s*点\s*(?:才|多)?\s*(?:睡|睡觉)"),
++    re.compile(
++        rf"(?:bed|sleep|lights\s+out)\s*(?:at|around|about)?\s*({_NUMBER_TOKEN})",
++        re.IGNORECASE,
++    ),
++)
++
++_LATE_BED_PHRASES = (
++    "很晚才睡",
++    "折腾到很晚",
++    "睡得很晚",
++    "熬夜",
++    "夜猫子",
++    "stay up late",
++    "late nights",
++    "night owl",
++    "sleep late",
++)
++
++_LATE_WAKE_PHRASES = (
++    "起得很晚",
++    "睡到中午",
++    "中午才起",
++    "睡到自然醒",
++    "不爱早起",
++    "不想早起",
++    "sleep in",
++    "lie in",
++    "sleep until noon",
++    "not a morning person",
++    "no early mornings",
++)
++
++_NO_MORNING_PATTERNS = (
++    re.compile(r"(?:别|不要|不用|不用给|别给|别再)\s*(?:给我)?\s*(?:排|安排|订)?"),
++)
++
++_SKIP_BREAKFAST_PHRASES = (
++    "早餐不用",
++    "不用订早餐",
++    "不吃早餐",
++    "不用早餐",
++    "跳过早餐",
++    "no breakfast",
++    "skip breakfast",
++    "without breakfast",
++)
++
++_BRUNCH_PHRASES = ("早午餐", "brunch", "brunch instead")
++
++_LATE_NIGHT_PHRASES = (
++    "夜宵",
++    "夜市",
++    "夜生活",
++    "晚上还想出去",
++    "夜游",
++    "late night",
++    "nightlife",
++    "night market",
++    "supper",
++)
++
++#: ``早上七八点`` — an approximate hour span.  Only the *earliest* bound is a
++#: usable constraint, and only when the traveller says they do not want it.
++_APPROX_MORNING = re.compile(rf"(?:早上|早晨|一大早|上午)?\s*({_NUMBER_TOKEN})\s*([七八五六])?\s*点")
++_NEGATION_BEFORE = re.compile(r"(?:别|不要|不用|不想|拒绝|no|not|don't)\s*(?:给\s*我\s*)?(?:排|安排|订)?\s*$")
++
++
++def _has_han(text: str) -> bool:
++    return any("\u4e00" <= char <= "\u9fff" for char in text)
++
++
++def extract_day_rhythm(text: str) -> DayRhythm | None:
++    """Read a traveller's waking window out of their own words.
++
++    Returns ``None`` when the message says nothing about rhythm, so callers can
++    keep the historic default rather than guessing.
++    """
++
++    if not text or not text.strip():
++        return None
++    lowered = text.casefold()
++    evidence: list[str] = []
++
++    wake: int | None = None
++    for pattern in _WAKE_PATTERNS:
++        match = pattern.search(text)
++        if match:
++            parsed = _clock_minute(match.group(1))
++            if parsed is not None:
++                wake = parsed
++                evidence.append(match.group(0).strip())
++                break
++
++    bed: int | None = None
++    for pattern in _BED_PATTERNS:
++        match = pattern.search(text)
++        if match:
++            parsed = _clock_minute(match.group(1))
++            if parsed is not None:
++                bed = parsed
++                evidence.append(match.group(0).strip())
++                break
++
++    late_bed = next((p for p in _LATE_BED_PHRASES if p in lowered), None)
++    late_wake = next((p for p in _LATE_WAKE_PHRASES if p in lowered), None)
++    if late_bed:
++        evidence.append(late_bed)
++    if late_wake:
++        evidence.append(late_wake)
++
++    # "别给我排早上七八点的行程" is a *negative* constraint on the morning.
++    # It is weaker evidence than an explicit wake time, so it is only used to
++    # widen an already-late rhythm or to justify a late default.
++    morning_refusal: int | None = None
++    for match in _APPROX_MORNING.finditer(text):
++        prefix = text[: match.start()]
++        if _NEGATION_BEFORE.search(prefix) or "别" in prefix[-6:] or "不要" in prefix[-8:]:
++            earliest = _clock_minute(match.group(1))
++            if earliest is not None:
++                morning_refusal = earliest
++                evidence.append(match.group(0).strip())
++                break
++
++    if wake is None and (late_wake or late_bed or morning_refusal is not None):
++        # No explicit clock, but the traveller is unambiguous about sleeping in.
++        wake = 10 * 60 + 30
++
++    if bed is None and (late_bed or late_wake):
++        # "晚上折腾到很晚才睡" with an 11:00 wake implies a small-hours bedtime.
++        bed = 90  # 01:30
++
++    if wake is None and bed is None:
++        return None
++
++    skip_breakfast = any(p in lowered for p in _SKIP_BREAKFAST_PHRASES)
++    brunch = any(p in lowered for p in _BRUNCH_PHRASES)
++    late_night = any(p in lowered for p in _LATE_NIGHT_PHRASES)
++
++    if wake is None:
++        # Only a bedtime was given; keep the default length of sleep.
++        wake = (bed + (24 * 60 - DEFAULT_BED_MINUTE) + DEFAULT_WAKE_MINUTE) % (24 * 60)
++    if bed is None:
++        bed = (wake - DEFAULT_WAKE_MINUTE + DEFAULT_BED_MINUTE) % (24 * 60)
++
++    if morning_refusal is not None and wake < morning_refusal:
++        wake = morning_refusal
++
++    if brunch:
++        skip_breakfast = True
++
++    return DayRhythm(
++        wake_minute=wake % (24 * 60),
++        bed_minute=bed % (24 * 60),
++        skip_breakfast=skip_breakfast,
++        brunch=brunch,
++        late_night=late_night,
++        source="EXTRACTED_FROM_USER_TEXT",
++        evidence=tuple(dict.fromkeys(evidence)),
++    )
++
++
++def rhythm_from_preferences(preferences: Any) -> DayRhythm | None:
++    """Read a persisted rhythm out of mission or traveller preferences."""
++
++    if not isinstance(preferences, dict):
++        return None
++    raw = preferences.get("day_rhythm")
++    if isinstance(raw, dict):
++        return DayRhythm.from_dict(raw)
++    return None
++
++
++def describe_day_rhythm(rhythm: DayRhythm) -> str:
++    """A short user-facing sentence, in the traveller's own language."""
++
++    if _has_han(rhythm.evidence and "".join(rhythm.evidence) or ""):
++        text = f"作息：{_hhmm(rhythm.wake_minute)} 起床，{_hhmm(rhythm.bed_minute)} 就寝"
++        if rhythm.brunch:
++            text += "，早餐改早午餐"
++        elif rhythm.skip_breakfast:
++            text += "，不排早餐"
++        if rhythm.late_night:
++            text += "，可安排夜间活动"
++        return text
++    text = f"Rhythm: awake {_hhmm(rhythm.wake_minute)}-{_hhmm(rhythm.bed_minute)}"
++    if rhythm.brunch:
++        text += ", brunch instead of breakfast"
++    elif rhythm.skip_breakfast:
++        text += ", no breakfast"
++    if rhythm.late_night:
++        text += ", late-night activity welcome"
++    return text
++
++
++def _is_optional_sightseeing(node: Any) -> bool:
++    return not bool(getattr(node, "locked", False)) and str(
++        getattr(node, "role", "")
++    ) not in {"ARRIVAL", "DEPARTURE", "CHECK_IN", "CHECK_OUT", "LUGGAGE_DROP"}
++
++
++def _in_waking_window(node: Any, rhythm: DayRhythm) -> bool:
++    """True when an optional node falls inside the traveller's waking window."""
++
++    start = datetime.fromisoformat(str(node.start_at))
++    end = datetime.fromisoformat(str(node.end_at))
++    minute = start.hour * 60 + start.minute
++    end_minute = end.hour * 60 + end.minute
++    if end.date() > start.date():
++        end_minute += 24 * 60
++    wake = rhythm.wake_minute
++    bed = rhythm.bed_minute
++    if bed <= wake:  # a small-hours bedtime wraps past midnight
++        bed += 24 * 60
++    if minute < wake:
++        minute += 24 * 60
++        end_minute += 24 * 60
++    return minute >= wake and end_minute <= bed
++
++
++def _is_breakfast(node: Any) -> bool:
++    text = f"{getattr(node, 'title', '')} {getattr(node, 'place_key', '')}".casefold()
++    return any(
++        token in text
++        for token in ("breakfast", "早餐", "morning set", "buffet")
++    )
++
++
++def apply_day_rhythm(
++    nodes: Sequence[Any],
++    rhythm: DayRhythm | None,
++) -> list[Any]:
++    """Filter optional activity nodes to the traveller's waking window.
++
++    Locked anchors are always kept.  Optional sightseeing outside the window is
++    dropped rather than moved, because the product has no evidence that a moved
++    slot is actually open at the new time.
++    """
++
++    if rhythm is None or rhythm.is_default:
++        return list(nodes)
++
++    kept: list[Any] = []
++    for node in nodes:
++        role = str(getattr(node, "role", ""))
++        if role == "STAY":
++            kept.append(_retime_overnight(node, rhythm))
++            continue
++        if not _is_optional_sightseeing(node):
++            kept.append(node)
++            continue
++        if _is_breakfast(node) and rhythm.skip_breakfast:
++            continue
++        if _in_waking_window(node, rhythm):
++            kept.append(node)
++    return kept
++
++
++def _retime_overnight(node: Any, rhythm: DayRhythm) -> Any:
++    """Move a synthetic overnight block onto the traveller's real bedtime."""
++
++    start = datetime.fromisoformat(str(node.start_at))
++    bed = start.replace(
++        hour=rhythm.bed_minute // 60,
++        minute=rhythm.bed_minute % 60,
++        second=0,
++        microsecond=0,
++    )
++    if bed < start - timedelta(hours=12):
++        bed = bed + timedelta(days=1)
++    end = bed + timedelta(minutes=rhythm.overnight_minutes)
++    try:
++        return replace(node, start_at=bed.isoformat(), end_at=end.isoformat())
++    except TypeError:  # pragma: no cover - defensive for duck-typed nodes
++        node.start_at = bed.isoformat()
++        node.end_at = end.isoformat()
++        return node
++
++
++def merge_rhythms(*rhythms: DayRhythm | None) -> DayRhythm | None:
++    """Later rhythms win, but an extracted rhythm never loses to a default."""
++
++    result: DayRhythm | None = None
++    for rhythm in rhythms:
++        if rhythm is None:
++            continue
++        if result is None or not rhythm.is_default or result.is_default:
++            result = rhythm
++    return result
+diff --git a/backend/app/schemas.py b/backend/app/schemas.py
+index 6fb674c..3356de0 100644
+--- a/backend/app/schemas.py
++++ b/backend/app/schemas.py
+@@ -113,9 +113,21 @@ class AgentApprovalRequest(BaseModel):
+ class AgentCommandRequest(BaseModel):
+     model_config = ConfigDict(extra="forbid")
+ 
+-    command: str = Field(min_length=8, max_length=2000)
++    # V16: this was ``min_length=8``, a *character* count applied to every
++    # language.  Chinese is dense — "我想少走路。" is 6 characters, "堵车了" is
++    # 3, "下雨了" is 3 — so the product silently refused ordinary Chinese
++    # instructions while accepting 8-character English.  The guard that matters
++    # is "not blank", which is what this validator enforces.
++    command: str = Field(min_length=1, max_length=2000)
+     requested_autonomy: Literal["PLAN_ONLY", "EXECUTE_WITHIN_BOUNDS"] = "EXECUTE_WITHIN_BOUNDS"
+ 
++    @field_validator("command")
++    @classmethod
++    def command_not_blank(cls, value: str) -> str:
++        if not value.strip():
++            raise ValueError("command must not be blank")
++        return value
++
+ 
+ class GuardianAutopilotStart(BaseModel):
+     interval_seconds: float | None = Field(default=None, gt=0, le=3600)
+diff --git a/backend/app/services.py b/backend/app/services.py
+index 2489925..bce381e 100644
+--- a/backend/app/services.py
++++ b/backend/app/services.py
+@@ -879,22 +879,33 @@ def generate_plans(
+             "opportunity_value": 0.80,
+         },
+     ]
++    # Only compose templates whose every place actually exists for this city.
++    # The mobility snapshot used to be captured for *all* template pairs before
++    # this filter ran, so a journey in any city without the seeded demo places
++    # raised MobilitySnapshotCaptureError and the endpoint returned HTTP 500.
++    usable_templates = [
++        template
++        for template in raw_templates
++        if all(place_id in places for place_id, *_ in template)
++    ]
+     template_pairs = tuple(
+         (template[index - 1][0], template[index][0])
+-        for template in raw_templates
++        for template in usable_templates
+         for index in range(1, len(template))
+     )
+-    mobility_provider = capture_runtime_mobility_snapshot(
+-        session,
+-        journey,
+-        template_pairs,
+-        operation_key=f"template-compose:{journey.id}",
+-    ).snapshot
+-    for offset, template in enumerate(raw_templates):
++    mobility_provider = (
++        capture_runtime_mobility_snapshot(
++            session,
++            journey,
++            template_pairs,
++            operation_key=f"template-compose:{journey.id}",
++        ).snapshot
++        if template_pairs
++        else None
++    )
++    for offset, template in enumerate(usable_templates):
+         if len(created) >= candidate_count:
+             break
+-        if any(place_id not in places for place_id, *_ in template):
+-            continue
+         total_cost = sum(
+             int(json.loads(places[p].metadata_json)["cost_minor"]) for p, *_ in template
+         )
+diff --git a/backend/app/stay_mobility.py b/backend/app/stay_mobility.py
+index ca23591..82c610a 100644
+--- a/backend/app/stay_mobility.py
++++ b/backend/app/stay_mobility.py
+@@ -30,11 +30,46 @@ from app.db.models import (
+     StayJourneyOption,
+ )
+ from app.execution.traveler_twin import planning_preference_items
++from app.planning.city_registry import DERIVED_GENERIC, resolve_city_profile
++from app.planning.day_rhythm import (
++    DayRhythm,
++    apply_day_rhythm,
++    rhythm_from_preferences,
++)
+ from app.planning.stay_mode_solver import solve_mode_choices
+ 
+ MODES = ("WALK", "BICYCLE", "TRANSIT", "AUTO", "RIDE_HAIL")
+ DATA_PATH = Path(__file__).resolve().parents[2] / "data" / "v9" / "city_operations.json"
+ 
++#: Indicative one-leg fares in each currency's *minor* unit.  Note that JPY and
++#: KRW have no minor unit, so ``210`` means ¥210, not ¥2.10.  Amounts are the
++#: product's own modelled fares, not provider quotes.
++_MODE_FARES_MINOR: dict[str, dict[str, int]] = {
++    "CNY": {"BICYCLE": 600, "TRANSIT": 400, "AUTO": 1200},
++    "HKD": {"BICYCLE": 500, "TRANSIT": 600, "AUTO": 6000},
++    "MOP": {"BICYCLE": 500, "TRANSIT": 600, "AUTO": 6000},
++    "TWD": {"BICYCLE": 2000, "TRANSIT": 2000, "AUTO": 20000},
++    "JPY": {"BICYCLE": 100, "TRANSIT": 210, "AUTO": 1600},
++    "KRW": {"BICYCLE": 1500, "TRANSIT": 1400, "AUTO": 12000},
++    "SGD": {"BICYCLE": 150, "TRANSIT": 180, "AUTO": 1200},
++    "MYR": {"BICYCLE": 300, "TRANSIT": 250, "AUTO": 1500},
++    "THB": {"BICYCLE": 3000, "TRANSIT": 2500, "AUTO": 15000},
++    "VND": {"BICYCLE": 30000, "TRANSIT": 25000, "AUTO": 150000},
++    "IDR": {"BICYCLE": 30000, "TRANSIT": 25000, "AUTO": 150000},
++    "AED": {"BICYCLE": 300, "TRANSIT": 350, "AUTO": 2500},
++    "INR": {"BICYCLE": 1500, "TRANSIT": 1200, "AUTO": 12000},
++    "GBP": {"BICYCLE": 200, "TRANSIT": 280, "AUTO": 1400},
++    "EUR": {"BICYCLE": 200, "TRANSIT": 250, "AUTO": 1300},
++    "RUB": {"BICYCLE": 15000, "TRANSIT": 12000, "AUTO": 60000},
++    "TRY": {"BICYCLE": 3000, "TRANSIT": 2500, "AUTO": 15000},
++    "USD": {"BICYCLE": 300, "TRANSIT": 280, "AUTO": 1800},
++    "CAD": {"BICYCLE": 300, "TRANSIT": 350, "AUTO": 2100},
++    "AUD": {"BICYCLE": 300, "TRANSIT": 400, "AUTO": 2200},
++    "NZD": {"BICYCLE": 300, "TRANSIT": 400, "AUTO": 2200},
++    "BRL": {"BICYCLE": 800, "TRANSIT": 700, "AUTO": 4000},
++    "ZAR": {"BICYCLE": 3000, "TRANSIT": 2500, "AUTO": 15000},
++}
++
+ 
+ @dataclass(frozen=True)
+ class AccommodationOfferDraft:
+@@ -48,6 +83,10 @@ class AccommodationOfferDraft:
+     evidence_confidence: float
+     coordinate_crs: str
+     luggage_drop: dict[str, Any]
++    #: ``CAPTURED_REPLAY`` for a captured fixture, ``DERIVED_GENERIC`` for a
++    #: template rate. Kept on the draft so the snapshot can record which one it
++    #: actually is instead of always claiming captured evidence.
++    provenance: str = "CAPTURED_REPLAY"
+ 
+ 
+ @dataclass(frozen=True)
+@@ -79,9 +118,15 @@ class CapturedAccommodationProvider:
+     provenance = "CAPTURED_REPLAY"
+ 
+     def discover(
+-        self, *, city_code: str, party_size: int, nights: int
++        self,
++        *,
++        city_code: str,
++        party_size: int,
++        nights: int,
++        profile: dict[str, Any] | None = None,
+     ) -> tuple[AccommodationOfferDraft, ...]:
+-        city = city_fixture(city_code)
++        city = profile if profile is not None else city_fixture(city_code)
++        provenance = str(city.get("provenance") or self.provenance)
+         return tuple(
+             AccommodationOfferDraft(
+                 external_offer_id=str(item["external_offer_id"]),
+@@ -91,9 +136,17 @@ class CapturedAccommodationProvider:
+                 nightly_amount_minor=int(item["nightly_amount_minor"]),
+                 room_type=str(item["room_type"]),
+                 refundable=bool(item["refundable"]),
+-                evidence_confidence=0.96,
++                # A template rate is not a captured quote and must not claim to
++                # be one, so its confidence is materially lower.
++                evidence_confidence=float(
++                    item.get(
++                        "evidence_confidence",
++                        0.96 if provenance != DERIVED_GENERIC else 0.35,
++                    )
++                ),
+                 coordinate_crs=str(city.get("center", {}).get("crs", "WGS84")),
+                 luggage_drop=dict(item.get("luggage_drop", {})),
++                provenance=provenance,
+             )
+             for item in city.get("stays", [])
+         )
+@@ -125,11 +178,73 @@ def _load(raw: str | None, fallback: Any) -> Any:
+ 
+ 
+ def city_fixture(city_code: str) -> dict[str, Any]:
++    """The *captured* city fixture, or ``{}`` when the city was never captured."""
++
+     fixtures = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+     value = fixtures.get(str(city_code).upper())
+     return dict(value) if isinstance(value, dict) else {}
+ 
+ 
++def city_profile(
++    city_code: str,
++    *,
++    currency: str | None = None,
++    timezone: str | None = None,
++    days: int = 3,
++    party_size: int = 2,
++) -> dict[str, Any]:
++    """The planning profile for a city: captured evidence, else a template.
++
++    Only two cities have captured fixtures.  Returning ``{}`` for everything
++    else meant the planner silently produced zero options, so this resolves to
++    a clearly-labelled ``DERIVED_GENERIC`` template instead.  Callers that need
++    to know which one they got can read ``profile["provenance"]``.
++    """
++
++    return resolve_city_profile(
++        city_code,
++        captured=city_fixture(city_code),
++        currency=currency,
++        timezone=timezone,
++        days=days,
++        party_size=party_size,
++    )
++
++
++def journey_day_rhythm(session: Session, journey: Journey) -> DayRhythm | None:
++    """The traveller's day rhythm for this journey, if any was ever learned.
++
++    Sources, strongest first: the standing Journey mission the traveller spoke
++    into the AI desk, then any persisted traveller Preference.  Returns ``None``
++    when nothing is known, so the planner keeps its historic behaviour.
++    """
++
++    from app.db.models import JourneyMission, Preference
++
++    mission = session.scalar(
++        select(JourneyMission)
++        .where(
++            JourneyMission.journey_id == journey.id,
++            JourneyMission.status.in_(("ACTIVE", "RUNNING", "CREATED")),
++        )
++        .order_by(JourneyMission.created_at.desc(), JourneyMission.id.desc())
++    )
++    if mission is not None:
++        rhythm = rhythm_from_preferences(_load(mission.preferences_json, {}))
++        if rhythm is not None:
++            return rhythm
++
++    row = session.scalar(
++        select(Preference).where(
++            Preference.traveler_id == journey.traveler_id,
++            Preference.preference_key == "day_rhythm",
++        )
++    )
++    if row is not None:
++        return rhythm_from_preferences({"day_rhythm": _load(row.value_json, {})})
++    return None
++
++
+ def _context(session: Session, journey: Journey) -> JourneyTripContext:
+     row = session.get(JourneyTripContext, journey.id)
+     if row is None:
+@@ -205,9 +320,22 @@ def capture_accommodation_offers(
+     captured = _now()
+     expires = (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat()
+     provider: AccommodationProvider = CapturedAccommodationProvider()
++    # Resolve the city profile once: captured evidence when it exists, a
++    # labelled template otherwise.  Without this a journey in any city other
++    # than Tianjin/Beijing produced no offers and therefore no plan at all.
++    profile = city_profile(
++        journey.city_code,
++        currency=journey.budget_currency,
++        timezone=journey.timezone,
++        days=nights + 1,
++        party_size=context.party_size,
++    )
+     result: list[AccommodationOfferSnapshot] = []
+     for draft in provider.discover(
+-        city_code=journey.city_code, party_size=context.party_size, nights=nights
++        city_code=journey.city_code,
++        party_size=context.party_size,
++        nights=nights,
++        profile=profile,
+     ):
+         existing = session.scalar(
+             select(AccommodationOfferSnapshot).where(
+@@ -254,12 +382,14 @@ def capture_accommodation_offers(
+                 refundable=draft.refundable,
+                 evidence_json=_json(
+                     {
+-                        "source": provider.provenance,
++                        # Never claim CAPTURED_REPLAY for a template rate.
++                        "source": draft.provenance,
+                         "provider": provider.provider_key,
+                         "confidence": draft.evidence_confidence,
+                         "price_basis": "per_night × nights",
+                         "currency_explicit": True,
+                         "city_fixture": journey.city_code,
++                        "captured": draft.provenance != DERIVED_GENERIC,
+                     }
+                 ),
+                 captured_at=captured,
+@@ -277,7 +407,17 @@ def build_candidate_nodes(
+ ) -> list[GraphNode]:
+     context = _context(session, journey)
+     operations = _operations_context(session, journey)
+-    city = city_fixture(journey.city_code)
++    # Captured fixture when the city was captured, labelled template otherwise.
++    # The old code used the raw fixture and fell back to a (0, 0) centre, which
++    # is Null Island — every place in an uncaptured city sat in the Gulf of
++    # Guinea, 12,000 km from the hotel.
++    city = city_profile(
++        journey.city_code,
++        currency=journey.budget_currency,
++        timezone=journey.timezone,
++        days=_nights(context, journey) + 1,
++        party_size=context.party_size,
++    )
+     center = city.get("center", {})
+     arrival = _anchor(context, journey, "arrival")
+     departure = _anchor(context, journey, "departure")
+@@ -289,6 +429,8 @@ def build_candidate_nodes(
+     arrival_lon = float(arrival.get("longitude") or center_lon - 0.028)
+     departure_lat = float(departure.get("latitude") or center_lat + 0.072)
+     departure_lon = float(departure.get("longitude") or center_lon + 0.095)
++    # The traveller's own body clock, when one has been learned.
++    rhythm = journey_day_rhythm(session, journey)
+     events: list[GraphNode] = [
+         GraphNode(
+             key="arrival-anchor",
+@@ -353,7 +495,12 @@ def build_candidate_nodes(
+             )
+         )
+     for day_offset in range(_nights(context, journey)):
+-        overnight_at = _at_on_day(arrival_at, day_offset, "22:30")
++        # The overnight block used to be hard-coded to 22:30 -> 06:30 for every
++        # traveller.  A couple who go to bed at 02:00 and wake at 11:00 were
++        # given a 22:30 lights-out and a 06:30 alarm.
++        bed_hhmm = _hhmm_from_minute(rhythm.bed_minute) if rhythm else "22:30"
++        sleep_minutes = rhythm.overnight_minutes if rhythm else 8 * 60
++        overnight_at = _at_on_day(arrival_at, day_offset, bed_hhmm)
+         if arrival_at < overnight_at < departure_at:
+             events.append(
+                 GraphNode(
+@@ -361,7 +508,7 @@ def build_candidate_nodes(
+                     title=f"Overnight · {offer.property_name}",
+                     role="STAY",
+                     start_at=overnight_at.isoformat(),
+-                    end_at=(overnight_at + timedelta(hours=8)).isoformat(),
++                    end_at=(overnight_at + timedelta(minutes=sleep_minutes)).isoformat(),
+                     latitude=offer.latitude,
+                     longitude=offer.longitude,
+                     locked=True,
+@@ -402,7 +549,21 @@ def build_candidate_nodes(
+             continue
+         result.append(node)
+         cursor = max(cursor, end)
+-    return result
++    # Finally, drop optional sightseeing that falls outside the traveller's
++    # waking window.  Locked anchors are always kept: a learned rhythm may
++    # remove a museum, never a commitment.
++    return apply_day_rhythm(result, rhythm)
++
++
++def _hhmm_from_minute(minute: int) -> str:
++    minute %= 24 * 60
++    return f"{minute // 60:02d}:{minute % 60:02d}"
++
++
++def _city_is_derived(city_code: str) -> bool:
++    """True when the city has no captured fixture and is served by a template."""
++
++    return not city_fixture(city_code)
+ 
+ 
+ def _distance_m(a: GraphNode, b: GraphNode) -> int:
+@@ -424,13 +585,24 @@ def _mode_fact(
+     from_node: GraphNode,
+     to_node: GraphNode,
+     mode: str,
++    currency: str = "CNY",
+ ) -> MobilityFact:
+     distance = _distance_m(from_node, to_node)
++    # Fares were hard-coded in CNY minor units for every journey, so a London
++    # trip priced a bus at £4.00 and a Tokyo trip at ¥4.  The fare table below
++    # keeps the same structure but states each currency's own indicative minor
++    # amount.  Durations are distance-derived and unit-free, so they are shared.
++    fares = _MODE_FARES_MINOR.get(
++        str(currency or "CNY").upper(), _MODE_FARES_MINOR["CNY"]
++    )
++    # CNY keeps the historic KNOWN status (these are the product's own modelled
++    # fares for its home market); every other currency is an explicit estimate.
++    paid_status = "KNOWN" if str(currency or "CNY").upper() == "CNY" else "ESTIMATED"
+     profiles = {
+         "WALK": (
+             max(5, math.ceil(distance / 75)),
+             0,
+-            "CNY",
++            currency,
+             "FREE_KNOWN",
+             None,
+             0,
+@@ -440,9 +612,9 @@ def _mode_fact(
+         ),
+         "BICYCLE": (
+             max(4, math.ceil(distance / 210)),
+-            600,
+-            "CNY",
+-            "KNOWN",
++            fares["BICYCLE"],
++            currency,
++            paid_status,
+             5,
+             0,
+             "MEDIUM",
+@@ -451,9 +623,9 @@ def _mode_fact(
+         ),
+         "TRANSIT": (
+             max(8, math.ceil(distance / 330) + 6),
+-            400,
+-            "CNY",
+-            "KNOWN",
++            fares["TRANSIT"],
++            currency,
++            paid_status,
+             5,
+             1,
+             "LOW",
+@@ -462,8 +634,8 @@ def _mode_fact(
+         ),
+         "AUTO": (
+             max(5, math.ceil(distance / 430) + 3),
+-            1200,
+-            "CNY",
++            fares["AUTO"],
++            currency,
+             "ESTIMATED",
+             2,
+             0,
+@@ -550,7 +722,14 @@ def capture_mobility_facts(
+                 )
+             )
+             if existing is None:
+-                existing = _mode_fact(journey.id, None, from_node, to_node, mode)
++                existing = _mode_fact(
++                    journey.id,
++                    None,
++                    from_node,
++                    to_node,
++                    mode,
++                    journey.budget_currency,
++                )
+                 session.add(existing)
+             facts.append(existing)
+     session.flush()
+@@ -902,7 +1081,13 @@ def experience_payload(session: Session, journey: Journey) -> dict[str, Any]:
+                 "captured": {
+                     "provider_key": CapturedAccommodationProvider.provider_key,
+                     "status": "READY" if offers else "UNAVAILABLE_FOR_CITY",
+-                    "provenance": "CAPTURED_REPLAY",
++                    # Say which it is. Reporting CAPTURED_REPLAY for a template
++                    # rate was a quiet lie the UI then repeated to the user.
++                    "provenance": (
++                        DERIVED_GENERIC
++                        if offers and _city_is_derived(journey.city_code)
++                        else "CAPTURED_REPLAY"
++                    ),
+                 },
+                 "live": {
+                     "provider_key": LiveAccommodationProvider.provider_key,
+@@ -914,7 +1099,7 @@ def experience_payload(session: Session, journey: Journey) -> dict[str, Any]:
+                     "status": "READY" if os.getenv("AMAP_WEB_KEY") else "NOT_CONFIGURED",
+                     "captured_fallback": "READY"
+                     if city_fixture(journey.city_code)
+-                    else "UNAVAILABLE_FOR_CITY",
++                    else "TEMPLATE",
+                     "coordinate_crs": "GCJ02 at provider boundary; canonical domain WGS84",
+                 },
+                 "valhalla": {"status": "NOT_CONFIGURED"},
+diff --git a/backend/tests/test_v16_realuser_fixes.py b/backend/tests/test_v16_realuser_fixes.py
+new file mode 100644
+index 0000000..4ab308d
+--- /dev/null
++++ b/backend/tests/test_v16_realuser_fixes.py
+@@ -0,0 +1,247 @@
++"""V16 Real-User Lab regression tests.
++
++These tests lock in the product-logic fixes the V16 lab produced and verified
++against the live UI.  They are intentionally pure / offline: every module under
++test is deterministic and touches no database, so they run without a running
++server.  Four defect families are covered:
++
++* day rhythm            - travellers are not all 09:00-18:30 sightseers
++* command intent        - a self-description / question / personal crisis must
++                          NOT become a fabricated city WEATHER event; a real
++                          disruption must become exactly one honest event
++* city registry         - uncaptured cities degrade to a labelled template with
++                          a real centre (never 0,0 / Null Island, never 0 options)
++* currency minor units  - JPY/KRW/VND/IDR have no decimals; a fare of 1600 JPY
++                          means 1600 yen, not 16.00
++"""
++
++from __future__ import annotations
++
++import types
++
++from app.agent.command_intent import (
++    ACTIONABLE_EVENT_TYPES,
++    CommandDecision,
++    decide_command,
++    resolve_event_type,
++    resolve_severity,
++)
++from app.agent.semantic_router import EVENT_INTENTS
++from app.planning import city_registry
++from app.planning.day_rhythm import (
++    DayRhythm,
++    apply_day_rhythm,
++    extract_day_rhythm,
++)
++from app.stay_mobility import GraphNode, _mode_fact
++
++
++# ---------------------------------------------------------------------------
++# Day rhythm
++# ---------------------------------------------------------------------------
++
++def test_extract_late_riser_window():
++    rhythm = extract_day_rhythm("我们是情侣，喜欢睡懒觉，11点才起，凌晨两点才睡")
++    assert rhythm is not None
++    # 11:00 -> 660, 02:00 (凌晨两点) -> 120
++    assert rhythm.wake_minute == 11 * 60
++    assert rhythm.bed_minute == 2 * 60
++    assert rhythm.source == "EXTRACTED_FROM_USER_TEXT"
++
++
++def test_extract_no_rhythm_returns_none():
++    assert extract_day_rhythm("今天的天气看起来不错") is None
++    assert extract_day_rhythm("") is None
++
++
++def test_rhythm_roundtrip_preserves_fields():
++    rhythm = DayRhythm(
++        wake_minute=600,
++        bed_minute=120,
++        skip_breakfast=True,
++        brunch=False,
++        late_night=True,
++        source="EXTRACTED_FROM_USER_TEXT",
++        evidence=("11点才起",),
++    )
++    restored = DayRhythm.from_dict(rhythm.as_dict())
++    assert restored is not None
++    assert restored.wake_minute == rhythm.wake_minute
++    assert restored.bed_minute == rhythm.bed_minute
++    assert restored.skip_breakfast is True
++    assert restored.late_night is True
++
++
++def _node(role, locked, start, end, title=""):
++    return types.SimpleNamespace(
++        role=role,
++        locked=locked,
++        title=title,
++        start_at=start,
++        end_at=end,
++        place_key="",
++    )
++
++
++def test_apply_day_rhythm_drops_morning_for_late_riser():
++    morning = _node("SIGHTSEEING", False, "2026-10-01T09:00:00", "2026-10-01T10:30:00", "市博物馆")
++    anchor = _node("CHECK_IN", True, "2026-10-01T14:00:00", "2026-10-01T14:30:00")
++    afternoon = _node("SIGHTSEEING", False, "2026-10-01T14:30:00", "2026-10-01T16:00:00")
++    nodes = [morning, anchor, afternoon]
++
++    late = DayRhythm(wake_minute=11 * 60, bed_minute=90, source="EXTRACTED_FROM_USER_TEXT")
++    kept = apply_day_rhythm(nodes, late)
++
++    assert anchor in kept  # locked anchors are never dropped
++    assert afternoon in kept  # inside the waking window
++    assert morning not in kept  # 09:00 is before an 11:00 wake
++
++
++def test_apply_day_rhythm_default_keeps_everything():
++    morning = _node("SIGHTSEEING", False, "2026-10-01T09:00:00", "2026-10-01T10:30:00")
++    anchor = _node("CHECK_IN", True, "2026-10-01T14:00:00", "2026-10-01T14:30:00")
++    nodes = [morning, anchor]
++    assert apply_day_rhythm(nodes, None) == nodes
++    assert apply_day_rhythm(nodes, DayRhythm(450, 1350, source="DEFAULT")) == nodes
++
++
++# ---------------------------------------------------------------------------
++# Command intent - the no-fabricated-event boundary
++# ---------------------------------------------------------------------------
++
++CTX = dict(city_code="CN-FUZHOU", timezone="Asia/Shanghai", currency="CNY")
++
++
++def test_resolve_event_type_honest_mapping():
++    assert resolve_event_type("火车晚点三个小时") == "SCHEDULE_DELAY"
++    assert resolve_event_type("博物馆关门了。") == "CLOSURE"
++    # Personal situations have no city-event vocabulary.
++    assert resolve_event_type("我护照丢了。") is None
++    assert resolve_event_type("如果明天下雨会怎样？") is None
++
++
++def test_resolve_severity_three_hours_is_critical():
++    assert resolve_severity("火车晚点三个小时", "SCHEDULE_DELAY") == "CRITICAL"
++
++
++def test_resolve_severity_drizzle_is_minor():
++    assert resolve_severity("外面下着小雨", "WEATHER") == "MINOR"
++
++
++def test_decide_command_real_disruptions_create_exactly_one_event():
++    train = decide_command("火车晚点三个小时", **CTX)
++    assert isinstance(train, CommandDecision)
++    assert train.intent == "DISRUPTION_REPORT"
++    assert train.creates_event is True
++    assert train.event_type == "SCHEDULE_DELAY"
++    assert train.severity == "CRITICAL"
++    assert train.intent in EVENT_INTENTS
++
++    closure = decide_command("博物馆关门了。", **CTX)
++    assert closure.creates_event is True
++    assert closure.event_type == "CLOSURE"
++    assert closure.severity == "MAJOR"
++
++
++def test_decide_command_no_fabricated_events():
++    # A self-description must never become a weather event.
++    self_desc = decide_command("我们是情侣，喜欢睡懒觉，11点才起，凌晨两点才睡", **CTX)
++    assert self_desc.creates_event is False
++    assert self_desc.event_type is None
++    assert self_desc.severity is None
++
++    # A hypothetical must never materialise a real event.
++    what_if = decide_command("如果明天下雨会怎样？", **CTX)
++    assert what_if.creates_event is False
++
++    # A comfort preference is not a disruption.
++    pref = decide_command("我想少走路。", **CTX)
++    assert pref.creates_event is False
++
++    # A personal crisis (lost passport) opens a mission but files no city event.
++    passport = decide_command("我护照丢了。", **CTX)
++    assert passport.creates_event is False
++    assert passport.event_type is None
++
++
++def test_actionable_event_types_are_the_four():
++    assert set(ACTIONABLE_EVENT_TYPES) == {"WEATHER", "TRAFFIC_DELAY", "CLOSURE", "SCHEDULE_DELAY"}
++
++
++# ---------------------------------------------------------------------------
++# City registry - honest degradation for uncaptured cities
++# ---------------------------------------------------------------------------
++
++def test_resolve_city_profile_derived_generic_for_uncaptured():
++    profile = city_registry.resolve_city_profile("CN-FUZHOU")
++    assert profile["provenance"] == city_registry.DERIVED_GENERIC
++    assert profile["center"]["latitude"] != 0.0  # not Null Island
++    assert profile["center"]["longitude"] != 0.0
++    assert len(profile["activities"]) > 0
++    assert len(profile["stays"]) > 0
++    # Every synthesised place is explicitly not captured evidence.
++    assert all(a["cost_status"] in {"UNKNOWN", "ESTIMATED"} for a in profile["activities"])
++    assert all(s["provenance"] == city_registry.DERIVED_GENERIC for s in profile["stays"])
++
++
++def test_resolve_city_profile_county_scale():
++    profile = city_registry.resolve_city_profile("CN-SHAXIAN")
++    assert profile["scale"] == "county"
++    # A county town gets a shorter, walkable day than a metro city.
++    metro = city_registry.resolve_city_profile("CN-FUZHOU")
++    assert len(profile["activities"]) < len(metro["activities"])
++
++
++def test_city_centre_not_null_island():
++    centre = city_registry.city_centre("CN-FUZHOU")
++    assert centre["latitude"] == 26.0745
++    assert centre["longitude"] == 119.2965
++
++
++def test_resolve_city_profile_captured_passthrough():
++    captured = {"provider": {"provider_key": "x"}, "scale": "metro", "activities": [{"title": "real"}]}
++    profile = city_registry.resolve_city_profile("CN-FUZHOU", captured=captured)
++    assert profile["provenance"] == city_registry.CAPTURED_REPLAY
++    assert profile["activities"] == [{"title": "real"}]
++
++
++# ---------------------------------------------------------------------------
++# Currency minor units - zero-decimal currencies
++# ---------------------------------------------------------------------------
++
++def _near_nodes():
++    a = GraphNode(
++        key="a", title="A", role="SIGHTSEEING",
++        start_at="2026-10-01T10:00:00", end_at="2026-10-01T10:30:00",
++        latitude=26.0745, longitude=119.2965,
++    )
++    b = GraphNode(
++        key="b", title="B", role="SIGHTSEEING",
++        start_at="2026-10-01T11:00:00", end_at="2026-10-01T11:30:00",
++        latitude=26.0800, longitude=119.3000,
++    )
++    return a, b
++
++
++def test_mode_fact_jpy_zero_decimal():
++    a, b = _near_nodes()
++    fact = _mode_fact("jid", None, a, b, "AUTO", currency="JPY")
++    # JPY has no minor unit: 1600 means 1600 yen, not 16.00.
++    assert fact.cost_amount_minor == 1600
++    assert fact.currency == "JPY"
++    assert fact.cost_status == "ESTIMATED"  # non-CNY is always an estimate
++
++    bike = _mode_fact("jid", None, a, b, "BICYCLE", currency="JPY")
++    assert bike.cost_amount_minor == 100
++
++
++def test_mode_fact_cny_known_status():
++    a, b = _near_nodes()
++    # BICYCLE / TRANSIT keep the historic KNOWN status for the home market.
++    transit = _mode_fact("jid", None, a, b, "TRANSIT", currency="CNY")
++    assert transit.cost_amount_minor == 400
++    assert transit.cost_status == "KNOWN"
++    # AUTO is a modelled estimate even for CNY.
++    auto = _mode_fact("jid", None, a, b, "AUTO", currency="CNY")
++    assert auto.cost_amount_minor == 1200
++    assert auto.cost_status == "ESTIMATED"
+diff --git a/frontend/src/app/V8Experience.tsx b/frontend/src/app/V8Experience.tsx
+index 719ff31..d14f1a5 100644
+--- a/frontend/src/app/V8Experience.tsx
++++ b/frontend/src/app/V8Experience.tsx
+@@ -82,14 +82,20 @@ async function v8Request<T>(path: string, init?: RequestInit): Promise<T> {
+   return body as T;
+ }
+ 
++/** Currencies whose smallest unit is the unit itself — never divide by 100. */
++const ZERO_DECIMAL_CURRENCIES = new Set(["JPY", "KRW", "VND", "IDR", "CLP", "ISK"]);
++
+ function money(minor: number | null | undefined, currency = "CNY", locale = "zh-CN") {
+-  return minor == null
+-    ? "Provider price unavailable"
+-    : new Intl.NumberFormat(locale, {
+-        style: "currency",
+-        currency,
+-        maximumFractionDigits: 0,
+-      }).format(minor / 100);
++  if (minor == null) return "Provider price unavailable";
++  const code = (currency || "CNY").toUpperCase();
++  // The API speaks minor units. Dividing by 100 unconditionally turned a
++  // ¥1600 Tokyo taxi into ¥16 and a ₩12000 Seoul fare into ₩120.
++  const value = ZERO_DECIMAL_CURRENCIES.has(code) ? minor : minor / 100;
++  return new Intl.NumberFormat(locale, {
++    style: "currency",
++    currency: code,
++    maximumFractionDigits: 0,
++  }).format(value);
+ }
+ function date(value?: string, locale = "en-GB") {
+   return value
+@@ -366,6 +372,13 @@ export function V8Experience() {
+       const cityCode = `${draft.countryCode.trim() || "CN"}-${cityName.toUpperCase().replace(/\s+/g, "-")}`;
+       const startAt = localDateTimeInZoneToIso(draft.startAt, draft.timezone.trim());
+       const endAt = localDateTimeInZoneToIso(draft.endAt, draft.timezone.trim());
++      // The API takes minor units, and JPY/KRW have no minor unit: entering
++      // "3000" yen must send 3000, not 300000.
++      const currency = draft.currency.trim().toUpperCase() || "CNY";
++      const toMinor = (major: number) =>
++        ZERO_DECIMAL_CURRENCIES.has(currency)
++          ? Math.round(major)
++          : Math.round(major * 100);
+       const traveler = await v8Request<{ id: string }>("/api/v1/travelers", {
+         method: "POST",
+         body: JSON.stringify({
+@@ -383,10 +396,15 @@ export function V8Experience() {
+           timezone: draft.timezone.trim(),
+           start_at: startAt,
+           end_at: endAt,
+-          budget: { amount_minor: Math.round(draft.budgetMajor * 100), currency: draft.currency },
+-          stay_budget: { amount_minor: Math.round(draft.stayBudgetMajor * 100), currency: draft.currency },
++          budget: { amount_minor: toMinor(draft.budgetMajor), currency },
++          stay_budget: { amount_minor: toMinor(draft.stayBudgetMajor), currency },
+           party_size: draft.partySize,
+-          occupancy: { adults: draft.partySize, rooms: 1 },
++          // One room per two travellers: six friends were being booked into a
++          // single room because this was hard-coded to 1.
++          occupancy: {
++            adults: draft.partySize,
++            rooms: Math.max(1, Math.ceil(draft.partySize / 2)),
++          },
+           arrival_anchor: { at: startAt, location: draft.arrivalLocation.trim() },
+           departure_anchor: { at: endAt, location: draft.departureLocation.trim() },
+         }),
+diff --git a/frontend/src/features/agent/AgentComposer.tsx b/frontend/src/features/agent/AgentComposer.tsx
+index c0d0678..880eb40 100644
+--- a/frontend/src/features/agent/AgentComposer.tsx
++++ b/frontend/src/features/agent/AgentComposer.tsx
+@@ -1,9 +1,125 @@
+-import { useState } from "react";
++import { useMemo, useState } from "react";
+ import type { V8Data } from "../../app/v8Types";
+-import { useT } from "../../i18n/LocaleContext";
++import { useLocale, useT } from "../../i18n/LocaleContext";
+ 
+-export function AgentComposer({ data, onSubmit, busy }: { data: V8Data; onSubmit: (command: string) => Promise<void>; busy: boolean }) {
++/** Currencies whose smallest unit is the unit itself — never divide by 100. */
++const ZERO_DECIMAL = new Set(["JPY", "KRW", "VND", "IDR", "CLP"]);
++
++function formatMoney(minor: number, currency: string, locale: string) {
++  const value = ZERO_DECIMAL.has(currency.toUpperCase()) ? minor : minor / 100;
++  try {
++    return new Intl.NumberFormat(locale, {
++      style: "currency",
++      currency,
++      maximumFractionDigits: ZERO_DECIMAL.has(currency.toUpperCase()) ? 0 : 2,
++    }).format(value);
++  } catch {
++    return `${value} ${currency}`;
++  }
++}
++
++function nightsBetween(startAt: string, endAt: string) {
++  const start = new Date(startAt);
++  const end = new Date(endAt);
++  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return 0;
++  const day = 24 * 60 * 60 * 1000;
++  const startDate = Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate());
++  const endDate = Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate());
++  return Math.max(0, Math.round((endDate - startDate) / day));
++}
++
++export function AgentComposer({
++  data,
++  onSubmit,
++  busy,
++}: {
++  data: V8Data;
++  onSubmit: (command: string) => Promise<void>;
++  busy: boolean;
++}) {
+   const t = useT();
+-  const [command, setCommand] = useState(t("agent.defaultMission"));
+-  return <section className="v8-page" data-testid="v8-agent-composer"><div className="v8-page-intro compact"><div><p className="v8-kicker">{t("agent.kicker")}</p><h1>{t("agent.title")}</h1><p className="v8-lede">{t("agent.lede")}</p></div><span className="v8-status-pill violet">{data.traveler_twin?.learned_soft_dimensions?.length ? t("agent.twinActive") : t("agent.twinReady")}</span></div><div className="v8-agent-composer-card"><div className="v8-agent-copy"><span className="v8-agent-mark">{t("agent.brand")}</span><h2>{t("agent.whatChange")}</h2><p>{t("agent.whatChangeSub")}</p><div className="v8-agent-boundary"><b>{t("agent.authorityBoundary")}</b><span>{t("agent.boundarySub")}</span></div></div><div className="v8-agent-input"><label htmlFor="v8-agent-input">{t("agent.mission")}</label><textarea id="v8-agent-input" value={command} onChange={(event) => setCommand(event.target.value)} data-testid="v8-agent-input" /><div className="v8-agent-toolbar"><span>{t("agent.journeyPrefix")} {data.journey.title}</span><button className="v8-primary" data-testid="v8-agent-submit" disabled={busy || command.trim().length < 8} onClick={() => void onSubmit(command)}>{busy ? t("agent.working") : t("agent.handlePlan")}</button></div></div></div><div className="v8-agent-progress"><span className="v8-kicker">{t("agent.recentUnderstanding")}</span><div><b>{t("agent.stayMobility")}</b><span>{t("agent.staySummary")}</span></div><div><b>{t("agent.protected")}</b><span>{t("agent.protectedSummary")}</span></div></div></section>;
++  const { locale } = useLocale();
++  // V16: this used to be pre-filled with a canned demo mission ("Keep the hotel
++  // under 700…"). A real traveller opening the desk saw a stranger's request
++  // already typed, and pressing the button submitted it. An empty box with an
++  // example placeholder is the honest default.
++  const [command, setCommand] = useState("");
++
++  // The summary panel used to hard-code "Hotel total ≤ CNY 700 · low walking"
++  // on every journey, including GBP and JPY ones. Derive it from the journey.
++  const summary = useMemo(() => {
++    const stay = data.trip?.stay_budget;
++    const amount = stay
++      ? formatMoney(stay.amount_minor, stay.currency ?? "CNY", locale)
++      : "—";
++    return t("agent.staySummary", {
++      amount,
++      nights: nightsBetween(data.journey.start_at, data.journey.end_at),
++      city: data.journey.city_code,
++    });
++  }, [data.journey.city_code, data.journey.end_at, data.journey.start_at, data.trip?.stay_budget, locale, t]);
++
++  const canSubmit = !busy && command.trim().length > 0;
++
++  return (
++    <section className="v8-page" data-testid="v8-agent-composer">
++      <div className="v8-page-intro compact">
++        <div>
++          <p className="v8-kicker">{t("agent.kicker")}</p>
++          <h1>{t("agent.title")}</h1>
++          <p className="v8-lede">{t("agent.lede")}</p>
++        </div>
++        <span className="v8-status-pill violet">
++          {data.traveler_twin?.learned_soft_dimensions?.length
++            ? t("agent.twinActive")
++            : t("agent.twinReady")}
++        </span>
++      </div>
++      <div className="v8-agent-composer-card">
++        <div className="v8-agent-copy">
++          <span className="v8-agent-mark">{t("agent.brand")}</span>
++          <h2>{t("agent.whatChange")}</h2>
++          <p>{t("agent.whatChangeSub")}</p>
++          <div className="v8-agent-boundary">
++            <b>{t("agent.authorityBoundary")}</b>
++            <span>{t("agent.boundarySub")}</span>
++          </div>
++        </div>
++        <div className="v8-agent-input">
++          <label htmlFor="v8-agent-input">{t("agent.mission")}</label>
++          <textarea
++            id="v8-agent-input"
++            value={command}
++            onChange={(event) => setCommand(event.target.value)}
++            placeholder={t("agent.placeholder")}
++            data-testid="v8-agent-input"
++          />
++          <div className="v8-agent-toolbar">
++            <span>
++              {t("agent.journeyPrefix")} {data.journey.title}
++            </span>
++            <button
++              className="v8-primary"
++              data-testid="v8-agent-submit"
++              disabled={!canSubmit}
++              onClick={() => void onSubmit(command)}
++            >
++              {busy ? t("agent.working") : t("agent.handlePlan")}
++            </button>
++          </div>
++        </div>
++      </div>
++      <div className="v8-agent-progress">
++        <span className="v8-kicker">{t("agent.recentUnderstanding")}</span>
++        <div>
++          <b>{t("agent.stayMobility")}</b>
++          <span>{summary}</span>
++        </div>
++        <div>
++          <b>{t("agent.protected")}</b>
++          <span>{t("agent.protectedSummary")}</span>
++        </div>
++      </div>
++    </section>
++  );
+ }
+diff --git a/frontend/src/features/setup/JourneyTrialSetup.tsx b/frontend/src/features/setup/JourneyTrialSetup.tsx
+index 11468c5..6f9c004 100644
+--- a/frontend/src/features/setup/JourneyTrialSetup.tsx
++++ b/frontend/src/features/setup/JourneyTrialSetup.tsx
+@@ -150,11 +150,11 @@ export function JourneyTrialSetup({
+           <label>{t("trial.arrival")}<input data-testid="trial-arrival" value={draft.arrivalLocation} onChange={(event) => update("arrivalLocation", event.target.value)} placeholder={locale === "zh-CN" ? "例如：福州站" : "e.g. Fuzhou Railway Station"} /></label>
+           <label>{t("trial.departure")}<input data-testid="trial-departure" value={draft.departureLocation} onChange={(event) => update("departureLocation", event.target.value)} placeholder={locale === "zh-CN" ? "例如：福州站" : "e.g. Fuzhou Railway Station"} /></label>
+           <div className="v8-trial-row three">
+-            <label>{t("trial.budget")}<input type="number" min="0" value={draft.budgetMajor} onChange={(event) => update("budgetMajor", Number(event.target.value))} /></label>
+-            <label>{t("trial.currency")}<input value={draft.currency} onChange={(event) => update("currency", event.target.value.toUpperCase().slice(0, 3))} /></label>
+-            <label>{t("trial.party")}<input type="number" min="1" max="20" value={draft.partySize} onChange={(event) => update("partySize", Number(event.target.value))} /></label>
++            <label>{t("trial.budget")}<input data-testid="trial-budget" type="number" min="0" value={draft.budgetMajor} onChange={(event) => update("budgetMajor", Number(event.target.value))} /></label>
++            <label>{t("trial.currency")}<input data-testid="trial-currency" value={draft.currency} onChange={(event) => update("currency", event.target.value.toUpperCase().slice(0, 3))} /></label>
++            <label>{t("trial.party")}<input data-testid="trial-party" type="number" min="1" max="20" value={draft.partySize} onChange={(event) => update("partySize", Number(event.target.value))} /></label>
+           </div>
+-          <label>{t("trial.stayBudget")}<input type="number" min="0" value={draft.stayBudgetMajor} onChange={(event) => update("stayBudgetMajor", Number(event.target.value))} /></label>
++          <label>{t("trial.stayBudget")}<input data-testid="trial-stay-budget" type="number" min="0" value={draft.stayBudgetMajor} onChange={(event) => update("stayBudgetMajor", Number(event.target.value))} /></label>
+           <div className="v8-trial-actions">
+             {onCancel && <button type="button" className="v8-quiet-button" onClick={onCancel}>{t("trial.cancel")}</button>}
+             <button className="v8-primary" data-testid="trial-create" disabled={!valid || busy} type="submit">
+diff --git a/frontend/src/i18n/LocaleContext.tsx b/frontend/src/i18n/LocaleContext.tsx
+index dece3d1..8df6a83 100644
+--- a/frontend/src/i18n/LocaleContext.tsx
++++ b/frontend/src/i18n/LocaleContext.tsx
+@@ -246,10 +246,11 @@ const en: Dict = {
+   "agent.handlePlan": "Handle this plan",
+   "agent.recentUnderstanding": "Recent understanding",
+   "agent.stayMobility": "Stay + mobility intent",
+-  "agent.staySummary": "Hotel total ≤ CNY 700 · low walking · rain → transit or taxi",
++  "agent.staySummary": "Stay budget {amount} · {nights} nights · {city}",
+   "agent.protected": "Protected",
+   "agent.protectedSummary": "Arrival / departure anchors · no payment initiated",
+-  "agent.defaultMission": "Keep the hotel under 700 for two nights and avoid long walks. If it rains, use transit or a taxi. Handle the plan for me.",
++  "agent.defaultMission": "",
++  "agent.placeholder": "e.g. We sleep in — nothing before 11am, and brunch instead of breakfast.",
+ 
+   // ── Discovery ──
+   "discovery.kicker": "V13.5 · fully grounded Journey",
+@@ -793,10 +794,11 @@ const zhCN: Dict = {
+   "agent.handlePlan": "处理此方案",
+   "agent.recentUnderstanding": "近期理解",
+   "agent.stayMobility": "住宿 + 出行意图",
+-  "agent.staySummary": "酒店总计 ≤ ¥700 · 少步行 · 下雨 → 公交或出租车",
++  "agent.staySummary": "住宿预算 {amount} · {nights} 晚 · {city}",
+   "agent.protected": "受保护",
+   "agent.protectedSummary": "到达 / 出发锚点 · 未发起支付",
+-  "agent.defaultMission": "两晚酒店控制在 700 以内，避免长距离步行。下雨就坐公交或打车。帮我处理方案。",
++  "agent.defaultMission": "",
++  "agent.placeholder": "例如：我们睡到中午才起，早上别排行程，早餐改成早午餐。",
+ 
+   // ── Discovery ──
+   "discovery.kicker": "V13.5 · 完全落地的行程",

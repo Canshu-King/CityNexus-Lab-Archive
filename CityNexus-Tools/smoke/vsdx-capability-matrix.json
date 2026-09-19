@@ -1,0 +1,15 @@
+{
+  "reader": "vsdx 0.6.1",
+  "target": "D:\\moodle\\CityNexus-Tools\\smoke\\visioautomation-capability-smoke.vsdx",
+  "page_count": 1,
+  "shape_count": 3,
+  "shape_text": true,
+  "child_shape_traversal": true,
+  "connector_count": 2,
+  "connector_api": "PASS",
+  "connector_source_target": "UNSUPPORTED",
+  "master_information": "UNSUPPORTED",
+  "user_cell_support": "UNSUPPORTED",
+  "custom_property_support": "UNSUPPORTED",
+  "glue_attempt": "Connect-VisioShape executed"
+}

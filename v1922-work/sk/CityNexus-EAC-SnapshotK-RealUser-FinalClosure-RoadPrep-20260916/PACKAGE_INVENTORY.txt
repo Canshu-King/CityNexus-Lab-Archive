@@ -1,0 +1,8 @@
+COPY_PASTE_TO_EAC.txt
+README_FIRST.md
+docs/EAC_FINAL_TASK.md
+docs/INDEPENDENT_AUDIT.md
+docs/REAL_USER_PRODUCT_GATE.md
+docs/STAY_TIMELINE_TRUTH.md
+docs/WORKBUDDY_TARGETED_DELTA.md
+probes/snapshot_k_stay_timeline_probe.py

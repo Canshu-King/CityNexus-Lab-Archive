@@ -1,0 +1,2522 @@
+{
+  "eac_package": "D:\\moodle\\CityNexus-Tools\\DSH-EAC-V19.1-AutonomousProductLab-20260915",
+  "eac_osm_loaded": true,
+  "eac_capabilities_loaded": true,
+  "snapshot_b_capabilities_loaded": true,
+  "snapshot_a_capabilities_loaded": true,
+  "eac_has_split_clauses": true,
+  "b_has_split_clauses": false,
+  "eac_negated_markers": [
+    "没有",
+    "不需要",
+    "不用",
+    "无需",
+    "不是",
+    "以前",
+    "曾经",
+    "过去",
+    "历史",
+    "not wheelchair",
+    "no wheelchair need",
+    "used to",
+    "historically"
+  ],
+  "b_negated_markers": [
+    "没有",
+    "不需要",
+    "不用",
+    "无需",
+    "不是",
+    "以前",
+    "曾经",
+    "过去",
+    "历史",
+    "not wheelchair",
+    "no wheelchair need",
+    "used to",
+    "historically"
+  ],
+  "tag_matrix": [
+    {
+      "case_id": "toilet_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "ACCESSIBLE_TOILET",
+          "subject": "TOILET",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_VERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_VERIFIED",
+      "step_free_satisfied": true,
+      "subjects": [
+        "TOILET"
+      ],
+      "codes": [
+        "ACCESSIBLE_TOILET"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [
+        {
+          "code": "ACCESSIBLE_TOILET",
+          "subject": "TOILET"
+        }
+      ],
+      "leak": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "toilet_no",
+      "expectation": "conflict",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "ACCESSIBLE_TOILET",
+          "subject": "TOILET",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "TOILET"
+      ],
+      "codes": [
+        "ACCESSIBLE_TOILET"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "RAMP_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "RAMP_PRESENT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_wheelchair_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "RAMP_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "RAMP_PRESENT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "ELEVATOR_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "ELEVATOR_PRESENT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "highway_elevator_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "ELEVATOR_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "ELEVATOR_PRESENT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5",
+      "expectation": "conflict",
+      "fact_count": 3,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "STEP_COUNT",
+          "subject": "ROUTE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "CONFLICTING_TAGS",
+          "subject": "PLACE",
+          "confidence_type": "tag_conflict"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE",
+        "ROUTE"
+      ],
+      "codes": [
+        "CONFLICTING_TAGS",
+        "STEP_COUNT",
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes",
+      "expectation": "conflict",
+      "fact_count": 3,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "STAIRS",
+          "subject": "ROUTE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "CONFLICTING_TAGS",
+          "subject": "PLACE",
+          "confidence_type": "tag_conflict"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE",
+        "ROUTE"
+      ],
+      "codes": [
+        "CONFLICTING_TAGS",
+        "STAIRS",
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps",
+      "expectation": "conflict",
+      "fact_count": 3,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "STAIRS",
+          "subject": "ROUTE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "CONFLICTING_TAGS",
+          "subject": "PLACE",
+          "confidence_type": "tag_conflict"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE",
+        "ROUTE"
+      ],
+      "codes": [
+        "CONFLICTING_TAGS",
+        "STAIRS",
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_only",
+      "expectation": "step_free_ok",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_VERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_VERIFIED",
+      "step_free_satisfied": true,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_designated_only",
+      "expectation": "step_free_ok",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_VERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_VERIFIED",
+      "step_free_satisfied": true,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_no_only",
+      "expectation": "conflict",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_limited",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_limited"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_wheelchair_only",
+      "expectation": "not_step_free_or_verified",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "ENTRANCE_STEP_FREE",
+          "subject": "ENTRANCE",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_VERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_VERIFIED",
+      "step_free_satisfied": true,
+      "subjects": [
+        "ENTRANCE"
+      ],
+      "codes": [
+        "ENTRANCE_STEP_FREE"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [
+        {
+          "code": "ENTRANCE_STEP_FREE",
+          "subject": "ENTRANCE"
+        }
+      ],
+      "leak": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "kerb_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "KERB_EVIDENCE",
+          "subject": "KERB",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "KERB"
+      ],
+      "codes": [
+        "KERB_EVIDENCE"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tactile_only",
+      "expectation": "not_step_free",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "TACTILE_PAVING",
+          "subject": "ROUTE",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "ROUTE"
+      ],
+      "codes": [
+        "TACTILE_PAVING"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "empty_tags",
+      "expectation": "unknown",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "NEEDS_LIVE_EVIDENCE",
+          "code": "ACCESSIBILITY_DATA",
+          "subject": "PLACE",
+          "confidence_type": "tag_absent"
+        }
+      ],
+      "overall_state": "NEEDS_LIVE_EVIDENCE",
+      "gate_state_for_step_free": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "ACCESSIBILITY_DATA"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp",
+      "expectation": "not_step_free",
+      "fact_count": 2,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "ACCESSIBLE_TOILET",
+          "subject": "TOILET",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "RAMP_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "TOILET",
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "ACCESSIBLE_TOILET",
+        "RAMP_PRESENT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no",
+      "expectation": "conflict",
+      "fact_count": 2,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "ACCESSIBLE_TOILET",
+          "subject": "TOILET",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE",
+        "TOILET"
+      ],
+      "codes": [
+        "ACCESSIBLE_TOILET",
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp_plus_wheelchair_yes",
+      "expectation": "step_free_ok",
+      "fact_count": 3,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "WHEELCHAIR_ACCESS",
+          "subject": "PLACE",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_VERIFIED",
+          "code": "ACCESSIBLE_TOILET",
+          "subject": "TOILET",
+          "confidence_type": "tag_explicit"
+        },
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "RAMP_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE",
+        "TOILET",
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "ACCESSIBLE_TOILET",
+        "RAMP_PRESENT",
+        "WHEELCHAIR_ACCESS"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "list_value_wheelchair",
+      "expectation": "no_silent_drop",
+      "fact_count": 0,
+      "facts": [],
+      "overall_state": "NEEDS_LIVE_EVIDENCE",
+      "gate_state_for_step_free": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied": false,
+      "subjects": [],
+      "codes": [],
+      "silently_dropped": true,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "tuple_value_ramp",
+      "expectation": "no_silent_drop",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_UNVERIFIED",
+          "code": "RAMP_PRESENT",
+          "subject": "VERTICAL_ACCESS",
+          "confidence_type": "tag_partial"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_state_for_step_free": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_satisfied": false,
+      "subjects": [
+        "VERTICAL_ACCESS"
+      ],
+      "codes": [
+        "RAMP_PRESENT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "list_value_step_count",
+      "expectation": "no_silent_drop",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "ACCESSIBILITY_CONFLICT",
+          "code": "STEP_COUNT",
+          "subject": "ROUTE",
+          "confidence_type": "tag_explicit"
+        }
+      ],
+      "overall_state": "ACCESSIBILITY_CONFLICT",
+      "gate_state_for_step_free": "ACCESSIBILITY_CONFLICT",
+      "step_free_satisfied": false,
+      "subjects": [
+        "ROUTE"
+      ],
+      "codes": [
+        "STEP_COUNT"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "list_value_toilets",
+      "expectation": "no_silent_drop",
+      "fact_count": 0,
+      "facts": [],
+      "overall_state": "NEEDS_LIVE_EVIDENCE",
+      "gate_state_for_step_free": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied": false,
+      "subjects": [],
+      "codes": [],
+      "silently_dropped": true,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "sequence_of_kv_strings",
+      "expectation": "no_silent_drop",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "NEEDS_LIVE_EVIDENCE",
+          "code": "ACCESSIBILITY_DATA",
+          "subject": "PLACE",
+          "confidence_type": "tag_absent"
+        }
+      ],
+      "overall_state": "NEEDS_LIVE_EVIDENCE",
+      "gate_state_for_step_free": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "ACCESSIBILITY_DATA"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tags_nested_under_key",
+      "expectation": "no_silent_drop",
+      "fact_count": 1,
+      "facts": [
+        {
+          "state": "NEEDS_LIVE_EVIDENCE",
+          "code": "ACCESSIBILITY_DATA",
+          "subject": "PLACE",
+          "confidence_type": "tag_absent"
+        }
+      ],
+      "overall_state": "NEEDS_LIVE_EVIDENCE",
+      "gate_state_for_step_free": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied": false,
+      "subjects": [
+        "PLACE"
+      ],
+      "codes": [
+        "ACCESSIBILITY_DATA"
+      ],
+      "silently_dropped": false,
+      "verified_by_non_step_free_fact": [],
+      "leak": false,
+      "verdict": "PASS"
+    }
+  ],
+  "tag_matrix_summary": {
+    "total": 26,
+    "pass": 21,
+    "fail": 5,
+    "error": 0,
+    "leaks": [
+      "toilet_only",
+      "entrance_wheelchair_only"
+    ],
+    "silently_dropped": [
+      "list_value_wheelchair",
+      "list_value_toilets"
+    ],
+    "failing": [
+      "toilet_only",
+      "entrance_wheelchair_only",
+      "toilet_plus_ramp_plus_wheelchair_yes",
+      "list_value_wheelchair",
+      "list_value_toilets"
+    ]
+  },
+  "sentences": [
+    {
+      "case_id": "mandated_false_hard_en",
+      "text": "I don't need a wheelchair, I can walk",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_c_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "eac_false_hard": true,
+      "b_false_hard": true,
+      "c_false_hard": false,
+      "eac_b_differ": false,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "mandated_false_hard_zh",
+      "text": "朋友说我可能需要轮椅，但我不这么认为",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_c_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "eac_false_hard": true,
+      "b_false_hard": true,
+      "c_false_hard": false,
+      "eac_b_differ": false,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "clause_negation_no_exception",
+      "text": "轮椅必须全程无障碍，没有例外",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": false,
+      "c_false_hard": true,
+      "eac_b_differ": true,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "history_then_now",
+      "text": "我以前不用轮椅，但现在必须无障碍",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": false,
+      "c_false_hard": true,
+      "eac_b_differ": true,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "allergy_then_wheelchair",
+      "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": false,
+      "c_false_hard": true,
+      "eac_b_differ": true,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "past_wheelchair_now",
+      "text": "过去我坐轮椅，现在必须全程无障碍",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": false,
+      "c_false_hard": true,
+      "eac_b_differ": true,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "not_metro_taxi_luggage",
+      "text": "不是地铁，我需要出租车因为行李很多",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "LARGE_LUGGAGE",
+            "class": "TRIP_CONTEXT",
+            "severity": "STRONG",
+            "params": {
+              "present": true
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "LARGE_LUGGAGE"
+        ],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "LARGE_LUGGAGE",
+            "class": "TRIP_CONTEXT",
+            "severity": "STRONG",
+            "params": {
+              "present": true
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "LARGE_LUGGAGE"
+        ]
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "LARGE_LUGGAGE",
+            "class": "TRIP_CONTEXT",
+            "severity": "STRONG",
+            "params": {
+              "present": true
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "LARGE_LUGGAGE"
+        ],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "LARGE_LUGGAGE",
+            "class": "TRIP_CONTEXT",
+            "severity": "STRONG",
+            "params": {
+              "present": true
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "LARGE_LUGGAGE"
+        ]
+      },
+      "eac_false_hard": false,
+      "b_false_hard": false,
+      "c_false_hard": false,
+      "eac_b_differ": true,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "no_helper_but_wheelchair",
+      "text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": false,
+      "c_false_hard": true,
+      "eac_b_differ": true,
+      "b_c_differ": true
+    },
+    {
+      "case_id": "control_step_free",
+      "text": "我必须全程无障碍",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": true,
+      "c_false_hard": true,
+      "eac_b_differ": false,
+      "b_c_differ": false
+    },
+    {
+      "case_id": "control_wheelchair",
+      "text": "我需要轮椅，必须全程无障碍",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_false_hard": true,
+      "b_false_hard": true,
+      "c_false_hard": true,
+      "eac_b_differ": false,
+      "b_c_differ": false
+    },
+    {
+      "case_id": "denial_control",
+      "text": "我不需要轮椅",
+      "eac": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "eac_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_b": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_b_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_a": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_a_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "snapshot_c": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_c_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "eac_false_hard": false,
+      "b_false_hard": false,
+      "c_false_hard": false,
+      "eac_b_differ": false,
+      "b_c_differ": false
+    },
+    {
+      "case_id": "hearsay_control",
+      "text": "朋友说我可能需要轮椅",
+      "eac": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "eac_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_b_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true,
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_a_canonical": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ]
+      },
+      "snapshot_c": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "has_hard_accessibility": false,
+        "hard_codes": []
+      },
+      "snapshot_c_canonical": {
+        "count": 0,
+        "codes": []
+      },
+      "eac_false_hard": true,
+      "b_false_hard": true,
+      "c_false_hard": false,
+      "eac_b_differ": false,
+      "b_c_differ": true
+    }
+  ],
+  "mandated_false_hard": {
+    "mandated_false_hard_en": {
+      "eac": true,
+      "snapshot_b": true,
+      "snapshot_c": false
+    },
+    "mandated_false_hard_zh": {
+      "eac": true,
+      "snapshot_b": true,
+      "snapshot_c": false
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "plan": "PLAN_QUOTA_SAVER_DUAL_ROTATED_20260908",
+  "associationWitnessCount": 15,
+  "frozenExtendCount": 3,
+  "checkedRouteCount": 18,
+  "routeFailures": {},
+  "crossRouteContacts": []
+}

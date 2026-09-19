@@ -1,0 +1,85 @@
+{
+ "run": "longtrip",
+ "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+ "viewport": "430x932",
+ "trace": [
+  {
+   "ts": "2026-09-17T03:20:06.724Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "create-journey",
+   "status": "201",
+   "result": "92befafc-8381-45e9-9368-b67b64b63975"
+  },
+  {
+   "ts": "2026-09-17T03:20:48.513Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "ai-plan",
+   "status": "plans-ready(3)",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:20:54.638Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "choose-plan",
+   "status": "selected",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:20:57.741Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "itinerary",
+   "status": "4 stops",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T03:21:09.393Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "choose-hotel",
+   "status": "selected",
+   "result": "10 hotels "
+  },
+  {
+   "ts": "2026-09-17T03:21:16.056Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "copilot",
+   "status": "answered",
+   "result": "CityNexus 当前使用 PlanVersion 4 (ACTIVE)，服务器已核验 0 个受保护承诺。解释基于已选方案事实，不会修改行程。 解释当前安排 查看安排理由"
+  },
+  {
+   "ts": "2026-09-17T03:21:16.212Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "disruption+replan",
+   "status": "201 preserved=true -1/+1",
+   "result": "target=鼓浪屿风琴博物馆(临时展馆)"
+  },
+  {
+   "ts": "2026-09-17T03:21:24.334Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "accept-replan",
+   "status": "accepted",
+   "result": "已按新安排更新你的行程。 disruption=1 proposal=3"
+  },
+  {
+   "ts": "2026-09-17T03:21:24.395Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "final-truth",
+   "status": "18 activities",
+   "result": "locked=10"
+  },
+  {
+   "ts": "2026-09-17T03:21:34.587Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "hard-refresh",
+   "status": "stable",
+   "result": "before=1 after=1"
+  },
+  {
+   "ts": "2026-09-17T03:21:45.258Z",
+   "journey_id": "92befafc-8381-45e9-9368-b67b64b63975",
+   "action": "back-forward",
+   "status": "ok",
+   "result": "trips=1 back=1 fwd=1"
+  }
+ ],
+ "errors": []
+}

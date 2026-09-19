@@ -1,0 +1,396 @@
+{
+  "id": "8a115275-720e-44ec-8896-a4bfd3dd1c3a",
+  "journey_id": "841a1c79-249d-4844-95ed-647279acd603",
+  "trigger_event_id": "658a0e16-7a0b-4b13-be9b-b9dc6eb631a7",
+  "base_plan_version_id": "f19d1146-712d-4020-b634-5bf3bc61f6f0",
+  "proposed_plan_version_id": "afce0ec8-f1d9-40aa-9985-affc072fd7e9",
+  "status": "PRESENTED",
+  "hard_constraints_passed": true,
+  "locked_commitments_preserved": true,
+  "utility_score": 0.787867,
+  "score_breakdown": {
+    "budget_fit": 0.973333,
+    "commitment_preservation": 1,
+    "mobility_fit": 1,
+    "opportunity_value": 0.5,
+    "preference_fit": 0,
+    "robustness": 1,
+    "stability": 0.666667,
+    "time_reliability": 1,
+    "total": 0.787867
+  },
+  "diff": {
+    "candidate_family": "F1_OPTIONAL_REMOVAL",
+    "kept": [
+      "place-gulangyu-pier",
+      "place-longtou-food"
+    ],
+    "moved": [],
+    "removed": [
+      "place-gulangyu-organ"
+    ],
+    "added": [],
+    "cost_delta_minor": -4000,
+    "travel_delta_min": -20,
+    "end_time_delta_min": 0,
+    "preserved_protected": [],
+    "before_feasibility_envelope": {
+      "next_commitment_buffer_min": null,
+      "journey_end_slack_min": 2196,
+      "budget_remaining_minor": 288000,
+      "preserved_commitment_count": 0,
+      "degraded_providers": [],
+      "risk_reason_codes": [],
+      "robust": true
+    },
+    "after_feasibility_envelope": {
+      "next_commitment_buffer_min": null,
+      "journey_end_slack_min": 2196,
+      "budget_remaining_minor": 292000,
+      "preserved_commitment_count": 0,
+      "degraded_providers": [],
+      "risk_reason_codes": [],
+      "robust": true
+    },
+    "opportunity_window_evidence": null,
+    "verified_evidence": {
+      "family": "F1_OPTIONAL_REMOVAL",
+      "baseline_plan_evidence": {
+        "plan_version_id": "f19d1146-712d-4020-b634-5bf3bc61f6f0",
+        "snapshot_id": null,
+        "captured_at": null,
+        "source_provider": null,
+        "runtime_label": null,
+        "immutable": true
+      },
+      "incident_recovery_evidence": {
+        "evidence_id": "incident:658a0e16-7a0b-4b13-be9b-b9dc6eb631a7:cc4f4007-9859-409f-9134-9baefc350e3a",
+        "event_id": "658a0e16-7a0b-4b13-be9b-b9dc6eb631a7",
+        "event_type": "CLOSURE",
+        "event_occurred_at": "2026-09-17T16:11:33.635151+00:00",
+        "captured_at": "2026-09-18T00:11:33.635151+08:00",
+        "route_provenance": "RUNTIME_CAPTURE",
+        "source_provider": "mock-mobility",
+        "degraded": false,
+        "baseline_snapshot_id": null,
+        "mobility_reused_from_baseline": false,
+        "routing_conditions_assumption": "CAPTURED_AT_INCIDENT",
+        "mobility_snapshot": {
+          "snapshot_id": "cc4f4007-9859-409f-9134-9baefc350e3a",
+          "operation_key": "replan:658a0e16-7a0b-4b13-be9b-b9dc6eb631a7:incident",
+          "captured_at": "2026-09-18T00:11:33.635151+08:00",
+          "source_provider": "mock-mobility",
+          "degraded": false,
+          "provider_capabilities": {},
+          "facts": [
+            {
+              "origin_key": "place-gulangyu-organ",
+              "destination_key": "place-longtou-food",
+              "minutes": 20,
+              "provider": "mock-mobility",
+              "captured_at": "2026-09-18T00:11:33.635151+08:00",
+              "degraded": false,
+              "fallback_reason": null,
+              "route_geometry": [
+                [
+                  118.0652,
+                  24.4435
+                ],
+                [
+                  118.0646,
+                  24.444000000000003
+                ],
+                [
+                  118.064,
+                  24.4445
+                ]
+              ],
+              "geometry_provider": "mock-mobility",
+              "route_provenance": "SYNTHETIC_FIXTURE",
+              "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+              "time_basis": "PROVIDER_CAPTURED_AT",
+              "distance_m": null,
+              "walking_distance_m": null,
+              "walking_min": null,
+              "mode": null
+            },
+            {
+              "origin_key": "place-gulangyu-pier",
+              "destination_key": "place-gulangyu-organ",
+              "minutes": 20,
+              "provider": "mock-mobility",
+              "captured_at": "2026-09-18T00:11:33.635151+08:00",
+              "degraded": false,
+              "fallback_reason": null,
+              "route_geometry": [
+                [
+                  118.067,
+                  24.443
+                ],
+                [
+                  118.0661,
+                  24.44325
+                ],
+                [
+                  118.0652,
+                  24.4435
+                ]
+              ],
+              "geometry_provider": "mock-mobility",
+              "route_provenance": "SYNTHETIC_FIXTURE",
+              "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+              "time_basis": "PROVIDER_CAPTURED_AT",
+              "distance_m": null,
+              "walking_distance_m": null,
+              "walking_min": null,
+              "mode": null
+            },
+            {
+              "origin_key": "place-gulangyu-pier",
+              "destination_key": "place-longtou-food",
+              "minutes": 20,
+              "provider": "mock-mobility",
+              "captured_at": "2026-09-18T00:11:33.635151+08:00",
+              "degraded": false,
+              "fallback_reason": null,
+              "route_geometry": [
+                [
+                  118.067,
+                  24.443
+                ],
+                [
+                  118.06549999999999,
+                  24.44375
+                ],
+                [
+                  118.064,
+                  24.4445
+                ]
+              ],
+              "geometry_provider": "mock-mobility",
+              "route_provenance": "SYNTHETIC_FIXTURE",
+              "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+              "time_basis": "PROVIDER_CAPTURED_AT",
+              "distance_m": null,
+              "walking_distance_m": null,
+              "walking_min": null,
+              "mode": null
+            }
+          ]
+        },
+        "weather": null,
+        "provider_capabilities": {},
+        "provider_observation_id": "0e010321-1e55-444f-80d3-070fe72dd5de"
+      },
+      "impact_resolution": {
+        "status": "VALIDATED",
+        "maturity_stage": "VALIDATED_IMPACT",
+        "provider_key": "deterministic",
+        "model_key": "server-rules",
+        "selected_activity_id": "f19d1146-a2",
+        "primary_recovery_target_id": "f19d1146-a2",
+        "secondary_risk_activity_ids": [],
+        "selected_corroboration_refs": [
+          "event.affected_activity_id",
+          "event.payload.server_name_match"
+        ],
+        "independent_evidence_count": 2,
+        "uncertain": false,
+        "reason_codes": [
+          "DETERMINISTIC_IMPACT_VALIDATION_PASSED",
+          "VALIDATED_IMPACT_EVIDENCE"
+        ],
+        "rejected_activity_ids": [],
+        "failure_code": null,
+        "response_hash": null,
+        "semantic_reason": "Structured event mapping was sufficient.",
+        "semantic_explanation": "The event contains a server-validated Activity reference."
+      },
+      "generation_rank": 0,
+      "generator": {
+        "kind": "DETERMINISTIC_HEURISTIC",
+        "solver_status": "DISABLED",
+        "fallback_reason": "SOLVER_DISABLED",
+        "problem_fingerprint": null,
+        "mobility_snapshot_id": "cc4f4007-9859-409f-9134-9baefc350e3a",
+        "rank": 0
+      },
+      "feasibility_authority": "CITYNEXUS_DETERMINISTIC_GATE",
+      "feasible": true,
+      "hard_constraint_result": {
+        "passed": true,
+        "failures": []
+      },
+      "commitment_preservation": {
+        "preserved": true,
+        "protected_count": 0
+      },
+      "stability": {
+        "score": 0.666667,
+        "moved_count": 0,
+        "removed_count": 1,
+        "added_count": 0
+      },
+      "budget": {
+        "remaining_minor": 292000,
+        "currency": "CNY"
+      },
+      "mobility": {
+        "travel_delta_min": -20,
+        "provider": "mock-mobility",
+        "degraded": false,
+        "snapshot": {
+          "snapshot_id": "cc4f4007-9859-409f-9134-9baefc350e3a",
+          "operation_key": "replan:658a0e16-7a0b-4b13-be9b-b9dc6eb631a7:incident",
+          "captured_at": "2026-09-18T00:11:33.635151+08:00",
+          "source_provider": "mock-mobility",
+          "degraded": false,
+          "provider_capabilities": {},
+          "facts": [
+            {
+              "origin_key": "place-gulangyu-organ",
+              "destination_key": "place-longtou-food",
+              "minutes": 20,
+              "provider": "mock-mobility",
+              "captured_at": "2026-09-18T00:11:33.635151+08:00",
+              "degraded": false,
+              "fallback_reason": null,
+              "route_geometry": [
+                [
+                  118.0652,
+                  24.4435
+                ],
+                [
+                  118.0646,
+                  24.444000000000003
+                ],
+                [
+                  118.064,
+                  24.4445
+                ]
+              ],
+              "geometry_provider": "mock-mobility",
+              "route_provenance": "SYNTHETIC_FIXTURE",
+              "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+              "time_basis": "PROVIDER_CAPTURED_AT",
+              "distance_m": null,
+              "walking_distance_m": null,
+              "walking_min": null,
+              "mode": null
+            },
+            {
+              "origin_key": "place-gulangyu-pier",
+              "destination_key": "place-gulangyu-organ",
+              "minutes": 20,
+              "provider": "mock-mobility",
+              "captured_at": "2026-09-18T00:11:33.635151+08:00",
+              "degraded": false,
+              "fallback_reason": null,
+              "route_geometry": [
+                [
+                  118.067,
+                  24.443
+                ],
+                [
+                  118.0661,
+                  24.44325
+                ],
+                [
+                  118.0652,
+                  24.4435
+                ]
+              ],
+              "geometry_provider": "mock-mobility",
+              "route_provenance": "SYNTHETIC_FIXTURE",
+              "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+              "time_basis": "PROVIDER_CAPTURED_AT",
+              "distance_m": null,
+              "walking_distance_m": null,
+              "walking_min": null,
+              "mode": null
+            },
+            {
+              "origin_key": "place-gulangyu-pier",
+              "destination_key": "place-longtou-food",
+              "minutes": 20,
+              "provider": "mock-mobility",
+              "captured_at": "2026-09-18T00:11:33.635151+08:00",
+              "degraded": false,
+              "fallback_reason": null,
+              "route_geometry": [
+                [
+                  118.067,
+                  24.443
+                ],
+                [
+                  118.06549999999999,
+                  24.44375
+                ],
+                [
+                  118.064,
+                  24.4445
+                ]
+              ],
+              "geometry_provider": "mock-mobility",
+              "route_provenance": "SYNTHETIC_FIXTURE",
+              "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+              "time_basis": "PROVIDER_CAPTURED_AT",
+              "distance_m": null,
+              "walking_distance_m": null,
+              "walking_min": null,
+              "mode": null
+            }
+          ]
+        },
+        "failed_primary_pairs": [],
+        "fallback_pairs": []
+      },
+      "time": {
+        "journey_end_slack_min": 2196,
+        "end_time_delta_min": 0
+      },
+      "preference": {
+        "fit": 0
+      },
+      "opportunity": {
+        "value": null,
+        "evidence": null
+      },
+      "reason_codes": [
+        "COMMITMENT_PRESERVED",
+        "DISRUPTED_ACTIVITY_REMOVED",
+        "MINIMAL_DISRUPTION"
+      ]
+    },
+    "reason_codes": [
+      "COMMITMENT_PRESERVED",
+      "DISRUPTED_ACTIVITY_REMOVED",
+      "MINIMAL_DISRUPTION"
+    ],
+    "execution_partition": {
+      "terminal_prefix_ids": [],
+      "current_activity_id": null,
+      "c4_anchor_ids": [],
+      "mutable_suffix_ids": [
+        "f19d1146-a1",
+        "f19d1146-a2",
+        "f19d1146-a3"
+      ]
+    }
+  },
+  "explanation": {
+    "summary": "Reality-aware recovery proposal",
+    "reasons": [
+      "provider-backed recovery evidence",
+      "F1_OPTIONAL_REMOVAL",
+      "Structured event mapping was sufficient."
+    ],
+    "impact_type": "CLOSURE",
+    "impact_provider": "deterministic",
+    "impact_model": "server-rules",
+    "baseline_snapshot_id": null,
+    "incident_snapshot_id": "cc4f4007-9859-409f-9134-9baefc350e3a",
+    "protected_commitments": 0,
+    "source": "DETERMINISTIC_HEURISTIC"
+  }
+}

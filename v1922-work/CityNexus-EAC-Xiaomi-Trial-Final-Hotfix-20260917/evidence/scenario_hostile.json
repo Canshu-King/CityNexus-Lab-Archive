@@ -1,0 +1,78 @@
+{
+ "run": "hostile",
+ "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+ "viewport": "390x844",
+ "trace": [
+  {
+   "ts": "2026-09-17T06:32:24.569Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "double-tap-create",
+   "status": "201",
+   "result": "guardBefore=false guardAfter=true"
+  },
+  {
+   "ts": "2026-09-17T06:32:37.693Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "refresh-during-ai",
+   "status": "recovered",
+   "result": "hub rendered after a mid-plan reload"
+  },
+  {
+   "ts": "2026-09-17T06:34:05.078Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "ai-after-refresh",
+   "status": "plans-ready(3)",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T06:34:13.225Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "double-tap-choose-plan",
+   "status": "selected",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T06:34:24.476Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "double-tap-choose-hotel",
+   "status": "selected",
+   "result": "10 hotels"
+  },
+  {
+   "ts": "2026-09-17T06:34:46.915Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "double-submit-booking",
+   "status": "no-duplicate",
+   "result": "drafts=1 confirmed=1 reservations=1 dupRefs=0"
+  },
+  {
+   "ts": "2026-09-17T06:34:53.263Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "hammer-copilot-dock",
+   "status": "stable",
+   "result": "10 rapid open/close cycles"
+  },
+  {
+   "ts": "2026-09-17T06:35:02.391Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "network-lost",
+   "status": "offline",
+   "result": "菜单 / 行程 EN XI 行程 住宿 预订 花费 住宿 暂时没有可比较的住宿 这个城市还没有拿到可用的住宿数据。换个城市或稍后再试——我们不会编造酒店。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的"
+  },
+  {
+   "ts": "2026-09-17T06:35:08.547Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "network-recovered",
+   "status": "recovered",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-17T06:35:08.613Z",
+   "journey_id": "2f026c29-9063-4d1b-b00d-81e66f5eb2e9",
+   "action": "final-integrity",
+   "status": "clean",
+   "result": "activities=14 locked=6 dupIds=0"
+  }
+ ],
+ "errors": []
+}

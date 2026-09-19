@@ -1,0 +1,37 @@
+{
+  "f9_today": {
+    "chars": 138,
+    "useful": false,
+    "snippet": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+  },
+  "f9_copilot": {
+    "chars": 138,
+    "useful": false,
+    "snippet": "用你自己的城市试用 CITYNEXUS | 新建行程 | 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 | EN | 1 | 目的地与时间 | 2 | 人数与偏好 | 3 | 确认创建 | 目的地 | 抵达厦门 | 离开厦门 | 抵达时间 | 离开时间 | 高级设置 | 下一步 | 使用封存的天津演示 | 高级设置"
+  },
+  "f3_me": {
+    "label": "me_nojourney",
+    "hits": [],
+    "chars": 138
+  },
+  "f3_advisory_visible": false,
+  "f3_cnxiamen_visible": false,
+  "f5": {
+    "label": "bookings",
+    "hits": [],
+    "chars": 138
+  },
+  "f5_json_textarea": false,
+  "f5_advanced_labeled": true,
+  "f1": {
+    "label": "agent_placeq",
+    "hits": [],
+    "chars": 500
+  },
+  "f2_today": {
+    "label": "today_journey",
+    "hits": [],
+    "chars": 53
+  },
+  "pageErrors": []
+}

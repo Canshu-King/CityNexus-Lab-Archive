@@ -1,0 +1,51 @@
+CityNexus V18.1 Black-Box test results
+generated: 2026-09-14T17:30:21.237061+00:00
+TOTAL  PASS=28 FAIL=6 NOT_TESTED=5
+
+## backend_isolated  (source: results_isolated.json)
+   PASS=10 FAIL=5 NOT_TESTED=5
+   [PASS      ] A0    runtime-status reachable + shaped
+   [PASS      ] A1    no ready gateway -> must NOT claim HERMES_NATIVE_MCP
+   [PASS      ] A2    native_mcp_proven is an explicit audit flag
+   [FAIL      ] A3    hermes/capabilities exposes readiness
+   [PASS      ] A4    MCP V2 tool surface == 11 CityNexus tools
+   [PASS      ] E1    DIRECT stays DIRECT: 为什么这样安排？
+   [PASS      ] E2    DIRECT stays DIRECT: 如果博物馆多待一小时会怎样？
+   [PASS      ] E3    DIRECT stays DIRECT: Why is the plan arranged t
+   [PASS      ] E4    DIRECT stays DIRECT: What if we stayed one more
+   [PASS      ] E5    native unavailable -> explicit fallback (no fake Hermes)
+   [FAIL      ] D1    stop proxy fails cleanly for unknown run
+   [PASS      ] D2    stop response carries no credential material
+   [FAIL      ] X1    GET run-status -> clean 502 when unconfigured
+   [FAIL      ] X2    POST stop -> clean 502 when unconfigured
+   [FAIL      ] X3    GET events stream -> clean refusal when unconfigured
+   [NOT_TESTED] F1    semantic live: 现在博物馆关门了。
+   [NOT_TESTED] F2    semantic live: 如果明天下雨会怎样？
+   [NOT_TESTED] F3    semantic live: 有人说这家博物馆关门了。
+   [NOT_TESTED] F4    semantic live: 博物馆没有关门。
+   [NOT_TESTED] F5    semantic live: 昨天博物馆关门了。
+
+## semantic_policy  (source: results_semantic.json)
+   PASS=14 FAIL=0 NOT_TESTED=0
+   [PASS      ] F1    ASSERTED NOW CLOSURE -> live Event
+   [PASS      ] F2    ASSERTED FUTURE WEATHER -> live Event
+   [PASS      ] F3    HYPOTHETICAL -> WHAT_IF, no Event
+   [PASS      ] F4    UNVERIFIED -> VERIFY_FACT, no Event
+   [PASS      ] F5    NEGATED -> UNKNOWN, no Event
+   [PASS      ] F6    HISTORICAL -> UNKNOWN, no Event
+   [PASS      ] F7    PERSONAL -> no city Event
+   [PASS      ] F8    ASSERTED PAST -> not a live Event
+   [PASS      ] F9    EXPLAIN_PLAN -> no Event
+   [PASS      ] F10   missing key rejected
+   [PASS      ] F11   out-of-enum assertion rejected
+   [PASS      ] F12   confidence out of range rejected
+   [PASS      ] F13   semantic policy overrides substring temptation (hypothetical)
+   [PASS      ] F14   negated claim never creates a live Event
+
+## mcp_v2  (source: results_mcp.json)
+   PASS=4 FAIL=1 NOT_TESTED=0
+   [PASS      ] M1    V2 tool allowlist == 11 documented tools
+   [PASS      ] M2    V1 surface is the pinned 6-tool subset
+   [PASS      ] M3    unknown tool rejected by allowlist
+   [PASS      ] M4    real inspect_journey tool call returns server data
+   [FAIL      ] M5    read-only hints distinguish inspect vs mutate

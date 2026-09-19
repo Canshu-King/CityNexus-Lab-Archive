@@ -1,0 +1,7 @@
+source=D:\moodle\CityNexus
+snapshot_at=2026-09-15T11:32:05
+included=backend frontend/src frontend/package.json frontend/tsconfig.json frontend/vite.config.ts contracts db agent-mcp evals data docs
+files_copied=345
+files_reused=30
+bytes=2992786
+note=second read-only snapshot, taken after Codex landed backend/app/capabilities.py at 10:53 during the V19 run. Used only to measure the fix delta; the V19 findings are based on the 10:23 snapshot recorded in BASELINE_SOURCE.txt.

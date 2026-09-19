@@ -1,0 +1,4 @@
+﻿('f19d1146-a1', 'Gulangyu Pier Meetup', 'place-gulangyu-pier')
+('f19d1146-a2', '榧撴氮灞块鐞村崥鐗╅(涓存椂灞曢)', 'place-gulangyu-organ')
+('f19d1146-a3', 'Longtou Road Lunch', 'place-longtou-food')
+journey window: ('2026-09-18T02:00:00+00:00', '2026-09-20T12:00:00+00:00')

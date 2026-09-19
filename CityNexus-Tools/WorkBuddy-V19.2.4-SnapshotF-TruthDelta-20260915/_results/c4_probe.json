@@ -1,0 +1,308 @@
+{
+  "verdicts": {
+    "T01": "PASS",
+    "T02": "PASS",
+    "T03": "PASS",
+    "T04": "PASS",
+    "T05": "PASS"
+  },
+  "cases": [
+    {
+      "case": "T01_ARRIVAL_1230",
+      "journey_window": [
+        "2026-09-16T09:00:00",
+        "2026-09-16T19:00:00"
+      ],
+      "effective_window": [
+        "2026-09-16T09:00:00+08:00",
+        "2026-09-16T19:00:00+08:00"
+      ],
+      "anchors": [
+        {
+          "role": "ARRIVAL",
+          "boundary": "START",
+          "scheduled_at": "12:30"
+        }
+      ],
+      "schedule": [
+        {
+          "title": "Arrival",
+          "place_id": "v12:J-C4-DELTA:arrival-anchor",
+          "start": "12:30",
+          "end": "12:50",
+          "anchor_role": "ARRIVAL",
+          "locked": true
+        },
+        {
+          "title": "Old Town Gate",
+          "place_id": "place-old-town",
+          "start": "13:10",
+          "end": "14:25",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Riverside Museum",
+          "place_id": "place-riverside-museum",
+          "start": "14:45",
+          "end": "16:00",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Central Food Hall",
+          "place_id": "place-food-hall",
+          "start": "16:20",
+          "end": "17:20",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Nexus City Park",
+          "place_id": "place-city-park",
+          "start": "17:40",
+          "end": "18:40",
+          "anchor_role": null,
+          "locked": false
+        }
+      ],
+      "violations": [],
+      "verdict": "PASS"
+    },
+    {
+      "case": "T02_DEPARTURE_1530",
+      "journey_window": [
+        "2026-09-16T09:00:00",
+        "2026-09-16T19:00:00"
+      ],
+      "effective_window": [
+        "2026-09-16T09:00:00+08:00",
+        "2026-09-16T19:00:00+08:00"
+      ],
+      "anchors": [
+        {
+          "role": "DEPARTURE",
+          "boundary": "END",
+          "scheduled_at": "15:30"
+        }
+      ],
+      "schedule": [
+        {
+          "title": "Old Town Gate",
+          "place_id": "place-old-town",
+          "start": "09:00",
+          "end": "10:15",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Riverside Museum",
+          "place_id": "place-riverside-museum",
+          "start": "10:35",
+          "end": "11:50",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Central Food Hall",
+          "place_id": "place-food-hall",
+          "start": "12:10",
+          "end": "13:10",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Nexus City Park",
+          "place_id": "place-city-park",
+          "start": "13:30",
+          "end": "14:30",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Departure",
+          "place_id": "v12:J-C4-DELTA:departure-anchor",
+          "start": "15:10",
+          "end": "15:30",
+          "anchor_role": "DEPARTURE",
+          "locked": true
+        }
+      ],
+      "violations": [],
+      "verdict": "PASS"
+    },
+    {
+      "case": "T03_MIDTRIP_1300",
+      "journey_window": [
+        "2026-09-16T09:00:00",
+        "2026-09-16T19:00:00"
+      ],
+      "effective_window": [
+        "2026-09-16T09:00:00+08:00",
+        "2026-09-16T19:00:00+08:00"
+      ],
+      "anchors": [
+        {
+          "role": "MID_TRIP",
+          "boundary": "START",
+          "scheduled_at": "13:00"
+        }
+      ],
+      "schedule": [
+        {
+          "title": "Old Town Gate",
+          "place_id": "place-old-town",
+          "start": "09:00",
+          "end": "10:15",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Riverside Museum",
+          "place_id": "place-riverside-museum",
+          "start": "13:00",
+          "end": "14:00",
+          "anchor_role": "MID_TRIP",
+          "locked": true
+        },
+        {
+          "title": "Central Food Hall",
+          "place_id": "place-food-hall",
+          "start": "14:20",
+          "end": "15:20",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Nexus City Park",
+          "place_id": "place-city-park",
+          "start": "15:40",
+          "end": "16:40",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Nexus River Cruise Pier",
+          "place_id": "place-river-cruise",
+          "start": "17:00",
+          "end": "18:00",
+          "anchor_role": null,
+          "locked": true
+        }
+      ],
+      "violations": [],
+      "verdict": "PASS"
+    },
+    {
+      "case": "T04_A10_M13_D17",
+      "journey_window": [
+        "2026-09-16T09:00:00",
+        "2026-09-16T19:00:00"
+      ],
+      "effective_window": [
+        "2026-09-16T09:00:00+08:00",
+        "2026-09-16T19:00:00+08:00"
+      ],
+      "anchors": [
+        {
+          "role": "ARRIVAL",
+          "boundary": "START",
+          "scheduled_at": "10:00"
+        },
+        {
+          "role": "MID_TRIP",
+          "boundary": "START",
+          "scheduled_at": "13:00"
+        },
+        {
+          "role": "DEPARTURE",
+          "boundary": "END",
+          "scheduled_at": "17:00"
+        }
+      ],
+      "schedule": [
+        {
+          "title": "Arrival",
+          "place_id": "v12:J-C4-DELTA:arrival-anchor",
+          "start": "10:00",
+          "end": "10:20",
+          "anchor_role": "ARRIVAL",
+          "locked": true
+        },
+        {
+          "title": "Old Town Gate",
+          "place_id": "place-old-town",
+          "start": "10:40",
+          "end": "11:55",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Riverside Museum",
+          "place_id": "place-riverside-museum",
+          "start": "13:00",
+          "end": "14:00",
+          "anchor_role": "MID_TRIP",
+          "locked": true
+        },
+        {
+          "title": "Central Food Hall",
+          "place_id": "place-food-hall",
+          "start": "14:20",
+          "end": "15:20",
+          "anchor_role": null,
+          "locked": false
+        },
+        {
+          "title": "Departure",
+          "place_id": "v12:J-C4-DELTA:departure-anchor",
+          "start": "16:40",
+          "end": "17:00",
+          "anchor_role": "DEPARTURE",
+          "locked": true
+        }
+      ],
+      "violations": [],
+      "verdict": "PASS"
+    },
+    {
+      "case": "T05_ARRIVAL_AFTER_DEPARTURE",
+      "journey_window": [
+        "2026-09-16T09:00:00",
+        "2026-09-16T19:00:00"
+      ],
+      "effective_window": [
+        "2026-09-16T09:00:00+08:00",
+        "2026-09-16T19:00:00+08:00"
+      ],
+      "anchors": [
+        {
+          "role": "ARRIVAL",
+          "boundary": "START",
+          "scheduled_at": "17:00"
+        },
+        {
+          "role": "DEPARTURE",
+          "boundary": "END",
+          "scheduled_at": "10:00"
+        }
+      ],
+      "schedule": null,
+      "violations": [],
+      "verdict": "PASS"
+    },
+    {
+      "case": "T05b_gate_on_impossible_plan",
+      "gate_passed": false,
+      "gate_failures": [
+        "NON_DETERMINISTIC_MOBILITY_PROVIDER",
+        "PLACE_UNAVAILABLE:place-old-town",
+        "PLACE_UNAVAILABLE:v12:J-C4-DELTA:arrival-anchor"
+      ],
+      "effective_window": [
+        "09:00",
+        "19:00"
+      ]
+    }
+  ]
+}

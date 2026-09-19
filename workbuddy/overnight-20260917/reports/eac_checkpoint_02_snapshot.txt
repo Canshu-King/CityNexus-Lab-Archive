@@ -1,0 +1,14 @@
+﻿=== EAC CHECKPOINT-02 (02:50) ===
+2026-09-17 02:50:34
+--- git log last 6 ---
+7d22cd0 feat(visio): establish CityNexus Visio model specification v1.0
+e3b7875 feat(use-cases): establish CityNexus use case baseline v0.1
+072e84f feat(requirements): establish CityNexus requirements baseline v0.3
+d5236d9 chore(domain): promote CityNexus domain model v0.4.2 RC3
+096d857 chore(domain): freeze CityNexus domain model v0.4.1 RC2
+
+--- git status short (count) ---
+112
+--- last commit time ---
+2026-09-05 02:46:06 +0800 浠撻紶鐜?
+

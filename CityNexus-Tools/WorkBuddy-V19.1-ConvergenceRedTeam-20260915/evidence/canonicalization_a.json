@@ -1,0 +1,996 @@
+{
+ "snapshot": "A",
+ "capability_codes": [
+  "STEP_FREE_REQUIRED",
+  "AVOID_STAIRS",
+  "MAX_WALKING_PER_LEG_M",
+  "MAX_CONTINUOUS_WALKING_MIN",
+  "MAX_DAILY_WALKING_M",
+  "MIDDAY_REST_WINDOW",
+  "REST_EVERY_MIN",
+  "INFANT_NAP_WINDOW",
+  "TOILET_BREAK_EVERY_MIN",
+  "STROLLER",
+  "LARGE_LUGGAGE",
+  "SLOW_PACE",
+  "QUIET_ENVIRONMENT",
+  "INDOOR_PREFERRED",
+  "SENSORY_LOW_STIMULATION"
+ ],
+ "severities": [
+  "HARD",
+  "STRONG",
+  "SOFT"
+ ],
+ "hard_accessibility_codes": [
+  "AVOID_STAIRS",
+  "STEP_FREE_REQUIRED"
+ ],
+ "default_severity": {
+  "STEP_FREE_REQUIRED": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "AVOID_STAIRS": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MAX_WALKING_PER_LEG_M": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MAX_CONTINUOUS_WALKING_MIN": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MAX_DAILY_WALKING_M": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "MIDDAY_REST_WINDOW": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "REST_EVERY_MIN": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "INFANT_NAP_WINDOW": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "TOILET_BREAK_EVERY_MIN": {
+   "plain": "STRONG",
+   "hard_asserted": "HARD"
+  },
+  "STROLLER": {
+   "plain": "STRONG",
+   "hard_asserted": "STRONG"
+  },
+  "LARGE_LUGGAGE": {
+   "plain": "STRONG",
+   "hard_asserted": "STRONG"
+  },
+  "SLOW_PACE": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  },
+  "QUIET_ENVIRONMENT": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  },
+  "INDOOR_PREFERRED": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  },
+  "SENSORY_LOW_STIMULATION": {
+   "plain": "SOFT",
+   "hard_asserted": "SOFT"
+  }
+ },
+ "downgrade_matrix": {
+  "cells": {
+   "AVOID_STAIRS|HARD|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "HARD",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": true,
+    "downgraded": false
+   },
+   "AVOID_STAIRS|HARD|SOFT_PREFERENCE": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "HARD",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": true,
+    "downgraded": false
+   },
+   "AVOID_STAIRS|HARD|None": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD"
+    },
+    "out_severity": "HARD",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": true,
+    "downgraded": false
+   },
+   "AVOID_STAIRS|STRONG|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "STRONG",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|STRONG|SOFT_PREFERENCE": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "STRONG",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|STRONG|None": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "STRONG"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|SOFT|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "SOFT",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "SOFT",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|SOFT|SOFT_PREFERENCE": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "SOFT",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "SOFT",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|SOFT|None": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "severity": "SOFT"
+    },
+    "out_severity": "SOFT",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|None|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|None|SOFT_PREFERENCE": {
+    "in": {
+     "code": "AVOID_STAIRS",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "AVOID_STAIRS|None|None": {
+    "in": {
+     "code": "AVOID_STAIRS"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|HARD|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "HARD",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": true,
+    "downgraded": false
+   },
+   "STEP_FREE_REQUIRED|HARD|SOFT_PREFERENCE": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "HARD",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": true,
+    "downgraded": false
+   },
+   "STEP_FREE_REQUIRED|HARD|None": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD"
+    },
+    "out_severity": "HARD",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": true,
+    "downgraded": false
+   },
+   "STEP_FREE_REQUIRED|STRONG|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|STRONG|SOFT_PREFERENCE": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|STRONG|None": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|SOFT|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "SOFT",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "SOFT",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|SOFT|SOFT_PREFERENCE": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "SOFT",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "SOFT",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|SOFT|None": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "SOFT"
+    },
+    "out_severity": "SOFT",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|None|HARD_ACCESSIBILITY_NEED": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "class": "HARD_ACCESSIBILITY_NEED"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|None|SOFT_PREFERENCE": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED",
+     "class": "SOFT_PREFERENCE"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   },
+   "STEP_FREE_REQUIRED|None|None": {
+    "in": {
+     "code": "STEP_FREE_REQUIRED"
+    },
+    "out_severity": "STRONG",
+    "out_class": "HARD_ACCESSIBILITY_NEED",
+    "hard_gate": false,
+    "downgraded": true
+   }
+  },
+  "total": 24,
+  "downgraded": 18,
+  "downgraded_keys": [
+   "AVOID_STAIRS|STRONG|HARD_ACCESSIBILITY_NEED",
+   "AVOID_STAIRS|STRONG|SOFT_PREFERENCE",
+   "AVOID_STAIRS|STRONG|None",
+   "AVOID_STAIRS|SOFT|HARD_ACCESSIBILITY_NEED",
+   "AVOID_STAIRS|SOFT|SOFT_PREFERENCE",
+   "AVOID_STAIRS|SOFT|None",
+   "AVOID_STAIRS|None|HARD_ACCESSIBILITY_NEED",
+   "AVOID_STAIRS|None|SOFT_PREFERENCE",
+   "AVOID_STAIRS|None|None",
+   "STEP_FREE_REQUIRED|STRONG|HARD_ACCESSIBILITY_NEED",
+   "STEP_FREE_REQUIRED|STRONG|SOFT_PREFERENCE",
+   "STEP_FREE_REQUIRED|STRONG|None",
+   "STEP_FREE_REQUIRED|SOFT|HARD_ACCESSIBILITY_NEED",
+   "STEP_FREE_REQUIRED|SOFT|SOFT_PREFERENCE",
+   "STEP_FREE_REQUIRED|SOFT|None",
+   "STEP_FREE_REQUIRED|None|HARD_ACCESSIBILITY_NEED",
+   "STEP_FREE_REQUIRED|None|SOFT_PREFERENCE",
+   "STEP_FREE_REQUIRED|None|None"
+  ],
+  "class_always_forced": true
+ },
+ "dedupe": {
+  "HARD_then_SOFT": {
+   "input_severities": [
+    "HARD",
+    "SOFT"
+   ],
+   "rows": 2,
+   "codes": [
+    "STEP_FREE_REQUIRED",
+    "STEP_FREE_REQUIRED"
+   ],
+   "distinct_codes": 1,
+   "severities": [
+    "HARD",
+    "SOFT"
+   ],
+   "collapsed": false,
+   "in_both_hard_and_soft": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "gate": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "SOFT_then_HARD": {
+   "input_severities": [
+    "SOFT",
+    "HARD"
+   ],
+   "rows": 2,
+   "codes": [
+    "STEP_FREE_REQUIRED",
+    "STEP_FREE_REQUIRED"
+   ],
+   "distinct_codes": 1,
+   "severities": [
+    "SOFT",
+    "HARD"
+   ],
+   "collapsed": false,
+   "in_both_hard_and_soft": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "gate": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "same_twice": {
+   "input_severities": [
+    "HARD",
+    "HARD"
+   ],
+   "rows": 2,
+   "codes": [
+    "AVOID_STAIRS",
+    "AVOID_STAIRS"
+   ],
+   "distinct_codes": 1,
+   "severities": [
+    "HARD",
+    "HARD"
+   ],
+   "collapsed": false,
+   "in_both_hard_and_soft": [],
+   "gate": [
+    "AVOID_STAIRS",
+    "AVOID_STAIRS"
+   ]
+  },
+  "STRONG_then_HARD": {
+   "input_severities": [
+    "STRONG",
+    "HARD"
+   ],
+   "rows": 2,
+   "codes": [
+    "AVOID_STAIRS",
+    "AVOID_STAIRS"
+   ],
+   "distinct_codes": 1,
+   "severities": [
+    "STRONG",
+    "HARD"
+   ],
+   "collapsed": false,
+   "in_both_hard_and_soft": [],
+   "gate": [
+    "AVOID_STAIRS"
+   ]
+  },
+  "three_way": {
+   "input_severities": [
+    "SOFT",
+    "HARD",
+    "STRONG"
+   ],
+   "rows": 3,
+   "codes": [
+    "AVOID_STAIRS",
+    "AVOID_STAIRS",
+    "AVOID_STAIRS"
+   ],
+   "distinct_codes": 1,
+   "severities": [
+    "SOFT",
+    "HARD",
+    "STRONG"
+   ],
+   "collapsed": false,
+   "in_both_hard_and_soft": [
+    "AVOID_STAIRS"
+   ],
+   "gate": [
+    "AVOID_STAIRS"
+   ]
+  }
+ },
+ "negation": {
+  "cases": {
+   "no_exceptions_hard_need": {
+    "text": "wheelchair 必须 step-free，没有例外",
+    "expected_codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "actual": [],
+    "missing": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "unexpected": [],
+    "verdict": "wrong"
+   },
+   "dont_need_wheelchair": {
+    "text": "I don't need a wheelchair, I can walk",
+    "expected_codes": [],
+    "actual": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD"
+     }
+    ],
+    "missing": [],
+    "unexpected": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "verdict": "wrong"
+   },
+   "used_not_wheelchair_now_hard": {
+    "text": "我以前不用轮椅，但现在必须无障碍",
+    "expected_codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "actual": [],
+    "missing": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "unexpected": [],
+    "verdict": "wrong"
+   },
+   "friend_hearsay_disagreed": {
+    "text": "朋友说我可能需要轮椅，但我不这么认为",
+    "expected_codes": [],
+    "actual": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD"
+     }
+    ],
+    "missing": [],
+    "unexpected": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "verdict": "wrong"
+   },
+   "not_metro_need_taxi": {
+    "text": "不是地铁，我需要出租车因为行李很多",
+    "expected_codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "actual": [],
+    "missing": [
+     "LARGE_LUGGAGE"
+    ],
+    "unexpected": [],
+    "verdict": "wrong"
+   },
+   "no_allergy_but_wheelchair": {
+    "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+    "expected_codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "actual": [],
+    "missing": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "unexpected": [],
+    "verdict": "wrong"
+   },
+   "past_wheelchair_now_hard": {
+    "text": "过去我坐轮椅，现在必须全程无障碍",
+    "expected_codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "actual": [],
+    "missing": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "unexpected": [],
+    "verdict": "wrong"
+   },
+   "maybe_wheelchair_later": {
+    "text": "说不定到时候我需要轮椅",
+    "expected_codes": [],
+    "actual": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD"
+     }
+    ],
+    "missing": [],
+    "unexpected": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "verdict": "wrong"
+   },
+   "if_wheelchair_then_tell": {
+    "text": "if I end up in a wheelchair I'll tell you",
+    "expected_codes": [],
+    "actual": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD"
+     }
+    ],
+    "missing": [],
+    "unexpected": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "verdict": "wrong"
+   },
+   "historical_only": {
+    "text": "我以前坐轮椅，现在好了",
+    "expected_codes": [],
+    "actual": [],
+    "missing": [],
+    "unexpected": [],
+    "verdict": "ok"
+   },
+   "clean_hard_zh": {
+    "text": "必须全程无障碍，一步楼梯都不能走",
+    "expected_codes": [
+     "STEP_FREE_REQUIRED",
+     "AVOID_STAIRS"
+    ],
+    "actual": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD"
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD"
+     }
+    ],
+    "missing": [],
+    "unexpected": [],
+    "verdict": "ok"
+   },
+   "clean_hard_en": {
+    "text": "I use a wheelchair, every leg must be step-free",
+    "expected_codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "actual": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD"
+     }
+    ],
+    "missing": [],
+    "unexpected": [],
+    "verdict": "ok"
+   },
+   "no_stroller_this_time": {
+    "text": "no stroller this time, ignore that",
+    "expected_codes": [],
+    "actual": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG"
+     }
+    ],
+    "missing": [],
+    "unexpected": [
+     "STROLLER"
+    ],
+    "verdict": "wrong"
+   },
+   "clean_stroller": {
+    "text": "这次带婴儿车，需要坡道",
+    "expected_codes": [
+     "STROLLER"
+    ],
+    "actual": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG"
+     }
+    ],
+    "missing": [],
+    "unexpected": [],
+    "verdict": "ok"
+   }
+  },
+  "wrong": [
+   "no_exceptions_hard_need",
+   "dont_need_wheelchair",
+   "used_not_wheelchair_now_hard",
+   "friend_hearsay_disagreed",
+   "not_metro_need_taxi",
+   "no_allergy_but_wheelchair",
+   "past_wheelchair_now_hard",
+   "maybe_wheelchair_later",
+   "if_wheelchair_then_tell",
+   "no_stroller_this_time"
+  ],
+  "wrong_count": 10,
+  "total": 14
+ },
+ "walking": {
+  "cases": {
+   "zero": {
+    "text": "走路不能超过 0 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "one": {
+    "text": "走路不能超过 1 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "hundred": {
+    "text": "走路不能超过 100 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "four99": {
+    "text": "走路不能超过 499 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "five00": {
+    "text": "走路不能超过 500 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "five01": {
+    "text": "走路不能超过 501 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "thousand": {
+    "text": "走路不能超过 1000 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "tenk": {
+    "text": "走路不能超过 10000 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "negative": {
+    "text": "走路不能超过 -500 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "huge": {
+    "text": "走路不能超过 99999999 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "quoted": {
+    "text": "走路不能超过 \"500\" 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "unit_m": {
+    "text": "走路不能超过 500m",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "unit_km": {
+    "text": "走路不能超过 0.5 公里",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "km_word": {
+    "text": "走路不能超过 1 公里",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "null_word": {
+    "text": "走路不能超过 null 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "missing_number": {
+    "text": "走路不能超过 米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "chinese_numeral": {
+    "text": "走路不能超过五百米",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "en_must": {
+    "text": "I cannot walk more than 500 metres per leg",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "en_under": {
+    "text": "avoid long walks, under 400 m per leg",
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "walking_params": [
+     {
+      "max_m": 400,
+      "needs_clarification": false
+     }
+    ],
+    "extracted": true,
+    "max_m": 400
+   },
+   "max_walk_zh": {
+    "text": "我最多走 500 米，超过就走不动了",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   },
+   "hard_zh": {
+    "text": "走路不能超过 500m，这是硬性要求",
+    "codes": [],
+    "walking_params": [],
+    "extracted": false,
+    "max_m": null
+   }
+  },
+  "distinct_max_m": [
+   400
+  ],
+  "extracted_count": 1,
+  "total": 21,
+  "all_same_outcome": true
+ },
+ "windows": {
+  "cases": {
+   "midday_12_14": {
+    "text": "老人中午 12 点到 14 点必须回酒店休息",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "midday_colon": {
+    "text": "中午 12:00-14:00 必须回酒店休息",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "nap_1_3": {
+    "text": "宝宝下午 1 点到 3 点必须睡午觉，不能安排活动",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "nap_naptime": {
+    "text": "the baby needs naptime at 13:00-15:00",
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "params": [
+     {
+      "start": "13:00",
+      "end": "15:00"
+     }
+    ],
+    "extracted": true
+   },
+   "en_rest_between": {
+    "text": "I must rest at the hotel between 12:00 and 14:00",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "invalid_end_before_start": {
+    "text": "中午 14:00 到 12:00 必须回酒店休息",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "cross_midnight": {
+    "text": "必须从 23:00 休息到 01:00",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "outside_journey": {
+    "text": "凌晨 03:00 到 04:00 必须休息",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "no_times": {
+    "text": "老人中午必须休息",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   },
+   "pm_form": {
+    "text": "rest from 1pm to 3pm",
+    "codes": [],
+    "params": [],
+    "extracted": false
+   }
+  },
+  "extracted_count": 1,
+  "total": 10
+ },
+ "scope": {
+  "cases": {
+   "this_trip_only": {
+    "text": "这次旅行我不能走太多路",
+    "scopes": [
+     "JOURNEY"
+    ],
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ]
+   },
+   "every_trip": {
+    "text": "以后每次旅行我都不能走太多路",
+    "scopes": [
+     "JOURNEY"
+    ],
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ]
+   },
+   "permanent": {
+    "text": "我用轮椅，这是永久情况，不只是这次旅行",
+    "scopes": [
+     "JOURNEY"
+    ],
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ]
+   },
+   "today_only": {
+    "text": "今天临时腿疼，少走点",
+    "scopes": [
+     "JOURNEY"
+    ],
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ]
+   },
+   "not_this_trip": {
+    "text": "不只是这次，我一直用轮椅",
+    "scopes": [
+     "JOURNEY"
+    ],
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ]
+   }
+  },
+  "scope_distribution": {
+   "JOURNEY": 5
+  }
+ },
+ "accessibility_state": {
+  "missing": "ACCESSIBILITY_UNVERIFIED",
+  "empty": "ACCESSIBILITY_UNVERIFIED",
+  "verified": "ACCESSIBILITY_VERIFIED",
+  "unknown": "ACCESSIBILITY_UNVERIFIED",
+  "stairs": "ACCESSIBILITY_CONFLICT",
+  "step_free_true": "ACCESSIBILITY_VERIFIED",
+  "step_free_false": "ACCESSIBILITY_CONFLICT",
+  "name_only": "ACCESSIBILITY_UNVERIFIED",
+  "unknown_treated_as_accessible": false
+ }
+}

@@ -1,0 +1,485 @@
+{
+ "snapshot": "A",
+ "evidence_matrix": {
+  "no_capability": {
+   "capability_http_status": null,
+   "generate_status": 201,
+   "plans": 3,
+   "failures": [],
+   "body_keys": null
+  },
+  "capability_evidence_missing": {
+   "capability_http_status": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "failures": [],
+   "body_keys": [
+    "error"
+   ]
+  },
+  "capability_evidence_verified": {
+   "capability_http_status": 200,
+   "generate_status": 201,
+   "plans": 3,
+   "failures": [],
+   "body_keys": null
+  },
+  "capability_evidence_unknown": {
+   "capability_http_status": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "failures": [],
+   "body_keys": [
+    "error"
+   ]
+  },
+  "capability_evidence_conflict": {
+   "capability_http_status": 200,
+   "generate_status": 422,
+   "plans": 0,
+   "failures": [],
+   "body_keys": [
+    "error"
+   ]
+  },
+  "capability_evidence_verified_string": {
+   "capability_http_status": 200,
+   "generate_status": 201,
+   "plans": 3,
+   "failures": [],
+   "body_keys": null
+  }
+ },
+ "projection": {
+  "journey_constraints_before": 3,
+  "journey_constraints_after": 3,
+  "capability_in_constraint_api": [],
+  "capability_in_constraint_table": [],
+  "capability_rows": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ]
+ },
+ "midtrip": {
+  "initial_generate_status": 201,
+  "initial_plans": 3,
+  "select_status": 200,
+  "start_status": 200,
+  "journey_status_after_start": "ACTIVE",
+  "plan_signatures_before": [
+   "[[\"place-old-town\", \"2026-10-10T09:00:00+08:00\"], [\"place-riverside-museum\", \"2026-10-10T10:30:00+08:00\"], [\"place-food-hall\", \"2026-10-10T12:00:00+08:00\"], [\"place-city-park\", \"2026-10-10T13:20:00+08:00\"], [\"place-river-cruise\", \"2026-10-10T15:30:00+08:00\"], [\"place-skyline-dinner\", \"2026-10-10T17:00:00+08:00\"]]",
+   "[[\"place-old-town\", \"2026-10-10T09:00:00+08:00\"], [\"place-riverside-museum\", \"2026-10-10T10:30:00+08:00\"], [\"place-food-hall\", \"2026-10-10T12:00:00+08:00\"], [\"place-design-library\", \"2026-10-10T13:20:00+08:00\"], [\"place-river-cruise\", \"2026-10-10T15:30:00+08:00\"], [\"place-skyline-dinner\", \"2026-10-10T17:00:00+08:00\"]]",
+   "[[\"place-old-town\", \"2026-10-10T09:00:00+08:00\"], [\"place-riverside-museum\", \"2026-10-10T10:30:00+08:00\"], [\"place-food-hall\", \"2026-10-10T12:00:00+08:00\"], [\"place-tech-art\", \"2026-10-10T13:20:00+08:00\"], [\"place-river-cruise\", \"2026-10-10T15:30:00+08:00\"], [\"place-skyline-dinner\", \"2026-10-10T17:00:00+08:00\"]]"
+  ],
+  "midtrip_put_status": 409,
+  "midtrip_put_body": {
+   "error": {
+    "code": "CONFLICT",
+    "message": "hard capability needs require /confirm",
+    "trace_id": "f709f711-472a-46d3-9bb6-d457d9a6270a",
+    "details": null
+   }
+  },
+  "midtrip_confirm_status": 200,
+  "midtrip_confirm_body": {
+   "preview": "{\"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"capabilities\": [{\"id\": \"718e3199-b9b6-441d-9299-de1c6d6c5afc\", \"traveler_id\": \"11111111-1111-4111-8111-111111111111\", \"journey_id\": \"22222222-2222-4222-8222-222222222222\", \"code\": \"STEP_FREE_REQUIRED\", \"class\": \"HARD_ACCESSIBILITY_NEED\", \"severity\": \"HARD\", \"params\": {}, \"scope\": \"JOURNEY\", \"source\": \"USER_CONFIRMED\", \"provenance\": \"USER_STATED\", \"explicit\": true, \"confirmed\": true, \"active\": true, \"created_at\": \"2026-09-15T05:10:35.784506+00:00\", \"updated_at\": \"2026-09-15T05:10:35.784506+00:00\", \"confirmed_at\": \"2026-09-15T05:10:35.784506+00:00\"}], \"summary\": {\"items\": [{\"code\": \"STEP_FREE_REQUIRED\", \"class\": \"HARD_ACCESSIBILITY_NEED\", \"severity\": \"HARD\", \"params\": {}, \"scope\": \"JOURNEY\", \"source\": \"USER_CONFIRMED\", \"provenance\": \"USER_STATED\", \"explicit\": true, \"active\": true, \"confirmed\": true}], \"hard\": [{\"code\": \"STEP_FREE_REQU"
+  },
+  "journey_status_after_capability": "ACTIVE",
+  "plan_signatures_after": [
+   "[[\"place-old-town\", \"2026-10-10T09:00:00+08:00\"], [\"place-riverside-museum\", \"2026-10-10T10:30:00+08:00\"], [\"place-food-hall\", \"2026-10-10T12:00:00+08:00\"], [\"place-city-park\", \"2026-10-10T13:20:00+08:00\"], [\"place-river-cruise\", \"2026-10-10T15:30:00+08:00\"], [\"place-skyline-dinner\", \"2026-10-10T17:00:00+08:00\"]]",
+   "[[\"place-old-town\", \"2026-10-10T09:00:00+08:00\"], [\"place-riverside-museum\", \"2026-10-10T10:30:00+08:00\"], [\"place-food-hall\", \"2026-10-10T12:00:00+08:00\"], [\"place-design-library\", \"2026-10-10T13:20:00+08:00\"], [\"place-river-cruise\", \"2026-10-10T15:30:00+08:00\"], [\"place-skyline-dinner\", \"2026-10-10T17:00:00+08:00\"]]",
+   "[[\"place-old-town\", \"2026-10-10T09:00:00+08:00\"], [\"place-riverside-museum\", \"2026-10-10T10:30:00+08:00\"], [\"place-food-hall\", \"2026-10-10T12:00:00+08:00\"], [\"place-tech-art\", \"2026-10-10T13:20:00+08:00\"], [\"place-river-cruise\", \"2026-10-10T15:30:00+08:00\"], [\"place-skyline-dinner\", \"2026-10-10T17:00:00+08:00\"]]"
+  ],
+  "plans_mutated_silently": false,
+  "replan_proposals": 0,
+  "audit_capability": [
+   "traveler.capability.created"
+  ],
+  "experience_status": 500,
+  "experience_error": "NameError: name 'traveler_twin' is not defined"
+ },
+ "conflict": {
+  "c4_seed": {
+   "import_status": 201,
+   "confirm_status": 200,
+   "draft_status": "READY_FOR_CONFIRMATION",
+   "commitment_level": "C4_Anchored",
+   "commitment_status": "ACTIVE",
+   "semantic_key": "ea06631e-f5b4-598a-8a96-2483c271a825",
+   "scheduled_start_at": "2026-10-10T12:30:00+08:00"
+  },
+  "c4_projected_into_constraints": false,
+  "constraint_codes_after_c4": [
+   "BUDGET_MAX",
+   "JOURNEY_END_BY",
+   "MINIMISE_PLAN_CHANGES"
+  ],
+  "hard_capability_status": 200,
+  "accessibility_conflict": {
+   "generate_status": 422,
+   "plans": 0,
+   "body_keys": [
+    "error"
+   ],
+   "message": "No feasible plan candidates satisfy the journey constraints",
+   "failures": [],
+   "names_capability": false,
+   "names_commitment": false,
+   "commitments_after": 1,
+   "commitment_survived": true
+  },
+  "conflict_surfaces": {
+   "constraints": {
+    "status": 200,
+    "mentions_step_free": false,
+    "mentions_accessibility": false,
+    "mentions_commitment": false
+   },
+   "journey_twin": {
+    "status": 200,
+    "mentions_step_free": false,
+    "mentions_accessibility": false,
+    "mentions_commitment": true
+   },
+   "traveler_twin": {
+    "status": 200,
+    "mentions_step_free": false,
+    "mentions_accessibility": true,
+    "mentions_commitment": false
+   },
+   "explain": {
+    "status": 404,
+    "mentions_step_free": false,
+    "mentions_accessibility": false,
+    "mentions_commitment": false
+   },
+   "infeasibility": {
+    "status": 404,
+    "mentions_step_free": false,
+    "mentions_accessibility": false,
+    "mentions_commitment": false
+   },
+   "diagnostics": {
+    "status": 404,
+    "mentions_step_free": false,
+    "mentions_accessibility": false,
+    "mentions_commitment": false
+   }
+  },
+  "copilot_status": 200,
+  "copilot_mentions_capability": true,
+  "copilot_mentions_commitment": true,
+  "copilot_body": {
+   "preview": "{\"message\": \"当前使用 no selected PlanVersion，服务器已核验 1 个受保护承诺。解释基于已选方案事实，不会修改行程。\", \"mode\": \"FALLBACK\", \"verified_context_used\": true, \"intent\": {\"name\": \"EXPLAIN_PLAN\", \"confidence\": 0.96, \"reason\": \"explanation request\", \"entities\": {\"capabilities\": [{\"code\": \"STEP_FREE_REQUIRED\", \"class\": \"HARD_ACCESSIBILITY_NEED\", \"severity\": \"HARD\", \"params\": {\"requirement\": \"step_free\"}, \"scope\": \"JOURNEY\", \"source\": \"SEMANTIC\", \"provenance\": \"USER_STATED\", \"explicit\": true, \"active\": true, \"confirmed\": false}], \"capability_summary\": {\"items\": [{\"code\": \"STEP_FREE_REQUIRED\", \"class\": \"HARD_ACCESSIBILITY_NEED\", \"severity\": \"HARD\", \"params\": {\"requirement\": \"step_free\"}, \"scope\": \"JOURNEY\", \"source\": \"SEMANTIC\", \"provenance\": \"USER_STATED\", \"explicit\": true, \"active\": true, \"confirmed\": false}], \"hard\": [{\"code\": \"STEP_FREE_REQUIRED\", \"class\": \"HARD_ACCESSIBILITY_NEED\", \"severity\": \"HARD\", \"params\": {\"req"
+  },
+  "c4_seed_rest": {
+   "confirm_status": 200
+  },
+  "rest_window_vs_c4": {
+   "generate_status": 422,
+   "plans": 0,
+   "failures": [],
+   "message": "No feasible plan candidates satisfy the journey constraints",
+   "names_capability": false,
+   "names_commitment": false,
+   "commitment_survived": true
+  },
+  "double_c4": {
+   "first_confirm": 200,
+   "second_confirm": 200,
+   "commitments": 2,
+   "generate_status": 201,
+   "plans": 3,
+   "commitments_after_generate": 2,
+   "failures": []
+  },
+  "duplicate_ref": {
+   "first_confirm": 200,
+   "second_import": 201,
+   "second_confirm": 200,
+   "second_confirm_body": null,
+   "commitments": 2,
+   "duplicate_rejected": false
+  },
+  "c4_influence": {
+   "c4_confirm_status": 200,
+   "baseline_generate_status": 201,
+   "baseline_plans": 3,
+   "with_c4_generate_status": 201,
+   "with_c4_plans": 3,
+   "plans_differ": false,
+   "baseline_titles": [
+    "Central Food Hall",
+    "Central Food Hall",
+    "Central Food Hall",
+    "Design Library",
+    "Nexus City Park",
+    "Nexus River Cruise Pier",
+    "Nexus River Cruise Pier",
+    "Nexus River Cruise Pier",
+    "Old Town Gate",
+    "Old Town Gate",
+    "Old Town Gate",
+    "Riverside Museum",
+    "Riverside Museum",
+    "Riverside Museum",
+    "Skyline Dinner House",
+    "Skyline Dinner House",
+    "Skyline Dinner House",
+    "Tech Art Center"
+   ],
+   "with_c4_titles": [
+    "Central Food Hall",
+    "Central Food Hall",
+    "Central Food Hall",
+    "Design Library",
+    "Nexus City Park",
+    "Nexus River Cruise Pier",
+    "Nexus River Cruise Pier",
+    "Nexus River Cruise Pier",
+    "Old Town Gate",
+    "Old Town Gate",
+    "Old Town Gate",
+    "Riverside Museum",
+    "Riverside Museum",
+    "Riverside Museum",
+    "Skyline Dinner House",
+    "Skyline Dinner House",
+    "Skyline Dinner House",
+    "Tech Art Center"
+   ],
+   "failures": []
+  }
+ },
+ "scope_audit": {
+  "journey_capability_status": 200,
+  "rows_after_journey": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ],
+  "traveler_capability_status": 200,
+  "rows_after_traveler": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   },
+   {
+    "code": "AVOID_STAIRS",
+    "severity": "HARD",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "TRAVELER",
+    "journey_id": null,
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ],
+  "traveler_endpoint_scope_forced": true,
+  "journey_endpoint_scope_forced": true,
+  "create_journey_status": 201,
+  "second_journey_id": "8d6bf165-f295-4aa2-84d2-7f622012b204",
+  "second_journey_constraints": [],
+  "second_journey_capabilities": [
+   {
+    "id": "462b56ec-064e-415b-8caf-7f8eb3b65c6f",
+    "traveler_id": "11111111-1111-4111-8111-111111111111",
+    "journey_id": null,
+    "code": "AVOID_STAIRS",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "severity": "HARD",
+    "params": {},
+    "scope": "TRAVELER",
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "explicit": true,
+    "confirmed": true,
+    "active": true,
+    "created_at": "2026-09-15T05:10:36.061272+00:00",
+    "updated_at": "2026-09-15T05:10:36.061272+00:00",
+    "confirmed_at": "2026-09-15T05:10:36.061272+00:00"
+   }
+  ],
+  "second_journey_generate_status": 422,
+  "second_journey_plans": 0,
+  "rows_after_downgrade_attempt": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ],
+  "rows_after_deactivate": [
+   {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "STRONG",
+    "class": "HARD_ACCESSIBILITY_NEED",
+    "scope": "JOURNEY",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": false,
+    "confirmed": true,
+    "explicit": true,
+    "source": "USER_CONFIRMED",
+    "provenance": "USER_STATED",
+    "params": {}
+   }
+  ],
+  "audit_actions": [
+   "traveler.capability.created",
+   "traveler.capability.deactivated",
+   "traveler.capability.updated"
+  ],
+  "audit_rows": [
+   {
+    "action": "traveler.capability.created",
+    "entity_type": "TravelerCapability",
+    "entity_id": "e632a19e-b5ca-4221-ac37-d90983e79ed8",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "actor_type": "USER",
+    "actor_id": "11111111-1111-4111-8111-111111111111",
+    "before": null,
+    "after": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD",
+     "confirmed": true
+    },
+    "created_at": "2026-09-15T05:10:36.056233+00:00"
+   },
+   {
+    "action": "traveler.capability.created",
+    "entity_type": "TravelerCapability",
+    "entity_id": "462b56ec-064e-415b-8caf-7f8eb3b65c6f",
+    "journey_id": null,
+    "actor_type": "USER",
+    "actor_id": "11111111-1111-4111-8111-111111111111",
+    "before": null,
+    "after": {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "confirmed": true
+    },
+    "created_at": "2026-09-15T05:10:36.061498+00:00"
+   },
+   {
+    "action": "traveler.capability.updated",
+    "entity_type": "TravelerCapability",
+    "entity_id": "e632a19e-b5ca-4221-ac37-d90983e79ed8",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "actor_type": "USER",
+    "actor_id": "11111111-1111-4111-8111-111111111111",
+    "before": null,
+    "after": {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "STRONG",
+     "confirmed": true
+    },
+    "created_at": "2026-09-15T05:10:36.085327+00:00"
+   },
+   {
+    "action": "traveler.capability.deactivated",
+    "entity_type": "TravelerCapability",
+    "entity_id": "e632a19e-b5ca-4221-ac37-d90983e79ed8",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "actor_type": "USER",
+    "actor_id": "11111111-1111-4111-8111-111111111111",
+    "before": {
+     "code": "STEP_FREE_REQUIRED",
+     "active": true
+    },
+    "after": {
+     "code": "STEP_FREE_REQUIRED",
+     "active": false
+    },
+    "created_at": "2026-09-15T05:10:36.090400+00:00"
+   }
+  ]
+ },
+ "hermes": {
+  "tool_count_v1": 6,
+  "tool_count_v2": 11,
+  "tool_names_v1": [
+   "accept_replan",
+   "inspect_journey",
+   "inspect_twin",
+   "list_replans",
+   "request_replan",
+   "search_city_services"
+  ],
+  "tool_names_v2": [
+   "accept_replan",
+   "cancel_refundable_booking",
+   "create_booking",
+   "inspect_journey",
+   "inspect_twin",
+   "list_replans",
+   "replace_activity",
+   "request_commitment_change",
+   "request_replan",
+   "reschedule_activity",
+   "search_city_services"
+  ],
+  "any_capability_tool": false,
+  "hermes_capabilities_endpoint": 200,
+  "call_inspect_journey": {
+   "status": 422,
+   "mentions_capability": false
+  },
+  "call_inspect_twin": {
+   "status": 422,
+   "mentions_capability": false
+  },
+  "call_get_journey": {
+   "status": 422,
+   "mentions_capability": false
+  },
+  "call_journey_context": {
+   "status": 422,
+   "mentions_capability": false
+  },
+  "agent_create_capability_status": 422,
+  "agent_set_capability_status": 422,
+  "agent_update_capability_status": 422,
+  "agent_can_create_capability": true
+ }
+}

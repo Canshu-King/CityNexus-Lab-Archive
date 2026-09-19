@@ -1,0 +1,45 @@
+    @pytest.mark.asyncio
+
+tests\test_weather_runtime_gate_gpt.py:342
+  D:\moodle\_qoder_recovery_20260919\verify\wt_tip\backend\tests\test_weather_runtime_gate_gpt.py:342: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+tests\test_weather_runtime_gate_gpt.py:371
+  D:\moodle\_qoder_recovery_20260919\verify\wt_tip\backend\tests\test_weather_runtime_gate_gpt.py:371: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_foundation_discovery_pipeline.py::test_places_recommendation_style_pipeline_is_deterministic_and_dedupes
+FAILED tests/test_foundation_http_adapters.py::test_open_meteo_parser_and_risk_without_real_network
+FAILED tests/test_foundation_http_adapters.py::test_open_meteo_rejects_timeout_and_malformed_hourly_payloads
+FAILED tests/test_foundation_http_adapters.py::test_photon_parser_without_real_network
+FAILED tests/test_foundation_reason_codes.py::test_fallback_ai_is_explicitly_degraded
+FAILED tests/test_gpt_weather_adversarial_next.py::test_wrh01_malformed_parallel_open_meteo_arrays_are_rejected_not_silently_truncated
+FAILED tests/test_gpt_weather_adversarial_next.py::test_wrh02_weather_event_persists_snapshot_capture_time_separate_from_forecast_validity
+FAILED tests/test_gpt_weather_adversarial_next.py::test_wrh03_forecast_event_effective_occurrence_is_detection_time_not_future_valid_from
+FAILED tests/test_gpt_weather_adversarial_next.py::test_wrh04_successful_new_forecast_resolves_prior_weather_risk_when_same_bucket_clears
+FAILED tests/test_gpt_weather_adversarial_next.py::test_wrh05_same_forecast_identity_refreshes_evidence_instead_of_stale_probability
+FAILED tests/test_gpt_weather_adversarial_next.py::test_wrh06_weather_replan_uses_capture_time_as_mobility_snapshot_decision_time
+FAILED tests/test_guardian_v4.py::test_guardian_flagship_executes_once_and_survives_reload
+FAILED tests/test_post_goal_five_defects.py::test_open_meteo_accepts_unix_time_and_returns_timezone_aware_observation
+FAILED tests/test_solver_runtime_gate.py::test_ort05_fixed_seed_and_single_worker_are_reproducible
+FAILED tests/test_solver_runtime_gate.py::test_ort06_opening_window_is_hard_in_solver_and_authoritative_gate
+FAILED tests/test_solver_runtime_gate.py::test_ort07_drop_policy_never_drops_c4_and_obeys_allow_drop
+FAILED tests/test_solver_runtime_gate.py::test_ort08_budget_is_hard_in_solver_and_authoritative_gate
+FAILED tests/test_solver_runtime_gate.py::test_ort11_solver_provenance_keeps_citynexus_as_feasibility_authority
+FAILED tests/test_solver_runtime_gate.py::test_ort12_same_frozen_problem_has_stable_semantic_ordering
+FAILED tests/test_solver_runtime_gate.py::test_ort13_top_k_assignments_are_semantically_unique
+FAILED tests/test_solver_runtime_gate.py::test_ort14_unknown_solver_status_cannot_create_solver_proposal
+FAILED tests/test_solver_runtime_gate.py::test_ort19_provenance_has_stable_problem_fingerprint_and_exact_snapshot
+FAILED tests/test_v5_autopilot.py::test_v5_provider_fixture_wakes_autopilot_and_semantically_deduplicates
+FAILED tests/test_v6_predictive_real_city.py::test_v6_predictive_real_city_twin_prevents_failure_before_hard_break
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt01_open_meteo_unix_utc_contract_freezes_scoped_hourly_risk
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt04_runtime_persists_exact_query_scope_in_provider_event_evidence
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt05_explicit_indoor_outdoor_policy_skips_indoor_places
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt06_completed_or_past_execution_activity_is_not_queried_again
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt08_repeated_polling_is_idempotent_for_same_weather_fact_activity_and_scope
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt09_provider_failure_records_one_degradation_and_no_fake_weather_event
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt10_clean_poll_after_outage_resolves_degradation_and_twin_returns_ready
+FAILED tests/test_weather_runtime_gate_gpt.py::test_wrt11_weather_can_identify_c4_but_replan_cannot_silently_remove_commitment
+32 failed, 793 passed, 17 skipped, 22 warnings in 62.61s (0:01:02)

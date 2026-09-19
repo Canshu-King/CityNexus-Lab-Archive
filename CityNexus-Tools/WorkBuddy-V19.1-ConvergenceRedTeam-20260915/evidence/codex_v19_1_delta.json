@@ -1,0 +1,809 @@
+{
+  "live_capabilities_bytes": 19890,
+  "eac_capabilities_bytes": 19910,
+  "snapshot_b_capabilities_bytes": 15283,
+  "live_has_normalize_osm_tags": true,
+  "live_has_evaluate_accessibility_requirement": true,
+  "live_has_split_clauses": false,
+  "negated_markers_identical_to_b": false,
+  "hard_markers_identical_to_b": true,
+  "sentences": [
+    {
+      "case_id": "mandated_en",
+      "text": "I don't need a wheelchair, I can walk",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": true,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "mandated_zh",
+      "text": "朋友说我可能需要轮椅，但我不这么认为",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": true,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "denial_en",
+      "text": "I don't use a wheelchair",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": true,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "denial_en2",
+      "text": "I am not a wheelchair user",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "denial_zh",
+      "text": "我不用轮椅",
+      "FINAL_V19": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "live_vs_b": false,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "hearsay_en",
+      "text": "my friend needs a wheelchair, not me",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "hearsay_zh",
+      "text": "我妈妈坐轮椅",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "hypothetical_en",
+      "text": "if I get tired I might need a wheelchair",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": true,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "facility_en",
+      "text": "the station has an accessible toilet",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "facility_zh",
+      "text": "车站有无障碍厕所",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "clause_no_exception",
+      "text": "轮椅必须全程无障碍，没有例外",
+      "FINAL_V19": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": true,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "history",
+      "text": "我以前不用轮椅，但现在必须无障碍",
+      "FINAL_V19": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": true,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "control_hard",
+      "text": "我需要轮椅，必须全程无障碍",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    },
+    {
+      "case_id": "walk_500",
+      "text": "走路不能超过 500 米",
+      "FINAL_V19": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "MAX_WALKING_PER_LEG_M"
+        ],
+        "hard": [],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "walk_zero",
+      "text": "走路不能超过 0 米",
+      "FINAL_V19": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "MAX_WALKING_PER_LEG_M"
+        ],
+        "hard": [],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "walk_negative",
+      "text": "走路不能超过 -5 米",
+      "FINAL_V19": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "CODEX_V19_1": {
+        "codes": [],
+        "hard": [],
+        "scopes": [],
+        "count": 0
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "MAX_WALKING_PER_LEG_M"
+        ],
+        "hard": [],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": false
+    },
+    {
+      "case_id": "permanent",
+      "text": "我长期需要无障碍通道",
+      "FINAL_V19": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "CODEX_V19_1": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "EAC_REFERENCE": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "scopes": [
+          "JOURNEY"
+        ],
+        "count": 1
+      },
+      "live_vs_b": false,
+      "live_false_hard": true
+    }
+  ],
+  "tag_matrix": [
+    {
+      "case_id": "toilet_only",
+      "tags": {
+        "toilets:wheelchair": "yes"
+      },
+      "expectation": "not_step_free",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_only",
+      "tags": {
+        "entrance:wheelchair": "yes"
+      },
+      "expectation": "not_step_free",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only",
+      "tags": {
+        "ramp": "yes"
+      },
+      "expectation": "not_step_free",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only",
+      "tags": {
+        "elevator": "yes"
+      },
+      "expectation": "not_step_free",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes",
+      "tags": {
+        "wheelchair": "yes"
+      },
+      "expectation": "step_free_ok",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "step_free_yes",
+      "tags": {
+        "step_free": "yes"
+      },
+      "expectation": "step_free_ok",
+      "step_free_place": "ACCESSIBILITY_VERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_plus_step_count",
+      "tags": {
+        "wheelchair": "yes",
+        "step_count": 5
+      },
+      "expectation": "conflict",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_plus_ramp",
+      "tags": {
+        "wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "expectation": "step_free_ok",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "kv_list",
+      "tags": [
+        "wheelchair=yes",
+        "ramp=yes"
+      ],
+      "expectation": "step_free_ok",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "empty",
+      "tags": {},
+      "expectation": "unknown",
+      "step_free_place": "ACCESSIBILITY_UNVERIFIED",
+      "step_free_route": "NEEDS_LIVE_EVIDENCE",
+      "step_free_satisfied_place": false,
+      "verdict": "PASS"
+    }
+  ],
+  "tag_matrix_summary": {
+    "pass": 6,
+    "fail": [
+      "wheelchair_yes",
+      "wheelchair_plus_step_count",
+      "wheelchair_plus_ramp",
+      "kv_list"
+    ]
+  },
+  "canonicalization": [
+    {
+      "case_id": "hard_soft_downgrade",
+      "probe": "severity",
+      "FINAL_V19": "SOFT",
+      "CODEX_V19_1": "HARD",
+      "EAC_REFERENCE": "HARD"
+    },
+    {
+      "case_id": "hard_strong_downgrade",
+      "probe": "severity",
+      "FINAL_V19": "STRONG",
+      "CODEX_V19_1": "HARD",
+      "EAC_REFERENCE": "HARD"
+    },
+    {
+      "case_id": "duplicate",
+      "probe": "count",
+      "FINAL_V19": 2,
+      "CODEX_V19_1": 1,
+      "EAC_REFERENCE": 1
+    },
+    {
+      "case_id": "cross_scope",
+      "probe": "scopes",
+      "FINAL_V19": [
+        "JOURNEY",
+        "TRAVELER"
+      ],
+      "CODEX_V19_1": [
+        "TRAVELER"
+      ],
+      "EAC_REFERENCE": [
+        "TRAVELER"
+      ]
+    },
+    {
+      "case_id": "limit_collision",
+      "probe": "max_m",
+      "FINAL_V19": 400,
+      "CODEX_V19_1": 400,
+      "EAC_REFERENCE": 800
+    }
+  ],
+  "walk_negative": {
+    "FINAL_V19": [],
+    "CODEX_V19_1": [],
+    "EAC_REFERENCE": [
+      {
+        "code": "MAX_WALKING_PER_LEG_M",
+        "params": {
+          "max_m": 5,
+          "needs_clarification": false
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,644 @@
+{
+ "label": "a",
+ "snapshot": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\snapshot_a\\backend",
+ "capabilities_bytes": 23668,
+ "rows": [
+  {
+   "group": "G1_false_hard",
+   "name": "my friend needs a wheelchair, not me",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "third-party subject (en); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "my mother uses a wheelchair",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "third-party subject (en); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "我朋友需要轮椅",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "third-party subject (zh); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "我妈妈坐轮椅",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "third-party subject (zh); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "I am not a wheelchair user",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "first-person denial; hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "the station has an accessible toilet",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "facility description (en); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "车站有无障碍厕所",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "facility description (zh); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "说不定到时候我需要轮椅",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "speculation (zh); hard=[]"
+  },
+  {
+   "group": "G1_false_hard",
+   "name": "if I end up in a wheelchair I'll tell you",
+   "expect": "no STEP_FREE_REQUIRED",
+   "actual": [],
+   "ok": true,
+   "note": "speculation (en); hard=[]"
+  },
+  {
+   "group": "G1_mandated_guard",
+   "name": "I need a wheelchair, I cannot walk",
+   "expect": "STEP_FREE_REQUIRED present",
+   "actual": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "ok": true,
+   "note": "must NOT be over-filtered"
+  },
+  {
+   "group": "G1_mandated_guard",
+   "name": "我全程需要无障碍通道，必须有电梯",
+   "expect": "STEP_FREE_REQUIRED present",
+   "actual": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "ok": true,
+   "note": "must NOT be over-filtered"
+  },
+  {
+   "group": "G2_scope_dedup",
+   "name": "TRAVELER + JOURNEY same code survive as two rows",
+   "expect": [
+    "JOURNEY",
+    "TRAVELER"
+   ],
+   "actual": [
+    "JOURNEY",
+    "TRAVELER"
+   ],
+   "ok": true,
+   "note": "rows=2"
+  },
+  {
+   "group": "G2_scope_dedup",
+   "name": "journey params not silently dropped",
+   "expect": "both notes present",
+   "actual": [
+    {
+     "note": "traveler"
+    },
+    {
+     "note": "journey"
+    }
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G2_numeric_merge",
+   "name": "same scope duplicate merges to stricter bound",
+   "expect": 400,
+   "actual": 400,
+   "ok": true,
+   "note": "rows=1"
+  },
+  {
+   "group": "G2_permanence_scope",
+   "name": "permanence language promotes JOURNEY -> TRAVELER",
+   "expect": "TRAVELER",
+   "actual": [
+    "TRAVELER"
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G2_this_trip_scope",
+   "name": "this-trip language stays JOURNEY",
+   "expect": "JOURNEY",
+   "actual": [
+    "JOURNEY"
+   ],
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "toilets:wheelchair=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "ramp=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "elevator=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "ramp:wheelchair=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "highway=elevator",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "kerb=lowered",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "tactile_paving=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "entrance=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "wheelchair=yes",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "wheelchair=designated",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "wheelchair=limited",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_facility_tags",
+   "name": "wheelchair=no",
+   "expect": "not ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": true,
+   "note": "facility evidence must not satisfy STEP_FREE_REQUIRED"
+  },
+  {
+   "group": "G3_route",
+   "name": "route, no evidence",
+   "expect": "NEEDS_LIVE_EVIDENCE",
+   "actual": "NEEDS_LIVE_EVIDENCE",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_route",
+   "name": "route + place wheelchair=yes",
+   "expect": "NEEDS_LIVE_EVIDENCE",
+   "actual": "NEEDS_LIVE_EVIDENCE",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_positive",
+   "name": "step_free: yes",
+   "expect": "ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_VERIFIED",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_positive",
+   "name": "step_free_verified: yes (flat)",
+   "expect": "ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_VERIFIED",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_positive",
+   "name": "osm_tags step_free_verified",
+   "expect": "ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_VERIFIED",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_positive",
+   "name": "route_step_free_verified",
+   "expect": "ACCESSIBILITY_VERIFIED",
+   "actual": "ACCESSIBILITY_VERIFIED",
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "flat stairs=yes",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_CONFLICT",
+   "ok": true,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "flat has_stairs=yes",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_CONFLICT",
+   "ok": true,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "flat step_count=5",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_CONFLICT",
+   "ok": true,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "nested osm step_count=5",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": false,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "flat steps=yes",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_UNVERIFIED",
+   "ok": false,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "flat highway=steps",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_CONFLICT",
+   "ok": true,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_contradiction",
+   "name": "nested osm highway=steps",
+   "expect": "ACCESSIBILITY_CONFLICT",
+   "actual": "ACCESSIBILITY_CONFLICT",
+   "ok": true,
+   "note": "provider data contradicts itself"
+  },
+  {
+   "group": "G3_tag_shapes",
+   "name": "mapping scalar",
+   "expect": {
+    "wheelchair": "yes"
+   },
+   "actual": {
+    "wheelchair": "yes"
+   },
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_tag_shapes",
+   "name": "mapping list value",
+   "expect": {
+    "wheelchair": "yes"
+   },
+   "actual": {
+    "wheelchair": "yes"
+   },
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_tag_shapes",
+   "name": "mapping tuple value",
+   "expect": {
+    "ramp": "yes"
+   },
+   "actual": {
+    "ramp": "yes"
+   },
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_tag_shapes",
+   "name": "sequence of k=v",
+   "expect": {
+    "wheelchair": "yes",
+    "ramp": "yes"
+   },
+   "actual": {
+    "wheelchair": "yes",
+    "ramp": "yes"
+   },
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G3_tag_shapes",
+   "name": "nested osm_tags mapping",
+   "expect": null,
+   "actual": {
+    "osm_tags": "{'wheelchair': 'yes'}"
+   },
+   "ok": true,
+   "note": "nested handled by caller, not by normalizer"
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 1 米",
+   "expect": 1,
+   "actual": 1,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 100 米",
+   "expect": 100,
+   "actual": 100,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 500 米",
+   "expect": 500,
+   "actual": 500,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 501 米",
+   "expect": 501,
+   "actual": 501,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 1 km",
+   "expect": 1000,
+   "actual": 1000,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 1 公里",
+   "expect": 1000,
+   "actual": 1000,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 1.5 km",
+   "expect": 1500,
+   "actual": 1,
+   "ok": false,
+   "note": ""
+  },
+  {
+   "group": "G4_numeric",
+   "name": "走路不能超过 -5 米",
+   "expect": null,
+   "actual": null,
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4b_natural_phrasing",
+   "name": "每段不超过 100 米",
+   "expect": "a walking limit is produced",
+   "actual": "MISSING",
+   "ok": false,
+   "note": "trigger-token coverage"
+  },
+  {
+   "group": "G4b_natural_phrasing",
+   "name": "单段步行不超过 100 米",
+   "expect": "a walking limit is produced",
+   "actual": "MISSING",
+   "ok": false,
+   "note": "trigger-token coverage"
+  },
+  {
+   "group": "G4b_natural_phrasing",
+   "name": "每次走路不超过 100 米",
+   "expect": "a walking limit is produced",
+   "actual": "MISSING",
+   "ok": false,
+   "note": "trigger-token coverage"
+  },
+  {
+   "group": "G4b_natural_phrasing",
+   "name": "不要走超过 100 米",
+   "expect": "a walking limit is produced",
+   "actual": "MISSING",
+   "ok": false,
+   "note": "trigger-token coverage"
+  },
+  {
+   "group": "G4b_natural_phrasing",
+   "name": "walk no more than 100 m",
+   "expect": "a walking limit is produced",
+   "actual": 100,
+   "ok": true,
+   "note": "trigger-token coverage"
+  },
+  {
+   "group": "G4b_natural_phrasing",
+   "name": "cannot walk more than 100 m",
+   "expect": "a walking limit is produced",
+   "actual": 100,
+   "ok": true,
+   "note": "trigger-token coverage"
+  },
+  {
+   "group": "G4_zero_policy",
+   "name": "走路不能超过 0 米 must not persist max_m=0 as authoritative",
+   "expect": "max_m != 0 or needs_clarification",
+   "actual": {
+    "max_m": 0,
+    "needs_clarification": false
+   },
+   "ok": false,
+   "note": "road-prep policy"
+  },
+  {
+   "group": "G4_window",
+   "name": "午休 12:00 到 14:00",
+   "expect": {
+    "start": "12:00",
+    "end": "14:00"
+   },
+   "actual": {
+    "start": "12:00",
+    "end": "14:00"
+   },
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_window",
+   "name": "午休 15:00 到 13:00",
+   "expect": "reversed -> clarification",
+   "actual": {
+    "needs_clarification": true
+   },
+   "ok": true,
+   "note": ""
+  },
+  {
+   "group": "G4_nap",
+   "name": "nap window without stated times is flagged",
+   "expect": "defaulted_window or needs_clarification",
+   "actual": {
+    "start": "13:00",
+    "end": "15:00"
+   },
+   "ok": false,
+   "note": "MIDDAY_REST has this; check nap parity"
+  }
+ ],
+ "summary": {
+  "total": 64,
+  "failing": 9,
+  "by_group": {
+   "G1_false_hard": {
+    "total": 9,
+    "failing": 0
+   },
+   "G1_mandated_guard": {
+    "total": 2,
+    "failing": 0
+   },
+   "G2_scope_dedup": {
+    "total": 2,
+    "failing": 0
+   },
+   "G2_numeric_merge": {
+    "total": 1,
+    "failing": 0
+   },
+   "G2_permanence_scope": {
+    "total": 1,
+    "failing": 0
+   },
+   "G2_this_trip_scope": {
+    "total": 1,
+    "failing": 0
+   },
+   "G3_facility_tags": {
+    "total": 12,
+    "failing": 0
+   },
+   "G3_route": {
+    "total": 2,
+    "failing": 0
+   },
+   "G3_positive": {
+    "total": 4,
+    "failing": 0
+   },
+   "G3_contradiction": {
+    "total": 7,
+    "failing": 2
+   },
+   "G3_tag_shapes": {
+    "total": 5,
+    "failing": 0
+   },
+   "G4_numeric": {
+    "total": 8,
+    "failing": 1
+   },
+   "G4b_natural_phrasing": {
+    "total": 6,
+    "failing": 4
+   },
+   "G4_zero_policy": {
+    "total": 1,
+    "failing": 1
+   },
+   "G4_window": {
+    "total": 2,
+    "failing": 0
+   },
+   "G4_nap": {
+    "total": 1,
+    "failing": 1
+   }
+  }
+ }
+}

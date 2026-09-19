@@ -1,0 +1,582 @@
+"""V15 Copilot semantic router — OPTIONAL reference implementation.
+
+This module is a *reference*, not a mandate. It exists so the V15 contract tests
+in ``backend/tests/test_v15_copilot_semantic_contract.py`` have something to run
+against, and so Codex has a concrete, measured comparison point. It does not
+replace the Guardian, the solver, the commerce layer or the recovery runtime, and
+it introduces no new framework.
+
+Division of responsibility, as required by the V15 brief:
+
+* the *model* (or the deterministic layer here) proposes an **intent**;
+* the *server* owns **authoritative facts** and **mutation permission**.
+
+Concretely, ``route()`` resolves an intent first and then recomputes the mutation
+policy from server-side rules. A model can never talk the router into
+``NO_MUTATION`` -> ``REQUEST_WITH_CONFIRMATION`` for an authority-override
+message, and it can never make a hypothetical materialise a real Event.
+
+Deterministic-first: a rule layer resolves the message, and the optional
+``classifier`` is consulted only for the genuinely ambiguous tail. The rule layer
+is what makes the behaviour reproducible and testable offline.
+"""
+from __future__ import annotations
+
+import re
+from dataclasses import dataclass
+from typing import Any, Callable, Mapping
+
+INTENTS = (
+    "EXPLAIN_PLAN",
+    "WHAT_IF",
+    "DISCOVER",
+    "PREFERENCE_CHANGE",
+    "DISRUPTION_REPORT",
+    "REPLAN_REQUEST",
+    "UNKNOWN",
+)
+
+NO_MUTATION = "NO_MUTATION"
+REQUEST_ONLY = "REQUEST_ONLY"
+REQUEST_WITH_CONFIRMATION = "REQUEST_WITH_CONFIRMATION"
+EVENT_THEN_MISSION = "EVENT_THEN_MISSION"
+REJECT_OVERRIDE = "REJECT_OVERRIDE"
+
+#: Intents that must never materialise a real-world Event.
+NEVER_EVENT_INTENTS = frozenset(
+    {"EXPLAIN_PLAN", "WHAT_IF", "DISCOVER", "PREFERENCE_CHANGE", "UNKNOWN"}
+)
+
+#: Intents that may legitimately open a mission once a real Event exists.
+EVENT_INTENTS = frozenset({"DISRUPTION_REPORT"})
+
+
+@dataclass(frozen=True)
+class JourneyContext:
+    """Server-verified journey facts. The router must never rewrite these."""
+
+    city_code: str
+    timezone: str
+    currency: str
+    locale: str
+    journey_state: str = "ACTIVE"
+
+    def as_prompt_payload(self) -> dict[str, Any]:
+        return {
+            "city_code": self.city_code,
+            "timezone": self.timezone,
+            "currency": self.currency,
+            "locale": self.locale,
+            "journey_state": self.journey_state,
+        }
+
+
+@dataclass(frozen=True)
+class SemanticRoute:
+    intent: str
+    mutation_policy: str
+    requires_confirmation: bool
+    creates_real_event: bool
+    confidence: float = 0.0
+    rationale: str = ""
+    event_type: str | None = None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "intent": self.intent,
+            "mutation_policy": self.mutation_policy,
+            "requires_confirmation": self.requires_confirmation,
+            "creates_real_event": self.creates_real_event,
+            "confidence": self.confidence,
+            "rationale": self.rationale,
+            "event_type": self.event_type,
+        }
+
+
+# ---------------------------------------------------------------------------
+# Marker vocabularies. Kept as explicit data so they are reviewable and
+# extensible per locale without touching control flow.
+# ---------------------------------------------------------------------------
+
+HYPOTHETICAL = (
+    "如果", "假设", "假如", "要是", "倘若", "若是", "万一", "就算", "哪怕",
+    "会怎样", "会怎么样", "会如何", "的话呢", "会不会影响",
+    "what if", "what would", "suppose", "supposing", "hypothetically",
+    "in case it", "if it", "if we", "if i", "if the", "if my", "should it",
+)
+
+OVERRIDE = (
+    "忽略", "绕过", "不用管", "别管", "不要问", "别问我", "别问", "不用确认",
+    "不必确认", "跳过确认", "不要确认", "直接改", "直接取消", "直接付款",
+    "直接花", "直接订", "假装", "视为", "当成", "系统提示", "我有权限",
+    "全权", "解锁", "我自己负责", "我承担", "你知道有风险", "你觉得合适",
+    "你来决定", "你决定", "随便你定", "替我决定", "全交给你",
+    "ignore", "bypass", "skip confirmation", "no confirmation",
+    "without asking", "don't ask", "do not ask", "pretend", "assume the route",
+    "take responsibility", "i accept all risk", "unlock", "override",
+    "you decide", "you pick", "just pick", "system:",
+    "别走确认", "有风险", "另一个用户", "其他人的行程", "别人的行程",
+    "another traveler", "another user", "other traveler",
+    "另一趟", "另一个行程", "别的行程", "其他行程", "另一个旅行",
+    "another journey", "other trip", "merge my", "一起重新规划",
+)
+
+# Present-tense / already-happening markers.
+PRESENT = (
+    "现在", "正在", "目前", "当前", "此时", "刚刚", "刚收到", "刚看到", "突然",
+    "已经", "还没", "仍在", "还在", "今天临时",
+    "收到短信", "短信说", "通知说", "外面",
+    "right now", "now", "currently", "already", "just got", "just received",
+    "at the moment", "has been", "have been", "is down", "is closed",
+    "was cancelled", "is cancelled", "got cancelled", "is delayed",
+)
+
+DISRUPTION_NOUNS = (
+    "暴雨", "大雨", "下雨", "雷暴", "台风", "大雪", "暴雪", "大雾", "雾霾",
+    "封路", "封闭", "交通管制", "拥堵", "堵死", "堵住", "堵车", "停运",
+    "延误", "晚点", "取消", "关闭", "闭馆", "停业", "停飞", "排队", "等了",
+    "被偷", "丢了", "丢失", "故障", "中断", "涨水", "积水", "停摆", "无法通过",
+    # V16 lab: "博物馆关门了。" was classified UNKNOWN because the vocabulary
+    # had 关闭/闭馆 but not the verb people actually use.  A real closure report
+    # then filed no event at all.
+    "关门", "不开门", "没开门", "歇业", "停止营业", "维修", "检修", "施工中",
+    "暂停开放", "不开放", "停课", "没电", "停电", "停水",
+    "还没准备好", "还没上菜", "房间还没", "上不了菜", "没准备好",
+    "rain", "raining", "storm", "thunderstorm", "typhoon", "snow", "fog",
+    "smog", "flood", "flooding", "closed", "closure", "cancelled", "canceled",
+    "delayed", "delay", "congestion", "traffic jam", "stuck", "outage", "is down", "line is down",
+    "suspended", "sold out", "lost my", "queue", "pouring", "pour",
+    "heavy smog", "air quality", "plans are off", "is off",
+    "shut", "shut down", "out of service", "under maintenance", "no longer open",
+    "power cut", "blackout", "closed today",
+)
+
+TRAFFIC_NOUNS = (
+    "封路", "封闭", "交通管制", "拥堵", "堵死", "堵住", "堵车", "道路",
+    "公路", "高速", "隧道", "路口", "车流", "停运", "地铁", "公交",
+    "traffic", "road", "closure", "congestion", "highway", "tunnel",
+    "mrt", "subway", "metro", "bus", "line is down",
+)
+
+EXPLAIN = (
+    "为什么", "为何", "为啥", "解释", "说明", "讲一遍", "讲讲", "说一下",
+    "总结", "回顾", "是什么", "哪些", "哪一个", "多少", "怎么排", "怎么安排",
+    "什么变化", "变了什么", "有问题", "哪里出问题", "风险点", "花费", "预算还剩",
+    "explain", "why", "how much", "what changed", "walk me through",
+    "recap", "summar", "breakdown", "which activities", "tell me about the plan",
+    "what is the plan", "what is my next", "how far",
+    "what is next", "what's next", "what comes next", "what is coming up",
+    "fixed-time commitment", "protected commitments",
+)
+
+DISCOVER = (
+    "附近", "推荐", "有什么", "有没有", "哪里", "哪儿", "找一", "帮我找",
+    "好吃的", "好玩", "看看有什么", "有什么好吃", "夜景", "拍照",
+    "有哪些地方", "地方有哪些", "地方有", "适合小孩",
+    "find", "recommend", "any good", "show me", "where can", "options",
+    "things to do", "nearby", "suggest", "找", "地方吗", "去的地方",
+    "places", "good for kids", "for kids",
+)
+
+PREFERENCE = (
+    "我想少走", "少走路", "少走", "少爬", "不想走", "走不动", "腿不",
+    "不能吃辣", "不太能吃辣", "不吃辣", "素食", "吃素",
+    "我想早点", "早点回", "早一点结束", "早点结束", "想早点",
+    "想多安排", "多一点", "少一点", "慢一点", "放松", "别太赶", "别太累",
+    "安静", "不吵", "带孩子", "有孩子", "室内", "优先", "尽量",
+    "预算改", "改成", "预算只剩", "预算不够", "想省钱", "省钱",
+    "记住这个偏好", "以后都",
+    "walk less", "fewer stairs", "avoid stairs", "i prefer", "i'd like",
+    "i would like", "vegetarian", "no spicy", "not spicy", "more relaxed",
+    "relaxed overall", "less scheduled", "finish earlier", "earlier",
+    "quiet", "calm", "with kids", "family-friendly", "indoors", "indoor",
+    "change the budget", "budget to", "save money", "cheaper", "my legs",
+    "prefer museums", "avoid anything", "no more walking", "only got",
+    "我想", "想看", "当地文化", "不想要", "需要预约", "不用预约",
+    "too packed", "loosen",
+)
+
+REPLAN = (
+    "重新安排", "重新排", "重新规划", "重排", "改到", "改成", "换成", "换到",
+    "调换", "调整", "取消", "退票", "付款", "订", "预订", "压缩", "提前",
+    "改一下", "帮我改", "重新安排一下", "不动已经订好", "别动已经",
+    "迟到", "赶得上", "还来得及", "撞了", "冲突", "太紧", "松一点",
+    "保预算", "省钱", "不想取消", "先保",
+    "replan", "re-arrange", "rearrange", "reschedule", "move the",
+    "swap", "drop the", "change the", "cancel", "refund", "pay for",
+    "book", "compress", "reorder", "replan so", "replan without",
+    "keep the", "overlap", "overlaps", "conflict", "conflicts",
+    "still make it", "optimise for",
+    "too tight", "loosen it", "beats distance",
+    "退掉", "反过来", "排紧", "换一家", "换一个", "换别的",
+    "instead", "longer", "shorter",
+)
+
+#: Phrases that sit in REPLAN only because a *budget-protection* sentence such as
+#: "我想省钱，但不想取消游船。" needs them, but which on their own are a pure
+#: comfort preference ("我想省钱一点。"). Steps 6/7 ignore these unless some other
+#: replan marker is also present, so a bare preference cannot become a rewrite.
+REPLAN_PREFERENCE_COLLISIONS = ("省钱",)
+
+# Anything that touches money or a fixed commitment needs a human gate.
+HIGH_IMPACT = (
+    "取消", "退票", "退款", "付款", "支付", "订", "预订", "花", "购买",
+    "预算改", "预算调", "改预算",
+    "cancel", "refund", "pay", "book", "purchase", "spend",
+    "change the budget", "budget to", "raise the budget",
+)
+COMMITMENT_WORDS = (
+    "游船", "晚餐", "机票", "航班", "火车", "高铁", "酒店", "预约",
+    "cruise", "dinner", "flight", "train", "hotel", "reservation", "booking",
+    "night safari", "museum", "餐厅", "restaurant", "tickets", "门票",
+)
+FIXED_ANCHOR_WORDS = (
+    "返程", "回程", "到达", "出发", "航班", "火车", "高铁",
+    "return train", "return flight", "departure", "arrival", "flight",
+)
+
+#: City tokens used to detect a reference to a DIFFERENT journey. This is a
+#: server-side referential check: it compares the message against the verified
+#: ``JourneyContext``, so the model cannot be talked into merging journeys.
+CITY_TOKENS = {
+    "CN-FUZHOU": ("福州", "fuzhou", "三坊七巷", "sanfang"),
+    "CN-SHANGHAI": ("上海", "shanghai", "外滩", "bund"),
+    "CN-BEIJING": ("北京", "beijing"),
+    "SG-SINGAPORE": ("新加坡", "singapore", "singapura"),
+    "JP-TOKYO": ("东京", "tokyo", "浅草", "asakusa"),
+    "GB-LONDON": ("伦敦", "london", "british museum"),
+}
+
+#: Unambiguous "this is happening" markers. A bare causal connector is NOT one:
+#: "prefer 室内，因为 may rain" is a preference justified by a forecast.
+STRONG_PRESENT = (
+    "现在", "正在", "目前", "当前", "此时", "刚刚", "刚收到", "刚看到", "突然",
+    "已经", "还没", "仍在", "还在", "今天临时", "外面", "收到短信", "短信说",
+    "right now", "currently", "already", "just got", "at the moment",
+    "is down", "is closed", "was cancelled", "got cancelled", "is delayed",
+)
+
+CAUSAL = ("因为", "由于", "导致", "because", "due to", "since")
+
+#: Chinese perfective aspect. "游船取消了。" is a *report*; "取消游船。" is a
+#: *request*. Both contain the same disruption noun, and the only surface
+#: difference is the completion particle. Without this, a bare past-tense
+#: disruption is read as a change request, which is the wrong side of the
+#: Guardian boundary: a report may open a mission, a request may not.
+COMPLETED_ASPECT = re.compile(r"了(?!的)")
+
+#: Nouns/phrases that can only be a report, never a request.
+HARD_REPORT = (
+    "封", "堵", "停运", "被偷", "丢了", "丢失", "故障", "中断", "涨水", "积水",
+    "停摆", "无法通过", "还没准备好", "还没上菜", "房间还没", "上不了菜",
+    "cancelled", "canceled", "closed", "closure", "delayed", "outage",
+    "suspended", "stuck", "sold out", "lost my", "flooding", "is off",
+)
+
+LEADING_EXPLAIN = (
+    "为什么", "为何", "为啥", "解释", "总结", "回顾",
+    "why", "explain", "recap", "summar", "which activities",
+    "what changed", "what is my next", "what did", "how much",
+)
+
+REQUEST_FRAMING = (
+    "帮我", "请帮", "能不能", "可否", "麻烦", "我要", "我想让",
+    "can you", "could you", "please", "i want", "i need", "i'd like",
+)
+
+CHANGE_VERB = (
+    "改", "换", "调", "重新", "压缩", "提前", "取消", "退",
+    "move", "change", "swap", "drop", "reorder", "rearrange",
+    "reschedule", "compress", "cancel", "refund", "book", "pay",
+)
+
+BUDGET_CHANGE = (
+    "预算改", "预算调", "改预算", "预算调整", "预算只剩", "预算不够",
+    "change the budget", "budget to", "raise the budget", "budget is",
+)
+
+DEFAULT_EVENT_BY_INTENT = {"DISRUPTION_REPORT": "WEATHER"}
+
+
+def detect_foreign_city(text: str, context: JourneyContext) -> str | None:
+    """Return a city named in the message that is NOT this journey's city."""
+    own = CITY_TOKENS.get(context.city_code, ())
+    for code, tokens in CITY_TOKENS.items():
+        if code == context.city_code:
+            continue
+        for token in tokens:
+            if token in text and token not in own:
+                return code
+    return None
+
+
+def _norm(message: str) -> str:
+    return (message or "").casefold().strip()
+
+
+_ASCII_MARKER = re.compile(r"^[\x00-\x7f]+$")
+
+
+def _marker_present(text: str, marker: str) -> bool:
+    """Match a marker.
+
+    ASCII markers must sit on word boundaries: naive substring matching made
+    "breakdown" hit the marker "down" and turned an explanation into a
+    disruption report. CJK markers stay substring-based, which is correct for
+    languages without spaces.
+    """
+    if _ASCII_MARKER.match(marker):
+        return re.search(rf"(?<![a-z0-9]){re.escape(marker)}(?![a-z0-9])", text) is not None
+    return marker in text
+
+
+def _hits(text: str, markers: tuple[str, ...]) -> list[str]:
+    return [m for m in markers if _marker_present(text, m)]
+
+
+def _has_any(text: str, markers: tuple[str, ...]) -> bool:
+    return any(_marker_present(text, m) for m in markers)
+
+
+def _classify_rules(text: str) -> tuple[str, float, str]:
+    """Resolve an intent from explicit markers. Returns (intent, confidence, why)."""
+    if not text:
+        return "UNKNOWN", 0.2, "empty message"
+
+    leading_explain = _has_any(text, LEADING_EXPLAIN)
+    request_framing = _has_any(text, REQUEST_FRAMING)
+    change_verb = _has_any(text, CHANGE_VERB)
+    hypo = _hits(text, HYPOTHETICAL)
+    override = _hits(text, OVERRIDE)
+    present = _hits(text, PRESENT)
+    disruption = _hits(text, DISRUPTION_NOUNS)
+    explain = _hits(text, EXPLAIN)
+    discover = _hits(text, DISCOVER)
+    preference = _hits(text, PREFERENCE)
+    replan = _hits(text, REPLAN)
+    # Drop markers that are ambiguous between "rewrite the plan" and "I would
+    # simply prefer X", unless another, unambiguous replan marker is present.
+    replan_effective = [m for m in replan if m not in REPLAN_PREFERENCE_COLLISIONS]
+
+    # 1. Authority override dominates everything: the traveler is trying to hand
+    #    the assistant decision rights it does not have.
+    if override:
+        return "UNKNOWN", 0.95, f"authority override marker(s): {', '.join(override[:3])}"
+
+    # 2. Hypotheticals are never real-world facts, even when they name a
+    #    disruption. This is the "如果下雨" vs "现在正在下雨" boundary.
+    if hypo:
+        return "WHAT_IF", 0.94, f"hypothetical marker(s): {', '.join(hypo[:3])}"
+
+    # 3. A question that leads with an interrogative is an explanation, even
+    #    when it quotes a change verb ("为什么把餐厅换成这家了？").
+    if leading_explain and not request_framing:
+        return "EXPLAIN_PLAN", 0.9, f"leading interrogative: {', '.join(_hits(text, LEADING_EXPLAIN)[:2])}"
+
+    # 4. A budget change is a durable constraint, not a plan rewrite, even when
+    #    it is phrased with a change verb.
+    if _has_any(text, BUDGET_CHANGE):
+        return "PREFERENCE_CHANGE", 0.86, "budget constraint change"
+
+    # 5. Real disruption. A disruption noun alone is not enough: the message
+    #    must either carry an unambiguous report phrase, or a present-tense /
+    #    causal frame. This is what keeps "如果下雨" (handled at step 2),
+    #    "prefer 室内，因为 may rain" and "我想省钱，但不想取消游船" out of the
+    #    disruption path, while "游船因为大风取消了" still gets in.
+    if disruption and not _has_any(text, ("帮我", "请帮", "能不能", "可否")):
+        strong_present = bool(_hits(text, STRONG_PRESENT))
+        causal = _has_any(text, CAUSAL)
+        hard = _has_any(text, HARD_REPORT)
+        completed = bool(COMPLETED_ASPECT.search(text))
+        preference_shaped = bool(preference) and not strong_present
+        if not preference_shaped and (hard or strong_present or causal or completed):
+            return "DISRUPTION_REPORT", 0.9, f"present disruption: {', '.join(disruption[:3])}"
+
+    # 6. Explicit change request. A request framing or a change verb alongside a
+    #    change marker means the traveler is asking us to do something.
+    if replan_effective and (request_framing or change_verb):
+        return "REPLAN_REQUEST", 0.9, f"request/change framing + {', '.join(replan_effective[:3])}"
+
+    # 7. Explicit change request without present framing.
+    if replan_effective:
+        return "REPLAN_REQUEST", 0.88, f"replan marker(s): {', '.join(replan_effective[:3])}"
+
+    # 8. Discovery outranks preference: "推荐几个室内的景点" is a search, not a
+    #    comfort constraint, even though it names 室内.
+    if discover:
+        return "DISCOVER", 0.85, f"discover marker(s): {', '.join(discover[:3])}"
+
+    # 9. Read-only explanation.
+    if explain:
+        return "EXPLAIN_PLAN", 0.9, f"explain marker(s): {', '.join(explain[:3])}"
+
+    # 10. Durable preference / comfort constraint.
+    if preference:
+        return "PREFERENCE_CHANGE", 0.88, f"preference marker(s): {', '.join(preference[:3])}"
+
+    # 11. Bare disruption noun, not phrased as a question about the plan.
+    if disruption and not _has_any(text, ("?", "？")):
+        return "DISRUPTION_REPORT", 0.7, f"bare disruption noun: {', '.join(disruption[:2])}"
+
+    return "UNKNOWN", 0.35, "no decisive marker"
+
+
+def _resolve_policy(
+    text: str,
+    intent: str,
+    *,
+    context: JourneyContext,
+) -> tuple[str, bool, bool, str | None]:
+    """Server-side authority resolution. The model never gets a vote here."""
+    override = _has_any(text, OVERRIDE)
+    high_impact = _has_any(text, HIGH_IMPACT)
+    commitment = _has_any(text, COMMITMENT_WORDS) or _has_any(text, FIXED_ANCHOR_WORDS)
+
+    creates_real_event = intent in EVENT_INTENTS and not _has_any(text, HYPOTHETICAL)
+
+    if override:
+        return REJECT_OVERRIDE, False, False, None
+
+    if intent in NEVER_EVENT_INTENTS:
+        # Hypotheticals, explanations, preferences and questions never mutate.
+        requires_confirmation = bool(
+            intent == "PREFERENCE_CHANGE"
+            and ((high_impact and commitment) or _has_any(text, BUDGET_CHANGE))
+        )
+        return (REQUEST_WITH_CONFIRMATION if requires_confirmation else REQUEST_ONLY if intent in {"PREFERENCE_CHANGE", "REPLAN_REQUEST"} else NO_MUTATION), requires_confirmation, False, None
+
+    if intent == "DISRUPTION_REPORT":
+        return EVENT_THEN_MISSION, False, creates_real_event, DEFAULT_EVENT_BY_INTENT[intent]
+
+    if intent == "REPLAN_REQUEST":
+        # Moving or rewriting a paid / fixed-time commitment needs a human gate
+        # even when no money verb is present ("把游船改到明天。").
+        reschedules_commitment = commitment and _has_any(
+            text,
+            ("改到", "改成", "换到", "换成", "调换", "调整", "提前", "推迟",
+             "move the", "reschedule", "swap", "change the", "reorder",
+             "撞了", "冲突", "overlap", "overlaps", "conflict"),
+        )
+        requires_confirmation = (high_impact and commitment) or reschedules_commitment
+        return (
+            REQUEST_WITH_CONFIRMATION if requires_confirmation else REQUEST_ONLY,
+            requires_confirmation,
+            False,
+            None,
+        )
+
+    return NO_MUTATION, False, False, None
+
+
+def _event_type_for(text: str) -> str:
+    return "TRAFFIC_DELAY" if _has_any(text, TRAFFIC_NOUNS) else "WEATHER"
+
+
+def resolve_locale(context: JourneyContext) -> str:
+    """Locale for copilot output.
+
+    The V14 rule was ``"zh" if timezone.startswith("Asia/") else "en"``, which
+    turns Singapore and Tokyo into Chinese. Prefer the traveler's declared UI
+    locale, then a small timezone->language map, and only then a default.
+    """
+    declared = (context.locale or "").strip()
+    if declared:
+        low = declared.casefold()
+        if low.startswith("zh"):
+            return "zh"
+        if low.startswith(("en", "ja", "ko", "ms", "ta", "hi")):
+            return low.split("-")[0]
+    tz = (context.timezone or "").strip()
+    by_timezone = {
+        "Asia/Shanghai": "zh",
+        "Asia/Chongqing": "zh",
+        "Asia/Hong_Kong": "zh",
+        "Asia/Taipei": "zh",
+        "Asia/Singapore": "en",
+        "Asia/Tokyo": "ja",
+        "Asia/Seoul": "ko",
+        "Europe/London": "en",
+        "Europe/Dublin": "en",
+        "America/New_York": "en",
+    }
+    return by_timezone.get(tz, "en")
+
+
+Classifier = Callable[[str, JourneyContext], Mapping[str, Any]]
+
+
+def route(
+    message: str,
+    context: JourneyContext,
+    *,
+    classifier: Classifier | None = None,
+) -> SemanticRoute:
+    """Resolve a traveler message into a route with a server-computed policy.
+
+    ``classifier`` is optional and is consulted only when the rule layer has no
+    decisive marker. Its output is advisory: the intent may be taken from it,
+    but the mutation policy, confirmation flag and event decision are always
+    recomputed below.
+    """
+    text = _norm(message)
+
+    # Server-side referential check: a message naming a different city is a
+    # reference to another Journey and must never be auto-merged into this one.
+    foreign_city = detect_foreign_city(text, context)
+    if foreign_city is not None:
+        return SemanticRoute(
+            intent="UNKNOWN",
+            mutation_policy=REJECT_OVERRIDE,
+            requires_confirmation=False,
+            creates_real_event=False,
+            confidence=0.95,
+            rationale=f"references a different journey city: {foreign_city}",
+            event_type=None,
+        )
+
+    intent, confidence, rationale = _classify_rules(text)
+
+    if classifier is not None and intent == "UNKNOWN":
+        try:
+            suggestion = classifier(message, context)
+        except Exception:  # noqa: BLE001 - external model boundary
+            suggestion = None
+        if suggestion:
+            candidate = str(suggestion.get("intent") or "")
+            if candidate in INTENTS and candidate != "UNKNOWN":
+                try:
+                    suggestion_confidence = float(suggestion.get("confidence") or 0.0)
+                except (TypeError, ValueError):
+                    suggestion_confidence = 0.0
+                # Only accept a confident, non-override suggestion, and never for
+                # a message that carries an authority-override marker.
+                if suggestion_confidence >= 0.6 and not _has_any(text, OVERRIDE):
+                    intent = candidate
+                    confidence = min(0.85, suggestion_confidence)
+                    rationale = f"model suggestion: {suggestion.get('rationale') or candidate}"
+
+    policy, requires_confirmation, creates_real_event, event_type = _resolve_policy(
+        text, intent, context=context
+    )
+
+    # Hard server guarantees, applied last so no upstream can bypass them.
+    if intent in NEVER_EVENT_INTENTS:
+        creates_real_event = False
+    if _has_any(text, HYPOTHETICAL):
+        creates_real_event = False
+    if _has_any(text, OVERRIDE):
+        policy = REJECT_OVERRIDE
+        requires_confirmation = False
+        creates_real_event = False
+    if creates_real_event and event_type is None:
+        event_type = _event_type_for(text)
+
+    return SemanticRoute(
+        intent=intent,
+        mutation_policy=policy,
+        requires_confirmation=requires_confirmation,
+        creates_real_event=creates_real_event,
+        confidence=round(confidence, 3),
+        rationale=rationale,
+        event_type=event_type,
+    )

@@ -1,0 +1,24 @@
+{
+ "dock": {
+  "x": 10,
+  "y": 700,
+  "width": 370,
+  "height": 60
+ },
+ "nav": {
+  "x": 0,
+  "y": 768,
+  "width": 390,
+  "height": 76
+ },
+ "overlap": 0,
+ "panel": {
+  "x": 10,
+  "y": 494.125,
+  "width": 370,
+  "height": 265.875
+ },
+ "panel_pct_of_screen": 32,
+ "hub_text": "Menu | / | Today | 中文 | DE | STILL UP | Your next city, already considered. | A calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one. | 中文 | Try another city | Open Trip Studio | PLANNING READY | One Day in Nexus City | 10 Oct, 09:00 — 10 Oct, 19:00 | ",
+ "errors": []
+}

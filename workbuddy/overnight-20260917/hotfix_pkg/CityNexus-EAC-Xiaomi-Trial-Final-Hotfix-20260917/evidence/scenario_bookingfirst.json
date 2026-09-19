@@ -1,0 +1,43 @@
+{
+ "run": "bookingfirst",
+ "journey_id": "377fd2d6-d260-45a3-838d-fef455a605f3",
+ "viewport": "390x844",
+ "trace": [
+  {
+   "ts": "2026-09-17T03:25:37.623Z",
+   "journey_id": "377fd2d6-d260-45a3-838d-fef455a605f3",
+   "action": "create-journey",
+   "status": "201",
+   "result": "377fd2d6-d260-45a3-838d-fef455a605f3"
+  },
+  {
+   "ts": "2026-09-17T03:25:55.584Z",
+   "journey_id": "377fd2d6-d260-45a3-838d-fef455a605f3",
+   "action": "booking-first-import",
+   "status": "applied",
+   "result": "wallet=1"
+  },
+  {
+   "ts": "2026-09-17T03:26:14.160Z",
+   "journey_id": "377fd2d6-d260-45a3-838d-fef455a605f3",
+   "action": "choose-hotel",
+   "status": "selected",
+   "result": "10 hotels "
+  },
+  {
+   "ts": "2026-09-17T03:26:24.370Z",
+   "journey_id": "377fd2d6-d260-45a3-838d-fef455a605f3",
+   "action": "hard-refresh",
+   "status": "stable",
+   "result": "before=1 after=1"
+  },
+  {
+   "ts": "2026-09-17T03:26:35.047Z",
+   "journey_id": "377fd2d6-d260-45a3-838d-fef455a605f3",
+   "action": "back-forward",
+   "status": "ok",
+   "result": "trips=1 back=1 fwd=1"
+  }
+ ],
+ "errors": []
+}

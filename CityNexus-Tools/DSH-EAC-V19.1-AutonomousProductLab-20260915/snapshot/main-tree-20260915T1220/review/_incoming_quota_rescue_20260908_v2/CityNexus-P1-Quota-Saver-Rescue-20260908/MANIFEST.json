@@ -1,0 +1,190 @@
+{
+  "payloadCount": 37,
+  "files": [
+    {
+      "path": "CODEX_MINIMAL_NEXT_STEPS.md",
+      "size": 2024,
+      "sha256": "e97523ee6f0c5760aff4156ccd76a20bb90ed59ceea25b10a672238db64cd11b"
+    },
+    {
+      "path": "RESCUE-SUMMARY.md",
+      "size": 3285,
+      "sha256": "5c2c075a2d31126b0bfa151aec8550c677f28da2a9f5a61c92a62d3fde6b4f52"
+    },
+    {
+      "path": "evidence/LOWER9_DIAGNOSTIC.json",
+      "size": 4257,
+      "sha256": "b20ac67d769f0f8bdd881fad637291499a281ad3f6463c770a4fac1eb5580b2b"
+    },
+    {
+      "path": "evidence/P1_PARTIAL15B_VALIDATION.json",
+      "size": 215,
+      "sha256": "2456599050d952bef3377d3ce0fdfe97bfa9193d0284224cc52eac11cd974fe5"
+    },
+    {
+      "path": "evidence/P1_PARTIAL15C_VALIDATION.json",
+      "size": 211,
+      "sha256": "6ca29e01571a8675133b65ef19a7115e02558db1b084166e57a20d072355d381"
+    },
+    {
+      "path": "evidence/P1_PARTIAL15H_VALIDATION.json",
+      "size": 211,
+      "sha256": "6ca29e01571a8675133b65ef19a7115e02558db1b084166e57a20d072355d381"
+    },
+    {
+      "path": "evidence/P1_PARTIAL15_VALIDATION.json",
+      "size": 214,
+      "sha256": "41bda708ae596d919e7208de0ea5b69d6ce7cf37bc15a821f0b12c755d0a3375"
+    },
+    {
+      "path": "evidence/UPPER_BARRIER_DIAGNOSTIC.json",
+      "size": 986,
+      "sha256": "6aec41c5dd5a01f95be4b9409d965c9548f705521e02482dbd18894b07b726d5"
+    },
+    {
+      "path": "evidence/UPPER_PAIR_REACHABILITY.json",
+      "size": 2300,
+      "sha256": "4a364562b9632c4e2a1b8a43317ef7fe39603cb8cdb4ad94b2caa39c46e391a6"
+    },
+    {
+      "path": "evidence/VALID_UPPER_PAIR_EXAMPLES.json",
+      "size": 7121,
+      "sha256": "f9c7dc407122f7981a6c06c52d2cbcf5d0062a22a0553ee6bbb7e302f0dda8f7"
+    },
+    {
+      "path": "evidence/dual_rotated_topology.json",
+      "size": 16581,
+      "sha256": "4609a0b03947194d9fb5668d9df61461e3126ed2502f5e289d56bb01cf5b201f"
+    },
+    {
+      "path": "evidence/mobility_rotated_topology.json",
+      "size": 16585,
+      "sha256": "d119f1e80d3cb479a63612bf95d699fec5bd5e41993b72bc4181690ea273f5d7"
+    },
+    {
+      "path": "evidence/quota_plan_topology.json",
+      "size": 16611,
+      "sha256": "61c23467e12bdfb24e269f4e3a6bf04f89f7f48b2bca666b2aacf26bb49adc9c"
+    },
+    {
+      "path": "evidence/seed11.png",
+      "size": 60583,
+      "sha256": "8f203362c84b22979f641ef7bf1c8934d66303f66b358e5ce96841025882a6d5"
+    },
+    {
+      "path": "evidence/upper_sep_topology.json",
+      "size": 16584,
+      "sha256": "526e1d2667fd75da1eb0a62e26bb0347be227a0b7c6d300a6a7bc8ba1ab0d331"
+    },
+    {
+      "path": "patches/audit_p1_route_topology_v2.py",
+      "size": 9883,
+      "sha256": "0e70fc643232238abe0345484b1f9b69e56886a33d06bf9c3ad1c55f989b7538"
+    },
+    {
+      "path": "patches/build_validate_partial_witness.py",
+      "size": 4801,
+      "sha256": "073f451247be7f20f2306ba18d6bdbb4b847a707bb60e8f78fb91131d4b9eb9c"
+    },
+    {
+      "path": "patches/critical_grid_geometry.py",
+      "size": 2767,
+      "sha256": "51a3924e7f2e6b496affe033935523711a887a48a01d6481808a7f7b5ef48743"
+    },
+    {
+      "path": "patches/diagnose_upper_pair_options.py",
+      "size": 2614,
+      "sha256": "23217f2441bc700b5a44ec982a6bacd7fb95e252444718705abef4ff9d5247a1"
+    },
+    {
+      "path": "patches/filter_upper_pair_examples.py",
+      "size": 2219,
+      "sha256": "3caa78f5f3026dbdc59f13c1f8195b975ad0b907ef81f93477d8a8ffc265681e"
+    },
+    {
+      "path": "patches/route_candidate_selector.py",
+      "size": 15762,
+      "sha256": "8bf71a961f04f9907129187663c8c04275ffeedc14bbca11801ee3d669adf2f7"
+    },
+    {
+      "path": "patches/route_p1_negotiated_grid.py",
+      "size": 19209,
+      "sha256": "b15daba1c8cfeadff82d04117ad667853d5f168ca9e9eddd2f8284cbb5376fb8"
+    },
+    {
+      "path": "patches/search_lower9_c.py",
+      "size": 5355,
+      "sha256": "7144b1fd031eaad936b1bb5cd821f37624dcbbdeb65ce5b1efcc649072139a36"
+    },
+    {
+      "path": "patches/search_one_against_witness.py",
+      "size": 1790,
+      "sha256": "3f2aa50d464a32fa8ad7a299065e5417750f75df1a8c7577d32225a4abab60cb"
+    },
+    {
+      "path": "patches/search_p1_local_bundle_ports.py",
+      "size": 21602,
+      "sha256": "00f7c0855fe91b9a49b77296622974a3ebeb1cfa4ac2517dc882ba737eade66d"
+    },
+    {
+      "path": "patches/search_provider_pair_manual.py",
+      "size": 4774,
+      "sha256": "25a36143a5cb533edfb64ddc6cf3264e8d494ffdf39709d2c9bf2625465888f0"
+    },
+    {
+      "path": "tests/test_p1_local_bundle_search_contract.py",
+      "size": 1602,
+      "sha256": "435d5854219b839471c872b78b8f0ce26a26ee555cdd60ebfadb4f9a63d108ab"
+    },
+    {
+      "path": "tests/test_p1_planner_normalization.py",
+      "size": 968,
+      "sha256": "196cf3f524245c51df2da7d837287f3258e29ecc3f8022e3b145df719ace24ba"
+    },
+    {
+      "path": "tests/test_p1_rc6_route_prep_contract.py",
+      "size": 1479,
+      "sha256": "2c595a35951f5c5eeefa4270ee2eb0a0d2e4ef8e933786b01ee4b6dccb15f064"
+    },
+    {
+      "path": "tests/test_p1_route_contact_gate_contract.py",
+      "size": 750,
+      "sha256": "24dfeb4baf1f01cf873e1be1970aac706037f9c30f96b142a9de26aa5deb424c"
+    },
+    {
+      "path": "tests/test_p1_route_v3_contract.py",
+      "size": 1106,
+      "sha256": "562b88a70a02103dd23c766bad5d599088cd24c5b474350c55873fc341715e18"
+    },
+    {
+      "path": "tests/test_p1_self_contact_contract.py",
+      "size": 2292,
+      "sha256": "cd8d24911da37c954bd8d92499d8fddd0f37d20b184fcc4b4b6cb193d46a4eac"
+    },
+    {
+      "path": "tests/test_p1_topology_runtime_contract.py",
+      "size": 1968,
+      "sha256": "84a2ba86ce308811444db5c6d51cacc1afbe8057e7795a6d850d3dced6728e7d"
+    },
+    {
+      "path": "witnesses/P1_PARTIAL15B_WITNESS.yaml",
+      "size": 4527,
+      "sha256": "52d5b75c47f7cf3fc3ddb3374638022b9abfaa5b84ffed22a0aaf12e87e3d124"
+    },
+    {
+      "path": "witnesses/P1_PARTIAL15C_WITNESS.yaml",
+      "size": 4518,
+      "sha256": "041a7044fd2e716b327c19bfa478965aceb5ce64e2043ad69b2bf86f7cb1df62"
+    },
+    {
+      "path": "witnesses/P1_PARTIAL15H_WITNESS.yaml",
+      "size": 4515,
+      "sha256": "239f925286d72bd14a8248a6b49e0427834ededa7c565e3f06c1aa9e76af0879"
+    },
+    {
+      "path": "witnesses/P1_PARTIAL15_WITNESS.yaml",
+      "size": 4513,
+      "sha256": "3b315511551b06d8781fed87b0ffe609fc69d29981fbe5913233a3078c8e4269"
+    }
+  ]
+}

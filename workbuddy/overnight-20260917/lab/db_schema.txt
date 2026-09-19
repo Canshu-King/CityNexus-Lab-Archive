@@ -1,0 +1,43 @@
+﻿0 : id
+1 : journey_id
+2 : version_no
+3 : planning_mode
+4 : status
+5 : source
+6 : parent_plan_version_id
+7 : total_cost_minor
+8 : currency
+9 : estimated_duration_min
+10 : utility_score
+11 : score_breakdown_json
+12 : explanation_json
+13 : created_at
+14 : mobility_snapshot_id
+15 : mobility_evidence_json
+---
+0 : id
+1 : plan_version_id
+2 : sequence_no
+3 : activity_type
+4 : title
+5 : place_id
+6 : city_service_id
+7 : start_at
+8 : end_at
+9 : travel_from_prev_min
+10 : estimated_cost_minor
+11 : currency
+12 : status
+13 : locked
+14 : metadata_json
+15 : created_at
+16 : updated_at
+---places---
+('place-old-town', 'Old Town Gate')
+('place-riverside-museum', 'Riverside Museum')
+('place-food-hall', 'Central Food Hall')
+('place-tech-art', 'Tech Art Center')
+('place-river-cruise', 'Nexus River Cruise Pier')
+('place-skyline-dinner', 'Skyline Dinner House')
+('place-city-park', 'Nexus City Park')
+('place-design-library', 'Design Library')

@@ -1,0 +1,120 @@
+{
+  "status": "FAIL",
+  "meaning": "PASS means only that the current discrete pool has no pairwise-impossible route pair; it does not prove that one global 18-route selection exists.",
+  "plan": "PLAN_TRAVELER_SKELETON_PLANAR_GRID",
+  "topologyGateStatus": "PASS",
+  "orientableGenus": 0.0,
+  "samplesPerRoute": 8,
+  "seed": 20260909,
+  "axisCounts": {
+    "x": 85,
+    "y": 82
+  },
+  "candidateCount": 116,
+  "familyCounts": {
+    "A-T-UC-02": 5,
+    "A-T-UC-04": 9,
+    "A-T-UC-05": 8,
+    "A-T-UC-06": 5,
+    "A-T-UC-07": 8,
+    "A-T-UC-08": 9,
+    "A-T-UC-10": 5,
+    "A-T-UC-11": 6,
+    "A-T-UC-12": 7,
+    "A-CD-UC-04": 7,
+    "A-CD-UC-05": 4,
+    "A-CD-UC-10": 8,
+    "A-M-UC-04": 6,
+    "A-M-UC-08": 8,
+    "A-M-UC-10": 5,
+    "A-B-06": 4,
+    "A-PA-07": 5,
+    "A-CE-09": 7
+  },
+  "emptyRoutes": [],
+  "conflictPairCount": 1868,
+  "impossibleRoutePairs": [
+    {
+      "routeA": "A-T-UC-07",
+      "routeB": "A-B-06",
+      "candidatePairs": 32,
+      "conflictingPairs": 32,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-T-UC-07",
+      "routeB": "A-PA-07",
+      "candidatePairs": 40,
+      "conflictingPairs": 40,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-T-UC-10",
+      "routeB": "A-CE-09",
+      "candidatePairs": 35,
+      "conflictingPairs": 35,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-CD-UC-04",
+      "routeB": "A-CD-UC-10",
+      "candidatePairs": 56,
+      "conflictingPairs": 56,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-CD-UC-10",
+      "routeB": "A-M-UC-04",
+      "candidatePairs": 48,
+      "conflictingPairs": 48,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-CD-UC-10",
+      "routeB": "A-B-06",
+      "candidatePairs": 32,
+      "conflictingPairs": 32,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-CD-UC-10",
+      "routeB": "A-PA-07",
+      "candidatePairs": 40,
+      "conflictingPairs": 40,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-M-UC-10",
+      "routeB": "A-B-06",
+      "candidatePairs": 20,
+      "conflictingPairs": 20,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-M-UC-10",
+      "routeB": "A-PA-07",
+      "candidatePairs": 25,
+      "conflictingPairs": 25,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    },
+    {
+      "routeA": "A-B-06",
+      "routeB": "A-PA-07",
+      "candidatePairs": 20,
+      "conflictingPairs": 20,
+      "compatiblePairs": 0,
+      "compatibilityRatio": 0.0
+    }
+  ],
+  "tightRoutePairs": [],
+  "authoritativeCandidateModified": false
+}

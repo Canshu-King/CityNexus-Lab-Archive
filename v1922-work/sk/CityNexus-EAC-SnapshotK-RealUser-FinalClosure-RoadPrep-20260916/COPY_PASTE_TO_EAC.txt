@@ -1,0 +1,34 @@
+Use the attached:
+
+CityNexus-EAC-SnapshotK-RealUser-FinalClosure-RoadPrep-20260916.zip
+
+together with:
+
+CityNexus-EAC-SnapshotJ-FinalTrial-Closure-20260916.zip
+
+and the existing 10-screen UI reference package.
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Read README_FIRST.md and execute docs/EAC_FINAL_TASK.md.
+
+Run probes/snapshot_k_stay_timeline_probe.py first.
+
+Independent replay found two new P0 scheduling defects:
+
+1. on a realistic multi-day itinerary, CHECK_IN can occur after the first STAY;
+2. a flexible activity can overlap a locked activity even though the locked
+   activity itself keeps its exact timestamp.
+
+Also finish the closure-target truth policy and prove recovery after hotel
+selection.
+
+After those narrow backend fixes, stop backend archaeology and finish the
+consumer UI/product work.
+
+Do not return another backend-only package unless a hard external blocker makes
+the browser work impossible.
+
+Start now.

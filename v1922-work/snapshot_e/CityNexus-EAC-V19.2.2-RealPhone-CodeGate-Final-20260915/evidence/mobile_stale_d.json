@@ -1,0 +1,27 @@
+{
+ "viewports": [],
+ "flows": [
+  {
+   "viewport": "390x844",
+   "flow": "STALE_EVIDENCE_WARNING",
+   "start_status": 409,
+   "start_message": "STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired",
+   "journey_status_after": "PLANNED",
+   "experience_flags_staleness": false,
+   "ui_panel_visible": false,
+   "ui_title": null,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "STALE_EVIDENCE_WARNING",
+   "start_status": 409,
+   "start_message": "STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired",
+   "journey_status_after": "PLANNED",
+   "experience_flags_staleness": false,
+   "ui_panel_visible": false,
+   "ui_title": null,
+   "page_errors": []
+  }
+ ]
+}

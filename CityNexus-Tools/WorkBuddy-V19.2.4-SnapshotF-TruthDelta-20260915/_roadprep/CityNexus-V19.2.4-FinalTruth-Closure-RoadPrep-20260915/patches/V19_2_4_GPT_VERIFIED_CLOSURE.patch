@@ -1,0 +1,205 @@
+--- a/backend/app/replanning/feasibility.py
++++ b/backend/app/replanning/feasibility.py
+@@ -541,28 +541,10 @@
+     effective_start = context.journey_start
+     effective_end = context.journey_end
+     budget_max = context.budget_amount_minor
+-    # A confirmed reservation is an authoritative real-world fact.  The draft
+-    # journey window must contain it, otherwise generate and revalidation would
+-    # disagree about the same commitment.
+-    for _kind, _category, code, params in hard_constraints:
+-        if code != "LOCKED_COMMITMENT":
+-            continue
+-        raw_start = params.get("start_at") or params.get("time")
+-        if raw_start is None:
+-            continue
+-        try:
+-            anchor_at = _parse_dt(raw_start, reference=context.journey_start)
+-        except (TypeError, ValueError):
+-            continue
+-        boundary = str(params.get("time_boundary") or "START").upper()
+-        if boundary == "END":
+-            anchor_start = anchor_at - timedelta(minutes=_ANCHOR_DURATION_MIN)
+-            anchor_end = anchor_at
+-        else:
+-            anchor_start = anchor_at
+-            anchor_end = anchor_at + timedelta(minutes=_ANCHOR_DURATION_MIN)
+-        effective_start = min(effective_start, anchor_start)
+-        effective_end = max(effective_end, anchor_end)
++    # C4 anchors are authoritative facts inside the Journey window.  Never
++    # widen the Journey window to make an impossible reservation appear valid:
++    # ARRIVAL and DEPARTURE are structural boundaries for flexible city
++    # activity, while MID_TRIP remains an interior pinned commitment.
+     blocked_places: set[str] = set()
+     blocked_services: set[str] = set()
+     required_places: set[str] = set()
+@@ -643,6 +625,66 @@
+         failures.append("INVALID_ACTIVITY_WINDOW")
+     if any(previous.end_at > current.start_at for previous, current in zip(ordered, ordered[1:])):
+         failures.append("ACTIVITY_OVERLAP")
++
++    # Structural C4 temporal truth.  The scheduler already tries to construct
++    # coherent anchors, but this shared gate must independently reject legacy,
++    # edited, imported, or stale plans that violate them.
++    try:
++        locked_specs = _locked_commitment_specs(
++            hard_constraints, journey_start=context.journey_start
++        )
++    except ValueError:
++        failures.append("INVALID_LOCKED_COMMITMENT")
++        locked_specs = []
++
++    anchor_keys = {commitment.activity_key for commitment, _role in locked_specs}
++    arrival_end_min: int | None = None
++    departure_start_min: int | None = None
++    journey_span_min = _minutes_from_start(context.journey_end, context.journey_start)
++
++    for commitment, role in locked_specs:
++        boundary = str(commitment.time_boundary or "START").upper()
++        if boundary == "END":
++            anchor_start_min = commitment.start_min - _ANCHOR_DURATION_MIN
++            anchor_end_min = commitment.start_min
++        else:
++            anchor_start_min = commitment.start_min
++            anchor_end_min = commitment.start_min + _ANCHOR_DURATION_MIN
++
++        if anchor_start_min < 0 or anchor_end_min > journey_span_min:
++            failures.append(f"C4_ANCHOR_OUTSIDE_JOURNEY:{commitment.activity_key}")
++
++        if role == "ARRIVAL":
++            arrival_end_min = (
++                anchor_end_min
++                if arrival_end_min is None
++                else max(arrival_end_min, anchor_end_min)
++            )
++        elif role == "DEPARTURE":
++            departure_start_min = (
++                anchor_start_min
++                if departure_start_min is None
++                else min(departure_start_min, anchor_start_min)
++            )
++
++    if (
++        arrival_end_min is not None
++        and departure_start_min is not None
++        and arrival_end_min > departure_start_min
++    ):
++        failures.append("C4_ANCHOR_ARRIVAL_AFTER_DEPARTURE")
++
++    for item in ordered:
++        item_key = _location_key(item) or item.key
++        if item_key in anchor_keys:
++            continue
++        start_min = _minutes_from_start(item.start_at, context.journey_start)
++        end_min = _minutes_from_start(item.end_at, context.journey_start)
++        if arrival_end_min is not None and start_min < arrival_end_min:
++            failures.append(f"C4_ACTIVITY_BEFORE_ARRIVAL:{item_key}")
++        if departure_start_min is not None and end_min > departure_start_min:
++            failures.append(f"C4_ACTIVITY_AFTER_DEPARTURE:{item_key}")
++
+     reference_activities = tuple(
+         ReferenceActivity(
+             # Prefer the semantic location identity even when a caller built
+--- a/backend/app/planning/hard_recovery.py
++++ b/backend/app/planning/hard_recovery.py
+@@ -210,32 +210,30 @@
+ 
+     * a recorded replan attempt with zero feasible candidates -> NO_ALTERNATIVE
+     * an acknowledgement does not change the state, only the event status
+-    * an open event whose plan is feasible again -> RESOLVED projection
++    * an open Event remains RECOVERY_REQUIRED until a transactional workflow
++      explicitly resolves that Event after revalidation
++
++    ``is_feasible`` is retained only for failure-detail projection compatibility;
++    it is not allowed to resolve durable recovery from a read path.
+     """
+ 
+     event = active_recovery_event(session, journey)
+     if event is None:
+         return None
+     payload = _load(event.payload_json, {})
+-    if is_feasible is True:
+-        state = RESOLVED
+-    elif payload.get("replan_attempted") and payload.get("no_alternative"):
++    if payload.get("replan_attempted") and payload.get("no_alternative"):
+         state = NO_ALTERNATIVE
+     else:
+         state = ACTIVE
++    # Only candidates recorded by an actual replan attempt are advertised as
++    # alternatives.  Arbitrary CANDIDATE rows are not proof of feasibility.
+     candidate_ids = [
+         str(item)
+         for item in (
+             payload.get("feasible_candidate_ids")
+-            or [
+-                row.id
+-                for row in session.scalars(
+-                    select(PlanVersion).where(
+-                        PlanVersion.journey_id == journey.id,
+-                        PlanVersion.status == "CANDIDATE",
+-                    )
+-                ).all()
+-            ]
++            if payload.get("replan_attempted")
++            and isinstance(payload.get("feasible_candidate_ids"), list)
++            else []
+         )
+     ]
+     return {
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -2313,11 +2313,10 @@
+         except ValueError as exc:
+             is_feasible = False
+             failures = [str(exc)]
+-    # A feasible selected plan means the durable recovery is genuinely over:
+-    # resolve it transactionally so the Event, this projection and the phone UI
+-    # can never disagree, and a page reload cannot resurrect it.
+-    if is_feasible is True:
+-        resolve_recovery_events(session, journey)
++    # GET /experience is a projection, not a recovery state transition.
++    # Durable recovery is resolved only by transactional workflows that
++    # revalidate and change authoritative truth (for example plan selection or
++    # capability confirmation).  A read must never hide an unresolved Event.
+     recovery = recovery_state(session, journey, is_feasible=is_feasible, failures=failures)
+     if recovery is not None:
+         recovery["journey_status"] = journey.status
+--- a/backend/app/operations/reservation_identity.py
++++ b/backend/app/operations/reservation_identity.py
+@@ -54,7 +54,10 @@
+             TransportReservation.confirmation_ref,
+             func.count(TransportReservation.id),
+         )
+-        .where(TransportReservation.confirmation_ref.is_not(None))
++        .where(
++            TransportReservation.confirmation_ref.is_not(None),
++            TransportReservation.status != QUARANTINE_MARKER,
++        )
+         .group_by(TransportReservation.journey_id, TransportReservation.confirmation_ref)
+         .having(func.count(TransportReservation.id) > 1)
+     )
+@@ -67,6 +70,7 @@
+             .where(
+                 TransportReservation.journey_id == row_journey,
+                 TransportReservation.confirmation_ref == reference,
++                TransportReservation.status != QUARANTINE_MARKER,
+             )
+             .order_by(TransportReservation.captured_at, TransportReservation.id)
+         ).all()
+@@ -115,7 +119,7 @@
+                 journey_id=report.journey_id,
+                 provider_key="citynexus-reservation",
+                 provenance="SYSTEM_DERIVED",
+-                event_type=QUARANTINE_EVENT,
++                event_type="USER_CHANGE",
+                 severity="MAJOR",
+                 status="RESOLVED",
+                 affected_activity_id=None,
+@@ -124,6 +128,7 @@
+                 resolved_at=now,
+                 payload_json=_json(
+                     {
++                        "kind": QUARANTINE_EVENT,
+                         "confirmation_ref": report.confirmation_ref,
+                         "winner_id": report.winner_id,
+                         "quarantined_ids": quarantined,

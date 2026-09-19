@@ -1,0 +1,99 @@
+version: 0.1.0
+status: MVP_IMPLEMENTATION_PROPOSAL
+source_note: Exact frozen state enum names were not preserved in the handoff; reconcile against local v0.4.2 YAML.
+machines:
+  Journey:
+    initial: DRAFT
+    states: [DRAFT, PLANNED, ACTIVE, COMPLETED, CANCELLED]
+    transitions:
+      - {from: DRAFT, event: SELECT_PLAN, to: PLANNED, guard: selected_plan_is_feasible}
+      - {from: PLANNED, event: START, to: ACTIVE, guard: active_plan_exists}
+      - {from: ACTIVE, event: COMPLETE, to: COMPLETED, guard: required_activities_terminal}
+      - {from: DRAFT, event: CANCEL, to: CANCELLED}
+      - {from: PLANNED, event: CANCEL, to: CANCELLED}
+      - {from: ACTIVE, event: CANCEL, to: CANCELLED, guard: cancellation_policy_allows}
+  PlanVersion:
+    initial: CANDIDATE
+    states: [CANDIDATE, SELECTED, ACTIVE, SUPERSEDED, REJECTED]
+    transitions:
+      - {from: CANDIDATE, event: SELECT, to: SELECTED, guard: feasible}
+      - {from: SELECTED, event: ACTIVATE, to: ACTIVE, guard: journey_can_activate}
+      - {from: ACTIVE, event: SUPERSEDE, to: SUPERSEDED, guard: replacement_plan_activated}
+      - {from: CANDIDATE, event: REJECT, to: REJECTED}
+      - {from: SELECTED, event: REJECT, to: REJECTED}
+  Activity:
+    initial: PLANNED
+    states: [PLANNED, READY, ACTIVE, COMPLETED, SKIPPED, CANCELLED]
+    transitions:
+      - {from: PLANNED, event: READY, to: READY}
+      - {from: READY, event: START, to: ACTIVE}
+      - {from: ACTIVE, event: COMPLETE, to: COMPLETED}
+      - {from: PLANNED, event: SKIP, to: SKIPPED, guard: not_locked}
+      - {from: READY, event: SKIP, to: SKIPPED, guard: not_locked}
+      - {from: PLANNED, event: CANCEL, to: CANCELLED, guard: cancellation_policy_allows}
+      - {from: READY, event: CANCEL, to: CANCELLED, guard: cancellation_policy_allows}
+      - {from: ACTIVE, event: CANCEL, to: CANCELLED, guard: cancellation_policy_allows}
+  Commitment:
+    initial: PROPOSED
+    states: [PROPOSED, ACTIVE, FULFILLED, CANCELLED, BREACHED]
+    levels: [FLEXIBLE, RESERVED, PAID, LOCKED]
+    transitions:
+      - {from: PROPOSED, event: ACTIVATE, to: ACTIVE}
+      - {from: ACTIVE, event: FULFILL, to: FULFILLED}
+      - {from: PROPOSED, event: CANCEL, to: CANCELLED}
+      - {from: ACTIVE, event: CANCEL, to: CANCELLED, guard: policy_allows}
+      - {from: ACTIVE, event: BREACH, to: BREACHED}
+  Booking:
+    initial: DRAFT
+    states: [DRAFT, PENDING, CONFIRMED, COMPLETED, CANCELLED, FAILED]
+    transitions:
+      - {from: DRAFT, event: SUBMIT, to: PENDING}
+      - {from: PENDING, event: CONFIRM, to: CONFIRMED}
+      - {from: PENDING, event: FAIL, to: FAILED}
+      - {from: CONFIRMED, event: COMPLETE, to: COMPLETED}
+      - {from: CONFIRMED, event: CANCEL, to: CANCELLED, guard: cancellation_policy_allows}
+  Order:
+    initial: DRAFT
+    states: [DRAFT, PENDING, CONFIRMED, FULFILLED, CANCELLED, FAILED]
+    transitions:
+      - {from: DRAFT, event: SUBMIT, to: PENDING}
+      - {from: PENDING, event: CONFIRM, to: CONFIRMED}
+      - {from: PENDING, event: FAIL, to: FAILED}
+      - {from: CONFIRMED, event: FULFILL, to: FULFILLED}
+      - {from: CONFIRMED, event: CANCEL, to: CANCELLED, guard: cancellation_policy_allows}
+  Transaction:
+    initial: INITIATED
+    states: [INITIATED, AUTHORIZED, SUCCEEDED, FAILED, REFUNDED, VOIDED]
+    transitions:
+      - {from: INITIATED, event: AUTHORIZE, to: AUTHORIZED}
+      - {from: INITIATED, event: FAIL, to: FAILED}
+      - {from: AUTHORIZED, event: CAPTURE, to: SUCCEEDED}
+      - {from: AUTHORIZED, event: VOID, to: VOIDED}
+      - {from: SUCCEEDED, event: REFUND, to: REFUNDED}
+  Event:
+    initial: DETECTED
+    states: [DETECTED, ACKNOWLEDGED, RESOLVED, IGNORED]
+    transitions:
+      - {from: DETECTED, event: ACKNOWLEDGE, to: ACKNOWLEDGED}
+      - {from: DETECTED, event: IGNORE, to: IGNORED}
+      - {from: ACKNOWLEDGED, event: RESOLVE, to: RESOLVED}
+      - {from: ACKNOWLEDGED, event: IGNORE, to: IGNORED}
+  ReplanProposal:
+    initial: GENERATED
+    states: [GENERATED, PRESENTED, ACCEPTED, REJECTED, EXPIRED, INVALIDATED]
+    transitions:
+      - {from: GENERATED, event: PRESENT, to: PRESENTED}
+      - {from: PRESENTED, event: ACCEPT, to: ACCEPTED, guard: acceptance_guards_pass}
+      - {from: PRESENTED, event: REJECT, to: REJECTED}
+      - {from: PRESENTED, event: EXPIRE, to: EXPIRED}
+      - {from: GENERATED, event: INVALIDATE, to: INVALIDATED}
+      - {from: PRESENTED, event: INVALIDATE, to: INVALIDATED}
+  JourneyTwin:
+    initial: READY
+    states: [READY, STALE, DEGRADED]
+    transitions:
+      - {from: READY, event: SOURCE_CHANGED, to: STALE}
+      - {from: STALE, event: REFRESH, to: READY}
+      - {from: READY, event: OPTIONAL_PROVIDER_FAILURE, to: DEGRADED}
+      - {from: STALE, event: OPTIONAL_PROVIDER_FAILURE, to: DEGRADED}
+      - {from: DEGRADED, event: REFRESH, to: READY}

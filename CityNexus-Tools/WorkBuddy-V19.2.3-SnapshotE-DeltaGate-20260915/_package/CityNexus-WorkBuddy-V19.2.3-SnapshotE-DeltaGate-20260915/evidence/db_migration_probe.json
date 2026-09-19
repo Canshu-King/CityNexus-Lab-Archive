@@ -1,0 +1,27 @@
+{
+  "step0_fresh_schema_index_present": true,
+  "step1_legacy_index_present": false,
+  "step1_legacy_duplicate_groups": [
+    [
+      "J-LEGACY",
+      "REF-DUP",
+      2
+    ]
+  ],
+  "step2_ensure_schema_raised": true,
+  "step2_error": "IntegrityError: UNIQUE constraint failed: transport_reservations.journey_id, transport_reservations.confirmation_ref",
+  "step2_traceback_tail": [
+    "NoneType: None"
+  ],
+  "step2_index_present_after_migration": false,
+  "step2_duplicates_still_present": [
+    [
+      "J-LEGACY",
+      "REF-DUP",
+      2
+    ]
+  ],
+  "step3_new_duplicate_accepted": true,
+  "step3_new_duplicate_error": null,
+  "step4_quarantine_error": "IntegrityError: (sqlite3.IntegrityError) CHECK constraint failed: event_type IN ('TRAFFIC_DELAY','CLOSURE','WEATHER','SCHEDULE_DELAY','SERVICE_UNAVAILABLE','USER_CHANGE','OTHER')\n[SQL: INSERT INTO events (id, journey_id, provider_key, provenance, event_type, severity, status, affected_activity_id, occurred_at, detected_at, resolved_at, payload_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]\n[parameters: ('edcf0f19-5cfd-4be2-a12c-176417a2c5fa', 'J-LEGACY', 'citynexus-reservation', 'SYSTEM_DERIVED', 'RESERVATION_IDENTITY_DUPLICATE', 'MAJOR', 'RESOLVED', None, '2026-09-15T14:03:23.275254+00:00', '2026-09-15T14:03:23.275254+00:00', '2026-09-15T14:03:23.275254+00:00', '{\"confirmation_ref\":\"REF-DUP\",\"policy\":\"QUARANTINED_DUPLICATE_IDENTITY\",\"quarantined_ids\":[\"RES-2\",\"RES-3\"],\"winner_id\":\"RES-1\"}', '2026-09-15T14:03:23.275254+00:00')]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)"
+}

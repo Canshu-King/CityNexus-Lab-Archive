@@ -1,0 +1,15 @@
+{
+ "steps": [],
+ "entry_text": "TRY CITYNEXUS WITH YOUR OWN CITY | Create a trip | Three steps. Pick a destination, tell us how you like to travel, and let CityNexus handle the rest. | 中文 | 1 | Destination & dates | 2 | Travellers & preferences | 3 | Review & create | Destination | Arrive at",
+ "step1_visible": true,
+ "sticky_cta_visible": true,
+ "inferred": "Auto-set: 中国 · Chinese yuan · China Standard Time",
+ "step2_visible": true,
+ "step3_visible": true,
+ "review_city": "厦门",
+ "review_budget": "CNY 3000 / 1000",
+ "back_preserved_special": "我妈妈坐轮椅；每天走路不超过 3000 米",
+ "back_preserved_interest": "active",
+ "after_create_text": "Menu | / | City Discovery | 中文 | CN | Journey created. Open City Discovery to use live providers for this city. | Dismiss | GROUNDED CITY DISCOVERY | Ask for the kind of city day you actually want. | DeepSeek interprets the meaning. CityNexus supplies the coordinates, provider evidence, commitments,",
+ "errors": []
+}

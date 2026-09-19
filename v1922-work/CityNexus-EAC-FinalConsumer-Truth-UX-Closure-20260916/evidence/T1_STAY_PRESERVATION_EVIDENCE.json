@@ -1,0 +1,166 @@
+{
+ "journey_id": "abd8ed7b-585e-4bfd-bddc-83d45cdc4975",
+ "city_code": "CN-XIAMEN",
+ "consistent_with_snapshot_i_claim": "stay selection ERASED the real Xiamen POIs",
+ "before": {
+  "plan_id": "8f4f64ac-23a8-56b7-be48-5b885c30c6b1",
+  "status": "SUPERSEDED",
+  "counts": {
+   "poi": 6,
+   "stay": 0,
+   "anchor": 0
+  },
+  "sequence": [
+   {
+    "seq": 1,
+    "type": "visit",
+    "title": "OSM restaurant",
+    "start": "10:00",
+    "end": "11:00"
+   },
+   {
+    "seq": 2,
+    "type": "visit",
+    "title": "OSM cafe",
+    "start": "11:20",
+    "end": "12:20"
+   },
+   {
+    "seq": 3,
+    "type": "visit",
+    "title": "OSM cafe",
+    "start": "12:40",
+    "end": "13:40"
+   },
+   {
+    "seq": 4,
+    "type": "visit",
+    "title": "星巴克",
+    "start": "14:00",
+    "end": "15:00"
+   },
+   {
+    "seq": 5,
+    "type": "visit",
+    "title": "厦门市图书馆殿前分馆",
+    "start": "15:20",
+    "end": "16:20"
+   },
+   {
+    "seq": 6,
+    "type": "visit",
+    "title": "OSM cafe",
+    "start": "16:40",
+    "end": "17:40"
+   }
+  ]
+ },
+ "after": {
+  "plan_id": "dca74c6b-ae9c-49f0-b2de-dcfec70d32b9",
+  "status": "ACTIVE",
+  "counts": {
+   "poi": 6,
+   "stay": 2,
+   "anchor": 2
+  },
+  "sequence": [
+   {
+    "seq": 1,
+    "type": "arrival",
+    "title": "厦门高崎国际机场",
+    "start": "10:00",
+    "end": "10:20"
+   },
+   {
+    "seq": 2,
+    "type": "activity",
+    "title": "OSM restaurant",
+    "start": "14:09",
+    "end": "15:09"
+   },
+   {
+    "seq": 3,
+    "type": "activity",
+    "title": "OSM cafe",
+    "start": "17:05",
+    "end": "18:05"
+   },
+   {
+    "seq": 4,
+    "type": "stay",
+    "title": "Overnight · 厦门康莱德酒店",
+    "start": "22:00",
+    "end": "06:00"
+   },
+   {
+    "seq": 5,
+    "type": "activity",
+    "title": "OSM cafe",
+    "start": "09:00",
+    "end": "10:00"
+   },
+   {
+    "seq": 6,
+    "type": "activity",
+    "title": "星巴克",
+    "start": "11:20",
+    "end": "12:20"
+   },
+   {
+    "seq": 7,
+    "type": "activity",
+    "title": "厦门市图书馆殿前分馆",
+    "start": "13:25",
+    "end": "14:25"
+   },
+   {
+    "seq": 8,
+    "type": "activity",
+    "title": "OSM cafe",
+    "start": "15:08",
+    "end": "16:08"
+   },
+   {
+    "seq": 9,
+    "type": "stay",
+    "title": "Overnight · 厦门康莱德酒店",
+    "start": "22:00",
+    "end": "06:00"
+   },
+   {
+    "seq": 10,
+    "type": "departure",
+    "title": "厦门北站",
+    "start": "19:50",
+    "end": "20:00"
+   }
+  ]
+ },
+ "plan_lineage": [
+  {
+   "plan_id": "8f4f64ac-23a8-56b7-be48-5b885c30c6b1",
+   "version": 1,
+   "status": "SUPERSEDED",
+   "source": "INITIAL"
+  },
+  {
+   "plan_id": "cee5f35a-ec2c-5d0f-a5a5-13041e28a7a8",
+   "version": 2,
+   "status": "CANDIDATE",
+   "source": "INITIAL"
+  },
+  {
+   "plan_id": "75504a7b-21e9-50fa-83c0-ba71eb01dfe4",
+   "version": 3,
+   "status": "CANDIDATE",
+   "source": "INITIAL"
+  },
+  {
+   "plan_id": "dca74c6b-ae9c-49f0-b2de-dcfec70d32b9",
+   "version": 4,
+   "status": "ACTIVE",
+   "source": "MANUAL"
+  }
+ ],
+ "verdict_T1": "PASS"
+}

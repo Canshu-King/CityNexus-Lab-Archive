@@ -1,0 +1,45 @@
+{
+ "rows": [
+  {
+   "case": "ARRIVAL",
+   "import": 201,
+   "confirm": 200,
+   "commitments": 1,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status": "ACTIVE"
+  },
+  {
+   "case": "DEPARTURE",
+   "import": 201,
+   "confirm": 200,
+   "commitments": 1,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status": "ACTIVE"
+  },
+  {
+   "case": "MID_TRIP",
+   "import": 201,
+   "confirm": 200,
+   "commitments": 1,
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status": "ACTIVE"
+  },
+  {
+   "case": "CONTROL",
+   "generate": 201,
+   "plans": 3,
+   "select": 200,
+   "start": 200,
+   "journey_status": "ACTIVE"
+  }
+ ]
+}

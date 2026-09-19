@@ -1,0 +1,48 @@
+CityNexus Final Consumer Truth + UX Closure — package inventory
+================================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+
+The two named P0 truth blockers are FIXED and regression-protected.
+The full canonical visible-UI chain, order import, activity detail,
+Copilot cleanup and the visual pass are NOT done.
+
+Reports
+-------
+TRUTH_BLOCKER_RESULTS.md   T1 and T2: root cause, fix, live verification
+USER_JOURNEY_RESULTS.md    22-step status with honest per-step method
+REMAINING_PRODUCT_GAPS.md  ordered remaining work
+TEST_RESULTS.md            real run numbers incl. the regression history
+CHANGED_FILES.txt          1 added, 2 modified
+PACKAGE_INVENTORY.txt      this file
+
+evidence/
+  SNAPSHOT_I_MANIFEST.json           frozen Snapshot I + sha256
+  T1_STAY_PRESERVATION_EVIDENCE.json before/after plan, counts, sequence
+  T2_NOOP_REPLAN_EVIDENCE.json       closure cases, diffs, refusals
+
+patches/                   the Road-Prep documents this round executed
+screenshots/before/        Snapshot I acceptance captures
+source/                    the 3 changed source files
+
+Changed sources
+---------------
+  backend/app/stay_mobility.py
+    _carried_itinerary_nodes  carry the traveller's chosen stops
+    _reschedule_with_carried  re-time them around the stay
+    _enforce_sequence         guarantee ordering and real travel gaps
+  backend/app/main.py
+    F0_STABLE_COPY forbidden for CLOSURE/WEATHER
+    explicit REPLAN_TARGET_UNRESOLVED / PROTECTED_CONFLICT / NO_ALTERNATIVE
+    CLOSURE/WEATHER target resolution from the execution position
+  backend/tests/test_final_consumer_truth_blockers.py   NEW (4 tests)
+
+Explicit non-claims
+-------------------
+* No physical-device testing.
+* No real payment executed.
+* The disruption was injected through the product API, not a real-world feed.
+* VISIBLE_UI_TRACE.json is NOT included: the canonical browser run was not
+  completed, so there is nothing truthful to put in it.
+* A CLOSURE inside a stay-materialised plan is refused honestly but not yet
+  repaired - a real remaining defect.

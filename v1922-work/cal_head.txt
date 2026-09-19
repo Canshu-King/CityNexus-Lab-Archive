@@ -1,0 +1,533 @@
+"""Generic stay-aware, mode-per-leg planning backed by normalized provider evidence."""
+
+from __future__ import annotations
+
+import json
+import math
+import os
+from dataclasses import dataclass
+from datetime import datetime, time, timedelta, timezone
+from pathlib import Path
+from typing import Any, Protocol
+from uuid import uuid4
+
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app.core.money import major_to_minor
+from app.core.temporal import derive_journey_temporal_shape
+from app.db.models import (
+    AccommodationOfferSnapshot,
+    Activity,
+    Commitment,
+    Event,
+    Journey,
+    JourneyLeg,
+    JourneyOperationsContext,
+    JourneyTripContext,
+    Place,
+    LocationObservation,
+    MobilityFact,
+    PlanVersion,
+    StayJourneyOption,
+)
+from app.execution.traveler_twin import (
+    capability_payload,
+    planning_preference_items,
+    refresh_snapshot,
+    snapshot_payload,
+)
+from app.planning.stay_mode_solver import solve_mode_choices
+
+MODES = ("WALK", "BICYCLE", "TRANSIT", "AUTO", "RIDE_HAIL")
+DATA_PATH = Path(__file__).resolve().parents[2] / "data" / "v9" / "city_operations.json"
+CAPTURED_FIXTURE_CURRENCY = "CNY"
+SYNTHETIC_ESTIMATE_MAJOR_BY_CURRENCY = {
+    "CNY": {"BICYCLE": 6, "TRANSIT": 4, "AUTO": 12},
+}
+
+
+@dataclass(frozen=True)
+class AccommodationOfferDraft:
+    external_offer_id: str
+    property_name: str
+    latitude: float
+    longitude: float
+    nightly_amount_minor: int
+    room_type: str
+    refundable: bool
+    evidence_confidence: float
+    coordinate_crs: str
+    luggage_drop: dict[str, Any]
+
+
+@dataclass(frozen=True)
+class GraphNode:
+    key: str
+    title: str
+    role: str
+    start_at: str
+    end_at: str
+    latitude: float
+    longitude: float
+    place_key: str | None = None
+    locked: bool = False
+    estimated_cost_minor: int = 0
+    cost_status: str = "FREE_KNOWN"
+
+
+class AccommodationProvider(Protocol):
+    provider_key: str
+    provenance: str
+
+    def discover(
+        self, *, city_code: str, party_size: int, nights: int
+    ) -> tuple[AccommodationOfferDraft, ...]: ...
+
+
+from app.integrations.stay_osm import OsmAccommodationProvider
+
+
+class CapturedAccommodationProvider:
+    provider_key = "citynexus-city-fixture"
+    provenance = "CAPTURED_REPLAY"
+
+    def discover(
+        self, *, city_code: str, party_size: int, nights: int
+    ) -> tuple[AccommodationOfferDraft, ...]:
+        city = city_fixture(city_code)
+        return tuple(
+            AccommodationOfferDraft(
+                external_offer_id=str(item["external_offer_id"]),
+                property_name=str(item["property_name"]),
+                latitude=float(item["latitude"]),
+                longitude=float(item["longitude"]),
+                nightly_amount_minor=int(item["nightly_amount_minor"]),
+                room_type=str(item["room_type"]),
+                refundable=bool(item["refundable"]),
+                evidence_confidence=0.96,
+                coordinate_crs=str(city.get("center", {}).get("crs", "WGS84")),
+                luggage_drop=dict(item.get("luggage_drop", {})),
+            )
+            for item in city.get("stays", [])
+        )
+
+
+class LiveAccommodationProvider:
+    provider_key = "live-accommodation"
+    provenance = "UNAVAILABLE"
+
+    def discover(
+        self, *, city_code: str, party_size: int, nights: int
+    ) -> tuple[AccommodationOfferDraft, ...]:
+        return ()
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _json(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def _load(raw: str | None, fallback: Any) -> Any:
+    try:
+        return json.loads(raw or "")
+    except (TypeError, json.JSONDecodeError):
+        return fallback
+
+
+def city_fixture(city_code: str) -> dict[str, Any]:
+    fixtures = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    value = fixtures.get(str(city_code).upper())
+    return dict(value) if isinstance(value, dict) else {}
+
+
+def _context(session: Session, journey: Journey) -> JourneyTripContext:
+    row = session.get(JourneyTripContext, journey.id)
+    if row is None:
+        now = _now()
+        row = JourneyTripContext(
+            journey_id=journey.id,
+            arrival_anchor_json=_json({"at": journey.start_at, "location": "Arrival"}),
+            departure_anchor_json=_json({"at": journey.end_at, "location": "Departure"}),
+            party_size=1,
+            occupancy_json=_json({"adults": 1}),
+            stay_budget_amount_minor=0,
+            stay_budget_currency=journey.budget_currency,
+            created_at=now,
+            updated_at=now,
+        )
+        session.add(row)
+        session.flush()
+    return row
+
+
+def _operations_context(session: Session, journey: Journey) -> JourneyOperationsContext:
+    row = session.get(JourneyOperationsContext, journey.id)
+    if row is None:
+        now = _now()
+        row = JourneyOperationsContext(
+            journey_id=journey.id,
+            baggage_present=False,
+            baggage_size_class="NONE",
+            luggage_drop_required=False,
+            constraints_json="{}",
+            created_at=now,
+            updated_at=now,
+        )
+        session.add(row)
+        session.flush()
+    return row
+
+
+def _anchor(context: JourneyTripContext, journey: Journey, kind: str) -> dict[str, Any]:
+    raw = context.arrival_anchor_json if kind == "arrival" else context.departure_anchor_json
+    fallback_at = journey.start_at if kind == "arrival" else journey.end_at
+    value = _load(raw, {})
+    return {
+        "at": str(value.get("at") or fallback_at),
+        "location": str(value.get("location") or kind.title()),
+        "latitude": value.get("latitude"),
+        "longitude": value.get("longitude"),
+        "reservation_id": value.get("reservation_id"),
+    }
+
+
+def _nights(context: JourneyTripContext, journey: Journey) -> int:
+    start = datetime.fromisoformat(_anchor(context, journey, "arrival")["at"])
+    end = datetime.fromisoformat(_anchor(context, journey, "departure")["at"])
+    return derive_journey_temporal_shape(start, end).night_count
+
+
+def _at_on_day(anchor_at: datetime, day_offset: int, hhmm: str) -> datetime:
+    hour, minute = (int(part) for part in hhmm.split(":"))
+    local_date = anchor_at.date() + timedelta(days=day_offset)
+    return datetime.combine(local_date, time(hour, minute), tzinfo=anchor_at.tzinfo)
+
+
+def capture_accommodation_offers(
+    session: Session, journey: Journey
+) -> list[AccommodationOfferSnapshot]:
+    context = _context(session, journey)
+    arrival = datetime.fromisoformat(_anchor(context, journey, "arrival")["at"])
+    departure = datetime.fromisoformat(_anchor(context, journey, "departure")["at"])
+    nights = _nights(context, journey)
+    if nights == 0:
+        return []
+    captured = _now()
+    expires = (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat()
+    # A sealed fixture only exists for Tianjin.  For any other city we ask a
+    # real provider, otherwise a Xiamen trip could never compare stays at all.
+    fixture = city_fixture(journey.city_code)
+    if fixture.get("stays"):
+        provider: AccommodationProvider = CapturedAccommodationProvider()
+    else:
+        provider = OsmAccommodationProvider()
+    result: list[AccommodationOfferSnapshot] = []
+    try:
+        drafts = provider.discover(
+            city_code=journey.city_code, party_size=context.party_size, nights=nights
+        )
+    finally:
+        close = getattr(provider, "close", None)
+        if callable(close):
+            close()
+    for draft in drafts:
+        existing = session.scalar(
+            select(AccommodationOfferSnapshot).where(
+                AccommodationOfferSnapshot.journey_id == journey.id,
+                AccommodationOfferSnapshot.provider_key == provider.provider_key,
+                AccommodationOfferSnapshot.external_offer_id == draft.external_offer_id,
+            )
+        )
+        total = draft.nightly_amount_minor * nights
+        check_in = _at_on_day(arrival, 0, "14:00")
+        check_out = _at_on_day(arrival, nights, "12:00")
+        if check_out > departure:
+            check_out = departure - timedelta(hours=2)
+        if existing is None:
+            existing = AccommodationOfferSnapshot(
+                id=str(uuid4()),
+                journey_id=journey.id,
+                provider_key=provider.provider_key,
+                external_offer_id=draft.external_offer_id,
+                property_name=draft.property_name,
+                latitude=draft.latitude,
+                longitude=draft.longitude,
+                coordinate_crs=draft.coordinate_crs,
+                room_type=draft.room_type,
+                occupancy_json=_json(
+                    {"party_size": context.party_size, **_load(context.occupancy_json, {})}
+                ),
+                check_in_at=check_in.isoformat(),
+                check_out_at=check_out.isoformat(),
+                nightly_amount_minor=draft.nightly_amount_minor,
+                taxes_amount_minor=0,
+                total_amount_minor=total,
+                # The current accommodation fixture is intentionally CNY-only;
+                # a future non-CNY fixture must supply its own captured currency.
+                currency=CAPTURED_FIXTURE_CURRENCY,
+                cancellation_policy_json=_json(
+                    {
+                        "refundable": draft.refundable,
+                        "deadline": arrival.isoformat(),
+                        "summary": "Free cancellation before arrival"
+                        if draft.refundable
+                        else "Non-refundable captured rate",
+                    }
+                ),
+                luggage_drop_json=_json(draft.luggage_drop),
+                refundable=draft.refundable,
+                evidence_json=_json(
+                    {
+                        "source": provider.provenance,
+                        "provider": provider.provider_key,
+                        "confidence": draft.evidence_confidence,
+                        "price_basis": "per_night × nights",
+                        "currency_explicit": True,
+                        "city_fixture": journey.city_code,
+                    }
+                ),
+                captured_at=captured,
+                expires_at=expires,
+                status="CAPTURED",
+            )
+            session.add(existing)
+        result.append(existing)
+    session.flush()
+    return result
+
+
+def _carried_itinerary_nodes(
+    session: Session, journey: Journey, *, exclude_keys: set[str]
+) -> list[GraphNode]:
+    """The traveller's already-chosen stops, as stay-graph nodes.
+
+    A stay selection must *augment* the selected itinerary.  Rebuilding the plan
+    from ``city_fixture()`` alone silently deleted every real-city POI the
+    traveller had picked (truth blocker T1).  We therefore carry the current
+    selected/active plan's own activities forward.
+
+    Only genuinely schedulable stops are carried: the arrival/departure anchors
+    are re-created by the stay graph itself, and anything already superseded is
+    skipped.
+    """
+
+    plan_id = journey.active_plan_version_id
+    if not plan_id:
+        return []
+    rows = session.scalars(
+        select(Activity).where(Activity.plan_version_id == plan_id).order_by(Activity.sequence_no)
+    ).all()
+    if not rows:
+        return []
+
+    # Coordinates live on the Place row, not on the Activity.
+    place_ids = {str(item.place_id) for item in rows if item.place_id}
+    places: dict[str, Place] = {}
+    if place_ids:
+        places = {
+            place.id: place
+            for place in session.scalars(select(Place).where(Place.id.in_(place_ids))).all()
+        }
+
+    carried: list[GraphNode] = []
+    for item in rows:
+        metadata = _load(item.metadata_json, {}) or {}
+        semantic = str(metadata.get("semantic_key") or "").strip()
+        role = str(metadata.get("role") or "").upper()
+        # Anchors and the stay materialisation are rebuilt by this graph.
+        if role in {"ARRIVAL", "DEPARTURE"} or item.activity_type in {
+            "arrival",
+            "departure",
+            "check_in",
+            "check_out",
+            "stay",
+        }:
+            continue
+        key = semantic or str(item.place_id or item.id)
+        if key in exclude_keys:
+            continue
+        place = places.get(str(item.place_id)) if item.place_id else None
+        lat = getattr(place, "latitude", None) if place else None
+        lon = getattr(place, "longitude", None) if place else None
+        if lat is None or lon is None:
+            continue
+        carried.append(
+            GraphNode(
+                key=key,
+                title=item.title,
+                role="ACTIVITY",
+                start_at=item.start_at,
+                end_at=item.end_at,
+                latitude=float(lat),
+                longitude=float(lon),
+                place_key=item.place_id,
+                locked=bool(item.locked),
+                estimated_cost_minor=int(item.estimated_cost_minor or 0),
+                cost_status=str(metadata.get("cost_status") or "FREE_KNOWN"),
+            )
+        )
+    return carried
+
+
+def build_candidate_nodes(
+    session: Session, journey: Journey, offer: AccommodationOfferSnapshot
+) -> list[GraphNode]:
+    context = _context(session, journey)
+    operations = _operations_context(session, journey)
+    city = city_fixture(journey.city_code)
+    center = city.get("center", {})
+    arrival = _anchor(context, journey, "arrival")
+    departure = _anchor(context, journey, "departure")
+    arrival_at = datetime.fromisoformat(arrival["at"])
+    departure_at = datetime.fromisoformat(departure["at"])
+    center_lat = float(center.get("latitude", offer.latitude))
+    center_lon = float(center.get("longitude", offer.longitude))
+    arrival_lat = float(arrival.get("latitude") or center_lat - 0.018)
+    arrival_lon = float(arrival.get("longitude") or center_lon - 0.028)
+    departure_lat = float(departure.get("latitude") or center_lat + 0.072)
+    departure_lon = float(departure.get("longitude") or center_lon + 0.095)
+    events: list[GraphNode] = [
+        GraphNode(
+            key="arrival-anchor",
+            title=arrival["location"],
+            role="ARRIVAL",
+            start_at=arrival_at.isoformat(),
+            end_at=(arrival_at + timedelta(minutes=20)).isoformat(),
+            latitude=arrival_lat,
+            longitude=arrival_lon,
+            locked=True,
+        )
+    ]
+    check_in_at = datetime.fromisoformat(offer.check_in_at)
+    drop = _load(offer.luggage_drop_json, {})
+    if operations.baggage_present and arrival_at < check_in_at:
+        if not bool(drop.get("available")):
+            return []
+        drop_at = arrival_at + timedelta(minutes=60)
+        events.append(
+            GraphNode(
+                key=f"stay:{offer.external_offer_id}:luggage-drop",
+                title=f"Luggage drop · {offer.property_name}",
+                role="LUGGAGE_DROP",
+                start_at=drop_at.isoformat(),
+                end_at=(drop_at + timedelta(minutes=20)).isoformat(),
+                latitude=offer.latitude,
+                longitude=offer.longitude,
+                locked=True,
+            )
+        )
+    events.append(
+        GraphNode(
+            key=f"stay:{offer.external_offer_id}:check-in",
+            title=f"Check in · {offer.property_name}",
+            role="CHECK_IN",
+            start_at=max(check_in_at, arrival_at + timedelta(minutes=45)).isoformat(),
+            end_at=(
+                max(check_in_at, arrival_at + timedelta(minutes=45)) + timedelta(minutes=20)
+            ).isoformat(),
+            latitude=offer.latitude,
+            longitude=offer.longitude,
+            locked=True,
+        )
+    )
+    for item in city.get("activities", []):
+        start_at = _at_on_day(arrival_at, int(item["day_offset"]), str(item["start"]))
+        end_at = _at_on_day(arrival_at, int(item["day_offset"]), str(item["end"]))
+        if start_at <= arrival_at + timedelta(minutes=20) or end_at >= departure_at:
+            continue
+        events.append(
+            GraphNode(
+                key=f"place:{item['key']}",
+                title=str(item["title"]),
+                role="ACTIVITY",
+                start_at=start_at.isoformat(),
+                end_at=end_at.isoformat(),
+                latitude=float(item["latitude"]),
+                longitude=float(item["longitude"]),
+                place_key=str(item["key"]),
+                estimated_cost_minor=int(item.get("cost_amount_minor", 0)),
+                cost_status=str(item.get("cost_status", "UNKNOWN")),
+            )
+        )
+    for day_offset in range(_nights(context, journey)):
+        overnight_at = _at_on_day(arrival_at, day_offset, "22:30")
+        if arrival_at < overnight_at < departure_at:
+            events.append(
+                GraphNode(
+                    key=f"stay:{offer.external_offer_id}:night:{day_offset + 1}",
+                    title=f"Overnight · {offer.property_name}",
+                    role="STAY",
+                    start_at=overnight_at.isoformat(),
+                    end_at=(overnight_at + timedelta(hours=8)).isoformat(),
+                    latitude=offer.latitude,
+                    longitude=offer.longitude,
+                    locked=True,
+                )
+            )
+    check_out_at = datetime.fromisoformat(offer.check_out_at)
+    events.append(
+        GraphNode(
+            key=f"stay:{offer.external_offer_id}:check-out",
+            title=f"Check out · {offer.property_name}",
+            role="CHECK_OUT",
+            start_at=check_out_at.isoformat(),
+            end_at=(check_out_at + timedelta(minutes=20)).isoformat(),
+            latitude=offer.latitude,
+            longitude=offer.longitude,
+            locked=True,
+        )
+    )
+    events.append(
+        GraphNode(
+            key="departure-anchor",
+            title=departure["location"],
+            role="DEPARTURE",
+            start_at=(departure_at - timedelta(minutes=10)).isoformat(),
+            end_at=departure_at.isoformat(),
+            latitude=departure_lat,
+            longitude=departure_lon,
+            locked=True,
+        )
+    )
+    # Augment, never replace: keep the traveller's chosen stops.
+    carried = _carried_itinerary_nodes(
+        session, journey, exclude_keys={str(node.key) for node in events}
+    )
+    if carried:
+        # The calendar reserves pinned truth first and places flexible stops
+        # into the remaining windows, so its output is already a valid,
+        # non-overlapping timeline.  No further cursor filtering is applied:
+        # dropping nodes here would silently delete the traveller's stops.
+        return _reschedule_with_carried(
+            events, carried, arrival_at, departure_at, journey=journey
+        )
+    events.sort(key=lambda node: datetime.fromisoformat(node.start_at))
+    result: list[GraphNode] = []
+    cursor = arrival_at - timedelta(minutes=1)
+    for node in ordered_events(events):
+        start = datetime.fromisoformat(node.start_at)
+        end = datetime.fromisoformat(node.end_at)
+        if start < cursor and node.role not in {"STAY", "ACTIVITY"}:
+            continue
+        result.append(node)
+        cursor = max(cursor, end)
+    return result
+
+
+def ordered_events(events: list[GraphNode]) -> list[GraphNode]:
+    """Stable temporal order: anchors keep their slot, everything else follows."""
+
+    role_rank = {"ARRIVAL": 0, "ACTIVITY": 1, "STAY": 2, "DEPARTURE": 3}
+    return sorted(
+        events,
+        key=lambda node: (
+            datetime.fromisoformat(node.start_at),
+            role_rank.get(str(node.role).upper(), 2),
+        ),
+    )
+
+

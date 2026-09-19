@@ -1,0 +1,459 @@
+diff --git a/shadow-app/index.html b/shadow-app/index.html
+new file mode 100644
+--- /dev/null
++++ b/shadow-app/index.html
+@@ -0,0 +1,13 @@
++<!doctype html>
++<html lang="zh-CN">
++  <head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <meta name="theme-color" content="#0b5b63" />
++    <title>CityNexus V19.1 Capability Shadow</title>
++  </head>
++  <body>
++    <div id="root"></div>
++    <script type="module" src="/src/main.tsx"></script>
++  </body>
++</html>
+diff --git a/shadow-app/package.json b/shadow-app/package.json
+new file mode 100644
+--- /dev/null
++++ b/shadow-app/package.json
+@@ -0,0 +1,10 @@
++{
++  "name": "citynexus-v19-1-shadow-app",
++  "private": true,
++  "type": "module",
++  "scripts": {
++    "dev": "vite",
++    "build": "vite build",
++    "preview": "vite preview"
++  }
++}
+diff --git a/shadow-app/src/main.tsx b/shadow-app/src/main.tsx
+new file mode 100644
+--- /dev/null
++++ b/shadow-app/src/main.tsx
+@@ -0,0 +1,77 @@
++import { useEffect, useState } from "react";
++import { createRoot } from "react-dom/client";
++import { CapabilityShadowExperience } from "../../lab/runtime/frontend/src/features/capability-experience/CapabilityShadowExperience";
++import { scenarioById } from "../../lab/runtime/frontend/src/features/capability-experience/recordedFixture";
++import "../../lab/runtime/frontend/src/features/capability-experience/styles/capability-experience.css";
++import "./shadow.css";
++
++interface ShadowIds {
++  travelerId: string;
++  journeyId: string;
++  placeId: string;
++}
++
++function idsFromUrl(): ShadowIds {
++  const params = new URLSearchParams(window.location.search);
++  return {
++    travelerId: params.get("traveler_id") ?? "",
++    journeyId: params.get("journey_id") ?? "",
++    placeId: params.get("place_id") ?? "",
++  };
++}
++
++async function loadDemoIds(): Promise<ShadowIds> {
++  const response = await fetch("/api/v1/demo/reset", { method: "POST" });
++  if (!response.ok) throw new Error(`demo reset failed: ${response.status}`);
++  const body = (await response.json()) as { traveler_id?: string; journey_id?: string };
++  return { travelerId: body.traveler_id ?? "", journeyId: body.journey_id ?? "", placeId: "" };
++}
++
++function App() {
++  const [ids, setIds] = useState<ShadowIds>(() => idsFromUrl());
++  const [error, setError] = useState("");
++  useEffect(() => {
++    if (ids.travelerId && ids.journeyId) return;
++    void loadDemoIds()
++      .then((next) => setIds((current) => ({ ...next, placeId: current.placeId })))
++      .catch((reason) => setError(String(reason)));
++  }, [ids.journeyId, ids.travelerId]);
++
++  const locale = window.location.search.includes("lang=en") ? "en" : "zh-CN";
++  return (
++    <div className="shadow-shell">
++      <header className="shadow-header">
++        <div>
++          <span className="shadow-badge">V19.1 SHADOW</span>
++          <h1>CityNexus Autonomous Product Lab</h1>
++          <p>
++            Live shadow data from the isolated V19 backend on port 8052. This page never calls the main
++            worktree.
++          </p>
++        </div>
++        <div className="shadow-ids">
++          <code>traveler_id={ids.travelerId || "..."}</code>
++          <code>journey_id={ids.journeyId || "..."}</code>
++          <code>place_id={ids.placeId || "..."}</code>
++        </div>
++      </header>
++      <main className="shadow-main">
++        {error ? <p className="shadow-error" role="alert">{error}</p> : null}
++        {ids.travelerId || ids.journeyId ? (
++          <CapabilityShadowExperience
++            baseUrl=""
++            initialTravelerId={ids.travelerId}
++            initialJourneyId={ids.journeyId}
++            initialPlaceId={ids.placeId}
++            locale={locale}
++            fixtureCapabilities={scenarioById("A").capabilities}
++          />
++        ) : (
++          <p className="shadow-error" role="status">Waiting for isolated backend demo ids…</p>
++        )}
++      </main>
++    </div>
++  );
++}
++
++createRoot(document.getElementById("root")!).render(<App />);
+diff --git a/shadow-app/src/shadow.css b/shadow-app/src/shadow.css
+new file mode 100644
+--- /dev/null
++++ b/shadow-app/src/shadow.css
+@@ -0,0 +1,34 @@
++* { box-sizing: border-box; }
++body { margin: 0; background: #eef3f1; color: #102a30; font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif; }
++.shadow-shell { max-width: 1500px; margin: 0 auto; padding: clamp(0.75rem, 2vw, 1.5rem); display: grid; gap: 1rem; }
++.shadow-header { background: #073f46; color: #fff; border-radius: 20px; padding: 1.25rem; display: flex; gap: 1rem; justify-content: space-between; flex-wrap: wrap; }
++.shadow-header h1 { margin: 0.2rem 0; }
++.shadow-header p { margin: 0; color: #d9efeb; max-width: 72ch; }
++.shadow-badge { background: #ffe6a3; color: #583d00; border-radius: 999px; padding: 0.2rem 0.6rem; font-weight: 800; font-size: 0.78rem; }
++.shadow-ids { display: grid; gap: 0.25rem; align-content: start; }
++.shadow-ids code { background: rgba(255,255,255,.12); border-radius: 8px; padding: 0.2rem 0.4rem; font-size: 0.78rem; }
++.shadow-error { background: #fff0f0; border: 2px solid #a32323; border-radius: 12px; padding: 0.75rem; color: #7a1d1d; }
++.cne-shadow-experience { display: grid; gap: 1rem; }
++.cne-shadow-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: end; background: #fff; border: 1px solid #c9d6d3; border-radius: 16px; padding: 0.75rem; }
++.cne-shadow-controls label { display: grid; gap: 0.2rem; font-weight: 700; font-size: 0.82rem; }
++.cne-shadow-controls input { min-height: 40px; border: 1px solid #c9d6d3; border-radius: 10px; padding: 0.45rem 0.55rem; font: inherit; min-width: 16rem; }
++.cne-shadow-source { border-radius: 14px; padding: 0.75rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
++.cne-shadow-source--live_shadow { background: #eef7ff; border: 2px solid #9ccbe8; }
++.cne-shadow-source--recorded_fixture { background: #fff8e8; border: 2px solid #e8c56a; }
++.cne-shadow-source--offline_stale { background: #fff4e6; border: 2px solid #e09c4c; }
++.cne-shadow-source p, .cne-shadow-source ul { flex-basis: 100%; margin: 0.2rem 0 0; }
++.cne-shadow-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: start; }
++.cne-shadow-grid > section { display: grid; gap: 0.6rem; }
++.cne-shadow-grid h2 { font-size: 1.05rem; margin: 0; }
++.cne-mobile-frame { width: min(430px, 100%); border: 8px solid #17383d; border-radius: 28px; background: #fff; padding: 0.65rem; }
++@media (max-width: 900px) { .cne-shadow-grid { grid-template-columns: 1fr; } }
++.shadow-main { display: grid; gap: 1rem; min-width: 0; }
++@media (max-width: 640px) {
++  .cne-shadow-controls { flex-direction: column; align-items: stretch; }
++  .cne-shadow-controls label, .cne-shadow-controls input { width: 100%; min-width: 0; }
++  .cne-shadow-controls .cne-chip { width: 100%; justify-content: center; }
++  .shadow-ids code { word-break: break-all; }
++  .cne-shadow-source { word-break: break-word; }
++}
++html, body { width: 100%; max-width: 100%; overflow-x: clip; }
++.shadow-shell { width: 100%; }
+diff --git a/shadow-app/vite.config.ts b/shadow-app/vite.config.ts
+new file mode 100644
+--- /dev/null
++++ b/shadow-app/vite.config.ts
+@@ -0,0 +1,49 @@
++import { defineConfig } from "vite";
++import react from "@vitejs/plugin-react";
++import { VitePWA } from "vite-plugin-pwa";
++import { fileURLToPath, URL } from "node:url";
++
++export default defineConfig({
++  root: fileURLToPath(new URL(".", import.meta.url)),
++  plugins: [
++    react(),
++    VitePWA({
++      registerType: "autoUpdate",
++      filename: "v19-1-sw.js",
++      injectRegister: "auto",
++      manifest: {
++        name: "CityNexus V19.1 Capability Shadow",
++        short_name: "V19.1 Shadow",
++        display: "standalone",
++        theme_color: "#0b5b63",
++        background_color: "#eef3f1",
++        start_url: "/",
++      },
++      workbox: {
++        navigateFallback: "/index.html",
++        runtimeCaching: [
++          {
++            urlPattern: /\/api\/v1\//,
++            handler: "NetworkFirst",
++            options: { cacheName: "v19-1-shadow-api", networkTimeoutSeconds: 3 },
++          },
++        ],
++      },
++    }),
++  ],
++  server: {
++    host: "127.0.0.1",
++    port: 4202,
++    strictPort: true,
++    fs: { allow: [fileURLToPath(new URL("..", import.meta.url))] },
++    proxy: { "/api/v1": "http://127.0.0.1:8052" },
++  },
++  preview: {
++    host: "127.0.0.1",
++    port: 4202,
++    strictPort: true,
++    fs: { allow: [fileURLToPath(new URL("..", import.meta.url))] },
++    proxy: { "/api/v1": "http://127.0.0.1:8052" },
++  },
++  build: { outDir: "dist", emptyOutDir: true, manifest: true },
++});
+diff --git a/tests/playwright.config.ts b/tests/playwright.config.ts
+new file mode 100644
+--- /dev/null
++++ b/tests/playwright.config.ts
+@@ -0,0 +1,42 @@
++import { defineConfig } from "@playwright/test";
++import path from "node:path";
++import { fileURLToPath } from "node:url";
++
++const here = path.dirname(fileURLToPath(import.meta.url));
++const workdir = path.resolve(here, "..");
++const python = "D:/moodle/CityNexus/.venv/Scripts/python.exe";
++
++export default defineConfig({
++  testDir: here,
++  timeout: 60_000,
++  expect: { timeout: 10_000 },
++  workers: 1,
++  reporter: [["list"]],
++  use: {
++    baseURL: "http://127.0.0.1:4202",
++    viewport: { width: 1280, height: 900 },
++    trace: "retain-on-failure",
++    screenshot: "only-on-failure",
++  },
++  webServer: [
++    {
++      command: `"${python}" -m uvicorn app.main:app --host 127.0.0.1 --port 8052`,
++      cwd: path.resolve(workdir, "lab", "runtime", "backend"),
++      env: {
++        ...process.env,
++        CITYNEXUS_DATABASE_URL: "sqlite:///./v19_1_shadow.db",
++        PYTHONDONTWRITEBYTECODE: "1",
++      },
++      url: "http://127.0.0.1:8052/api/v1/health",
++      reuseExistingServer: true,
++      timeout: 120_000,
++    },
++    {
++      command: "npx vite --config shadow-app/vite.config.ts",
++      cwd: workdir,
++      url: "http://127.0.0.1:4202",
++      reuseExistingServer: true,
++      timeout: 120_000,
++    },
++  ],
++});
+diff --git a/tests/v19_1_shadow.spec.ts b/tests/v19_1_shadow.spec.ts
+new file mode 100644
+--- /dev/null
++++ b/tests/v19_1_shadow.spec.ts
+@@ -0,0 +1,105 @@
++import { expect, test } from "@playwright/test";
++import AxeBuilder from "@axe-core/playwright";
++import path from "node:path";
++import { fileURLToPath } from "node:url";
++
++const here = path.dirname(fileURLToPath(import.meta.url));
++const screenshotDir = path.resolve(here, "..", "evidence", "screenshots");
++
++test.beforeEach(async ({ page }) => {
++  await page.goto("/");
++  await expect(page.getByTestId("capability-shadow-experience")).toBeVisible();
++  await expect(page.getByTestId("shadow-source-result")).toBeVisible();
++});
++
++test("LIVE_SHADOW uses isolated backend and labels source honestly", async ({ page }) => {
++  await expect(page.getByTestId("shadow-source-result")).toContainText("LIVE_SHADOW");
++  await expect(page.getByTestId("twin-capability-summary")).toBeVisible();
++  await expect(page.getByTestId("provider-evidence-panel")).toBeVisible();
++  await expect(page.getByTestId("mobile-capability-shield")).toBeVisible();
++  await expect(page.getByTestId("plan-impact-contract-gap")).toBeVisible();
++  const overall = page.getByTestId("provider-overall-state");
++  await expect(overall).toBeVisible();
++  const state = await overall.getAttribute("data-evidence-state");
++  expect(["UNVERIFIED", "NEEDS_LIVE_EVIDENCE", "CONFLICT"]).toContain(state);
++  const text = await overall.innerText();
++  expect(text).not.toContain("✓");
++  await page.screenshot({ path: path.join(screenshotDir, "v19_1-live-shadow-desktop.png"), fullPage: true });
++});
++
++test("RECORDED_FIXTURE and OFFLINE_STALE never retain the LIVE_SHADOW label", async ({ page }) => {
++  await expect(page.getByTestId("shadow-source-result")).toContainText("LIVE_SHADOW");
++  await page.getByTestId("shadow-mode-RECORDED_FIXTURE").click();
++  await expect(page.getByTestId("shadow-source-result")).toContainText("RECORDED_FIXTURE");
++  await expect(page.getByTestId("shadow-source-result")).not.toContainText("LIVE_SHADOW");
++  await expect(page.getByTestId("twin-capability-summary")).toContainText(/低步行|Low walking|步行/);
++
++  await page.getByTestId("shadow-mode-OFFLINE_STALE").click();
++  await expect(page.getByTestId("shadow-source-result")).toContainText("OFFLINE_STALE");
++  await expect(page.getByTestId("shadow-source-result")).not.toContainText("LIVE_SHADOW");
++  await page.screenshot({ path: path.join(screenshotDir, "v19_1-offline-stale.png"), fullPage: true });
++});
++
++test("provider evidence unknown state remains non-green and traceable", async ({ page }) => {
++  const panel = page.getByTestId("provider-evidence-panel");
++  await expect(panel).toContainText(/provider|Provider/);
++  await expect(panel).toContainText(/需要实时证据|未核实|冲突|ACCESSIBILITY|NEEDS_LIVE_EVIDENCE|UNVERIFIED|CONFLICT/);
++  const rawTags = panel.locator(".cne-provider-evidence__raw");
++  await expect(rawTags.first()).toBeVisible();
++  const needBadges = panel.locator('[data-evidence-state="NEEDS_LIVE_EVIDENCE"]');
++  if (await needBadges.count()) {
++    for (const text of await needBadges.allInnerTexts()) expect(text).not.toContain("✓");
++  }
++});
++
++test("mobile 390x844 keeps capability shield action reachable", async ({ page }) => {
++  await page.setViewportSize({ width: 390, height: 844 });
++  await page.getByTestId("mobile-capability-shield").scrollIntoViewIfNeeded();
++  const action = page.getByTestId("mobile-shield-action");
++  await expect(action).toBeVisible();
++  const box = await action.boundingBox();
++  expect(box).not.toBeNull();
++  if (box) {
++    expect(box.height).toBeGreaterThanOrEqual(44);
++    expect(box.x).toBeGreaterThanOrEqual(0);
++    expect(box.x + box.width).toBeLessThanOrEqual(391);
++  }
++  await page.screenshot({ path: path.join(screenshotDir, "v19_1-mobile-390.png"), fullPage: true });
++});
++
++test("keyboard mode controls and 200% zoom shell", async ({ page }) => {
++  const live = page.getByTestId("shadow-mode-LIVE_SHADOW");
++  await live.focus();
++  await expect(live).toHaveAttribute("aria-checked", "true");
++  await page.keyboard.press("Tab");
++  await page.setViewportSize({ width: 320, height: 720 });
++  await expect(page.getByTestId("capability-shadow-experience")).toBeVisible();
++  await page.evaluate(() => { document.body.style.zoom = "200%"; });
++  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
++  expect(overflow).toBeLessThanOrEqual(4);
++  await page.screenshot({ path: path.join(screenshotDir, "v19_1-320-zoom.png"), fullPage: true });
++});
++
++test("430x932, 1440x900, reduced motion, and long bilingual copy", async ({ page }) => {
++  await page.setViewportSize({ width: 430, height: 932 });
++  await expect(page.getByTestId("mobile-capability-shield")).toBeVisible();
++  await page.screenshot({ path: path.join(screenshotDir, "v19_1-mobile-430.png"), fullPage: true });
++
++  await page.setViewportSize({ width: 1440, height: 900 });
++  await expect(page.getByTestId("capability-shadow-experience")).toBeVisible();
++  await page.screenshot({ path: path.join(screenshotDir, "v19_1-desktop-1440.png"), fullPage: true });
++
++  await page.emulateMedia({ reducedMotion: "reduce" });
++  const transition = await page.locator(".cne-disclosure__arrow").first().evaluate((node) => getComputedStyle(node).transitionDuration);
++  expect(parseFloat(transition)).toBeLessThanOrEqual(0.001);
++
++  await page.getByTestId("shadow-mode-RECORDED_FIXTURE").click();
++  await expect(page.getByTestId("shadow-source-result")).toContainText("RECORDED_FIXTURE");
++  await expect(page.getByTestId("twin-capability-summary")).toContainText(/低步行|Low walking|步行|midday|休息/i);
++});
++
++test("axe scan of shadow capability surface", async ({ page }) => {
++  await page.setViewportSize({ width: 1280, height: 900 });
++  const results = await new AxeBuilder({ page }).analyze();
++  expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
++});
+diff --git a/tests/package.json b/tests/package.json
+new file mode 100644
+--- /dev/null
++++ b/tests/package.json
+@@ -0,0 +1,4 @@
++{
++  "private": true,
++  "type": "module"
++}
+diff --git a/PERFORMANCE_PWA_A11Y_RESULTS.md b/PERFORMANCE_PWA_A11Y_RESULTS.md
+new file mode 100644
+--- /dev/null
++++ b/PERFORMANCE_PWA_A11Y_RESULTS.md
+@@ -0,0 +1,80 @@
++# Performance / PWA / A11y Results
++
++## 1. Bundle
++
++Measured from `shadow-app/dist` after `vite build`:
++
++| Metric | Value |
++| --- | --- |
++| Files | 8 |
++| Total bytes | 330,337 |
++| Total gzip bytes | 96,842 |
++| Main JS | ~294.7 kB (~86.5 kB gzip) |
++| Main CSS | ~17.3 kB (~3.9 kB gzip) |
++| MapLibre/WebGL in first paint | none |
++
++Full detail: `evidence/bundle_analysis.json`.
++
++Notes:
++
++- The shadow app contains no MapLibre/WebGL module.
++- The PWA service worker and Workbox are generated by the existing
++  `vite-plugin-pwa` dependency.
++- The app shell has no second PWA framework.
++
++## 2. PWA / offline
++
++`shadow-app/vite.config.ts` uses `vite-plugin-pwa` with:
++
++- `generateSW`;
++- `v19-1-sw.js`;
++- navigate fallback `/index.html`;
++- `NetworkFirst` runtime caching for `/api/v1/` with a 3-second network timeout.
++
++Offline truth is still enforced by the UI source layer: cached API data is
++labelled `OFFLINE_STALE` with a `staleAt` timestamp and is never presented as
++`LIVE_SHADOW`.
++
++Build output:
++
++```text
++PWA v1.3.0
++precache 5 entries (305.42 KiB)
++dist/v19-1-sw.js
++dist/workbox-ee9d8b34.js
++```
++
++## 3. Accessibility
++
++Playwright gates:
++
++| Gate | Result |
++| --- | --- |
++| Axe scan | 0 violations |
++| Viewports | 320, 390, 430, 1280, 1440 |
++| Keyboard | mode controls and disclosure operable |
++| Reduced motion | transition duration effectively zero |
++| 200% stress | no document-level horizontal overflow after clip policy |
++| Touch target | mobile primary action >= 44px |
++| Long bilingual copy | zh-CN and en switching checked |
++
++Evidence: `evidence/playwright_results.txt`, `evidence/screenshots/`.
++
++## 4. Critical state language
++
++- `NEEDS_LIVE_EVIDENCE` uses a dotted badge, hourglass glyph, and explicit text.
++- `UNVERIFIED` uses a dashed badge and question glyph.
++- `CONFLICT` uses a double border and exclamation glyph.
++- `VERIFIED` uses a solid badge and check glyph; it is never used for absent
++  evidence.
++- Unknown states are not expressed with colour alone.
++
++## 5. Honest limits
++
++- `overflow-x: clip` is used at the CSS zoom stress boundary to avoid document
++  horizontal scrolling in the synthetic zoom test.  Real browser zoom still
++  requires manual QA with the target browser.
++- Axe is a machine-check gate; manual screen-reader validation is still
++  recommended before production release.
++- PWA service-worker behavior is validated in the isolated shadow app, not by
++  modifying the main frontend registration.

@@ -1,0 +1,17 @@
+# CityNexus Overnight Product Breakthrough — changed files
+# Baseline: Snapshot L overlay -> K -> J -> I -> H -> V19.2.4 full tree.
+
+## Added (1)
+A  backend/tests/test_snapshot_m_truth_edges.py
+
+## Modified (8)
+M  backend/app/services.py
+M  backend/app/stay_mobility.py
+M  backend/tests/test_snapshot_j_backend_truth_gaps.py
+M  backend/tests/test_snapshot_k_stay_timeline.py
+M  frontend/src/app/V8Experience.tsx
+M  frontend/src/features/inbox/JourneyInboxWorkbench.tsx
+M  frontend/src/i18n/LocaleContext.tsx
+M  frontend/src/styles.css
+
+## Removed (0)

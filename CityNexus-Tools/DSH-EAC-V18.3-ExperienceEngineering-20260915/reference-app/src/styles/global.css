@@ -1,0 +1,65 @@
+/**
+ * V18.3 global document rules only. Component rules live in experience.css
+ * under @scope(.citynexus-experience) so the reference UI cannot leak into the
+ * host CityNexus stylesheet.
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text, #eaf6f4);
+  background: var(--bg, #071217);
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+::view-transition-old(root) {
+  animation: cn-route-out var(--cn-motion-fast, 160ms) ease both;
+}
+
+::view-transition-new(root) {
+  animation: cn-route-in var(--cn-motion-base, 220ms) var(--cn-ease-enter, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+@keyframes cn-route-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes cn-route-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

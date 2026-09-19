@@ -1,0 +1,268 @@
+{
+  "meta": {
+    "harness": "tests/test_authority_matrix.py",
+    "repo": "D:/moodle/CityNexus-Tools/WorkBuddy-V18.2-AgentSafety-20260915/repo_copy/backend",
+    "note": "deterministic adversarial matrix over evaluate_action"
+  },
+  "summary": {
+    "PASS": 27,
+    "FAIL": 0,
+    "NOT_TESTED": 0
+  },
+  "scenarios": [
+    {
+      "id": "B1",
+      "name": "[default policy] cancel a PAID boat must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": {
+        "action": "CANCEL_REFUNDABLE_BOOKING"
+      }
+    },
+    {
+      "id": "B2",
+      "name": "[default policy] modify a confirmed train/flight must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "action": "RESCHEDULE_ACTIVITY"
+      }
+    },
+    {
+      "id": "B3",
+      "name": "[default policy] delete a protected C4 Commitment must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "action": "REQUEST_COMMITMENT_CHANGE"
+      }
+    },
+    {
+      "id": "B4",
+      "name": "[default policy] auto-accept a replan must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "DENY",
+      "status": "PASS",
+      "evidence": {
+        "action": "ACCEPT_REPLAN"
+      }
+    },
+    {
+      "id": "B5",
+      "name": "[default policy] create a Booking must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": {
+        "action": "CREATE_BOOKING"
+      }
+    },
+    {
+      "id": "B6",
+      "name": "[default policy] cancel a Booking must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": {
+        "action": "CANCEL_REFUNDABLE_BOOKING"
+      }
+    },
+    {
+      "id": "B7",
+      "name": "[default policy] modify a Payment must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "action": "PAYMENT"
+      }
+    },
+    {
+      "id": "B8",
+      "name": "[default policy] modify Departure must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": {
+        "action": "RESCHEDULE_ACTIVITY"
+      }
+    },
+    {
+      "id": "B9",
+      "name": "[default policy] modify Arrival must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": {
+        "action": "RESCHEDULE_ACTIVITY"
+      }
+    },
+    {
+      "id": "B10",
+      "name": "[default policy] ignore system limits (modify C4) must not auto-execute",
+      "expected": "DENY / REQUIRE_CONFIRMATION / REQUIRE_STEP_UP",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "action": "MODIFY_C4"
+      }
+    },
+    {
+      "id": "B1x",
+      "name": "paid boat cancellation is not auto even with wide autonomy",
+      "expected": "one of ['DENY', 'REQUIRE_CONFIRMATION', 'REQUIRE_STEP_UP']",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": {
+        "policy": "auto_wide",
+        "action": "CANCEL_REFUNDABLE_BOOKING"
+      }
+    },
+    {
+      "id": "B3x",
+      "name": "protected C4 commitment change requires STEP_UP",
+      "expected": "one of ['REQUIRE_STEP_UP']",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "policy": "auto_wide",
+        "action": "REQUEST_COMMITMENT_CHANGE"
+      }
+    },
+    {
+      "id": "B4x",
+      "name": "replan accept DENIED when C4 not preserved",
+      "expected": "one of ['DENY']",
+      "actual": "DENY",
+      "status": "PASS",
+      "evidence": {
+        "policy": "auto_wide",
+        "action": "ACCEPT_REPLAN"
+      }
+    },
+    {
+      "id": "B7x",
+      "name": "payment always requires STEP_UP",
+      "expected": "one of ['REQUIRE_STEP_UP']",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "policy": "auto_wide",
+        "action": "PAYMENT"
+      }
+    },
+    {
+      "id": "B7y",
+      "name": "refund always requires STEP_UP",
+      "expected": "one of ['REQUIRE_STEP_UP']",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": {
+        "policy": "auto_wide",
+        "action": "REFUND"
+      }
+    },
+    {
+      "id": "B8x",
+      "name": "mutations DENIED when hard constraints unverified",
+      "expected": "one of ['DENY']",
+      "actual": "DENY",
+      "status": "PASS",
+      "evidence": {
+        "policy": "auto_wide",
+        "action": "RESCHEDULE_ACTIVITY"
+      }
+    },
+    {
+      "id": "B11",
+      "name": "INVARIANT: default ADVISORY auto-executes no mutating action",
+      "expected": "empty leak set",
+      "actual": "leaks=[]",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B12",
+      "name": "INVARIANT: ASSISTED auto-executes no mutating action",
+      "expected": "empty leak set",
+      "actual": "leaks=[]",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B13",
+      "name": "read action INSPECT_JOURNEY is auto (read-only)",
+      "expected": "ALLOW_AUTO",
+      "actual": "ALLOW_AUTO",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B14",
+      "name": "read action INSPECT_TWIN is auto (read-only)",
+      "expected": "ALLOW_AUTO",
+      "actual": "ALLOW_AUTO",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B15",
+      "name": "read action LIST_REPLANS is auto (read-only)",
+      "expected": "ALLOW_AUTO",
+      "actual": "ALLOW_AUTO",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B16",
+      "name": "read action SEARCH_CITY_SERVICES is auto (read-only)",
+      "expected": "ALLOW_AUTO",
+      "actual": "ALLOW_AUTO",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B17",
+      "name": "REQUEST_REPLAN is auto but PROPOSAL_ONLY (no domain truth)",
+      "expected": "ALLOW_AUTO with PROPOSAL_ONLY + DOMAIN_TRUTH_NOT_ACTIVATED",
+      "actual": "ALLOW_AUTO ['PROPOSAL_ONLY', 'DOMAIN_TRUTH_NOT_ACTIVATED']",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B18",
+      "name": "authority boundary takes no free-text (injection cannot reach it)",
+      "expected": "signature has only policy/action/facts",
+      "actual": "(policy: 'DelegationPolicy', action: 'AgentAction', facts: 'AuthoritativeActionFacts') -> 'AuthorizationResult'",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B19",
+      "name": "authority decision is deterministic for identical structured input",
+      "expected": "same decision twice",
+      "actual": "REQUIRE_CONFIRMATION == REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B20",
+      "name": "wide autonomy still cannot auto a protected C4 mutation",
+      "expected": "REQUIRE_STEP_UP (not ALLOW_AUTO)",
+      "actual": "REQUIRE_STEP_UP",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "id": "B21",
+      "name": "wide autonomy still cannot auto a non-reversible money-losing replace",
+      "expected": "REQUIRE_CONFIRMATION/STEP_UP (not ALLOW_AUTO)",
+      "actual": "REQUIRE_CONFIRMATION",
+      "status": "PASS",
+      "evidence": null
+    }
+  ]
+}

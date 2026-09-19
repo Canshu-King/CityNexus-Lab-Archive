@@ -1,0 +1,1037 @@
+diff --git a/backend/app/planning/ortools_replan_solver.py b/backend/app/planning/ortools_replan_solver.py
+new file mode 100644
+index 0000000..810fb1d
+--- /dev/null
++++ b/backend/app/planning/ortools_replan_solver.py
+@@ -0,0 +1,238 @@
++from __future__ import annotations
++
++from dataclasses import dataclass
++from typing import Any
++
++from app.planning.solver_contract import (
++    ReplanSolverProblem,
++    SolverCandidate,
++    solver_candidate_fingerprint,
++)
++
++
++class ORToolsUnavailable(RuntimeError):
++    pass
++
++
++@dataclass(frozen=True)
++class ORToolsRun:
++    candidates: tuple[SolverCandidate, ...]
++    terminal_status: str
++    attempted: int
++
++
++def _status_name(cp_model: Any, status: int) -> str:
++    names = {
++        cp_model.OPTIMAL: "OPTIMAL",
++        cp_model.FEASIBLE: "FEASIBLE",
++        cp_model.INFEASIBLE: "INFEASIBLE",
++        cp_model.MODEL_INVALID: "MODEL_INVALID",
++        cp_model.UNKNOWN: "UNKNOWN",
++    }
++    return names.get(status, str(status))
++
++
++def solve_replacement_candidates(
++    problem: ReplanSolverProblem,
++    *,
++    candidate_count: int,
++    random_seed: int = 1,
++    max_time_seconds: float = 1.0,
++) -> ORToolsRun:
++    """Solve the V1 replacement-window problem with CP-SAT.
++
++    This module is intentionally optional. The caller owns fallback and MUST
++    still run every materialized output through CityNexus deterministic
++    feasibility before creating a PRESENTED ReplanProposal.
++    """
++
++    if candidate_count < 1:
++        raise ValueError("candidate_count must be positive")
++    if max_time_seconds <= 0:
++        raise ValueError("max_time_seconds must be positive")
++    try:
++        from ortools.sat.python import cp_model
++    except ImportError as exc:  # pragma: no cover - environment dependent
++        raise ORToolsUnavailable("ortools is not installed") from exc
++
++    excluded_options: set[str] = set()
++    exclude_drop = False
++    candidates: list[SolverCandidate] = []
++    terminal_status = "INFEASIBLE"
++    attempted = 0
++
++    for rank in range(candidate_count):
++        attempted += 1
++        model = cp_model.CpModel()
++        selectors: dict[str, Any] = {}
++        starts: dict[str, Any] = {}
++        shifts: dict[str, Any] = {}
++        travel_costs: dict[str, int] = {}
++        available_options = []
++        anchor = problem.next_anchor
++
++        for option in sorted(problem.replacement_options, key=lambda item: item.option_key):
++            if option.option_key in excluded_options:
++                continue
++            try:
++                inbound = problem.travel(problem.current_location_key, option.location_key)
++                outbound = problem.travel(option.location_key, anchor.location_key)
++            except KeyError:
++                continue
++            earliest = max(problem.now_min + inbound, option.earliest_start_min)
++            latest_start = min(
++                option.latest_end_min - option.duration_min,
++                anchor.start_min
++                - problem.safety_buffer_min
++                - outbound
++                - option.duration_min,
++                problem.journey_end_min - option.duration_min,
++            )
++            if earliest > latest_start or option.cost_minor > problem.budget_remaining_minor:
++                continue
++
++            selected = model.new_bool_var(f"selected_{len(available_options)}")
++            start = model.new_int_var(0, problem.journey_end_min, f"start_{len(available_options)}")
++            shift = model.new_int_var(0, problem.journey_end_min, f"shift_{len(available_options)}")
++            model.add(start >= earliest).only_enforce_if(selected)
++            model.add(start <= latest_start).only_enforce_if(selected)
++            # Pin unused variables to a stable value so the model has no irrelevant freedom.
++            model.add(start == option.original_start_min).only_enforce_if(selected.Not())
++            model.add_abs_equality(shift, start - option.original_start_min)
++            selectors[option.option_key] = selected
++            starts[option.option_key] = start
++            shifts[option.option_key] = shift
++            travel_costs[option.option_key] = inbound + outbound
++            available_options.append((option, inbound, outbound))
++
++        drop = None
++        direct_to_anchor = None
++        if problem.allow_drop and not exclude_drop:
++            try:
++                direct_to_anchor = problem.travel(
++                    problem.current_location_key, problem.next_anchor.location_key
++                )
++            except KeyError:
++                direct_to_anchor = None
++            if (
++                direct_to_anchor is not None
++                and problem.now_min + direct_to_anchor + problem.safety_buffer_min
++                <= problem.next_anchor.start_min
++            ):
++                drop = model.new_bool_var("drop")
++
++        choice_vars = list(selectors.values()) + ([drop] if drop is not None else [])
++        if not choice_vars:
++            terminal_status = "INFEASIBLE"
++            break
++        model.add(sum(choice_vars) == 1)
++        model.add(
++            sum(
++                selectors[option.option_key] * option.cost_minor
++                for option, _inbound, _outbound in available_options
++            )
++            <= problem.budget_remaining_minor
++        )
++
++        # V1 objective mirrors SolverCandidate.objective_key lexicographically:
++        # keep an activity, minimize schedule movement, then frozen travel, then
++        # maximize already-verified preference, then stable option key.  Dynamic
++        # integer weights make the hierarchy explicit instead of relying on
++        # coincidental constants (for example, a 1-minute travel delta must not
++        # tie a 1000-point preference delta). Final CityNexus verified scoring
++        # still ranks post-gate proposals.
++        sorted_options = sorted(
++            (item[0] for item in available_options),
++            key=lambda item: item.option_key,
++        )
++        option_rank = {item.option_key: rank for rank, item in enumerate(sorted_options)}
++        tie_width = max(2, len(sorted_options) + 1)
++        preference_width = 1001 * tie_width
++        travel_weight = preference_width + 1
++        max_travel = max(travel_costs.values(), default=0)
++        shift_weight = (max_travel + 1) * travel_weight + preference_width + tie_width
++        drop_penalty = (
++            (problem.journey_end_min + 1) * shift_weight
++            + (max_travel + 1) * travel_weight
++            + preference_width
++            + tie_width
++        )
++
++        objective_terms = []
++        if drop is not None:
++            objective_terms.append(drop * drop_penalty)
++        for option, _inbound, _outbound in available_options:
++            selected = selectors[option.option_key]
++            # shift is zero only when original start is chosen. Because the unused
++            # start is pinned to original_start_min, it contributes zero when not selected.
++            objective_terms.append(shifts[option.option_key] * shift_weight)
++            objective_terms.append(selected * travel_costs[option.option_key] * travel_weight)
++            objective_terms.append(selected * (1000 - option.preference_milli) * tie_width)
++            objective_terms.append(selected * option_rank[option.option_key])
++        model.minimize(sum(objective_terms))
++
++        solver = cp_model.CpSolver()
++        solver.parameters.num_search_workers = 1
++        solver.parameters.random_seed = int(random_seed)
++        solver.parameters.max_time_in_seconds = float(max_time_seconds)
++        # Deterministic-time budget makes repeated CI runs less wall-clock sensitive.
++        if hasattr(solver.parameters, "max_deterministic_time"):
++            solver.parameters.max_deterministic_time = float(max_time_seconds)
++        status = solver.solve(model)
++        terminal_status = _status_name(cp_model, status)
++        if status not in {cp_model.OPTIMAL, cp_model.FEASIBLE}:
++            break
++
++        chosen = [key for key, selected in selectors.items() if solver.value(selected)]
++        if chosen:
++            key = min(chosen)
++            option, inbound, outbound = next(
++                item for item in available_options if item[0].option_key == key
++            )
++            start = int(solver.value(starts[key]))
++            candidate = SolverCandidate(
++                option_key=option.option_key,
++                location_key=option.location_key,
++                start_min=start,
++                end_min=start + option.duration_min,
++                cost_minor=option.cost_minor,
++                inbound_travel_min=inbound,
++                outbound_travel_min=outbound,
++                schedule_shift_min=abs(start - option.original_start_min),
++                preference_milli=option.preference_milli,
++                dropped=False,
++                fingerprint=solver_candidate_fingerprint(problem, f"{option.option_key}@{start}"),
++                generator_kind="ORTOOLS_CP_SAT",
++                solver_status=terminal_status,
++                generator_rank=rank,
++            )
++            candidates.append(candidate)
++            excluded_options.add(key)
++            continue
++
++        if drop is not None and solver.value(drop):
++            candidates.append(
++                SolverCandidate(
++                    option_key=None,
++                    location_key=None,
++                    start_min=None,
++                    end_min=None,
++                    cost_minor=0,
++                    inbound_travel_min=0,
++                    outbound_travel_min=int(direct_to_anchor or 0),
++                    schedule_shift_min=0,
++                    preference_milli=0,
++                    dropped=True,
++                    fingerprint=solver_candidate_fingerprint(problem, "DROP"),
++                    generator_kind="ORTOOLS_CP_SAT",
++                    solver_status=terminal_status,
++                    generator_rank=rank,
++                )
++            )
++            exclude_drop = True
++            continue
++
++        terminal_status = "UNKNOWN"
++        break
++
++    return ORToolsRun(tuple(candidates), terminal_status, attempted)
+diff --git a/backend/app/planning/reference_replan_solver.py b/backend/app/planning/reference_replan_solver.py
+new file mode 100644
+index 0000000..1f9f61e
+--- /dev/null
++++ b/backend/app/planning/reference_replan_solver.py
+@@ -0,0 +1,129 @@
++from __future__ import annotations
++
++from app.planning.solver_contract import (
++    ReplanSolverProblem,
++    SolverCandidate,
++    solver_candidate_fingerprint,
++)
++
++
++def _best_start(*, earliest: int, latest: int, original: int) -> int:
++    """Minimize absolute shift with a stable earliest-side tie break."""
++
++    if earliest > latest:
++        raise ValueError("empty feasible start interval")
++    return min(max(original, earliest), latest)
++
++
++def enumerate_reference_candidates(
++    problem: ReplanSolverProblem, *, candidate_count: int
++) -> tuple[SolverCandidate, ...]:
++    """Dependency-free oracle for the small V1 replacement scheduling problem.
++
++    This is not the production optimizer. It exists so OR-Tools output can be
++    tested against an independently understandable deterministic contract.
++    """
++
++    if candidate_count < 1:
++        raise ValueError("candidate_count must be positive")
++
++    raw: list[SolverCandidate] = []
++    anchor = problem.next_anchor
++    for option in sorted(problem.replacement_options, key=lambda item: item.option_key):
++        try:
++            inbound = problem.travel(problem.current_location_key, option.location_key)
++            outbound = problem.travel(option.location_key, anchor.location_key)
++        except KeyError:
++            continue
++        earliest = max(problem.now_min + inbound, option.earliest_start_min)
++        latest_start = min(
++            option.latest_end_min - option.duration_min,
++            anchor.start_min
++            - problem.safety_buffer_min
++            - outbound
++            - option.duration_min,
++            problem.journey_end_min - option.duration_min,
++        )
++        if earliest > latest_start:
++            continue
++        if option.cost_minor > problem.budget_remaining_minor:
++            continue
++        start = _best_start(
++            earliest=earliest,
++            latest=latest_start,
++            original=option.original_start_min,
++        )
++        end = start + option.duration_min
++        shift = abs(start - option.original_start_min)
++        raw.append(
++            SolverCandidate(
++                option_key=option.option_key,
++                location_key=option.location_key,
++                start_min=start,
++                end_min=end,
++                cost_minor=option.cost_minor,
++                inbound_travel_min=inbound,
++                outbound_travel_min=outbound,
++                schedule_shift_min=shift,
++                preference_milli=option.preference_milli,
++                dropped=False,
++                fingerprint=solver_candidate_fingerprint(problem, f"{option.option_key}@{start}"),
++                generator_kind="REFERENCE_ENUMERATOR",
++                solver_status="FEASIBLE",
++                generator_rank=0,
++            )
++        )
++
++    if problem.allow_drop:
++        try:
++            direct = problem.travel(problem.current_location_key, anchor.location_key)
++        except KeyError:
++            direct = -1
++        if direct >= 0 and problem.now_min + direct + problem.safety_buffer_min <= anchor.start_min:
++            raw.append(
++                SolverCandidate(
++                    option_key=None,
++                    location_key=None,
++                    start_min=None,
++                    end_min=None,
++                    cost_minor=0,
++                    inbound_travel_min=0,
++                    outbound_travel_min=direct,
++                    schedule_shift_min=0,
++                    preference_milli=0,
++                    dropped=True,
++                    fingerprint=solver_candidate_fingerprint(problem, "DROP"),
++                    generator_kind="REFERENCE_ENUMERATOR",
++                    solver_status="FEASIBLE",
++                    generator_rank=0,
++                )
++            )
++
++    raw.sort(key=lambda item: (item.objective_key, item.fingerprint))
++    unique: list[SolverCandidate] = []
++    seen: set[str] = set()
++    for item in raw:
++        if item.fingerprint in seen:
++            continue
++        seen.add(item.fingerprint)
++        unique.append(
++            SolverCandidate(
++                option_key=item.option_key,
++                location_key=item.location_key,
++                start_min=item.start_min,
++                end_min=item.end_min,
++                cost_minor=item.cost_minor,
++                inbound_travel_min=item.inbound_travel_min,
++                outbound_travel_min=item.outbound_travel_min,
++                schedule_shift_min=item.schedule_shift_min,
++                preference_milli=item.preference_milli,
++                dropped=item.dropped,
++                fingerprint=item.fingerprint,
++                generator_kind=item.generator_kind,
++                solver_status=item.solver_status,
++                generator_rank=len(unique),
++            )
++        )
++        if len(unique) >= candidate_count:
++            break
++    return tuple(unique)
+diff --git a/backend/app/planning/solver_contract.py b/backend/app/planning/solver_contract.py
+new file mode 100644
+index 0000000..01807b6
+--- /dev/null
++++ b/backend/app/planning/solver_contract.py
+@@ -0,0 +1,204 @@
++from __future__ import annotations
++
++from dataclasses import dataclass
++import hashlib
++import json
++from types import MappingProxyType
++from typing import Mapping
++
++
++@dataclass(frozen=True)
++class SolverAnchor:
++    """A protected semantic/time anchor such as a durable C4 commitment."""
++
++    semantic_key: str
++    location_key: str
++    start_min: int
++    duration_min: int
++
++    def __post_init__(self) -> None:
++        if not self.semantic_key or not self.location_key:
++            raise ValueError("solver anchor requires semantic and location keys")
++        if self.start_min < 0 or self.duration_min <= 0:
++            raise ValueError("solver anchor time is invalid")
++
++
++@dataclass(frozen=True)
++class SolverReplacementOption:
++    """Pure facts for one deterministic replacement option.
++
++    The option does not contain ORM objects, provider clients or FastAPI state.
++    All times are integer minutes from Journey.start_at.
++    """
++
++    option_key: str
++    location_key: str
++    duration_min: int
++    cost_minor: int
++    earliest_start_min: int
++    latest_end_min: int
++    original_start_min: int
++    preference_milli: int = 0
++
++    def __post_init__(self) -> None:
++        if not self.option_key or not self.location_key:
++            raise ValueError("solver option requires stable keys")
++        if self.duration_min <= 0:
++            raise ValueError("solver option duration must be positive")
++        if self.cost_minor < 0:
++            raise ValueError("solver option cost cannot be negative")
++        if self.earliest_start_min < 0 or self.latest_end_min <= self.earliest_start_min:
++            raise ValueError("solver option opening window is invalid")
++        if not 0 <= self.preference_milli <= 1000:
++            raise ValueError("solver option preference_milli must be 0..1000")
++
++
++@dataclass(frozen=True)
++class ReplanSolverProblem:
++    """Operation-scoped immutable input for the first real solver increment.
++
++    V1 intentionally models the disrupted mutable slot before the next protected
++    anchor. Existing activities outside this slot are copied unchanged and are
++    still checked by CityNexus's authoritative feasibility gate after materialization.
++    """
++
++    journey_id: str
++    operation_key: str
++    now_min: int
++    journey_end_min: int
++    budget_remaining_minor: int
++    current_location_key: str
++    next_anchor: SolverAnchor
++    replacement_options: tuple[SolverReplacementOption, ...]
++    frozen_mobility_snapshot_id: str
++    travel_minutes: Mapping[tuple[str, str], int]
++    completed_prefix_keys: tuple[str, ...] = ()
++    safety_buffer_min: int = 15
++    allow_drop: bool = True
++
++    def __post_init__(self) -> None:
++        if not self.journey_id or not self.operation_key:
++            raise ValueError("solver problem requires journey and operation keys")
++        if self.now_min < 0 or self.journey_end_min <= self.now_min:
++            raise ValueError("solver problem horizon is invalid")
++        if self.budget_remaining_minor < 0:
++            raise ValueError("solver budget cannot be negative")
++        if not self.current_location_key:
++            raise ValueError("solver problem requires current location")
++        if not self.frozen_mobility_snapshot_id:
++            raise ValueError("solver problem requires frozen mobility snapshot id")
++        if self.safety_buffer_min < 0:
++            raise ValueError("solver safety buffer cannot be negative")
++        if self.next_anchor.start_min > self.journey_end_min:
++            raise ValueError("protected anchor lies outside Journey horizon")
++        option_keys = [item.option_key for item in self.replacement_options]
++        if len(option_keys) != len(set(option_keys)):
++            raise ValueError("solver replacement option keys must be unique")
++        if any(not 0 <= item.original_start_min <= self.journey_end_min for item in self.replacement_options):
++            raise ValueError("solver option original start lies outside Journey horizon")
++        copied: dict[tuple[str, str], int] = {}
++        for pair, minutes in dict(self.travel_minutes).items():
++            if len(pair) != 2 or not pair[0] or not pair[1]:
++                raise ValueError("solver travel pair is invalid")
++            value = int(minutes)
++            if value < 0:
++                raise ValueError("solver travel minutes cannot be negative")
++            copied[(str(pair[0]), str(pair[1]))] = value
++        object.__setattr__(self, "travel_minutes", MappingProxyType(copied))
++
++    def travel(self, origin: str, destination: str) -> int:
++        if origin == destination:
++            return 0
++        try:
++            return int(self.travel_minutes[(origin, destination)])
++        except KeyError as exc:
++            raise KeyError(f"missing frozen mobility pair: {origin}|{destination}") from exc
++
++    def to_payload(self) -> dict[str, object]:
++        """Return a stable JSON-friendly representation for provenance/fingerprints."""
++
++        return {
++            "journey_id": self.journey_id,
++            "operation_key": self.operation_key,
++            "now_min": self.now_min,
++            "journey_end_min": self.journey_end_min,
++            "budget_remaining_minor": self.budget_remaining_minor,
++            "current_location_key": self.current_location_key,
++            "next_anchor": {
++                "semantic_key": self.next_anchor.semantic_key,
++                "location_key": self.next_anchor.location_key,
++                "start_min": self.next_anchor.start_min,
++                "duration_min": self.next_anchor.duration_min,
++            },
++            "replacement_options": [
++                {
++                    "option_key": item.option_key,
++                    "location_key": item.location_key,
++                    "duration_min": item.duration_min,
++                    "cost_minor": item.cost_minor,
++                    "earliest_start_min": item.earliest_start_min,
++                    "latest_end_min": item.latest_end_min,
++                    "original_start_min": item.original_start_min,
++                    "preference_milli": item.preference_milli,
++                }
++                for item in self.replacement_options
++            ],
++            "frozen_mobility_snapshot_id": self.frozen_mobility_snapshot_id,
++            "travel_minutes": [
++                {"origin": origin, "destination": destination, "minutes": minutes}
++                for (origin, destination), minutes in sorted(self.travel_minutes.items())
++            ],
++            "completed_prefix_keys": list(self.completed_prefix_keys),
++            "safety_buffer_min": self.safety_buffer_min,
++            "allow_drop": self.allow_drop,
++        }
++
++
++def solver_problem_fingerprint(problem: ReplanSolverProblem) -> str:
++    raw = json.dumps(problem.to_payload(), sort_keys=True, separators=(",", ":"))
++    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
++
++
++def solver_candidate_fingerprint(problem: ReplanSolverProblem, assignment: str) -> str:
++    raw = f"{solver_problem_fingerprint(problem)}|{assignment}"
++    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
++
++
++@dataclass(frozen=True)
++class SolverCandidate:
++    option_key: str | None
++    location_key: str | None
++    start_min: int | None
++    end_min: int | None
++    cost_minor: int
++    inbound_travel_min: int
++    outbound_travel_min: int
++    schedule_shift_min: int
++    preference_milli: int
++    dropped: bool
++    fingerprint: str
++    generator_kind: str
++    solver_status: str
++    generator_rank: int
++
++    def __post_init__(self) -> None:
++        if self.dropped:
++            if self.option_key is not None or self.start_min is not None or self.end_min is not None:
++                raise ValueError("drop candidate cannot carry a selected option schedule")
++        else:
++            if self.option_key is None or self.location_key is None:
++                raise ValueError("solver candidate requires a selected option")
++            if self.start_min is None or self.end_min is None or self.end_min <= self.start_min:
++                raise ValueError("solver candidate schedule is invalid")
++        if self.generator_rank < 0:
++            raise ValueError("solver candidate rank cannot be negative")
++
++    @property
++    def objective_key(self) -> tuple[int, int, int, int, str]:
++        return (
++            1 if self.dropped else 0,
++            self.schedule_shift_min,
++            self.inbound_travel_min + self.outbound_travel_min,
++            -self.preference_milli,
++            self.option_key or "~DROP",
++        )
+diff --git a/backend/app/planning/solver_runtime.py b/backend/app/planning/solver_runtime.py
+new file mode 100644
+index 0000000..1af304b
+--- /dev/null
++++ b/backend/app/planning/solver_runtime.py
+@@ -0,0 +1,118 @@
++from __future__ import annotations
++
++from dataclasses import dataclass
++
++from app.planning.ortools_replan_solver import (
++    ORToolsUnavailable,
++    solve_replacement_candidates,
++)
++from app.planning.solver_contract import (
++    ReplanSolverProblem,
++    SolverCandidate,
++    solver_problem_fingerprint,
++)
++
++
++VALID_SOLVER_MODES = frozenset({"deterministic", "ortools", "auto"})
++
++
++@dataclass(frozen=True)
++class SolverAttempt:
++    candidates: tuple[SolverCandidate, ...]
++    engine: str
++    terminal_status: str
++    fallback_reason: str | None
++    attempted_solves: int
++    problem_fingerprint: str
++    mobility_snapshot_id: str
++
++    @property
++    def used_solver(self) -> bool:
++        return self.engine == "ORTOOLS_CP_SAT" and bool(self.candidates)
++
++    def evidence_for(self, candidate: SolverCandidate) -> dict[str, object]:
++        if candidate not in self.candidates:
++            raise ValueError("candidate does not belong to this solver attempt")
++        return {
++            "kind": candidate.generator_kind,
++            "solver_status": candidate.solver_status,
++            "terminal_status": self.terminal_status,
++            "problem_fingerprint": self.problem_fingerprint,
++            "mobility_snapshot_id": self.mobility_snapshot_id,
++            "rank": candidate.generator_rank,
++        }
++
++
++def normalize_solver_mode(raw: str | None) -> str:
++    value = (raw or "deterministic").strip().lower()
++    if value not in VALID_SOLVER_MODES:
++        raise ValueError(f"unsupported solver mode: {raw!r}")
++    return value
++
++
++def generate_solver_candidates(
++    problem: ReplanSolverProblem,
++    *,
++    mode: str | None,
++    candidate_count: int,
++    random_seed: int = 1,
++    max_time_seconds: float = 1.0,
++) -> SolverAttempt:
++    """Attempt optional OR-Tools generation without owning product fallback.
++
++    Empty `candidates` means the caller should use the existing deterministic
++    heuristic path. Unexpected programming errors intentionally propagate; only
++    expected solver availability/status conditions become controlled fallback.
++    """
++
++    normalized = normalize_solver_mode(mode)
++    fingerprint = solver_problem_fingerprint(problem)
++    base = {
++        "problem_fingerprint": fingerprint,
++        "mobility_snapshot_id": problem.frozen_mobility_snapshot_id,
++    }
++    if normalized == "deterministic":
++        return SolverAttempt(
++            candidates=(),
++            engine="DETERMINISTIC_HEURISTIC",
++            terminal_status="DISABLED",
++            fallback_reason="SOLVER_DISABLED",
++            attempted_solves=0,
++            **base,
++        )
++
++    try:
++        run = solve_replacement_candidates(
++            problem,
++            candidate_count=candidate_count,
++            random_seed=random_seed,
++            max_time_seconds=max_time_seconds,
++        )
++    except ORToolsUnavailable:
++        return SolverAttempt(
++            candidates=(),
++            engine="DETERMINISTIC_HEURISTIC",
++            terminal_status="UNAVAILABLE",
++            fallback_reason="ORTOOLS_UNAVAILABLE",
++            attempted_solves=0,
++            **base,
++        )
++
++    if not run.candidates:
++        return SolverAttempt(
++            candidates=(),
++            engine="DETERMINISTIC_HEURISTIC",
++            terminal_status=run.terminal_status,
++            fallback_reason=f"ORTOOLS_{run.terminal_status}",
++            attempted_solves=run.attempted,
++            **base,
++        )
++
++    return SolverAttempt(
++        candidates=run.candidates,
++        engine="ORTOOLS_CP_SAT",
++        terminal_status=run.terminal_status,
++        fallback_reason=None,
++        attempted_solves=run.attempted,
++        **base,
++    )
+diff --git a/backend/tests/test_ortools_optional_boundary.py b/backend/tests/test_ortools_optional_boundary.py
+new file mode 100644
+index 0000000..e736eee
+--- /dev/null
++++ b/backend/tests/test_ortools_optional_boundary.py
+@@ -0,0 +1,61 @@
++from __future__ import annotations
++
++import dataclasses
++import importlib.util
++
++import pytest
++
++from app.planning.ortools_replan_solver import ORToolsUnavailable, solve_replacement_candidates
++from test_solver_reference_contract import _problem
++
++
++def test_ortools_boundary_fails_controlled_when_dependency_is_missing():
++    if importlib.util.find_spec("ortools") is not None:
++        pytest.skip("ortools is installed in this environment")
++    with pytest.raises(ORToolsUnavailable):
++        solve_replacement_candidates(_problem(), candidate_count=2)
++
++
++@pytest.mark.skipif(
++    importlib.util.find_spec("ortools") is None,
++    reason="ortools optional dependency missing",
++)
++def test_real_ortools_matches_reference_feasible_option_set_for_v1_problem():
++    from app.planning.reference_replan_solver import enumerate_reference_candidates
++
++    problem = _problem()
++    expected = enumerate_reference_candidates(problem, candidate_count=3)
++    actual = solve_replacement_candidates(problem, candidate_count=3).candidates
++
++    assert [item.option_key for item in actual] == [item.option_key for item in expected]
++    assert [item.dropped for item in actual] == [item.dropped for item in expected]
++    assert all(item.generator_kind == "ORTOOLS_CP_SAT" for item in actual)
++    assert len({item.fingerprint for item in actual}) == len(actual)
++
++
++@pytest.mark.skipif(
++    importlib.util.find_spec("ortools") is None,
++    reason="ortools optional dependency missing",
++)
++def test_real_ortools_has_stable_semantic_tie_break_and_repeatability():
++    base = _problem(allow_drop=False)
++    template = base.replacement_options[0]
++    option_a = dataclasses.replace(template, option_key="a", location_key="place-a")
++    option_b = dataclasses.replace(template, option_key="b", location_key="place-b")
++    travel = {
++        (base.current_location_key, "place-a"): 20,
++        ("place-a", base.next_anchor.location_key): 20,
++        (base.current_location_key, "place-b"): 20,
++        ("place-b", base.next_anchor.location_key): 20,
++    }
++    problem = dataclasses.replace(
++        base,
++        replacement_options=(option_b, option_a),
++        travel_minutes=travel,
++    )
++
++    first = solve_replacement_candidates(problem, candidate_count=2).candidates
++    second = solve_replacement_candidates(problem, candidate_count=2).candidates
++
++    assert [item.option_key for item in first] == ["a", "b"]
++    assert first == second
+diff --git a/backend/tests/test_solver_reference_contract.py b/backend/tests/test_solver_reference_contract.py
+new file mode 100644
+index 0000000..da19b00
+--- /dev/null
++++ b/backend/tests/test_solver_reference_contract.py
+@@ -0,0 +1,149 @@
++from __future__ import annotations
++
++import dataclasses
++
++import pytest
++
++from app.planning.reference_replan_solver import enumerate_reference_candidates
++from app.planning.solver_contract import (
++    ReplanSolverProblem,
++    SolverAnchor,
++    SolverReplacementOption,
++)
++
++
++def _problem(*, budget: int = 5000, allow_drop: bool = True) -> ReplanSolverProblem:
++    return ReplanSolverProblem(
++        journey_id="journey-demo",
++        operation_key="replan:event-closure",
++        now_min=265,  # 13:25 relative to 09:00 Journey start
++        journey_end_min=600,  # 19:00
++        budget_remaining_minor=budget,
++        current_location_key="place-tech-art",
++        next_anchor=SolverAnchor(
++            semantic_key="place-river-cruise",
++            location_key="place-river-cruise",
++            start_min=390,  # 15:30
++            duration_min=60,
++        ),
++        replacement_options=(
++            SolverReplacementOption(
++                option_key="design-library",
++                location_key="place-design-library",
++                duration_min=60,
++                cost_minor=2000,
++                earliest_start_min=30,
++                latest_end_min=600,
++                original_start_min=260,
++                preference_milli=900,
++            ),
++            SolverReplacementOption(
++                option_key="city-park",
++                location_key="place-city-park",
++                duration_min=60,
++                cost_minor=0,
++                earliest_start_min=0,
++                latest_end_min=600,
++                original_start_min=260,
++                preference_milli=300,
++            ),
++        ),
++        frozen_mobility_snapshot_id="mobility-snapshot-1",
++        travel_minutes={
++            ("place-tech-art", "place-design-library"): 20,
++            ("place-design-library", "place-river-cruise"): 20,
++            ("place-tech-art", "place-city-park"): 20,
++            ("place-city-park", "place-river-cruise"): 20,
++            ("place-tech-art", "place-river-cruise"): 20,
++        },
++        completed_prefix_keys=("old-town", "museum", "food-hall"),
++        safety_buffer_min=15,
++        allow_drop=allow_drop,
++    )
++
++
++def test_reference_solver_produces_unique_ranked_candidates_and_preserves_problem():
++    problem = _problem()
++    before = problem.to_payload()
++
++    candidates = enumerate_reference_candidates(problem, candidate_count=3)
++
++    assert len(candidates) == 3
++    assert [item.generator_rank for item in candidates] == [0, 1, 2]
++    assert len({item.fingerprint for item in candidates}) == 3
++    assert candidates[0].option_key == "design-library"
++    assert candidates[0].start_min == 285  # 13:45 after frozen inbound travel
++    assert candidates[0].end_min == 345
++    assert candidates[0].end_min + candidates[0].outbound_travel_min + 15 <= 390
++    assert problem.to_payload() == before
++
++
++def test_reference_solver_budget_is_hard_and_drop_is_preferred_to_infeasible_option():
++    problem = _problem(budget=0)
++
++    candidates = enumerate_reference_candidates(problem, candidate_count=3)
++
++    assert all(item.option_key != "design-library" for item in candidates)
++    assert any(item.option_key == "city-park" for item in candidates)
++    assert any(item.dropped for item in candidates)
++
++
++def test_reference_solver_never_invents_missing_frozen_travel_fact():
++    problem = _problem()
++    broken = dataclasses.replace(
++        problem,
++        travel_minutes={
++            ("place-tech-art", "place-river-cruise"): 20,
++        },
++    )
++
++    candidates = enumerate_reference_candidates(broken, candidate_count=3)
++
++    assert candidates
++    assert all(item.dropped for item in candidates)
++
++
++def test_reference_solver_rejects_duplicate_option_identity():
++    option = _problem().replacement_options[0]
++    with pytest.raises(ValueError, match="unique"):
++        dataclasses.replace(_problem(), replacement_options=(option, option))
++
++
++def test_reference_solver_is_reproducible_for_identical_frozen_input():
++    first = enumerate_reference_candidates(_problem(), candidate_count=3)
++    second = enumerate_reference_candidates(_problem(), candidate_count=3)
++
++    assert first == second
++
++
++def test_reference_solver_respects_opening_window_and_anchor_buffer():
++    problem = _problem()
++    too_late = dataclasses.replace(
++        problem.replacement_options[0],
++        earliest_start_min=340,
++        latest_end_min=380,
++    )
++    constrained = dataclasses.replace(problem, replacement_options=(too_late,))
++
++    candidates = enumerate_reference_candidates(constrained, candidate_count=2)
++
++    assert candidates
++    assert all(item.dropped for item in candidates)
++
++
++def test_solver_problem_payload_is_json_serializable_and_contains_only_frozen_values():
++    import json
++
++    problem = _problem()
++    encoded = json.dumps(problem.to_payload(), sort_keys=True)
++
++    assert "mobility-snapshot-1" in encoded
++    assert "place-tech-art" in encoded
++    assert "Session" not in encoded
++    assert "httpx" not in encoded
++
++
++def test_problem_travel_mapping_is_structurally_immutable():
++    problem = _problem()
++    with pytest.raises(TypeError):
++        problem.travel_minutes[("x", "y")] = 1  # type: ignore[index]
+diff --git a/backend/tests/test_solver_runtime_policy.py b/backend/tests/test_solver_runtime_policy.py
+new file mode 100644
+index 0000000..caf6b2e
+--- /dev/null
++++ b/backend/tests/test_solver_runtime_policy.py
+@@ -0,0 +1,96 @@
++from __future__ import annotations
++
++import pytest
++
++import app.planning.solver_runtime as runtime
++from app.planning.ortools_replan_solver import ORToolsRun, ORToolsUnavailable
++from app.planning.reference_replan_solver import enumerate_reference_candidates
++from test_solver_reference_contract import _problem
++
++
++def test_deterministic_mode_never_attempts_ortools(monkeypatch: pytest.MonkeyPatch):
++    monkeypatch.setattr(
++        runtime,
++        "solve_replacement_candidates",
++        lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("must not run")),
++    )
++
++    result = runtime.generate_solver_candidates(
++        _problem(), mode="deterministic", candidate_count=2
++    )
++
++    assert result.candidates == ()
++    assert result.engine == "DETERMINISTIC_HEURISTIC"
++    assert result.fallback_reason == "SOLVER_DISABLED"
++    assert result.attempted_solves == 0
++
++
++def test_expected_missing_dependency_becomes_controlled_fallback(monkeypatch: pytest.MonkeyPatch):
++    def unavailable(*_args, **_kwargs):
++        raise ORToolsUnavailable("missing")
++
++    monkeypatch.setattr(runtime, "solve_replacement_candidates", unavailable)
++    result = runtime.generate_solver_candidates(_problem(), mode="auto", candidate_count=2)
++
++    assert result.candidates == ()
++    assert result.terminal_status == "UNAVAILABLE"
++    assert result.fallback_reason == "ORTOOLS_UNAVAILABLE"
++
++
++def test_successful_solver_attempt_exposes_auditable_evidence(monkeypatch: pytest.MonkeyPatch):
++    candidates = enumerate_reference_candidates(_problem(), candidate_count=2)
++    candidates = tuple(
++        type(item)(
++            **{
++                **item.__dict__,
++                "generator_kind": "ORTOOLS_CP_SAT",
++                "solver_status": "OPTIMAL",
++            }
++        )
++        for item in candidates
++    )
++    monkeypatch.setattr(
++        runtime,
++        "solve_replacement_candidates",
++        lambda *_args, **_kwargs: ORToolsRun(candidates, "OPTIMAL", 2),
++    )
++
++    result = runtime.generate_solver_candidates(_problem(), mode="ortools", candidate_count=2)
++    evidence = result.evidence_for(result.candidates[0])
++
++    assert result.used_solver
++    assert result.fallback_reason is None
++    assert evidence["kind"] == "ORTOOLS_CP_SAT"
++    assert evidence["mobility_snapshot_id"] == "mobility-snapshot-1"
++    assert evidence["problem_fingerprint"] == result.problem_fingerprint
++
++
++def test_controlled_zero_candidate_status_falls_back(monkeypatch: pytest.MonkeyPatch):
++    monkeypatch.setattr(
++        runtime,
++        "solve_replacement_candidates",
++        lambda *_args, **_kwargs: ORToolsRun((), "UNKNOWN", 1),
++    )
++
++    result = runtime.generate_solver_candidates(_problem(), mode="auto", candidate_count=2)
++
++    assert result.candidates == ()
++    assert result.fallback_reason == "ORTOOLS_UNKNOWN"
++    assert result.attempted_solves == 1
++
++
++def test_unexpected_solver_programming_error_is_not_silently_hidden(
++    monkeypatch: pytest.MonkeyPatch,
++):
++    def broken(*_args, **_kwargs):
++        raise RuntimeError("programming defect")
++
++    monkeypatch.setattr(runtime, "solve_replacement_candidates", broken)
++
++    with pytest.raises(RuntimeError, match="programming defect"):
++        runtime.generate_solver_candidates(_problem(), mode="auto", candidate_count=2)
++
++
++def test_invalid_solver_mode_fails_closed():
++    with pytest.raises(ValueError, match="unsupported solver mode"):
++        runtime.generate_solver_candidates(_problem(), mode="magic", candidate_count=1)

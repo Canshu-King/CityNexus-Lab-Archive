@@ -1,0 +1,4877 @@
+{
+ "corpus": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\\evidence\\semantic_cases.jsonl",
+ "snapshots": {
+  "C": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.1-ConvergenceRedTeam-20260915\\snapshot_c\\backend",
+  "A": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\snapshot_a\\backend"
+ },
+ "counts": {
+  "IDENTICAL": 98,
+  "A_REMOVES_HARD": 2,
+  "A_ADDS_HARD": 12,
+  "A_CODE_CHANGE": 6,
+  "A_PARAM_CHANGE": 2
+ },
+ "scored": {
+  "total": 57,
+  "ok_C": 43,
+  "ok_A": 44
+ },
+ "rows": [
+  {
+   "id": "clause_negation-0001",
+   "bucket": "clause_negation",
+   "text": "轮椅必须全程无障碍，没有例外",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "a trailing 没有例外 must not erase the need"
+  },
+  {
+   "id": "clause_negation-0002",
+   "bucket": "clause_negation",
+   "text": "轮椅必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "a trailing 没有例外 must not erase the need"
+  },
+  {
+   "id": "clause_negation-0003",
+   "bucket": "clause_negation",
+   "text": "wheelchair, must be step-free, no exceptions",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "English trailing negation must not erase the need"
+  },
+  {
+   "id": "clause_negation-0004",
+   "bucket": "clause_negation",
+   "text": "wheelchair, must be step-free",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "English trailing negation must not erase the need"
+  },
+  {
+   "id": "clause_negation-0005",
+   "bucket": "clause_negation",
+   "text": "我以前不用轮椅，但现在必须无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "history clause must not suppress the present need"
+  },
+  {
+   "id": "clause_negation-0006",
+   "bucket": "clause_negation",
+   "text": "我现在必须无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "history clause must not suppress the present need"
+  },
+  {
+   "id": "clause_negation-0007",
+   "bucket": "clause_negation",
+   "text": "过去我坐轮椅，现在必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "past-tense clause must not suppress the present need"
+  },
+  {
+   "id": "clause_negation-0008",
+   "bucket": "clause_negation",
+   "text": "现在必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "past-tense clause must not suppress the present need"
+  },
+  {
+   "id": "clause_negation-0009",
+   "bucket": "clause_negation",
+   "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "an unrelated negation must not erase the accessibility need"
+  },
+  {
+   "id": "clause_negation-0010",
+   "bucket": "clause_negation",
+   "text": "我用轮椅，必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "an unrelated negation must not erase the accessibility need"
+  },
+  {
+   "id": "clause_negation-0011",
+   "bucket": "clause_negation",
+   "text": "不是地铁，我需要出租车因为行李很多",
+   "expected": "LARGE_LUGGAGE",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "negating the transport mode must not drop the luggage need"
+  },
+  {
+   "id": "clause_negation-0012",
+   "bucket": "clause_negation",
+   "text": "我需要出租车因为行李很多",
+   "expected": "LARGE_LUGGAGE",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "negating the transport mode must not drop the luggage need"
+  },
+  {
+   "id": "clause_negation-0013",
+   "bucket": "clause_negation",
+   "text": "我不怕晒，但推着婴儿车，需要无障碍通道",
+   "expected": "STROLLER",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED",
+     "STROLLER"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED",
+     "STROLLER"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "unrelated negation must not drop the stroller need"
+  },
+  {
+   "id": "clause_negation-0014",
+   "bucket": "clause_negation",
+   "text": "推着婴儿车，需要无障碍通道",
+   "expected": "STROLLER",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED",
+     "STROLLER"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED",
+     "STROLLER"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "unrelated negation must not drop the stroller need"
+  },
+  {
+   "id": "clause_negation-0015",
+   "bucket": "clause_negation",
+   "text": "我们不吃肉，但宝宝下午一点必须睡午觉",
+   "expected": "INFANT_NAP_WINDOW",
+   "spec": {
+    "code": "INFANT_NAP_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "dietary negation must not drop the nap window"
+  },
+  {
+   "id": "clause_negation-0016",
+   "bucket": "clause_negation",
+   "text": "宝宝下午一点必须睡午觉",
+   "expected": "INFANT_NAP_WINDOW",
+   "spec": {
+    "code": "INFANT_NAP_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "dietary negation must not drop the nap window"
+  },
+  {
+   "id": "clause_negation-0017",
+   "bucket": "clause_negation",
+   "text": "我从来不坐电梯，只能走楼梯，但其实我走不了楼梯",
+   "expected": "AVOID_STAIRS",
+   "spec": {
+    "code": "AVOID_STAIRS",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "a double negative about lifts must not cancel the stair avoidance"
+  },
+  {
+   "id": "clause_negation-0018",
+   "bucket": "clause_negation",
+   "text": "我走不了楼梯",
+   "expected": "AVOID_STAIRS",
+   "spec": {
+    "code": "AVOID_STAIRS",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "a double negative about lifts must not cancel the stair avoidance"
+  },
+  {
+   "id": "clause_negation-0019",
+   "bucket": "clause_negation",
+   "text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "negating assistance must not erase the wheelchair need"
+  },
+  {
+   "id": "clause_negation-0020",
+   "bucket": "clause_negation",
+   "text": "我坐轮椅，必须全程无障碍",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "negating assistance must not erase the wheelchair need"
+  },
+  {
+   "id": "denial_vs_need-0021",
+   "bucket": "denial_vs_need",
+   "text": "I don't need a wheelchair, I can walk fine",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "explicit denial must not create a HARD accessibility need"
+  },
+  {
+   "id": "denial_vs_need-0022",
+   "bucket": "denial_vs_need",
+   "text": "I need a wheelchair, I cannot walk",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "explicit denial must not create a HARD accessibility need"
+  },
+  {
+   "id": "denial_vs_need-0023",
+   "bucket": "denial_vs_need",
+   "text": "朋友说我可能需要轮椅，但我不这么认为",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "hearsay must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0024",
+   "bucket": "denial_vs_need",
+   "text": "我需要轮椅",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "hearsay must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0025",
+   "bucket": "denial_vs_need",
+   "text": "说不定到时候我需要轮椅",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": true,
+   "diff": "A_REMOVES_HARD",
+   "why": "speculation must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0026",
+   "bucket": "denial_vs_need",
+   "text": "我需要轮椅",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "speculation must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0027",
+   "bucket": "denial_vs_need",
+   "text": "if I end up in a wheelchair I'll tell you",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": true,
+   "diff": "A_REMOVES_HARD",
+   "why": "conditional future must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0028",
+   "bucket": "denial_vs_need",
+   "text": "I am in a wheelchair",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "conditional future must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0029",
+   "bucket": "denial_vs_need",
+   "text": "no stroller this time, ignore that",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "explicit cancellation must not leave a live stroller need"
+  },
+  {
+   "id": "denial_vs_need-0030",
+   "bucket": "denial_vs_need",
+   "text": "we have a stroller this time",
+   "expected": "STROLLER",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "explicit cancellation must not leave a live stroller need"
+  },
+  {
+   "id": "denial_vs_need-0031",
+   "bucket": "denial_vs_need",
+   "text": "我没有怀孕，只是有点累",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "denial must not create a medical need"
+  },
+  {
+   "id": "denial_vs_need-0032",
+   "bucket": "denial_vs_need",
+   "text": "我怀孕了，需要多休息",
+   "expected": "rest need",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "denial must not create a medical need"
+  },
+  {
+   "id": "denial_vs_need-0033",
+   "bucket": "denial_vs_need",
+   "text": "这次没带大箱子，轻装",
+   "expected": "no LARGE_LUGGAGE",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "denial of luggage must not create a luggage need"
+  },
+  {
+   "id": "denial_vs_need-0034",
+   "bucket": "denial_vs_need",
+   "text": "带了一个大箱子",
+   "expected": "LARGE_LUGGAGE",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "denial of luggage must not create a luggage need"
+  },
+  {
+   "id": "denial_vs_need-0035",
+   "bucket": "denial_vs_need",
+   "text": "I can't walk long distances, but honestly I'm fine",
+   "expected": "ambiguous, must not silently HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "self-contradiction must surface, not silently pick HARD"
+  },
+  {
+   "id": "denial_vs_need-0036",
+   "bucket": "denial_vs_need",
+   "text": "I can't walk long distances",
+   "expected": "walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "self-contradiction must surface, not silently pick HARD"
+  },
+  {
+   "id": "denial_vs_need-0037",
+   "bucket": "denial_vs_need",
+   "text": "如果我奶奶来，她可能走不了路",
+   "expected": "no HARD capability for this traveller",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "hypothetical companion must not create a live need"
+  },
+  {
+   "id": "denial_vs_need-0038",
+   "bucket": "denial_vs_need",
+   "text": "我奶奶走不了路",
+   "expected": "walking limit for companion",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "hypothetical companion must not create a live need"
+  },
+  {
+   "id": "denial_vs_need-0039",
+   "bucket": "denial_vs_need",
+   "text": "医生没说我不能走路",
+   "expected": "no HARD capability",
+   "spec": {
+    "code": "",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "negated medical authority must not create a HARD need"
+  },
+  {
+   "id": "denial_vs_need-0040",
+   "bucket": "denial_vs_need",
+   "text": "医生说我不能走路",
+   "expected": "HARD walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "negated medical authority must not create a HARD need"
+  },
+  {
+   "id": "hard_vs_soft-0041",
+   "bucket": "hard_vs_soft",
+   "text": "我坐轮椅，必须全程无障碍",
+   "expected": "HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "only the MUST form may become HARD"
+  },
+  {
+   "id": "hard_vs_soft-0042",
+   "bucket": "hard_vs_soft",
+   "text": "我坐轮椅，最好全程无障碍",
+   "expected": "SOFT/STRONG, never HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "only the MUST form may become HARD"
+  },
+  {
+   "id": "hard_vs_soft-0043",
+   "bucket": "hard_vs_soft",
+   "text": "我最多走 500 米，这是硬性要求",
+   "expected": "HARD walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0044",
+   "bucket": "hard_vs_soft",
+   "text": "我最多走 500 米，尽量吧",
+   "expected": "SOFT walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_CODE_CHANGE",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0045",
+   "bucket": "hard_vs_soft",
+   "text": "绝对不能走楼梯",
+   "expected": "AVOID_STAIRS HARD",
+   "spec": {
+    "code": "AVOID_STAIRS",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0046",
+   "bucket": "hard_vs_soft",
+   "text": "尽量少走楼梯",
+   "expected": "AVOID_STAIRS SOFT",
+   "spec": {
+    "code": "AVOID_STAIRS",
+    "severity": "SOFT"
+   },
+   "C": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0047",
+   "bucket": "hard_vs_soft",
+   "text": "中午 12 点到 14 点必须回酒店休息",
+   "expected": "HARD rest window",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0048",
+   "bucket": "hard_vs_soft",
+   "text": "中午能休息一下就更好了",
+   "expected": "SOFT rest window",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0049",
+   "bucket": "hard_vs_soft",
+   "text": "宝宝下午 1 点到 3 点必须睡午觉",
+   "expected": "HARD nap window",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0050",
+   "bucket": "hard_vs_soft",
+   "text": "宝宝下午要是能睡一会儿就好了",
+   "expected": "SOFT nap window",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0051",
+   "bucket": "hard_vs_soft",
+   "text": "必须能推婴儿车，不然不行",
+   "expected": "STROLLER HARD",
+   "spec": {
+    "code": "STROLLER",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0052",
+   "bucket": "hard_vs_soft",
+   "text": "如果能推婴儿车就方便多了",
+   "expected": "STROLLER SOFT",
+   "spec": {
+    "code": "STROLLER",
+    "severity": "SOFT"
+   },
+   "C": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": true,
+   "ok_A": false,
+   "diff": "A_CODE_CHANGE",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0053",
+   "bucket": "hard_vs_soft",
+   "text": "we must avoid stairs, we have two large suitcases",
+   "expected": "LARGE_LUGGAGE + AVOID_STAIRS",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0054",
+   "bucket": "hard_vs_soft",
+   "text": "it would be nice to avoid stairs with our suitcases",
+   "expected": "SOFT only",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0055",
+   "bucket": "hard_vs_soft",
+   "text": "每小时必须上一次厕所",
+   "expected": "TOILET_BREAK_EVERY_MIN HARD",
+   "spec": {
+    "code": "TOILET_BREAK_EVERY_MIN",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0056",
+   "bucket": "hard_vs_soft",
+   "text": "希望每小时能上个厕所",
+   "expected": "SOFT",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0057",
+   "bucket": "hard_vs_soft",
+   "text": "必须有安静的空间，我不能待在嘈杂的地方",
+   "expected": "HARD quiet/sensory",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "QUIET_ENVIRONMENT"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "QUIET_ENVIRONMENT",
+      "severity": "SOFT",
+      "scope": "JOURNEY",
+      "params": {
+       "preferred": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "QUIET_ENVIRONMENT"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "QUIET_ENVIRONMENT",
+      "severity": "SOFT",
+      "scope": "JOURNEY",
+      "params": {
+       "preferred": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0058",
+   "bucket": "hard_vs_soft",
+   "text": "安静一点会更好",
+   "expected": "SOFT",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "QUIET_ENVIRONMENT"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "QUIET_ENVIRONMENT",
+      "severity": "SOFT",
+      "scope": "JOURNEY",
+      "params": {
+       "preferred": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "QUIET_ENVIRONMENT"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "QUIET_ENVIRONMENT",
+      "severity": "SOFT",
+      "scope": "JOURNEY",
+      "params": {
+       "preferred": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0059",
+   "bucket": "hard_vs_soft",
+   "text": "我父亲 80 岁，走不了远路，必须少走路",
+   "expected": "HARD walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "hard_vs_soft-0060",
+   "bucket": "hard_vs_soft",
+   "text": "我父亲 80 岁，走远路会累",
+   "expected": "SOFT walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "modality must decide severity"
+  },
+  {
+   "id": "walking_numeric-0061",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 500 米",
+   "expected": "max_m=500 HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0062",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 0 米",
+   "expected": "max_m=0 or rejected, never silent",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 0,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0063",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 1 米",
+   "expected": "max_m=1",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 1,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0064",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 499 米",
+   "expected": "max_m=499",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 499,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0065",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 501 米",
+   "expected": "max_m=501",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 501,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0066",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 1000 米",
+   "expected": "max_m=1000",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 1000,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0067",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 10000 米",
+   "expected": "max_m=10000",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 10000,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0068",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 -5 米",
+   "expected": "rejected, not silently accepted",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_CODE_CHANGE",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0069",
+   "bucket": "walking_numeric",
+   "text": "我最多走 500 米",
+   "expected": "max_m=500",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_CODE_CHANGE",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0070",
+   "bucket": "walking_numeric",
+   "text": "走路不能超过 500m，这是硬性要求",
+   "expected": "max_m=500 HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0071",
+   "bucket": "walking_numeric",
+   "text": "每段不超过 500 米",
+   "expected": "max_m=500 per leg",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0072",
+   "bucket": "walking_numeric",
+   "text": "I cannot walk more than 500 metres per leg",
+   "expected": "max_m=500",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0073",
+   "bucket": "walking_numeric",
+   "text": "avoid long walks, under 400 m per leg",
+   "expected": "max_m=400",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 400,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 400,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0074",
+   "bucket": "walking_numeric",
+   "text": "我每天走路不能超过 3000 米",
+   "expected": "max_m=3000 daily",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MAX_DAILY_WALKING_M"
+    ],
+    "hard": [
+     "MAX_DAILY_WALKING_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_DAILY_WALKING_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 3000
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_DAILY_WALKING_M",
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_DAILY_WALKING_M",
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 3000,
+       "needs_clarification": false
+      }
+     },
+     {
+      "code": "MAX_DAILY_WALKING_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 3000
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0075",
+   "bucket": "walking_numeric",
+   "text": "走 0.5 公里就不行了",
+   "expected": "max_m=500",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0076",
+   "bucket": "walking_numeric",
+   "text": "走 1 公里就不行了",
+   "expected": "max_m=1000",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0077",
+   "bucket": "walking_numeric",
+   "text": "连续走不能超过 20 分钟",
+   "expected": "max_min=20 continuous",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MAX_CONTINUOUS_WALKING_MIN"
+    ],
+    "hard": [
+     "MAX_CONTINUOUS_WALKING_MIN"
+    ],
+    "items": [
+     {
+      "code": "MAX_CONTINUOUS_WALKING_MIN",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_min": 20
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_CONTINUOUS_WALKING_MIN",
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [
+     "MAX_CONTINUOUS_WALKING_MIN",
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 20,
+       "needs_clarification": false
+      }
+     },
+     {
+      "code": "MAX_CONTINUOUS_WALKING_MIN",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "max_min": 20
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_ADDS_HARD",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0078",
+   "bucket": "walking_numeric",
+   "text": "我走五分钟就得歇一下",
+   "expected": "max_min=5 continuous",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0079",
+   "bucket": "walking_numeric",
+   "text": "walking limit 500 m, no negotiation",
+   "expected": "max_m=500 HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": 500,
+       "needs_clarification": false
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "walking_numeric-0080",
+   "bucket": "walking_numeric",
+   "text": "我走路不能超过 五百 米",
+   "expected": "Chinese numeral 500",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_CODE_CHANGE",
+   "why": "numeric walking budget must reach the gate as a number"
+  },
+  {
+   "id": "rest_nap_window-0081",
+   "bucket": "rest_nap_window",
+   "text": "中午 12 点到 14 点必须回酒店休息",
+   "expected": "MIDDAY_REST_WINDOW 12:00-14:00 HARD",
+   "spec": {
+    "code": "MIDDAY_REST_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0082",
+   "bucket": "rest_nap_window",
+   "text": "中午 12:00-14:00 必须回酒店休息",
+   "expected": "MIDDAY_REST_WINDOW 12:00-14:00 HARD",
+   "spec": {
+    "code": "MIDDAY_REST_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0083",
+   "bucket": "rest_nap_window",
+   "text": "宝宝下午 1 点到 3 点必须睡午觉",
+   "expected": "INFANT_NAP_WINDOW 13:00-15:00",
+   "spec": {
+    "code": "INFANT_NAP_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0084",
+   "bucket": "rest_nap_window",
+   "text": "I must rest at the hotel between 12:00 and 14:00",
+   "expected": "MIDDAY_REST_WINDOW 12:00-14:00",
+   "spec": {
+    "code": "MIDDAY_REST_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0085",
+   "bucket": "rest_nap_window",
+   "text": "rest from 1pm to 3pm",
+   "expected": "window 13:00-15:00",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0086",
+   "bucket": "rest_nap_window",
+   "text": "the baby needs naptime at 13:00-15:00",
+   "expected": "INFANT_NAP_WINDOW 13:00-15:00",
+   "spec": {
+    "code": "INFANT_NAP_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0087",
+   "bucket": "rest_nap_window",
+   "text": "老人中午必须休息两小时",
+   "expected": "rest window, duration 120 min",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0088",
+   "bucket": "rest_nap_window",
+   "text": "午休从 13 点开始",
+   "expected": "window with only a start",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MIDDAY_REST_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MIDDAY_REST_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "12:00",
+       "end": "14:00"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MIDDAY_REST_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MIDDAY_REST_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "12:00",
+       "end": "14:00",
+       "defaulted_window": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_PARAM_CHANGE",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0089",
+   "bucket": "rest_nap_window",
+   "text": "我中午要午睡",
+   "expected": "MIDDAY_REST_WINDOW default",
+   "spec": {
+    "code": "MIDDAY_REST_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "ok_C": false,
+   "ok_A": false,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "rest_nap_window-0090",
+   "bucket": "rest_nap_window",
+   "text": "nap time is 2pm",
+   "expected": "nap window default/2pm",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "time windows must reach the gate as start/end"
+  },
+  {
+   "id": "scope_permanence-0091",
+   "bucket": "scope_permanence",
+   "text": "我终身不能走楼梯，这是永久性的",
+   "expected": "TRAVELER scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "TRAVELER",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_PARAM_CHANGE",
+   "why": "permanent needs belong to the traveller, not one trip"
+  },
+  {
+   "id": "scope_permanence-0092",
+   "bucket": "scope_permanence",
+   "text": "这次旅行我走不了太多路",
+   "expected": "JOURNEY scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "permanent needs belong to the traveller, not one trip"
+  },
+  {
+   "id": "scope_permanence-0093",
+   "bucket": "scope_permanence",
+   "text": "我对花生过敏，一辈子都是",
+   "expected": "TRAVELER scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "permanent needs belong to the traveller"
+  },
+  {
+   "id": "scope_permanence-0094",
+   "bucket": "scope_permanence",
+   "text": "这次行程中我尽量不吃花生",
+   "expected": "JOURNEY scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "permanent needs belong to the traveller"
+  },
+  {
+   "id": "scope_permanence-0095",
+   "bucket": "scope_permanence",
+   "text": "我的腿伤是长期的",
+   "expected": "TRAVELER scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "temporary injuries belong to one trip"
+  },
+  {
+   "id": "scope_permanence-0096",
+   "bucket": "scope_permanence",
+   "text": "我上周崴了脚，这趟先少走路",
+   "expected": "JOURNEY scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "MAX_WALKING_PER_LEG_M"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MAX_WALKING_PER_LEG_M",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "max_m": null,
+       "needs_clarification": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "temporary injuries belong to one trip"
+  },
+  {
+   "id": "scope_permanence-0097",
+   "bucket": "scope_permanence",
+   "text": "我每次出行都带大箱子",
+   "expected": "TRAVELER habit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "a habit is traveller-level, an instance is journey-level"
+  },
+  {
+   "id": "scope_permanence-0098",
+   "bucket": "scope_permanence",
+   "text": "这次我带了一个大箱子",
+   "expected": "JOURNEY scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "a habit is traveller-level, an instance is journey-level"
+  },
+  {
+   "id": "scope_permanence-0099",
+   "bucket": "scope_permanence",
+   "text": "我怀孕 7 个月了",
+   "expected": "TRAVELER scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "a body state outlives one trip"
+  },
+  {
+   "id": "scope_permanence-0100",
+   "bucket": "scope_permanence",
+   "text": "这趟旅行我容易累",
+   "expected": "JOURNEY scope",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "a body state outlives one trip"
+  },
+  {
+   "id": "duplicate_multi-0101",
+   "bucket": "duplicate_multi",
+   "text": "我坐轮椅，必须无障碍。再说一次，我需要无障碍通道",
+   "expected": "one code, strongest severity",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "the same need twice must not create two rows"
+  },
+  {
+   "id": "duplicate_multi-0102",
+   "bucket": "duplicate_multi",
+   "text": "我坐轮椅，必须无障碍",
+   "expected": "one code",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "the same need twice must not create two rows"
+  },
+  {
+   "id": "duplicate_multi-0103",
+   "bucket": "duplicate_multi",
+   "text": "必须无障碍，其实无障碍就好",
+   "expected": "one code, HARD wins, never both",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "one need cannot be both HARD and SOFT"
+  },
+  {
+   "id": "duplicate_multi-0104",
+   "bucket": "duplicate_multi",
+   "text": "必须无障碍",
+   "expected": "one code HARD",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "one need cannot be both HARD and SOFT"
+  },
+  {
+   "id": "duplicate_multi-0105",
+   "bucket": "duplicate_multi",
+   "text": "我坐轮椅，而且不能走楼梯，还要每小时上厕所",
+   "expected": "three distinct codes",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS",
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "AVOID_STAIRS",
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS",
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "AVOID_STAIRS",
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "genuinely distinct needs must all survive"
+  },
+  {
+   "id": "duplicate_multi-0106",
+   "bucket": "duplicate_multi",
+   "text": "我坐轮椅",
+   "expected": "one code",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free",
+       "needs_confirmation": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free",
+       "needs_confirmation": true
+      }
+     }
+    ]
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "genuinely distinct needs must all survive"
+  },
+  {
+   "id": "duplicate_multi-0107",
+   "bucket": "duplicate_multi",
+   "text": "我父亲走不了远路，我妈妈要午休，宝宝要睡午觉",
+   "expected": "three distinct codes",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "MIDDAY_REST_WINDOW"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "MIDDAY_REST_WINDOW",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "12:00",
+       "end": "14:00"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "A_CODE_CHANGE",
+   "why": "a family's distinct needs must all survive"
+  },
+  {
+   "id": "duplicate_multi-0108",
+   "bucket": "duplicate_multi",
+   "text": "我父亲走不了远路",
+   "expected": "one code",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "a family's distinct needs must all survive"
+  },
+  {
+   "id": "stroller_luggage-0109",
+   "bucket": "stroller_luggage",
+   "text": "我推着婴儿车，需要无障碍通道",
+   "expected": "STROLLER",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED",
+     "STROLLER"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED",
+     "STROLLER"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     },
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "gear needs must be extracted and must not silently pass the gate"
+  },
+  {
+   "id": "stroller_luggage-0110",
+   "bucket": "stroller_luggage",
+   "text": "stroller, need lifts everywhere",
+   "expected": "STROLLER",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "gear needs must be extracted and must not silently pass the gate"
+  },
+  {
+   "id": "stroller_luggage-0111",
+   "bucket": "stroller_luggage",
+   "text": "带两个大箱子，不能走楼梯",
+   "expected": "LARGE_LUGGAGE + AVOID_STAIRS",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "gear needs must be extracted and must not silently pass the gate"
+  },
+  {
+   "id": "stroller_luggage-0112",
+   "bucket": "stroller_luggage",
+   "text": "two large suitcases, need luggage storage",
+   "expected": "LARGE_LUGGAGE",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "gear needs must be extracted and must not silently pass the gate"
+  },
+  {
+   "id": "stroller_luggage-0113",
+   "bucket": "stroller_luggage",
+   "text": "婴儿车 + 大箱子，都要能放",
+   "expected": "STROLLER + LARGE_LUGGAGE",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE",
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE",
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "gear needs must be extracted and must not silently pass the gate"
+  },
+  {
+   "id": "stroller_luggage-0114",
+   "bucket": "stroller_luggage",
+   "text": "we have a buggy and a suitcase",
+   "expected": "STROLLER + LARGE_LUGGAGE",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "LARGE_LUGGAGE",
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "LARGE_LUGGAGE",
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "gear needs must be extracted and must not silently pass the gate"
+  },
+  {
+   "id": "mixed_language-0115",
+   "bucket": "mixed_language",
+   "text": "我妈妈 wheelchair，必须 step-free",
+   "expected": "STEP_FREE_REQUIRED HARD",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": "HARD"
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "code-switching must not defeat extraction"
+  },
+  {
+   "id": "mixed_language-0116",
+   "bucket": "mixed_language",
+   "text": "宝宝需要 nap，下午 1 点到 3 点",
+   "expected": "INFANT_NAP_WINDOW",
+   "spec": {
+    "code": "INFANT_NAP_WINDOW",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "hard": [
+     "INFANT_NAP_WINDOW"
+    ],
+    "items": [
+     {
+      "code": "INFANT_NAP_WINDOW",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "start": "13:00",
+       "end": "15:00"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "code-switching must not defeat extraction"
+  },
+  {
+   "id": "mixed_language-0117",
+   "bucket": "mixed_language",
+   "text": "my 爸爸 cannot walk 太久",
+   "expected": "walking limit",
+   "spec": {
+    "code": "?prose",
+    "severity": null
+   },
+   "C": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "A": {
+    "codes": [],
+    "hard": [],
+    "items": []
+   },
+   "ok_C": null,
+   "ok_A": null,
+   "diff": "IDENTICAL",
+   "why": "code-switching must not defeat extraction"
+  },
+  {
+   "id": "mixed_language-0118",
+   "bucket": "mixed_language",
+   "text": "轮椅 wheelchair 全程 accessible",
+   "expected": "STEP_FREE_REQUIRED",
+   "spec": {
+    "code": "STEP_FREE_REQUIRED",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "hard": [
+     "STEP_FREE_REQUIRED"
+    ],
+    "items": [
+     {
+      "code": "STEP_FREE_REQUIRED",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "requirement": "step_free"
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "code-switching must not defeat extraction"
+  },
+  {
+   "id": "mixed_language-0119",
+   "bucket": "mixed_language",
+   "text": "大箱子 large luggage 不能走楼梯",
+   "expected": "LARGE_LUGGAGE + AVOID_STAIRS",
+   "spec": {
+    "code": "LARGE_LUGGAGE",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "AVOID_STAIRS",
+     "LARGE_LUGGAGE"
+    ],
+    "hard": [
+     "AVOID_STAIRS"
+    ],
+    "items": [
+     {
+      "code": "AVOID_STAIRS",
+      "severity": "HARD",
+      "scope": "JOURNEY",
+      "params": {
+       "avoid": true
+      }
+     },
+     {
+      "code": "LARGE_LUGGAGE",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "code-switching must not defeat extraction"
+  },
+  {
+   "id": "mixed_language-0120",
+   "bucket": "mixed_language",
+   "text": "stroller 婴儿车 需要 elevator",
+   "expected": "STROLLER",
+   "spec": {
+    "code": "STROLLER",
+    "severity": null
+   },
+   "C": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "A": {
+    "codes": [
+     "STROLLER"
+    ],
+    "hard": [],
+    "items": [
+     {
+      "code": "STROLLER",
+      "severity": "STRONG",
+      "scope": "JOURNEY",
+      "params": {
+       "present": true
+      }
+     }
+    ]
+   },
+   "ok_C": true,
+   "ok_A": true,
+   "diff": "IDENTICAL",
+   "why": "code-switching must not defeat extraction"
+  }
+ ]
+}

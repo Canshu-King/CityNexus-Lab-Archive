@@ -1,0 +1,25 @@
+{
+ "total": 494,
+ "buckets": {
+  "hard_soft_pair": 102,
+  "negation_historical": 112,
+  "ambiguous": 120,
+  "elderly_infant": 30,
+  "accessibility": 30,
+  "luggage_stroller": 30,
+  "rest_nap_numeric": 30,
+  "injection_like": 20,
+  "conflicting_needs": 20
+ },
+ "languages": {
+  "zh": 233,
+  "en": 220,
+  "mix": 41
+ },
+ "pairs": {
+  "hard_soft_pairs": 51,
+  "negation_pairs": 56,
+  "ambiguous_pairs": 60
+ },
+ "unique_texts": 476
+}

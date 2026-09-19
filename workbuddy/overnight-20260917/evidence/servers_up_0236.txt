@@ -1,0 +1,4 @@
+﻿listen 5181 pid 39784
+listen 8011 pid 6944
+be_health 200
+fe_root 000

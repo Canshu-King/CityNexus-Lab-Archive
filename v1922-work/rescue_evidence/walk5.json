@@ -1,0 +1,47 @@
+{
+ "tabs": [
+  {
+   "key": "hub",
+   "len": 749,
+   "white": false,
+   "leaks": false,
+   "head": "Menu | / | Today | 中文 | CN | STILL UP | Your next city, already considered. | A calm, evidence-backed journey with the stay, movem",
+   "new_errors": []
+  },
+  {
+   "key": "trips",
+   "len": 1099,
+   "white": false,
+   "leaks": false,
+   "head": "Menu | / | Trips | 中文 | CN | TRIP STUDIO · MULTI-DAY PLAN | Shape the journey around what matters. | Switch the hotel or a leg mod",
+   "new_errors": []
+  },
+  {
+   "key": "map",
+   "len": 424,
+   "white": false,
+   "leaks": false,
+   "head": "Menu | / | Map | 中文 | CN | MAP · ONE GLANCE | The city, with the plan on top. | Captured route geometry and provider facts stay vi",
+   "new_errors": []
+  },
+  {
+   "key": "agent",
+   "len": 908,
+   "white": false,
+   "leaks": false,
+   "head": "Menu | / | Copilot | 中文 | CN | AI DESK · HUMAN-READABLE PROGRESS | Tell CityNexus how to carry the weekend. | DeepSeek interprets ",
+   "new_errors": []
+  },
+  {
+   "key": "me",
+   "len": 575,
+   "white": false,
+   "leaks": false,
+   "head": "Menu | / | Me | 中文 | CN | ME · AUTHORITY ENVELOPE | Your preferences, your boundary. | CityNexus makes the scope of delegated auto",
+   "new_errors": []
+  }
+ ],
+ "after_create_url": "http://127.0.0.1:5173/v8/hub",
+ "after_create_text": "Menu | / | Today | 中文 | CN | Trip created. Tell the AI how you like to travel and it will build candidate plans. | Dismiss | STILL UP | Your next city, already considered. | A calm, evidence-backed journey with the stay, movement, luggage, and protected moment",
+ "errors": []
+}

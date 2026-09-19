@@ -1,0 +1,1 @@
+﻿('658a0e16-7a0b-4b13-be9b-b9dc6eb631a7', 'CLOSURE', 'DETECTED', 'f19d1146-a2')

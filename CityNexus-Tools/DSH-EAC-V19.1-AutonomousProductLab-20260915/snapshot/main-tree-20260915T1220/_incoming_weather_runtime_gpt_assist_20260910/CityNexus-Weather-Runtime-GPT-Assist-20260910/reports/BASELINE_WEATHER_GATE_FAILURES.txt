@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+___________ ERROR collecting tests/test_weather_runtime_gate_gpt.py ____________
+ImportError while importing test module '/mnt/data/cnx_weather_patchcheck/backend/tests/test_weather_runtime_gate_gpt.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_weather_runtime_gate_gpt.py:20: in <module>
+    from app.integrations.context.weather_runtime import (
+E   ModuleNotFoundError: No module named 'app.integrations.context.weather_runtime'
+=========================== short test summary info ============================
+ERROR tests/test_weather_runtime_gate_gpt.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.48s

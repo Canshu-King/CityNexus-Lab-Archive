@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "maplibre-gl": "<resolve-current-compatible>",
+    "@turf/turf": "<resolve-current-compatible>",
+    "xstate": "<resolve-current-compatible>",
+    "@xstate/react": "<resolve-current-compatible>"
+  },
+  "devDependencies": {
+    "@playwright/test": "<resolve-current-compatible>"
+  },
+  "notes": "shadcn/ui is code-distribution tooling/components, not a single runtime dependency to paste blindly. Resolve versions in the actual WP08 Vite project."
+}

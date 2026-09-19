@@ -1,0 +1,10 @@
+COPY_PASTE_TO_EAC.txt
+README_FIRST.md
+docs/ACTIVITY_DETAIL_TRUTH.md
+docs/EAC_FINAL_MISSION.md
+docs/INDEPENDENT_AUDIT.md
+docs/NETWORK_POLICY_V2.md
+docs/PRODUCT_FINISH_GATE.md
+docs/SCHEDULER_TRUTH_V3.md
+docs/WORKBUDDY_DELTA.md
+probes/snapshot_m_truth_edges.py

@@ -1,0 +1,181 @@
+{
+ "viewports": [],
+ "flows": [
+  {
+   "viewport": "390x844",
+   "flow": "ARRIVAL_BOUNDARY",
+   "confirm": 200,
+   "generate": 201,
+   "plans": 2,
+   "anchor_end": "2026-10-10T12:50:00+08:00",
+   "no_flexible_before_arrival": true
+  },
+  {
+   "viewport": "390x844",
+   "flow": "DEPARTURE_BOUNDARY",
+   "confirm": 200,
+   "generate": 201,
+   "plans": 3,
+   "anchor_start": "2026-10-10T15:10:00+08:00",
+   "no_flexible_after_departure": true
+  },
+  {
+   "viewport": "390x844",
+   "flow": "MIDTRIP_HARD_RECOVERY",
+   "start_before": 200,
+   "confirm": 200,
+   "state": "RECOVERY_REQUIRED",
+   "experience_state": "RECOVERY_REQUIRED",
+   "ui_panel_visible": true,
+   "ui_title": "Your trip needs a decision",
+   "ui_acknowledge_label": "Acknowledge warning",
+   "ui_acknowledge_is_governed": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "ACKNOWLEDGE_WARNING",
+   "backend_status": 200,
+   "backend_resolved": false,
+   "backend_acknowledged": true,
+   "banner_still_visible": true,
+   "needs_review_after": true,
+   "recovery_required_after": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "NO_ALTERNATIVE",
+   "replan_status": 422,
+   "state": "RECOVERY_REQUIRED_NO_ALTERNATIVE",
+   "replan_attempted": true,
+   "no_alternative": true,
+   "needs_review": true
+  },
+  {
+   "viewport": "390x844",
+   "flow": "FEASIBLE_REPLACEMENT_RESOLVES",
+   "generate": 201,
+   "select": 200,
+   "recovery_after": null,
+   "needs_review_after": false,
+   "recovery_required_after": false,
+   "panel_still_visible": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "STALE_CANDIDATE_WARNING",
+   "candidate_flagged_stale": true,
+   "candidate_selectable": false,
+   "start_status": 409,
+   "start_message": "STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired",
+   "journey_status": "PLANNED",
+   "flags_staleness": true,
+   "panel_visible": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "GPS_ALLOWED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "390x844",
+   "flow": "GPS_DENIED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "ARRIVAL_BOUNDARY",
+   "confirm": 200,
+   "generate": 201,
+   "plans": 2,
+   "anchor_end": "2026-10-10T12:50:00+08:00",
+   "no_flexible_before_arrival": true
+  },
+  {
+   "viewport": "430x932",
+   "flow": "DEPARTURE_BOUNDARY",
+   "confirm": 200,
+   "generate": 201,
+   "plans": 3,
+   "anchor_start": "2026-10-10T15:10:00+08:00",
+   "no_flexible_after_departure": true
+  },
+  {
+   "viewport": "430x932",
+   "flow": "MIDTRIP_HARD_RECOVERY",
+   "start_before": 200,
+   "confirm": 200,
+   "state": "RECOVERY_REQUIRED",
+   "experience_state": "RECOVERY_REQUIRED",
+   "ui_panel_visible": true,
+   "ui_title": "Your trip needs a decision",
+   "ui_acknowledge_label": "Acknowledge warning",
+   "ui_acknowledge_is_governed": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "ACKNOWLEDGE_WARNING",
+   "backend_status": 200,
+   "backend_resolved": false,
+   "backend_acknowledged": true,
+   "banner_still_visible": true,
+   "needs_review_after": true,
+   "recovery_required_after": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "NO_ALTERNATIVE",
+   "replan_status": 422,
+   "state": "RECOVERY_REQUIRED_NO_ALTERNATIVE",
+   "replan_attempted": true,
+   "no_alternative": true,
+   "needs_review": true
+  },
+  {
+   "viewport": "430x932",
+   "flow": "FEASIBLE_REPLACEMENT_RESOLVES",
+   "generate": 201,
+   "select": 200,
+   "recovery_after": null,
+   "needs_review_after": false,
+   "recovery_required_after": false,
+   "panel_still_visible": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "STALE_CANDIDATE_WARNING",
+   "candidate_flagged_stale": true,
+   "candidate_selectable": false,
+   "start_status": 409,
+   "start_message": "STALE_RECOMPOSE_REQUIRED: PlanVersion frozen mobility evidence expired",
+   "journey_status": "PLANNED",
+   "flags_staleness": true,
+   "panel_visible": true,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "GPS_ALLOWED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  },
+  {
+   "viewport": "430x932",
+   "flow": "GPS_DENIED",
+   "rendered": true,
+   "horizontal_overflow": false,
+   "page_errors": []
+  }
+ ]
+}

@@ -1,0 +1,84 @@
+{
+  "trace": [
+    {
+      "ts": "2026-09-16T18:46:36.117Z",
+      "step": "shot",
+      "n": "04_today_diag",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_04_today_diag.png"
+    },
+    {
+      "ts": "2026-09-16T18:46:36.132Z",
+      "step": "today_body",
+      "text": "菜单 / 今天 EN CN ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的"
+    },
+    {
+      "ts": "2026-09-16T18:46:38.264Z",
+      "step": "shot",
+      "n": "05_filled",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_05_filled.png"
+    },
+    {
+      "ts": "2026-09-16T18:46:41.350Z",
+      "step": "shot",
+      "n": "06_reply",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\cp_06_reply.png"
+    },
+    {
+      "ts": "2026-09-16T18:46:41.364Z",
+      "step": "reply_scan",
+      "leaks": {
+        "REQUEST_PLACE_SEARCH": true,
+        "DeepSeek": true,
+        "Hermes": true
+      },
+      "buttons": [
+        "菜单",
+        "EN",
+        "CN",
+        "×",
+        "REQUEST_PLACE_SEARCH",
+        "询问 Copilot",
+        "今天",
+        "行程",
+        "地图",
+        "Copilot",
+        "我的"
+      ],
+      "replySnippet": "下午去吗？ CityNexus 我会基于当前城市和行程上下文搜索候选地点；搜索结果不会直接写入方案。 DISCOVER REQUEST_PLACE_SEARCH 询问 Copilot 今天 行程 地图 Copilot 我的",
+      "bodySample": "菜单 / 今天 EN CN CityNexus Copilot DeepSeek 语义 · Hermes 真实事件 · CityNexus 真相 × Semantic: DeepSeek Execution: DIRECT Truth: CityNexus 你 鼓浪屿好玩吗？适合下午去吗？ CityNexus 我会基于当前城市和行程上下文搜索候选地点；搜索结果不会直接写入方案。 DISCOVER REQUEST_PLACE_SEARCH 询问 Copilot 今天 行程 地图 Copilot 我的"
+    }
+  ],
+  "apiLog": [
+    {
+      "url": "http://localhost:5181/api/v1/journeys/2bbe2657-c279-42e5-b920-ac3ab9bfc3a9/experience",
+      "status": 200,
+      "bodyHead": "{\"journey\":{\"id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"traveler_id\":\"467bb749-cfc7-4bc3-928f-10c068702df1\",\"title\":\"厦门 · journey\",\"city_code\":\"CN-厦门\",\"timezone\":\"Asia/Shanghai\",\"start_at\":\"2026-09-18T02:00:00+00:00\",\"end_at\":\"2026-09-20T12:00:00+00:00\",\"status\":\"DRAFT\",\"active_plan_version_id\":null,\"budget\":{\"amount_minor\":300000,\"currency\":\"CNY\"}},\"trip\":{\"arrival_anchor\":{\"at\":\"2026-09-19T10:42:00+08:00\",\"location\":\"福州南\",\"latitude\":null,\"longitude\":null,\"reservation_id\":\"f5fb1d29-3058-44b6-ac50-414fd59d52de\"},\"departure_anchor\":{\"at\":\"2026-09-20T12:00:00Z\",\"location\":\"厦门北站\",\"latitude\":null,\"longitude\":null,\"reservation_id\":null},\"party_size\":2,\"occupancy\":{\"adults\":2,\"rooms\":1,\"rooms_source\":\"USER\"},\"stay_budget\":{\"amount_minor\":100000,\"currency\":\"CNY\"},\"baggage\":{\"present\":false,\"size_class\":\"NONE\",\"luggage_drop_required\":false}},\"offers\":[],\"options\":[],\"selected_option_id\":null,\"m"
+    },
+    {
+      "url": "http://localhost:5181/api/v1/journeys/2bbe2657-c279-42e5-b920-ac3ab9bfc3a9/offline-snapshot",
+      "status": 200,
+      "bodyHead": "{\"journey_id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"sequence\":1,\"valid_until\":\"2026-09-18T01:38:10.518914+08:00\",\"snapshot\":{\"active_plan_version_id\":null,\"current_activity_id\":null,\"execution\":{\"next\":null,\"next_activity_id\":null,\"next_eta_min\":0,\"next_mode\":\"NONE\",\"next_state\":null,\"now\":null,\"now_activity_id\":null,\"now_state\":\"COMPLETE\"},\"financial_actions_allowed\":false,\"hotel\":null,\"journey_id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"legs\":[],\"next\":null,\"next_24h\":[],\"now\":null,\"read_only\":true,\"reference_at\":\"2026-09-17T01:38:10.518914+08:00\",\"reservations\":[]},\"provider_freshness\":{\"latest_provider_capture_at\":null,\"transit_realtime\":\"UNKNOWN_REALTIME\"},\"updated_at\":\"2026-09-16T17:38:10.562694+00:00\"}"
+    },
+    {
+      "url": "http://localhost:5181/api/v1/journeys/2bbe2657-c279-42e5-b920-ac3ab9bfc3a9/wallet",
+      "status": 200,
+      "bodyHead": "{\"journey_id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"reservations\":[{\"id\":\"5f2ca6e4-34fb-4fa3-839d-602936f078ff\",\"journey_id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"draft_id\":\"e6484001-6556-4bdd-98a0-7cb1cec59aa6\",\"reservation_type\":\"RAIL\",\"provider_key\":\"external-import\",\"confirmation_ref\":\"WB-RAIL-20260918-001\",\"origin\":\"厦门北\",\"destination\":\"福州南\",\"scheduled_departure_at\":\"2026-09-18T09:30:00+08:00\",\"scheduled_arrival_at\":\"2026-09-18T10:42:00+08:00\",\"estimated_arrival_at\":null,\"actual_arrival_at\":null,\"status\":\"CONFIRMED\",\"realtime_status\":\"UNKNOWN_REALTIME\",\"passenger_scope\":{},\"change_policy\":{},\"price\":{\"amount_minor\":null,\"currency\":null,\"status\":\"UNKNOWN\"},\"source_provenance\":\"USER_CONFIRMED_IMPORT\",\"captured_at\":\"2026-09-16T18:38:29.824065+00:00\",\"booking_id\":\"0581c29e-871c-4300-8900-ccead6e0c70f\",\"commitment_id\":\"2f71a48b-d619-4094-b225-739b18c31045\"},{\"id\":\"f5fb1d29-3058-44b6-a"
+    },
+    {
+      "url": "http://localhost:5181/api/v1/journeys/2bbe2657-c279-42e5-b920-ac3ab9bfc3a9/plans",
+      "status": 200,
+      "bodyHead": "[]"
+    },
+    {
+      "url": "http://localhost:5181/api/v1/journeys/2bbe2657-c279-42e5-b920-ac3ab9bfc3a9/twin",
+      "status": 200,
+      "bodyHead": "{\"journey_id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"active_plan_version_id\":null,\"current_activity_id\":null,\"latest_event_id\":null,\"projection_status\":\"READY\",\"snapshot_at\":\"2026-09-16T18:46:29.026358Z\",\"upcoming_commitments\":[{\"id\":\"2f71a48b-d619-4094-b225-739b18c31045\",\"journey_id\":\"2bbe2657-c279-42e5-b920-ac3ab9bfc3a9\",\"activity_id\":null,\"kind\":\"BOOKING\",\"level\":\"C4_Anchored\",\"status\":\"ACTIVE\",\"monetary_value\":{\"amount_minor\":0,\"currency\":\"CNY\"},\"monetary_value_status\":\"UNKNOWN\",\"external_ref\":\"WB-RAIL-20260918-001\",\"policy\":{\"anchor_role\":\"ARRIVAL\",\"location_evidence\":\"STRUCTURAL_ANCHOR\",\"price_status\":\"UNKNOWN\",\"scheduled_start_at\":\"2026-09-18T10:42:00+08:00\",\"semantic_key\":\"v12:2bbe2657-c279-42e5-b920-ac3ab9bfc3a9:arrival-anchor\",\"semantic_node_key\":\"arrival-anchor\",\"source\":\"USER_CONFIRMED_EXTERNAL_RESERVATION\"}},{\"id\":\"49ee1d87-7f9b-43b6-a77a-9902828bee4f\",\"journey_id\":\"2bbe265"
+    },
+    {
+      "url": "http://localhost:5181/api/v1/journeys/2bbe2657-c279-42e5-b920-ac3ab9bfc3a9/copilot/messages",
+      "status": 200,
+      "bodyHead": "{\"message\":\"我会基于当前城市和行程上下文搜索候选地点；搜索结果不会直接写入方案。\",\"mode\":\"AI\",\"verified_context_used\":true,\"intent\":{\"name\":\"DISCOVER\",\"confidence\":0.72,\"reason\":\"User asks whether Gulangyu is enjoyable and suitable for an afternoon visit. This is a discovery/search request for place suitability; no accessibility or capability need stated, and no authoritative facts are asserted.\",\"entities\":{\"subject_kind\":\"place\",\"subject_text\":\"鼓浪屿\",\"temporal_expression\":\"下午\",\"assertion_status\":\"UNKNOWN\",\"effective_time\":\"FUTURE\"},\"provider\":\"deepseek\",\"mode\":\"AI\",\"semantic_envelope\":{\"intent\":\"DISCOVER\",\"assertion_status\":\"UNKNOWN\",\"effective_time\":\"FUTURE\",\"event_type\":\"NONE\",\"requested_action\":\"SEARCH\",\"confidence\":0.72,\"reasoning_summary\":\"User asks whether Gulangyu is enjoyable and suitable for an afternoon visit. This is a discovery/search request for place suitability; no accessibility or capability need stated,"
+    }
+  ],
+  "consoleErrors": []
+}

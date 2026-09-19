@@ -1,0 +1,153 @@
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -757,6 +757,18 @@
+     }
+ 
+ 
++def _proposal_mobility_snapshot(proposal: ReplanProposalModel) -> MobilitySnapshot | None:
++    try:
++        diff = json.loads(proposal.diff_json or "{}")
++        payload = diff.get("verified_evidence", {}).get("mobility", {}).get("snapshot")
++        if not isinstance(payload, dict):
++            return None
++        snapshot = MobilitySnapshot.from_evidence(payload)
++    except (KeyError, TypeError, ValueError, json.JSONDecodeError):
++        return None
++    return snapshot
++
++
+ def _latest_replan_mobility_snapshot(session: Session, journey_id: str) -> MobilitySnapshot | None:
+     proposals = session.scalars(
+         select(ReplanProposalModel)
+@@ -764,15 +776,9 @@
+         .order_by(ReplanProposalModel.created_at.desc(), ReplanProposalModel.id.desc())
+     ).all()
+     for proposal in proposals:
+-        try:
+-            diff = json.loads(proposal.diff_json or "{}")
+-            payload = diff.get("verified_evidence", {}).get("mobility", {}).get("snapshot")
+-            if isinstance(payload, dict):
+-                snapshot = MobilitySnapshot.from_evidence(payload)
+-                if snapshot.facts:
+-                    return snapshot
+-        except (KeyError, TypeError, ValueError, json.JSONDecodeError):
+-            continue
++        snapshot = _proposal_mobility_snapshot(proposal)
++        if snapshot is not None and snapshot.facts:
++            return snapshot
+     return None
+ 
+ 
+@@ -869,9 +875,12 @@
+             if fact is not None:
+                 travel_min = fact.minutes
+                 mobility_context = {
+-                    "provider": persisted_mobility.source_provider_key,
++                    "provider": fact.provider_key,
++                    "source_provider": persisted_mobility.source_provider_key,
+                     "snapshot_id": persisted_mobility.snapshot_id,
+-                    "degraded": persisted_mobility.degraded,
++                    "degraded": fact.degraded,
++                    "snapshot_degraded": persisted_mobility.degraded,
++                    "fallback_reason": fact.fallback_reason,
+                     "source": "persisted-replan-snapshot",
+                 }
+             else:
+@@ -1394,6 +1403,7 @@
+     except MobilitySnapshotCaptureError as exc:
+         raise HTTPException(503, f"mobility evidence unavailable: {exc}") from exc
+     mobility = mobility_capture.snapshot
++    mobility_degraded_providers = (mobility.source_provider_key,) if mobility.degraded else ()
+     specs: list[tuple[str, Any | None, int, bool, dict[str, Any] | None]] = []
+     if replacement_choices:
+         for index, choice in enumerate(replacement_choices):
+@@ -1534,7 +1544,24 @@
+         for activity in source
+     ]
+     c4_count = len(c4_rows)
+-    before_envelope = _envelope_payload(journey, source, preserved_commitment_count=c4_count)
++    before_envelope = _envelope_payload(
++        journey,
++        source,
++        preserved_commitment_count=c4_count,
++        degraded_providers=mobility_degraded_providers,
++    )
++
++    def _frozen_route_total(items: list[Activity]) -> int:
++        total = 0
++        for previous, current in zip(items, items[1:]):
++            origin = _activity_location(previous)
++            destination = _activity_location(current)
++            if not origin or not destination or origin == destination:
++                continue
++            total += int(mobility.estimate_minutes(origin, destination))
++        return total
++
++    base_route_total = _frozen_route_total(source)
+     created: list[ReplanProposalModel] = []
+     failed_reasons: set[str] = set()
+     traveler_preferences = session.scalars(
+@@ -1699,10 +1726,13 @@
+             for activity in copied
+         ]
+         diff = diff_plans(old_snapshots, new_snapshots)
+-        after_envelope = _envelope_payload(journey, copied, preserved_commitment_count=c4_count)
+-        travel_delta = sum(activity.travel_from_prev_min for activity in copied) - sum(
+-            activity.travel_from_prev_min for activity in source
+-        )
++        after_envelope = _envelope_payload(
++            journey,
++            copied,
++            preserved_commitment_count=c4_count,
++            degraded_providers=mobility_degraded_providers,
++        )
++        travel_delta = _frozen_route_total(copied) - base_route_total
+         preference_fit = None
+         opportunity_value = None
+         if replacement_choice is not None:
+@@ -1960,7 +1990,16 @@
+         or proposed.status != "CANDIDATE"
+     ):
+         raise HTTPException(409, "replan plan is missing or inconsistent")
+-    gate = validate_plan_feasibility(session, journey, proposed, include_active_c4=True)
++    accepted_mobility = _proposal_mobility_snapshot(proposal)
++    if accepted_mobility is None:
++        raise HTTPException(409, "replan mobility evidence is missing or invalid; regenerate proposal")
++    gate = validate_plan_feasibility(
++        session,
++        journey,
++        proposed,
++        include_active_c4=True,
++        mobility_provider=accepted_mobility,
++    )
+     if not gate.passed:
+         raise HTTPException(409, f"replan is no longer feasible: {', '.join(gate.failures)}")
+     old_current = (
+--- a/backend/app/replanning/provider_snapshots.py
++++ b/backend/app/replanning/provider_snapshots.py
+@@ -2,6 +2,7 @@
+ 
+ from dataclasses import dataclass
+ from datetime import datetime, timezone
++from types import MappingProxyType
+ from typing import Any, Mapping
+ from uuid import uuid4
+ 
+@@ -38,6 +39,17 @@
+ 
+     provider_key: str = "mobility-snapshot"
+     is_frozen_snapshot: bool = True
++
++    def __post_init__(self) -> None:
++        frozen: dict[tuple[str, str], TravelEstimateFact] = {}
++        for raw_pair, fact in self.facts.items():
++            if len(raw_pair) != 2:
++                raise ValueError("mobility snapshot keys must be origin/destination pairs")
++            pair = (str(raw_pair[0]), str(raw_pair[1]))
++            if pair != (fact.origin_key, fact.destination_key):
++                raise ValueError("mobility snapshot key/fact identity mismatch")
++            frozen[pair] = fact
++        object.__setattr__(self, "facts", MappingProxyType(frozen))
+ 
+     @classmethod
+     def from_minutes(

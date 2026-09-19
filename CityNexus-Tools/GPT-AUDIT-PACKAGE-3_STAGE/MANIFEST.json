@@ -1,0 +1,117 @@
+[
+  {
+    "path": "general-github-access.json",
+    "sha256": "5C92A7140494C49A737210E005CBFB3D03CCEBA324C6E211F8F90B0EEAAE71A6",
+    "bytes": 399
+  },
+  {
+    "path": "evaluation\\alternative-tools-evaluation.json",
+    "sha256": "0D395B116F5272EFA750C0CDBD14771A95A39C5F0CFEDF885F9603A3D551C983",
+    "bytes": 338
+  },
+  {
+    "path": "evaluation\\citynexus-visio-skill-overrides.yaml",
+    "sha256": "991BD0F1C687114667BE68CCAA0935CDDF45F09B831FF348EB0D2BCF70B8286B",
+    "bytes": 582
+  },
+  {
+    "path": "evaluation\\jiaxi2-quality-gates.json",
+    "sha256": "7983B55BF9C4A8C99EA5D8BAD91E8E530C0FDB7BBBB542BD20E3956E79C360FF",
+    "bytes": 755
+  },
+  {
+    "path": "evaluation\\jiaxi2-visio-capability-matrix.json",
+    "sha256": "BA476A8CC51F53971D84AAEA4CFE736D3E1B5FE4952EC7388F0C970120EEC250",
+    "bytes": 757
+  },
+  {
+    "path": "evaluation\\toolchain-recommendation.json",
+    "sha256": "34142E02BAD32D15894F0D144323325A0C6652473FEF0552AE2F4AEECE3100A5",
+    "bytes": 873
+  },
+  {
+    "path": "evaluation\\validator-architecture.md",
+    "sha256": "CF1688F9A3BA6146769182D40F0E0736ED8CE98FA2E9D6F3CE238E9A04A01460",
+    "bytes": 496
+  },
+  {
+    "path": "external\\visio-diagram\\SKILL.md",
+    "sha256": "D7E324841B86F82692CA676AE9B18C13994E22EEE6FF7788D76CB0237E67BA92",
+    "bytes": 11013
+  },
+  {
+    "path": "external\\visio-diagram\\agents\\openai.yaml",
+    "sha256": "6C95FE1D7CA88BEC1516BEE003D71625DA9C3F34F7FFCAA4F424347134E13736",
+    "bytes": 699
+  },
+  {
+    "path": "external\\visio-diagram\\references\\connectors-and-text.md",
+    "sha256": "394EE8DE461A41F18F0FF9DD2D4A9C05A8278AFCA6AED3472EB73518D77B86DD",
+    "bytes": 6552
+  },
+  {
+    "path": "external\\visio-diagram\\references\\engineering-diagrams.md",
+    "sha256": "6D10ED202A718D480D0E8347367AD456253A33A170A60CD1BEAD849B76F6A611",
+    "bytes": 4710
+  },
+  {
+    "path": "external\\visio-diagram\\references\\flowcharts.md",
+    "sha256": "EF2D19BE812519F9D7EB1883726786A4B04F1C5C697F594E2E2A7E220CEC5004",
+    "bytes": 1151
+  },
+  {
+    "path": "external\\visio-diagram\\references\\layout-quality.md",
+    "sha256": "30B227729AD97AF3940416BF7EFE0263F46D75BCF431CC9C7B99B486E8953685",
+    "bytes": 5324
+  },
+  {
+    "path": "external\\visio-diagram\\references\\mcp-tools.md",
+    "sha256": "C30DC64F4B950B215787671D220B48FA0DC5A40590E5470FB1A2C84BDF7ABFEE",
+    "bytes": 3837
+  },
+  {
+    "path": "external\\visio-diagram\\references\\reconstruction-review.md",
+    "sha256": "5B41D444D02B708F6D946DA67EAF688BE19C66FA0F5220A1944E7FDA2038D532",
+    "bytes": 7850
+  },
+  {
+    "path": "external\\visio-diagram\\references\\size-and-containers.md",
+    "sha256": "4A501552502EE00DB02FFCFFB5A8FECF2B15015F789BB3A359B34FCF96AFC804",
+    "bytes": 5224
+  },
+  {
+    "path": "external\\visio-diagram\\references\\state-machines.md",
+    "sha256": "6C6F92DC134A4EDE0F437455E0091D785FD155474FD4E03EF3EADFECF82E5F62",
+    "bytes": 1053
+  },
+  {
+    "path": "external\\visio-diagram\\references\\swimlanes.md",
+    "sha256": "00791652CC151845CF8739B77BCDBD22F9A6D3CF77C8D87C91EC2DC56A3C6215",
+    "bytes": 1204
+  },
+  {
+    "path": "external\\visio-diagram\\references\\typography-and-style.md",
+    "sha256": "768CE0A8B29104B96DC3C8519E98C3BF1B4E70556774335D417838832CE8B301",
+    "bytes": 3926
+  },
+  {
+    "path": "routing-poc\\build_routing_poc.py",
+    "sha256": "46899AE71BA0891B7A3DA0F6514A0653DE6F668BCD3C3FB51D5670CD0C6C79AD",
+    "bytes": 1342
+  },
+  {
+    "path": "routing-poc\\routing-poc-result.json",
+    "sha256": "5CD83C0CA42345E22C6F613A9D27E9DD317EC5D4A78793714923DA3E2B696C0E",
+    "bytes": 838
+  },
+  {
+    "path": "routing-poc\\routing-poc.svg",
+    "sha256": "EF701587512A691928B5077861E5D74CA6BCC71A420BEDF45000F20769292A64",
+    "bytes": 12264
+  },
+  {
+    "path": "routing-poc\\routing-poc.vsdx",
+    "sha256": "ECA39277EE6937AE9E6AE2DC4A4C8DA55B3AFD906D4CFE5DB484E22D05917FC1",
+    "bytes": 25018
+  }
+]

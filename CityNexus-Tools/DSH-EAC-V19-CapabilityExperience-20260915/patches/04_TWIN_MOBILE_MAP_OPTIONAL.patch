@@ -1,0 +1,258 @@
+diff --git a/frontend/src/features/capability-experience/components/CapabilityMapOverlay.tsx b/frontend/src/features/capability-experience/components/CapabilityMapOverlay.tsx
+new file mode 100644
+index 0000000..5e4f476
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/CapabilityMapOverlay.tsx
+@@ -0,0 +1,102 @@
++import { useId } from "react";
++import type { CapabilityMapMarker } from "../types";
++import { capabilityCopy } from "../copy";
++import { EvidenceBadge } from "./EvidenceBadge";
++import "../styles/capability-experience.css";
++
++function markerVisual(kind: CapabilityMapMarker["kind"], copy: ReturnType<typeof capabilityCopy>) {
++  switch (kind) {
++    case "VERIFIED_ACCESSIBILITY":
++      return { glyph: "♿", label: copy.map.verified, tone: "verified" };
++    case "UNKNOWN_ACCESSIBILITY":
++      return { glyph: "?", label: copy.map.unknown, tone: "unknown" };
++    case "CONFLICT":
++      return { glyph: "!", label: copy.map.conflict, tone: "conflict" };
++    case "REST_STOP":
++      return { glyph: "R", label: copy.map.restStop, tone: "rest" };
++    case "NAP_WINDOW":
++      return { glyph: "Zz", label: copy.map.napWindow, tone: "rest" };
++    case "WALKING_LIMIT_WARNING":
++      return { glyph: "△", label: copy.map.walkingLimit, tone: "warning" };
++    case "PROTECTED_COMMITMENT":
++      return { glyph: "C4", label: copy.map.protectedCommitment, tone: "commitment" };
++    default:
++      return { glyph: "?", label: copy.map.unknown, tone: "unknown" };
++  }
++}
++
++export function CapabilityMapMarker({
++  marker,
++  locale = "zh-CN",
++  onSelect,
++}: {
++  marker: CapabilityMapMarker;
++  locale?: "zh-CN" | "en";
++  onSelect?: (marker: CapabilityMapMarker) => void;
++}) {
++  const copy = capabilityCopy(locale);
++  const visual = markerVisual(marker.kind, copy);
++  const label = `${visual.label}: ${marker.label}${marker.detail ? `. ${marker.detail}` : ""}`;
++  const className = `cne-map-marker cne-map-marker--${visual.tone}`;
++  const content = <><span aria-hidden="true" className="cne-map-marker__glyph">{visual.glyph}</span><span className="cne-map-marker__label">{marker.label}</span></>;
++  if (onSelect) {
++    return <button type="button" className={className} aria-label={label} data-marker-kind={marker.kind} onClick={() => onSelect(marker)}>{content}</button>;
++  }
++  return <span className={className} role="img" aria-label={label} data-marker-kind={marker.kind}>{content}</span>;
++}
++
++export function CapabilityMapLegend({ locale = "zh-CN" }: { locale?: "zh-CN" | "en" }) {
++  const copy = capabilityCopy(locale);
++  const kinds: CapabilityMapMarker["kind"][] = [
++    "VERIFIED_ACCESSIBILITY",
++    "UNKNOWN_ACCESSIBILITY",
++    "CONFLICT",
++    "REST_STOP",
++    "NAP_WINDOW",
++    "WALKING_LIMIT_WARNING",
++    "PROTECTED_COMMITMENT",
++  ];
++  return (
++    <section className="cne-map-legend" aria-labelledby="cne-map-legend-title" data-testid="capability-map-legend">
++      <h3 id="cne-map-legend-title">{copy.map.legendTitle}</h3>
++      <ul>
++        {kinds.map((kind) => {
++          const visual = markerVisual(kind, copy);
++          return <li key={kind}><span className={`cne-map-legend__swatch cne-map-legend__swatch--${visual.tone}`} aria-hidden="true">{visual.glyph}</span><span>{visual.label}</span></li>;
++        })}
++      </ul>
++      <p>{copy.map.mapSummary}</p>
++    </section>
++  );
++}
++
++export function CapabilityMapOverlay({
++  markers,
++  locale = "zh-CN",
++  onSelect,
++}: {
++  markers: CapabilityMapMarker[];
++  locale?: "zh-CN" | "en";
++  onSelect?: (marker: CapabilityMapMarker) => void;
++}) {
++  const copy = capabilityCopy(locale);
++  const titleId = useId();
++  return (
++    <section className="cne-map" aria-labelledby={titleId} data-testid="capability-map-overlay">
++      <h3 id={titleId}>{locale === "zh-CN" ? "地图证据标记" : "Map evidence markers"}</h3>
++      <div className="cne-map__canvas" role="group" aria-label={copy.map.mapSummary}>
++        {markers.map((marker, index) => (
++          <div
++            key={marker.id}
++            className="cne-map__pin"
++            style={{ left: `${8 + (index % 3) * 30}%`, top: `${14 + Math.floor(index / 3) * 28}%` }}
++          >
++            <CapabilityMapMarker marker={marker} locale={locale} onSelect={onSelect} />
++            {marker.evidence ? <EvidenceBadge state={marker.evidence.state} evidence={marker.evidence} locale={locale} /> : null}
++          </div>
++        ))}
++      </div>
++      <CapabilityMapLegend locale={locale} />
++    </section>
++  );
++}
+\ No newline at end of file
+diff --git a/frontend/src/features/capability-experience/components/MobileCapabilityShield.tsx b/frontend/src/features/capability-experience/components/MobileCapabilityShield.tsx
+new file mode 100644
+index 0000000..4a9b67b
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/MobileCapabilityShield.tsx
+@@ -0,0 +1,48 @@
++import { useId } from "react";
++import type { MobileCapabilityShieldModel } from "../types";
++import { capabilityCopy, fillCount } from "../copy";
++import { EvidenceBadge } from "./EvidenceBadge";
++import { capabilityLabel } from "../evidence";
++import "../styles/capability-experience.css";
++
++export function MobileCapabilityShield({ model, locale = "zh-CN", onPrimaryAction }: { model: MobileCapabilityShieldModel; locale?: "zh-CN" | "en"; onPrimaryAction?: () => void }) {
++  const copy = capabilityCopy(locale);
++  const titleId = useId();
++  const hasProtected = model.protectedCount > 0;
++  return (
++    <section className="cne-mobile-shield" aria-labelledby={titleId} data-testid="mobile-capability-shield">
++      <header className="cne-mobile-shield__head">
++        <div>
++          <span className="cne-kicker">{copy.mobile.protectedTitle}</span>
++          <h2 id={titleId}>
++            {hasProtected ? fillCount(copy.mobile.protectedCount, model.protectedCount) : copy.mobile.noNeeds}
++          </h2>
++        </div>
++        <span className="cne-mobile-shield__badge" aria-hidden="true">{hasProtected ? model.protectedCount : "—"}</span>
++      </header>
++
++      {hasProtected ? (
++        <ul className="cne-mobile-shield__needs">
++          {model.needs.slice(0, 3).map((capability) => (
++            <li key={capability.id}>
++              <span className="status-dot" aria-hidden="true" />
++              <span>{capabilityLabel(capability, locale)}</span>
++            </li>
++          ))}
++        </ul>
++      ) : null}
++
++      {model.evidenceGap ? (
++        <div className="cne-mobile-shield__gap" data-testid="mobile-evidence-gap">
++          <EvidenceBadge state={model.evidenceGap.evidence.state} evidence={model.evidenceGap.evidence} locale={locale} />
++          <strong>{model.evidenceGap.label}</strong>
++          <p>{copy.mobile.evidenceGapNotVerified}</p>
++        </div>
++      ) : null}
++
++      <button type="button" className="cne-button cne-button--primary cne-mobile-shield__action" onClick={onPrimaryAction} data-testid="mobile-shield-action">
++        {model.primaryActionLabel || copy.mobile.primaryAction}
++      </button>
++    </section>
++  );
++}
+\ No newline at end of file
+diff --git a/frontend/src/features/capability-experience/components/TwinCapabilitySummary.tsx b/frontend/src/features/capability-experience/components/TwinCapabilitySummary.tsx
+new file mode 100644
+index 0000000..6529376
+--- /dev/null
++++ b/frontend/src/features/capability-experience/components/TwinCapabilitySummary.tsx
+@@ -0,0 +1,87 @@
++import { useId } from "react";
++import type { TravelerCapability } from "../types";
++import { capabilityCopy } from "../copy";
++import { EvidenceBadge } from "./EvidenceBadge";
++import { capabilityDescription, capabilityKindLabel, capabilityLabel, scopeLabel } from "../evidence";
++import "../styles/capability-experience.css";
++
++function CapabilityRow({ capability, locale }: { capability: TravelerCapability; locale: "zh-CN" | "en" }) {
++  const copy = capabilityCopy(locale);
++  const isHard = capability.strength === "HARD" || capability.kind === "HARD_ACCESSIBILITY_NEED";
++  const description = capabilityDescription(capability, locale);
++  return (
++    <li className="cne-twin-row" data-testid={`twin-capability-${capability.id}`} data-capability-kind={capability.kind}>
++      <div className="cne-twin-row__head">
++        <div>
++          <b>{capabilityLabel(capability, locale)}</b>
++          <small>{capabilityKindLabel(capability.kind, copy)}</small>
++        </div>
++        <EvidenceBadge state={capability.evidence.state} evidence={capability.evidence} locale={locale} />
++      </div>
++      {description ? <p>{description}</p> : null}
++      <dl className="cne-facts">
++        <div><dt>{copy.twin.active}</dt><dd>{capability.active ? "✓" : "—"}</dd></div>
++        <div><dt>{copy.twin.scope}</dt><dd>{scopeLabel(capability.scope, copy)}</dd></div>
++        <div><dt>{copy.twin.evidence}</dt><dd>{capability.evidence.state}</dd></div>
++      </dl>
++      {isHard ? <p className="cne-hard-fact">{copy.twin.travelerStated} · {copy.twin.explicit} · {copy.twin.active}</p> : null}
++      {capability.learned ? (
++        <div className="cne-learned-meter">
++          <p><b>{copy.twin.learnedStrength}</b> {capability.strengthScore ?? "—"} · <b>{copy.twin.confidence}</b> {capability.confidence ?? "—"} · <b>{copy.twin.evidenceCount}</b> {capability.evidenceCount ?? "—"}</p>
++          {typeof capability.confidence === "number" ? (
++            <div
++              role="meter"
++              aria-label={`${capabilityLabel(capability, locale)} ${copy.twin.confidence}`}
++              aria-valuemin={0}
++              aria-valuemax={1}
++              aria-valuenow={capability.confidence}
++              className="cne-meter"
++            >
++              <span style={{ width: `${Math.max(0, Math.min(1, capability.confidence)) * 100}%` }} />
++            </div>
++          ) : null}
++        </div>
++      ) : null}
++    </li>
++  );
++}
++
++export function TwinCapabilitySummary({ capabilities, locale = "zh-CN" }: { capabilities: TravelerCapability[]; locale?: "zh-CN" | "en" }) {
++  const copy = capabilityCopy(locale);
++  const titleId = useId();
++  const hard = capabilities.filter((item) => item.strength === "HARD" || item.kind === "HARD_ACCESSIBILITY_NEED");
++  const explicitCapabilities = capabilities.filter((item) => !item.learned && item.kind !== "SOFT_PREFERENCE" && !hard.includes(item));
++  const explicitPreferences = capabilities.filter((item) => !item.learned && item.kind === "SOFT_PREFERENCE");
++  const learned = capabilities.filter((item) => item.learned);
++  return (
++    <section className="cne-twin" aria-labelledby={titleId} data-testid="twin-capability-summary">
++      <header className="cne-surface__head">
++        <div><span className="cne-kicker">TRAVELER_TWIN</span><h2 id={titleId}>{copy.twin.title}</h2><p>{copy.twin.authorityNotice}</p></div>
++      </header>
++
++      {hard.length ? (
++        <section className="cne-twin__group cne-twin__group--hard" aria-label={copy.twin.hardAccessibility}>
++          <h3>{copy.twin.hardAccessibility}</h3>
++          <ul>{hard.map((capability) => <CapabilityRow key={capability.id} capability={capability} locale={locale} />)}</ul>
++        </section>
++      ) : null}
++
++      <section className="cne-twin__group" aria-label={copy.twin.explicitCapability}>
++        <h3>{copy.twin.explicitCapability}</h3>
++        {explicitCapabilities.length ? <ul>{explicitCapabilities.map((capability) => <CapabilityRow key={capability.id} capability={capability} locale={locale} />)}</ul> : <p className="cne-help">{copy.twin.noExplicit}</p>}
++      </section>
++
++      <section className="cne-twin__group" aria-label={copy.twin.explicitPreference}>
++        <h3>{copy.twin.explicitPreference}</h3>
++        {explicitPreferences.length ? <ul>{explicitPreferences.map((capability) => <CapabilityRow key={capability.id} capability={capability} locale={locale} />)}</ul> : <p className="cne-help">{copy.twin.noExplicit}</p>}
++      </section>
++
++      <section className="cne-twin__group cne-twin__group--learned" aria-label={copy.twin.learnedSoft}>
++        <h3>{copy.twin.learnedSoft}</h3>
++        {learned.length ? <ul>{learned.map((capability) => <CapabilityRow key={capability.id} capability={capability} locale={locale} />)}</ul> : <p className="cne-help">{copy.twin.noLearned}</p>}
++      </section>
++
++      <p className="cne-rule" data-testid="twin-unknown-rule">{copy.evidence.unknownIsNotAccessible}</p>
++    </section>
++  );
++}
+\ No newline at end of file

@@ -1,0 +1,3759 @@
+{
+  "snapshot_c_capabilities_loaded": true,
+  "has_normalize_osm_tags": true,
+  "has_evaluate_accessibility_requirement": true,
+  "has_generic_accessibility_state": true,
+  "tag_matrix_direct": [
+    {
+      "case_id": "toilet_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes"
+      },
+      "normalized": {
+        "toilets:wheelchair": "yes"
+      },
+      "resolved": {
+        "toilets:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "toilet_no",
+      "expectation": "not_step_free_or_conflict",
+      "tags": {
+        "toilets:wheelchair": "no"
+      },
+      "normalized": {
+        "toilets:wheelchair": "no"
+      },
+      "resolved": {
+        "toilets:wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "ramp_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "ramp": "yes"
+      },
+      "normalized": {
+        "ramp": "yes"
+      },
+      "resolved": {
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "ramp_wheelchair_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "ramp:wheelchair": "yes"
+      },
+      "normalized": {
+        "ramp:wheelchair": "yes"
+      },
+      "resolved": {
+        "ramp:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "elevator_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "elevator": "yes"
+      },
+      "normalized": {
+        "elevator": "yes"
+      },
+      "resolved": {
+        "elevator": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "highway_elevator_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "highway:elevator": "yes"
+      },
+      "normalized": {
+        "highway:elevator": "yes"
+      },
+      "resolved": {
+        "highway:elevator": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "step_count": 5
+      },
+      "normalized": {
+        "wheelchair": "yes",
+        "step_count": "5"
+      },
+      "resolved": {
+        "wheelchair": "yes",
+        "step_count": "5"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "normalized": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "resolved": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "normalized": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "resolved": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_yes_stairs_yes",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "normalized": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "resolved": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_CONFLICT",
+        "AVOID_STAIRS": "ACCESSIBILITY_CONFLICT"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_yes_only",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "wheelchair": "yes"
+      },
+      "normalized": {
+        "wheelchair": "yes"
+      },
+      "resolved": {
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_designated_only",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "wheelchair": "designated"
+      },
+      "normalized": {
+        "wheelchair": "designated"
+      },
+      "resolved": {
+        "wheelchair": "designated"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_no_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "wheelchair": "no"
+      },
+      "normalized": {
+        "wheelchair": "no"
+      },
+      "resolved": {
+        "wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "wheelchair_limited",
+      "expectation": "not_step_free",
+      "tags": {
+        "wheelchair": "limited"
+      },
+      "normalized": {
+        "wheelchair": "limited"
+      },
+      "resolved": {
+        "wheelchair": "limited"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "entrance_wheelchair_only",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "entrance:wheelchair": "yes"
+      },
+      "normalized": {
+        "entrance:wheelchair": "yes"
+      },
+      "resolved": {
+        "entrance:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "kerb_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "kerb": "lowered"
+      },
+      "normalized": {
+        "kerb": "lowered"
+      },
+      "resolved": {
+        "kerb": "lowered"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "tactile_only",
+      "expectation": "not_step_free",
+      "tags": {
+        "tactile_paving": "yes"
+      },
+      "normalized": {
+        "tactile_paving": "yes"
+      },
+      "resolved": {
+        "tactile_paving": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "empty_tags",
+      "expectation": "unknown",
+      "tags": {},
+      "normalized": {},
+      "resolved": {},
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "toilet_plus_ramp",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "normalized": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "resolved": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "normalized": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "resolved": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "step_free_yes",
+      "expectation": "step_free_ok",
+      "tags": {
+        "step_free": "yes"
+      },
+      "normalized": {
+        "step_free": "yes"
+      },
+      "resolved": {
+        "step_free": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "step_free_verified_yes",
+      "expectation": "step_free_ok",
+      "tags": {
+        "step_free_verified": "yes"
+      },
+      "normalized": {
+        "step_free_verified": "yes"
+      },
+      "resolved": {
+        "step_free_verified": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "list_value_wheelchair",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "wheelchair": [
+          "yes"
+        ]
+      },
+      "normalized": {
+        "wheelchair": "['yes']"
+      },
+      "resolved": {
+        "wheelchair": "['yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": true
+    },
+    {
+      "case_id": "tuple_value_ramp",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "ramp": [
+          "yes"
+        ]
+      },
+      "normalized": {
+        "ramp": "('yes',)"
+      },
+      "resolved": {
+        "ramp": "('yes',)"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": true
+    },
+    {
+      "case_id": "list_value_step_count",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "step_count": [
+          5
+        ]
+      },
+      "normalized": {
+        "step_count": "[5]"
+      },
+      "resolved": {
+        "step_count": "[5]"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": true
+    },
+    {
+      "case_id": "list_value_toilets",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "toilets:wheelchair": [
+          "yes"
+        ]
+      },
+      "normalized": {
+        "toilets:wheelchair": "['yes']"
+      },
+      "resolved": {
+        "toilets:wheelchair": "['yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL",
+      "silently_dropped": true
+    },
+    {
+      "case_id": "sequence_of_kv_strings",
+      "expectation": "no_silent_drop",
+      "tags": [
+        "wheelchair=yes",
+        "ramp=yes"
+      ],
+      "normalized": {
+        "wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "resolved": {
+        "wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "tags_nested_under_key",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "normalized": {
+        "tags": "{'wheelchair': 'yes'}"
+      },
+      "resolved": {
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "tags_nested_kv_sequence",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "tags": [
+          "wheelchair=yes"
+        ]
+      },
+      "normalized": {
+        "tags": "['wheelchair=yes']"
+      },
+      "resolved": {
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    },
+    {
+      "case_id": "osm_tags_nested",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "normalized": {
+        "osm_tags": "{'wheelchair': 'yes'}"
+      },
+      "resolved": {
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS",
+      "silently_dropped": false
+    }
+  ],
+  "tag_matrix_nested": [
+    {
+      "case_id": "toilet_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "toilets:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "toilets:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_no@osm_tags",
+      "expectation": "not_step_free_or_conflict",
+      "tags": {
+        "toilets:wheelchair": "no"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "toilets:wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_no@tags",
+      "expectation": "not_step_free_or_conflict",
+      "tags": {
+        "toilets:wheelchair": "no"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "toilets:wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "ramp": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "ramp": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_wheelchair_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "ramp:wheelchair": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "ramp:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_wheelchair_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "ramp:wheelchair": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "ramp:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "elevator": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "elevator": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "elevator": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "elevator": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "highway_elevator_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "highway:elevator": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "highway:elevator": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "highway_elevator_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "highway:elevator": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "highway:elevator": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5@osm_tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "step_count": 5
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "step_count": "5"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5@tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "step_count": 5
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "step_count": "5"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes@osm_tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes@tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps@osm_tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps@tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_stairs_yes@osm_tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_CONFLICT",
+        "AVOID_STAIRS": "ACCESSIBILITY_CONFLICT"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_stairs_yes@tags",
+      "expectation": "conflict",
+      "tags": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_CONFLICT",
+        "AVOID_STAIRS": "ACCESSIBILITY_CONFLICT"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_only@osm_tags",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "wheelchair": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_only@tags",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "wheelchair": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_designated_only@osm_tags",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "wheelchair": "designated"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "designated"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_designated_only@tags",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "wheelchair": "designated"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "designated"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_no_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "wheelchair": "no"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_no_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "wheelchair": "no"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_limited@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "wheelchair": "limited"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "limited"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_limited@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "wheelchair": "limited"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "limited"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_wheelchair_only@osm_tags",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "entrance:wheelchair": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "entrance:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_wheelchair_only@tags",
+      "expectation": "not_step_free_or_verified",
+      "tags": {
+        "entrance:wheelchair": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "entrance:wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "kerb_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "kerb": "lowered"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "kerb": "lowered"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "kerb_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "kerb": "lowered"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "kerb": "lowered"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tactile_only@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "tactile_paving": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "tactile_paving": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tactile_only@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "tactile_paving": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "tactile_paving": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "empty_tags@osm_tags",
+      "expectation": "unknown",
+      "tags": {},
+      "wrap": "osm_tags",
+      "normalized": {},
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "empty_tags@tags",
+      "expectation": "unknown",
+      "tags": {},
+      "wrap": "tags",
+      "normalized": {},
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no@osm_tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no@tags",
+      "expectation": "not_step_free",
+      "tags": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_yes@osm_tags",
+      "expectation": "step_free_ok",
+      "tags": {
+        "step_free": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "step_free": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_yes@tags",
+      "expectation": "step_free_ok",
+      "tags": {
+        "step_free": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "step_free": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_verified_yes@osm_tags",
+      "expectation": "step_free_ok",
+      "tags": {
+        "step_free_verified": "yes"
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "step_free_verified": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_verified_yes@tags",
+      "expectation": "step_free_ok",
+      "tags": {
+        "step_free_verified": "yes"
+      },
+      "wrap": "tags",
+      "normalized": {
+        "step_free_verified": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "list_value_wheelchair@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "wheelchair": [
+          "yes"
+        ]
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "['yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_wheelchair@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "wheelchair": [
+          "yes"
+        ]
+      },
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "['yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tuple_value_ramp@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "ramp": [
+          "yes"
+        ]
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "ramp": "('yes',)"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tuple_value_ramp@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "ramp": [
+          "yes"
+        ]
+      },
+      "wrap": "tags",
+      "normalized": {
+        "ramp": "('yes',)"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_step_count@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "step_count": [
+          5
+        ]
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "step_count": "[5]"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_step_count@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "step_count": [
+          5
+        ]
+      },
+      "wrap": "tags",
+      "normalized": {
+        "step_count": "[5]"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_toilets@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "toilets:wheelchair": [
+          "yes"
+        ]
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "toilets:wheelchair": "['yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_toilets@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "toilets:wheelchair": [
+          "yes"
+        ]
+      },
+      "wrap": "tags",
+      "normalized": {
+        "toilets:wheelchair": "['yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "sequence_of_kv_strings@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": [
+        "wheelchair=yes",
+        "ramp=yes"
+      ],
+      "wrap": "osm_tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "sequence_of_kv_strings@tags",
+      "expectation": "no_silent_drop",
+      "tags": [
+        "wheelchair=yes",
+        "ramp=yes"
+      ],
+      "wrap": "tags",
+      "normalized": {
+        "wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_under_key@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "tags": "{'wheelchair': 'yes'}"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_under_key@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "wrap": "tags",
+      "normalized": {
+        "tags": "{'wheelchair': 'yes'}"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_kv_sequence@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "tags": [
+          "wheelchair=yes"
+        ]
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "tags": "['wheelchair=yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_kv_sequence@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "tags": [
+          "wheelchair=yes"
+        ]
+      },
+      "wrap": "tags",
+      "normalized": {
+        "tags": "['wheelchair=yes']"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "osm_tags_nested@osm_tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "wrap": "osm_tags",
+      "normalized": {
+        "osm_tags": "{'wheelchair': 'yes'}"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "osm_tags_nested@tags",
+      "expectation": "no_silent_drop",
+      "tags": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "wrap": "tags",
+      "normalized": {
+        "osm_tags": "{'wheelchair': 'yes'}"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_UNVERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "verdict": "INCONCLUSIVE"
+    }
+  ],
+  "route_level": [
+    {
+      "case_id": "route_no_evidence",
+      "facts": {
+        "subject": "ROUTE"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "NEEDS_LIVE_EVIDENCE",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "step_free_verified": false
+    },
+    {
+      "case_id": "route_step_free_yes",
+      "facts": {
+        "subject": "ROUTE",
+        "route_step_free": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "ACCESSIBILITY_VERIFIED",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "step_free_verified": true
+    },
+    {
+      "case_id": "route_with_place_wheelchair_yes",
+      "facts": {
+        "subject": "ROUTE",
+        "wheelchair": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "NEEDS_LIVE_EVIDENCE",
+        "AVOID_STAIRS": "ACCESSIBILITY_UNVERIFIED"
+      },
+      "step_free_verified": false
+    },
+    {
+      "case_id": "route_with_place_step_free_yes",
+      "facts": {
+        "subject": "ROUTE",
+        "step_free": "yes"
+      },
+      "states": {
+        "STEP_FREE_REQUIRED": "NEEDS_LIVE_EVIDENCE",
+        "AVOID_STAIRS": "ACCESSIBILITY_VERIFIED"
+      },
+      "step_free_verified": false
+    }
+  ],
+  "gate_projection": [
+    {
+      "case_id": "toilet_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "toilets:wheelchair": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "toilets:wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_no@top_level",
+      "expectation": "not_step_free_or_conflict",
+      "metadata": {
+        "toilets:wheelchair": "no"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_no@osm_tags",
+      "expectation": "not_step_free_or_conflict",
+      "metadata": {
+        "osm_tags": {
+          "toilets:wheelchair": "no"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "no"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_no@tags",
+      "expectation": "not_step_free_or_conflict",
+      "metadata": {
+        "tags": {
+          "toilets:wheelchair": "no"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "no"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "ramp": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "ramp": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "ramp": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "ramp": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "ramp": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_wheelchair_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "ramp:wheelchair": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_wheelchair_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "ramp:wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "ramp:wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "ramp_wheelchair_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "ramp:wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "ramp:wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "elevator": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "elevator": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "elevator": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "elevator_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "elevator": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "elevator": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "highway_elevator_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "highway:elevator": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "highway_elevator_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "highway:elevator": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "highway:elevator": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "highway_elevator_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "highway:elevator": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "highway:elevator": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5@top_level",
+      "expectation": "conflict",
+      "metadata": {
+        "wheelchair": "yes",
+        "step_count": 5
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5@osm_tags",
+      "expectation": "conflict",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "step_count": 5
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "step_count": "5"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_step_count_5@tags",
+      "expectation": "conflict",
+      "metadata": {
+        "tags": {
+          "wheelchair": "yes",
+          "step_count": 5
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "step_count": "5"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes@top_level",
+      "expectation": "conflict",
+      "metadata": {
+        "wheelchair": "yes",
+        "steps": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes@osm_tags",
+      "expectation": "conflict",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "steps": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "steps": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_steps_yes@tags",
+      "expectation": "conflict",
+      "metadata": {
+        "tags": {
+          "wheelchair": "yes",
+          "steps": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "steps": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps@top_level",
+      "expectation": "conflict",
+      "metadata": {
+        "wheelchair": "yes",
+        "highway": "steps"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps@osm_tags",
+      "expectation": "conflict",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "highway": "steps"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "highway": "steps"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_highway_steps@tags",
+      "expectation": "conflict",
+      "metadata": {
+        "tags": {
+          "wheelchair": "yes",
+          "highway": "steps"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "highway": "steps"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "wheelchair_yes_stairs_yes@top_level",
+      "expectation": "conflict",
+      "metadata": {
+        "wheelchair": "yes",
+        "stairs": "yes"
+      },
+      "projected": {
+        "stairs": "yes"
+      },
+      "gate_state": "ACCESSIBILITY_CONFLICT",
+      "gate_failures": [
+        "ACCESSIBILITY_CONFLICT:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_stairs_yes@osm_tags",
+      "expectation": "conflict",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "stairs": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "stairs": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_CONFLICT",
+      "gate_failures": [
+        "ACCESSIBILITY_CONFLICT:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_stairs_yes@tags",
+      "expectation": "conflict",
+      "metadata": {
+        "tags": {
+          "wheelchair": "yes",
+          "stairs": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "stairs": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_CONFLICT",
+      "gate_failures": [
+        "ACCESSIBILITY_CONFLICT:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_only@top_level",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "wheelchair": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_only@osm_tags",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_yes_only@tags",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_designated_only@top_level",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "wheelchair": "designated"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_designated_only@osm_tags",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "designated"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "designated"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_designated_only@tags",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "tags": {
+          "wheelchair": "designated"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "designated"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_no_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "wheelchair": "no"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_no_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "no"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "no"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_no_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "wheelchair": "no"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "no"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_limited@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "wheelchair": "limited"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_limited@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "limited"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "limited"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "wheelchair_limited@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "wheelchair": "limited"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "limited"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_wheelchair_only@top_level",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "entrance:wheelchair": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_wheelchair_only@osm_tags",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "osm_tags": {
+          "entrance:wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "entrance:wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "entrance_wheelchair_only@tags",
+      "expectation": "not_step_free_or_verified",
+      "metadata": {
+        "tags": {
+          "entrance:wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "entrance:wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "kerb_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "kerb": "lowered"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "kerb_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "kerb": "lowered"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "kerb": "lowered"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "kerb_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "kerb": "lowered"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "kerb": "lowered"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tactile_only@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tactile_paving": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tactile_only@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "tactile_paving": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "tactile_paving": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "tactile_only@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "tactile_paving": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "tactile_paving": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "empty_tags@osm_tags",
+      "expectation": "unknown",
+      "metadata": {
+        "osm_tags": {}
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "empty_tags@tags",
+      "expectation": "unknown",
+      "metadata": {
+        "tags": {}
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "toilets:wheelchair": "yes",
+        "ramp": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes",
+          "ramp": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes",
+          "ramp": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_ramp@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "toilets:wheelchair": "yes",
+          "ramp": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes",
+          "ramp": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no@top_level",
+      "expectation": "not_step_free",
+      "metadata": {
+        "toilets:wheelchair": "yes",
+        "wheelchair": "no"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no@osm_tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes",
+          "wheelchair": "no"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes",
+          "wheelchair": "no"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "toilet_plus_wheelchair_no@tags",
+      "expectation": "not_step_free",
+      "metadata": {
+        "tags": {
+          "toilets:wheelchair": "yes",
+          "wheelchair": "no"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "yes",
+          "wheelchair": "no"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_yes@top_level",
+      "expectation": "step_free_ok",
+      "metadata": {
+        "step_free": "yes"
+      },
+      "projected": {
+        "step_free": "yes"
+      },
+      "gate_state": "ACCESSIBILITY_VERIFIED",
+      "gate_failures": [],
+      "gate_blocks": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_yes@osm_tags",
+      "expectation": "step_free_ok",
+      "metadata": {
+        "osm_tags": {
+          "step_free": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "step_free": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_VERIFIED",
+      "gate_failures": [],
+      "gate_blocks": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_yes@tags",
+      "expectation": "step_free_ok",
+      "metadata": {
+        "tags": {
+          "step_free": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "step_free": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_VERIFIED",
+      "gate_failures": [],
+      "gate_blocks": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_verified_yes@top_level",
+      "expectation": "step_free_ok",
+      "metadata": {
+        "step_free_verified": "yes"
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "FAIL"
+    },
+    {
+      "case_id": "step_free_verified_yes@osm_tags",
+      "expectation": "step_free_ok",
+      "metadata": {
+        "osm_tags": {
+          "step_free_verified": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "step_free_verified": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_VERIFIED",
+      "gate_failures": [],
+      "gate_blocks": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "step_free_verified_yes@tags",
+      "expectation": "step_free_ok",
+      "metadata": {
+        "tags": {
+          "step_free_verified": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "step_free_verified": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_VERIFIED",
+      "gate_failures": [],
+      "gate_blocks": false,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "list_value_wheelchair@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "wheelchair": [
+          "yes"
+        ]
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_wheelchair@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": [
+            "yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "['yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_wheelchair@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "wheelchair": [
+            "yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "['yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tuple_value_ramp@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "ramp": [
+          "yes"
+        ]
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tuple_value_ramp@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "ramp": [
+            "yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "ramp": "['yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tuple_value_ramp@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "ramp": [
+            "yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "ramp": "['yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_step_count@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "step_count": [
+          5
+        ]
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_step_count@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "step_count": [
+            5
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "step_count": "[5]"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_step_count@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "step_count": [
+            5
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "step_count": "[5]"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_toilets@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "toilets:wheelchair": [
+          "yes"
+        ]
+      },
+      "projected": null,
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_toilets@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "toilets:wheelchair": [
+            "yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "['yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "list_value_toilets@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "toilets:wheelchair": [
+            "yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "toilets:wheelchair": "['yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "sequence_of_kv_strings@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": [
+          "wheelchair=yes",
+          "ramp=yes"
+        ]
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "ramp": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "sequence_of_kv_strings@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": [
+          "wheelchair=yes",
+          "ramp=yes"
+        ]
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes",
+          "ramp": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_under_key@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_under_key@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "tags": {
+            "wheelchair": "yes"
+          }
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "tags": "{'wheelchair': 'yes'}"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_under_key@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "tags": {
+            "wheelchair": "yes"
+          }
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "tags": "{'wheelchair': 'yes'}"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_kv_sequence@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": [
+          "wheelchair=yes"
+        ]
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_kv_sequence@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "tags": [
+            "wheelchair=yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "tags": "['wheelchair=yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "tags_nested_kv_sequence@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "tags": [
+            "wheelchair=yes"
+          ]
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "tags": "['wheelchair=yes']"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "osm_tags_nested@top_level",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "wheelchair": "yes"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "osm_tags_nested@osm_tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "osm_tags": {
+          "osm_tags": {
+            "wheelchair": "yes"
+          }
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "osm_tags": "{'wheelchair': 'yes'}"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "case_id": "osm_tags_nested@tags",
+      "expectation": "no_silent_drop",
+      "metadata": {
+        "tags": {
+          "osm_tags": {
+            "wheelchair": "yes"
+          }
+        }
+      },
+      "projected": {
+        "osm_tags": {
+          "osm_tags": "{'wheelchair': 'yes'}"
+        }
+      },
+      "gate_state": "ACCESSIBILITY_UNVERIFIED",
+      "gate_failures": [
+        "ACCESSIBILITY_UNVERIFIED:loc",
+        "NEEDS_LIVE_EVIDENCE:loc"
+      ],
+      "gate_blocks": true,
+      "verdict": "INCONCLUSIVE"
+    }
+  ],
+  "sentences": [
+    {
+      "case_id": "mandated_false_hard_en",
+      "text": "I don't need a wheelchair, I can walk",
+      "codex_v19_1": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "hard_codes": [],
+        "has_hard_accessibility": false
+      }
+    },
+    {
+      "case_id": "mandated_false_hard_zh",
+      "text": "朋友说我可能需要轮椅，但我不这么认为",
+      "codex_v19_1": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "hard_codes": [],
+        "has_hard_accessibility": false
+      }
+    },
+    {
+      "case_id": "clause_negation_no_exception",
+      "text": "轮椅必须全程无障碍，没有例外",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "history_then_now",
+      "text": "我以前不用轮椅，但现在必须无障碍",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "allergy_then_wheelchair",
+      "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "past_wheelchair_now",
+      "text": "过去我坐轮椅，现在必须全程无障碍",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "not_metro_taxi_luggage",
+      "text": "不是地铁，我需要出租车因为行李很多",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "LARGE_LUGGAGE",
+            "class": "TRIP_CONTEXT",
+            "severity": "STRONG",
+            "params": {
+              "present": true
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "LARGE_LUGGAGE"
+        ],
+        "hard_codes": [],
+        "has_hard_accessibility": false
+      }
+    },
+    {
+      "case_id": "no_helper_but_wheelchair",
+      "text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "control_step_free",
+      "text": "我必须全程无障碍",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "control_wheelchair",
+      "text": "我需要轮椅，必须全程无障碍",
+      "codex_v19_1": {
+        "count": 1,
+        "items": [
+          {
+            "code": "STEP_FREE_REQUIRED",
+            "class": "HARD_ACCESSIBILITY_NEED",
+            "severity": "HARD",
+            "params": {
+              "requirement": "step_free"
+            },
+            "scope": "JOURNEY",
+            "source": "SEMANTIC",
+            "provenance": "USER_STATED",
+            "explicit": true,
+            "active": true,
+            "confirmed": false
+          }
+        ],
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "has_hard_accessibility": true
+      }
+    },
+    {
+      "case_id": "denial_control",
+      "text": "我不需要轮椅",
+      "codex_v19_1": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "hard_codes": [],
+        "has_hard_accessibility": false
+      }
+    },
+    {
+      "case_id": "hearsay_control",
+      "text": "朋友说我可能需要轮椅",
+      "codex_v19_1": {
+        "count": 0,
+        "items": [],
+        "codes": [],
+        "hard_codes": [],
+        "has_hard_accessibility": false
+      }
+    }
+  ],
+  "mandated_false_hard": {
+    "mandated_false_hard_en": false,
+    "mandated_false_hard_zh": false
+  },
+  "summary": {
+    "tag_matrix_direct": {
+      "total": 30,
+      "pass": 23,
+      "fail": 7,
+      "inconclusive": 0,
+      "failing": [
+        "wheelchair_yes_step_count_5",
+        "wheelchair_yes_steps_yes",
+        "wheelchair_yes_highway_steps",
+        "list_value_wheelchair",
+        "tuple_value_ramp",
+        "list_value_step_count",
+        "list_value_toilets"
+      ]
+    },
+    "tag_matrix_nested": {
+      "total": 60,
+      "pass": 38,
+      "fail": 6,
+      "inconclusive": 16,
+      "failing": [
+        "wheelchair_yes_step_count_5@osm_tags",
+        "wheelchair_yes_step_count_5@tags",
+        "wheelchair_yes_steps_yes@osm_tags",
+        "wheelchair_yes_steps_yes@tags",
+        "wheelchair_yes_highway_steps@osm_tags",
+        "wheelchair_yes_highway_steps@tags"
+      ]
+    },
+    "gate_projection": {
+      "total": 88,
+      "pass": 55,
+      "fail": 10,
+      "inconclusive": 23,
+      "failing": [
+        "wheelchair_yes_step_count_5@top_level",
+        "wheelchair_yes_step_count_5@osm_tags",
+        "wheelchair_yes_step_count_5@tags",
+        "wheelchair_yes_steps_yes@top_level",
+        "wheelchair_yes_steps_yes@osm_tags",
+        "wheelchair_yes_steps_yes@tags",
+        "wheelchair_yes_highway_steps@top_level",
+        "wheelchair_yes_highway_steps@osm_tags",
+        "wheelchair_yes_highway_steps@tags",
+        "step_free_verified_yes@top_level"
+      ]
+    },
+    "silently_dropped": [
+      "list_value_wheelchair",
+      "tuple_value_ramp",
+      "list_value_step_count",
+      "list_value_toilets"
+    ],
+    "route_level_step_free_verified": [
+      "route_step_free_yes"
+    ],
+    "step_count_conflict_verdict": "FAIL",
+    "step_count_state": "ACCESSIBILITY_UNVERIFIED",
+    "toilet_only_state": "ACCESSIBILITY_UNVERIFIED"
+  }
+}

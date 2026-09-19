@@ -1,0 +1,32 @@
+Use the attached:
+
+CityNexus-EAC-SnapshotJ-FinalTrial-Closure-RoadPrep-20260916.zip
+
+together with:
+
+CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916(1).zip
+
+and the existing 10-screen UI reference package.
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Freeze the submitted result as Snapshot J.
+
+Read README_FIRST.md and execute docs/EAC_NEXT_TASK.md.
+
+Important newly found code defects:
+
+1. CHECK_IN / CHECK_OUT / LUGGAGE_DROP can disappear during stay augmentation;
+2. carried locked activities are still re-timed;
+3. precise replan unresolved reasons are masked by a dead fallback branch;
+4. ambiguous no-target CLOSURE/WEATHER is guessed as current/first activity;
+5. recovery after hotel selection still has a mobility-identity mismatch.
+
+Fix these before claiming Xiaomi trial readiness.
+
+Then finish the visible same-Xiamen consumer chain, order import, activity detail,
+Copilot cleanup and visual closure.
+
+Start now.

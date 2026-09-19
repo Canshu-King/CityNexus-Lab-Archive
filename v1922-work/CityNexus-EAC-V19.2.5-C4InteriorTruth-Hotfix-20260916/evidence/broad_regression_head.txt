@@ -1,0 +1,62 @@
+........................................................................ [ 10%]
+.................................s...................................... [ 20%]
+........................................................................ [ 30%]
+........................................................................ [ 40%]
+........................................................................ [ 50%]
+............................................F.sssssssssssss............. [ 60%]
+........................................................................ [ 70%]
+....................................................................F... [ 80%]
+.....................s.................................................. [ 90%]
+........................................................................ [100%]
+================================== FAILURES ===================================
+_ test_v191_eac_defect_nonsense_walking_limit_is_rejected[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 0 \u7c73] _
+
+text = '走路不能超过 0 米'
+
+    @pytest.mark.parametrize("text", [
+        "走路不能超过 0 米",
+        "走路不能超过 -5 米",
+    ])
+    def test_v191_eac_defect_nonsense_walking_limit_is_rejected(text):
+        items = extract_capabilities_from_text(text, scope="JOURNEY")
+        rows = [
+            item.as_dict() if hasattr(item, "as_dict") else dict(item)  # type: ignore
+            for item in items
+        ]
+        walking = [r for r in rows if r.get("code") == "MAX_WALKING_PER_LEG_M"]
+        if not walking:
+            pytest.skip("no walking limit extracted at all (also acceptable)")
+        for row in walking:
+            value = (row.get("params") or {}).get("max_m")
+>           assert value is None or value >= 1, (
+                f"a non-positive walking limit must not be persisted: {value}"
+            )
+E           AssertionError: a non-positive walking limit must not be persisted: 0
+E           assert (0 is None or 0 >= 1)
+
+tests\test_v191_eac_evidence_scope.py:215: AssertionError
+______ test_v19_char_d6b_hard_accessibility_need_does_not_block_planning ______
+
+    def test_v19_char_d6b_hard_accessibility_need_does_not_block_planning():
+        caps = extract_capabilities_from_text("我用轮椅，必须全程 step-free，一步楼梯都不能走")
+        result = _gate(capability_constraints(caps))
+>       assert result.passed, f"a wheelchair traveller cannot plan at all: {list(result.failures)}"
+E       AssertionError: a wheelchair traveller cannot plan at all: ['ACCESSIBILITY_UNVERIFIED:p1', 'NEEDS_LIVE_EVIDENCE:p1']
+E       assert False
+E        +  where False = FeasibilityResult(passed=False, failures=('ACCESSIBILITY_UNVERIFIED:p1', 'NEEDS_LIVE_EVIDENCE:p1'), effective_start_at...ne.utc), effective_end_at=datetime.datetime(2026, 10, 1, 19, 0, tzinfo=datetime.timezone.utc), budget_max_minor=200000).passed
+
+tests\test_v19_postfix_capability_contract.py:280: AssertionError
+============================== warnings summary ===============================
+..\.venv\Lib\site-packages\fastapi\testclient.py:1
+  D:\moodle\CityNexus\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+..\.venv\Lib\site-packages\starlette\testclient.py:53
+  D:\moodle\CityNexus\.venv\Lib\site-packages\starlette\testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_v191_eac_evidence_scope.py::test_v191_eac_defect_nonsense_walking_limit_is_rejected[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 0 \u7c73]
+FAILED tests/test_v19_postfix_capability_contract.py::test_v19_char_d6b_hard_accessibility_need_does_not_block_planning
+2 failed, 703 passed, 15 skipped, 2 warnings in 62.45s (0:01:02)

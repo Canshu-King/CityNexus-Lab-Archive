@@ -1,0 +1,16 @@
+{
+ "corpus_total": 494,
+ "live_enabled": true,
+ "live_ok": 494,
+ "live_failed": 0,
+ "schema_rejected": 0,
+ "envelopes_with_any_capability_term": 307,
+ "policies_with_any_capability_term": 122,
+ "envelopes_with_non_empty_constraints": 405,
+ "server_canonical_capability_present": false,
+ "pairs_evaluated": 167,
+ "pairs_with_identical_outcome": 0,
+ "pair_discrimination_rate": 1.0,
+ "indistinct_pairs_by_bucket": {},
+ "elapsed_seconds": 131.8
+}

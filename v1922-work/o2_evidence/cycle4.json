@@ -1,0 +1,120 @@
+{
+ "steps": [
+  {
+   "n": "1-journey",
+   "v": "d2fb4575-d9ea-4bb2-9a53-4cec3887b768"
+  },
+  {
+   "n": "2-ai",
+   "v": "plans=3"
+  },
+  {
+   "n": "3-choose-plan",
+   "v": "cards=3 chosen=true bands=花费未知/花费未知/花费未知"
+  },
+  {
+   "n": "4-hotel",
+   "v": "cards=10 chosen=true"
+  },
+  {
+   "n": "5-truth-before",
+   "v": "plan=59c1adcd-994f-4c47-9605-6460738cdb19 n=14 locked=6"
+  },
+  {
+   "n": "6-target",
+   "v": "OSM restaurant @2026-11-06T02:32:00+00:00 locked=false"
+  },
+  {
+   "n": "8-replan-attempt",
+   "v": "OSM restaurant@2026-11-06T02:32:00+00:00 -> 201 PROPOSAL"
+  },
+  {
+   "n": "8-replan-proposal",
+   "v": "target=OSM restaurant preserved=true removed=1 added=1 moved=6"
+  },
+  {
+   "n": "9-live-proposal",
+   "v": "{\"disruption\":1,\"proposal\":3,\"affected\":\"· 受影响：OSM restaurant\",\"unchanged\":\"\",\"removed\":\"\",\"added\":\"\",\"moved\":\"\",\"next\":\"下一站：厦门高崎国际机场\"}"
+  },
+  {
+   "n": "10-accept",
+   "v": "accepted=true message=\"已按新安排更新你的行程。\""
+  },
+  {
+   "n": "11-backend-after",
+   "v": "plan=8cfb48c5-fc19-48f0-94a6-7fef233c1292 n=14 changedPlan=true status=ACCEPTED lockedBefore=6 lockedAfter=6"
+  },
+  {
+   "n": "12-agreement",
+   "v": "tripsStops=7 backendStops=14 tripsAgree=false lockedPreserved=false noSilentMove=false unaffectedKept=false protectedBadges=0"
+  },
+  {
+   "n": "13-live-after",
+   "v": "{\"next\":\"下一站：厦门高崎国际机场\",\"current\":\"厦门高崎国际机场\",\"disruptionStill\":1,\"proposalStill\":0,\"handled\":0}"
+  },
+  {
+   "n": "14-map-after",
+   "v": "{\"panel\":1,\"empty\":0,\"canvas\":1}"
+  },
+  {
+   "n": "15-hub-after",
+   "v": "{\"heading\":\"厦门之旅\",\"next\":\"下一步 10:00 厦门高崎国际机场 今天没有安排 住宿 喜来登酒店 已确认的住宿 需要关注 1 项变化 打开「实时行程」查看\",\"attention\":\"1 项变化\"}"
+  },
+  {
+   "n": "16-schedule",
+   "v": "before=\"厦门高崎国际机场@2026-11-06T02:00:00+00:00 | OSM restaurant@2026-11-06T02:32:00+00:00 | OSM cafe@2026-11-06T03:43:00+00:00 | Check in · 喜来登酒店@2026-11-06T06:00:00+00:00 | 必胜客@2026\" after=\"厦门高崎国际机场@2026-11-06T10:00:00+08:00 | OSM restaurant@2026-11-06T10:40:00+08:00 | OSM cafe@2026-11-06T12:00:00+08:00 | Check in · 喜来登酒店@2026-11-06T14:00:00+08:00 | 必胜客@2026\""
+  },
+  {
+   "n": "17-live-after-refresh",
+   "v": "{\"proposal\":0,\"disruption\":1,\"handled\":0,\"next\":\"下一站：厦门高崎国际机场\"}"
+  },
+  {
+   "n": "page-errors",
+   "v": "0 []"
+  }
+ ],
+ "errors": [],
+ "jid": "d2fb4575-d9ea-4bb2-9a53-4cec3887b768",
+ "before": {
+  "planId": "59c1adcd-994f-4c47-9605-6460738cdb19",
+  "count": 14,
+  "ids": "cc378a54-ff2e-4d19-acb3-c52b47fcf6cb,370dd1dc-8ed0-452e-8b94-1a88c1f0d500,ff739947-8865-4ee9-938d-dc0cc32f702c,a1dda86c-1d81-41db-8660-a4f5bbbd5a04,7ac4aee7-517e-4d79-ab13-e10b992e3e52,1cd1131b-d468-4823-a4cd-4be66340174c,36a7d1b1-98b7-4375-8caf-ee56f15f2858,c85e9c38-d8d8-4d6f-b03e-224da0a58e79,da016b42-7885-4558-a2cf-01703fec357f,ba39959d-0fd1-474e-8477-b581453c88c1,a42d4c1b-eb66-4588-bf67-7764552cb6f6,9e9fe122-ab52-40a2-8d49-fbaba731fe49,420a2472-7288-4e54-b340-91f1b300874b,05465b22-0e00-453a-810e-aba0a6d93a35",
+  "locked": "Check in · 喜来登酒店@2026-11-06T06:00:00+00:00 | Check out · 喜来登酒店@2026-11-08T04:00:00+00:00 | Overnight · 喜来登酒店@2026-11-06T14:30:00+00:00 | Overnight · 喜来登酒店@2026-11-07T14:30:00+00:00 | 厦门北站@2026-11-08T11:50:00+00:00 | 厦门高崎国际机场@2026-11-06T02:00:00+00:00",
+  "schedule": "厦门高崎国际机场@2026-11-06T02:00:00+00:00 | OSM restaurant@2026-11-06T02:32:00+00:00 | OSM cafe@2026-11-06T03:43:00+00:00 | Check in · 喜来登酒店@2026-11-06T06:00:00+00:00 | 必胜客@2026-11-06T06:38:00+00:00 | OSM restaurant@2026-11-06T07:48:00+00:00 | Overnight · 喜来登酒店@2026-11-06T14:30:00+00:00 | OSM restaurant@2026-11-07T00:00:00+00:00 | Villa 6@2026-11-07T01:04:00+00:00 | OSM park@2026-11-07T02:14:00+00:00 | OSM park@2026-11-07T03:22:00+00:00 | Overnight · 喜来登酒店@2026-11-07T14:30:00+00:00 | Check out · 喜来登酒店@2026-11-08T04:00:00+00:00 | 厦门北站@2026-11-08T11:50:00+00:00"
+ },
+ "target": {
+  "id": "370dd1dc-8ed0-452e-8b94-1a88c1f0d500",
+  "title": "OSM restaurant",
+  "start_at": "2026-11-06T02:32:00+00:00",
+  "locked": false
+ },
+ "replanAttempts": [
+  {
+   "target": "OSM restaurant",
+   "start": "2026-11-06T02:32:00+00:00",
+   "eventStatus": 201,
+   "replanStatus": 201,
+   "message": "",
+   "proposalId": "4ddcb5b9-44ee-4de1-8858-720227d68d24"
+  }
+ ],
+ "proposalId": "4ddcb5b9-44ee-4de1-8858-720227d68d24",
+ "preservedFlag": true,
+ "liveBefore": {
+  "disruption": 1,
+  "proposal": 3,
+  "affected": "· 受影响：OSM restaurant",
+  "unchanged": "",
+  "removed": "",
+  "added": "",
+  "moved": "",
+  "next": "下一站：厦门高崎国际机场"
+ },
+ "after": {
+  "planId": "8cfb48c5-fc19-48f0-94a6-7fef233c1292",
+  "count": 14,
+  "ids": "55c186c7-099a-4e88-ade5-5a8d33544e2e,5bb1e61e-d4ae-4ff6-8eb4-d4ac77517994,df2e68be-9963-4cb1-bc00-e373a8dd0599,d614b7a7-9630-4315-af82-d68d2f17d3b8,76d1da41-c48c-466e-b973-a04da3ae0513,6b5bbf94-2aa3-4fdd-b407-91dfed076f48,1a6eb594-cac6-4e37-84ce-389fbb92c4bb,4a6cce8d-8098-4c13-b7dd-d3c90bb3997b,2eaeb0ea-37f2-4264-9394-da858b9031c2,b6f45674-9ad6-475c-ba04-9dea46e564df,d0dd1628-ea4f-45e0-af14-1c97f80ebb9a,408c48cc-298c-4306-aae9-64f77fff0493,45e9e9b4-dee1-469c-b172-eef379dcba09,b8ba3b20-da78-45e5-8dd8-87fcc45b593f",
+  "locked": "Check in · 喜来登酒店@2026-11-06T14:00:00+08:00 | Check out · 喜来登酒店@2026-11-08T12:00:00+08:00 | Overnight · 喜来登酒店@2026-11-06T22:30:00+08:00 | Overnight · 喜来登酒店@2026-11-07T22:30:00+08:00 | 厦门北站@2026-11-08T19:50:00+08:00 | 厦门高崎国际机场@2026-11-06T10:00:00+08:00",
+  "schedule": "厦门高崎国际机场@2026-11-06T10:00:00+08:00 | OSM restaurant@2026-11-06T10:40:00+08:00 | OSM cafe@2026-11-06T12:00:00+08:00 | Check in · 喜来登酒店@2026-11-06T14:00:00+08:00 | 必胜客@2026-11-06T14:40:00+08:00 | OSM restaurant@2026-11-06T16:00:00+08:00 | Overnight · 喜来登酒店@2026-11-06T22:30:00+08:00 | OSM restaurant@2026-11-07T08:00:00+08:00 | Villa 6@2026-11-07T09:20:00+08:00 | OSM park@2026-11-07T10:40:00+08:00 | OSM park@2026-11-07T12:00:00+08:00 | Overnight · 喜来登酒店@2026-11-07T22:30:00+08:00 | Check out · 喜来登酒店@2026-11-08T12:00:00+08:00 | 厦门北站@2026-11-08T19:50:00+08:00"
+ }
+}

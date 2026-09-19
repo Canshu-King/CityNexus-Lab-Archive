@@ -1,0 +1,26 @@
+{
+  "F01_prearrival": {
+    "passed": true,
+    "failures": [],
+    "expected_passed": false,
+    "verdict": "FAIL"
+  },
+  "F02_postdeparture": {
+    "passed": true,
+    "failures": [],
+    "expected_passed": false,
+    "verdict": "FAIL"
+  },
+  "F03_arrival_after_departure": {
+    "passed": true,
+    "failures": [],
+    "expected_passed": false,
+    "verdict": "FAIL"
+  },
+  "F04_control": {
+    "passed": true,
+    "failures": [],
+    "expected_passed": true,
+    "verdict": "PASS"
+  }
+}

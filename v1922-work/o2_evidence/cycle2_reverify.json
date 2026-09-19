@@ -1,0 +1,123 @@
+{
+ "cases": [
+  {
+   "case": "A-no-journey",
+   "/": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/hub": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/trips": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/live": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/agent": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/map": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/me": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/stay": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/bookings": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/authoritative": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/studio": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/discover": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/intelligence": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "/v8/twin": {
+    "len": 135,
+    "blank": false,
+    "setup": 1,
+    "text": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的"
+   },
+   "errors": []
+  },
+  {
+   "case": "B-no-plan",
+   "jid": "fd153f09-041d-4daa-bb86-3bad10edf498",
+   "hub": {
+    "glanceCaveat": "以下只是其中一个候选方案的预览，你还没有采用它。",
+    "glanceEmpty": 0,
+    "stay": "还没有选定"
+   },
+   "studio": {
+    "previewCaveat": "以下只是候选方案的预览，你还没有采用它。",
+    "selectedStay": "",
+    "asideHeading": "尚未选择住宿 选择住宿",
+    "costLines": "住宿总计 尚未选择 日均出行 尚未选择 步行暴露 尚未选择 方案健康度 尚未选择",
+    "stayTotal": "尚未选择",
+    "feasibility": "尚未核对 你还没有选定方案，因此没有可核对的内容。先选定方案——CityNexus 不会宣称没有做过的检查。",
+    "noPlanChecked": 1
+   },
+   "tripsSpend": {
+    "stayTotal": "还没有选定住宿",
+    "body": "花费 这趟旅行花多少 预算 CNY 3000；当前方案 0 个活动。 总预算 CNY 3000 住宿合计（已选） 还没有选定住宿 活动数量 0 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 以下只是候选方案的预览，你还没有采用它。 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check in · 厦门康莱德酒店 ○ Overnight · "
+   },
+   "stayExplorer": {
+    "firstCard": "",
+    "unknownBadges": 0,
+    "knownBadges": 0,
+    "cancellation": ""
+   },
+   "errors": []
+  }
+ ],
+ "errors": [],
+ "jid": "fd153f09-041d-4daa-bb86-3bad10edf498"
+}

@@ -1,0 +1,91 @@
+{
+ "runs": 168,
+ "complete_flows": 168,
+ "fully_feasible_flows": 12,
+ "outcome_distribution": {
+  "blocked": 156,
+  "feasible": 12
+ },
+ "by_destination_tier": {
+  "major": {
+   "blocked": 96
+  },
+  "seeded": {
+   "blocked": 24,
+   "feasible": 12
+  },
+  "small": {
+   "blocked": 36
+  }
+ },
+ "by_persona": {
+  "P01_wheelchair": {
+   "blocked": 14
+  },
+  "P02_elderly_walking_limit": {
+   "blocked": 14
+  },
+  "P03_infant_nap": {
+   "blocked": 14
+  },
+  "P04_stroller": {
+   "blocked": 14
+  },
+  "P05_large_luggage": {
+   "blocked": 14
+  },
+  "P06_toilet_rest": {
+   "blocked": 14
+  },
+  "P07_sensory_quiet": {
+   "blocked": 14
+  },
+  "P08_normal": {
+   "blocked": 11,
+   "feasible": 3
+  },
+  "P09_conflicting_family": {
+   "blocked": 14
+  },
+  "P10_ambiguous": {
+   "blocked": 11,
+   "feasible": 3
+  },
+  "P11_negated_historical": {
+   "blocked": 11,
+   "feasible": 3
+  },
+  "P12_malicious_bypass": {
+   "blocked": 11,
+   "feasible": 3
+  }
+ },
+ "replan_hard_constraints_passed": {
+  "None": 156,
+  "True": 12
+ },
+ "replan_locked_commitments_preserved": {
+  "None": 156,
+  "True": 12
+ },
+ "intake_intent_distribution": {
+  "DISCOVER": 16,
+  "PERSONAL_ASSISTANCE": 85,
+  "PREFERENCE_CHANGE": 56,
+  "REPLAN_REQUEST": 10,
+  "UNKNOWN": 1
+ },
+ "intake_action_distribution": {
+  "None": 86,
+  "REQUEST_PLACE_SEARCH": 16,
+  "REQUEST_PREFERENCE_UPDATE": 56,
+  "REQUEST_REPLAN": 10
+ },
+ "intake_mode_distribution": {
+  "AI": 165,
+  "FALLBACK": 3
+ },
+ "intake_envelopes_with_constraints": 151,
+ "what_if_produced_output": 168,
+ "elapsed_seconds": 1132.6
+}

@@ -1,0 +1,24 @@
+﻿python.exe :   File "<string>", line 1
+所在位置 行:445 字符: 157
++ ... ython.exe"; & $py -c "import sqlite3,json; c=sqlite3.connect(r'$db'); ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  File "<string>", line 1:String) 
+    [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    import sqlite3,json; c=sqlite3.connect(r'D:\moodle\CityNexus-WorkBuddy\over
+night-20260917\baseline\app_snapshot_0115\backend\citynexus.db'); print('plan_v
+ersions:', c.execute('select count(*) from plan_versions').fetchone()[0]); prin
+t('activities:', c.execute('select count(*) from activities').fetchone()[0]); p
+rint('places:', c.execute('select count(*) from places').fetchone()[0]); print(
+'agent_events:', c.execute('select count(*) from agent_events').fetchone()[0] i
+f c.execute(" select name from sqlite_master where name=agent_events\).fetchone
+()
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+            ^
+SyntaxError: unterminated string literal (detected at line 1)

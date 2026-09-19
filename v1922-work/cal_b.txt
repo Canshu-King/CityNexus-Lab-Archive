@@ -1,0 +1,66 @@
+
+    # ---- 3. free intervals that know their boundaries ----------------
+    # Each interval is [left_node, free_start, free_end, right_node].  The
+    # bounding nodes let placement reserve travel on both sides.
+    intervals: list[list[Any]] = []
+    cursor = window_start
+    left_node: GraphNode | None = arrival
+    for node in pinned:
+        node_start = datetime.fromisoformat(node.start_at)
+        if node_start > cursor:
+            intervals.append([left_node, cursor, node_start, node])
+        cursor = max(cursor, datetime.fromisoformat(node.end_at))
+        left_node = node
+    if departure_at > cursor:
+        intervals.append([left_node, cursor, departure_at, None])
+
+    def _travel(a: GraphNode | None, b: GraphNode | None) -> timedelta:
+        if a is None or b is None:
+            return timedelta(0)
+        return timedelta(minutes=_travel_minutes(a, b, journey=journey))
+
+    # ---- 4. place flexible activities, day-scoped --------------------
+    placed: list[GraphNode] = []
+    for node in flexible:
+        original_start = datetime.fromisoformat(node.start_at)
+        original_end = datetime.fromisoformat(node.end_at)
+        duration = max(timedelta(minutes=15), original_end - original_start)
+        wanted_day = original_start.date()
+        scheduled: GraphNode | None = None
+        for interval in intervals:
+            left, _free_start, free_end, right = interval
+            inbound = _travel(left, node)
+            candidate = interval[1] + inbound
+            # Day semantics: the stop stays on its original local date.
+            if candidate.date() != wanted_day:
+                continue
+            outbound = _travel(node, right)
+            if candidate + duration + outbound > free_end:
+                continue
+            scheduled = _copy(node, candidate, candidate + duration)
+            interval[0] = scheduled
+            interval[1] = candidate + duration
+            break
+        if scheduled is None:
+            conflicts.append(f"NO_SAME_DAY_SLOT:{_key(node)}")
+            continue
+        placed.append(scheduled)
+
+    if conflicts:
+        # Never silently move Day-2 content to Day 1, never drop a stop.
+        raise StayItineraryConflict(
+            "STAY_ITINERARY_CONFLICT:" + ",".join(sorted(set(conflicts)))
+        )
+
+    # ---- 5. emit one chronologically ordered calendar -----------------
+    out: list[GraphNode] = list(pinned) + placed
+    out.sort(
+        key=lambda n: (
+            datetime.fromisoformat(n.start_at),
+            {"ARRIVAL": 0, "LUGGAGE_DROP": 1, "CHECK_IN": 2, "ACTIVITY": 3,
+             "STAY": 4, "CHECK_OUT": 5, "DEPARTURE": 6}.get(str(n.role).upper(), 3),
+        ),
+    )
+    return out
+
+

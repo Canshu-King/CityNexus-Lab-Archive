@@ -1,0 +1,65 @@
+[
+  {
+    "id": "verified_wheelchair_yes",
+    "provider": "overpass",
+    "source_key": "overpass:node/1001",
+    "city_code": "CNX-DEMO",
+    "tags": {"wheelchair": "yes", "toilets:wheelchair": "yes"},
+    "expected_states": ["ACCESSIBILITY_VERIFIED", "ACCESSIBILITY_VERIFIED"],
+    "expected_codes": ["WHEELCHAIR_ACCESS", "ACCESSIBLE_TOILET"]
+  },
+  {
+    "id": "conflict_wheelchair_no",
+    "provider": "overpass",
+    "source_key": "overpass:node/1002",
+    "city_code": "CNX-DEMO",
+    "tags": {"wheelchair": "no"},
+    "expected_states": ["ACCESSIBILITY_CONFLICT"],
+    "expected_codes": ["WHEELCHAIR_ACCESS"]
+  },
+  {
+    "id": "unknown_no_tags",
+    "provider": "nomination",
+    "source_key": "nominatim:way/2001",
+    "city_code": "CNX-DEMO",
+    "tags": {"name": "Museum"},
+    "expected_states": ["NEEDS_LIVE_EVIDENCE"],
+    "expected_codes": ["ACCESSIBILITY_DATA"]
+  },
+  {
+    "id": "limited_wheelchair",
+    "provider": "overpass",
+    "source_key": "overpass:node/1003",
+    "city_code": "CNX-DEMO",
+    "tags": {"wheelchair": "limited"},
+    "expected_states": ["ACCESSIBILITY_UNVERIFIED"],
+    "expected_codes": ["WHEELCHAIR_ACCESS"]
+  },
+  {
+    "id": "stairs_conflict",
+    "provider": "overpass",
+    "source_key": "overpass:way/3001",
+    "city_code": "CNX-DEMO",
+    "tags": {"highway": "steps", "step_count": "12"},
+    "expected_states": ["ACCESSIBILITY_CONFLICT", "ACCESSIBILITY_CONFLICT"],
+    "expected_codes": ["STAIRS", "STEP_COUNT"]
+  },
+  {
+    "id": "ramp_only_is_unverified",
+    "provider": "overpass",
+    "source_key": "overpass:node/1004",
+    "city_code": "CNX-DEMO",
+    "tags": {"ramp": "yes", "elevator": "yes"},
+    "expected_states": ["ACCESSIBILITY_UNVERIFIED", "ACCESSIBILITY_UNVERIFIED"],
+    "expected_codes": ["RAMP_PRESENT", "ELEVATOR_PRESENT"]
+  },
+  {
+    "id": "conflicting_positive_and_steps",
+    "provider": "overpass",
+    "source_key": "overpass:node/1005",
+    "city_code": "CNX-DEMO",
+    "tags": {"wheelchair": "yes", "step_count": "5"},
+    "expected_states": ["ACCESSIBILITY_VERIFIED", "ACCESSIBILITY_CONFLICT", "ACCESSIBILITY_CONFLICT"],
+    "expected_codes": ["WHEELCHAIR_ACCESS", "STEP_COUNT", "CONFLICTING_TAGS"]
+  }
+]

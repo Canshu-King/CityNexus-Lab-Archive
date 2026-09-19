@@ -1,0 +1,39 @@
+Use the attached:
+
+CityNexus-EAC-SnapshotL-ConsumerShip-Closure-RoadPrep-20260916.zip
+
+together with:
+
+CityNexus-EAC-SnapshotK-RealUser-FinalClosure-20260916.zip
+
+and the existing 10-screen UI reference package.
+
+Authoritative repository:
+
+D:\moodle\CityNexus
+
+Freeze the submitted result as Snapshot K.
+
+Read README_FIRST.md and execute docs/EAC_TASK.md.
+
+Run probes/snapshot_l_scheduler_edges.py first.
+
+Independent source review found three new scheduler gaps that the current
+Snapshot K tests do not cover:
+
+1. travel time from/to pinned boundaries is not reserved;
+2. hotel selection can silently move Day-2/Day-3 activities into earlier days;
+3. overlapping pinned truth is not rejected by the scheduler.
+
+Also replace the hard-coded trust_env=False public-provider policy with a
+configurable direct/proxy-aware policy suitable for the user's Mihomo network.
+
+After these narrow fixes, STOP backend-only iteration and finish the visible
+consumer product: booking import, useful Copilot, truthful Activity Detail,
+traveler-facing Today/Trips/Live/Me, and the complete same-Xiamen browser flow.
+
+Target:
+
+CityNexus-EAC-SnapshotL-ConsumerShip-Closure-20260916.zip
+
+Start now.

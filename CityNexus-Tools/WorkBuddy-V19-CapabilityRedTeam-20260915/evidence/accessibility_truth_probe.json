@@ -1,0 +1,191 @@
+[
+ {
+  "case": "BASELINE_PLANS",
+  "status": 201,
+  "plan_count": 3,
+  "signatures": [
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-tech-art",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-city-park",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ],
+   [
+    "place-old-town",
+    "place-riverside-museum",
+    "place-food-hall",
+    "place-design-library",
+    "place-river-cruise",
+    "place-skyline-dinner"
+   ]
+  ],
+  "locked_places": [
+   "place-river-cruise",
+   "place-river-cruise",
+   "place-river-cruise"
+  ]
+ },
+ {
+  "case": "HARD_STEP_FREE_ADD",
+  "add_status": 201,
+  "constraint": {
+   "kind": "HARD",
+   "category": "capability",
+   "rule_code": "STEP_FREE_REQUIRED",
+   "params": {
+    "requirement": "VERIFIED_STEP_FREE"
+   },
+   "weight": 1.0,
+   "id": "16fbae6b-44c3-4a93-b117-1be661cee345",
+   "journey_id": "22222222-2222-4222-8222-222222222222",
+   "active": true
+  }
+ },
+ {
+  "case": "HARD_STEP_FREE_GENERATE",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "raw": "{'error': {'code': 'VALIDATION_ERROR', 'message': 'No feasible plan candidates satisfy the journey constraints', 'trace_id': '41403e94-5bd6-42d8-9ffa-e1b3efd57ce5', 'details': None}}"
+ },
+ {
+  "case": "HARD_STEP_FREE_UNKNOWN_EVIDENCE",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "raw": "{'error': {'code': 'VALIDATION_ERROR', 'message': 'No feasible plan candidates satisfy the journey constraints', 'trace_id': 'a9fc97f8-8244-4205-97a1-d5d1fecb26ae', 'details': None}}"
+ },
+ {
+  "case": "SOFT_STEP_FREE_GENERATE",
+  "status": 201,
+  "plan_count": 3,
+  "failures": [],
+  "identical_to_baseline": true
+ },
+ {
+  "case": "HARD_MAX_WALKING_1M",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "HARD_QUIET_ENVIRONMENT",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "HARD_MIDDAY_REST_WINDOW",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "HARD_INFANT_NAP_WINDOW",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "HARD_LARGE_LUGGAGE",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "HARD_STROLLER",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "CONTROL_HARD_BUDGET_MAX_100",
+  "status": 422,
+  "plan_count": null,
+  "failures": [],
+  "identical_to_baseline": false
+ },
+ {
+  "case": "CONSTRAINT_LIST_VISIBLE",
+  "constraints": [
+   {
+    "kind": "HARD",
+    "category": "capability",
+    "rule_code": "STEP_FREE_REQUIRED",
+    "params": {},
+    "weight": 1.0,
+    "id": "8f90d0a6-0470-45b0-a318-31c1aedaf7fb",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true
+   },
+   {
+    "kind": "HARD",
+    "category": "time",
+    "rule_code": "JOURNEY_END_BY",
+    "params": {
+     "time": "2026-10-10T19:00:00+08:00"
+    },
+    "weight": 1.0,
+    "id": "f28452e7-b871-521d-b642-18c83b023394",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true
+   },
+   {
+    "kind": "HARD",
+    "category": "budget",
+    "rule_code": "BUDGET_MAX",
+    "params": {
+     "amount_minor": 50000,
+     "currency": "CNY"
+    },
+    "weight": 1.0,
+    "id": "b8b2d058-7042-59e8-b6b6-b61a69339a88",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true
+   },
+   {
+    "kind": "SOFT",
+    "category": "stability",
+    "rule_code": "MINIMISE_PLAN_CHANGES",
+    "params": {},
+    "weight": 0.8,
+    "id": "747ebb1d-eb28-5f8e-b947-34e5f6d7fce2",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "active": true
+   }
+  ]
+ },
+ {
+  "case": "EXPERIENCE_SURFACE_KEYS",
+  "keys": [
+   "active_plan",
+   "journey",
+   "mobility_facts",
+   "offers",
+   "options",
+   "provider_mesh",
+   "selected_option_id",
+   "traveler_twin",
+   "trip"
+  ],
+  "mentions_capability": false,
+  "mentions_step_free": false,
+  "mentions_accessib": false
+ }
+]

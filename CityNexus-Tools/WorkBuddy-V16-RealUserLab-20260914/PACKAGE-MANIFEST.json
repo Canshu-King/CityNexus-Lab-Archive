@@ -1,0 +1,40 @@
+{
+  "package": "CityNexus Autonomous City Intelligence V3 final review checkpoint",
+  "version": "autonomous-city-intelligence-v3-2026-09-11",
+  "artifact": "CityNexus-Autonomous-City-Intelligence-V3-Final-20260911.zip",
+  "scope": "Current CityNexus repository after the V3 product-building iteration",
+  "authoritativeReport": "reports/product-v3/FINAL_REPORT.md",
+  "status": "LOCAL_GATES_GREEN_MODEL_BACKED_HERMES_CLI_BOUNDARY_EXPLICIT",
+  "verification": {
+    "backend": "recorded in TEST_RESULTS.md",
+    "solverV2": "multi-slot deterministic Top-K integrated behind CITYNEXUS_SOLVER=v2",
+    "mcpV1V2": "recorded in TEST_RESULTS.md",
+    "openapi": "recorded in TEST_RESULTS.md",
+    "frontendPlaywright": "recorded in TEST_RESULTS.md",
+    "deepseekModelLoop": "MODEL_BACKED PASS; transient credential not packaged",
+    "hermesCli": "EXTERNAL_BOUNDARY; binary/provider runtime not installed",
+    "freshExtract": "recorded in TEST_RESULTS.md"
+  },
+  "excludedRuntimeArtifacts": [
+    ".venv",
+    "node_modules",
+    "dist",
+    "__pycache__",
+    ".pytest_cache",
+    ".ruff_cache",
+    "*.db",
+    "*.sqlite",
+    "*.zip",
+    "*.env",
+    "playwright-report",
+    "test-results",
+    "_incoming*",
+    "_fresh*",
+    "review"
+  ],
+  "notes": [
+    "MCP V1 remains pinned at six tools; MCP V2 exposes the coherent eleven-tool surface.",
+    "AI may autonomously execute ordinary reversible in-envelope actions; durable commitment changes remain policy/provider/loss bounded.",
+    "The final archive contains source, tests, contracts, and reports only; no credential value is copied into it."
+  ]
+}

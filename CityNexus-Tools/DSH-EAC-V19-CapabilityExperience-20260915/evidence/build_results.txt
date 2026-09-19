@@ -1,0 +1,14 @@
+=== TypeScript: npx tsc -p tsconfig.capability.json --noEmit ===
+tsc_exit=0
+
+=== Production build: npx vite build --config reference-app/vite.config.ts ===
+vite v7.3.6 building client environment for production...
+transforming...
+✓ 42 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.48 kB │ gzip:  0.31 kB
+dist/assets/index-Byyc2kM8.css   16.51 kB │ gzip:  3.82 kB
+dist/assets/index-Cs5FOVhz.js   282.05 kB │ gzip: 82.62 kB
+✓ built in 639ms
+build_exit=0

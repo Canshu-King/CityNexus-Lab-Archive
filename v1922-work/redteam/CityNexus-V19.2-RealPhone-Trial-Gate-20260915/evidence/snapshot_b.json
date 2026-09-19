@@ -1,0 +1,1697 @@
+{
+ "label": "Snapshot B",
+ "taken_at": "2026-09-15 17:50:44",
+ "main_worktree": "D:\\moodle\\CityNexus",
+ "snapshot_dir": "D:\\moodle\\CityNexus-Tools\\WorkBuddy-V19.2-RealPhoneShadowTrial-20260915\\snapshot_b",
+ "files_copied": 341,
+ "bytes_copied": 3770200,
+ "file_index": {
+  "agent-mcp/.ruff_cache/.gitignore": {
+   "sha256_16": "9e3a60f1e6ec4ae6",
+   "bytes": 35
+  },
+  "agent-mcp/.ruff_cache/0.16.6/13366741234707840917": {
+   "sha256_16": "5f6695772c188155",
+   "bytes": 220
+  },
+  "agent-mcp/.ruff_cache/0.16.6/5060800677404700613": {
+   "sha256_16": "32d3144f4e6a11cc",
+   "bytes": 300
+  },
+  "agent-mcp/.ruff_cache/CACHEDIR.TAG": {
+   "sha256_16": "5953156d7e0c564a",
+   "bytes": 43
+  },
+  "agent-mcp/citynexus-hermes-config.example.yaml": {
+   "sha256_16": "16f94e38ac36e9d4",
+   "bytes": 939
+  },
+  "agent-mcp/citynexus_agent_mcp.egg-info/dependency_links.txt": {
+   "sha256_16": "01ba4719c80b6fe9",
+   "bytes": 1
+  },
+  "agent-mcp/citynexus_agent_mcp.egg-info/PKG-INFO": {
+   "sha256_16": "058db34e2a118444",
+   "bytes": 185
+  },
+  "agent-mcp/citynexus_agent_mcp.egg-info/requires.txt": {
+   "sha256_16": "c45a8e9314cfc69a",
+   "bytes": 32
+  },
+  "agent-mcp/citynexus_agent_mcp.egg-info/SOURCES.txt": {
+   "sha256_16": "fe2348966ed0fe1c",
+   "bytes": 354
+  },
+  "agent-mcp/citynexus_agent_mcp.egg-info/top_level.txt": {
+   "sha256_16": "230eba46ca537391",
+   "bytes": 14
+  },
+  "agent-mcp/citynexus_mcp/__init__.py": {
+   "sha256_16": "973a6282bc7f080f",
+   "bytes": 183
+  },
+  "agent-mcp/citynexus_mcp/client.py": {
+   "sha256_16": "4901416b375d7188",
+   "bytes": 1202
+  },
+  "agent-mcp/citynexus_mcp/schemas.py": {
+   "sha256_16": "fe5b8ab5b48f45da",
+   "bytes": 1652
+  },
+  "agent-mcp/citynexus_mcp/server.py": {
+   "sha256_16": "43728ff008c27773",
+   "bytes": 17307
+  },
+  "agent-mcp/pyproject.toml": {
+   "sha256_16": "8ceb3ddc32140134",
+   "bytes": 172
+  },
+  "agent-mcp/tests/conftest.py": {
+   "sha256_16": "c593c64ccbf7acd5",
+   "bytes": 204
+  },
+  "agent-mcp/tests/test_mcp_boundary.py": {
+   "sha256_16": "3799afa372ce0d96",
+   "bytes": 4998
+  },
+  "backend/app/__init__.py": {
+   "sha256_16": "3951538e3b6f4b9f",
+   "bytes": 54
+  },
+  "backend/app/agent/__init__.py": {
+   "sha256_16": "73b7b373b345ca58",
+   "bytes": 294
+  },
+  "backend/app/agent/approval.py": {
+   "sha256_16": "adbea51e6a7ab523",
+   "bytes": 8006
+  },
+  "backend/app/agent/autorun.py": {
+   "sha256_16": "ae2c169d58ebb87e",
+   "bytes": 23757
+  },
+  "backend/app/agent/contracts.py": {
+   "sha256_16": "0da1c45e694342f6",
+   "bytes": 3560
+  },
+  "backend/app/agent/delegation_policy.py": {
+   "sha256_16": "4c8a0e1864f4cec4",
+   "bytes": 19678
+  },
+  "backend/app/agent/gateway.py": {
+   "sha256_16": "89f49ad7dc3846f5",
+   "bytes": 54114
+  },
+  "backend/app/agent/guardian.py": {
+   "sha256_16": "91be55db3f838bc3",
+   "bytes": 33411
+  },
+  "backend/app/agent/mission.py": {
+   "sha256_16": "18c4f983eccf9a67",
+   "bytes": 22753
+  },
+  "backend/app/agent/mission_plan.py": {
+   "sha256_16": "6d63aa576bd29da4",
+   "bytes": 6047
+  },
+  "backend/app/agent/orchestrator.py": {
+   "sha256_16": "da9321529a247687",
+   "bytes": 2466
+  },
+  "backend/app/agent/predictive.py": {
+   "sha256_16": "a59a458b3d1f4d27",
+   "bytes": 30471
+  },
+  "backend/app/agent/principal.py": {
+   "sha256_16": "08071b7710db589b",
+   "bytes": 2521
+  },
+  "backend/app/agent/runtime.py": {
+   "sha256_16": "df352efb1d7bef3e",
+   "bytes": 27141
+  },
+  "backend/app/agent/runtime_events.py": {
+   "sha256_16": "e643dc3aa8ec707d",
+   "bytes": 7533
+  },
+  "backend/app/agent/runtime_identity.py": {
+   "sha256_16": "41e44767d858eee1",
+   "bytes": 2550
+  },
+  "backend/app/agent/signal_pipeline.py": {
+   "sha256_16": "dbc9c49eee904e75",
+   "bytes": 33293
+  },
+  "backend/app/agent/tool_catalog.py": {
+   "sha256_16": "0b5bdeb101cf46ad",
+   "bytes": 2212
+  },
+  "backend/app/capabilities.py": {
+   "sha256_16": "9b68b17997f4cf4e",
+   "bytes": 23668
+  },
+  "backend/app/commerce/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/commerce/commitment_policy.py": {
+   "sha256_16": "1235298a43e04639",
+   "bytes": 2834
+  },
+  "backend/app/commerce/idempotency.py": {
+   "sha256_16": "fbc0f6cf11eec4ea",
+   "bytes": 1599
+  },
+  "backend/app/commerce/order_pricing.py": {
+   "sha256_16": "a7b987b385e15043",
+   "bytes": 1559
+  },
+  "backend/app/commerce/service.py": {
+   "sha256_16": "00a6a1352eb8e737",
+   "bytes": 725
+  },
+  "backend/app/commerce/service_impl.py": {
+   "sha256_16": "29b27ef35870ed88",
+   "bytes": 27113
+  },
+  "backend/app/commerce/service_reference.py": {
+   "sha256_16": "2a27bba099c7257c",
+   "bytes": 9279
+  },
+  "backend/app/commerce/source_types_generated.py": {
+   "sha256_16": "ee6622c9377f7076",
+   "bytes": 471
+  },
+  "backend/app/commerce/strengths_generated.py": {
+   "sha256_16": "40a728a914d527d6",
+   "bytes": 500
+  },
+  "backend/app/commerce/validators.py": {
+   "sha256_16": "669530648647731f",
+   "bytes": 3988
+  },
+  "backend/app/core/__init__.py": {
+   "sha256_16": "50a85abf52fdcc54",
+   "bytes": 60
+  },
+  "backend/app/core/audit.py": {
+   "sha256_16": "c4ed3ed248127cb4",
+   "bytes": 1164
+  },
+  "backend/app/core/config.py": {
+   "sha256_16": "5ff3d6455d2395ba",
+   "bytes": 5125
+  },
+  "backend/app/core/money.py": {
+   "sha256_16": "a96b5ec3bbe7b156",
+   "bytes": 771
+  },
+  "backend/app/core/temporal.py": {
+   "sha256_16": "ac4811cc3d3074d4",
+   "bytes": 1249
+  },
+  "backend/app/db/__init__.py": {
+   "sha256_16": "2ace9ebd2ead88c1",
+   "bytes": 27
+  },
+  "backend/app/db/models.py": {
+   "sha256_16": "787e7b06b2c06fd4",
+   "bytes": 57308
+  },
+  "backend/app/db/session.py": {
+   "sha256_16": "6a371bef3df0136e",
+   "bytes": 24402
+  },
+  "backend/app/execution/__init__.py": {
+   "sha256_16": "5d0ed4cda51bf36c",
+   "bytes": 37
+  },
+  "backend/app/execution/clock.py": {
+   "sha256_16": "eec8d6fe9545811b",
+   "bytes": 1132
+  },
+  "backend/app/execution/journey_twin.py": {
+   "sha256_16": "e6ad192c6694060b",
+   "bytes": 1178
+  },
+  "backend/app/execution/traveler_twin.py": {
+   "sha256_16": "81dcd851f9c49377",
+   "bytes": 15821
+  },
+  "backend/app/integrations/__init__.py": {
+   "sha256_16": "d66f71c58d7f6dc6",
+   "bytes": 49
+  },
+  "backend/app/integrations/ai/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/integrations/ai/base.py": {
+   "sha256_16": "c4550d01400ef37e",
+   "bytes": 424
+  },
+  "backend/app/integrations/ai/copilot_contract.py": {
+   "sha256_16": "7e77f688f065a665",
+   "bytes": 28307
+  },
+  "backend/app/integrations/ai/event_targeting.py": {
+   "sha256_16": "be3dc4391974b9f8",
+   "bytes": 3416
+  },
+  "backend/app/integrations/ai/fallback.py": {
+   "sha256_16": "054cc0aafa3f0556",
+   "bytes": 947
+  },
+  "backend/app/integrations/ai/impact_provider.py": {
+   "sha256_16": "a205fcec94f04c9e",
+   "bytes": 3225
+  },
+  "backend/app/integrations/ai/litellm_provider.py": {
+   "sha256_16": "09551db955334b4e",
+   "bytes": 1848
+  },
+  "backend/app/integrations/ai/resilient.py": {
+   "sha256_16": "d119fb4c8b90203f",
+   "bytes": 1051
+  },
+  "backend/app/integrations/ai/responses.py": {
+   "sha256_16": "5efab301771aaf12",
+   "bytes": 14678
+  },
+  "backend/app/integrations/ai/semantic_compiler.py": {
+   "sha256_16": "9795fdcbbdb684a0",
+   "bytes": 12248
+  },
+  "backend/app/integrations/ai/web_research.py": {
+   "sha256_16": "6c07056ed5dec43b",
+   "bytes": 2734
+  },
+  "backend/app/integrations/china/__init__.py": {
+   "sha256_16": "2e50fefa9993d621",
+   "bytes": 76
+  },
+  "backend/app/integrations/china/amap.py": {
+   "sha256_16": "dfaf482de1397be7",
+   "bytes": 8582
+  },
+  "backend/app/integrations/commerce_ports.py": {
+   "sha256_16": "30db4a4d320eca9e",
+   "bytes": 2123
+  },
+  "backend/app/integrations/context/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/integrations/context/open_meteo.py": {
+   "sha256_16": "57a6ab893296f1b0",
+   "bytes": 5298
+  },
+  "backend/app/integrations/context/weather_ingestion.py": {
+   "sha256_16": "f17b6f89c38f360c",
+   "bytes": 12960
+  },
+  "backend/app/integrations/context/weather_runtime.py": {
+   "sha256_16": "9bcde55cb1da4d8c",
+   "bytes": 14983
+  },
+  "backend/app/integrations/context/weather_snapshot.py": {
+   "sha256_16": "cc38b106218cf015",
+   "bytes": 6023
+  },
+  "backend/app/integrations/discovery/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/integrations/discovery/orchestration.py": {
+   "sha256_16": "050adaef7958a09c",
+   "bytes": 30766
+  },
+  "backend/app/integrations/discovery/photon.py": {
+   "sha256_16": "6e31863d3052f81d",
+   "bytes": 2083
+  },
+  "backend/app/integrations/discovery/pipeline.py": {
+   "sha256_16": "4c63036bb57f36a4",
+   "bytes": 2785
+  },
+  "backend/app/integrations/discovery/real_city.py": {
+   "sha256_16": "42e51558c118cf48",
+   "bytes": 44665
+  },
+  "backend/app/integrations/hermes/__init__.py": {
+   "sha256_16": "cbd98580b5e56a0e",
+   "bytes": 50
+  },
+  "backend/app/integrations/hermes/native_client.py": {
+   "sha256_16": "c7faf2fa23a20a2f",
+   "bytes": 8557
+  },
+  "backend/app/integrations/inbox/__init__.py": {
+   "sha256_16": "16be9c2b264da17c",
+   "bytes": 52
+  },
+  "backend/app/integrations/inbox/ics_parser.py": {
+   "sha256_16": "d145c8973689d0eb",
+   "bytes": 1701
+  },
+  "backend/app/integrations/inbox/semantic_intake.py": {
+   "sha256_16": "9106b978b0725538",
+   "bytes": 17767
+  },
+  "backend/app/integrations/inbox/vision.py": {
+   "sha256_16": "20c310306fb37b91",
+   "bytes": 7219
+  },
+  "backend/app/integrations/mobility/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/integrations/mobility/replay.py": {
+   "sha256_16": "41b08c89b52ee332",
+   "bytes": 1859
+  },
+  "backend/app/integrations/mobility/routingpy_adapter.py": {
+   "sha256_16": "8f0f1d70f4d5c5db",
+   "bytes": 3861
+  },
+  "backend/app/integrations/mobility/runtime.py": {
+   "sha256_16": "1064a2b0331dc9e6",
+   "bytes": 7422
+  },
+  "backend/app/integrations/mobility/snapshot_capture.py": {
+   "sha256_16": "d96957fea7996ea4",
+   "bytes": 7259
+  },
+  "backend/app/integrations/mobility/valhalla_http.py": {
+   "sha256_16": "11902e4816f1d7fc",
+   "bytes": 12937
+  },
+  "backend/app/integrations/mock/__init__.py": {
+   "sha256_16": "7e372a2448eac72f",
+   "bytes": 54
+  },
+  "backend/app/integrations/mock/commerce_providers.py": {
+   "sha256_16": "d97dd0360e4269ab",
+   "bytes": 7854
+  },
+  "backend/app/integrations/mock/providers.py": {
+   "sha256_16": "53f0f43c4c0929f2",
+   "bytes": 2588
+  },
+  "backend/app/integrations/ports.py": {
+   "sha256_16": "ab7005065da8a7c1",
+   "bytes": 316
+  },
+  "backend/app/integrations/provider_config.py": {
+   "sha256_16": "695cf46d1f4c9e12",
+   "bytes": 1167
+  },
+  "backend/app/integrations/provider_status.py": {
+   "sha256_16": "e7cbe873ce4ef015",
+   "bytes": 530
+  },
+  "backend/app/integrations/push.py": {
+   "sha256_16": "c53b0bec30e1aa38",
+   "bytes": 1442
+  },
+  "backend/app/integrations/registry.py": {
+   "sha256_16": "bd14b6085564430e",
+   "bytes": 2254
+  },
+  "backend/app/integrations/trust/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/integrations/trust/webauthn_contract.py": {
+   "sha256_16": "00181a58470fac6b",
+   "bytes": 796
+  },
+  "backend/app/integrations/web/__init__.py": {
+   "sha256_16": "bc9f54d1430f1814",
+   "bytes": 40
+  },
+  "backend/app/integrations/web/searxng.py": {
+   "sha256_16": "05e3ea102fa52af8",
+   "bytes": 2012
+  },
+  "backend/app/intelligence/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/intelligence/feasibility_envelope.py": {
+   "sha256_16": "f0185f7d05fa9c31",
+   "bytes": 720
+  },
+  "backend/app/intelligence/impact_contract.py": {
+   "sha256_16": "c713d39ff2be09f6",
+   "bytes": 3099
+  },
+  "backend/app/intelligence/impact_resolver.py": {
+   "sha256_16": "22e888eab57ae8aa",
+   "bytes": 16396
+  },
+  "backend/app/intelligence/impact_validation.py": {
+   "sha256_16": "40ea32fcafcaf25d",
+   "bytes": 21894
+  },
+  "backend/app/intelligence/opportunity_window.py": {
+   "sha256_16": "f8a98e2179e385cc",
+   "bytes": 3488
+  },
+  "backend/app/intelligence/reason_codes.py": {
+   "sha256_16": "91abbaf31e0c29f4",
+   "bytes": 1070
+  },
+  "backend/app/intelligence/replan_diff.py": {
+   "sha256_16": "95f82b627900bdf5",
+   "bytes": 2884
+  },
+  "backend/app/main.py": {
+   "sha256_16": "c17f74c4867a1a1d",
+   "bytes": 364908
+  },
+  "backend/app/observability/__init__.py": {
+   "sha256_16": "63242a9ab88d2314",
+   "bytes": 53
+  },
+  "backend/app/observability/tracing.py": {
+   "sha256_16": "e9af99919b6f737f",
+   "bytes": 998
+  },
+  "backend/app/operations/__init__.py": {
+   "sha256_16": "fdb7a602ec107d18",
+   "bytes": 70
+  },
+  "backend/app/operations/v9.py": {
+   "sha256_16": "8a18af376260d98b",
+   "bytes": 48580
+  },
+  "backend/app/planning/__init__.py": {
+   "sha256_16": "e3b0c44298fc1c14",
+   "bytes": 0
+  },
+  "backend/app/planning/adapter.py": {
+   "sha256_16": "1f89244e8ccc69c2",
+   "bytes": 797
+  },
+  "backend/app/planning/authoritative_v12.py": {
+   "sha256_16": "99e1f05cde9fade3",
+   "bytes": 64026
+  },
+  "backend/app/planning/day_rhythm.py": {
+   "sha256_16": "b57a3f500933284c",
+   "bytes": 8405
+  },
+  "backend/app/planning/ortools_adapter.py": {
+   "sha256_16": "5b29c9e0ed39faa8",
+   "bytes": 1943
+  },
+  "backend/app/planning/ortools_replan_solver.py": {
+   "sha256_16": "364e59d1a1e0d983",
+   "bytes": 9746
+  },
+  "backend/app/planning/reference_replan_solver.py": {
+   "sha256_16": "843ce7dfe2505aaa",
+   "bytes": 4797
+  },
+  "backend/app/planning/replan_candidate_problem.py": {
+   "sha256_16": "263466f8ffc6bb22",
+   "bytes": 2052
+  },
+  "backend/app/planning/solver_contract.py": {
+   "sha256_16": "3e5877685824dd48",
+   "bytes": 8553
+  },
+  "backend/app/planning/solver_runtime.py": {
+   "sha256_16": "550d2357975041c9",
+   "bytes": 4041
+  },
+  "backend/app/planning/solver_v2.py": {
+   "sha256_16": "953e0629ab5921af",
+   "bytes": 39573
+  },
+  "backend/app/planning/stay_mode_solver.py": {
+   "sha256_16": "25aecb443885494b",
+   "bytes": 6065
+  },
+  "backend/app/replanning/candidate_evidence.py": {
+   "sha256_16": "6d29ee648aa56634",
+   "bytes": 1703
+  },
+  "backend/app/replanning/feasibility.py": {
+   "sha256_16": "8a0de9106818725d",
+   "bytes": 32817
+  },
+  "backend/app/replanning/mock_replan_engine.py": {
+   "sha256_16": "387d257e13f02b9c",
+   "bytes": 7557
+  },
+  "backend/app/replanning/opportunity_window_family.py": {
+   "sha256_16": "d656d2054a3558f0",
+   "bytes": 2828
+  },
+  "backend/app/replanning/protected_commitments.py": {
+   "sha256_16": "bda97287914971fa",
+   "bytes": 1927
+  },
+  "backend/app/replanning/provider_snapshots.py": {
+   "sha256_16": "102083270c9d2363",
+   "bytes": 10448
+  },
+  "backend/app/replanning/reference_replanner.py": {
+   "sha256_16": "38b011b0eb059e0b",
+   "bytes": 3982
+  },
+  "backend/app/replanning/verified_scoring.py": {
+   "sha256_16": "ad2dde6f88681365",
+   "bytes": 2508
+  },
+  "backend/app/schemas.py": {
+   "sha256_16": "889d1758c3cb166d",
+   "bytes": 21611
+  },
+  "backend/app/services.py": {
+   "sha256_16": "bcd34f940a1d98d2",
+   "bytes": 36621
+  },
+  "backend/app/stay_mobility.py": {
+   "sha256_16": "e06c755d21b3c84c",
+   "bytes": 40607
+  },
+  "backend/data/mock/wp04_city_services_overlay.json": {
+   "sha256_16": "27e5c0a75638602c",
+   "bytes": 731
+  },
+  "backend/data/mock/wp04_commerce_catalog.json": {
+   "sha256_16": "8f15d3ea2ee01e8b",
+   "bytes": 863
+  },
+  "backend/db/schema.sql": {
+   "sha256_16": "f20ded6bcddcf9c3",
+   "bytes": 38334
+  },
+  "backend/pyproject.toml": {
+   "sha256_16": "1aa754ca1ab7cbb5",
+   "bytes": 924
+  },
+  "backend/tests/test_agent_alternatives_v3.py": {
+   "sha256_16": "dabe007e06cde0ae",
+   "bytes": 2796
+  },
+  "backend/tests/test_agent_authority_v2_actions.py": {
+   "sha256_16": "a7c4fcd627690b70",
+   "bytes": 3912
+  },
+  "backend/tests/test_agent_mission_runtime.py": {
+   "sha256_16": "6540318c93e29e22",
+   "bytes": 5206
+  },
+  "backend/tests/test_agent_principal_boundary.py": {
+   "sha256_16": "e70a1c5be606e3ca",
+   "bytes": 3235
+  },
+  "backend/tests/test_agent_runtime_gate.py": {
+   "sha256_16": "137cba23868dd52d",
+   "bytes": 16792
+  },
+  "backend/tests/test_backend_connected_golden_contract.py": {
+   "sha256_16": "7fc303154a904ced",
+   "bytes": 5533
+  },
+  "backend/tests/test_contract.py": {
+   "sha256_16": "263ecf8ad67ef679",
+   "bytes": 3210
+  },
+  "backend/tests/test_foundation_discovery_pipeline.py": {
+   "sha256_16": "f6a1f112741a073a",
+   "bytes": 1594
+  },
+  "backend/tests/test_foundation_http_adapters.py": {
+   "sha256_16": "ba1d42304812783e",
+   "bytes": 3589
+  },
+  "backend/tests/test_foundation_opportunity_window.py": {
+   "sha256_16": "dc10bbbdb505ad84",
+   "bytes": 1426
+  },
+  "backend/tests/test_foundation_planner_adapter.py": {
+   "sha256_16": "6278c11e07721b6c",
+   "bytes": 385
+  },
+  "backend/tests/test_foundation_reason_codes.py": {
+   "sha256_16": "8a1bf4d8367d12d9",
+   "bytes": 976
+  },
+  "backend/tests/test_foundation_registry.py": {
+   "sha256_16": "e2a17955733c8ecd",
+   "bytes": 858
+  },
+  "backend/tests/test_foundation_replan_diff.py": {
+   "sha256_16": "450bc36882822ce6",
+   "bytes": 1342
+  },
+  "backend/tests/test_foundation_routingpy_adapter.py": {
+   "sha256_16": "1110c75d259d2b65",
+   "bytes": 1435
+  },
+  "backend/tests/test_gpt_adversarial_provider_hardening.py": {
+   "sha256_16": "87a1b81541024aaf",
+   "bytes": 9443
+  },
+  "backend/tests/test_gpt_agent_authority_v2.py": {
+   "sha256_16": "8d6440b72b5dc043",
+   "bytes": 5501
+  },
+  "backend/tests/test_gpt_agent_authority_v3.py": {
+   "sha256_16": "9dcd5c65ccccf3dd",
+   "bytes": 4166
+  },
+  "backend/tests/test_gpt_solver_hardening_next.py": {
+   "sha256_16": "5c554c41728cfa15",
+   "bytes": 9594
+  },
+  "backend/tests/test_gpt_v4_product_gaps.py": {
+   "sha256_16": "82cdc3e002fdd72b",
+   "bytes": 3559
+  },
+  "backend/tests/test_gpt_v5_mission_authority.py": {
+   "sha256_16": "620c6cb51c4bbabc",
+   "bytes": 4679
+  },
+  "backend/tests/test_gpt_weather_adversarial_next.py": {
+   "sha256_16": "6769087938f47ca3",
+   "bytes": 9104
+  },
+  "backend/tests/test_guardian_model_evidence.py": {
+   "sha256_16": "c204260ff266af9b",
+   "bytes": 8609
+  },
+  "backend/tests/test_guardian_v4.py": {
+   "sha256_16": "2019f89076998229",
+   "bytes": 7145
+  },
+  "backend/tests/test_health.py": {
+   "sha256_16": "08247c2725b172a2",
+   "bytes": 226
+  },
+  "backend/tests/test_impact_resolver.py": {
+   "sha256_16": "ec284f71bf8364a0",
+   "bytes": 15642
+  },
+  "backend/tests/test_mock_replan_engine_next.py": {
+   "sha256_16": "ac55dc087a341642",
+   "bytes": 1178
+  },
+  "backend/tests/test_ortools_optional_boundary.py": {
+   "sha256_16": "e8196c983913b33b",
+   "bytes": 2406
+  },
+  "backend/tests/test_planning_contract.py": {
+   "sha256_16": "558cd7e007909d81",
+   "bytes": 3810
+  },
+  "backend/tests/test_post_goal_five_defects.py": {
+   "sha256_16": "4b5268a45dcb3a4a",
+   "bytes": 8661
+  },
+  "backend/tests/test_postgate_provider_foundation.py": {
+   "sha256_16": "62a46e65f79e4f51",
+   "bytes": 8309
+  },
+  "backend/tests/test_product_next_hardening.py": {
+   "sha256_16": "b7c5bfc8b456d3fb",
+   "bytes": 11141
+  },
+  "backend/tests/test_provider_runtime_gate.py": {
+   "sha256_16": "b9ef4a5d447e1cab",
+   "bytes": 12240
+  },
+  "backend/tests/test_provider_snapshot_next.py": {
+   "sha256_16": "128bfcfb6bb75c2b",
+   "bytes": 2286
+  },
+  "backend/tests/test_reference_replanner.py": {
+   "sha256_16": "7405f43ef8993602",
+   "bytes": 1883
+  },
+  "backend/tests/test_solver_reference_contract.py": {
+   "sha256_16": "7819ae752e1cf3d9",
+   "bytes": 5141
+  },
+  "backend/tests/test_solver_runtime_gate.py": {
+   "sha256_16": "fe00badfcdd63ab2",
+   "bytes": 18801
+  },
+  "backend/tests/test_solver_runtime_policy.py": {
+   "sha256_16": "a932a1cf593fc025",
+   "bytes": 3455
+  },
+  "backend/tests/test_solver_v2.py": {
+   "sha256_16": "aac912e86e611a31",
+   "bytes": 7401
+  },
+  "backend/tests/test_solver_v2_integration.py": {
+   "sha256_16": "f5aac807bff01a5e",
+   "bytes": 2107
+  },
+  "backend/tests/test_v10_flagship_e2e.py": {
+   "sha256_16": "6b0c150950e814b0",
+   "bytes": 3558
+  },
+  "backend/tests/test_v10_foundations.py": {
+   "sha256_16": "edc329ae7ebbf32a",
+   "bytes": 5339
+  },
+  "backend/tests/test_v10_generic_compose.py": {
+   "sha256_16": "aaca1e8f8c6ca616",
+   "bytes": 1317
+  },
+  "backend/tests/test_v10_provider_replay.py": {
+   "sha256_16": "50e11473b6d7b534",
+   "bytes": 1766
+  },
+  "backend/tests/test_v10_web_research.py": {
+   "sha256_16": "e220d8b568bafddf",
+   "bytes": 1019
+  },
+  "backend/tests/test_v12_authoritative_trip_execution.py": {
+   "sha256_16": "817a459503328364",
+   "bytes": 12191
+  },
+  "backend/tests/test_v13_1_1_semantic_integrity.py": {
+   "sha256_16": "ce216cba0f83e018",
+   "bytes": 5198
+  },
+  "backend/tests/test_v13_1_2_structural_anchor_integrity.py": {
+   "sha256_16": "42f638fb1ecac13d",
+   "bytes": 5399
+  },
+  "backend/tests/test_v13_2_intelligent_journey_memory.py": {
+   "sha256_16": "557c8d8e6237a480",
+   "bytes": 9973
+  },
+  "backend/tests/test_v13_3_prep_deepseek_contract.py": {
+   "sha256_16": "e8c822ff8ac50d1e",
+   "bytes": 4855
+  },
+  "backend/tests/test_v13_3_real_city_intelligence.py": {
+   "sha256_16": "8ae5c4adf6837066",
+   "bytes": 7361
+  },
+  "backend/tests/test_v13_4_provider_truth.py": {
+   "sha256_16": "ce33e3e53014b9da",
+   "bytes": 2487
+  },
+  "backend/tests/test_v13_integrity.py": {
+   "sha256_16": "ce9c8820cce5cf7b",
+   "bytes": 34607
+  },
+  "backend/tests/test_v14_grounded_adaptive_recovery.py": {
+   "sha256_16": "9d72121a17b724b2",
+   "bytes": 14365
+  },
+  "backend/tests/test_v14_trial_readiness.py": {
+   "sha256_16": "4ec6e78693d73981",
+   "bytes": 3004
+  },
+  "backend/tests/test_v15_copilot.py": {
+   "sha256_16": "ba358b2d0034d247",
+   "bytes": 7159
+  },
+  "backend/tests/test_v16_integration.py": {
+   "sha256_16": "c539ccbc893f25e1",
+   "bytes": 12055
+  },
+  "backend/tests/test_v17_semantic_compiler.py": {
+   "sha256_16": "02ab351d57d29cab",
+   "bytes": 7885
+  },
+  "backend/tests/test_v18_2_agent_productization.py": {
+   "sha256_16": "b9cd2cea1d0e33d0",
+   "bytes": 3916
+  },
+  "backend/tests/test_v18_3_convergence.py": {
+   "sha256_16": "ed2b06c31e9d291c",
+   "bytes": 2373
+  },
+  "backend/tests/test_v18_hermes_native_client.py": {
+   "sha256_16": "8a76d97f4e5a6a28",
+   "bytes": 2031
+  },
+  "backend/tests/test_v18_semantic_time_and_verification.py": {
+   "sha256_16": "c37f8e1bb167877f",
+   "bytes": 4755
+  },
+  "backend/tests/test_v19_traveler_capability.py": {
+   "sha256_16": "fea9f575be024ab0",
+   "bytes": 6522
+  },
+  "backend/tests/test_v5_autopilot.py": {
+   "sha256_16": "83b25e7957da5a08",
+   "bytes": 6009
+  },
+  "backend/tests/test_v6_enrollment.py": {
+   "sha256_16": "c9744f79dbdf320a",
+   "bytes": 3187
+  },
+  "backend/tests/test_v6_predictive_real_city.py": {
+   "sha256_16": "3f1de5915b7e3ba0",
+   "bytes": 6260
+  },
+  "backend/tests/test_v7_traveler_twin.py": {
+   "sha256_16": "23a2d07539423077",
+   "bytes": 11324
+  },
+  "backend/tests/test_v8_stay_mobility.py": {
+   "sha256_16": "d2915a89661047db",
+   "bytes": 10382
+  },
+  "backend/tests/test_v9_real_trip_operations.py": {
+   "sha256_16": "fa492f38fa69797b",
+   "bytes": 14919
+  },
+  "backend/tests/test_valhalla_live_smoke.py": {
+   "sha256_16": "b6931f88c61878d7",
+   "bytes": 860
+  },
+  "backend/tests/test_vertical_slice_hardening_next.py": {
+   "sha256_16": "6af2de02dc177e03",
+   "bytes": 4089
+  },
+  "backend/tests/test_weather_refresh_endpoint.py": {
+   "sha256_16": "c33ef9af523bb77c",
+   "bytes": 3233
+  },
+  "backend/tests/test_weather_runtime_gate_gpt.py": {
+   "sha256_16": "caa5b56f6e2fd376",
+   "bytes": 16789
+  },
+  "backend/tests/test_weather_runtime_hardening.py": {
+   "sha256_16": "62c7ff374cc8529b",
+   "bytes": 3636
+  },
+  "backend/tests/test_wp01_wp03.py": {
+   "sha256_16": "8adff2c659b82da4",
+   "bytes": 24838
+  },
+  "backend/tests/test_wp04_endpoints.py": {
+   "sha256_16": "36330e9448b57310",
+   "bytes": 15692
+  },
+  "backend/tests/test_wp04_hardening_wp05.py": {
+   "sha256_16": "cf6726e4f6ef1b50",
+   "bytes": 5066
+  },
+  "backend/tests/test_wp04_order_pricing.py": {
+   "sha256_16": "433e45a7a906d5dc",
+   "bytes": 1093
+  },
+  "backend/tests/test_wp04_reference_contract.py": {
+   "sha256_16": "0721688d101d762d",
+   "bytes": 7588
+  },
+  "backend/tests/test_wp04_validators.py": {
+   "sha256_16": "01b845a5b8f5a8b6",
+   "bytes": 3267
+  },
+  "backend/tests/test_wp04a0_bridge.py": {
+   "sha256_16": "babf18dff9010d5f",
+   "bytes": 4943
+  },
+  "backend/tests/test_wp05_integrity_next.py": {
+   "sha256_16": "16450e82cbea36cb",
+   "bytes": 9243
+  },
+  "backend/tests/test_wp06_followup_assist.py": {
+   "sha256_16": "7bd2115089b7561b",
+   "bytes": 8663
+  },
+  "backend/tests/test_wp06_postgate_candidate_provenance.py": {
+   "sha256_16": "ad29ff8387f2ba07",
+   "bytes": 4054
+  },
+  "backend/tests/test_wp06_postgate_hardening_next.py": {
+   "sha256_16": "e53e97a0c9b61c02",
+   "bytes": 9155
+  },
+  "backend/tests/test_wp06_twin_v2_gate.py": {
+   "sha256_16": "539fbe53c4675458",
+   "bytes": 4815
+  },
+  "backend/tests/test_wp07_foundation_assist.py": {
+   "sha256_16": "e358524fe199b5fd",
+   "bytes": 6848
+  },
+  "backend/uv.lock": {
+   "sha256_16": "c6ba7bbb1cebd531",
+   "bytes": 506254
+  },
+  "contracts/AGENT_GATE_TEST_MATRIX.md": {
+   "sha256_16": "e29be35d3a8f518c",
+   "bytes": 700
+  },
+  "contracts/AGENT_RUNTIME_ARCHITECTURE.md": {
+   "sha256_16": "645270723fedaf92",
+   "bytes": 2056
+  },
+  "contracts/AGENT_TOOL_CATALOG.md": {
+   "sha256_16": "6713385255642fe1",
+   "bytes": 591
+  },
+  "contracts/CODE_INTEGRATION_MAP.md": {
+   "sha256_16": "84d62678d79abdd9",
+   "bytes": 4211
+  },
+  "contracts/DEEPSEEK_VISUAL_UI_REVIEW.md": {
+   "sha256_16": "68b9b0592db72d5b",
+   "bytes": 607
+  },
+  "contracts/DELEGATION_POLICY.md": {
+   "sha256_16": "b23dca22c6204f54",
+   "bytes": 1050
+  },
+  "contracts/EXECUTION_CLOCK_AND_EDGE_V10.md": {
+   "sha256_16": "fbdce9c0053c3143",
+   "bytes": 799
+  },
+  "contracts/GOLDEN_SOLVER_FIXTURE.md": {
+   "sha256_16": "fa953537b3b89c82",
+   "bytes": 1383
+  },
+  "contracts/HERMES_MCP_BOUNDARY.md": {
+   "sha256_16": "04133b7fdba1dcff",
+   "bytes": 460
+  },
+  "contracts/INTEGRATION_PSEUDOCODE.md": {
+   "sha256_16": "0d1954374b08d32e",
+   "bytes": 4393
+  },
+  "contracts/LIVE_PROVIDER_CAPTURE_V10.md": {
+   "sha256_16": "2e1490591b0d511c",
+   "bytes": 750
+  },
+  "contracts/MULTIMODAL_JOURNEY_INBOX.md": {
+   "sha256_16": "cf445f87c7bd5560",
+   "bytes": 737
+  },
+  "contracts/openapi.yaml": {
+   "sha256_16": "814c499ed81b3efb",
+   "bytes": 89911
+  },
+  "contracts/ORT_TEST_MATRIX.md": {
+   "sha256_16": "6a63fa4e97da0ff6",
+   "bytes": 3488
+  },
+  "contracts/ORTOOLS_VERSION_NOTE.md": {
+   "sha256_16": "797efb19a775393f",
+   "bytes": 865
+  },
+  "contracts/REAL_COMPOSE_ENGINE_V10.md": {
+   "sha256_16": "dfe7c54f41bf73b4",
+   "bytes": 701
+  },
+  "contracts/SOLVER_MUTATION_PLAN.md": {
+   "sha256_16": "b1c8cf30cae323d6",
+   "bytes": 3058
+  },
+  "contracts/SOLVER_RUNTIME_ARCHITECTURE.md": {
+   "sha256_16": "41e8b0d002e5648c",
+   "bytes": 2996
+  },
+  "contracts/SOLVER_RUNTIME_FREEZE_GATE.md": {
+   "sha256_16": "29ae5c151c408223",
+   "bytes": 2837
+  },
+  "contracts/SOLVER_RUNTIME_GAP_ANALYSIS.md": {
+   "sha256_16": "677949e43936b1fc",
+   "bytes": 3498
+  },
+  "contracts/V10_GATE_MATRIX.md": {
+   "sha256_16": "60d61455b59fae48",
+   "bytes": 1120
+  },
+  "contracts/WEB_SEARCH_TRUST_MODEL.md": {
+   "sha256_16": "fb1b74c6988b13cc",
+   "bytes": 771
+  },
+  "data/mock/ai_fallback_messages.json": {
+   "sha256_16": "b2069e64deb543a2",
+   "bytes": 513
+  },
+  "data/mock/city_services.json": {
+   "sha256_16": "accbe2a67a55fcb2",
+   "bytes": 927
+  },
+  "data/mock/demo_journey.json": {
+   "sha256_16": "f1f1cbea5dfe1ae0",
+   "bytes": 1342
+  },
+  "data/mock/events.json": {
+   "sha256_16": "a15e38ff0deba636",
+   "bytes": 756
+  },
+  "data/mock/mobility_matrix.json": {
+   "sha256_16": "a5c2e6198714224d",
+   "bytes": 541
+  },
+  "data/mock/places.json": {
+   "sha256_16": "69c2c0a9edce0e15",
+   "bytes": 3061
+  },
+  "data/mock/provider_behaviors.json": {
+   "sha256_16": "d5d0bd68afc2a64b",
+   "bytes": 428
+  },
+  "data/mock/traveler_demo.json": {
+   "sha256_16": "52eb9e8967f8d684",
+   "bytes": 599
+  },
+  "data/mock/wp04_city_services_overlay.json": {
+   "sha256_16": "5c0bf1295daa9da5",
+   "bytes": 695
+  },
+  "data/mock/wp04_commerce_catalog.json": {
+   "sha256_16": "8f15d3ea2ee01e8b",
+   "bytes": 863
+  },
+  "data/replay/tianjin_real_snapshot.json": {
+   "sha256_16": "ded9eca081125ca5",
+   "bytes": 15048
+  },
+  "data/replay/tianjin_v135_journey_snapshot.json": {
+   "sha256_16": "5e8a7563a3e23e46",
+   "bytes": 68207
+  },
+  "data/v9/city_operations.json": {
+   "sha256_16": "6a972dd59a75aeaa",
+   "bytes": 3599
+  },
+  "frontend/index.html": {
+   "sha256_16": "1c2c16cbfd6fc54c",
+   "bytes": 463
+  },
+  "frontend/package.json": {
+   "sha256_16": "aaafa3793c409176",
+   "bytes": 1049
+  },
+  "frontend/playwright.config.ts": {
+   "sha256_16": "a1238aa528e1b738",
+   "bytes": 1317
+  },
+  "frontend/public/favicon.svg": {
+   "sha256_16": "daae73a74d90412b",
+   "bytes": 199
+  },
+  "frontend/public/manifest.webmanifest": {
+   "sha256_16": "40b993771dfdd427",
+   "bytes": 435
+  },
+  "frontend/public/sw.js": {
+   "sha256_16": "7a90e462bfb41625",
+   "bytes": 1449
+  },
+  "frontend/src/api/citynexus.ts": {
+   "sha256_16": "9cf0332066c3bef0",
+   "bytes": 30604
+  },
+  "frontend/src/api/v10Execution.ts": {
+   "sha256_16": "89c8874743ced6bd",
+   "bytes": 1845
+  },
+  "frontend/src/api/v12Authoritative.ts": {
+   "sha256_16": "881f765f9ce074d0",
+   "bytes": 3372
+  },
+  "frontend/src/app/V8Experience.tsx": {
+   "sha256_16": "a25966197d927668",
+   "bytes": 57188
+  },
+  "frontend/src/app/v8Types.ts": {
+   "sha256_16": "5eacb4d06e98f034",
+   "bytes": 3532
+  },
+  "frontend/src/components/JourneyMap.tsx": {
+   "sha256_16": "9eae3edbaa7b5e1f",
+   "bytes": 9416
+  },
+  "frontend/src/components/v8/Icon.tsx": {
+   "sha256_16": "8676577f94efc90c",
+   "bytes": 994
+  },
+  "frontend/src/components/v8/MapPanel.tsx": {
+   "sha256_16": "cfd4af7845130737",
+   "bytes": 6309
+  },
+  "frontend/src/contracts/journeyTwin.ts": {
+   "sha256_16": "2aecd74055d50ff2",
+   "bytes": 1116
+  },
+  "frontend/src/contracts/replan.ts": {
+   "sha256_16": "692b87778ff124a2",
+   "bytes": 1534
+  },
+  "frontend/src/contracts/testIds.ts": {
+   "sha256_16": "76ae0e7fde7c9b3f",
+   "bytes": 1302
+  },
+  "frontend/src/demo/goldenScenario.ts": {
+   "sha256_16": "278b12a28318698a",
+   "bytes": 3931
+  },
+  "frontend/src/features/agent/AgentComposer.tsx": {
+   "sha256_16": "5fcd8bf14d04a3c8",
+   "bytes": 11162
+  },
+  "frontend/src/features/agent/AgentRunRail.tsx": {
+   "sha256_16": "76d892a5bda6d0d8",
+   "bytes": 698
+  },
+  "frontend/src/features/agent/CopilotDock.tsx": {
+   "sha256_16": "81c0887046660993",
+   "bytes": 24635
+  },
+  "frontend/src/features/discovery/RealCityDiscoveryPanel.tsx": {
+   "sha256_16": "2276fcf6cca8bbe6",
+   "bytes": 10796
+  },
+  "frontend/src/features/execution/V10LiveExecutionPanel.tsx": {
+   "sha256_16": "18994db669a7676b",
+   "bytes": 3111
+  },
+  "frontend/src/features/execution/V12AuthoritativeJourneyPanel.tsx": {
+   "sha256_16": "e0c9d2b24fb287c5",
+   "bytes": 5365
+  },
+  "frontend/src/features/execution/V12StatePrimitives.tsx": {
+   "sha256_16": "bd02a4810dd5f8fc",
+   "bytes": 3485
+  },
+  "frontend/src/features/inbox/BookingArtifactScanner.tsx": {
+   "sha256_16": "7f457e4e1e6b4959",
+   "bytes": 1566
+  },
+  "frontend/src/features/inbox/JourneyInboxWorkbench.tsx": {
+   "sha256_16": "efbcd54a521b88dd",
+   "bytes": 13756
+  },
+  "frontend/src/features/intelligence/ControlTowerPanel.tsx": {
+   "sha256_16": "f648f6bf29886497",
+   "bytes": 3025
+  },
+  "frontend/src/features/mobility/MobilitySheet.tsx": {
+   "sha256_16": "f78c15c9a94046ca",
+   "bytes": 2185
+  },
+  "frontend/src/features/notifications/PushCapabilityCard.tsx": {
+   "sha256_16": "928ab9089cb4a7f8",
+   "bytes": 2166
+  },
+  "frontend/src/features/recovery/V14RecoveryTruthPanel.tsx": {
+   "sha256_16": "12ab5ab87a22b2af",
+   "bytes": 6493
+  },
+  "frontend/src/features/setup/JourneyTrialSetup.tsx": {
+   "sha256_16": "d1d702754cfec51a",
+   "bytes": 7914
+  },
+  "frontend/src/features/stay/StayExplorer.tsx": {
+   "sha256_16": "02ce26200f5e2057",
+   "bytes": 3370
+  },
+  "frontend/src/features/studio/SortableActivityList.tsx": {
+   "sha256_16": "d8b447ba59f74dbe",
+   "bytes": 2221
+  },
+  "frontend/src/features/studio/V12TripStudioPanel.tsx": {
+   "sha256_16": "d8de921d10ae0d1e",
+   "bytes": 4968
+  },
+  "frontend/src/features/traveler-twin/TwinPanel.tsx": {
+   "sha256_16": "2dc2e8eb15aeff71",
+   "bytes": 2783
+  },
+  "frontend/src/generated/api.ts": {
+   "sha256_16": "f526c9669548778b",
+   "bytes": 157630
+  },
+  "frontend/src/i18n/LocaleContext.tsx": {
+   "sha256_16": "c9a14214ba418853",
+   "bytes": 60554
+  },
+  "frontend/src/i18n/tripOperations.ts": {
+   "sha256_16": "2a922d7d580f8c40",
+   "bytes": 51
+  },
+  "frontend/src/lib/money.ts": {
+   "sha256_16": "9a50995243fb4b52",
+   "bytes": 838
+  },
+  "frontend/src/lib/offlineJourney.ts": {
+   "sha256_16": "dfbb261864a0160c",
+   "bytes": 1954
+  },
+  "frontend/src/lib/queryClient.ts": {
+   "sha256_16": "af2c9b8a9a7053ed",
+   "bytes": 212
+  },
+  "frontend/src/lib/v8Formatting.ts": {
+   "sha256_16": "3edbfa6dab75e7fa",
+   "bytes": 496
+  },
+  "frontend/src/lib/viewTransition.ts": {
+   "sha256_16": "de8fea216d7f5c96",
+   "bytes": 438
+  },
+  "frontend/src/main.tsx": {
+   "sha256_16": "5355e396bad22404",
+   "bytes": 67664
+  },
+  "frontend/src/mocks/handlers.ts": {
+   "sha256_16": "5febdd16bf102d4e",
+   "bytes": 660
+  },
+  "frontend/src/routes/v8Routes.ts": {
+   "sha256_16": "cb1c7b0267a8f322",
+   "bytes": 1145
+  },
+  "frontend/src/state/journeyModeMachine.ts": {
+   "sha256_16": "1405c3d6efb50da3",
+   "bytes": 1061
+  },
+  "frontend/src/stories/V10Primitives.stories.tsx": {
+   "sha256_16": "2b024c5f272f8583",
+   "bytes": 1140
+  },
+  "frontend/src/stories/V12ExecutionStates.stories.tsx": {
+   "sha256_16": "c6b04d8a2061d05f",
+   "bytes": 2157
+  },
+  "frontend/src/stories/V12StatePrimitives.stories.tsx": {
+   "sha256_16": "02a452569e5a4243",
+   "bytes": 1127
+  },
+  "frontend/src/styles.css": {
+   "sha256_16": "a1e5ff32f492efd4",
+   "bytes": 66703
+  },
+  "frontend/src/v10.css": {
+   "sha256_16": "5fd97c691a884683",
+   "bytes": 7340
+  },
+  "frontend/vite.config.ts": {
+   "sha256_16": "192e089eabbf1240",
+   "bytes": 2611
+  },
+  "requirements/BASELINE.md": {
+   "sha256_16": "c59bd1e46b715280",
+   "bytes": 1227
+  },
+  "requirements/CHANGELOG.md": {
+   "sha256_16": "c1e8e50db7dfda4e",
+   "bytes": 2050
+  },
+  "requirements/qa/requirements-coverage-report.json": {
+   "sha256_16": "e6bce70068d937fc",
+   "bytes": 8850
+  },
+  "requirements/qa/requirements-coverage-summary.md": {
+   "sha256_16": "20d554280f00eb58",
+   "bytes": 971
+  },
+  "requirements/qa/requirements-domain-mapping-report.json": {
+   "sha256_16": "bd674a11a2ffed62",
+   "bytes": 15829
+  },
+  "requirements/qa/requirements-report.json": {
+   "sha256_16": "15329fc5acad2213",
+   "bytes": 4276
+  },
+  "requirements/qa/requirements-statement-hashes.json": {
+   "sha256_16": "19a4d84d7853bc8b",
+   "bytes": 16569
+  },
+  "requirements/qa/requirements-v0.3-report.json": {
+   "sha256_16": "15329fc5acad2213",
+   "bytes": 4276
+  },
+  "requirements/qa/requirements-validator-self-test.json": {
+   "sha256_16": "c41888245533c85b",
+   "bytes": 2846
+  },
+  "requirements/README.md": {
+   "sha256_16": "0d3a89cc2bfcbc00",
+   "bytes": 2856
+  },
+  "requirements/requirements.schema.json": {
+   "sha256_16": "04944c67c3edd622",
+   "bytes": 12744
+  },
+  "requirements/requirements.yaml": {
+   "sha256_16": "ec07b13b66e3448c",
+   "bytes": 132214
+  },
+  "requirements/scripts/generate-requirements-reports.py": {
+   "sha256_16": "90c2be5837b1a942",
+   "bytes": 7592
+  },
+  "requirements/scripts/self-test-requirements-validator.py": {
+   "sha256_16": "76c7dd94807467d4",
+   "bytes": 14038
+  },
+  "requirements/scripts/validate-requirements.py": {
+   "sha256_16": "401e8729aff5cc3e",
+   "bytes": 15948
+  },
+  "requirements/traceability.schema.json": {
+   "sha256_16": "fd6b64031a0c85e4",
+   "bytes": 3991
+  },
+  "requirements/traceability.yaml": {
+   "sha256_16": "630bcf9fd8837286",
+   "bytes": 28370
+  }
+ },
+ "watched_files": {
+  "backend/app/capabilities.py": {
+   "mtime": "2026-09-15 17:28:33",
+   "bytes": 23668,
+   "sha256_16": "9b68b17997f4cf4e",
+   "in_snapshot": true
+  },
+  "backend/app/main.py": {
+   "mtime": "2026-09-15 17:29:43",
+   "bytes": 364908,
+   "sha256_16": "c17f74c4867a1a1d",
+   "in_snapshot": true
+  },
+  "backend/app/replanning/feasibility.py": {
+   "mtime": "2026-09-15 13:16:26",
+   "bytes": 32817,
+   "sha256_16": "8a0de9106818725d",
+   "in_snapshot": true
+  },
+  "backend/app/replanning/mock_replan_engine.py": {
+   "mtime": "2026-09-15 12:18:00",
+   "bytes": 7557,
+   "sha256_16": "387d257e13f02b9c",
+   "in_snapshot": true
+  },
+  "backend/app/replanning/provider_snapshots.py": {
+   "mtime": "2026-09-15 12:13:37",
+   "bytes": 10448,
+   "sha256_16": "102083270c9d2363",
+   "in_snapshot": true
+  },
+  "backend/app/integrations/ai/semantic_compiler.py": {
+   "mtime": "2026-09-15 11:12:15",
+   "bytes": 12248,
+   "sha256_16": "9795fdcbbdb684a0",
+   "in_snapshot": true
+  },
+  "backend/app/integrations/ai/copilot_contract.py": {
+   "mtime": "2026-09-15 11:12:45",
+   "bytes": 28307,
+   "sha256_16": "7e77f688f065a665",
+   "in_snapshot": true
+  },
+  "backend/app/execution/traveler_twin.py": {
+   "mtime": "2026-09-15 10:57:32",
+   "bytes": 15821,
+   "sha256_16": "81dcd851f9c49377",
+   "in_snapshot": true
+  },
+  "backend/app/agent/mission.py": {
+   "mtime": "2026-09-15 11:13:56",
+   "bytes": 22753,
+   "sha256_16": "18c4f983eccf9a67",
+   "in_snapshot": true
+  },
+  "backend/app/agent/mission_plan.py": {
+   "mtime": "2026-09-15 11:14:10",
+   "bytes": 6047,
+   "sha256_16": "6d63aa576bd29da4",
+   "in_snapshot": true
+  },
+  "backend/app/services.py": {
+   "mtime": "2026-09-15 17:26:45",
+   "bytes": 36621,
+   "sha256_16": "bcd34f940a1d98d2",
+   "in_snapshot": true
+  },
+  "backend/app/operations/v9.py": {
+   "mtime": "2026-09-15 17:40:21",
+   "bytes": 48580,
+   "sha256_16": "8a18af376260d98b",
+   "in_snapshot": true
+  },
+  "backend/app/operations/__init__.py": {
+   "mtime": "2026-09-12 17:21:01",
+   "bytes": 70,
+   "sha256_16": "fdb7a602ec107d18",
+   "in_snapshot": true
+  },
+  "backend/app/replanning/protected_commitments.py": {
+   "mtime": "2026-09-13 23:02:30",
+   "bytes": 1927,
+   "sha256_16": "bda97287914971fa",
+   "in_snapshot": true
+  },
+  "backend/app/integrations/mobility/snapshot_capture.py": {
+   "mtime": "2026-09-13 23:29:01",
+   "bytes": 7259,
+   "sha256_16": "d96957fea7996ea4",
+   "in_snapshot": true
+  },
+  "backend/app/integrations/mobility/runtime.py": {
+   "mtime": "2026-09-13 23:08:19",
+   "bytes": 7422,
+   "sha256_16": "1064a2b0331dc9e6",
+   "in_snapshot": true
+  },
+  "backend/app/integrations/mock/providers.py": {
+   "mtime": "2026-09-11 13:58:58",
+   "bytes": 2588,
+   "sha256_16": "53f0f43c4c0929f2",
+   "in_snapshot": true
+  },
+  "backend/app/schemas.py": {
+   "mtime": "2026-09-15 10:56:56",
+   "bytes": 21611,
+   "sha256_16": "889d1758c3cb166d",
+   "in_snapshot": true
+  },
+  "backend/app/db/models.py": {
+   "mtime": "2026-09-15 17:30:35",
+   "bytes": 57308,
+   "sha256_16": "787e7b06b2c06fd4",
+   "in_snapshot": true
+  },
+  "backend/app/db/session.py": {
+   "mtime": "2026-09-15 17:30:35",
+   "bytes": 24402,
+   "sha256_16": "6a371bef3df0136e",
+   "in_snapshot": true
+  },
+  "backend/app/stay_mobility.py": {
+   "mtime": "2026-09-15 12:40:39",
+   "bytes": 40607,
+   "sha256_16": "e06c755d21b3c84c",
+   "in_snapshot": true
+  },
+  "backend/db/schema.sql": {
+   "mtime": "2026-09-15 17:30:35",
+   "bytes": 38334,
+   "sha256_16": "f20ded6bcddcf9c3",
+   "in_snapshot": true
+  },
+  "frontend/src/styles.css": {
+   "mtime": "2026-09-15 13:54:24",
+   "bytes": 66703,
+   "sha256_16": "a1e5ff32f492efd4",
+   "in_snapshot": true
+  },
+  "frontend/src/api/citynexus.ts": {
+   "mtime": "2026-09-15 12:24:27",
+   "bytes": 30604,
+   "sha256_16": "9cf0332066c3bef0",
+   "in_snapshot": true
+  },
+  "frontend/src/app/v8Types.ts": {
+   "mtime": "2026-09-15 12:24:43",
+   "bytes": 3532,
+   "sha256_16": "5eacb4d06e98f034",
+   "in_snapshot": true
+  },
+  "frontend/src/features/traveler-twin/TwinPanel.tsx": {
+   "mtime": "2026-09-15 12:35:27",
+   "bytes": 2783,
+   "sha256_16": "2dc2e8eb15aeff71",
+   "in_snapshot": true
+  }
+ },
+ "import_status": {
+  "ok": true,
+  "returncode": 0,
+  "stdout": "IMPORT_OK",
+  "stderr_tail": ""
+ },
+ "capability_symbols": {
+  "present": true,
+  "defined": [
+   "ACCESSIBILITY_STATES",
+   "CAPABILITY_CLASSES",
+   "CAPABILITY_CODES",
+   "CAPABILITY_SCOPES",
+   "CAPABILITY_SEVERITIES",
+   "CARE_CODES",
+   "CONTEXT_CODES",
+   "CapabilityItem",
+   "HARD_ACCESSIBILITY_CODES",
+   "PHYSICAL_LIMIT_CODES",
+   "SOFT_CODES",
+   "_FACILITY_SUBJECT_MARKERS",
+   "_FIRST_PERSON_MARKERS",
+   "_HARD_MARKERS",
+   "_NEGATED_MARKERS",
+   "_PERMANENCE_MARKERS",
+   "_SPECULATIVE_MARKERS",
+   "_THIRD_PARTY_MARKERS",
+   "_THIS_TRIP_MARKERS",
+   "_bounded_number",
+   "_hard_asserted",
+   "_number_before",
+   "_time_window",
+   "accessibility_state",
+   "canonicalize_capabilities",
+   "capability_class_for",
+   "capability_constraints",
+   "default_severity",
+   "evaluate_accessibility_requirement",
+   "extract_capabilities_from_text",
+   "normalize_osm_tags",
+   "summarize_capabilities"
+  ],
+  "imported_from_elsewhere": [
+   "CAPABILITY_CODES",
+   "accessibility_state",
+   "canonicalize_capabilities",
+   "capability_constraints",
+   "evaluate_accessibility_requirement",
+   "extract_capabilities_from_text",
+   "normalize_osm_tags",
+   "summarize_capabilities"
+  ],
+  "missing_symbols": {},
+  "bytes": 23668,
+  "mtime": "2026-09-15 17:50:44",
+  "sha256_16": "9b68b17997f4cf4e"
+ },
+ "backend_tests_present": [
+  "tests/test_agent_alternatives_v3.py",
+  "tests/test_agent_authority_v2_actions.py",
+  "tests/test_agent_mission_runtime.py",
+  "tests/test_agent_principal_boundary.py",
+  "tests/test_agent_runtime_gate.py",
+  "tests/test_backend_connected_golden_contract.py",
+  "tests/test_contract.py",
+  "tests/test_foundation_discovery_pipeline.py",
+  "tests/test_foundation_http_adapters.py",
+  "tests/test_foundation_opportunity_window.py",
+  "tests/test_foundation_planner_adapter.py",
+  "tests/test_foundation_reason_codes.py",
+  "tests/test_foundation_registry.py",
+  "tests/test_foundation_replan_diff.py",
+  "tests/test_foundation_routingpy_adapter.py",
+  "tests/test_gpt_adversarial_provider_hardening.py",
+  "tests/test_gpt_agent_authority_v2.py",
+  "tests/test_gpt_agent_authority_v3.py",
+  "tests/test_gpt_solver_hardening_next.py",
+  "tests/test_gpt_v4_product_gaps.py",
+  "tests/test_gpt_v5_mission_authority.py",
+  "tests/test_gpt_weather_adversarial_next.py",
+  "tests/test_guardian_model_evidence.py",
+  "tests/test_guardian_v4.py",
+  "tests/test_health.py",
+  "tests/test_impact_resolver.py",
+  "tests/test_mock_replan_engine_next.py",
+  "tests/test_ortools_optional_boundary.py",
+  "tests/test_planning_contract.py",
+  "tests/test_post_goal_five_defects.py",
+  "tests/test_postgate_provider_foundation.py",
+  "tests/test_product_next_hardening.py",
+  "tests/test_provider_runtime_gate.py",
+  "tests/test_provider_snapshot_next.py",
+  "tests/test_reference_replanner.py",
+  "tests/test_solver_reference_contract.py",
+  "tests/test_solver_runtime_gate.py",
+  "tests/test_solver_runtime_policy.py",
+  "tests/test_solver_v2.py",
+  "tests/test_solver_v2_integration.py",
+  "tests/test_v10_flagship_e2e.py",
+  "tests/test_v10_foundations.py",
+  "tests/test_v10_generic_compose.py",
+  "tests/test_v10_provider_replay.py",
+  "tests/test_v10_web_research.py",
+  "tests/test_v12_authoritative_trip_execution.py",
+  "tests/test_v13_1_1_semantic_integrity.py",
+  "tests/test_v13_1_2_structural_anchor_integrity.py",
+  "tests/test_v13_2_intelligent_journey_memory.py",
+  "tests/test_v13_3_prep_deepseek_contract.py",
+  "tests/test_v13_3_real_city_intelligence.py",
+  "tests/test_v13_4_provider_truth.py",
+  "tests/test_v13_integrity.py",
+  "tests/test_v14_grounded_adaptive_recovery.py",
+  "tests/test_v14_trial_readiness.py",
+  "tests/test_v15_copilot.py",
+  "tests/test_v16_integration.py",
+  "tests/test_v17_semantic_compiler.py",
+  "tests/test_v18_2_agent_productization.py",
+  "tests/test_v18_3_convergence.py",
+  "tests/test_v18_hermes_native_client.py",
+  "tests/test_v18_semantic_time_and_verification.py",
+  "tests/test_v19_traveler_capability.py",
+  "tests/test_v5_autopilot.py",
+  "tests/test_v6_enrollment.py",
+  "tests/test_v6_predictive_real_city.py",
+  "tests/test_v7_traveler_twin.py",
+  "tests/test_v8_stay_mobility.py",
+  "tests/test_v9_real_trip_operations.py",
+  "tests/test_valhalla_live_smoke.py",
+  "tests/test_vertical_slice_hardening_next.py",
+  "tests/test_weather_refresh_endpoint.py",
+  "tests/test_weather_runtime_gate_gpt.py",
+  "tests/test_weather_runtime_hardening.py",
+  "tests/test_wp01_wp03.py",
+  "tests/test_wp04_endpoints.py",
+  "tests/test_wp04_hardening_wp05.py",
+  "tests/test_wp04_order_pricing.py",
+  "tests/test_wp04_reference_contract.py",
+  "tests/test_wp04_validators.py",
+  "tests/test_wp04a0_bridge.py",
+  "tests/test_wp05_integrity_next.py",
+  "tests/test_wp06_followup_assist.py",
+  "tests/test_wp06_postgate_candidate_provenance.py",
+  "tests/test_wp06_postgate_hardening_next.py",
+  "tests/test_wp06_twin_v2_gate.py",
+  "tests/test_wp07_foundation_assist.py"
+ ],
+ "include_list": [
+  "backend/app",
+  "backend/tests",
+  "backend/db",
+  "backend/data",
+  "backend/pyproject.toml",
+  "backend/uv.lock",
+  "data",
+  "frontend/src",
+  "frontend/public",
+  "frontend/package.json",
+  "frontend/playwright.config.ts",
+  "frontend/vite.config.ts",
+  "frontend/index.html",
+  "agent-mcp",
+  "requirements",
+  "contracts"
+ ],
+ "took_seconds": 10.1
+}

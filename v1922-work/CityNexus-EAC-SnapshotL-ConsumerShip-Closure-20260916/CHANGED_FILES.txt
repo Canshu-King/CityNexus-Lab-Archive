@@ -1,0 +1,14 @@
+# CityNexus Snapshot L Consumer-Ship Closure — changed files
+# Baseline: Snapshot K overlay -> J -> I -> H -> V19.2.4 full tree.
+
+## Added (0)
+
+## Modified (6)
+M  backend/app/integrations/discovery/real_city.py
+M  backend/app/integrations/provider_config.py
+M  backend/app/integrations/stay_osm.py
+M  backend/app/stay_mobility.py
+M  frontend/src/features/trip/ActivityDetail.tsx
+M  frontend/src/styles.css
+
+## Removed (0)

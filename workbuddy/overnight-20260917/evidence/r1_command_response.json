@@ -1,0 +1,498 @@
+{
+  "mission": {
+    "id": "eb5000e1-6459-404f-876a-ee32efdb3f93",
+    "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+    "trigger_event_id": "72d0f756-631f-4b2c-861a-7ba108739175",
+    "user_text": "鼓浪屿风琴博物馆(临时展馆) 因修缮临时闭馆，无法参观",
+    "objective_codes": [
+      "adjust_itinerary_due_to_closure"
+    ],
+    "protected_activity_ids": [],
+    "mutable_activity_ids": [
+      "ee14668f-a2"
+    ],
+    "intent": {
+      "capabilities": [],
+      "max_cost_delta_minor": 0,
+      "max_loss_minor": 0,
+      "max_schedule_drift_min": 0,
+      "mutable_activity_ids": [
+        "ee14668f-a2"
+      ],
+      "objective_codes": [
+        "adjust_itinerary_due_to_closure"
+      ],
+      "preferences": {
+        "closed_venue": "鼓浪屿风琴博物馆(临时展馆)",
+        "closure_reason": "修缮",
+        "closure_status": "临时闭馆",
+        "visit_feasible": false
+      },
+      "protected_activity_ids": [],
+      "requested_autonomy": "EXECUTE_WITHIN_BOUNDS"
+    },
+    "resolved_intent": {
+      "authority_intersection": "MISSION_AND_TRAVELER_POLICY",
+      "capabilities": [],
+      "max_cost_delta_minor": 0,
+      "max_loss_minor": 0,
+      "max_schedule_drift_min": 0,
+      "mutable_activity_ids": [
+        "ee14668f-a2"
+      ],
+      "objective_codes": [
+        "adjust_itinerary_due_to_closure"
+      ],
+      "policy_mode": "ADVISORY",
+      "policy_version": 1,
+      "preferences": {
+        "closed_venue": "鼓浪屿风琴博物馆(临时展馆)",
+        "closure_reason": "修缮",
+        "closure_status": "临时闭馆",
+        "visit_feasible": false
+      },
+      "protected_activity_ids": [],
+      "requested_autonomy": "EXECUTE_WITHIN_BOUNDS"
+    },
+    "allowed_action_classes": [
+      "REQUEST_REPLAN",
+      "ACCEPT_REPLAN"
+    ],
+    "unresolved_references": [],
+    "compiler": {
+      "provider_key": "deepseek",
+      "model_key": "deepseek-v4-flash",
+      "confidence": 0.92
+    },
+    "reasoning_summary": "识别到风琴博物馆临时展馆因修缮临时闭馆，原参观计划不可行，需作为可变活动调整。",
+    "is_standing": false,
+    "parent_mission_id": null,
+    "max_cost_delta_minor": 0,
+    "max_loss_minor": 0,
+    "max_schedule_drift_min": 0,
+    "preferences": {
+      "closed_venue": "鼓浪屿风琴博物馆(临时展馆)",
+      "closure_reason": "修缮",
+      "closure_status": "临时闭馆",
+      "visit_feasible": false
+    },
+    "requested_autonomy": "EXECUTE_WITHIN_BOUNDS",
+    "status": "COMPLETED",
+    "created_at": "2026-09-17T16:04:15.203725+00:00",
+    "started_at": "2026-09-17T16:04:15.232126+00:00",
+    "completed_at": "2026-09-17T16:04:25.692312+00:00",
+    "failure_reason": null,
+    "mission_plan": {
+      "version": "citynexus.mission-plan.v1",
+      "autonomy": "EXECUTE_WITHIN_BOUNDS",
+      "steps": [
+        {
+          "id": "inspect_journey",
+          "operation": "Inspect current Journey",
+          "tool_name": "inspect_journey",
+          "status": "PENDING",
+          "requires_authority": false
+        },
+        {
+          "id": "inspect_twin",
+          "operation": "Inspect JourneyTwin",
+          "tool_name": "inspect_twin",
+          "status": "PENDING",
+          "requires_authority": false
+        },
+        {
+          "id": "inspect_commitments",
+          "operation": "Inspect protected commitments",
+          "tool_name": "inspect_journey",
+          "status": "PENDING",
+          "requires_authority": false
+        },
+        {
+          "id": "evaluate_candidates",
+          "operation": "Evaluate candidates against constraints",
+          "tool_name": null,
+          "status": "PENDING",
+          "requires_authority": false
+        },
+        {
+          "id": "request_replan",
+          "operation": "Request a deterministic replan proposal",
+          "tool_name": "request_replan",
+          "status": "PENDING",
+          "requires_authority": true
+        },
+        {
+          "id": "inspect_proposal",
+          "operation": "Inspect proposal trade-offs",
+          "tool_name": "list_replans",
+          "status": "PENDING",
+          "requires_authority": false
+        },
+        {
+          "id": "approval_boundary",
+          "operation": "Wait for explicit CityNexus approval before mutation",
+          "tool_name": null,
+          "status": "PENDING",
+          "requires_authority": true
+        }
+      ],
+      "protected_activity_ids": [],
+      "allowed_tools": [
+        "inspect_journey",
+        "inspect_twin",
+        "list_replans",
+        "search_city_services",
+        "request_replan",
+        "accept_replan",
+        "replace_activity",
+        "reschedule_activity",
+        "create_booking",
+        "cancel_refundable_booking",
+        "request_commitment_change"
+      ],
+      "read_only_tools": [
+        "inspect_journey",
+        "inspect_twin",
+        "list_replans",
+        "search_city_services"
+      ],
+      "approval_required_tools": [
+        "accept_replan",
+        "replace_activity",
+        "reschedule_activity",
+        "create_booking",
+        "cancel_refundable_booking",
+        "request_commitment_change"
+      ],
+      "authority": "CityNexus AgentToolGateway and deterministic domain services"
+    }
+  },
+  "event_id": "72d0f756-631f-4b2c-861a-7ba108739175",
+  "run": {
+    "run_id": "204a1f63-0918-4838-b12d-dde81efcbe9e",
+    "mission_id": "eb5000e1-6459-404f-876a-ee32efdb3f93",
+    "status": "COMPLETED",
+    "provider_key": "deepseek",
+    "runtime_identity": "NATIVE_DEEPSEEK_TOOL_LOOP",
+    "model_key": "deepseek-v4-flash",
+    "outcome": "Agent stopped a repeated tool request before another domain action.",
+    "failure_reason": null,
+    "trace_id": "f6ef45e8-c440-43d7-9b28-0beaaee969e3",
+    "tool_steps": [
+      {
+        "sequence_no": 1,
+        "tool_name": "inspect_journey",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-1"
+        },
+        "result": {
+          "tool": "inspect_journey",
+          "decision": "ALLOW_AUTO",
+          "journey": {
+            "id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+            "traveler_id": "467bb749-cfc7-4bc3-928f-10c068702df1",
+            "title": "厦门 · journey",
+            "city_code": "CN-厦门",
+            "timezone": "Asia/Shanghai",
+            "start_at": "2026-09-18T02:00:00Z",
+            "end_at": "2026-09-20T12:00:00Z",
+            "budget": {
+              "amount_minor": 300000,
+              "currency": "CNY"
+            },
+            "planning_mode": "balanced",
+            "status": "ACTIVE",
+            "active_plan_version_id": "ee14668f-faa7-4c04-b604-18139ea00d9b",
+            "current_activity_id": null
+          },
+          "protected_commitments": [
+            {
+              "id": "2f71a48b-d619-4094-b225-739b18c31045",
+              "activity_id": null,
+              "kind": "BOOKING",
+              "level": "C4_Anchored",
+              "protected": true,
+              "external_ref": "WB-RAIL-20260918-001"
+            },
+            {
+              "id": "49ee1d87-7f9b-43b6-a77a-9902828bee4f",
+              "activity_id": null,
+              "kind": "BOOKING",
+              "level": "C4_Anchored",
+              "protected": true,
+              "external_ref": "WB-DOUBLE-CLICK-TEST"
+            },
+            {
+              "id": "ebcb9561-2de6-4bc5-be7b-6917cded6b4b",
+              "activity_id": null,
+              "kind": "BOOKING",
+              "level": "C4_Anchored",
+              "protected": true,
+              "external_ref": "WB-PATCH-TEST-001"
+            }
+          ]
+        },
+        "decision": "ALLOW_AUTO",
+        "status": "COMPLETED",
+        "created_at": "2026-09-17T16:04:16.097165+00:00",
+        "completed_at": "2026-09-17T16:04:16.097165+00:00"
+      },
+      {
+        "sequence_no": 2,
+        "tool_name": "inspect_twin",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-2"
+        },
+        "result": {
+          "tool": "inspect_twin",
+          "decision": "ALLOW_AUTO",
+          "twin": {
+            "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+            "active_plan_version_id": "ee14668f-faa7-4c04-b604-18139ea00d9b",
+            "current_activity_id": null,
+            "latest_event_id": "72d0f756-631f-4b2c-861a-7ba108739175",
+            "projection_status": "READY",
+            "snapshot_at": "2026-09-17T16:04:16.099403+00:00",
+            "upcoming_commitments": [
+              {
+                "id": "2f71a48b-d619-4094-b225-739b18c31045",
+                "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+                "activity_id": null,
+                "kind": "BOOKING",
+                "level": "C4_Anchored",
+                "status": "ACTIVE",
+                "monetary_value": {
+                  "amount_minor": 0,
+                  "currency": "CNY"
+                },
+                "monetary_value_status": "UNKNOWN",
+                "external_ref": "WB-RAIL-20260918-001",
+                "policy": {
+                  "anchor_role": "ARRIVAL",
+                  "location_evidence": "STRUCTURAL_ANCHOR",
+                  "price_status": "UNKNOWN",
+                  "scheduled_start_at": "2026-09-18T10:42:00+08:00",
+                  "semantic_key": "v12:2bbe2657-c279-42e5-b920-ac3ab9bfc3a9:arrival-anchor",
+                  "semantic_node_key": "arrival-anchor",
+                  "source": "USER_CONFIRMED_EXTERNAL_RESERVATION"
+                }
+              },
+              {
+                "id": "49ee1d87-7f9b-43b6-a77a-9902828bee4f",
+                "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+                "activity_id": null,
+                "kind": "BOOKING",
+                "level": "C4_Anchored",
+                "status": "ACTIVE",
+                "monetary_value": {
+                  "amount_minor": 0,
+                  "currency": "CNY"
+                },
+                "monetary_value_status": "UNKNOWN",
+                "external_ref": "WB-DOUBLE-CLICK-TEST",
+                "policy": {
+                  "anchor_role": "ARRIVAL",
+                  "location_evidence": "STRUCTURAL_ANCHOR",
+                  "price_status": "UNKNOWN",
+                  "scheduled_start_at": "2026-09-19T10:42:00+08:00",
+                  "semantic_key": "v12:2bbe2657-c279-42e5-b920-ac3ab9bfc3a9:arrival-anchor",
+                  "semantic_node_key": "arrival-anchor",
+                  "source": "USER_CONFIRMED_EXTERNAL_RESERVATION"
+                }
+              },
+              {
+                "id": "ebcb9561-2de6-4bc5-be7b-6917cded6b4b",
+                "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+                "activity_id": null,
+                "kind": "BOOKING",
+                "level": "C4_Anchored",
+                "status": "ACTIVE",
+                "monetary_value": {
+                  "amount_minor": 0,
+                  "currency": "CNY"
+                },
+                "monetary_value_status": "UNKNOWN",
+                "external_ref": "WB-PATCH-TEST-001",
+                "policy": {
+                  "anchor_role": "ARRIVAL",
+                  "location_evidence": "STRUCTURAL_ANCHOR",
+                  "price_status": "UNKNOWN",
+                  "scheduled_start_at": "2026-09-21T10:42:00+08:00",
+                  "semantic_key": "v12:2bbe2657-c279-42e5-b920-ac3ab9bfc3a9:arrival-anchor",
+                  "semantic_node_key": "arrival-anchor",
+                  "source": "USER_CONFIRMED_EXTERNAL_RESERVATION"
+                }
+              }
+            ],
+            "context": {
+              "journey_status": "ACTIVE",
+              "provider_level": 1,
+              "degraded_providers": [],
+              "feasibility_envelope": {
+                "next_commitment_buffer_min": 27,
+                "journey_end_slack_min": 3866,
+                "budget_remaining_minor": 288000,
+                "preserved_commitment_count": 3,
+                "degraded_providers": [],
+                "risk_reason_codes": [],
+                "robust": true
+              },
+              "opportunity_window": {
+                "opens_at": "2026-09-18T02:00:00+00:00",
+                "must_depart_by": "2026-09-18T10:27:00+08:00",
+                "available_minutes": 27,
+                "next_commitment_start": "2026-09-18T10:42:00+08:00"
+              },
+              "mobility": {
+                "provider": "mock-mobility",
+                "snapshot_id": null,
+                "degraded": false,
+                "source": "deterministic-offline"
+              },
+              "execution": {
+                "now": {
+                  "id": "ee14668f-a1",
+                  "title": "Gulangyu Pier Meetup",
+                  "state": "PLANNED",
+                  "start_at": "2026-09-17T13:03:47+00:00",
+                  "end_at": "2026-09-17T13:23:47+00:00",
+                  "locked": false
+                },
+                "next": {
+                  "id": "ee14668f-a2",
+                  "title": "鼓浪屿风琴博物馆(临时展馆)",
+                  "state": "PLANNED",
+                  "start_at": "2026-09-17T15:33:47+00:00",
+                  "end_at": "2026-09-17T17:33:47+00:00",
+                  "locked": false
+                },
+                "now_activity_id": "ee14668f-a1",
+                "next_activity_id": "ee14668f-a2",
+                "now_state": "PLANNED",
+                "next_state": "PLANNED",
+                "next_mode": "NONE",
+                "next_eta_min": 0
+              }
+            }
+          }
+        },
+        "decision": "ALLOW_AUTO",
+        "status": "COMPLETED",
+        "created_at": "2026-09-17T16:04:16.100399+00:00",
+        "completed_at": "2026-09-17T16:04:16.100399+00:00"
+      },
+      {
+        "sequence_no": 3,
+        "tool_name": "list_replans",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-3"
+        },
+        "result": {
+          "tool": "list_replans",
+          "decision": "ALLOW_AUTO",
+          "proposals": []
+        },
+        "decision": "ALLOW_AUTO",
+        "status": "COMPLETED",
+        "created_at": "2026-09-17T16:04:17.650725+00:00",
+        "completed_at": "2026-09-17T16:04:17.650725+00:00"
+      },
+      {
+        "sequence_no": 4,
+        "tool_name": "search_city_services",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "q": "鼓浪屿 博物馆 展馆 室内景点",
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-4"
+        },
+        "result": {
+          "tool": "search_city_services",
+          "decision": "ALLOW_AUTO",
+          "city_code": "CN-厦门",
+          "services": [],
+          "places": []
+        },
+        "decision": "ALLOW_AUTO",
+        "status": "COMPLETED",
+        "created_at": "2026-09-17T16:04:17.652718+00:00",
+        "completed_at": "2026-09-17T16:04:17.652718+00:00"
+      },
+      {
+        "sequence_no": 5,
+        "tool_name": "request_replan",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "trigger_event_id": "72d0f756-631f-4b2c-861a-7ba108739175",
+          "candidate_count": 3,
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-5"
+        },
+        "result": {
+          "tool": "request_replan",
+          "error": "closed activity is protected and cannot be replaced automatically",
+          "status_code": 422
+        },
+        "decision": null,
+        "status": "TOOL_ERROR",
+        "created_at": "2026-09-17T16:04:18.710711+00:00",
+        "completed_at": "2026-09-17T16:04:18.710711+00:00"
+      },
+      {
+        "sequence_no": 6,
+        "tool_name": "search_city_services",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "category": "museum",
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-6"
+        },
+        "result": {
+          "tool": "search_city_services",
+          "decision": "ALLOW_AUTO",
+          "city_code": "CN-厦门",
+          "services": [],
+          "places": []
+        },
+        "decision": "ALLOW_AUTO",
+        "status": "COMPLETED",
+        "created_at": "2026-09-17T16:04:22.790234+00:00",
+        "completed_at": "2026-09-17T16:04:22.790234+00:00"
+      },
+      {
+        "sequence_no": 7,
+        "tool_name": "search_city_services",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9",
+          "service_type": "ATTRACTION",
+          "request_id": "agent-run-204a1f63-0918-4838-b12d-dde81efcbe9e-7"
+        },
+        "result": {
+          "tool": "search_city_services",
+          "decision": "ALLOW_AUTO",
+          "city_code": "CN-厦门",
+          "services": [],
+          "places": []
+        },
+        "decision": "ALLOW_AUTO",
+        "status": "COMPLETED",
+        "created_at": "2026-09-17T16:04:22.792229+00:00",
+        "completed_at": "2026-09-17T16:04:22.792229+00:00"
+      },
+      {
+        "sequence_no": 8,
+        "tool_name": "list_replans",
+        "arguments": {
+          "journey_id": "2bbe2657-c279-42e5-b920-ac3ab9bfc3a9"
+        },
+        "result": {
+          "tool": "list_replans",
+          "error": "tool loop repetition stopped",
+          "decision": "STOP_REPETITION"
+        },
+        "decision": "STOP_REPETITION",
+        "status": "TOOL_ERROR"
+      }
+    ]
+  }
+}

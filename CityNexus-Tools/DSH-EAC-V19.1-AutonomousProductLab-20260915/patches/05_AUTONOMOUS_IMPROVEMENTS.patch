@@ -1,0 +1,646 @@
+diff --git a/backend/app/main.py b/backend/app/main.py
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -65,8 +65,15 @@
+ )
+ from app.agent.signal_pipeline import fixture_payload, set_fixture_state
+ from app.capabilities import (
++    ACCESSIBILITY_STATES,
++    CAPABILITY_CLASSES,
+     CAPABILITY_CODES,
++    CAPABILITY_SCOPES,
++    CAPABILITY_SEVERITIES,
+     canonicalize_capabilities,
++    capability_class_for,
++    default_severity,
++    extract_capabilities_from_text,
+     summarize_capabilities,
+ )
+ from app.capability_impacts import build_capability_impacts
+@@ -268,6 +275,7 @@
+     AgentPolicyPayload,
+     AgentToolCall,
+     BookingCreate,
++    CapabilityExtractRequest,
+     CitySignalFixtureRequest,
+     ConstraintInput,
+     EdgeActionRequest,
+@@ -1844,6 +1852,97 @@
+             )
+     session.flush()
+     return capability_payload(session, traveler_id, journey_id)
++
++
++@app.get("/api/v1/capabilities/catalog")
++def get_capability_catalog() -> dict[str, Any]:
++    """Expose the canonical capability vocabulary to UI/Copilot clients.
++
++    The catalog is descriptive only; it does not imply provider evidence or
++    planning outcomes.
++    """
++
++    return {
++        "codes": [
++            {
++                "code": code,
++                "class": capability_class_for(code),
++                "default_severity": default_severity(code, hard_asserted=False),
++                "hard_accessibility": code in {"STEP_FREE_REQUIRED", "AVOID_STAIRS"},
++            }
++            for code in CAPABILITY_CODES
++        ],
++        "classes": list(CAPABILITY_CLASSES),
++        "severities": list(CAPABILITY_SEVERITIES),
++        "scopes": list(CAPABILITY_SCOPES),
++        "accessibility_states": list(ACCESSIBILITY_STATES),
++        "unknown_accessibility_is_not_accessible": True,
++    }
++
++
++@app.post("/api/v1/travelers/{traveler_id}/capabilities/extract")
++def extract_traveler_capabilities(
++    traveler_id: UUID,
++    payload: CapabilityExtractRequest,
++    session: Session = Depends(get_session),
++):
++    """Return bounded capability candidates from text without persistence.
++
++    This endpoint exists for setup/Copilot confirmation UX.  It never creates
++    provider evidence and never persists a HARD need silently.
++    """
++
++    traveler = require(session, Traveler, str(traveler_id), "Traveler")
++    candidates = extract_capabilities_from_text(
++        payload.text,
++        scope=payload.scope,
++        source="TEXT_EXTRACTION",
++        provenance="USER_STATED",
++    )
++    return {
++        "traveler_id": traveler.id,
++        "text": payload.text,
++        "scope": payload.scope,
++        "candidates": list(candidates),
++        "source": "DETERMINISTIC_TEXT_FALLBACK",
++        "authority": "UI_CANDIDATE_ONLY",
++        "unknown_accessibility_is_not_accessible": True,
++    }
++
++
++@app.get("/api/v1/travelers/{traveler_id}/capabilities/audit")
++def list_capability_audit(
++    traveler_id: UUID,
++    limit: int = Query(default=50, ge=1, le=200),
++    session: Session = Depends(get_session),
++):
++    """Inspect capability change history without exposing secrets."""
++
++    traveler = require(session, Traveler, str(traveler_id), "Traveler")
++    rows = session.scalars(
++        select(AuditLog)
++        .where(
++            AuditLog.actor_id == traveler.id,
++            AuditLog.entity_type == "TravelerCapability",
++        )
++        .order_by(AuditLog.created_at.desc(), AuditLog.id.desc())
++        .limit(limit)
++    ).all()
++    return {
++        "traveler_id": traveler.id,
++        "events": [
++            {
++                "id": row.id,
++                "action": row.action,
++                "journey_id": row.journey_id,
++                "entity_id": row.entity_id,
++                "before": json.loads(row.before_json) if row.before_json else None,
++                "after": json.loads(row.after_json) if row.after_json else None,
++                "created_at": row.created_at,
++            }
++            for row in rows
++        ],
++    }
+ 
+ 
+ @app.get("/api/v1/travelers/{traveler_id}/capabilities")
+diff --git a/backend/app/schemas.py b/backend/app/schemas.py
+--- a/backend/app/schemas.py
++++ b/backend/app/schemas.py
+@@ -60,6 +60,15 @@
+     explicit: bool = True
+     confirmed: bool = False
+     active: bool = True
++
++
++class CapabilityExtractRequest(BaseModel):
++    """Bounded deterministic extraction request; never provider evidence."""
++
++    model_config = ConfigDict(extra="forbid")
++
++    text: str = Field(min_length=1, max_length=1000)
++    scope: Literal["TRAVELER", "JOURNEY"] = "JOURNEY"
+ 
+ 
+ class AgentPolicyPayload(BaseModel):
+diff --git a/backend/tests/test_v19_1_capabilities.py b/backend/tests/test_v19_1_capabilities.py
+new file mode 100644
+--- /dev/null
++++ b/backend/tests/test_v19_1_capabilities.py
+@@ -0,0 +1,178 @@
++from __future__ import annotations
++
++from fastapi.testclient import TestClient
++
++from app.capabilities import (
++    accessibility_state,
++    canonicalize_capabilities,
++    extract_capabilities_from_text,
++)
++from app.main import app
++
++client = TestClient(app)
++
++
++def _by_code(items):
++    return {item["code"]: item for item in items}
++
++
++def test_negation_and_history_are_clause_scoped() -> None:
++    extracted = extract_capabilities_from_text(
++        "以前不能走，现在想少走路，中午最好休息。"
++    )
++    codes = {item["code"] for item in extracted}
++    assert "MAX_WALKING_PER_LEG_M" in codes
++    assert "MIDDAY_REST_WINDOW" in codes
++
++    negative = extract_capabilities_from_text("不需要轮椅，也不用避免楼梯。")
++    assert negative == ()
++
++
++def test_hard_accessibility_cannot_be_downgraded_and_duplicates_resolve() -> None:
++    confirmed = canonicalize_capabilities(
++        [{"code": "STEP_FREE_REQUIRED", "severity": "SOFT", "params": {}}]
++    )
++    assert confirmed[0]["severity"] == "HARD"
++    assert confirmed[0]["class"] == "HARD_ACCESSIBILITY_NEED"
++
++    provisional = canonicalize_capabilities(
++        [
++            {
++                "code": "STEP_FREE_REQUIRED",
++                "severity": "HARD",
++                "params": {"needs_confirmation": True},
++            }
++        ]
++    )
++    assert provisional[0]["severity"] == "STRONG"
++
++    deduped = canonicalize_capabilities(
++        [
++            {"code": "STEP_FREE_REQUIRED", "severity": "SOFT", "params": {"a": 1}},
++            {"code": "STEP_FREE_REQUIRED", "severity": "HARD", "params": {"b": 2}},
++        ]
++    )
++    assert len(deduped) == 1
++    assert deduped[0]["severity"] == "HARD"
++    assert deduped[0]["params"] == {"a": 1, "b": 2}
++
++
++def test_numeric_constraints_are_parsed_without_inference() -> None:
++    items = _by_code(
++        extract_capabilities_from_text(
++            "每段不超过300米，连续走15分钟，每45分钟休息，中午12点到14点午休。"
++        )
++    )
++    assert items["MAX_WALKING_PER_LEG_M"]["params"]["max_m"] == 300
++    assert items["MAX_CONTINUOUS_WALKING_MIN"]["params"]["max_min"] == 15
++    assert items["REST_EVERY_MIN"]["params"]["max_min"] == 45
++    assert items["MIDDAY_REST_WINDOW"]["params"] == {"start": "12:00", "end": "14:00"}
++
++
++def test_accessibility_state_never_treats_missing_tag_as_verified() -> None:
++    assert accessibility_state({"wheelchair": "yes"}) == "ACCESSIBILITY_UNVERIFIED"
++    assert accessibility_state({"wheelchair_access": True}) == "ACCESSIBILITY_VERIFIED"
++    assert accessibility_state({"wheelchair_access": False}) == "ACCESSIBILITY_CONFLICT"
++    assert accessibility_state({"highway": "steps"}) == "ACCESSIBILITY_UNVERIFIED"
++    assert accessibility_state(None) == "ACCESSIBILITY_UNVERIFIED"
++    assert accessibility_state({"wheelchair": "yes", "evidence_status": "UNKNOWN"}) == "ACCESSIBILITY_UNVERIFIED"
++
++
++def test_capability_api_hard_requires_confirm_and_scope_is_isolated() -> None:
++    demo = client.post("/api/v1/demo/reset").json()
++    traveler_id = demo["traveler_id"]
++    journey_id = demo["journey_id"]
++
++    hard_payload = [
++        {
++            "code": "STEP_FREE_REQUIRED",
++            "class": "HARD_ACCESSIBILITY_NEED",
++            "severity": "HARD",
++            "params": {"requirement": "step_free"},
++            "scope": "TRAVELER",
++        }
++    ]
++    rejected = client.put(f"/api/v1/travelers/{traveler_id}/capabilities", json=hard_payload)
++    assert rejected.status_code == 409
++    assert "hard capability" in rejected.text.lower()
++
++    confirmed = client.post(
++        f"/api/v1/travelers/{traveler_id}/capabilities/confirm", json=hard_payload
++    )
++    assert confirmed.status_code == 200, confirmed.text
++    body = confirmed.json()
++    assert body["capabilities"][0]["code"] == "STEP_FREE_REQUIRED"
++    assert body["capabilities"][0]["confirmed"] is True
++
++    journey_only = client.post(
++        f"/api/v1/journeys/{journey_id}/capabilities/confirm",
++        json=[
++            {
++                "code": "INFANT_NAP_WINDOW",
++                "class": "CARE_REQUIREMENT",
++                "severity": "HARD",
++                "params": {"start": "13:00", "end": "15:00"},
++                "scope": "JOURNEY",
++            }
++        ],
++    )
++    assert journey_only.status_code == 200, journey_only.text
++    journey_codes = {item["code"] for item in journey_only.json()["capabilities"]}
++    assert "INFANT_NAP_WINDOW" in journey_codes
++
++    traveler_view = client.get(f"/api/v1/travelers/{traveler_id}/capabilities")
++    traveler_codes = {item["code"] for item in traveler_view.json()["capabilities"]}
++    assert "STEP_FREE_REQUIRED" in traveler_codes
++    assert "INFANT_NAP_WINDOW" not in traveler_codes
++
++    twin = client.get(f"/api/v1/travelers/{traveler_id}/traveler-twin")
++    assert twin.status_code == 200
++    assert "explicit_capabilities" in twin.json()
++
++
++def test_text_extraction_and_audit_are_candidate_only_and_traceable() -> None:
++    demo = client.post("/api/v1/demo/reset").json()
++    traveler_id = demo["traveler_id"]
++    journey_id = demo["journey_id"]
++
++    extracted = client.post(
++        f"/api/v1/travelers/{traveler_id}/capabilities/extract",
++        json={"text": "我妈膝盖不好，不能走太多，中午最好休息。", "scope": "JOURNEY"},
++    )
++    assert extracted.status_code == 200, extracted.text
++    body = extracted.json()
++    assert body["authority"] == "UI_CANDIDATE_ONLY"
++    codes = {item["code"] for item in body["candidates"]}
++    assert "MAX_WALKING_PER_LEG_M" in codes
++    assert "MIDDAY_REST_WINDOW" in codes
++    assert all(item["confirmed"] is False for item in body["candidates"])
++
++    hard = client.post(
++        f"/api/v1/travelers/{traveler_id}/capabilities/extract",
++        json={"text": "需要轮椅，不能走楼梯。", "scope": "TRAVELER"},
++    )
++    hard_codes = {item["code"]: item for item in hard.json()["candidates"]}
++    assert hard_codes["STEP_FREE_REQUIRED"]["severity"] == "HARD"
++    assert hard_codes["AVOID_STAIRS"]["severity"] == "HARD"
++
++    confirmed = client.post(
++        f"/api/v1/journeys/{journey_id}/capabilities/confirm",
++        json=[{"code": "INFANT_NAP_WINDOW", "class": "CARE_REQUIREMENT", "severity": "HARD", "params": {"start": "13:00", "end": "15:00"}, "scope": "JOURNEY"}],
++    )
++    assert confirmed.status_code == 200, confirmed.text
++    audit = client.get(f"/api/v1/travelers/{traveler_id}/capabilities/audit")
++    assert audit.status_code == 200, audit.text
++    actions = {event["action"] for event in audit.json()["events"]}
++    assert "traveler.capability.created" in actions or "traveler.capability.updated" in actions
++
++
++def test_capability_catalog_is_descriptive_only() -> None:
++    response = client.get("/api/v1/capabilities/catalog")
++    assert response.status_code == 200, response.text
++    body = response.json()
++    assert body["unknown_accessibility_is_not_accessible"] is True
++    codes = {item["code"]: item for item in body["codes"]}
++    assert codes["STEP_FREE_REQUIRED"]["hard_accessibility"] is True
++    assert codes["STEP_FREE_REQUIRED"]["default_severity"] in {"STRONG", "HARD"}
++    assert "ACCESSIBILITY_VERIFIED" in body["accessibility_states"]
++    assert "NEEDS_LIVE_EVIDENCE" in body["accessibility_states"]
+diff --git a/AUTONOMOUS_BACKLOG_DECISIONS.md b/AUTONOMOUS_BACKLOG_DECISIONS.md
+new file mode 100644
+--- /dev/null
++++ b/AUTONOMOUS_BACKLOG_DECISIONS.md
+@@ -0,0 +1,67 @@
++# Autonomous Backlog Decisions
++
++Selection rule: `user value × frequency × confidence ÷ merge risk`.
++
++## 1. Evidence inspected
++
++- Current V19 capability API and frontend consumers.
++- Provider evidence architecture and OSM tag shapes.
++- Existing plan/recovery explainability gaps.
++- Existing PWA/build/test architecture.
++- Existing audit and contract vocabulary.
++
++## 2. Candidates considered
++
++| Candidate | User value | Frequency | Confidence | Merge risk | Decision |
++| --- | --- | --- | --- | --- | --- |
++| Bounded text → capability extraction endpoint | High | High | High | Low | Implemented |
++| Capability audit trail endpoint | High | Medium | High | Low | Implemented |
++| Capability catalog endpoint | Medium | High | High | Low | Implemented |
++| New agent framework | Low | Low | Low | Very high | Rejected |
++| Speculative database rewrite | Low | Low | Low | Very high | Rejected |
++| Endless colour polish | Low | High | Low | Low | Rejected |
++| Full recovery replay engine | High | Medium | Low | High | Deferred |
++
++## 3. Implemented autonomous improvements
++
++### 3.1 `POST /api/v1/travelers/{id}/capabilities/extract`
++
++Problem: setup/Copilot confirmation UX needed a bounded, deterministic way to
++turn text into capability candidates without persistence or provider claims.
++
++Implementation: returns `authority=UI_CANDIDATE_ONLY`, `confirmed=false`,
++`source=DETERMINISTIC_TEXT_FALLBACK`.  Hard accessibility candidates are
++visible but never silently persisted.
++
++Tests: extraction, scope, candidate-only authority, HARD severity.
++
++### 3.2 `GET /api/v1/travelers/{id}/capabilities/audit`
++
++Problem: capability confirmations are durable authority decisions, but the UI
++and operators had no inspectable change history.
++
++Implementation: returns recent `TravelerCapability` audit events with action,
++before/after, journey, and timestamp.  No secrets are returned.
++
++Tests: confirm a capability then assert audit actions exist.
++
++### 3.3 `GET /api/v1/capabilities/catalog`
++
++Problem: UI and Copilot code could drift from the canonical vocabulary and
++severity defaults.
++
++Implementation: returns codes, classes, severities, scopes, accessibility
++states, and default severity/class metadata.  Descriptive only; does not imply
++provider evidence.
++
++Tests: catalog contains hard codes and evidence states, and the
++unknown-is-not-accessible flag.
++
++## 4. Merge recommendation
++
++All three are additive endpoints with unit tests and zero main-tree changes.
++They are safe to merge as `patches/05_AUTONOMOUS_IMPROVEMENTS.patch`.
++
++The deferred full recovery replay engine should wait for a real
++`recovery/capability-diff` backend contract rather than being simulated in the
++UI.
+diff --git a/tools/v19_1_shadow_flows.py b/tools/v19_1_shadow_flows.py
+new file mode 100644
+--- /dev/null
++++ b/tools/v19_1_shadow_flows.py
+@@ -0,0 +1,242 @@
++"""Run eight deterministic shadow traveler flows against the isolated V19 backend."""
++
++from __future__ import annotations
++
++import json
++import os
++import sys
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++BACKEND = ROOT / "lab" / "runtime" / "backend"
++sys.path.insert(0, str(BACKEND))
++os.environ.setdefault("CITYNEXUS_DATABASE_URL", "sqlite:///./v19_1_flows.db")
++os.environ.setdefault("PYTHONDONTWRITEBYTECODE", "1")
++
++from fastapi.testclient import TestClient  # noqa: E402
++
++from app.db.models import Place  # noqa: E402
++from app.db.session import SessionLocal  # noqa: E402
++from app.main import app  # noqa: E402
++
++client = TestClient(app)
++EVIDENCE = ROOT / "evidence" / "shadow_e2e_results.jsonl"
++
++
++def set_place_tags(place_id: str, tags: dict[str, object]) -> None:
++    with SessionLocal() as session:
++        place = session.get(Place, place_id)
++        if place is None:
++            raise SystemExit(f"place not found: {place_id}")
++        existing = json.loads(place.metadata_json or "{}")
++        if not isinstance(existing, dict):
++            existing = {}
++        existing["tags"] = tags
++        place.metadata_json = json.dumps(existing, ensure_ascii=False)
++        place.tags_json = json.dumps([], ensure_ascii=False)
++        session.commit()
++
++
++def reset_demo() -> dict[str, str]:
++    response = client.post("/api/v1/demo/reset")
++    response.raise_for_status()
++    return response.json()
++
++
++def confirm_capabilities(journey_id: str, capabilities: list[dict[str, object]]) -> dict:
++    response = client.post(f"/api/v1/journeys/{journey_id}/capabilities/confirm", json=capabilities)
++    try:
++        body = response.json()
++    except Exception:
++        body = response.text
++    return {"status_code": response.status_code, "body": body}
++
++
++def generate_plan(journey_id: str) -> dict:
++    response = client.post(f"/api/v1/journeys/{journey_id}/plans/generate", json={"candidate_count": 1})
++    if response.status_code != 201:
++        return {"status_code": response.status_code, "body": response.text}
++    plans = response.json()
++    return {"status_code": response.status_code, "plan_id": plans[0]["id"], "plan_count": len(plans)}
++
++
++def plan_impact(journey_id: str, plan_id: str | None) -> dict:
++    params = {"plan_version_id": plan_id} if plan_id else None
++    response = client.get(f"/api/v1/journeys/{journey_id}/capability-plan-impact", params=params)
++    try:
++        body = response.json()
++    except Exception:
++        body = response.text
++    return {"status_code": response.status_code, "body": body}
++
++
++def provider_evidence(place_id: str) -> dict:
++    response = client.get(f"/api/v1/places/{place_id}/accessibility-evidence")
++    try:
++        body = response.json()
++    except Exception:
++        body = response.text
++    return {"status_code": response.status_code, "body": body}
++
++
++def cap(code: str, klass: str, severity: str, params: dict[str, object], scope: str = "JOURNEY") -> dict[str, object]:
++    return {
++        "code": code,
++        "class": klass,
++        "severity": severity,
++        "params": params,
++        "scope": scope,
++        "source": "USER_CONFIRMED",
++        "provenance": "USER_CONFIRMED",
++        "explicit": True,
++        "active": True,
++        "confirmed": True,
++    }
++
++
++FLOWS = [
++    {
++        "id": "A_elderly_walking_rest",
++        "label": "A elderly + walking limit + midday rest",
++        "place_tags": None,
++        "capabilities": [
++            cap("MAX_WALKING_PER_LEG_M", "PHYSICAL_LIMIT", "HARD", {"max_m": 500}),
++            cap("MIDDAY_REST_WINDOW", "CARE_REQUIREMENT", "HARD", {"start": "12:00", "end": "14:00"}),
++        ],
++        "expect": "HARD walking and rest should be evaluated by the gate; unknown provider evidence must remain visible.",
++    },
++    {
++        "id": "B_wheelchair_verified_place",
++        "label": "B wheelchair + verified place",
++        "place_tags": {"wheelchair": "yes", "entrance:wheelchair": "yes"},
++        "capabilities": [cap("STEP_FREE_REQUIRED", "HARD_ACCESSIBILITY_NEED", "HARD", {"requirement": "step_free"})],
++        "expect": "Explicit provider tags may verify the place; route-level step-free evidence still remains NEEDS_LIVE_EVIDENCE.",
++    },
++    {
++        "id": "C_wheelchair_unknown_place",
++        "label": "C wheelchair + unknown place",
++        "place_tags": {"name": "Unknown venue"},
++        "capabilities": [cap("STEP_FREE_REQUIRED", "HARD_ACCESSIBILITY_NEED", "HARD", {"requirement": "step_free"})],
++        "expect": "No tags must produce ACCESSIBILITY_UNVERIFIED / NEEDS_LIVE_EVIDENCE, never accessible.",
++    },
++    {
++        "id": "D_wheelchair_conflict_place",
++        "label": "D wheelchair + conflict place",
++        "place_tags": {"wheelchair": "no", "highway": "steps", "step_count": "12"},
++        "capabilities": [cap("STEP_FREE_REQUIRED", "HARD_ACCESSIBILITY_NEED", "HARD", {"requirement": "step_free"})],
++        "expect": "Explicit conflict should be rejected/highlighted, never softened to preserved.",
++    },
++    {
++        "id": "E_infant_nap_stroller",
++        "label": "E infant + nap + stroller",
++        "place_tags": {"stroller_accessible": "unknown"},
++        "capabilities": [
++            cap("INFANT_NAP_WINDOW", "CARE_REQUIREMENT", "HARD", {"start": "13:00", "end": "15:00"}),
++            cap("STROLLER", "TRIP_CONTEXT", "STRONG", {"present": True}),
++            cap("REST_EVERY_MIN", "CARE_REQUIREMENT", "STRONG", {"max_min": 60}),
++        ],
++        "expect": "Care window may be unsatisfied in a generated plan; stroller facility evidence remains unknown unless proven.",
++    },
++    {
++        "id": "F_large_luggage",
++        "label": "F large luggage",
++        "place_tags": {"luggage_accessible": "unknown"},
++        "capabilities": [
++            cap("LARGE_LUGGAGE", "TRIP_CONTEXT", "STRONG", {"present": True}),
++            cap("MAX_WALKING_PER_LEG_M", "PHYSICAL_LIMIT", "STRONG", {"max_m": 600}),
++        ],
++        "expect": "Luggage context should not fabricate accessibility; unknown facility evidence stays unknown.",
++    },
++    {
++        "id": "G_normal_soft_preference",
++        "label": "G normal soft preference",
++        "place_tags": {"name": "Quiet museum"},
++        "capabilities": [
++            cap("QUIET_ENVIRONMENT", "SOFT_PREFERENCE", "SOFT", {"preferred": True}),
++            cap("INDOOR_PREFERRED", "SOFT_PREFERENCE", "SOFT", {"preferred": True}),
++        ],
++        "expect": "Soft preference must remain ranking/explanation context, not a hard gate or accessibility claim.",
++    },
++    {
++        "id": "H_conflicting_family_needs",
++        "label": "H conflicting family needs",
++        "place_tags": {"wheelchair": "limited", "stroller_accessible": "unknown", "step_count": "3"},
++        "capabilities": [
++            cap("STEP_FREE_REQUIRED", "HARD_ACCESSIBILITY_NEED", "HARD", {"requirement": "step_free"}),
++            cap("AVOID_STAIRS", "HARD_ACCESSIBILITY_NEED", "HARD", {"avoid": True}),
++            cap("STROLLER", "TRIP_CONTEXT", "STRONG", {"present": True}),
++            cap("INFANT_NAP_WINDOW", "CARE_REQUIREMENT", "HARD", {"start": "13:00", "end": "14:30"}),
++        ],
++        "expect": "Conflicting hard accessibility plus care needs must be surfaced separately and never collapsed into one green pass.",
++    },
++]
++
++
++def run_flow(flow: dict[str, object]) -> dict[str, object]:
++    demo = reset_demo()
++    traveler_id = demo["traveler_id"]
++    journey_id = demo["journey_id"]
++    place_id = "place-riverside-museum"
++    if flow.get("place_tags") is not None:
++        set_place_tags(place_id, flow["place_tags"])  # type: ignore[arg-type]
++    # Generate the baseline plan first so the impact endpoint can evaluate the
++    # persisted activities against the newly confirmed capabilities.  A hard
++    # capability may make the baseline infeasible; that is a valid shadow result.
++    generation = generate_plan(journey_id)
++    confirmation = confirm_capabilities(journey_id, flow["capabilities"])  # type: ignore[arg-type]
++    impact = plan_impact(journey_id, generation.get("plan_id"))
++    evidence = provider_evidence(place_id)
++    impact_body = impact.get("body") if isinstance(impact, dict) else {}
++    impacts = impact_body.get("impacts") if isinstance(impact_body, dict) else None
++    unknown_count = len(impacts.get("unknown", [])) if isinstance(impacts, dict) else 0
++    rejected_count = len(impacts.get("rejected", [])) if isinstance(impacts, dict) else 0
++    if confirmation.get("status_code") != 200:
++        status = "BUG"
++    elif generation.get("status_code") != 201:
++        status = "BLOCKED"
++    elif not isinstance(impact_body, dict) or impact_body.get("status") == "CONTRACT_NOT_AVAILABLE":
++        status = "CONTRACT_GAP"
++    elif impact_body.get("status") == "FAIL" and rejected_count and unknown_count:
++        status = "FAIL_EXPECTED_CONFLICT_WITH_GAP"
++    elif impact_body.get("status") == "FAIL" and rejected_count:
++        status = "FAIL_EXPECTED_CONFLICT"
++    elif impact_body.get("status") == "FAIL" and unknown_count:
++        status = "NEEDS_EVIDENCE"
++    elif impact_body.get("status") == "FAIL":
++        status = "BUG"
++    elif unknown_count:
++        status = "NEEDS_EVIDENCE"
++    else:
++        status = "PASS"
++    provider_body = evidence.get("body") if isinstance(evidence, dict) else {}
++    return {
++        "flow_id": flow["id"],
++        "label": flow["label"],
++        "traveler_id": traveler_id,
++        "journey_id": journey_id,
++        "place_id": place_id,
++        "confirmed": confirmation,
++        "generation": generation,
++        "impact_status": impact_body.get("status") if isinstance(impact_body, dict) else None,
++        "impact_unknown_count": unknown_count,
++        "impact_rejected_count": rejected_count,
++        "provider_overall_state": provider_body.get("overall_state") if isinstance(provider_body, dict) else None,
++        "provider_items": len(provider_body.get("items", [])) if isinstance(provider_body, dict) else 0,
++        "status": status,
++        "expectation": flow["expect"],
++    }
++
++
++def main() -> None:
++    lines = []
++    for flow in FLOWS:
++        result = run_flow(flow)
++        lines.append(result)
++        print(f"{result['flow_id']}: {result['status']} ({result['impact_status']})")
++    EVIDENCE.parent.mkdir(parents=True, exist_ok=True)
++    EVIDENCE.write_text("\n".join(json.dumps(item, ensure_ascii=False) for item in lines) + "\n", encoding="utf-8")
++    print(f"wrote {EVIDENCE}")
++
++
++if __name__ == "__main__":
++    main()

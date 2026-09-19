@@ -1,0 +1,23 @@
+{
+  "leak_agent": {
+    "label": "agent_route",
+    "hits": []
+  },
+  "leak_dock": {
+    "label": "copilot_dock",
+    "hits": []
+  },
+  "stay_honest_empty": true,
+  "stay_pseudo_evidence": false,
+  "h2_visible_feedback": true,
+  "h2_pageerrors": 0,
+  "leak_bookings": {
+    "label": "bookings",
+    "hits": [
+      "受保护 C4",
+      "UNKNOWN_REALTIME"
+    ]
+  },
+  "offline_banner": true,
+  "pageErrors": []
+}

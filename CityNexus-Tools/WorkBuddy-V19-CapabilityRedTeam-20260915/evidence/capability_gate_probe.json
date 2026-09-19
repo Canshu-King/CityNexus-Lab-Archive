@@ -1,0 +1,154 @@
+{
+ "scenarios": {
+  "hard_wheelchair_zh": {
+   "label": "hard_wheelchair_zh",
+   "text": "我用轮椅，必须全程 step-free，一步楼梯都不能走",
+   "capabilities": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD"
+    },
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD"
+    }
+   ],
+   "projected_constraints": [
+    {
+     "kind": "HARD",
+     "category": "HARD_ACCESSIBILITY_NEED",
+     "rule_code": "STEP_FREE_REQUIRED"
+    },
+    {
+     "kind": "HARD",
+     "category": "HARD_ACCESSIBILITY_NEED",
+     "rule_code": "AVOID_STAIRS"
+    }
+   ],
+   "gate_passed": false,
+   "gate_failures": [
+    "UNSUPPORTED_HARD_CONSTRAINT:AVOID_STAIRS",
+    "UNSUPPORTED_HARD_CONSTRAINT:STEP_FREE_REQUIRED"
+   ]
+  },
+  "hard_wheelchair_en": {
+   "label": "hard_wheelchair_en",
+   "text": "I use a wheelchair, every leg must be step-free",
+   "capabilities": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD"
+    }
+   ],
+   "projected_constraints": [
+    {
+     "kind": "HARD",
+     "category": "HARD_ACCESSIBILITY_NEED",
+     "rule_code": "STEP_FREE_REQUIRED"
+    }
+   ],
+   "gate_passed": false,
+   "gate_failures": [
+    "UNSUPPORTED_HARD_CONSTRAINT:STEP_FREE_REQUIRED"
+   ]
+  },
+  "soft_stairs_zh": {
+   "label": "soft_stairs_zh",
+   "text": "最好少走点楼梯，能坐电梯就坐电梯",
+   "capabilities": [
+    {
+     "code": "MAX_WALKING_PER_LEG_M",
+     "severity": "STRONG"
+    }
+   ],
+   "projected_constraints": [],
+   "gate_passed": true,
+   "gate_failures": []
+  },
+  "hard_avoid_stairs_only": {
+   "label": "hard_avoid_stairs_only",
+   "text": "我膝盖不行，不能走楼梯，请避免台阶",
+   "capabilities": [
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD"
+    }
+   ],
+   "projected_constraints": [
+    {
+     "kind": "HARD",
+     "category": "HARD_ACCESSIBILITY_NEED",
+     "rule_code": "AVOID_STAIRS"
+    }
+   ],
+   "gate_passed": false,
+   "gate_failures": [
+    "UNSUPPORTED_HARD_CONSTRAINT:AVOID_STAIRS"
+   ]
+  },
+  "hard_rest_window": {
+   "label": "hard_rest_window",
+   "text": "老人中午 12 点到 14 点必须回酒店休息",
+   "capabilities": [],
+   "projected_constraints": [],
+   "gate_passed": true,
+   "gate_failures": []
+  },
+  "soft_quiet": {
+   "label": "soft_quiet",
+   "text": "希望安静一点，少刺激",
+   "capabilities": [
+    {
+     "code": "QUIET_ENVIRONMENT",
+     "severity": "SOFT"
+    }
+   ],
+   "projected_constraints": [],
+   "gate_passed": true,
+   "gate_failures": []
+  },
+  "hard_walking_limit": {
+   "label": "hard_walking_limit",
+   "text": "走路不能超过 500m，这是硬性要求",
+   "capabilities": [],
+   "projected_constraints": [],
+   "gate_passed": true,
+   "gate_failures": []
+  }
+ },
+ "control_no_constraints": {
+  "gate_passed": true,
+  "gate_failures": []
+ },
+ "control_supported_code": {
+  "gate_passed": true,
+  "gate_failures": []
+ },
+ "gate_vocabulary": {
+  "interpreted_by_gate": [
+   "BUDGET_MAX",
+   "JOURNEY_END_BY",
+   "JOURNEY_START_AT",
+   "PLACE_UNAVAILABLE",
+   "PLACE_CLOSED",
+   "SERVICE_UNAVAILABLE",
+   "SERVICE_CLOSED",
+   "REQUIRE_PLACE",
+   "LOCKED_COMMITMENT"
+  ],
+  "emitted_by_capability_layer": [
+   "AVOID_STAIRS",
+   "STEP_FREE_REQUIRED"
+  ],
+  "emitted_but_not_interpreted": [
+   "AVOID_STAIRS",
+   "STEP_FREE_REQUIRED"
+  ],
+  "conclusion": "capability_constraints() projects rule codes the feasibility gate does not implement, so every such constraint fails closed as UNSUPPORTED_HARD_CONSTRAINT and the Journey cannot be planned."
+ },
+ "accessibility_state_wiring": {
+  "imported": true,
+  "call_sites": 0,
+  "conclusion": "accessibility_state() is imported by the feasibility gate but never called, so plan feasibility never consults provider accessibility evidence."
+ }
+}

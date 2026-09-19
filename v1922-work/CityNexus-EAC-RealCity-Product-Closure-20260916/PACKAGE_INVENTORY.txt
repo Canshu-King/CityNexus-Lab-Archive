@@ -1,0 +1,52 @@
+CityNexus Real-City Product Closure — package inventory
+=======================================================
+
+Verdict: BLOCKED_FOR_REAL_USER_TRIAL
+Same-journey Xiamen chain: proven (single journey_id, no /demo/reset)
+
+Reports
+-------
+REAL_XIAMEN_CHAIN_RESULTS.md   the one-journey end-to-end chain
+HOTEL_FLOW_RESULTS.md          real provider-backed hotel compare/select
+LIVE_REPLAN_RESULTS.md         disruption -> governed replan -> accept
+ORDER_IMPORT_RESULTS.md        consumer order import (honest: NOT closed)
+UI_REFERENCE_PARITY.md         ten reference screens vs implementation
+USER_JOURNEY_RESULTS.md        traveller walkthrough, both viewports
+REMAINING_PRODUCT_GAPS.md      ordered remaining work
+TEST_RESULTS.md                real run numbers
+CHANGED_FILES.txt              3 added, 10 modified, 0 removed
+PACKAGE_INVENTORY.txt          this file
+
+evidence/
+  SAME_JOURNEY_TRACE.json      31 entries, one journey_id, computed proof
+  be_chain.json                backend chain result for that journey
+  fe_trace.json                browser trace + errors
+  SNAPSHOT_H_MANIFEST.json     frozen overnight result
+
+screenshots/before/            previous real-phone photographs
+screenshots/after/             real browser captures after this round
+
+source/                        the 13 changed source files
+  backend/app/integrations/stay_osm.py            NEW real accommodation provider
+  backend/app/integrations/discovery/real_city.py cost metadata for composed POIs
+  backend/app/integrations/mobility/runtime.py    two structural key spellings
+  backend/app/main.py                             replan routing identity, evidence reuse
+  backend/app/schemas.py                          activity metadata projection
+  backend/app/services.py                         candidate variants + coordinates
+  backend/app/stay_mobility.py                    provider selection
+  frontend/src/app/V8Experience.tsx               Trips sub-tabs, LiveRecovery wiring
+  frontend/src/components/v8/MapPanel.tsx         tile-failure fallback
+  frontend/src/features/planning/PlanComparison.tsx  honest 方案 A/B/C labels
+  frontend/src/features/execution/LiveRecovery.tsx   NEW live/replan surface
+  frontend/src/features/stay/HotelsPanel.tsx         NEW hotel comparison
+  frontend/src/styles.css                         product-layer styling
+
+Explicit non-claims
+-------------------
+* No real payment was executed.
+* No physical-device testing.
+* Order import is NOT closed (still a JSON box).
+* Activity detail has no dedicated screen.
+* Visual parity with the reference system is partial.
+* Stay prices are provider-unknown and shown as such, never invented.
+* The disruption was injected through the product API, not a real-world feed.

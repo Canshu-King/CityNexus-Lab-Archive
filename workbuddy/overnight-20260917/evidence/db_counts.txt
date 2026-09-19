@@ -1,0 +1,1 @@
+﻿{"plan_versions": 0, "activities": 0, "places": 8, "stay_journey_options": 0, "real_place_candidates": 0, "agent_runs": 2, "events": 1}

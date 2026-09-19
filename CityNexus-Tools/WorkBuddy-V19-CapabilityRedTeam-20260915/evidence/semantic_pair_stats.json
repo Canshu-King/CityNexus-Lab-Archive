@@ -1,0 +1,4511 @@
+[
+ {
+  "pair_id": "AMB-001",
+  "bucket": "ambiguous",
+  "a_id": "AMB-001-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-001-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"minimize walking distance\", \"type\": \"mobility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"entire_journey\", \"stairs_allowed\": false, \"type\": \"accessibility\", \"value\": \"step_free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-002",
+  "bucket": "ambiguous",
+  "a_id": "AMB-002-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-002-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"prefer less walking\", \"type\": \"mobility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"stairs_allowed\": false, \"type\": \"accessibility\", \"value\": \"step_free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-003",
+  "bucket": "ambiguous",
+  "a_id": "AMB-003-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-003-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"activity\": \"return_to_hotel_rest\", \"end\": \"14:00\", \"location\": \"hotel\", \"recurrence\": \"daily\", \"start\": \"12:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-004",
+  "bucket": "ambiguous",
+  "a_id": "AMB-004-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-004-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"activity\": \"rest\", \"end\": \"14:00\", \"location\": \"hotel\", \"start\": \"12:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-005",
+  "bucket": "ambiguous",
+  "a_id": "AMB-005-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-005-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Prefer a less noisy environment\", \"type\": \"noise_level\", \"value\": \"quiet\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"migraine\", \"type\": \"environment\", \"value\": \"quiet\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-006",
+  "bucket": "ambiguous",
+  "a_id": "AMB-006-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-006-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"polarity\": \"prefer\", \"type\": \"noise_level\", \"value\": \"low\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"attribute\": \"noise_level\", \"reason\": \"migraine sensitivity\", \"type\": \"environmental\", \"value\": \"quiet\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-007",
+  "bucket": "ambiguous",
+  "a_id": "AMB-007-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-007-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"user has a lot of luggage\", \"type\": \"luggage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"luggage_count\", \"value\": 2}, {\"type\": \"luggage_size\", \"value\": \"28 inch\"}, {\"type\": \"required_amenity\", \"value\": \"luggage_storage\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-008",
+  "bucket": "ambiguous",
+  "a_id": "AMB-008-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-008-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"user has a large amount of luggage\", \"type\": \"luggage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"luggage_count\", \"value\": 2}, {\"type\": \"luggage_size\", \"value\": \"28-inch\"}, {\"requirement\": \"mandatory\", \"type\": \"luggage_storage\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-009",
+  "bucket": "ambiguous",
+  "a_id": "AMB-009-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-009-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"activity\": \"午睡\", \"applies_to\": \"婴儿\", \"end\": \"15:00\", \"recurrence\": \"daily\", \"start\": \"13:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-010",
+  "bucket": "ambiguous",
+  "a_id": "AMB-010-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-010-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"details\": \"travelling with a kid\", \"type\": \"travel_party\", \"value\": \"child\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"baby must nap\", \"end\": \"15:00\", \"start\": \"13:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-011",
+  "bucket": "ambiguous",
+  "a_id": "AMB-011-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-011-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"note\": \"User did not specify which accessibility needs or features to prioritize\", \"type\": \"accessibility\", \"value\": \"unspecified\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"hard\": true, \"requirement\": \"step_free\", \"scope\": \"entire_journey\", \"stairs_allowed\": false, \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-012",
+  "bucket": "ambiguous",
+  "a_id": "AMB-012-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-012-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"note\": \"User requests accessibility be considered but gives no specific requirement\", \"type\": \"accessibility\", \"value\": \"unspecified\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Route must be step-free throughout\", \"type\": \"accessibility\", \"value\": \"step_free\"}, {\"description\": \"No stairs permitted on route\", \"type\": \"accessibility\", \"value\": \"no_stairs\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-013",
+  "bucket": "ambiguous",
+  "a_id": "AMB-013-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-013-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"required\": true, \"scope\": \"entire_journey\", \"type\": \"accessibility\", \"value\": \"wheelchair_accessible\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-014",
+  "bucket": "ambiguous",
+  "a_id": "AMB-014-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-014-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"source\": \"user_statement\", \"type\": \"accessibility\", \"value\": \"limited_mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"throughout\", \"type\": \"accessibility\", \"value\": \"step_free\"}, {\"type\": \"mobility\", \"value\": \"wheelchair\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-015",
+  "bucket": "ambiguous",
+  "a_id": "AMB-015-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-015-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Cannot climb slopes due to severe heart condition\", \"key\": \"avoid_slopes\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"severe_heart_condition\", \"type\": \"health\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-016",
+  "bucket": "ambiguous",
+  "a_id": "AMB-016-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-016-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"health_condition\", \"value\": \"severe heart condition\"}, {\"type\": \"avoid\", \"value\": \"slopes\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-017",
+  "bucket": "ambiguous",
+  "a_id": "AMB-017-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-017-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"requirement\": \"must_confirm\", \"severity\": \"severe\", \"type\": \"dietary\", \"value\": \"peanut-free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-018",
+  "bucket": "ambiguous",
+  "a_id": "AMB-018-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-018-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"food_caution\", \"value\": \"unspecified\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"requires_confirmation\": true, \"severity\": \"severe\", \"type\": \"dietary\", \"value\": \"peanut-free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-019",
+  "bucket": "ambiguous",
+  "a_id": "AMB-019-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-019-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"entire_journey\", \"detail\": \"全程有电梯或坡道\", \"mobility_aid\": \"stroller\", \"requirement\": \"step_free_access\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-020",
+  "bucket": "ambiguous",
+  "a_id": "AMB-020-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-020-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"pushchair\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"lifts or ramps required throughout\", \"type\": \"accessibility\", \"value\": \"step_free\"}, {\"type\": \"accessibility\", \"value\": \"stroller_accessible\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-021",
+  "bucket": "ambiguous",
+  "a_id": "AMB-021-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-021-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"restroom_accessibility\", \"type\": \"preference\", \"value\": \"convenient\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"minutes\": 60, \"resource\": \"restroom\", \"type\": \"max_interval\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-022",
+  "bucket": "ambiguous",
+  "a_id": "AMB-022-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-022-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"priority\": \"stated\", \"type\": \"accessibility_preference\", \"value\": \"toilet_access\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"facility\": \"toilet\", \"mandatory\": true, \"type\": \"recurring_interval\", \"value_minutes\": 60}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-023",
+  "bucket": "ambiguous",
+  "a_id": "AMB-023-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-023-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"max_walking_distance_meters\": 500, \"traveler_age\": 75, \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-024",
+  "bucket": "ambiguous",
+  "a_id": "AMB-024-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-024-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"max_leg_distance_meters\": 500, \"type\": \"mobility\"}, {\"age_years\": 75, \"type\": \"age\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-025",
+  "bucket": "ambiguous",
+  "a_id": "AMB-025-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-025-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"慢性疲劳\", \"type\": \"rest_interval\", \"value_minutes\": 60}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-026",
+  "bucket": "ambiguous",
+  "a_id": "AMB-026-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-026-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"source\": \"user_statement\", \"type\": \"mobility_or_stamina\", \"value\": \"low_stamina\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"chronic fatigue\", \"recurring\": true, \"type\": \"rest_interval\", \"value_minutes\": 60}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-027",
+  "bucket": "ambiguous",
+  "a_id": "AMB-027-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-027-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"heat_sensitivity\", \"type\": \"preference\", \"value\": \"averse_to_heat\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"shade_required\", \"value\": true}, {\"type\": \"sun_exposure\", \"value\": \"forbidden\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-028",
+  "bucket": "ambiguous",
+  "a_id": "AMB-028-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-028-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"temperature\", \"polarity\": \"avoid_heat\", \"type\": \"preference\", \"value\": \"cooler\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid direct sun exposure\", \"requirement\": \"shade required\", \"type\": \"environmental\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-029",
+  "bucket": "ambiguous",
+  "a_id": "AMB-029-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-029-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"accessibility_need\", \"value\": \"low_vision\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"visual_impairment\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"audio_guide_required\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"audio_guide_must_be_accessible\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-030",
+  "bucket": "ambiguous",
+  "a_id": "AMB-030-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-030-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"visual impairment or low vision\", \"specific_preference\": null, \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"visually_impaired\"}, {\"type\": \"accessibility\", \"value\": \"audio_guidance_mandatory\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-031",
+  "bucket": "ambiguous",
+  "a_id": "AMB-031-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-031-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"avoid_prolonged_standing\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"pregnancy_week\", \"type\": \"personal\", \"value\": 32}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-032",
+  "bucket": "ambiguous",
+  "a_id": "AMB-032-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-032-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid prolonged standing\", \"type\": \"mobility\", \"value\": true}, {\"description\": \"32 weeks pregnant\", \"type\": \"personal_condition\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-033",
+  "bucket": "ambiguous",
+  "a_id": "AMB-033-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-033-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"guide_dog_allowed\", \"strength\": \"hard\", \"type\": \"accessibility\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-034",
+  "bucket": "ambiguous",
+  "a_id": "AMB-034-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-034-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "VERIFY_FACT",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "VERIFY_EVIDENCE",
+   "[{\"requirement\": \"guide dog entry allowed\", \"type\": \"accessibility\"}]",
+   "VERIFY_FACT"
+  ]
+ },
+ {
+  "pair_id": "AMB-035",
+  "bucket": "ambiguous",
+  "a_id": "AMB-035-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-035-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"hearing_impairment\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"requires_text_notifications\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-036",
+  "bucket": "ambiguous",
+  "a_id": "AMB-036-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-036-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"accessibility\", \"value\": \"hearing_difficulty\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"note\": \"User is deaf and requires text-based alternatives\", \"requirement\": \"text_alternatives\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-037",
+  "bucket": "ambiguous",
+  "a_id": "AMB-037-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-037-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"strength\": \"soft\", \"type\": \"accessibility_preference\", \"value\": \"avoid_stairs_or_climbing\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"strength\": \"hard\", \"type\": \"accessibility\", \"value\": \"no_stairs\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-038",
+  "bucket": "ambiguous",
+  "a_id": "AMB-038-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-038-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"strength\": \"soft\", \"type\": \"accessibility\", \"value\": \"avoid_stairs\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"stairs_allowed\": false, \"type\": \"accessibility\", \"value\": \"step_free\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-039",
+  "bucket": "ambiguous",
+  "a_id": "AMB-039-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-039-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"source\": \"user_stated\", \"type\": \"environment\", \"value\": \"quiet_low_stimulation\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-040",
+  "bucket": "ambiguous",
+  "a_id": "AMB-040-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-040-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"stimulus_level\": \"low\", \"type\": \"environment\", \"value\": \"quiet\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-041",
+  "bucket": "ambiguous",
+  "a_id": "AMB-041-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-041-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"note\": \"User reports stomach discomfort; may imply dietary or activity preferences.\", \"type\": \"dietary_or_health\", \"value\": \"stomach_condition\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"severe_stomach_condition\", \"type\": \"dietary\", \"value\": \"no_spicy_food\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-042",
+  "bucket": "ambiguous",
+  "a_id": "AMB-042-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-042-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"delicate stomach\", \"specifics\": \"UNKNOWN\", \"type\": \"dietary\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"dietary\", \"value\": \"no_spicy_food\"}, {\"type\": \"health_condition\", \"value\": \"severe_gastritis\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-043",
+  "bucket": "ambiguous",
+  "a_id": "AMB-043-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-043-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"knee limitation\", \"severity\": \"UNKNOWN\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"avoid_stairs\", \"reason\": \"膝关节置换术后\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-044",
+  "bucket": "ambiguous",
+  "a_id": "AMB-044-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-044-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"limited knee mobility/stamina\", \"severity\": \"unspecified\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"post knee replacement\", \"type\": \"accessibility\", \"value\": \"no_stairs\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-045",
+  "bucket": "ambiguous",
+  "a_id": "AMB-045-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-045-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"required\": true, \"type\": \"accessibility\", \"value\": \"wheelchair\"}, {\"required\": true, \"type\": \"accessibility\", \"value\": \"step-free\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-046",
+  "bucket": "ambiguous",
+  "a_id": "AMB-046-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-046-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"required\": true, \"type\": \"accessibility\", \"value\": \"step_free\"}, {\"required\": true, \"type\": \"mobility\", \"value\": \"wheelchair_user\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-047",
+  "bucket": "ambiguous",
+  "a_id": "AMB-047-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-047-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"interval_hours\": 6, \"type\": \"medication_schedule\"}, {\"type\": \"storage_requirement\", \"value\": \"refrigeration\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-048",
+  "bucket": "ambiguous",
+  "a_id": "AMB-048-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-048-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"interval_hours\": 6, \"type\": \"medication_schedule\"}, {\"type\": \"storage_requirement\", \"value\": \"refrigeration\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-049",
+  "bucket": "ambiguous",
+  "a_id": "AMB-049-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-049-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"inferred\", \"type\": \"accessibility\", \"value\": \"young_child\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Infant (3 months old) must be fed every 2 hours\", \"frequency_hours\": 2, \"subject\": \"infant\", \"type\": \"care_requirement\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-050",
+  "bucket": "ambiguous",
+  "a_id": "AMB-050-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-050-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"feeding every 2 hours is mandatory\", \"frequency\": \"every 2 hours\", \"subject\": \"3-month-old\", \"type\": \"recurring_caregiving\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-051",
+  "bucket": "ambiguous",
+  "a_id": "AMB-051-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-051-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"seating_required\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"interval_minutes\": 30, \"requires_seating\": true, \"type\": \"recurring_rest\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-052",
+  "bucket": "ambiguous",
+  "a_id": "AMB-052-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-052-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"recurring_interval\", \"unit\": \"minutes\", \"value\": \"30 minutes\"}, {\"type\": \"quantity\", \"unit\": \"seat\", \"value\": 1}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-053",
+  "bucket": "ambiguous",
+  "a_id": "AMB-053-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-053-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"hotel\", \"key\": \"quiet\", \"type\": \"preference\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"required\": true, \"type\": \"location_quality\", \"value\": \"quiet_area\"}, {\"max_decibels\": 40, \"required\": true, \"type\": \"noise_level\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-054",
+  "bucket": "ambiguous",
+  "a_id": "AMB-054-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-054-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"hotel\", \"attribute\": \"quiet\", \"type\": \"preference\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"operator\": \"less_than\", \"type\": \"noise_level\", \"unit\": \"dB\", \"value\": 40}, {\"type\": \"zone_character\", \"value\": \"quiet\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-055",
+  "bucket": "ambiguous",
+  "a_id": "AMB-055-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-055-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"required\": true, \"type\": \"accessibility\", \"value\": \"elevator\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"requirement\": \"elevator_required\", \"stairs\": \"forbidden\", \"strength\": \"hard\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-056",
+  "bucket": "ambiguous",
+  "a_id": "AMB-056-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-056-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"UNKNOWN\", \"type\": \"accessibility\", \"value\": \"lift\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"requires_lift\": true, \"stairs_allowed\": false, \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-057",
+  "bucket": "ambiguous",
+  "a_id": "AMB-057-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-057-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"shade_required\", \"value\": true}, {\"type\": \"sun_exposure\", \"value\": \"forbidden\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-058",
+  "bucket": "ambiguous",
+  "a_id": "AMB-058-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-058-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"name\": \"shade_required\", \"type\": \"environmental\", \"value\": true}, {\"name\": \"direct_sun_exposure\", \"type\": \"environmental\", \"value\": \"prohibited\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "AMB-059",
+  "bucket": "ambiguous",
+  "a_id": "AMB-059-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-059-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"service\", \"value\": \"wheelchair_assistance\"}, {\"type\": \"requirement\", \"value\": \"advance_booking\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "AMB-060",
+  "bucket": "ambiguous",
+  "a_id": "AMB-060-VAGUE",
+  "a_role": "AMBIGUOUS",
+  "b_id": "AMB-060-SHARP",
+  "b_role": "DISAMBIGUATED",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "VERIFY_FACT",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "VERIFY_EVIDENCE",
+   "[{\"description\": \"wheelchair assistance must be pre-booked\", \"type\": \"requirement\"}]",
+   "VERIFY_FACT"
+  ]
+ },
+ {
+  "pair_id": "HS-001",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-001-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-001-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"entire_journey\", \"stairs_allowed\": false, \"type\": \"accessibility\", \"value\": \"step_free\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"minimize stair use; prefer elevator routes\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-002",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-002-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-002-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"every_leg\", \"required\": true, \"type\": \"accessibility\", \"value\": \"step_free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"avoid_stairs\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-003",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-003-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-003-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"wheelchair\", \"exceptions\": \"none\", \"requirement\": \"step_free\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"wheelchair_accessible\"}, {\"type\": \"route_preference\", \"value\": \"minimize_stairs\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-004",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-004-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-004-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"max_walking_distance\", \"unit\": \"meters\", \"value\": 500}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"max_walking_distance_meters\", \"value\": 500}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-005",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-005-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-005-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"max_walking_distance_per_leg\", \"unit\": \"metres\", \"value\": 500}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"max_leg_distance\", \"unit\": \"metres\", \"value\": 500}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-006",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-006-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-006-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"hard\": true, \"type\": \"max_walking_distance\", \"unit\": \"m\", \"value\": 500}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"strictness\": \"preferred\", \"type\": \"max_walking_distance\", \"unit\": \"m\", \"value\": 500}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-007",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-007-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-007-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"activity\": \"return_to_hotel_rest\", \"end\": \"14:00\", \"mandatory\": true, \"recurrence\": \"daily\", \"start\": \"12:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Prefer returning to hotel around noon for a rest\", \"type\": \"time_window\", \"value\": \"midday\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-008",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-008-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-008-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"activity\": \"rest\", \"end\": \"14:00\", \"location\": \"hotel\", \"start\": \"12:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "UNKNOWN",
+   "FUTURE",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"time_of_day\", \"value\": \"midday\"}, {\"type\": \"fit_with_existing_plan\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-009",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-009-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-009-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"activity\": \"rest\", \"end\": \"14:00\", \"location\": \"hotel\", \"required\": true, \"start\": \"12:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"time_of_day\", \"value\": \"midday\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-010",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-010-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-010-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"end\": \"15:00\", \"no_activities\": true, \"reason\": \"baby nap\", \"recurrence\": \"daily\", \"start\": \"13:00\", \"type\": \"time_window_block\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"baby nap\", \"time_window\": \"afternoon\", \"type\": \"schedule_density\", \"value\": \"low\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-011",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-011-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-011-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"baby\", \"end\": \"15:00\", \"no_activities\": true, \"start\": \"13:00\", \"type\": \"time_window_block\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"pace\", \"value\": \"light\"}, {\"applies_to\": \"baby nap\", \"type\": \"time_window\", \"value\": \"afternoon\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-012",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-012-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-012-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"baby\", \"description\": \"Baby must nap between 13:00 and 15:00\", \"end\": \"15:00\", \"recurrence\": \"daily\", \"start\": \"13:00\", \"type\": \"time_window\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"pace\", \"value\": \"relaxed\"}, {\"type\": \"companion\", \"value\": \"baby\"}, {\"type\": \"nap_schedule\", \"value\": \"usual\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-013",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-013-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-013-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"strength\": \"hard\", \"type\": \"environment\", \"value\": \"quiet\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"noise causes fatigue\", \"type\": \"environment\", \"value\": \"quiet\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-014",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-014-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-014-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"attribute\": \"noise_level\", \"hard\": true, \"operator\": \"maximize_quiet\", \"type\": \"environmental\", \"value\": \"quiet\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"noise_level\", \"strength\": \"soft\", \"type\": \"preference\", \"value\": \"quiet\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-015",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-015-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-015-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"note\": \"sensory-related requirement\", \"type\": \"environment\", \"value\": \"quiet\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"quiet\", \"negotiable\": true, \"strength\": \"soft\", \"type\": \"preference\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-016",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-016-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-016-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"facility\": \"restroom\", \"max_interval_minutes\": 60, \"type\": \"facility_access_interval\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"approximate\": true, \"subject\": \"restroom_access\", \"type\": \"recurring_interval\", \"value_minutes\": 60}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-017",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-017-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-017-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"hard\": true, \"max_interval_minutes\": 60, \"need\": \"toilet_access\", \"type\": \"accessibility_need\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"restroom_frequency\", \"value_minutes\": 60}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-018",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-018-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-018-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"mandatory\": true, \"omittable\": false, \"subject\": \"toilet\", \"type\": \"frequency\", \"unit\": \"minutes\", \"value\": \"60min\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"subject\": \"toilet\", \"type\": \"frequency\", \"value\": \"60min\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-019",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-019-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-019-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"entire_journey\", \"detail\": \"全程有电梯或坡道\", \"requirement\": \"step_free\", \"type\": \"accessibility\"}, {\"detail\": \"推着婴儿车\", \"type\": \"traveler_context\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid stairs\", \"stroller\": true, \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-020",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-020-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-020-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"all_routes\", \"constraint_type\": \"accessibility\", \"detail\": \"routes must use lift or ramp\", \"reason\": \"traveling with stroller\", \"value\": \"step_free\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"avoid stairs\", \"type\": \"accessibility\", \"value\": \"stroller\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-021",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-021-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-021-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"forbids\": [\"stairs\"], \"mode\": \"stroller\", \"requires\": [\"lift\", \"ramp\"], \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"stroller\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"fewer_stairs\", \"type\": \"accessibility\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-022",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-022-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-022-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"count\": 2, \"size\": \"28寸\", \"type\": \"luggage\"}, {\"amenity\": \"luggage_storage\", \"type\": \"required_amenity\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"store luggage before continuing\", \"type\": \"preference\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-023",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-023-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-023-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"luggage_count\", \"value\": 2}, {\"type\": \"luggage_size\", \"value\": \"28-inch\"}, {\"requirement\": \"mandatory\", \"type\": \"luggage_storage\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"personal_need\", \"value\": \"luggage_storage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-024",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-024-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-024-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "DISCOVER",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "SEARCH",
+   "[{\"quantity\": 2, \"type\": \"luggage_size\", \"value\": \"28 inch\"}, {\"type\": \"requirement\", \"value\": \"must provide luggage storage\"}]",
+   "DISCOVER"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"luggage_storage_first\", \"type\": \"preference\", \"value\": true}, {\"key\": \"luggage_amount\", \"type\": \"context\", \"value\": \"many\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-025",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-025-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-025-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"allergen\": \"peanut\", \"requirement\": \"restaurant must confirm no peanut\", \"severity\": \"severe\", \"type\": \"dietary\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"dietary_avoidance\", \"value\": \"peanut-heavy restaurants\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-026",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-026-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-026-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"dietary\", \"value\": \"severe peanut allergy\"}, {\"type\": \"requirement\", \"value\": \"restaurants must confirm nut-free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"dietary_avoidance\", \"value\": \"peanut-heavy restaurants\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-027",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-027-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-027-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"allergen\": \"peanut\", \"severity\": \"severe\", \"type\": \"dietary\", \"value\": \"nut-free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"action\": \"avoid\", \"type\": \"dietary_restriction\", \"value\": \"peanut\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-028",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-028-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-028-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"must carry insulin\", \"type\": \"personal_requirement\", \"value\": \"insulin\"}, {\"description\": \"must be kept refrigerated\", \"type\": \"storage_requirement\", \"value\": \"refrigeration\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"amenity\", \"value\": \"medicine storage\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-029",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-029-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-029-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"insulin must be kept refrigerated\", \"type\": \"medical\"}, {\"detail\": \"refrigeration availability required\", \"type\": \"facility_requirement\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "DISCOVER",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "SEARCH",
+   "[]",
+   "DISCOVER"
+  ]
+ },
+ {
+  "pair_id": "HS-030",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-030-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-030-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"item\": \"insulin\", \"type\": \"carry_with_person\"}, {\"item\": \"insulin\", \"type\": \"cold_storage_required\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"polarity\": \"prefer\", \"type\": \"amenity_preference\", \"value\": \"refrigeration\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-031",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-031-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-031-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"entire_journey\", \"type\": \"shade_required\", \"value\": true}, {\"type\": \"avoid_prolonged_sun_exposure\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "WEATHER",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-032",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-032-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-032-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"shade_required\", \"value\": true}, {\"type\": \"sun_exposure\", \"value\": \"limited\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"sun_exposure\", \"type\": \"preference\", \"value\": \"less_direct_sun\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-033",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-033-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-033-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"shade_required\", \"value\": true}, {\"type\": \"avoid_prolonged_sun_exposure\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"sun_exposure\", \"type\": \"preference\", \"value\": \"minimize\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-034",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-034-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-034-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid long-distance walking\", \"mobility_aid\": \"crutch\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"mobility_aid\", \"value\": \"crutches\"}, {\"type\": \"walking_distance\", \"value\": \"minimize\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-035",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-035-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-035-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"long walks not possible\", \"key\": \"mobility\", \"type\": \"accessibility\", \"value\": \"crutches\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"mobility_aid\", \"value\": \"crutches\"}, {\"preference\": \"shorter\", \"type\": \"walking_distance\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-036",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-036-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-036-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"uses crutches\", \"type\": \"mobility\"}, {\"description\": \"avoid long-distance walking\", \"type\": \"max_walking_distance\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"mobility_aid\", \"value\": \"crutches\"}, {\"type\": \"walking_distance\", \"value\": \"short\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-037",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-037-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-037-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid prolonged standing\", \"type\": \"accessibility\"}, {\"description\": \"pregnancy at 32 weeks\", \"type\": \"personal_health\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"minimize prolonged standing\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-038",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-038-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-038-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"avoid_prolonged_standing\", \"status\": \"ASSERTED\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"pregnancy_weeks\", \"status\": \"ASSERTED\", \"type\": \"personal_condition\", \"value\": 32}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"minimize standing time\", \"type\": \"accessibility\"}, {\"description\": \"pregnancy\", \"type\": \"personal_condition\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-039",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-039-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-039-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"避免长时间站立\", \"status\": \"active\", \"type\": \"mobility\"}, {\"description\": \"怀孕 32 周\", \"status\": \"active\", \"type\": \"personal\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"personal_condition\", \"value\": \"pregnant\"}, {\"type\": \"route_preference\", \"value\": \"fewer_stops\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-040",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-040-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-040-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"visual_impairment\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"audio_guide_required\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"audio_guide_must_be_accessible\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"low_vision\"}, {\"type\": \"amenity_preference\", \"value\": \"audio_guide\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-041",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-041-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-041-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"availability\": \"required\", \"requirement\": \"audio_guidance\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"accessibility\", \"value\": \"audio_guidance\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-042",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-042-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-042-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"audio_guide_required\"}, {\"type\": \"accessibility\", \"value\": \"vision_impairment\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"audio_guide\", \"type\": \"preference\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-043",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-043-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-043-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"hearing_impairment\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"requires_text_alerts\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"captions_required\", \"type\": \"accessibility\", \"value\": true}, {\"key\": \"hearing_difficulty\", \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-044",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-044-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-044-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"deaf\", \"requirement\": \"text_alternatives\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-045",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-045-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-045-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"accessibility\", \"value\": \"deaf\"}, {\"type\": \"communication_mode\", \"value\": \"text\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"captions\", \"type\": \"preference\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-046",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-046-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-046-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"guide_dog_allowed\", \"strength\": \"hard\", \"type\": \"accessibility\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"status\": \"requested\", \"type\": \"accessibility\", \"value\": \"guide_dog\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-047",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-047-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-047-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"guide_dog_allowed\", \"required\": true, \"type\": \"accessibility\", \"value\": true}, {\"key\": \"entry_allowed\", \"required\": true, \"type\": \"accessibility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"detail\": \"guide dog accompaniment\", \"type\": \"accessibility\"}, {\"detail\": \"entry support requested\", \"type\": \"assistance\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "HS-048",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-048-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-048-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"guide_dog_allowed\", \"strength\": \"must\", \"type\": \"accessibility\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"guide_dog_allowed\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "HS-049",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-049-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-049-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"action\": \"exclude_if_missing\", \"requirement\": \"must_have_accessibility_info\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ]
+ },
+ {
+  "pair_id": "HS-050",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-050-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-050-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"confirmation_required\": true, \"requirement\": \"step-free access\", \"scope\": \"all scheduled locations\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ]
+ },
+ {
+  "pair_id": "HS-051",
+  "bucket": "hard_soft_pair",
+  "a_id": "HS-051-HARD",
+  "a_role": "HARD",
+  "b_id": "HS-051-SOFT",
+  "b_role": "SOFT",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Exclude locations lacking step-free evidence\", \"field\": \"step_free_evidence\", \"operator\": \"must_have\", \"type\": \"exclusion_rule\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-001",
+  "bucket": "negation_historical",
+  "a_id": "NEG-001-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-001-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"mobility condition changed from limited to improved\", \"status\": \"UNKNOWN\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"companion\", \"description\": \"companion has knee issues and cannot walk long distances\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-002",
+  "bucket": "negation_historical",
+  "a_id": "NEG-002-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-002-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "HISTORICAL",
+   "PAST",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"mum\", \"description\": \"companion has bad knees and cannot walk far\", \"type\": \"mobility\", \"walking_distance\": \"limited\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-003",
+  "bucket": "negation_historical",
+  "a_id": "NEG-003-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-003-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"wheelchair_required\": false}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"mobility\", \"value\": \"wheelchair_required\"}, {\"type\": \"mobility\", \"value\": \"cannot_walk\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-004",
+  "bucket": "negation_historical",
+  "a_id": "NEG-004-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-004-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "NEGATED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"negated\", \"type\": \"accessibility\", \"value\": \"no_wheelchair_needed\"}]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"mobility\", \"value\": \"wheelchair_required\"}, {\"type\": \"walking_ability\", \"value\": \"cannot_walk\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-005",
+  "bucket": "negation_historical",
+  "a_id": "NEG-005-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-005-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"this_journey\", \"type\": \"accessibility_override\", \"value\": \"ignore_leg_mobility_concern\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-006",
+  "bucket": "negation_historical",
+  "a_id": "NEG-006-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-006-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"accommodation needed due to leg problem\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-007",
+  "bucket": "negation_historical",
+  "a_id": "NEG-007-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-007-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "HISTORICAL",
+   "PAST",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"limited walking duration due to foot injury\", \"status\": \"ongoing\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-008",
+  "bucket": "negation_historical",
+  "a_id": "NEG-008-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-008-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "HISTORICAL",
+   "PAST",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"limited walking distance due to ankle injury\", \"status\": \"ongoing\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-009",
+  "bucket": "negation_historical",
+  "a_id": "NEG-009-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-009-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "NEGATED",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"source\": \"medical_instruction\", \"type\": \"accessibility_need\", \"value\": \"wheelchair\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-010",
+  "bucket": "negation_historical",
+  "a_id": "NEG-010-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-010-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "NEGATED",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-011",
+  "bucket": "negation_historical",
+  "a_id": "NEG-011-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-011-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"severe allergy\", \"specific_allergens\": \"UNKNOWN\", \"type\": \"dietary\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-012",
+  "bucket": "negation_historical",
+  "a_id": "NEG-012-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-012-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"No dietary restrictions or allergies\", \"type\": \"dietary\", \"value\": \"none\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"severe allergies; most items off limits\", \"specific_allergens\": null, \"type\": \"dietary\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-013",
+  "bucket": "negation_historical",
+  "a_id": "NEG-013-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-013-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"effective\": \"future\", \"key\": \"quiet\", \"scope\": \"travel\", \"type\": \"preference\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"quiet_environment\", \"value\": true}, {\"type\": \"health_condition\", \"value\": \"migraine\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-014",
+  "bucket": "negation_historical",
+  "a_id": "NEG-014-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-014-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"applies_to\": \"future_trips\", \"key\": \"ambience\", \"type\": \"preference\", \"value\": \"quiet\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"quiet\", \"reason\": \"migraines\", \"type\": \"preference\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-015",
+  "bucket": "negation_historical",
+  "a_id": "NEG-015-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-015-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"field\": \"midday_rest\", \"new_value\": false, \"previous_value\": true, \"type\": \"preference_change\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"strength\": \"required\", \"type\": \"time_of_day\", \"value\": \"midday\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-016",
+  "bucket": "negation_historical",
+  "a_id": "NEG-016-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-016-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"attribute\": \"midday_rest\", \"new_value\": false, \"previous_value\": true, \"type\": \"preference_change\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"scope\": \"this trip\", \"type\": \"rest_requirement\", \"value\": \"midday rest\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-017",
+  "bucket": "negation_historical",
+  "a_id": "NEG-017-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-017-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"constraint\": \"stroller_accessibility\", \"type\": \"remove_constraint\", \"value\": false}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"requires\": \"ramp\", \"type\": \"accessibility\", \"value\": \"stroller\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-018",
+  "bucket": "negation_historical",
+  "a_id": "NEG-018-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-018-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"stroller\", \"note\": \"ignore prior stroller requirement\", \"type\": \"preference_update\", \"value\": false}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"required\": true, \"type\": \"accessibility\", \"value\": \"ramp_access\"}, {\"required\": true, \"type\": \"mobility_aid\", \"value\": \"stroller\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-019",
+  "bucket": "negation_historical",
+  "a_id": "NEG-019-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-019-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"luggage\", \"value\": \"no_large_luggage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"quantity\": \"two large boxes\", \"type\": \"luggage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-020",
+  "bucket": "negation_historical",
+  "a_id": "NEG-020-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-020-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"luggage\", \"value\": \"no_large_luggage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"count\": 2, \"size\": \"large\", \"type\": \"luggage\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-021",
+  "bucket": "negation_historical",
+  "a_id": "NEG-021-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-021-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "HYPOTHETICAL",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"hypothetical\", \"type\": \"accessibility\", \"value\": \"wheelchair\"}]",
+   "WHAT_IF"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"confirmed\", \"type\": \"accessibility\", \"value\": \"wheelchair_accessible\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-022",
+  "bucket": "negation_historical",
+  "a_id": "NEG-022-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-022-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "HYPOTHETICAL",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"hypothetical\", \"type\": \"accessibility\", \"value\": \"wheelchair\"}]",
+   "WHAT_IF"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"confirmed\", \"type\": \"accessibility\", \"value\": \"wheelchair_accessible\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-023",
+  "bucket": "negation_historical",
+  "a_id": "NEG-023-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-023-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-024",
+  "bucket": "negation_historical",
+  "a_id": "NEG-024-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-024-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"noise_tolerance\", \"value\": \"acceptable\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"attribute\": \"noise_level\", \"operator\": \"maximize_quiet\", \"reason\": \"health_related\", \"severity\": \"hard\", \"type\": \"environmental\", \"value\": \"quiet\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-025",
+  "bucket": "negation_historical",
+  "a_id": "NEG-025-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-025-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"walking_distance\", \"value\": \"reduced\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ]
+ },
+ {
+  "pair_id": "NEG-026",
+  "bucket": "negation_historical",
+  "a_id": "NEG-026-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-026-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"source\": \"user_preference\", \"type\": \"walking_distance\", \"value\": \"short\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ]
+ },
+ {
+  "pair_id": "NEG-027",
+  "bucket": "negation_historical",
+  "a_id": "NEG-027-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-027-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"stopped\", \"type\": \"exclude_medication\", \"value\": \"药\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"frequency\": \"daily\", \"type\": \"recurring\"}, {\"type\": \"storage_requirement\", \"value\": \"refrigeration\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-028",
+  "bucket": "negation_historical",
+  "a_id": "NEG-028-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-028-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"target\": \"medication\", \"type\": \"remove_from_planning\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"medication must be kept refrigerated\", \"recurrence\": \"daily\", \"type\": \"personal_requirement\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-029",
+  "bucket": "negation_historical",
+  "a_id": "NEG-029-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-029-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"no_vision_impairment\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"required\": true, \"type\": \"accessibility\", \"value\": \"audio_guide\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-030",
+  "bucket": "negation_historical",
+  "a_id": "NEG-030-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-030-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"accessibility\", \"value\": \"audio_guidance\"}, {\"type\": \"accessibility_need\", \"value\": \"visual_impairment\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-031",
+  "bucket": "negation_historical",
+  "a_id": "NEG-031-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-031-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"heat_sensitivity\", \"type\": \"preference\", \"value\": \"low\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"shade_required\", \"value\": true}, {\"type\": \"heat_sensitivity\", \"value\": \"high\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-032",
+  "bucket": "negation_historical",
+  "a_id": "NEG-032-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-032-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"heat_tolerance\", \"type\": \"preference\", \"value\": \"not_bothered\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"needs shade due to heat\", \"type\": \"environmental\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-033",
+  "bucket": "negation_historical",
+  "a_id": "NEG-033-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-033-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "NEGATED",
+   "NOW",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid prolonged standing\", \"type\": \"mobility\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-034",
+  "bucket": "negation_historical",
+  "a_id": "NEG-034-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-034-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PERSONAL_ASSISTANCE",
+   "NEGATED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid prolonged standing\", \"reason\": \"pregnancy\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-035",
+  "bucket": "negation_historical",
+  "a_id": "NEG-035-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-035-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "NEGATED",
+   "UNKNOWN",
+   "NONE",
+   "NONE",
+   "[]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"restroom access required at least every 60 minutes\", \"interval_minutes\": 60, \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-036",
+  "bucket": "negation_historical",
+  "a_id": "NEG-036-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-036-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "NEGATED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"toilets\", \"type\": \"preference\", \"value\": \"not_an_issue\"}]",
+   "UNKNOWN"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"interval_minutes\": 60, \"need\": \"toilet_access\", \"type\": \"recurring_need\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-037",
+  "bucket": "negation_historical",
+  "a_id": "NEG-037-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-037-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"dietary_restriction\", \"value\": \"none\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"strictness\": \"mandatory\", \"type\": \"dietary\", \"value\": \"gluten_free\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-038",
+  "bucket": "negation_historical",
+  "a_id": "NEG-038-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-038-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"strictness\": \"mandatory\", \"type\": \"dietary\", \"value\": \"gluten-free\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-039",
+  "bucket": "negation_historical",
+  "a_id": "NEG-039-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-039-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"detail\": \"no guide dog on this trip\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"guide_dog_allowed\", \"strength\": \"hard\", \"type\": \"accessibility\", \"value\": true}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-040",
+  "bucket": "negation_historical",
+  "a_id": "NEG-040-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-040-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"guide_dog\", \"scope\": \"journey\", \"type\": \"accessibility\", \"value\": false}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"detail\": \"guide dog must be permitted entry\", \"type\": \"accessibility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-041",
+  "bucket": "negation_historical",
+  "a_id": "NEG-041-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-041-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "PAST",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"cannot walk for long\", \"duration\": \"unspecified\", \"type\": \"mobility\"}, {\"description\": \"recent surgery\", \"type\": \"health\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-042",
+  "bucket": "negation_historical",
+  "a_id": "NEG-042-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-042-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "PAST",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid long walks\", \"status\": \"active\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-043",
+  "bucket": "negation_historical",
+  "a_id": "NEG-043-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-043-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "HYPOTHETICAL",
+   "FUTURE",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "WHAT_IF"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"active\", \"type\": \"mobility\", \"value\": \"wheelchair\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-044",
+  "bucket": "negation_historical",
+  "a_id": "NEG-044-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-044-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "HYPOTHETICAL",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"Only relevant if the user later reports wheelchair use\", \"type\": \"conditional\"}]",
+   "WHAT_IF"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"status\": \"asserted\", \"type\": \"accessibility\", \"value\": \"wheelchair\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-045",
+  "bucket": "negation_historical",
+  "a_id": "NEG-045-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-045-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"hearing\", \"type\": \"accessibility\", \"value\": \"normal\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"communication_mode\", \"value\": \"text\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-046",
+  "bucket": "negation_historical",
+  "a_id": "NEG-046-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-046-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"type\": \"accessibility\", \"value\": \"text_alternatives_required\"}, {\"type\": \"communication_mode\", \"value\": \"text\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-047",
+  "bucket": "negation_historical",
+  "a_id": "NEG-047-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-047-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"heights_ok\": true, \"stairs_ok\": true, \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"avoid\": \"stairs\", \"prefer\": \"elevator\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-048",
+  "bucket": "negation_historical",
+  "a_id": "NEG-048-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-048-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"key\": \"avoid_heights\", \"type\": \"accessibility_preference\", \"value\": false}, {\"key\": \"avoid_stairs\", \"type\": \"accessibility_preference\", \"value\": false}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"avoid\", \"value\": \"stairs\"}, {\"type\": \"prefer\", \"value\": \"lifts\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-049",
+  "bucket": "negation_historical",
+  "a_id": "NEG-049-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-049-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"past severe altitude sickness\", \"type\": \"avoid_high_altitude\", \"value\": true}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PERSONAL_ASSISTANCE",
+   "ASSERTED",
+   "FUTURE",
+   "PERSONAL",
+   "REQUEST_ASSISTANCE",
+   "[{\"description\": \"既往严重高原反应史\", \"type\": \"health_risk\"}, {\"description\": \"仍希望前往高原地区\", \"type\": \"destination_preference\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-050",
+  "bucket": "negation_historical",
+  "a_id": "NEG-050-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-050-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "PAST",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"reason\": \"past severe altitude sickness\", \"type\": \"avoid\", \"value\": \"high altitude\"}]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"polarity\": \"positive\", \"type\": \"preference\", \"value\": \"altitude\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-051",
+  "bucket": "negation_historical",
+  "a_id": "NEG-051-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-051-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"cannot walk long distances\", \"source\": \"doctor-confirmed\", \"status\": \"asserted\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-052",
+  "bucket": "negation_historical",
+  "a_id": "NEG-052-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-052-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "UNKNOWN",
+   "UNKNOWN",
+   "UNKNOWN",
+   "PERSONAL",
+   "NONE",
+   "[]",
+   "PERSONAL_ASSISTANCE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"limited walking distance\", \"source\": \"doctor-confirmed\", \"type\": \"mobility\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-053",
+  "bucket": "negation_historical",
+  "a_id": "NEG-053-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-053-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility\", \"value\": \"elevator_indifferent\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"mode\": \"elevator_required\", \"stairs\": \"not_allowed\", \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-054",
+  "bucket": "negation_historical",
+  "a_id": "NEG-054-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-054-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"accessibility_preference\", \"value\": \"lifts_not_required\"}]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[{\"requires_lift\": true, \"stairs_allowed\": false, \"type\": \"accessibility\"}]",
+   "PREFERENCE_CHANGE"
+  ]
+ },
+ {
+  "pair_id": "NEG-055",
+  "bucket": "negation_historical",
+  "a_id": "NEG-055-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-055-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"type\": \"avoid_sun_exposure\", \"value\": true}, {\"type\": \"skin_condition\", \"value\": \"unspecified\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ },
+ {
+  "pair_id": "NEG-056",
+  "bucket": "negation_historical",
+  "a_id": "NEG-056-NEG",
+  "a_role": "NEGATED",
+  "b_id": "NEG-056-POS",
+  "b_role": "POSITIVE",
+  "identical_outcome": false,
+  "a_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "UNKNOWN",
+   "NONE",
+   "UPDATE_PREFERENCE",
+   "[]",
+   "PREFERENCE_CHANGE"
+  ],
+  "b_signature": [
+   "PREFERENCE_CHANGE",
+   "ASSERTED",
+   "NOW",
+   "PERSONAL",
+   "UPDATE_PREFERENCE",
+   "[{\"description\": \"avoid direct sun exposure\", \"reason\": \"skin condition\", \"type\": \"health\"}]",
+   "PERSONAL_ASSISTANCE"
+  ]
+ }
+]

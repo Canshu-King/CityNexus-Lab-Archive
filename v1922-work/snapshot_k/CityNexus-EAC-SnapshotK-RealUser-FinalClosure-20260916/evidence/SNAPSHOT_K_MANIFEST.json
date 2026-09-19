@@ -1,0 +1,32 @@
+{
+ "snapshot": "K candidate",
+ "sha256": "ceff17993b765d53fe6cd1de7c571588ab43a04140c48c2a3b14173278cf6472",
+ "count": 25,
+ "files": {
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/CHANGED_FILES.txt": "1e12e28d51f98058ffe361a95f9a948a9ef304865e6e1705e5ea79017c4c8d3a",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/evidence/SNAPSHOT_I_MANIFEST.json": "a53bb4f5e4c42752497e5f5e77d25fa2644933d155b0f70d9dee46b08a670aa1",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/evidence/T1_STAY_PRESERVATION_EVIDENCE.json": "75d210d03a39a26c716b8ada4795b32fa79cb9eceef8d4dd44cac3e19254677c",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/evidence/T2_NOOP_REPLAN_EVIDENCE.json": "8ed2d29d6e1bf9a6cd01541779cf1439f79d57c0c3857488f96575d14a523212",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/PACKAGE_INVENTORY.txt": "8249538a1d3322db7924d69951c65c004ba30675a3979de3679e0ecb8cf3a920",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/patches/EAC_FINAL_CLOSURE_MISSION.md": "a5f566d716c0ebc9e9b048377c1c7179c01ac0d36bbf8b2fc46000a02f768a07",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/patches/INDEPENDENT_AUDIT.md": "0f96b8938f8361f71e95d8165f9a35ea88f99b0fbfe11925d80c1a502028b89e",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/patches/TRUTH_BLOCKERS.md": "dc014f4edb11795328c8f7563671b3226a6a729c48465b610068934cde74c0df",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/patches/VISIBLE_UI_ACCEPTANCE.md": "e6df421a0912ced86b0ae5fce81d8fb9688359f231ebe319408d25f36b6d34c3",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/patches/VISUAL_PRODUCT_GATE.md": "c84fcda3071fe03c09382f31223c4159c61f0c5e01f9a2b8cfea16a2c15e57b0",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/patches/WORKBUDDY_FINAL_DELTA.md": "898687f2831527757b1d4e34186adbfed0a09fadc0c96146a18e3126180d0c60",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/REMAINING_PRODUCT_GAPS.md": "8e42cfd77598043b1d75aba1f73dbd360f25f3e0663c162e438945187c7a4432",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/F_hub_390x844.png": "eb61884b8fe0f12a4cb84ffca803b8667f17e77f9b5be59f0438620025d316bf",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/F_trips_390x844.png": "e2e470f45e2d6b8ed6657ae474dedd46a1a9880157af52d39cc4b6e367f93424",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/X4_copilot.png": "a7989885c34fa4b09d50c8d7ab860585ebbdd54fc4aa3b22b408296feba6a2d5",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/Y2_hotels.png": "adf1f99c6980ec9d2da57e5a73a25efd626c3d5636390e1f99772782e18ab4b3",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/Y4_bookings.png": "d555f9cd14e83277704f95db8f551d9426252cf3641410d34fa05c93d1473272",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/Z1_live_disruption.png": "36de95f7f3316952dfa137c2b9b160bfea5b64787c527006167fc199e7ebfd8b",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/screenshots/before/Z2_live_accepted.png": "0075a14eb7a71e2b5e8c82006c21a556d7a65efc81bc1742777e649528446229",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/source/backend/app/main.py": "5c639c0c6b9a3d39a444cf95a835a525c852e181bc4f949aa1dff01430ae4b2e",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/source/backend/app/stay_mobility.py": "df52cc99228bc66a9c7c26d2294af5889c46939367804c16f3b3494f9ce8a4dc",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/source/backend/tests/test_final_consumer_truth_blockers.py": "f0ebf6a875ddf93dd2bc71dd309a36852c369b3d14ba5d8db3a79c83714bffeb",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/TEST_RESULTS.md": "151998c501cba802f2a11370efc6388bc8550def09b99c0f5c8fd97143f63927",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/TRUTH_BLOCKER_RESULTS.md": "2b5b61c7cd6ad5ce4b52907a0402c5af591a54f0e217ba7b93941c534e1e25d2",
+  "CityNexus-EAC-FinalConsumer-Truth-UX-Closure-20260916/USER_JOURNEY_RESULTS.md": "be1a2e6e3dfb8c9cdf77b3594e98ff431081ecfd123f60658c5b6c4ea9f1b1b1"
+ }
+}

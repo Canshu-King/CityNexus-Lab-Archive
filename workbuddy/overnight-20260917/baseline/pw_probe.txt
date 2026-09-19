@@ -1,0 +1,6 @@
+﻿playwright-core: True
+@playwright/test: True
+chromium-1243 exe: False
+chrome-win64
+DEPENDENCIES_VALIDATED
+INSTALLATION_COMPLETE

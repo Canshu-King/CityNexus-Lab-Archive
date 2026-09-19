@@ -1,0 +1,16 @@
+﻿=== EAC CHECKPOINT-03 (03:15) ===
+2026-09-17 03:04:41
+--- commits on eac branch ---
+7d22cd0 feat(visio): establish CityNexus Visio model specification v1.0
+e3b7875 feat(use-cases): establish CityNexus use case baseline v0.1
+072e84f feat(requirements): establish CityNexus requirements baseline v0.3
+
+--- diff HEAD stat ---
+ .gitignore | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+--- reflog delta ---
+7d22cd0 HEAD@{0}: reset: moving to HEAD
+7d22cd0 HEAD@{1}: reset: moving to HEAD
+7d22cd0 HEAD@{2}: reset: moving to HEAD
+

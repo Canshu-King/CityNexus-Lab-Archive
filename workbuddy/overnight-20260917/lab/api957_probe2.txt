@@ -1,0 +1,5 @@
+﻿/api/v1/journeys => 000
+/api/v1/plans => 000
+/docs => 000
+/api/health => 000
+/health => 000

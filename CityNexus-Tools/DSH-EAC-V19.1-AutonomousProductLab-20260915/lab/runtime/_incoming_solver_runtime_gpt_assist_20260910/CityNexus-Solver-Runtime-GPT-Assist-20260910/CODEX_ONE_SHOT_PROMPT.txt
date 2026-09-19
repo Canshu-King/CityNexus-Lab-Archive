@@ -1,0 +1,296 @@
+You are continuing the existing CityNexus repository at D:\moodle\CityNexus.
+
+Treat the attached CityNexus-Solver-Runtime-GPT-Assist-20260910 package as engineering guidance, tests, and reference code, NOT as authority over the live repository.
+
+CURRENT FROZEN PRODUCT/ENGINEERING STATE
+========================================
+
+Product:
+CityNexus - Adaptive Urban Journey Orchestration Platform.
+
+Core authority:
+Journey / PlanVersion / Activity / durable Commitment are domain truth.
+JourneyTwin is a read projection.
+Provider facts are captured/frozen evidence.
+Candidate generators are not judges.
+CityNexus deterministic feasibility is authoritative.
+Traveler confirmation + accept-time revalidation remain mandatory.
+
+Frozen milestones:
+- Backend-connected Integrated Vertical Slice = FROZEN_PASS
+- Valhalla / Frozen Mobility Runtime = FROZEN_PASS
+- Open-Meteo Weather Runtime Hardening = EXTERNAL_FROZEN_PASS
+
+Latest independent Weather review verified:
+- WRH 6/6 PASS
+- combined Weather/Provider/Golden gate 44 PASS
+- OpenAPI formal/runtime 39/39
+- compileall PASS
+- uploaded review package hygiene PASS
+- Windows checkpoint reports full backend 194 PASS / 1 SKIP, Ruff PASS, frontend build PASS, Playwright PASS
+- GPT Linux full pytest printed complete green output but had the already-known post-suite process-linger issue; do not treat that as a Windows product regression unless reproduced there.
+
+NEXT STAGE
+==========
+
+Implement the FIRST REAL OR-Tools Solver Runtime increment.
+
+Do not build a full-day TSP. Do not rewrite the planner.
+
+V1 target:
+replacement-window CP-SAT between the current execution position and the next protected durable C4 anchor.
+
+FIRST: INSPECT THE REAL TREE
+============================
+
+Run:
+
+git status --short
+git diff --stat
+git log --oneline -n 10
+
+Then inspect the current live versions of:
+- backend/app/main.py::generate_replan
+- backend/app/planning/ortools_adapter.py
+- backend/app/planning/replan_candidate_problem.py
+- backend/app/services.py
+- backend/app/integrations/mobility/*
+- backend/app/core/config.py
+- backend/pyproject.toml
+
+Do not reset, clean, checkout-over, or overwrite existing work.
+Do not blindly apply the Assist patch if the live tree has diverged. Semantic merge.
+
+KNOWN CURRENT SOLVER GAP
+========================
+
+In the reviewed checkpoint:
+- ORToolsVariantSelector only uses CP-SAT to choose one already-generated PlannerVariant.
+- generate_ortools_candidates() is effectively a deterministic filtering/ranking wrapper and is not wired into the real Replan runtime.
+- there are no Activity scheduling variables, opening-window constraints, frozen mobility constraints, C4 scheduling anchor, Top-K Journey assignments, or runtime solver provenance.
+- backend/pyproject.toml does not yet declare an optional OR-Tools solver extra.
+
+Therefore do not claim OR-Tools runtime is already implemented.
+
+GPT PREPARED REFERENCE MATERIAL
+===============================
+
+Use, adapt, or improve these:
+- reference_overlay/backend/app/planning/solver_contract.py
+- reference_overlay/backend/app/planning/reference_replan_solver.py
+- reference_overlay/backend/app/planning/ortools_replan_solver.py
+- reference_overlay/backend/app/planning/solver_runtime.py
+- tests/test_solver_reference_contract.py
+- tests/test_ortools_optional_boundary.py
+- tests/test_solver_runtime_policy.py
+- contracts/SOLVER_RUNTIME_ARCHITECTURE.md
+- contracts/CODE_INTEGRATION_MAP.md
+- contracts/ORT_TEST_MATRIX.md
+- contracts/SOLVER_RUNTIME_FREEZE_GATE.md
+- contracts/SOLVER_RUNTIME_GAP_ANALYSIS.md
+- KNOWN_NONBLOCKING_DEBT.md
+
+GPT validated the dependency-free reference contract with 15 PASS / 2 SKIP; the skip is the real OR-Tools solve because OR-Tools was not installed in that environment. You MUST run the real CP-SAT branch in Windows.
+
+IMPLEMENTATION ARCHITECTURE
+===========================
+
+Use the existing runtime seam AFTER the one operation-scoped MobilitySnapshot is captured and BEFORE PlanVersion candidate materialization:
+
+existing deterministic replacement choices
++ current execution location
++ effective disruption time
++ Journey horizon
++ candidate duration/cost/opening hours
++ remaining Journey budget
++ next durable C4 semantic/time anchor
++ SAME frozen MobilitySnapshot
+-> pure immutable ReplanSolverProblem
+-> OR-Tools CP-SAT candidate generator
+-> SolverCandidate(s)
+-> translate to current internal candidate spec
+-> materialize candidate PlanVersion
+-> EXISTING validate_plan_feasibility(... mobility_provider=the_same_snapshot)
+-> ReplanDiff
+-> same-snapshot travel delta
+-> verified scoring
+-> PRESENTED ReplanProposal
+
+If OR-Tools is disabled, unavailable, UNKNOWN, times out, returns no candidate, or all its candidates fail the authoritative gate:
+-> preserve the existing deterministic heuristic path.
+
+NEVER:
+- call Valhalla from the solver;
+- call Open-Meteo from the solver;
+- call a provider from deterministic feasibility;
+- pass SQLAlchemy Session/model objects into solver input;
+- pass HTTP clients into solver input;
+- let OR-Tools activate PlanVersion;
+- let OR-Tools modify C4;
+- let OR-Tools skip post-materialization feasibility;
+- invent a missing mobility pair as zero;
+- persist unverified solver assignments as PRESENTED.
+
+V1 PROBLEM
+==========
+
+All times should be deterministic integer minutes from Journey.start_at.
+
+Input must be pure frozen values, approximately:
+- journey_id
+- operation_key
+- now_min
+- journey_end_min
+- budget_remaining_minor
+- current_location_key
+- next C4 anchor: stable semantic key, location key, start_min, duration_min
+- replacement options: stable option/location key, duration, cost, opening window, original start, deterministic preference evidence if already verified
+- exact frozen mobility snapshot id
+- exact frozen travel-minute mapping
+- completed prefix semantic keys
+- safety buffer
+- allow_drop policy
+
+Missing frozen mobility fact = that solver assignment is unavailable, NOT 0 minutes.
+
+CP-SAT MODEL V1
+===============
+
+For each replacement option:
+- presence BoolVar
+- start IntVar
+- end implied by duration
+- hard earliest from max(now + inbound frozen travel, opening start)
+- hard latest from opening close, Journey end, and C4 start - safety - outbound - duration
+- hard budget
+
+C4 is fixed and may never be moved/dropped.
+Completed prefix is outside mutation scope.
+Activities outside the disrupted slot remain unchanged in V1.
+
+Top-K must be distinct semantic option/drop assignments. Do NOT emit five cosmetic minute variants of the same Place.
+Use one worker, fixed seed, bounded solve time, stable tie-breaking/post-sort.
+
+Do not duplicate the final Contextual Journey Utility Score inside CP-SAT. The solver needs a small deterministic search objective only. Final ranking still belongs to verified CityNexus scoring after the authoritative gate.
+
+MATERIALIZATION
+===============
+
+Do not abuse F3 window evidence to carry solver schedule.
+Extend the internal spec with explicit fields such as:
+- explicit_candidate_start_at
+- solver_provenance
+
+Recommended family:
+F4_ORTOOLS_WINDOW_REPLACEMENT
+
+For OR-Tools drop, reuse the existing optional-removal semantics only when policy permits.
+
+Every solver candidate must use the existing common PlanVersion/Activity materializer and the existing gate/scoring/diff path. Do not create a second domain universe.
+
+PROVENANCE
+==========
+
+Persist enough evidence to audit generation, for example:
+
+generator.kind = ORTOOLS_CP_SAT
+generator.solver_status = OPTIMAL or FEASIBLE
+generator.problem_fingerprint = stable fingerprint
+generator.mobility_snapshot_id = exact frozen snapshot id
+generator.rank = deterministic rank
+feasibility_authority = CITYNEXUS_DETERMINISTIC_GATE
+
+Fallback proposals must say DETERMINISTIC_HEURISTIC; never pretend OR-Tools ran.
+
+FEATURE / DEPENDENCY BOUNDARY
+=============================
+
+Prefer:
+
+[project.optional-dependencies]
+solver = ["ortools==9.15.6755"]
+
+and a server-owned setting such as:
+CITYNEXUS_SOLVER=deterministic   (default/offline safe)
+CITYNEXUS_SOLVER=ortools
+CITYNEXUS_SOLVER=auto
+
+Do not make OR-Tools a mandatory dependency for the offline course demo.
+Do not let frontend select feasibility authority.
+
+TESTS FIRST: ORT-01..20
+=======================
+
+Implement the actual repository tests described in contracts/ORT_TEST_MATRIX.md and contracts/SOLVER_RUNTIME_FREEZE_GATE.md.
+
+Hard requirements include:
+ORT-01 completed prefix unchanged
+ORT-02 C4 stable semantic key/time unchanged
+ORT-03 same frozen MobilitySnapshot only; zero network
+ORT-04 malicious solver assignment rejected by authoritative gate
+ORT-05 reproducible fixed seed/worker results
+ORT-06 opening hours hard + gate recheck
+ORT-07 drop policy never permits C4 drop
+ORT-08 budget hard + gate recheck
+ORT-09 missing OR-Tools -> current deterministic fallback
+ORT-10 offline Golden Scenario passes
+ORT-11 solver provenance + deterministic feasibility authority
+ORT-12 stable ordering
+ORT-13 unique Top-K assignments
+ORT-14 UNKNOWN/timeout/MODEL_INVALID cannot create an unverified proposal
+ORT-15 pure JSON-serializable solver input; no ORM/session/http/provider objects
+ORT-16 accept-time feasibility remains unchanged
+ORT-17 candidate_count does not create hidden persisted candidates
+ORT-18 rejected candidates leave no orphan PlanVersion/Activity rows
+ORT-19 stable problem fingerprint + exact mobility snapshot id
+ORT-20 solver disabled preserves the current deterministic path
+
+Also keep every previous Weather/Provider/Golden regression green.
+
+KNOWN NON-BLOCKING DEBT - DO NOT MIX INTO V1
+=============================================
+
+1. A Weather Event that later resolves can leave a stale PRESENTED proposal visible, but acceptance is already rejected with 409. Lifecycle cleanup is later work.
+2. Provider degradation recovery query can later explicitly filter SERVICE_UNAVAILABLE.
+3. Current WEATHER replan conservatively maps the weather-hit Place to global hard PLACE_UNAVAILABLE. Do not let OR-Tools invent time-bounded rescheduling semantics before the deterministic gate supports the same temporal hazard rule.
+4. Closure remains the cleanest Golden Replan demo; Weather is a real context path but need not replace Closure as the primary one-minute demo yet.
+
+VALIDATION
+==========
+
+After implementation run at least:
+
+1. pure/reference solver tests
+2. real OR-Tools adapter tests with the optional dependency installed
+3. ORT-01..20 integration/adversarial tests
+4. WRH-01..06
+5. WRT-01..12 + weather refresh/trigger hardening
+6. PRT-01..08 + PRH-01..05
+7. backend-connected Golden Scenario
+8. full backend pytest, clean exit code 0
+9. python -m compileall -q app tests
+10. ruff check app tests
+11. ruff format --check app tests
+12. OpenAPI formal/runtime parity
+13. frontend build + backend-connected Playwright if API/frontend changed
+14. package hygiene / fresh extraction reproducibility
+
+Use the Assist static-boundary checker to ensure solver core does not import FastAPI/SQLAlchemy/http/network/provider modules.
+
+AUTONOMY
+========
+
+You may improve GPT's proposed data structures/model if the live repository suggests a cleaner design. Do not mechanically copy reference code.
+
+If you deviate, explain why and prove the same authority/fallback/determinism gates.
+
+Do not ask for permission for ordinary implementation choices inside this scope. Inspect, test, implement, validate, document.
+
+HARD STOP
+=========
+
+When Solver Runtime V1 and ORT-01..20 are green, create a clean fresh-extractable review checkpoint containing source, tests, required fixtures/schema, architecture/current-status/test reports and no cache/runtime junk.
+
+STOP there for external GPT review.
+
+Do NOT begin LiteLLM/DeepSeek, MapLibre, WebAuthn, PPT, Visio, full-day optimization, multiple mutable activities, or time-bounded weather redesign in the same mutation batch.

@@ -1,0 +1,15 @@
+{
+ "cmp_present": true,
+ "cards": 3,
+ "bands": [
+  "预算内",
+  "预算内",
+  "预算内"
+ ],
+ "text": "选择你的方案 | 我们按你的预算和节奏生成了 3 个可选方案。 | Balanced | 预算内 | 总花费 | CNY 370 | 活动数 | 6 | 亮点：Old Town Gate · Riverside Museum · Central Food Hall | 采用这个方案 | Balanced | 预算内 | 总花费 | CNY 320 | 活动数 | 6 | 亮点：Old Town Gate · Riverside Museum · Central Food Hall | 采用这个方案 | Balanced | 预算内 | 总花费 | CNY 340 | 活动数 | 6 | 亮点：Old Town Gate · Riverside Museum · Central Food Hall | 采用这个方案",
+ "after_choose_cmp": 0,
+ "after_choose_trips_hint": true,
+ "itinerary_after": true,
+ "stops": 6,
+ "errors": []
+}

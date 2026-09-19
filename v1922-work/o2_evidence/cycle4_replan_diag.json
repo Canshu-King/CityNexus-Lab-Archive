@@ -1,0 +1,3724 @@
+{
+ "jid": "cdd328ee-7c7e-4e75-9f62-8a8d68678f05",
+ "errors": [
+  {
+   "target": "OSM restaurant",
+   "start": "2026-11-06T02:28:00+00:00",
+   "eventStatus": 201,
+   "replanStatus": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-4717d938763cdb61c361765e|stay:osm:node/660688688:check-in, MOBILITY_DATA_UNAVAILABLE:real-place-0f6a7b4b3d5359684929cdbb|real-place-0f6a7b4b3d5359684929cdbb",
+   "proposalId": null
+  },
+  {
+   "target": "OSM cafe",
+   "start": "2026-11-06T03:39:00+00:00",
+   "eventStatus": 201,
+   "replanStatus": 422,
+   "message": "no feasible replan proposal: ACTIVITY_OVERLAP, INSUFFICIENT_TRAVEL_GAP:real-place-4717d938763cdb61c361765e|stay:osm:node/660688688:check-in, MOBILITY_DATA_UNAVAILABLE:real-place-07e7689756fa27109a8bff96|real-place-07e7689756fa27109a8bff96, MOBILITY_DATA_UNAVAILABLE:real-place-4717d938763cdb61c361765e|real-place-4717d938763cdb61c361765e",
+   "proposalId": null
+  },
+  {
+   "target": "OSM restaurant",
+   "start": "2026-11-06T04:43:00+00:00",
+   "eventStatus": 201,
+   "replanStatus": 201,
+   "message": "",
+   "preserved": true,
+   "diff": {
+    "candidate_family": "F1_OPTIONAL_REMOVAL",
+    "kept": [
+     "179948c1-ef84-55ae-a293-b09d14a1bf86",
+     "24a66232-9a20-5783-9f8e-09078af63d48",
+     "4ebcd5ec-efb7-54de-a98d-53589f037b54",
+     "8176b686-69d3-5600-bc08-24714fd9870b",
+     "a2875d9f-b1e5-57c0-953d-f09b0f111dff",
+     "a82fa86c-0d68-58e2-b867-28afa896b1f2",
+     "ec642b7f-a3ac-59e8-bb1f-fceb10e86812"
+    ],
+    "moved": [
+     {
+      "semantic_key": "1677e682-a555-5720-be55-e705fee265b9",
+      "old_start_at": "2026-11-06 06:35:00+00:00",
+      "new_start_at": "2026-11-06 14:40:00+08:00",
+      "delta_minutes": 5
+     },
+     {
+      "semantic_key": "2346c2b4-bb98-57f3-beb4-dc3afa34c071",
+      "old_start_at": "2026-11-07 03:22:00+00:00",
+      "new_start_at": "2026-11-07 12:00:00+08:00",
+      "delta_minutes": 38
+     },
+     {
+      "semantic_key": "777fa20b-fb95-537d-be4b-cd7b93c57bdd",
+      "old_start_at": "2026-11-06 03:39:00+00:00",
+      "new_start_at": "2026-11-06 12:00:00+08:00",
+      "delta_minutes": 21
+     },
+     {
+      "semantic_key": "e1ced246-e238-5e48-a816-1b82e8b2953c",
+      "old_start_at": "2026-11-06 02:28:00+00:00",
+      "new_start_at": "2026-11-06 10:40:00+08:00",
+      "delta_minutes": 12
+     },
+     {
+      "semantic_key": "e9c63a22-5c60-592c-8749-3e813da9a948",
+      "old_start_at": "2026-11-07 01:04:00+00:00",
+      "new_start_at": "2026-11-07 09:20:00+08:00",
+      "delta_minutes": 16
+     },
+     {
+      "semantic_key": "ed4138ba-33a9-58cc-b972-ba5c2528784c",
+      "old_start_at": "2026-11-07 02:14:00+00:00",
+      "new_start_at": "2026-11-07 10:40:00+08:00",
+      "delta_minutes": 26
+     }
+    ],
+    "removed": [
+     "8781a7b1-56fd-5469-ac64-773c860d7db0"
+    ],
+    "added": [],
+    "cost_delta_minor": 0,
+    "travel_delta_min": -20,
+    "end_time_delta_min": 0,
+    "preserved_protected": [
+     "179948c1-ef84-55ae-a293-b09d14a1bf86",
+     "24a66232-9a20-5783-9f8e-09078af63d48",
+     "4ebcd5ec-efb7-54de-a98d-53589f037b54",
+     "8176b686-69d3-5600-bc08-24714fd9870b",
+     "a2875d9f-b1e5-57c0-953d-f09b0f111dff",
+     "a82fa86c-0d68-58e2-b867-28afa896b1f2"
+    ],
+    "before_feasibility_envelope": {
+     "next_commitment_buffer_min": null,
+     "journey_end_slack_min": 0,
+     "budget_remaining_minor": 300000,
+     "preserved_commitment_count": 0,
+     "degraded_providers": [],
+     "risk_reason_codes": [],
+     "robust": true
+    },
+    "after_feasibility_envelope": {
+     "next_commitment_buffer_min": null,
+     "journey_end_slack_min": 0,
+     "budget_remaining_minor": 300000,
+     "preserved_commitment_count": 0,
+     "degraded_providers": [],
+     "risk_reason_codes": [],
+     "robust": true
+    },
+    "opportunity_window_evidence": null,
+    "verified_evidence": {
+     "family": "F1_OPTIONAL_REMOVAL",
+     "baseline_plan_evidence": {
+      "plan_version_id": "da20c632-d38b-4626-8b28-28ea6a50c113",
+      "snapshot_id": "v12-stay-5f3f8d4791cdf90fc4ede3f7dda22d48",
+      "captured_at": "2026-09-17T19:17:49.789534+00:00",
+      "source_provider": "citynexus-synthetic-fixture",
+      "runtime_label": null,
+      "immutable": true
+     },
+     "incident_recovery_evidence": {
+      "evidence_id": "incident:b4d86c8c-21c3-4fa9-8605-7e8e2c05ed37:7a5da538-e2f1-4738-bf5a-97c1ad488f5b",
+      "event_id": "b4d86c8c-21c3-4fa9-8605-7e8e2c05ed37",
+      "event_type": "CLOSURE",
+      "event_occurred_at": "2026-11-06T04:43:00+00:00",
+      "captured_at": "2026-11-06T12:43:00+08:00",
+      "route_provenance": "RUNTIME_CAPTURE",
+      "source_provider": "mock-mobility",
+      "degraded": false,
+      "baseline_snapshot_id": "v12-stay-5f3f8d4791cdf90fc4ede3f7dda22d48",
+      "mobility_reused_from_baseline": false,
+      "routing_conditions_assumption": "CAPTURED_AT_INCIDENT",
+      "mobility_snapshot": {
+       "snapshot_id": "7a5da538-e2f1-4738-bf5a-97c1ad488f5b",
+       "operation_key": "replan:b4d86c8c-21c3-4fa9-8605-7e8e2c05ed37:incident",
+       "captured_at": "2026-11-06T12:43:00+08:00",
+       "source_provider": "mock-mobility",
+       "degraded": false,
+       "provider_capabilities": {},
+       "facts": [
+        {
+         "origin_key": "real-place-07e7689756fa27109a8bff96",
+         "destination_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0689473,
+           24.4581979
+          ],
+          [
+           118.08117255,
+           24.449875149999997
+          ],
+          [
+           118.0933978,
+           24.4415524
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-07e7689756fa27109a8bff96",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0689473,
+           24.4581979
+          ],
+          [
+           118.0922967,
+           24.47143175
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-07e7689756fa27109a8bff96",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.08117255,
+           24.449875149999997
+          ],
+          [
+           118.0689473,
+           24.4581979
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-1564f860645d87ceaae7949a",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.08404145,
+           24.4526891
+          ],
+          [
+           118.0746851,
+           24.4638258
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-4717d938763cdb61c361765e",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.093033,
+           24.44258515
+          ],
+          [
+           118.0926682,
+           24.4436179
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-70dedb7f276c0eba33018fe1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09288145,
+           24.44263765
+          ],
+          [
+           118.0923651,
+           24.4437229
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-782b082dad47a70180df9b4c",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09351760000001,
+           24.4416862
+          ],
+          [
+           118.0936374,
+           24.44182
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-9b7b72332485347018825af6",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09084385,
+           24.453992200000002
+          ],
+          [
+           118.0882899,
+           24.466432
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-9cdd822bf83d23cad90aa779",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09700355000001,
+           24.46119815
+          ],
+          [
+           118.1006093,
+           24.4808439
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-9e78bfc328293a332fe51472",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09858615,
+           24.466681299999998
+          ],
+          [
+           118.1037745,
+           24.4918102
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-a4edf1a7b720095c69e5a0cb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.090613,
+           24.454704
+          ],
+          [
+           118.0878282,
+           24.4678556
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-ba5fd7c0573fd7b42d8e1fac",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.1085259,
+           24.444114
+          ],
+          [
+           118.123654,
+           24.4466756
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-c270d43c4e4c734b010cedf5",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.07821155,
+           24.44491165
+          ],
+          [
+           118.0630253,
+           24.4482709
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-d39288fb4b2193c7dbc580a4",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09137630000001,
+           24.45071665
+          ],
+          [
+           118.0893548,
+           24.4598809
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-ecea987d32d1dacb62a37e62",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.085181,
+           24.4495233
+          ],
+          [
+           118.0769642,
+           24.4574942
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-f92c0b76e934158962ff8938",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.1083831,
+           24.46494395
+          ],
+          [
+           118.1233684,
+           24.4883355
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.10452195,
+           24.463109
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-1564f860645d87ceaae7949a",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0746851,
+           24.4638258
+          ],
+          [
+           118.0951656,
+           24.474245699999997
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-1564f860645d87ceaae7949a",
+         "destination_key": "stay:osm:node/660688688:night:1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0746851,
+           24.4638258
+          ],
+          [
+           118.0951656,
+           24.474245699999997
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-4717d938763cdb61c361765e",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0926682,
+           24.4436179
+          ],
+          [
+           118.10415715,
+           24.46414175
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-70dedb7f276c0eba33018fe1",
+         "destination_key": "real-place-782b082dad47a70180df9b4c",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0923651,
+           24.4437229
+          ],
+          [
+           118.09300125,
+           24.442771450000002
+          ],
+          [
+           118.0936374,
+           24.44182
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-70dedb7f276c0eba33018fe1",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0923651,
+           24.4437229
+          ],
+          [
+           118.1040056,
+           24.46419425
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-782b082dad47a70180df9b4c",
+         "destination_key": "real-place-9b7b72332485347018825af6",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0936374,
+           24.44182
+          ],
+          [
+           118.09096365,
+           24.454126000000002
+          ],
+          [
+           118.0882899,
+           24.466432
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-782b082dad47a70180df9b4c",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0936374,
+           24.44182
+          ],
+          [
+           118.10464175000001,
+           24.4632428
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9b7b72332485347018825af6",
+         "destination_key": "real-place-9cdd822bf83d23cad90aa779",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0882899,
+           24.466432
+          ],
+          [
+           118.0944496,
+           24.47363795
+          ],
+          [
+           118.1006093,
+           24.4808439
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9b7b72332485347018825af6",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0882899,
+           24.466432
+          ],
+          [
+           118.101968,
+           24.4755488
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9cdd822bf83d23cad90aa779",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1006093,
+           24.4808439
+          ],
+          [
+           118.10812770000001,
+           24.482754749999998
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9cdd822bf83d23cad90aa779",
+         "destination_key": "stay:osm:node/660688688:night:2",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1006093,
+           24.4808439
+          ],
+          [
+           118.10812770000001,
+           24.482754749999998
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9e78bfc328293a332fe51472",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1037745,
+           24.4918102
+          ],
+          [
+           118.1097103,
+           24.4882379
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-a4edf1a7b720095c69e5a0cb",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0878282,
+           24.4678556
+          ],
+          [
+           118.10173715,
+           24.4762606
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-ba5fd7c0573fd7b42d8e1fac",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.123654,
+           24.4466756
+          ],
+          [
+           118.11965005,
+           24.4656706
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-c270d43c4e4c734b010cedf5",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0630253,
+           24.4482709
+          ],
+          [
+           118.0893357,
+           24.46646825
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-d39288fb4b2193c7dbc580a4",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0893548,
+           24.4598809
+          ],
+          [
+           118.10250045000001,
+           24.47227325
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-ecea987d32d1dacb62a37e62",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0769642,
+           24.4574942
+          ],
+          [
+           118.09630515,
+           24.4710799
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-f92c0b76e934158962ff8938",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1233684,
+           24.4883355
+          ],
+          [
+           118.11950725,
+           24.486500550000002
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:check-in",
+         "destination_key": "real-place-1564f860645d87ceaae7949a",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.0951656,
+           24.474245699999997
+          ],
+          [
+           118.0746851,
+           24.4638258
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:check-out",
+         "destination_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:departure-anchor",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1442371,
+           24.5045256
+          ],
+          [
+           118.1728281,
+           24.5243856
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:night:1",
+         "destination_key": "real-place-70dedb7f276c0eba33018fe1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1040056,
+           24.46419425
+          ],
+          [
+           118.0923651,
+           24.4437229
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:night:2",
+         "destination_key": "stay:osm:node/660688688:check-out",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-07e7689756fa27109a8bff96",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0593877,
+           24.44629175
+          ],
+          [
+           118.0689473,
+           24.4581979
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.07161295,
+           24.437969
+          ],
+          [
+           118.0933978,
+           24.4415524
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-1564f860645d87ceaae7949a",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0622566,
+           24.449105699999997
+          ],
+          [
+           118.0746851,
+           24.4638258
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-4717d938763cdb61c361765e",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.07124815,
+           24.43900175
+          ],
+          [
+           118.0926682,
+           24.4436179
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-70dedb7f276c0eba33018fe1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0710966,
+           24.439054249999998
+          ],
+          [
+           118.0923651,
+           24.4437229
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-782b082dad47a70180df9b4c",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.07173275,
+           24.4381028
+          ],
+          [
+           118.0936374,
+           24.44182
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-9b7b72332485347018825af6",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06905900000001,
+           24.450408799999998
+          ],
+          [
+           118.0882899,
+           24.466432
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-9cdd822bf83d23cad90aa779",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0752187,
+           24.457614749999998
+          ],
+          [
+           118.1006093,
+           24.4808439
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-9e78bfc328293a332fe51472",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0768013,
+           24.4630979
+          ],
+          [
+           118.1037745,
+           24.4918102
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-a4edf1a7b720095c69e5a0cb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06882815,
+           24.4511206
+          ],
+          [
+           118.0878282,
+           24.4678556
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-ba5fd7c0573fd7b42d8e1fac",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.08674105,
+           24.4405306
+          ],
+          [
+           118.123654,
+           24.4466756
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-c270d43c4e4c734b010cedf5",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0564267,
+           24.441328249999998
+          ],
+          [
+           118.0630253,
+           24.4482709
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-d39288fb4b2193c7dbc580a4",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06959144999999,
+           24.44713325
+          ],
+          [
+           118.0893548,
+           24.4598809
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-ecea987d32d1dacb62a37e62",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06339615,
+           24.4459399
+          ],
+          [
+           118.0769642,
+           24.4574942
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-f92c0b76e934158962ff8938",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.08659825000001,
+           24.461360550000002
+          ],
+          [
+           118.1233684,
+           24.4883355
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        }
+       ]
+      },
+      "weather": null,
+      "provider_capabilities": {},
+      "provider_observation_id": "cab467a4-a84b-41f1-b798-e0645373e88e"
+     },
+     "impact_resolution": {
+      "status": "VALIDATED",
+      "maturity_stage": "VALIDATED_IMPACT",
+      "provider_key": "deterministic",
+      "model_key": "server-rules",
+      "selected_activity_id": "16f6f3a8-da8e-4718-845b-7e6b46c6a754",
+      "primary_recovery_target_id": "16f6f3a8-da8e-4718-845b-7e6b46c6a754",
+      "secondary_risk_activity_ids": [],
+      "selected_corroboration_refs": [
+       "event.affected_activity_id"
+      ],
+      "independent_evidence_count": 1,
+      "uncertain": false,
+      "reason_codes": [
+       "DETERMINISTIC_IMPACT_VALIDATION_PASSED",
+       "VALIDATED_IMPACT_EVIDENCE"
+      ],
+      "rejected_activity_ids": [],
+      "failure_code": null,
+      "response_hash": null,
+      "semantic_reason": "Structured event mapping was sufficient.",
+      "semantic_explanation": "The event contains a server-validated Activity reference."
+     },
+     "generation_rank": 15,
+     "generator": {
+      "kind": "DETERMINISTIC_HEURISTIC",
+      "solver_status": "DISABLED",
+      "fallback_reason": "SOLVER_DISABLED",
+      "problem_fingerprint": null,
+      "mobility_snapshot_id": "7a5da538-e2f1-4738-bf5a-97c1ad488f5b",
+      "rank": 15
+     },
+     "feasibility_authority": "CITYNEXUS_DETERMINISTIC_GATE",
+     "feasible": true,
+     "hard_constraint_result": {
+      "passed": true,
+      "failures": []
+     },
+     "commitment_preservation": {
+      "preserved": true,
+      "protected_count": 0
+     },
+     "stability": {
+      "score": 0.5,
+      "moved_count": 6,
+      "removed_count": 1,
+      "added_count": 0
+     },
+     "budget": {
+      "remaining_minor": 300000,
+      "currency": "CNY"
+     },
+     "mobility": {
+      "travel_delta_min": -20,
+      "provider": "mock-mobility",
+      "degraded": false,
+      "snapshot": {
+       "snapshot_id": "7a5da538-e2f1-4738-bf5a-97c1ad488f5b",
+       "operation_key": "replan:b4d86c8c-21c3-4fa9-8605-7e8e2c05ed37:incident",
+       "captured_at": "2026-11-06T12:43:00+08:00",
+       "source_provider": "mock-mobility",
+       "degraded": false,
+       "provider_capabilities": {},
+       "facts": [
+        {
+         "origin_key": "real-place-07e7689756fa27109a8bff96",
+         "destination_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0689473,
+           24.4581979
+          ],
+          [
+           118.08117255,
+           24.449875149999997
+          ],
+          [
+           118.0933978,
+           24.4415524
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-07e7689756fa27109a8bff96",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0689473,
+           24.4581979
+          ],
+          [
+           118.0922967,
+           24.47143175
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-07e7689756fa27109a8bff96",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.08117255,
+           24.449875149999997
+          ],
+          [
+           118.0689473,
+           24.4581979
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-1564f860645d87ceaae7949a",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.08404145,
+           24.4526891
+          ],
+          [
+           118.0746851,
+           24.4638258
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-4717d938763cdb61c361765e",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.093033,
+           24.44258515
+          ],
+          [
+           118.0926682,
+           24.4436179
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-70dedb7f276c0eba33018fe1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09288145,
+           24.44263765
+          ],
+          [
+           118.0923651,
+           24.4437229
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-782b082dad47a70180df9b4c",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09351760000001,
+           24.4416862
+          ],
+          [
+           118.0936374,
+           24.44182
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-9b7b72332485347018825af6",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09084385,
+           24.453992200000002
+          ],
+          [
+           118.0882899,
+           24.466432
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-9cdd822bf83d23cad90aa779",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09700355000001,
+           24.46119815
+          ],
+          [
+           118.1006093,
+           24.4808439
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-9e78bfc328293a332fe51472",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09858615,
+           24.466681299999998
+          ],
+          [
+           118.1037745,
+           24.4918102
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-a4edf1a7b720095c69e5a0cb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.090613,
+           24.454704
+          ],
+          [
+           118.0878282,
+           24.4678556
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-ba5fd7c0573fd7b42d8e1fac",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.1085259,
+           24.444114
+          ],
+          [
+           118.123654,
+           24.4466756
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-c270d43c4e4c734b010cedf5",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.07821155,
+           24.44491165
+          ],
+          [
+           118.0630253,
+           24.4482709
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-d39288fb4b2193c7dbc580a4",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.09137630000001,
+           24.45071665
+          ],
+          [
+           118.0893548,
+           24.4598809
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-ecea987d32d1dacb62a37e62",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.085181,
+           24.4495233
+          ],
+          [
+           118.0769642,
+           24.4574942
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "real-place-f92c0b76e934158962ff8938",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.1083831,
+           24.46494395
+          ],
+          [
+           118.1233684,
+           24.4883355
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0933978,
+           24.4415524
+          ],
+          [
+           118.10452195,
+           24.463109
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-1564f860645d87ceaae7949a",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0746851,
+           24.4638258
+          ],
+          [
+           118.0951656,
+           24.474245699999997
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-1564f860645d87ceaae7949a",
+         "destination_key": "stay:osm:node/660688688:night:1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0746851,
+           24.4638258
+          ],
+          [
+           118.0951656,
+           24.474245699999997
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-4717d938763cdb61c361765e",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0926682,
+           24.4436179
+          ],
+          [
+           118.10415715,
+           24.46414175
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-70dedb7f276c0eba33018fe1",
+         "destination_key": "real-place-782b082dad47a70180df9b4c",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0923651,
+           24.4437229
+          ],
+          [
+           118.09300125,
+           24.442771450000002
+          ],
+          [
+           118.0936374,
+           24.44182
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-70dedb7f276c0eba33018fe1",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0923651,
+           24.4437229
+          ],
+          [
+           118.1040056,
+           24.46419425
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-782b082dad47a70180df9b4c",
+         "destination_key": "real-place-9b7b72332485347018825af6",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0936374,
+           24.44182
+          ],
+          [
+           118.09096365,
+           24.454126000000002
+          ],
+          [
+           118.0882899,
+           24.466432
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-782b082dad47a70180df9b4c",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0936374,
+           24.44182
+          ],
+          [
+           118.10464175000001,
+           24.4632428
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9b7b72332485347018825af6",
+         "destination_key": "real-place-9cdd822bf83d23cad90aa779",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0882899,
+           24.466432
+          ],
+          [
+           118.0944496,
+           24.47363795
+          ],
+          [
+           118.1006093,
+           24.4808439
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9b7b72332485347018825af6",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0882899,
+           24.466432
+          ],
+          [
+           118.101968,
+           24.4755488
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9cdd822bf83d23cad90aa779",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1006093,
+           24.4808439
+          ],
+          [
+           118.10812770000001,
+           24.482754749999998
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9cdd822bf83d23cad90aa779",
+         "destination_key": "stay:osm:node/660688688:night:2",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1006093,
+           24.4808439
+          ],
+          [
+           118.10812770000001,
+           24.482754749999998
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-9e78bfc328293a332fe51472",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1037745,
+           24.4918102
+          ],
+          [
+           118.1097103,
+           24.4882379
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-a4edf1a7b720095c69e5a0cb",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0878282,
+           24.4678556
+          ],
+          [
+           118.10173715,
+           24.4762606
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-ba5fd7c0573fd7b42d8e1fac",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.123654,
+           24.4466756
+          ],
+          [
+           118.11965005,
+           24.4656706
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-c270d43c4e4c734b010cedf5",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0630253,
+           24.4482709
+          ],
+          [
+           118.0893357,
+           24.46646825
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-d39288fb4b2193c7dbc580a4",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0893548,
+           24.4598809
+          ],
+          [
+           118.10250045000001,
+           24.47227325
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-ecea987d32d1dacb62a37e62",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0769642,
+           24.4574942
+          ],
+          [
+           118.09630515,
+           24.4710799
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "real-place-f92c0b76e934158962ff8938",
+         "destination_key": "stay:osm:node/660688688:check-in",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1233684,
+           24.4883355
+          ],
+          [
+           118.11950725,
+           24.486500550000002
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:check-in",
+         "destination_key": "real-place-1564f860645d87ceaae7949a",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.0951656,
+           24.474245699999997
+          ],
+          [
+           118.0746851,
+           24.4638258
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:check-out",
+         "destination_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:departure-anchor",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1442371,
+           24.5045256
+          ],
+          [
+           118.1728281,
+           24.5243856
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:night:1",
+         "destination_key": "real-place-70dedb7f276c0eba33018fe1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1040056,
+           24.46419425
+          ],
+          [
+           118.0923651,
+           24.4437229
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "stay:osm:node/660688688:night:2",
+         "destination_key": "stay:osm:node/660688688:check-out",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ],
+          [
+           118.1156461,
+           24.4846656
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-07e7689756fa27109a8bff96",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0593877,
+           24.44629175
+          ],
+          [
+           118.0689473,
+           24.4581979
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-0f6a7b4b3d5359684929cdbb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.07161295,
+           24.437969
+          ],
+          [
+           118.0933978,
+           24.4415524
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-1564f860645d87ceaae7949a",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0622566,
+           24.449105699999997
+          ],
+          [
+           118.0746851,
+           24.4638258
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-4717d938763cdb61c361765e",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.07124815,
+           24.43900175
+          ],
+          [
+           118.0926682,
+           24.4436179
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-70dedb7f276c0eba33018fe1",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0710966,
+           24.439054249999998
+          ],
+          [
+           118.0923651,
+           24.4437229
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-782b082dad47a70180df9b4c",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.07173275,
+           24.4381028
+          ],
+          [
+           118.0936374,
+           24.44182
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-9b7b72332485347018825af6",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06905900000001,
+           24.450408799999998
+          ],
+          [
+           118.0882899,
+           24.466432
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-9cdd822bf83d23cad90aa779",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0752187,
+           24.457614749999998
+          ],
+          [
+           118.1006093,
+           24.4808439
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-9e78bfc328293a332fe51472",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0768013,
+           24.4630979
+          ],
+          [
+           118.1037745,
+           24.4918102
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-a4edf1a7b720095c69e5a0cb",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06882815,
+           24.4511206
+          ],
+          [
+           118.0878282,
+           24.4678556
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-ba5fd7c0573fd7b42d8e1fac",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.08674105,
+           24.4405306
+          ],
+          [
+           118.123654,
+           24.4466756
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-c270d43c4e4c734b010cedf5",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.0564267,
+           24.441328249999998
+          ],
+          [
+           118.0630253,
+           24.4482709
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-d39288fb4b2193c7dbc580a4",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06959144999999,
+           24.44713325
+          ],
+          [
+           118.0893548,
+           24.4598809
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-ecea987d32d1dacb62a37e62",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.06339615,
+           24.4459399
+          ],
+          [
+           118.0769642,
+           24.4574942
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        },
+        {
+         "origin_key": "v12:cdd328ee-7c7e-4e75-9f62-8a8d68678f05:arrival-anchor",
+         "destination_key": "real-place-f92c0b76e934158962ff8938",
+         "minutes": 20,
+         "provider": "mock-mobility",
+         "captured_at": "2026-11-06T12:43:00+08:00",
+         "degraded": false,
+         "fallback_reason": null,
+         "route_geometry": [
+          [
+           118.0498281,
+           24.4343856
+          ],
+          [
+           118.08659825000001,
+           24.461360550000002
+          ],
+          [
+           118.1233684,
+           24.4883355
+          ]
+         ],
+         "geometry_provider": "mock-mobility",
+         "route_provenance": "SYNTHETIC_FIXTURE",
+         "cost_provenance": "CITYNEXUS_COST_ESTIMATE",
+         "time_basis": "PROVIDER_CAPTURED_AT",
+         "distance_m": null,
+         "walking_distance_m": null,
+         "walking_min": null,
+         "mode": null
+        }
+       ]
+      },
+      "failed_primary_pairs": [],
+      "fallback_pairs": []
+     },
+     "time": {
+      "journey_end_slack_min": 0,
+      "end_time_delta_min": 0
+     },
+     "preference": {
+      "fit": 0
+     },
+     "opportunity": {
+      "value": null,
+      "evidence": null
+     },
+     "reason_codes": [
+      "COMMITMENT_PRESERVED",
+      "DISRUPTED_ACTIVITY_REMOVED",
+      "MINIMAL_DISRUPTION"
+     ]
+    },
+    "reason_codes": [
+     "COMMITMENT_PRESERVED",
+     "DISRUPTED_ACTIVITY_REMOVED",
+     "MINIMAL_DISRUPTION"
+    ],
+    "execution_partition": {
+     "terminal_prefix_ids": [],
+     "current_activity_id": "89c0f1bf-cc76-40c5-bf4c-20b51a6b945c",
+     "c4_anchor_ids": [],
+     "mutable_suffix_ids": [
+      "6af4853a-cc29-4633-9955-d8e5091b025e",
+      "bc230b08-e197-4566-888c-6e3bd7e98d48",
+      "16f6f3a8-da8e-4718-845b-7e6b46c6a754",
+      "0ead69e0-ea5e-4a87-b358-e5192ebfce9c",
+      "101801c1-54ff-4863-bd59-ffaced70523b",
+      "c6dbd4e0-3044-4563-b373-61329c58b91d",
+      "5c9afade-4c6e-4053-93b2-e6fad268b128",
+      "9c2f9a04-611b-4290-bcd6-c9f811a35cb3",
+      "d21353a7-affb-4d9e-8134-6856fda44f57",
+      "44916b98-e5ad-4ac7-bb5c-e096f98b94ea",
+      "1dee637c-4927-48fd-9dfd-288c86423c2c",
+      "b2bf3bec-cd37-4303-8b3e-3007c37145a8",
+      "64a7ca6a-ca1b-43bf-b1f4-d11f9542be0e"
+     ]
+    }
+   },
+   "proposalId": "fa9a414f-927f-449a-889c-d3610419e16a"
+  }
+ ],
+ "plan": {
+  "id": "da20c632-d38b-4626-8b28-28ea6a50c113",
+  "status": "ACTIVE",
+  "n": 14,
+  "locked": 6
+ },
+ "activities": [
+  {
+   "title": "厦门高崎国际机场",
+   "start": "2026-11-06T02:00:00+00:00",
+   "end": "2026-11-06T02:20:00+00:00",
+   "locked": true,
+   "type": "arrival"
+  },
+  {
+   "title": "OSM restaurant",
+   "start": "2026-11-06T02:28:00+00:00",
+   "end": "2026-11-06T03:28:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "OSM cafe",
+   "start": "2026-11-06T03:39:00+00:00",
+   "end": "2026-11-06T04:39:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "OSM restaurant",
+   "start": "2026-11-06T04:43:00+00:00",
+   "end": "2026-11-06T05:43:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "Check in · 厦门磐基酒店",
+   "start": "2026-11-06T06:00:00+00:00",
+   "end": "2026-11-06T06:20:00+00:00",
+   "locked": true,
+   "type": "check_in"
+  },
+  {
+   "title": "必胜客",
+   "start": "2026-11-06T06:35:00+00:00",
+   "end": "2026-11-06T07:35:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "Overnight · 厦门磐基酒店",
+   "start": "2026-11-06T14:30:00+00:00",
+   "end": "2026-11-06T22:30:00+00:00",
+   "locked": true,
+   "type": "stay"
+  },
+  {
+   "title": "OSM restaurant",
+   "start": "2026-11-07T00:00:00+00:00",
+   "end": "2026-11-07T01:00:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "Villa 6",
+   "start": "2026-11-07T01:04:00+00:00",
+   "end": "2026-11-07T02:04:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "OSM park",
+   "start": "2026-11-07T02:14:00+00:00",
+   "end": "2026-11-07T03:14:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "OSM park",
+   "start": "2026-11-07T03:22:00+00:00",
+   "end": "2026-11-07T04:22:00+00:00",
+   "locked": false,
+   "type": "activity"
+  },
+  {
+   "title": "Overnight · 厦门磐基酒店",
+   "start": "2026-11-07T14:30:00+00:00",
+   "end": "2026-11-07T22:30:00+00:00",
+   "locked": true,
+   "type": "stay"
+  },
+  {
+   "title": "Check out · 厦门磐基酒店",
+   "start": "2026-11-08T04:00:00+00:00",
+   "end": "2026-11-08T04:20:00+00:00",
+   "locked": true,
+   "type": "check_out"
+  },
+  {
+   "title": "厦门北站",
+   "start": "2026-11-08T11:50:00+00:00",
+   "end": "2026-11-08T12:00:00+00:00",
+   "locked": true,
+   "type": "departure"
+  }
+ ],
+ "live": {
+  "disruption": 0,
+  "proposal": 0,
+  "noProposal": "",
+  "affected": "",
+  "message": "",
+  "body": "用你自己的城市试用 CITYNEXUS 新建行程 三步完成。选择目的地、告诉我们怎么玩，剩下的交给 CityNexus。 EN 1 目的地与时间 2 人数与偏好 3 确认创建 目的地 抵达厦门 离开厦门 抵达时间 离开时间 高级设置 下一步 使用封存的天津演示 高级设置"
+ },
+ "pageErrors": []
+}

@@ -1,0 +1,635 @@
+"""V16 Real-User Lab — traveller personas and scenario injections.
+
+The V15 lab tested the Copilot's *semantics*: does it understand what a message
+means. V16 tests the product's *behaviour*: given a real traveller, does the plan
+it produces make sense.
+
+That is a different failure class. A system can classify every message perfectly
+and still hand a couple who go to bed at 2am a 07:30 breakfast booking, or plan a
+metro-based day in a county that has no metro. Those are not comprehension bugs;
+they are modelling bugs, and they only show up when you simulate someone specific.
+
+Every persona below is a concrete traveller with a budget, a body, a bedtime and
+a reason for the trip. The ``quirks`` field is what the planner is supposed to
+honour and, by hypothesis, does not.
+
+Chinese is used for the Chinese personas because that is what those users would
+actually type, and because a Latin-length gate is one of the things under test.
+"""
+from __future__ import annotations
+
+from dataclasses import dataclass, field, asdict
+from typing import Any
+
+
+@dataclass(frozen=True)
+class Persona:
+    """One traveller, described the way a traveller would describe themselves."""
+
+    pid: str
+    label_zh: str
+    label_en: str
+    party_zh: str
+    city: str
+    city_code: str
+    country: str
+    timezone: str
+    currency: str
+    budget_minor: int
+    stay_budget_minor: int
+    days: int
+    #: Local clock time the traveller realistically starts the day.
+    wake_time: str
+    #: Local clock time the traveller realistically goes to bed.
+    bed_time: str
+    #: What the planner must honour. These are the hypotheses under test.
+    quirks: tuple[str, ...] = ()
+    #: Free-text self-description, as the traveller would type it.
+    self_description_zh: str = ""
+    self_description_en: str = ""
+    notes_zh: str = ""
+
+    def as_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+# --------------------------------------------------------------------------- #
+# Personas
+# --------------------------------------------------------------------------- #
+PERSONAS: tuple[Persona, ...] = (
+    Persona(
+        pid="P01_couple_late_night",
+        label_zh="夜猫子情侣（福州）",
+        label_en="Night-owl couple (Fuzhou)",
+        party_zh="2 名成年人，情侣",
+        city="福州",
+        city_code="CN-FUZHOU",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=600_000,          # ¥6,000
+        stay_budget_minor=240_000,     # ¥2,400
+        days=3,
+        wake_time="11:00",
+        bed_time="02:00",
+        quirks=(
+            "day_start_not_before_1100",
+            "no_morning_activity_before_wake",
+            "late_night_activity_block",
+            "brunch_not_breakfast",
+        ),
+        self_description_zh=(
+            "我和对象出来玩，晚上会折腾到很晚才睡，第二天基本 11 点才起。"
+            "别给我排早上七八点的行程，早餐不用订，直接吃早午餐。"
+        ),
+        self_description_en=(
+            "My partner and I are on holiday. We stay up very late and rarely get "
+            "up before 11am. Do not schedule anything early morning; skip breakfast, "
+            "we want brunch instead."
+        ),
+        notes_zh=(
+            "核心假设：产品会照常排 07:30 早餐 / 08:00 景点。"
+            "这是「人体节律」建模缺失，与语言理解无关。"
+        ),
+    ),
+    Persona(
+        pid="P02_county_honeymoon",
+        label_zh="小县城蜜月（沙县）",
+        label_en="County-town honeymoon (Shaxian)",
+        party_zh="2 名成年人，新婚",
+        city="沙县",
+        city_code="CN-SHAXIAN",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=250_000,          # ¥2,500
+        stay_budget_minor=80_000,      # ¥800
+        days=2,
+        wake_time="08:30",
+        bed_time="23:00",
+        quirks=(
+            "no_metro",
+            "sparse_public_transport",
+            "attractions_close_early",
+            "local_food_is_the_point",
+            "no_english_service",
+        ),
+        self_description_zh=(
+            "我们俩去沙县玩两天，主要就是吃小吃。县城里没地铁，公交也不多，"
+            "景点下午五点多就关门了。"
+        ),
+        self_description_en=(
+            "Two days in Shaxian county, mainly to eat. No metro here, buses are "
+            "infrequent, and the sights shut around 5pm."
+        ),
+        notes_zh=(
+            "假设：产品把大城市交通模型套到县城上（假设有地铁、班次密），"
+            "并且不考虑景点 17:00 关门。"
+        ),
+    ),
+    Persona(
+        pid="P03_elderly_parents",
+        label_zh="带七旬父母（婺源）",
+        label_en="With elderly parents (Wuyuan)",
+        party_zh="2 名 70 岁以上老人 + 1 名成年子女",
+        city="婺源",
+        city_code="CN-WUYUAN",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=900_000,          # ¥9,000
+        stay_budget_minor=360_000,     # ¥3,600
+        days=4,
+        wake_time="07:30",
+        bed_time="21:30",
+        quirks=(
+            "max_continuous_walking_20min",
+            "needs_midday_rest",
+            "no_stairs_or_climbing",
+            "toilet_access_every_90min",
+            "slow_pace",
+        ),
+        self_description_zh=(
+            "带我爸妈出去玩，他们都七十多了，走不了太久，爬不了台阶，"
+            "中午得回去歇一会儿，路上厕所要方便。"
+        ),
+        self_description_en=(
+            "Travelling with my parents, both over 70. They cannot walk long or do "
+            "stairs, need a midday rest, and need toilets nearby."
+        ),
+        notes_zh="假设：产品不建模体力上限、不插入午休、不检查台阶/爬升。",
+    ),
+    Persona(
+        pid="P04_infant_family",
+        label_zh="带 8 个月婴儿（上海）",
+        label_en="Family with an 8-month-old (Shanghai)",
+        party_zh="2 名成年人 + 1 名 8 个月婴儿",
+        city="上海",
+        city_code="CN-SHANGHAI",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=1_500_000,        # ¥15,000
+        stay_budget_minor=600_000,     # ¥6,000
+        days=3,
+        wake_time="07:00",
+        bed_time="22:00",
+        quirks=(
+            "stroller_accessible_required",
+            "nursing_room_required",
+            "nap_window_1300_1500",
+            "no_long_transit_legs",
+            "diaper_change_facilities",
+        ),
+        self_description_zh=(
+            "带八个月宝宝去上海。要推婴儿车，得有无障碍通道和母婴室，"
+            "下午一点到三点宝宝要睡觉，路上别坐太久车。"
+        ),
+        self_description_en=(
+            "Shanghai with an 8-month-old. We need step-free access and baby-care "
+            "rooms, the baby naps 1-3pm, and no long transit legs."
+        ),
+        notes_zh="假设：产品没有婴儿车/母婴室/午睡窗口的概念。",
+    ),
+    Persona(
+        pid="P05_student_shoestring",
+        label_zh="穷游学生（敦煌）",
+        label_en="Shoestring student (Dunhuang)",
+        party_zh="1 名大学生",
+        city="敦煌",
+        city_code="CN-DUNHUANG",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=120_000,          # ¥1,200
+        stay_budget_minor=30_000,      # ¥300
+        days=4,
+        wake_time="06:00",
+        bed_time="23:30",
+        quirks=(
+            "overnight_train_to_save_a_night",
+            "hostel_dorm_only",
+            "free_attractions_preferred",
+            "student_discount_eligible",
+            "no_taxi",
+        ),
+        self_description_zh=(
+            "学生党，四天只有一千二，住青旅床位，能坐夜车省一晚住宿就坐夜车，"
+            "门票能省就省，学生证有优惠。不打车。"
+        ),
+        self_description_en=(
+            "Student, 4 days on ¥1200. Dorm beds, overnight trains to save a night, "
+            "free or discounted sights, no taxis."
+        ),
+        notes_zh="假设：产品不建模学生优惠、不建模夜车替代住宿。",
+    ),
+    Persona(
+        pid="P06_family_two_kids",
+        label_zh="带两个小孩（北京）",
+        label_en="Family with two children (Beijing)",
+        party_zh="2 名成年人 + 6 岁 + 10 岁",
+        city="北京",
+        city_code="CN-BEIJING",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=2_000_000,        # ¥20,000
+        stay_budget_minor=800_000,     # ¥8,000
+        days=5,
+        wake_time="08:00",
+        bed_time="22:00",
+        quirks=(
+            "kid_attention_span_90min",
+            "needs_snack_breaks",
+            "museum_max_2h",
+            "avoid_long_queues",
+            "child_ticket_pricing",
+        ),
+        self_description_zh=(
+            "带俩孩子去北京，六岁和十岁。孩子注意力就一个多小时，"
+            "中间要吃东西，博物馆待两小时就烦了，排队太久的别去。"
+        ),
+        self_description_en=(
+            "Beijing with a 6- and a 10-year-old. They last about 90 minutes, need "
+            "snack breaks, and two hours in a museum is the limit. No long queues."
+        ),
+        notes_zh="假设：产品不建模儿童注意力时长、不插零食休息、不检查排队时长。",
+    ),
+    Persona(
+        pid="P07_solo_backpacker_en",
+        label_zh="独行背包客（伦敦）",
+        label_en="Solo backpacker (London)",
+        party_zh="1 名成年人",
+        city="London",
+        city_code="GB-LONDON",
+        country="GB",
+        timezone="Europe/London",
+        currency="GBP",
+        budget_minor=90_000,           # £900
+        stay_budget_minor=36_000,      # £360
+        days=6,
+        wake_time="08:30",
+        bed_time="23:00",
+        quirks=(
+            "walk_first",
+            "no_fixed_plan",
+            "free_museums",
+            "contactless_transport",
+        ),
+        self_description_zh="一个人背包走伦敦六天，能走就走，博物馆免费的多去几个。",
+        self_description_en=(
+            "Six days solo in London. I walk everywhere and prefer the free museums."
+        ),
+        notes_zh="验证英镑最小单位（2 位小数）与英文 locale。",
+    ),
+    Persona(
+        pid="P08_business_tokyo",
+        label_zh="商务出差（东京）",
+        label_en="Business trip (Tokyo)",
+        party_zh="1 名成年人",
+        city="东京",
+        city_code="JP-TOKYO",
+        country="JP",
+        timezone="Asia/Tokyo",
+        currency="JPY",
+        budget_minor=3_000_000,        # ¥30,000 等价，注意日元 0 位小数
+        stay_budget_minor=1_200_000,
+        days=2,
+        wake_time="06:30",
+        bed_time="23:30",
+        quirks=(
+            "fixed_meeting_0900_1700",
+            "only_evenings_free",
+            "must_be_punctual",
+            "zero_decimals_currency",
+        ),
+        self_description_zh=(
+            "去东京出差两天，白天九点到五点都在开会，只有晚上有空。"
+            "绝对不能迟到。"
+        ),
+        self_description_en=(
+            "Two days in Tokyo for work. Meetings 9-5 both days, only evenings free. "
+            "Punctuality is non-negotiable."
+        ),
+        notes_zh=(
+            "JPY 是 0 位小数货币。V15 已发现金额被 ×100 且不带币种，"
+            "这里验证真实后果。"
+        ),
+    ),
+    Persona(
+        pid="P09_group_of_six",
+        label_zh="六人朋友团（新加坡）",
+        label_en="Group of six friends (Singapore)",
+        party_zh="6 名成年人，朋友",
+        city="新加坡",
+        city_code="SG-SINGAPORE",
+        country="SG",
+        timezone="Asia/Singapore",
+        currency="SGD",
+        budget_minor=500_000,          # S$5,000
+        stay_budget_minor=200_000,     # S$2,000
+        days=3,
+        wake_time="09:00",
+        bed_time="01:00",
+        quirks=(
+            "split_preferences",
+            "one_activity_at_a_time",
+            "group_decision_latency",
+            "sgd_two_decimals",
+        ),
+        self_description_zh="六个朋友去新加坡玩三天，有人想去环球影城有人只想逛街，很难统一。",
+        self_description_en=(
+            "Six friends, three days in Singapore. Some want Universal Studios, "
+            "some just want to shop. Hard to agree."
+        ),
+        notes_zh="验证 Asia/* 时区是否被误判为中文（V15 已发现 locale 泄漏）。",
+    ),
+    Persona(
+        pid="P10_budget_hunter",
+        label_zh="比价型情侣（成都—重庆）",
+        label_en="Deal-hunting couple (Chengdu-Chongqing)",
+        party_zh="2 名成年人",
+        city="重庆",
+        city_code="CN-CHONGQING",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=180_000,          # ¥1,800
+        stay_budget_minor=60_000,      # ¥600
+        days=3,
+        wake_time="09:00",
+        bed_time="23:30",
+        quirks=(
+            "will_switch_hotel_to_save_50",
+            "compares_every_price",
+            "eats_street_food",
+            "spicy_ok",
+        ),
+        self_description_zh=(
+            "我们预算很紧，酒店能便宜五十块就换，主要吃路边摊，能吃辣。"
+        ),
+        self_description_en=(
+            "Tight budget. We will switch hotels to save fifty yuan. Street food, "
+            "and we can eat spicy."
+        ),
+        notes_zh="验证「换酒店省钱」是否触发 C4 承诺保护与确认流程。",
+    ),
+    Persona(
+        pid="P11_photographer",
+        label_zh="摄影爱好者（霞浦）",
+        label_en="Landscape photographer (Xiapu)",
+        party_zh="1 名成年人",
+        city="霞浦",
+        city_code="CN-XIAPU",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=400_000,          # ¥4,000
+        stay_budget_minor=120_000,     # ¥1,200
+        days=3,
+        wake_time="04:00",
+        bed_time="21:00",
+        quirks=(
+            "sunrise_sunset_anchors",
+            "tide_dependent",
+            "weather_decides_schedule",
+            "early_start_is_the_point",
+        ),
+        self_description_zh=(
+            "去霞浦拍滩涂。日出日落是核心，凌晨四点就得出发，看天吃饭，"
+            "天气不好就改计划。"
+        ),
+        self_description_en=(
+            "Xiapu for the tidal flats. Sunrise and sunset are the whole point; "
+            "I leave at 4am and the weather decides the plan."
+        ),
+        notes_zh=(
+            "与 P01 相反：这里凌晨 4 点起床才是需求。"
+            "两者同时存在说明产品需要「人体节律」而不是简单禁止早排。"
+        ),
+    ),
+    Persona(
+        pid="P12_wheelchair_user",
+        label_zh="轮椅出行（北京）",
+        label_en="Wheelchair user (Beijing)",
+        party_zh="1 名轮椅使用者 + 1 名同行",
+        city="北京",
+        city_code="CN-BEIJING",
+        country="CN",
+        timezone="Asia/Shanghai",
+        currency="CNY",
+        budget_minor=1_200_000,        # ¥12,000
+        stay_budget_minor=480_000,     # ¥4,800
+        days=4,
+        wake_time="08:30",
+        bed_time="22:00",
+        quirks=(
+            "step_free_required",
+            "accessible_toilet_required",
+            "elevator_required",
+            "no_historic_stairs",
+        ),
+        self_description_zh=(
+            "我坐轮椅出行，必须有坡道或电梯，景区台阶上不去，"
+            "厕所必须是无障碍的。"
+        ),
+        self_description_en=(
+            "I use a wheelchair. I need step-free routes, lifts, and accessible "
+            "toilets. Historic stairs are not an option."
+        ),
+        notes_zh="假设：产品完全没有无障碍字段。这是合规风险，不只是体验问题。",
+    ),
+)
+
+PERSONAS_BY_ID = {p.pid: p for p in PERSONAS}
+
+
+# --------------------------------------------------------------------------- #
+# Scenario injections
+# --------------------------------------------------------------------------- #
+@dataclass(frozen=True)
+class Injection:
+    """Something that happens to a traveller mid-journey."""
+
+    iid: str
+    label_zh: str
+    category: str          # disruption | emergency | social | logistics
+    message_zh: str
+    message_en: str
+    #: What a reasonable product should do.
+    expected_zh: str
+    severity: str          # critical | high | medium
+
+
+INJECTIONS: tuple[Injection, ...] = (
+    Injection(
+        iid="E01_typhoon",
+        label_zh="台风来袭，户外全停",
+        category="disruption",
+        message_zh="台风来了，明天所有户外行程都得取消，风太大了。",
+        message_en="A typhoon is coming. Every outdoor activity tomorrow has to be cancelled.",
+        expected_zh="识别为真实中断 → 生成 WEATHER 事件 → 提供室内替代 → 保护已付款承诺",
+        severity="critical",
+    ),
+    Injection(
+        iid="E02_flight_cancelled",
+        label_zh="航班取消",
+        category="disruption",
+        message_zh="航班取消了，我得改签，可能晚一天到。",
+        message_en="My flight is cancelled. I need to rebook and may arrive a day late.",
+        expected_zh="识别中断 → 重排受影响的当天 → 提示酒店与返程需要确认",
+        severity="critical",
+    ),
+    Injection(
+        iid="E03_lost_passport",
+        label_zh="护照丢了",
+        category="emergency",
+        message_zh="我护照丢了，现在怎么办？",
+        message_en="I've lost my passport. What do I do now?",
+        expected_zh="这是求助而非行程重排；应给应急指引（报警/领事馆），不得伪造行程变更",
+        severity="critical",
+    ),
+    Injection(
+        iid="E04_fever",
+        label_zh="发烧了",
+        category="emergency",
+        message_zh="我发烧到 39 度，今天哪也去不了，附近有医院吗？",
+        message_en="I have a 39°C fever and can't go anywhere today. Is there a hospital nearby?",
+        expected_zh="取消当天 → 找医院 → 释放当天承诺 → 不产生旅游事件",
+        severity="critical",
+    ),
+    Injection(
+        iid="E05_no_phone_battery",
+        label_zh="手机没电没网",
+        category="emergency",
+        message_zh="我手机快没电了，也没信号，接下来我该去哪？",
+        message_en="My phone is nearly dead and I have no signal. Where should I go next?",
+        expected_zh="返回离线快照（只读），不依赖网络",
+        severity="high",
+    ),
+    Injection(
+        iid="E06_friend_joins",
+        label_zh="朋友临时加入",
+        category="social",
+        message_zh="我朋友明天要跟我们一起玩，多一个人。",
+        message_en="A friend is joining us tomorrow. One more person.",
+        expected_zh="人数 2→3 → 重算预算与门票 → 可能需要更大的车/房",
+        severity="high",
+    ),
+    Injection(
+        iid="E07_extend_one_day",
+        label_zh="临时多留一天",
+        category="logistics",
+        message_zh="我们想多玩一天，酒店能续住吗？",
+        message_en="We want to stay one more day. Can we extend the hotel?",
+        expected_zh="延长行程 → 酒店续住需要确认与付款边界 → 返程要改",
+        severity="high",
+    ),
+    Injection(
+        iid="E08_attraction_closed",
+        label_zh="景点临时关闭",
+        category="disruption",
+        message_zh="博物馆临时闭馆了，门口贴的告示。",
+        message_en="The museum is closed today — there's a notice on the door.",
+        expected_zh="真实中断 → 替换景点 → 保留后续锚点",
+        severity="high",
+    ),
+    Injection(
+        iid="E09_train_delayed",
+        label_zh="火车晚点三小时",
+        category="disruption",
+        message_zh="火车晚点三个小时，后面的行程全乱了。",
+        message_en="The train is three hours late and everything after it is broken.",
+        expected_zh="真实中断 → 重排后续 → 保护固定锚点（返程/演出）",
+        severity="critical",
+    ),
+    Injection(
+        iid="E10_wallet_stolen",
+        label_zh="钱包被偷",
+        category="emergency",
+        message_zh="我钱包被偷了，卡和现金都没了。",
+        message_en="My wallet was stolen. Cards and cash are gone.",
+        expected_zh="求助类；不得自动改签/付款；应给应急路径",
+        severity="critical",
+    ),
+    Injection(
+        iid="E11_child_tired",
+        label_zh="孩子累垮了",
+        category="social",
+        message_zh="孩子走不动了，一直在哭，能不能回酒店？",
+        message_en="The kids are exhausted and crying. Can we go back to the hotel?",
+        expected_zh="提前结束当天 → 放弃剩余行程 → 不产生虚假事件",
+        severity="high",
+    ),
+    Injection(
+        iid="E12_want_less_walking",
+        label_zh="想少走路（偏好，不是中断）",
+        category="social",
+        message_zh="我想少走路。",
+        message_en="I want to walk less.",
+        expected_zh="偏好变更，不产生事件，不改已付款承诺",
+        severity="medium",
+    ),
+    Injection(
+        iid="E13_hypothetical_rain",
+        label_zh="如果下雨会怎样（假设，不是事实）",
+        category="social",
+        message_zh="如果明天下雨会怎样？",
+        message_en="What if it rains tomorrow?",
+        expected_zh="WHAT_IF，绝不产生真实事件",
+        severity="critical",
+    ),
+)
+
+INJECTIONS_BY_ID = {i.iid: i for i in INJECTIONS}
+
+
+# --------------------------------------------------------------------------- #
+# The matrix the harness runs
+# --------------------------------------------------------------------------- #
+#: (persona_id, [injection_ids]) — a full trip simulation per row.
+#: Chosen so every persona meets a disruption, and the two boundary injections
+#: (E13 hypothetical, E12 preference) run against a night-owl couple, because
+#: that is where "the user said something vague" is most likely to be misread.
+MATRIX: tuple[tuple[str, tuple[str, ...]], ...] = (
+    ("P01_couple_late_night", ("E13_hypothetical_rain", "E12_want_less_walking", "E09_train_delayed")),
+    ("P02_county_honeymoon", ("E08_attraction_closed", "E01_typhoon")),
+    ("P03_elderly_parents", ("E04_fever", "E11_child_tired")),
+    ("P04_infant_family", ("E01_typhoon", "E07_extend_one_day")),
+    ("P05_student_shoestring", ("E09_train_delayed", "E06_friend_joins")),
+    ("P06_family_two_kids", ("E11_child_tired", "E08_attraction_closed")),
+    ("P07_solo_backpacker_en", ("E02_flight_cancelled", "E13_hypothetical_rain")),
+    ("P08_business_tokyo", ("E09_train_delayed", "E07_extend_one_day")),
+    ("P09_group_of_six", ("E01_typhoon", "E06_friend_joins")),
+    ("P10_budget_hunter", ("E07_extend_one_day", "E08_attraction_closed")),
+    ("P11_photographer", ("E01_typhoon", "E13_hypothetical_rain")),
+    ("P12_wheelchair_user", ("E03_lost_passport", "E10_wallet_stolen")),
+)
+
+
+def summary() -> dict[str, Any]:
+    return {
+        "personas": len(PERSONAS),
+        "injections": len(INJECTIONS),
+        "simulations": len(MATRIX),
+        "cities": sorted({p.city for p in PERSONAS}),
+        "currencies": sorted({p.currency for p in PERSONAS}),
+        "timezones": sorted({p.timezone for p in PERSONAS}),
+        "county_level": sorted({p.city for p in PERSONAS if p.city in {
+            "沙县", "婺源", "敦煌", "霞浦"}}),
+        "quirk_count": sum(len(p.quirks) for p in PERSONAS),
+    }
+
+
+if __name__ == "__main__":
+    import json
+
+    print(json.dumps(summary(), ensure_ascii=False, indent=2))
+    print()
+    for p in PERSONAS:
+        print(f"{p.pid:<26} {p.city:<6} {p.currency} {p.budget_minor/100:>10,.0f} "
+              f"{p.days}d  wake {p.wake_time}  bed {p.bed_time}  "
+              f"{len(p.quirks)} quirks")
+    print()
+    for i in INJECTIONS:
+        print(f"{i.iid:<26} {i.category:<11} {i.severity:<8} {i.label_zh}")

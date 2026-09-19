@@ -1,0 +1,341 @@
+--- /dev/null
++++ b/backend/tests/test_vertical_slice_hardening_next.py
+@@ -0,0 +1,103 @@
++from __future__ import annotations
++
++from datetime import datetime
++
++from fastapi.testclient import TestClient
++
++from app.integrations.mock.providers import MockMobilityProvider
++from app.main import app
++
++client = TestClient(app)
++
++
++def _active_with_c4_progressed_to_tech_art() -> tuple[str, dict, dict]:
++    ids = client.post("/api/v1/demo/reset").json()
++    jid = ids["journey_id"]
++    plan_response = client.post(
++        f"/api/v1/journeys/{jid}/plans/generate", json={"candidate_count": 1}
++    )
++    assert plan_response.status_code == 201, plan_response.text
++    plan = plan_response.json()[0]
++    assert client.post(f"/api/v1/journeys/{jid}/plans/{plan['id']}/select").status_code == 200
++
++    cruise = next(item for item in plan["activities"] if item["place_id"] == "place-river-cruise")
++    booking_response = client.post(
++        f"/api/v1/journeys/{jid}/bookings", json={"activity_id": cruise["id"]}
++    )
++    assert booking_response.status_code == 201, booking_response.text
++    booking = booking_response.json()
++    capture = client.post(
++        f"/api/v1/journeys/{jid}/transactions",
++        json={
++            "booking_id": booking["id"],
++            "transaction_type": "CAPTURE",
++            "amount": booking["amount"],
++        },
++        headers={"Idempotency-Key": f"hardening-capture-{booking['id']}"},
++    )
++    assert capture.status_code == 201, capture.text
++
++    twin_response = client.post(f"/api/v1/journeys/{jid}/start")
++    assert twin_response.status_code == 200, twin_response.text
++    twin = twin_response.json()
++    tech = next(item for item in plan["activities"] if item["place_id"] == "place-tech-art")
++    for activity in plan["activities"]:
++        if activity["id"] == tech["id"]:
++            break
++        completed = client.post(
++            f"/api/v1/journeys/{jid}/activities/{activity['id']}/complete"
++        )
++        assert completed.status_code == 200, completed.text
++        twin = completed.json()
++    assert twin["current_activity_id"] == tech["id"]
++    return jid, plan, tech
++
++
++def _closure_replans(jid: str, tech: dict, *, occurred_at: str) -> list[dict]:
++    event_response = client.post(
++        f"/api/v1/journeys/{jid}/events",
++        json={
++            "event_type": "CLOSURE",
++            "severity": "MAJOR",
++            "affected_activity_id": tech["id"],
++            "occurred_at": occurred_at,
++            "payload": {"reason": "vertical-slice hardening"},
++        },
++    )
++    assert event_response.status_code == 201, event_response.text
++    event = event_response.json()
++    response = client.post(
++        f"/api/v1/journeys/{jid}/replans",
++        json={"trigger_event_id": event["id"], "candidate_count": 5},
++    )
++    assert response.status_code == 201, response.text
++    return [
++        item
++        for item in client.get(f"/api/v1/journeys/{jid}/replans").json()
++        if item["trigger_event_id"] == event["id"]
++    ]
++
++
++def test_f3_inbound_uses_authoritative_current_execution_location():
++    jid, _plan, tech = _active_with_c4_progressed_to_tech_art()
++    proposals = _closure_replans(jid, tech, occurred_at="2026-10-10T13:25:00+08:00")
++    f3 = next(
++        item for item in proposals if item["diff"]["candidate_family"] == "F3_OPPORTUNITY_WINDOW"
++    )
++    evidence = f3["diff"]["opportunity_window_evidence"]
++    added_key = f3["diff"]["added"][0]
++    expected = MockMobilityProvider().estimate_minutes("place-tech-art", added_key)
++    assert evidence["origin_key"] == "place-tech-art"
++    assert evidence["inbound_travel_min"] == expected
++
++
++def test_aware_utc_event_is_normalized_to_journey_local_schedule_before_f3():
++    jid, _plan, tech = _active_with_c4_progressed_to_tech_art()
++    proposals = _closure_replans(jid, tech, occurred_at="2026-10-10T05:25:00+00:00")
++    f3 = next(
++        item for item in proposals if item["diff"]["candidate_family"] == "F3_OPPORTUNITY_WINDOW"
++    )
++    evidence = f3["diff"]["opportunity_window_evidence"]
++    local_event = datetime.fromisoformat(evidence["window_opens_at"])
++    assert local_event.isoformat() == "2026-10-10T13:25:00+08:00"
++    assert evidence["origin_key"] == "place-tech-art"
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -1281,14 +1281,17 @@
+     protected_activity_ids = set(partition.c4_anchor_ids)
+     mobility = MockMobilityProvider()
+     effective_event_time = datetime.fromisoformat(trigger_event.occurred_at)
++    # Normalize every Event instant onto the Journey schedule timeline before
++    # evaluating local opening hours or OpportunityWindow evidence.  Real
++    # providers such as Open-Meteo deliberately emit UTC instants, while the
++    # Journey plan stores local scheduled offsets.  Comparing aware datetimes
++    # is safe, but interpreting local opening-hour strings in UTC is not.
++    journey_reference = datetime.fromisoformat(journey.start_at)
++    journey_tz = journey_reference.tzinfo
+     if effective_event_time.tzinfo is None:
+-        # EventCreate permits timezone-free simulator/user input. Keep all
+-        # planning arithmetic on one timeline by inheriting the Journey's
+-        # schedule offset instead of mixing naive and aware datetimes.
+-        reference_time = datetime.fromisoformat(
+-            affected.start_at if affected is not None else journey.start_at
+-        )
+-        effective_event_time = effective_event_time.replace(tzinfo=reference_time.tzinfo)
++        effective_event_time = effective_event_time.replace(tzinfo=journey_tz)
++    elif journey_tz is not None:
++        effective_event_time = effective_event_time.astimezone(journey_tz)
+     specs: list[tuple[str, Any | None, int, bool, dict[str, Any] | None]] = []
+     if replacement_choices:
+         for index, choice in enumerate(replacement_choices):
+@@ -1330,13 +1333,24 @@
+                             tz,
+                         )
+ 
++                    # Replanning must start from the authoritative execution
++                    # position, not merely from the activity that used to
++                    # precede the disrupted slot.  Once the traveler has
++                    # reached/started the affected activity, using the previous
++                    # slot can understate recovery travel and overstate the safe
++                    # OpportunityWindow.
++                    current_execution = next(
++                        (item for item in source if item.id == journey.current_activity_id),
++                        None,
++                    )
+                     previous = next(
+                         (item for item in source if item.sequence_no == affected.sequence_no - 1),
+                         None,
+                     )
++                    origin_activity = current_execution or previous
+                     origin = (
+-                        (previous.place_id or previous.city_service_id)
+-                        if previous is not None
++                        (origin_activity.place_id or origin_activity.city_service_id)
++                        if origin_activity is not None
+                         else None
+                     )
+                     inbound = mobility.estimate_minutes(origin, choice.place_id) if origin else 0
+@@ -1369,6 +1383,7 @@
+                             if evidence.finish_at
+                             else None,
+                             "remaining_buffer_min": evidence.remaining_buffer_min,
++                            "origin_key": origin,
+                             "inbound_travel_min": inbound,
+                             "outbound_travel_min": outbound,
+                             "safety_buffer_min": 15,
+--- a/backend/tests/test_backend_connected_golden_contract.py
++++ b/backend/tests/test_backend_connected_golden_contract.py
+@@ -43,7 +43,22 @@
+     )
+     assert c4["activity_id"] == cruise["id"]
+ 
++    # The recovery demo must model a journey that has actually progressed to
++    # the disrupted activity.  Injecting a 13:25 closure while the execution
++    # pointer is still on the 09:00 first activity proves API plumbing, not
++    # journey continuity.
+     tech = next(item for item in plan["activities"] if item["place_id"] == "place-tech-art")
++    twin = started.json()
++    for activity in plan["activities"]:
++        if activity["id"] == tech["id"]:
++            break
++        completed = client.post(
++            f"/api/v1/journeys/{jid}/activities/{activity['id']}/complete"
++        )
++        assert completed.status_code == 200, completed.text
++        twin = completed.json()
++    assert twin["current_activity_id"] == tech["id"]
++
+     event = client.post(
+         f"/api/v1/journeys/{jid}/events",
+         json={
+@@ -77,6 +92,7 @@
+         item for item in proposals if item["diff"]["candidate_family"] == "F3_OPPORTUNITY_WINDOW"
+     )
+     assert f3["diff"]["opportunity_window_evidence"]["window_opens_at"] == event["occurred_at"]
++    assert f3["diff"]["opportunity_window_evidence"]["origin_key"] == "place-tech-art"
+ 
+     chosen = generated_replan.json()
+     accepted = client.post(
+--- a/frontend/src/api/citynexus.ts
++++ b/frontend/src/api/citynexus.ts
+@@ -154,6 +154,13 @@
+     return requestJson<JourneyTwin>("/journeys/" + journeyId + "/start", { method: "POST" });
+   },
+ 
++  completeActivity(journeyId: string, activityId: string): Promise<JourneyTwin> {
++    return requestJson<JourneyTwin>(
++      "/journeys/" + journeyId + "/activities/" + activityId + "/complete",
++      { method: "POST" },
++    );
++  },
++
+   getTwin(journeyId: string, now?: string): Promise<JourneyTwin> {
+     const suffix = now ? "?now=" + encodeURIComponent(now) : "";
+     return requestJson<JourneyTwin>("/journeys/" + journeyId + "/twin" + suffix);
+@@ -180,9 +187,11 @@
+     journeyId: string,
+     eventId: string,
+     candidateCount = 3,
++    idempotencyKey?: string,
+   ): Promise<ReplanProposal> {
+     return requestJson<ReplanProposal>("/journeys/" + journeyId + "/replans", {
+       method: "POST",
++      headers: idempotencyKey ? { "Idempotency-Key": idempotencyKey } : undefined,
+       body: JSON.stringify({ trigger_event_id: eventId, candidate_count: candidateCount }),
+     });
+   },
+--- a/frontend/src/demo/goldenScenario.ts
++++ b/frontend/src/demo/goldenScenario.ts
+@@ -35,9 +35,23 @@
+   await cityNexusApi.captureBooking(
+     ids.journey_id,
+     booking,
+-    "frontend-golden-capture-" + ids.journey_id,
++    "frontend-golden-capture-" + booking.id,
+   );
+-  const twin = await cityNexusApi.startJourney(ids.journey_id);
++  let twin = await cityNexusApi.startJourney(ids.journey_id);
++
++  // Put the deterministic demo at the actual disruption point.  A closure at
++  // 13:25 is not a meaningful execution demo if Journey.current_activity_id
++  // is still the 09:00 first stop.
++  for (const activity of plan.activities) {
++    if (activity.id === techArt.id) break;
++    if (twin.current_activity_id !== activity.id) {
++      throw new Error("Journey execution pointer drifted before the Tech Art disruption");
++    }
++    twin = await cityNexusApi.completeActivity(ids.journey_id, activity.id);
++  }
++  if (twin.current_activity_id !== techArt.id) {
++    throw new Error("Golden Scenario did not progress to Tech Art before disruption");
++  }
+   return { journeyId: ids.journey_id, plan, techArt, riverCruise, twin };
+ }
+ 
+@@ -61,7 +75,12 @@
+     session.techArt.id,
+     occurredAt,
+   );
+-  await cityNexusApi.generateReplans(session.journeyId, event.id, 3);
++  await cityNexusApi.generateReplans(
++    session.journeyId,
++    event.id,
++    3,
++    "frontend-replan-generate-" + event.id,
++  );
+   const all = await cityNexusApi.listReplans(session.journeyId);
+   return {
+     eventId: event.id,
+--- a/frontend/src/main.tsx
++++ b/frontend/src/main.tsx
+@@ -35,13 +35,19 @@
+ 
+ function formatMoney(amountMinor: number, currency: string): string {
+   try {
++    const currencyScale = new Intl.NumberFormat("en", {
++      style: "currency",
++      currency,
++    }).resolvedOptions().maximumFractionDigits;
++    const majorAmount = amountMinor / 10 ** currencyScale;
+     return new Intl.NumberFormat("zh-CN", {
+       style: "currency",
+       currency,
+-      maximumFractionDigits: 0,
+-    }).format(amountMinor);
++      minimumFractionDigits: 0,
++      maximumFractionDigits: currencyScale,
++    }).format(majorAmount);
+   } catch {
+-    return amountMinor.toLocaleString("en-US") + " " + currency;
++    return amountMinor.toLocaleString("en-US") + " minor " + currency;
+   }
+ }
+ 
+@@ -194,7 +200,7 @@
+     actor.send({ type: "EVENT_DETECTED" });
+     try {
+       const result = await injectClosureAndLoadCandidates(session, closureOccurredAt);
+-      const refreshedTwin = await cityNexusApi.getTwin(session.journeyId);
++      const refreshedTwin = await cityNexusApi.getTwin(session.journeyId, closureOccurredAt);
+       setSession({ ...session, twin: refreshedTwin });
+       setEventId(result.eventId);
+       setProposals(result.proposals);
+@@ -218,7 +224,7 @@
+     try {
+       const accepted = await cityNexusApi.acceptReplan(
+         selectedProposal.id,
+-        "frontend-golden-accept-" + session.journeyId,
++        "frontend-replan-accept-" + selectedProposal.id,
+       );
+       if (!accepted.twin.active_plan_version_id) {
+         throw new Error("Accepted backend response has no active plan");
+--- a/frontend/e2e/golden.spec.ts
++++ b/frontend/e2e/golden.spec.ts
+@@ -10,6 +10,8 @@
+   await expect(page.getByTestId(testIds.journeyMap)).toBeVisible();
+   await expect(page.getByTestId(testIds.journeyTimeline)).toContainText("Tech Art Center");
+   await expect(page.getByTestId(testIds.journeyTimeline)).toContainText("River Cruise");
++  await expect(page.getByTestId(testIds.currentActivity)).toContainText("Tech Art Center");
++  await expect(page.getByTestId(testIds.budgetRemaining)).toContainText("130");
+   await expect(page.getByTestId(testIds.feasibilityEnvelope)).toContainText("persisted backend");
+   await expect(page.getByTestId(testIds.providerDegradation)).toContainText("ready");
+   await expect(page.getByTestId(testIds.upcomingCommitments)).toContainText("River Cruise");
+@@ -39,6 +41,15 @@
+   const proposals = await (await proposalsResponse).json();
+   expect(event.event_type).toBe("CLOSURE");
+   expect(proposals.filter((item: { status: string }) => item.status === "PRESENTED").length).toBeGreaterThanOrEqual(2);
++  const f3 = proposals.find(
++    (item: { diff?: { candidate_family?: string } }) =>
++      item.diff?.candidate_family === "F3_OPPORTUNITY_WINDOW",
++  );
++  expect(f3).toBeTruthy();
++  expect(f3.diff.opportunity_window_evidence.origin_key).toBe("place-tech-art");
++  expect(f3.diff.opportunity_window_evidence.window_opens_at).toBe(
++    "2026-10-10T13:25:00+08:00",
++  );
+ 
+   await expect(page.getByTestId(testIds.replanPanel)).toBeVisible();
+   await expect(page.getByTestId(testIds.mapEventMarker)).toBeVisible();

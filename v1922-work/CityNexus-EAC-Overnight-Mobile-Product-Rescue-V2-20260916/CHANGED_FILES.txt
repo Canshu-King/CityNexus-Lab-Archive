@@ -1,0 +1,25 @@
+# CityNexus Overnight Mobile Product Rescue V2 — changed files
+#
+# Baseline: full Snapshot G (V19.2.4). Content comparison, line-ending insensitive.
+# backend/app/replanning/feasibility.py carries the V19.2.5 C4 interior-boundary hotfix.
+
+## Added (5)
+A  backend/tests/test_v1925_c4_interior_truth.py
+A  frontend/src/components/ProductErrorBoundary.tsx
+A  frontend/src/features/planning/PlanComparison.tsx
+A  frontend/src/features/planning/PlanWithAiSheet.tsx
+A  frontend/src/features/trip/TripItinerary.tsx
+
+## Modified (10)
+M  backend/app/replanning/feasibility.py
+M  frontend/src/app/V8Experience.tsx
+M  frontend/src/components/JourneyMap.tsx
+M  frontend/src/components/v8/MapPanel.tsx
+M  frontend/src/features/agent/AgentComposer.tsx
+M  frontend/src/features/setup/JourneyTrialSetup.tsx
+M  frontend/src/i18n/LocaleContext.tsx
+M  frontend/src/main.tsx
+M  frontend/src/routes/v8Routes.ts
+M  frontend/src/styles.css
+
+## Removed (0)

@@ -1,0 +1,30 @@
+{
+  "name": "CityNexus MVP Implementation Blueprint",
+  "version": "0.1.0",
+  "architecture": "modular-monolith",
+  "frontend": "React + TypeScript + Vite",
+  "backend": "FastAPI + Python 3.12",
+  "database": "SQLite + SQLAlchemy 2.x",
+  "api_base": "/api/v1",
+  "openapi_paths": 29,
+  "source_backed_entity_names_in_handoff": 16,
+  "promoted_domain_reported_entity_count": 18,
+  "missing_entity_names_in_handoff": 2,
+  "requirements_baseline_count": 138,
+  "planning_modes": ["balanced", "budget", "explore", "strict_schedule"],
+  "replanning_score_weights": {
+    "commitment_preservation": 0.24,
+    "stability": 0.18,
+    "time_reliability": 0.15,
+    "preference_fit": 0.12,
+    "mobility_fit": 0.10,
+    "budget_fit": 0.08,
+    "robustness": 0.07,
+    "opportunity_value": 0.06
+  },
+  "work_packages": 11,
+  "test_matrix_rows": 64,
+  "canonical_demo": "Create -> Plan -> Select -> Book/Pay -> Start -> Closure Event -> Replan -> Accept -> New Active Plan",
+  "external_provider_strategy": "mock adapters first; real adapters later",
+  "ai_rule": "assistive only; deterministic feasibility remains authoritative"
+}

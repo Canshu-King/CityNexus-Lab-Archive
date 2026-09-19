@@ -1,0 +1,10 @@
+
+> citynexus-v18-experience-reference@18.0.0-reference.1 test:adapters
+> node --experimental-strip-types scripts/adapter-contract-test.ts
+
+- normalization boundary
+- event store dedupe and ordering
+- recorded fixture adapter
+- offline snapshot adapter
+- live adapter source honesty on failure
+ADAPTER CONTRACT TESTS: PASS

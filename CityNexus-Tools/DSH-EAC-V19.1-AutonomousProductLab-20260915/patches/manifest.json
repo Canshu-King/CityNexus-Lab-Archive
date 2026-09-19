@@ -1,0 +1,22 @@
+{
+  "01_LIVE_CAPABILITY_ADAPTER": {
+    "bytes": 155176,
+    "lines": 3240
+  },
+  "02_ACCESSIBILITY_EVIDENCE_REFERENCE": {
+    "bytes": 31183,
+    "lines": 774
+  },
+  "03_CAPABILITY_EXPERIENCE_INTEGRATION": {
+    "bytes": 70735,
+    "lines": 1480
+  },
+  "04_PERFORMANCE_PWA_A11Y": {
+    "bytes": 19013,
+    "lines": 459
+  },
+  "05_AUTONOMOUS_IMPROVEMENTS": {
+    "bytes": 25922,
+    "lines": 646
+  }
+}

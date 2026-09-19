@@ -1,0 +1,34 @@
+# CHANGED_FILES — final hotfix round
+
+Authoritative repository: D:\moodle\CityNexus
+Round: CityNexus-EAC-Xiaomi-Trial-Final-Hotfix-20260917
+
+## Backend
+
+| File | Change |
+|---|---|
+| `backend/app/schemas.py` | `ActivitySchema.cost_status` added |
+| `backend/app/services.py` | `_activity_cost_status()` derives KNOWN_FREE / KNOWN_PAID / UNKNOWN from activity + Place evidence |
+| `backend/app/stay_mobility.py` | `_travel_minutes` reserves the same leg the gate validates (was the slowest mode) |
+| `backend/app/operations/v9.py` | `_selected_facts` re-derives each leg from the calendar's generator and persists it, with a unique-index guard |
+| `backend/app/integrations/ai/copilot_contract.py` | place questions ("好玩吗", "值得去吗", EN equivalents) route to DISCOVER |
+| `backend/app/main.py` | Copilot place answers speak about the place, not the whole question; question frame stripped for search |
+| `backend/tests/test_final_hotfix_cost_and_routes.py` | NEW — 9 regression tests |
+
+## Frontend
+
+| File | Change |
+|---|---|
+| `frontend/src/app/V8Experience.tsx` | route aliases + unknown-path fallback; Me rebuilt (facts first, policy behind Advanced); budget advisory; Wallet JSON behind Advanced with guarded parse; booking type / realtime labels humanised |
+| `frontend/src/features/trip/ActivityDetail.tsx` | three truthful cost states with `data-cost-status` |
+| `frontend/src/features/planning/PlanComparison.tsx` | no budget verdict unless every stop is priced; `部分价格未知` / `至少 …` |
+| `frontend/src/features/planning/PlanWithAiSheet.tsx` | run-specific success (baseline snapshot + `data-new-plan-ids`) |
+| `frontend/src/features/agent/CopilotDock.tsx` | human intents/actions/verification; runtime detail behind Advanced; tool labels humanised |
+| `frontend/src/features/agent/AgentComposer.tsx` | feasibility enum humanised |
+| `frontend/src/i18n/LocaleContext.tsx` | EN + ZH copy de-jargoned (What-if Studio, JourneyTwin, deterministic, DeepSeek, read-only) |
+
+## Evidence added
+
+`FINAL_HOTFIX_RESULTS.md`, `FINAL_FINDINGS_REVALIDATION.md`, `VISIBLE_UI_TRACE_FINAL.json`,
+`FINAL_TRACE_MAPPING.md`, `FINAL_XIAOMI_SCREENSHOTS/` (14 images), `TEST_RESULTS.md`,
+`CHANGED_FILES.txt`, `OVERNIGHT_RUN_LEDGER.jsonl`.

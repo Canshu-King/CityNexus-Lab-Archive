@@ -1,0 +1,212 @@
+{
+ "rows": 494,
+ "pairs": 167,
+ "model_side_discriminated_pairs": 167,
+ "model_side_discrimination_rate": 1.0,
+ "server_policy_discriminated_pairs": 82,
+ "server_policy_discrimination_rate": 0.491,
+ "server_route_only_discriminated_pairs": 82,
+ "server_route_only_discrimination_rate": 0.491,
+ "pairs_model_discriminated_but_server_collapsed": 85,
+ "pairs_per_bucket": {
+  "ambiguous": 60,
+  "hard_soft_pair": 51,
+  "negation_historical": 56
+ },
+ "model_discriminated_per_bucket": {
+  "ambiguous": 60,
+  "hard_soft_pair": 51,
+  "negation_historical": 56
+ },
+ "constraints_emitted_total": 535,
+ "constraint_type_top": [
+  [
+   "accessibility",
+   165
+  ],
+  [
+   "mobility",
+   29
+  ],
+  [
+   "preference",
+   20
+  ],
+  [
+   "time_window",
+   18
+  ],
+  [
+   "luggage",
+   13
+  ],
+  [
+   "dietary",
+   13
+  ],
+  [
+   "environment",
+   8
+  ],
+  [
+   "rest_interval",
+   8
+  ],
+  [
+   "max_walking_distance",
+   7
+  ],
+  [
+   "environmental",
+   7
+  ],
+  [
+   "accessibility_need",
+   7
+  ],
+  [
+   "luggage_size",
+   7
+  ],
+  [
+   "mobility_aid",
+   7
+  ],
+  [
+   "luggage_count",
+   6
+  ],
+  [
+   "shade_required",
+   6
+  ]
+ ],
+ "constraint_payload_keys": [
+  [
+   "type",
+   532
+  ],
+  [
+   "value",
+   357
+  ],
+  [
+   "description",
+   96
+  ],
+  [
+   "key",
+   60
+  ],
+  [
+   "requirement",
+   35
+  ],
+  [
+   "applies_to",
+   31
+  ],
+  [
+   "scope",
+   25
+  ],
+  [
+   "required",
+   24
+  ],
+  [
+   "unit",
+   24
+  ],
+  [
+   "detail",
+   24
+  ],
+  [
+   "reason",
+   23
+  ],
+  [
+   "status",
+   23
+  ],
+  [
+   "start",
+   16
+  ],
+  [
+   "end",
+   16
+  ],
+  [
+   "strength",
+   12
+  ]
+ ],
+ "constraints_with_explicit_strict_flag": 14,
+ "assertion_status_by_bucket": {
+  "hard_soft_pair": {
+   "ASSERTED": 97,
+   "UNKNOWN": 5
+  },
+  "negation_historical": {
+   "ASSERTED": 93,
+   "HISTORICAL": 3,
+   "NEGATED": 7,
+   "HYPOTHETICAL": 4,
+   "UNKNOWN": 5
+  },
+  "ambiguous": {
+   "ASSERTED": 107,
+   "UNKNOWN": 13
+  },
+  "elderly_infant": {
+   "ASSERTED": 30
+  },
+  "accessibility": {
+   "ASSERTED": 30
+  },
+  "luggage_stroller": {
+   "ASSERTED": 30
+  },
+  "rest_nap_numeric": {
+   "ASSERTED": 29,
+   "UNKNOWN": 1
+  },
+  "injection_like": {
+   "ASSERTED": 12,
+   "HYPOTHETICAL": 3,
+   "UNKNOWN": 5
+  },
+  "conflicting_needs": {
+   "UNKNOWN": 20
+  }
+ },
+ "negated_cases": 56,
+ "negated_flagged_negated_or_historical": 10,
+ "negated_with_resolved_constraint_status": 0,
+ "negated_routed_to_personal_assistance": 25,
+ "injection_cases": 20,
+ "injection_created_event": 0,
+ "injection_routed_to_actionable_intent": 10,
+ "hard_soft_route_distribution": {
+  "PREFERENCE_CHANGE": 44,
+  "PERSONAL_ASSISTANCE": 54,
+  "DISCOVER": 2,
+  "UNKNOWN": 2
+ },
+ "hard_soft_route_by_role": {
+  "HARD": {
+   "PREFERENCE_CHANGE": 17,
+   "PERSONAL_ASSISTANCE": 33,
+   "DISCOVER": 1
+  },
+  "SOFT": {
+   "PREFERENCE_CHANGE": 27,
+   "PERSONAL_ASSISTANCE": 21,
+   "DISCOVER": 1,
+   "UNKNOWN": 2
+  }
+ },
+ "server_canonical_capability_present": false
+}

@@ -1,0 +1,173 @@
+{
+ "journeyId": "84c68e9a-4ba9-4470-b2eb-882bdc2b222f",
+ "steps": [
+  {
+   "step": "clear",
+   "status": 200,
+   "body": {
+    "journey_id": "84c68e9a-4ba9-4470-b2eb-882bdc2b222f",
+    "capabilities": [],
+    "summary": {
+     "items": [],
+     "hard": [],
+     "strong": [],
+     "soft": [],
+     "unknown_accessibility_is_not_accessible": true
+    },
+    "traveler_twin": {
+     "traveler_id": "712ec49f-af72-49bd-abc0-db85efca9406",
+     "explicit_preferences": [],
+     "explicit_capabilities": [],
+     "capability_summary": {
+      "items": [],
+      "hard": [],
+      "strong": [],
+      "soft": [],
+      "unknown_accessibility_is_not_accessible": true
+     },
+     "learned_soft_preferences": [],
+     "confidence": 0,
+     "evidence_count": 0,
+     "conflicts": [],
+     "provenance": {
+      "evidence_ids": [],
+      "source": "journey_outcome_events",
+      "updated_at": "2026-09-15T05:13:43.097846+00:00"
+     },
+     "updated_at": "2026-09-15T05:13:43.097846+00:00"
+    }
+   }
+  },
+  {
+   "step": "declare_hard_unknown_evidence",
+   "status": 200,
+   "body": {
+    "journey_id": "84c68e9a-4ba9-4470-b2eb-882bdc2b222f",
+    "capabilities": [
+     {
+      "id": "9df9b701-be0d-4c45-be9d-863a4e1fd9ce",
+      "traveler_id": "712ec49f-af72-49bd-abc0-db85efca9406",
+      "journey_id": "84c68e9a-4ba9-4470-b2eb-882bdc2b222f",
+      "code": "STEP_FREE_REQUIRED",
+      "class": "HARD_ACCESSIBILITY_NEED",
+      "severity": "HARD",
+      "params": {},
+      "scope": "JOURNEY",
+      "source": "USER_CONFIRMED",
+      "provenance": "USER_STATED",
+      "explicit": true,
+      "confirmed": true,
+      "active": true,
+      "created_at": "2026-09-15T05:13:43.111843+00:00",
+      "updated_at": "2026-09-15T05:13:43.111843+00:00",
+      "confirmed_at": "2026-09-15T05:13:43.111843+00:00"
+     }
+    ],
+    "summary": {
+     "items": [
+      {
+       "code": "STEP_FREE_REQUIRED",
+       "class": "HARD_ACCESSIBILITY_NEED",
+       "severity": "HARD",
+       "params": {},
+       "scope": "JOURNEY",
+       "source": "USER_CONFIRMED",
+       "provenance": "USER_STATED",
+       "explicit": true,
+       "active": true,
+       "confirmed": true
+      }
+     ],
+     "hard": [
+      {
+       "code": "STEP_FREE_REQUIRED",
+       "class": "HARD_ACCESSIBILITY_NEED",
+       "severity": "HARD",
+       "params": {},
+       "scope": "JOURNEY",
+       "source": "USER_CONFIRMED",
+       "provenance": "USER_STATED",
+       "explicit": true,
+       "active": true,
+       "confirmed": true
+      }
+     ],
+     "strong": [],
+     "soft": [],
+     "unknown_accessibility_is_not_accessible": true
+    },
+    "traveler_twin": {
+     "traveler_id": "712ec49f-af72-49bd-abc0-db85efca9406",
+     "explicit_preferences": [],
+     "explicit_capabilities": [],
+     "capability_summary": {
+      "items": [],
+      "hard": [],
+      "strong": [],
+      "soft": [],
+      "unknown_accessibility_is_not_accessible": true
+     },
+     "learned_soft_preferences": [],
+     "confidence": 0,
+     "evidence_count": 0,
+     "conflicts": [],
+     "provenance": {
+      "evidence_ids": [],
+      "source": "journey_outcome_events",
+      "updated_at": "2026-09-15T05:13:43.115311+00:00"
+     },
+     "updated_at": "2026-09-15T05:13:43.115311+00:00"
+    }
+   }
+  }
+ ],
+ "perRoute": {
+  "hub": {
+   "text": "Menu\n/\nJourney Hub\n中文\nTI\n\nGOOD AFTERNOON\n\nYour next city, already considered.\n\nA calm, evidence-backed journey with the stay, movement, luggage, and protected moments working as one.\n\n中文\nTry another city\nOpen Trip Studio\nPLANNING READY\nTianjin · stay-aware weekend\n\n9 Oct, 18:00 — 11 Oct, 15:00\n·\n2 travelers\n\nView plan →\nStay budget\nCN¥700.00\nverified total target\nProtected margin\n121 min\ndeterministic gate\nPlan health\nFeasible\nweather-aware\nARRIVAL\n9 Oct, 18:00\nTianjin West Station\nDEPARTURE\n11 Oct, 15:00\nTianjin Binhai Airport\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\n\nPLAN AT A GLANCE\n\nEvery day, connected.\nCompare stays →\nDAY 1\nFriday\n\nTianjin West Station · Check in · Haihe Ri",
+   "capabilityVocabularyFound": [
+    "verified"
+   ]
+  },
+  "live": {
+   "text": "Menu\n/\nLive Journey\n中文\nTI\n\nLIVE JOURNEY · SAVED 15 SEPT, 13:09\n\nChoose your next leg.\n\nCurrent step, next protected moment, leave-by guidance, and one clear recovery path.\n\nUpdate location\nReport rain\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nNOW\nAwaiting plan · Haihe Riverside Hotel\n\nNEXT · Select a plan to calculate the next leg\n\nAWAITING PLAN\nMode for next leg\nChoose a calm route\nWALK\nBICYCLE\nTRANSIT\nAUTO\nRIDE HAIL\nCompare all modes\nNEXT · LEAVE BY\nAwaiting plan\n\nSelect a plan to calculate your route · 121 min slack\n\n—\nETA · TRANSIT\nRISK\nLOW · route evidence current\nEVIDENCE\nProvider route, freshness, cost and feasibility\nLIVE STATUS\nWhat is happening now\nupdated just now\nCLOCK",
+   "capabilityVocabularyFound": []
+  },
+  "map": {
+   "text": "Menu\n/\nMap\n中文\nTI\n\nMAP · ONE GLANCE\n\nThe city, with the plan on top.\n\nCaptured route geometry and provider facts stay visible while you move through the Journey.\n\nCompare modes\n1\nRoute context\n8 legs\nProvider-backed route · WGS84\nNEXT LEG\nAwaiting plan\nAUTO\n12 min · 2 walk\nCN¥12.00\nBICYCLE\n19 min · 5 walk\nCN¥6.00\nRIDE_HAIL\n14 min · 2 walk\n—\nUnknown costs remain unknown.\n✦\nCityNexus Copilot\nToday\nMap\nCopilot\nWallet\nMe",
+   "capabilityVocabularyFound": []
+  },
+  "studio": {
+   "text": "Menu\n/\nTrip Studio\n中文\nTI\n\nTRIP STUDIO · MULTI-DAY PLAN\n\nShape the journey around what matters.\n\nSwitch the hotel or a leg mode and CityNexus recomputes the travel impact against the same hard commitments.\n\nReport rain disruption\n01\nFriday · 09 Oct\nARRIVAL anchor · TRANSIT\n•\nTianjin West Station\nPROTECTED\n○\nCheck in · Haihe Riverside Hotel\n○\nOvernight · Haihe Riverside Hotel\n02\nSaturday · 10 Oct\nSTAY anchor · TRANSIT\n•\nFive Great Avenues\n○\nTianjin Museum\n○\nTianjin Eye\n○\nOvernight · Haihe Riverside Hotel\n03\nSunday · 11 Oct\nDEPARTURE anchor · AUTO\n•\nCheck out · Haihe Riverside Hotel\nPROTECTED\n○\nTianjin Binhai Airport\nSELECTED STAY\nChange\nHaihe Riverside Hotel\nCity twin\nCN¥360.00 total\nStay tota",
+   "capabilityVocabularyFound": [
+    "verified",
+    "hard"
+   ]
+  },
+  "bookings": {
+   "text": "Menu\n/\nTravel Wallet\n中文\nTI\n\nJOURNEY INBOX · TRAVEL WALLET\n\nYour real reservations, protected.\n\nPaste structured reservation JSON, review it, then bind confirmed facts to the Journey as a durable commitment.\n\nSTAY EVIDENCE\nHaihe Riverside Hotel\n\nCity twin · Free cancellation\n\nCN¥360.00 total\nNot booked\nIMPORT CONFIRMATION\nReservation JSON\nReview and protect\nCritical origin, destination, time, provider and reference facts are never invented.\nAuthority remains explicit\nImporting a confirmed reservation protects it. Any payment, cancellation or irreversible change still passes the Delegation Policy.\nScan ticket code\nZXing deterministic decode · confirmation still required\nOpen scanner\nMULTIMODAL",
+   "capabilityVocabularyFound": []
+  },
+  "agent": {
+   "text": "Menu\n/\nCopilot\n中文\nTI\n\nAI DESK · HUMAN-READABLE PROGRESS\n\nTell CityNexus how to carry the weekend.\n\nDeepSeek interprets the request; Hermes can propose the next tool step. The gateway checks the resulting action against your envelope and captured provider facts.\n\nTWIN CONTEXT READY\nCN / AI\nWhat should change?\n\nUse natural language. Your explicit budget and protected moments remain visible at every step.\n\nAuthority boundary\nReversible, low-risk changes may run inside your envelope. Hotel payment or protected Commitment changes still ask first.\nMessage\nJourney · Tianjin · stay-aware weekend\nAsk Copilot\nWhy is this plan arranged this way?\nWhat if I stay 60 minutes longer?\nFind an indoor place ne",
+   "capabilityVocabularyFound": []
+  },
+  "authoritative": {
+   "text": "Menu\n/\nRecovery\n中文\nTI\n\nV12 · PLAN, MOBILE, EDGE, AND TWIN\n\nAuthoritative trip execution.\n\nOne frozen PlanVersion feeds the live JourneyTwin, the offline snapshot, the map, and the PIC Edge companion.\n\nRefresh truth\nNo authoritative PlanVersion yet.\nCompose from the server Trip Studio to create the frozen multi-day execution path.\n✦\nCityNexus Copilot\nToday\nMap\nCopilot\nWallet\nMe",
+   "capabilityVocabularyFound": [
+    "nap"
+   ]
+  },
+  "twin": {
+   "text": "Menu\n/\nTraveler Twin\n中文\nTI\n\nTRAVELER TWIN · SOFT CONTEXT\n\nPersonalization with a boundary.\n\nExplicit intent wins. Learned evidence helps rank a plan, but never expands budget, payment, commitment, or autonomy authority.\n\nEXPLICIT\nSTEP_FREE_REQUIRED\n\nFrom this Journey request\n\nApplied directly to the current plan objective.\nCapability needs\n\nNo explicit capability facts recorded.\n\nLEARNED_SOFT\nNo learned signals\n\nFrom completed Journey outcomes\n\nRanking input only · expires with evidence freshness.\nLearned capability state\n\nHard accessibility needs are never inferred from behavior.\n\nAuthority boundary\n\nTwin evidence can improve a route or hotel ranking. It cannot create a booking, spend money",
+   "capabilityVocabularyFound": [
+    "capability",
+    "step_free",
+    "accessib",
+    "hard",
+    "soft"
+   ]
+  }
+ },
+ "anyRouteShowsCapability": true,
+ "anyRouteShowsEvidenceState": true
+}

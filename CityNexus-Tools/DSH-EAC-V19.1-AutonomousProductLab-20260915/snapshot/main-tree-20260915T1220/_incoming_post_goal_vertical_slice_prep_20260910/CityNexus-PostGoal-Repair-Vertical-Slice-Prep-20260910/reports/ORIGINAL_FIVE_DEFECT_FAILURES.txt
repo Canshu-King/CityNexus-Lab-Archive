@@ -1,0 +1,272 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+_______ test_f3_window_uses_effective_event_time_not_original_slot_start _______
+
+    def test_f3_window_uses_effective_event_time_not_original_slot_start():
+        ids, plan, _cruise = _active_with_c4()
+        jid = ids["journey_id"]
+        event = _closure(jid, plan, occurred_at="2026-10-10T13:25:00+08:00")
+        response = client.post(
+            f"/api/v1/journeys/{jid}/replans",
+            json={"trigger_event_id": event["id"], "candidate_count": 3},
+        )
+        assert response.status_code == 201, response.text
+        proposals = client.get(f"/api/v1/journeys/{jid}/replans").json()
+        f3 = next(
+            item
+            for item in proposals
+            if item["trigger_event_id"] == event["id"]
+            and item["diff"]["candidate_family"] == "F3_OPPORTUNITY_WINDOW"
+        )
+>       assert f3["diff"]["opportunity_window_evidence"]["window_opens_at"] == (
+            "2026-10-10T13:25:00+08:00"
+        )
+E       AssertionError: assert '2026-10-10T13:20:00+08:00' == '2026-10-10T13:25:00+08:00'
+E         
+E         - 2026-10-10T13:25:00+08:00
+E         ?                ^
+E         + 2026-10-10T13:20:00+08:00
+E         ?                ^
+
+tests/test_post_goal_five_defects.py:78: AssertionError
+_____ test_accept_replan_remaps_active_c4_commitment_activity_to_new_plan ______
+
+    def test_accept_replan_remaps_active_c4_commitment_activity_to_new_plan():
+        ids, plan, _cruise = _active_with_c4()
+        jid = ids["journey_id"]
+        event = _closure(jid, plan, occurred_at="2026-10-10T13:10:00+08:00")
+        proposal = client.post(
+            f"/api/v1/journeys/{jid}/replans",
+            json={"trigger_event_id": event["id"], "candidate_count": 3},
+        )
+        assert proposal.status_code == 201, proposal.text
+        accepted = client.post(
+            f"/api/v1/replans/{proposal.json()['id']}/accept",
+            headers={"Idempotency-Key": f"post-goal-accept-{jid}"},
+        )
+        assert accepted.status_code == 200, accepted.text
+        active_plan_id = accepted.json()["journey"]["active_plan_version_id"]
+        with SessionLocal() as session:
+            commitment = session.scalar(
+                select(Commitment).where(
+                    Commitment.journey_id == jid,
+                    Commitment.status == "ACTIVE",
+                    Commitment.level == "C4_Anchored",
+                )
+            )
+            assert commitment is not None
+            remapped_activity = session.get(Activity, commitment.activity_id)
+            assert remapped_activity is not None
+>           assert remapped_activity.plan_version_id == active_plan_id
+E           AssertionError: assert '55523d40-caf...-de057ec7a839' == '2cc27b9b-8de...-1ad834ba0065'
+E             
+E             - 2cc27b9b-8deb-4e6a-a2e5-1ad834ba0065
+E             + 55523d40-cafe-5bd2-b30a-de057ec7a839
+
+tests/test_post_goal_five_defects.py:123: AssertionError
+___ test_validate_plan_feasibility_accepts_injected_frozen_mobility_snapshot ___
+
+    def test_validate_plan_feasibility_accepts_injected_frozen_mobility_snapshot():
+        ids, plan, _cruise = _active_with_c4()
+        jid = ids["journey_id"]
+        with SessionLocal() as session:
+            journey = session.get(Journey, jid)
+            persisted_plan = session.get(PlanVersion, plan["id"])
+            activities = session.scalars(
+                select(Activity)
+                .where(Activity.plan_version_id == persisted_plan.id)
+                .order_by(Activity.sequence_no)
+            ).all()
+            mock = MockMobilityProvider()
+            pairs: dict[tuple[str, str], int] = {}
+            for previous, current in zip(activities, activities[1:]):
+                origin = previous.place_id or previous.city_service_id
+                destination = current.place_id or current.city_service_id
+                pairs[(origin, destination)] = mock.estimate_minutes(origin, destination)
+            snapshot = MobilitySnapshot.from_minutes(
+                source_provider_key="valhalla",
+                minutes=pairs,
+                captured_at="2026-10-10T08:55:00+08:00",
+            )
+>           gate = validate_plan_feasibility(
+                session,
+                journey,
+                persisted_plan,
+                mobility_provider=snapshot,
+                include_active_c4=True,
+            )
+E           TypeError: validate_plan_feasibility() got an unexpected keyword argument 'mobility_provider'
+
+tests/test_post_goal_five_defects.py:155: TypeError
+___ test_open_meteo_accepts_unix_time_and_returns_timezone_aware_observation ___
+
+self = <app.integrations.context.open_meteo.OpenMeteoContextProvider object at 0x7fba78607380>
+
+    async def forecast(self, *, latitude: float, longitude: float) -> list[WeatherObservation]:
+        try:
+            response = await self._client.get(
+                f"{self._base_url}/v1/forecast",
+                params={
+                    "latitude": latitude,
+                    "longitude": longitude,
+                    "hourly": "precipitation_probability,weather_code",
+                    "timezone": "auto",
+                },
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except (httpx.HTTPError, ValueError, TypeError) as exc:
+            raise OpenMeteoProviderError("Open-Meteo forecast request failed") from exc
+        if not isinstance(payload, dict):
+            raise OpenMeteoProviderError("Open-Meteo forecast response must be an object")
+        hourly = payload.get("hourly")
+        if not isinstance(hourly, dict):
+            raise OpenMeteoProviderError("Open-Meteo forecast response has no hourly object")
+        times = hourly.get("time", [])
+        probabilities = hourly.get("precipitation_probability", [])
+        codes = hourly.get("weather_code", [])
+        if (
+            not isinstance(times, list)
+            or not isinstance(probabilities, list)
+            or not isinstance(codes, list)
+        ):
+            raise OpenMeteoProviderError("Open-Meteo hourly fields must be arrays")
+        observations: list[WeatherObservation] = []
+        for index, raw_time in enumerate(times):
+            probability = probabilities[index] if index < len(probabilities) else None
+            code = codes[index] if index < len(codes) else None
+            try:
+>               at = datetime.fromisoformat(str(raw_time))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               ValueError: Invalid isoformat string: '1791612000'
+
+app/integrations/context/open_meteo.py:77: ValueError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.mark.asyncio
+    async def test_open_meteo_accepts_unix_time_and_returns_timezone_aware_observation():
+        def handler(_request: httpx.Request) -> httpx.Response:
+            return httpx.Response(
+                200,
+                json={
+                    "hourly": {
+                        "time": [1791612000],
+                        "precipitation_probability": [85],
+                        "weather_code": [65],
+                    }
+                },
+            )
+    
+        async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http_client:
+            provider = OpenMeteoContextProvider(client=http_client, base_url="https://weather.test")
+>           observations = await provider.forecast(latitude=39.1, longitude=117.2)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_post_goal_five_defects.py:181: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.integrations.context.open_meteo.OpenMeteoContextProvider object at 0x7fba78607380>
+
+    async def forecast(self, *, latitude: float, longitude: float) -> list[WeatherObservation]:
+        try:
+            response = await self._client.get(
+                f"{self._base_url}/v1/forecast",
+                params={
+                    "latitude": latitude,
+                    "longitude": longitude,
+                    "hourly": "precipitation_probability,weather_code",
+                    "timezone": "auto",
+                },
+            )
+            response.raise_for_status()
+            payload = response.json()
+        except (httpx.HTTPError, ValueError, TypeError) as exc:
+            raise OpenMeteoProviderError("Open-Meteo forecast request failed") from exc
+        if not isinstance(payload, dict):
+            raise OpenMeteoProviderError("Open-Meteo forecast response must be an object")
+        hourly = payload.get("hourly")
+        if not isinstance(hourly, dict):
+            raise OpenMeteoProviderError("Open-Meteo forecast response has no hourly object")
+        times = hourly.get("time", [])
+        probabilities = hourly.get("precipitation_probability", [])
+        codes = hourly.get("weather_code", [])
+        if (
+            not isinstance(times, list)
+            or not isinstance(probabilities, list)
+            or not isinstance(codes, list)
+        ):
+            raise OpenMeteoProviderError("Open-Meteo hourly fields must be arrays")
+        observations: list[WeatherObservation] = []
+        for index, raw_time in enumerate(times):
+            probability = probabilities[index] if index < len(probabilities) else None
+            code = codes[index] if index < len(codes) else None
+            try:
+                at = datetime.fromisoformat(str(raw_time))
+                normalized_probability = None if probability is None else int(probability)
+                normalized_code = None if code is None else int(code)
+            except (TypeError, ValueError) as exc:
+>               raise OpenMeteoProviderError("Open-Meteo hourly value is malformed") from exc
+E               app.integrations.context.open_meteo.OpenMeteoProviderError: Open-Meteo hourly value is malformed
+
+app/integrations/context/open_meteo.py:81: OpenMeteoProviderError
+__________ test_traffic_delay_honors_explicit_extra_minutes_semantics __________
+
+    def test_traffic_delay_honors_explicit_extra_minutes_semantics():
+        ids, plan, _cruise = _active_with_c4()
+        jid = ids["journey_id"]
+        tech = next(item for item in plan["activities"] if item["place_id"] == "place-tech-art")
+        event = client.post(
+            f"/api/v1/journeys/{jid}/events",
+            json={
+                "event_type": "TRAFFIC_DELAY",
+                "affected_activity_id": tech["id"],
+                "occurred_at": "2026-10-10T12:50:00+08:00",
+                "payload": {
+                    "from_place_id": "place-food-hall",
+                    "to_place_id": "place-tech-art",
+                    "extra_minutes": 25,
+                },
+            },
+        )
+        assert event.status_code == 201, event.text
+        proposal = client.post(
+            f"/api/v1/journeys/{jid}/replans",
+            json={"trigger_event_id": event.json()["id"], "candidate_count": 3},
+        )
+        assert proposal.status_code == 201, proposal.text
+        with SessionLocal() as session:
+            record = session.get(ReplanProposal, proposal.json()["id"])
+            changed = session.scalar(
+                select(Activity).where(
+                    Activity.plan_version_id == record.proposed_plan_version_id,
+                    Activity.place_id == "place-tech-art",
+                )
+            )
+            assert changed is not None
+            delta = datetime.fromisoformat(changed.start_at) - datetime.fromisoformat(tech["start_at"])
+>           assert int(delta.total_seconds() // 60) == 25
+E           assert 15 == 25
+E            +  where 15 = int((900.0 // 60))
+E            +    where 900.0 = <built-in method total_seconds of datetime.timedelta object at 0x7fba6ae93b40>()
+E            +      where <built-in method total_seconds of datetime.timedelta object at 0x7fba6ae93b40> = datetime.timedelta(seconds=900).total_seconds
+
+tests/test_post_goal_five_defects.py:219: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_post_goal_five_defects.py::test_f3_window_uses_effective_event_time_not_original_slot_start - AssertionError: assert '2026-10-10T13:20:00+08:00' == '2026-10-10T13:25:00+08:00'
+  
+  - 2026-10-10T13:25:00+08:00
+  ?                ^
+  + 2026-10-10T13:20:00+08:00
+  ?                ^
+FAILED tests/test_post_goal_five_defects.py::test_accept_replan_remaps_active_c4_commitment_activity_to_new_plan - AssertionError: assert '55523d40-caf...-de057ec7a839' == '2cc27b9b-8de...-1ad834ba0065'
+  
+  - 2cc27b9b-8deb-4e6a-a2e5-1ad834ba0065
+  + 55523d40-cafe-5bd2-b30a-de057ec7a839
+FAILED tests/test_post_goal_five_defects.py::test_validate_plan_feasibility_accepts_injected_frozen_mobility_snapshot - TypeError: validate_plan_feasibility() got an unexpected keyword argument 'mobility_provider'
+FAILED tests/test_post_goal_five_defects.py::test_open_meteo_accepts_unix_time_and_returns_timezone_aware_observation - app.integrations.context.open_meteo.OpenMeteoProviderError: Open-Meteo hourly value is malformed
+FAILED tests/test_post_goal_five_defects.py::test_traffic_delay_honors_explicit_extra_minutes_semantics - assert 15 == 25
+ +  where 15 = int((900.0 // 60))
+ +    where 900.0 = <built-in method total_seconds of datetime.timedelta object at 0x7fba6ae93b40>()
+ +      where <built-in method total_seconds of datetime.timedelta object at 0x7fba6ae93b40> = datetime.timedelta(seconds=900).total_seconds
+5 failed in 1.84s

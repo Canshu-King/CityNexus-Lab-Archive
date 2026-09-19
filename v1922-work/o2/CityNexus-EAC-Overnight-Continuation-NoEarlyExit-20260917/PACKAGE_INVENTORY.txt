@@ -1,0 +1,11 @@
+COPY_PASTE_TO_EAC.txt
+README_FIRST.md
+docs/AUTONOMOUS_LAB_CYCLES.md
+docs/CONTINUATION_MASTER_MISSION.md
+docs/FINAL_ACCEPTANCE.md
+docs/NO_EARLY_EXIT_PROTOCOL.md
+docs/REMAINING_PRODUCT_BACKLOG.md
+docs/REQUIRED_END_TO_END_RUNS.md
+reference/CityNexus-EAC-Overnight-Mobile-Product-Rescue-V2-UIReference-20260916.zip
+reference/CityNexus-EAC-Overnight-Product-Breakthrough-20260917.zip
+templates/OVERNIGHT_RUN_LEDGER.example.jsonl

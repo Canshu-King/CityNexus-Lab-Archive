@@ -1,0 +1,25 @@
+﻿listen 5181 pid 59252
+listen 8011 pid 20360
+--- backend log tail ---
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\baseline\
+\app_snapshot_0115\\backend\\db\\schema.sql'
+python.exe : INFO:     Started server process [20360]
+所在位置 行:445 字符: 172
++ ... p\backend"; & D:\moodle\CityNexus\.venv\Scripts\python.exe -m uvicorn ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:     Started server process [20360]:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8011 (Press CTRL+C to quit)
+INFO:     127.0.0.1:51935 - "GET /api/v1/health HTTP/1.1" 200 OK
+--- vite log tail ---
+[2m01:16:15[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Re-optimizing dependencies because vite config has changed
+
+  [32m[1mVITE[22m v7.3.6[39m  [2mready in [0m[1m3838[22m[2m[0m ms[22m
+
+  [32m鉃?[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5181[22m/[39m
+[2m  [32m鉃?[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m

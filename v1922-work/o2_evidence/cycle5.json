@@ -1,0 +1,139 @@
+{
+ "cases": [
+  {
+   "case": "A-low-budget",
+   "jid": "0972e88a-befb-488d-b24b-f1080072a9f3",
+   "budgetCny": 300,
+   "stayBudgetCny": 100,
+   "backendBudget": {
+    "amount_minor": 30000,
+    "currency": "CNY"
+   },
+   "backendStayBudget": {
+    "amount_minor": 10000,
+    "currency": "CNY"
+   },
+   "aiPlanCount": 3,
+   "aiText": "已生成 3 个可选方案\n\n去“今天”对比这几个方案，选一个再继续。\n\nFirst-time Xiamen visit with tight budget. Protected activities are seeing the sea and exploring old streets. No explicit mutable activities or cost/schedule flexibi",
+   "comparison": {
+    "cards": 3,
+    "bands": [
+     "花费未知",
+     "花费未知",
+     "花费未知"
+    ],
+    "totals": [
+     "暂无价格",
+     "暂无价格",
+     "暂无价格"
+    ],
+    "whys": [
+     "",
+     "",
+     ""
+    ]
+   },
+   "comparisonText": "选择你的方案 我们按你的预算和节奏生成了 3 个可选方案。 方案 A 花费未知 总花费 暂无价格 活动数 8 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案 方案 B 花费未知 总花费 暂无价格 活动数 7 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案 方案 C 花费未知 总花费 暂无价格 活动数 6 亮点：OSM restaurant · OSM cafe · 必胜客 采用这个方案",
+   "backendPlans": [
+    {
+     "v": 1,
+     "status": "CANDIDATE",
+     "total": {
+      "amount_minor": 0,
+      "currency": "CNY"
+     },
+     "unknownStops": 8,
+     "stops": 8
+    },
+    {
+     "v": 2,
+     "status": "CANDIDATE",
+     "total": {
+      "amount_minor": 0,
+      "currency": "CNY"
+     },
+     "unknownStops": 7,
+     "stops": 7
+    },
+    {
+     "v": 3,
+     "status": "CANDIDATE",
+     "total": {
+      "amount_minor": 0,
+      "currency": "CNY"
+     },
+     "unknownStops": 6,
+     "stops": 6
+    }
+   ],
+   "spendTab": "花费 这趟旅行花多少 预算 CNY 300；当前方案 0 个活动。 总预算 CNY 300 住宿合计（已选） 还没有选定住宿 活动数量 0 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 以下只是候选方案的预览，你还没有采用它。 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check in · 舒曼精品酒店 ○ Overnight · 舒曼精品酒店 02 Saturday · 07 Nov STAY anchor · WALK • Overnight · 舒曼精品酒店 03 Sunday · 08 Nov DEPARTURE anchor · AUTO • Check out · 舒曼精品酒店 受保护 ○ 厦门北站 ",
+   "errors": []
+  },
+  {
+   "case": "B-comfortable-budget",
+   "jid": "74bdbf80-baa0-48c1-81c2-848c89f39e7b",
+   "budgetCny": 8000,
+   "aiPlanCount": 3,
+   "comparison": {
+    "cards": 3,
+    "bands": [
+     "花费未知",
+     "花费未知",
+     "花费未知"
+    ],
+    "totals": [
+     "暂无价格",
+     "暂无价格",
+     "暂无价格"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "case": "C-unknown-price-sweep",
+   "jid": "08ef62dc-4db4-40f2-bdc3-02a58017d3a5",
+   "aiPlanCount": 3,
+   "hotelCards": 10,
+   "pinned": true,
+   "sweep": {
+    "trips-itinerary": {
+     "hasZeroYuan": false,
+     "snippet": "行程 3 天行程 逐日安排。已确认的预订会被标记为受保护。 11月6日周五 7 项 11月7日周六 5 项 11月8日周日 2 项 10:00 10:20 厦门高崎国际机场 20 分钟 抵达 当前 详情 › 10:28 11:28 OSM restaurant 1 小时 活动 详情 › 11:39 12:39 OSM cafe 1 小时 活动 详情 › 12:43 13:43 OSM restaurant 1 小时 活动 详情 › 14"
+    },
+    "trips-spend": {
+     "hasZeroYuan": false,
+     "snippet": "花费 这趟旅行花多少 预算 CNY 3000；当前方案 14 个活动。 总预算 CNY 3000 住宿合计（已选） 价格未知（供应商未提供房价） 活动数量 14 行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check"
+    },
+    "trips-bookings": {
+     "hasZeroYuan": false,
+     "snippet": "菜单 / 行程 EN XI 行程 住宿 预订 花费 多模态收件箱 将确认带入行程 已读取 · 已核对 · 已记住 粘贴确认信息 手动填写 粘贴的确认 提取文本草稿 确认截图 图片字节仅用于此次提取请求。 提取图片草稿 权威记忆 Journey Memory 0 个受保护事实 暂无已确认工件绑定到此行程。 高级 / 开发者 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的"
+    },
+    "studio": {
+     "hasZeroYuan": false,
+     "snippet": "行程工作台 · 多日方案 围绕重要的事塑造行程。 更换酒店或路段出行方式，CityNexus 会在相同的硬约束下重新计算出行影响。 报告降雨中断 01 Friday · 06 Nov ARRIVAL anchor · TRANSIT • 厦门高崎国际机场 受保护 ○ Check in · 厦门磐基酒店 ○ Overnight · 厦门磐基酒店 02 Saturday · 07 Nov STAY anchor · WALK • Overn"
+    },
+    "hub": {
+     "hasZeroYuan": false,
+     "snippet": "菜单 / 今天 EN XI 下午好 厦门之旅 3 天 · 2 人 · 每人每天约 ¥500这是按你的预算平均下来的参考值，不是最终花费；真实价格以供应商为准。 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 · 3 天 EN 试用其他城市 AI 帮我规划 打开行程工作台 规划就绪 厦门 · journey 11月6日 10:00 — 11月8日 20:00 · 2 位旅行者 查看方案 → 下一步 10:00 厦门高"
+    }
+   },
+   "backend": {
+    "total": {
+     "amount_minor": 13200,
+     "currency": "CNY"
+    },
+    "unknownStops": 14,
+    "stops": 14
+   },
+   "backendStay": {
+    "options": 10,
+    "zeroPriced": 10,
+    "selected": [
+     "厦门磐基酒店"
+    ]
+   },
+   "errors": []
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,252 @@
+{
+ "lab": "WorkBuddy-V19-CapabilityRedTeam-20260915",
+ "baseline_source": "source=D:\\moodle\\CityNexus\nhead=ref: refs/heads/master\ncopied_at=2026-09-15T10:23:19\nfiles=409\nbytes=3676908",
+ "generated": "2026-09-15",
+ "counts": {
+  "semantic_cases": 494,
+  "semantic_pairs": 167,
+  "field_flows": 168,
+  "runtime_cells": 64,
+  "regression_tests": 40,
+  "screenshots": 64,
+  "screenshots_superseded": 64,
+  "postfix_contract_tests": 30,
+  "postfix_tests_failing": 23,
+  "postfix_tests_passing": 7,
+  "main_tree_files_changed_midrun": 12,
+  "cases_blocking_the_gate": 82
+ },
+ "evidence_files": [
+  {
+   "path": "evidence/accessibility_truth_probe.json",
+   "bytes": 4406,
+   "sha256": "368c7f4398302154",
+   "description": "F1/F2/F4: capability declarations vs generate outcome; experience surface keys"
+  },
+  {
+   "path": "evidence/boundary_and_drop_probe.json",
+   "bytes": 14629,
+   "sha256": "2ed95ced06d8a47b",
+   "description": "F3/F6: 63 numeric/window variants collapse to one outcome; DELETE and active=0 silence a HARD capability"
+  },
+  {
+   "path": "evidence/capability_backstop_probe.json",
+   "bytes": 16758,
+   "sha256": "7b3d65d941e3358a",
+   "description": "D1/D2/D3: downgrade guard matrix (18/24 cells accept a downgrade), text-global negation guard, no-dedupe, backstop silence 311/494"
+  },
+  {
+   "path": "evidence/capability_commitment_conflicts.json",
+   "bytes": 3761,
+   "sha256": "ff13bc2f87e523e0",
+   "description": "F7: paid C4 anchor vs HARD and SOFT capability; conflict never surfaced"
+  },
+  {
+   "path": "evidence/capability_fix_delta.json",
+   "bytes": 26238,
+   "sha256": "1528e789912fa210",
+   "description": "D1-D7: same 494-case corpus re-measured against post-10:53 app.capabilities (coverage, pair discrimination, downgrade matrix, negation, values, scope)"
+  },
+  {
+   "path": "evidence/capability_gate_probe.json",
+   "bytes": 3902,
+   "sha256": "159130565c34663e",
+   "description": "D6: capability-derived rule codes vs the gate interpretable set; 82/494 cases fail closed; accessibility_state imported but never called"
+  },
+  {
+   "path": "evidence/copilot_injection_probe.json",
+   "bytes": 7669,
+   "sha256": "6ace886e1f90a24a",
+   "description": "F10/F11: 7 injections through the live Copilot; hard and soft capability text get the identical reply"
+  },
+  {
+   "path": "evidence/cross_journey_scope_probe.json",
+   "bytes": 6351,
+   "sha256": "37ee410e88f493d7",
+   "description": "F12/F13/F16: mission scope holds; preferences table has no journey_id; learned evidence stays LEARNED_SOFT; audit vocabulary"
+  },
+  {
+   "path": "evidence/field_simulation_summary.json",
+   "bytes": 1632,
+   "sha256": "059fd62db5f9842b",
+   "description": "F2: 156/168 blocked; 98/98 flows with a declared need blocked; per-persona and per-tier breakdown"
+  },
+  {
+   "path": "evidence/hermes_capability_authority_probe.json",
+   "bytes": 7158,
+   "sha256": "0c4c186ae9b53d6f",
+   "description": "F14/F15/F17: MCP V2 allowlist has 0 capability tools; 7/7 agent injections preserved constraints; 2 contract mismatches"
+  },
+  {
+   "path": "evidence/main_tree_changes_during_v19.json",
+   "bytes": 484911,
+   "sha256": "21702812873aaefb",
+   "description": "the 12 main-tree files changed at 10:56-11:19, sha256 vs baseline, snapshot vs live, and the capability_payload AST check"
+  },
+  {
+   "path": "evidence/planner_replan_capability_probe.json",
+   "bytes": 10762,
+   "sha256": "c20c2c0e2a4a43a4",
+   "description": "F5: mid-trip declaration refused; candidate_count 0 on every replan; journey left ACTIVE"
+  },
+  {
+   "path": "evidence/planner_select_recovery_probe.json",
+   "bytes": 50137,
+   "sha256": "70add612f400922c",
+   "description": "F5/F7: recovery proposals honour supported HARD constraints; C4-protected closure refused without naming capability"
+  },
+  {
+   "path": "evidence/postfix_test_run.txt",
+   "bytes": 3844,
+   "sha256": "8ef61608c34c6b87",
+   "description": "23 failed / 7 passed for tests/test_v19_postfix_capability_contract.py (guards 6/6 green)"
+  },
+  {
+   "path": "evidence/route_probe.json",
+   "bytes": 4991,
+   "sha256": "cddd4722e6c9f022",
+   "description": "runtime method note: /v8/<route> renders onboarding until a journey is selected (localStorage citynexus.v8.journey_id)"
+  },
+  {
+   "path": "evidence/scenario_results.jsonl",
+   "bytes": 467076,
+   "sha256": "77d35b11ca9e5d46",
+   "description": "168 complete Journey flows: setup -> intake -> planning -> select -> start -> Copilot -> What-If -> recovery"
+  },
+  {
+   "path": "evidence/semantic_analysis.json",
+   "bytes": 3127,
+   "sha256": "5b688a3723f22738",
+   "description": "F8: model vs server discrimination; constraint vocabulary; negation and injection aggregates"
+  },
+  {
+   "path": "evidence/semantic_cases.jsonl",
+   "bytes": 177031,
+   "sha256": "53b7537ed006a26c",
+   "description": "494 raw-language cases (476 unique) across 9 buckets - the corpus, NOT prebuilt envelopes"
+  },
+  {
+   "path": "evidence/semantic_collapsed_pairs.json",
+   "bytes": 48422,
+   "sha256": "5d8ba6024fbea5be",
+   "description": "the 85 lost pairs with both texts, both envelopes and both routes"
+  },
+  {
+   "path": "evidence/semantic_corpus_summary.json",
+   "bytes": 452,
+   "sha256": "9e44525288f95d60",
+   "description": "corpus composition by bucket and language"
+  },
+  {
+   "path": "evidence/semantic_live_results.jsonl",
+   "bytes": 778862,
+   "sha256": "c74612f8da989e91",
+   "description": "the required chain per case: raw_text -> model_envelope -> server_canonical_capability -> final_policy"
+  },
+  {
+   "path": "evidence/semantic_live_summary.json",
+   "bytes": 458,
+   "sha256": "1154b1c89705270b",
+   "description": "494/494 live successes, 0 schema rejections, 0 pairs with identical outcome at the model layer"
+  },
+  {
+   "path": "evidence/semantic_pair_stats.json",
+   "bytes": 113619,
+   "sha256": "18610d4b2847945f",
+   "description": "167 pairs: model 167/167 vs server 82/167; 85 lost"
+  },
+  {
+   "path": "evidence/web_mobile_bootstrap.json",
+   "bytes": 587,
+   "sha256": "57ecaf28d43f2761",
+   "description": "proof the demo journey was seeded before measurement (storageState)"
+  },
+  {
+   "path": "evidence/web_mobile_focus_and_axe.json",
+   "bytes": 3908,
+   "sha256": "81a4c4cee7430945",
+   "description": "Tab-focus order on /v8/hub + axe-core WCAG 2 A/AA per route"
+  },
+  {
+   "path": "evidence/web_mobile_results.json",
+   "bytes": 80302,
+   "sha256": "c7d0a13baab3e902",
+   "description": "64 runtime cells (4 viewports x reduced-motion x 8 routes): overflow, capability vocabulary, nameless/colour-only status nodes, clipped text, unlabelled controls"
+  }
+ ],
+ "screenshots": [
+  "desktop-1280x720-agent.png",
+  "desktop-1280x720-authoritative.png",
+  "desktop-1280x720-bookings.png",
+  "desktop-1280x720-hub.png",
+  "desktop-1280x720-live.png",
+  "desktop-1280x720-map.png",
+  "desktop-1280x720-reduced-agent.png",
+  "desktop-1280x720-reduced-authoritative.png",
+  "desktop-1280x720-reduced-bookings.png",
+  "desktop-1280x720-reduced-hub.png",
+  "desktop-1280x720-reduced-live.png",
+  "desktop-1280x720-reduced-map.png",
+  "desktop-1280x720-reduced-studio.png",
+  "desktop-1280x720-reduced-twin.png",
+  "desktop-1280x720-studio.png",
+  "desktop-1280x720-twin.png",
+  "desktop-1440x900-agent.png",
+  "desktop-1440x900-authoritative.png",
+  "desktop-1440x900-bookings.png",
+  "desktop-1440x900-hub.png",
+  "desktop-1440x900-live.png",
+  "desktop-1440x900-map.png",
+  "desktop-1440x900-reduced-agent.png",
+  "desktop-1440x900-reduced-authoritative.png",
+  "desktop-1440x900-reduced-bookings.png",
+  "desktop-1440x900-reduced-hub.png",
+  "desktop-1440x900-reduced-live.png",
+  "desktop-1440x900-reduced-map.png",
+  "desktop-1440x900-reduced-studio.png",
+  "desktop-1440x900-reduced-twin.png",
+  "desktop-1440x900-studio.png",
+  "desktop-1440x900-twin.png",
+  "mobile-390x844-agent.png",
+  "mobile-390x844-authoritative.png",
+  "mobile-390x844-bookings.png",
+  "mobile-390x844-hub.png",
+  "mobile-390x844-live.png",
+  "mobile-390x844-map.png",
+  "mobile-390x844-reduced-agent.png",
+  "mobile-390x844-reduced-authoritative.png",
+  "mobile-390x844-reduced-bookings.png",
+  "mobile-390x844-reduced-hub.png",
+  "mobile-390x844-reduced-live.png",
+  "mobile-390x844-reduced-map.png",
+  "mobile-390x844-reduced-studio.png",
+  "mobile-390x844-reduced-twin.png",
+  "mobile-390x844-studio.png",
+  "mobile-390x844-twin.png",
+  "mobile-430x932-agent.png",
+  "mobile-430x932-authoritative.png",
+  "mobile-430x932-bookings.png",
+  "mobile-430x932-hub.png",
+  "mobile-430x932-live.png",
+  "mobile-430x932-map.png",
+  "mobile-430x932-reduced-agent.png",
+  "mobile-430x932-reduced-authoritative.png",
+  "mobile-430x932-reduced-bookings.png",
+  "mobile-430x932-reduced-hub.png",
+  "mobile-430x932-reduced-live.png",
+  "mobile-430x932-reduced-map.png",
+  "mobile-430x932-reduced-studio.png",
+  "mobile-430x932-reduced-twin.png",
+  "mobile-430x932-studio.png",
+  "mobile-430x932-twin.png"
+ ],
+ "screenshots_superseded_note": "First runtime pass: within each viewport all 16 files (8 routes x reduced-motion on/off) were byte-identical, so 64 files collapse to 4 distinct images - every route rendered the onboarding screen because no journey was selected. One representative image plus the md5 grouping of all 64 files is in evidence/screenshots_superseded/; the full set remains in the lab at _old_shots/. The corrected run (evidence/screenshots/, 64 PNGs) is what every finding is based on.",
+ "baseline_source_current": "source=D:\\moodle\\CityNexus\nsnapshot_at=2026-09-15T11:32:05\nincluded=backend frontend/src frontend/package.json frontend/tsconfig.json frontend/vite.config.ts contracts db agent-mcp evals data docs\nfiles_copied=345\nfiles_reused=30\nbytes=2992786\nnote=second read-only snapshot, taken after Codex landed backend/app/capabilities.py at 10:53 during the V19 run. Used only to measure the fix delta; the V19 findings are based on the 10:23 snapshot recorded in BASELINE_SOURCE.txt.\n",
+ "post_run_addendum": {
+  "document": "V19_FIX_DELTA.md",
+  "summary": "Codex landed backend/app/capabilities.py at 10:53 and edited 12 core files at 10:56-11:19, after the 10:23 baseline. All V19 findings remain scoped to the 10:23 baseline. The new module defeats attack #1 (unknown accessibility is never verified, 6/6 guards pass) but is not yet connected to the feasibility gate and its two safety guards do not behave as their comments state.",
+  "p0_blocker": "D:////moodle////CityNexus cannot be imported: app/main.py:66 imports capability_payload, which app/capabilities.py never defines (5 call sites). Ports 8000/5173 are down.",
+  "measurement_snapshot": "repo_copy_current/ (BASELINE_SOURCE_CURRENT.txt)",
+  "new_patch": "patches/V19_POSTFIX_CAPABILITY_CONTRACT_TESTS.patch"
+ }
+}

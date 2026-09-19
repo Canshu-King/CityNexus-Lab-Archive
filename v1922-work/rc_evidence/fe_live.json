@@ -1,0 +1,79 @@
+{
+ "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+ "trace": [
+  {
+   "ts": "2026-09-16T09:40:49.123Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "live-open",
+   "status": "200",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 · 受影响：Check in · 厦门康莱德酒店 | 有一处地点临时关闭 | 有一处地点临时关闭 | 推荐怎么改 | 已确认的预订和到达/离开时间保持不"
+  },
+  {
+   "ts": "2026-09-16T09:40:49.124Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "disruption-visible",
+   "status": "yes",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T09:40:49.125Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "affected-visible",
+   "status": "yes",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T09:40:49.126Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "proposal-visible",
+   "status": "yes",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T09:40:49.128Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "unchanged-copy",
+   "status": "已确认的预订和到达/离开时间保持不变。",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T09:40:49.128Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "leaks",
+   "status": "clean",
+   "result": ""
+  },
+  {
+   "ts": "2026-09-16T09:40:58.243Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "accept",
+   "status": "clicked",
+   "result": "菜单 | / | 实时行程 | EN | XI | 正在进行 | 现在的行程 | 下一站：厦门高崎国际机场 | 发生了什么 | 有一处地点临时关闭 | 有一处地点临时关闭 | 有一处地点临时关闭 | 当前没有需要你决定的调整。 | 已按新安排更新你的行程。 | 实时行程 · 已保存 9月16日 17:26 | 选择你的"
+  },
+  {
+   "ts": "2026-09-16T09:40:58.243Z",
+   "journey_id": "2cdd3b28-40ce-4011-89f5-afb555fc2f8b",
+   "route": "/v8/live",
+   "action": "proposal-cleared",
+   "status": "yes",
+   "result": ""
+  }
+ ],
+ "errors": [
+  "C:Failed to load resource: net::ERR_CONNECTION_CLOSED",
+  "C:pt: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/11/1696/880.png\n    at http://127.0.0.1:5173/node_modules/.vite/deps/maplibre-gl.js",
+  "C:Failed to load resource: net::ERR_CONNECTION_CLOSED",
+  "C:pt: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/11/1695/880.png\n    at http://127.0.0.1:5173/node_modules/.vite/deps/maplibre-gl.js",
+  "C:Failed to load resource: net::ERR_CONNECTION_CLOSED",
+  "C:pt: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/11/1696/879.png\n    at http://127.0.0.1:5173/node_modules/.vite/deps/maplibre-gl.js",
+  "C:Failed to load resource: net::ERR_CONNECTION_CLOSED",
+  "C:pt: AJAXError: Failed to fetch (0): https://tile.openstreetmap.org/11/1695/879.png\n    at http://127.0.0.1:5173/node_modules/.vite/deps/maplibre-gl.js"
+ ]
+}

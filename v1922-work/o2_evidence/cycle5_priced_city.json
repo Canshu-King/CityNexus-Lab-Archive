@@ -1,0 +1,31 @@
+{
+ "cases": [
+  {
+   "label": "tiny-budget",
+   "city": "天津",
+   "budgetCny": 400,
+   "jid": "84146d9f-26cd-4693-aa5b-dfc78e618bd7",
+   "aiPlanCount": 0,
+   "cards": 0,
+   "bands": [],
+   "totals": [],
+   "whys": [],
+   "comparisonText": "",
+   "backendPlans": []
+  },
+  {
+   "label": "generous-budget",
+   "city": "天津",
+   "budgetCny": 20000,
+   "jid": "f105f826-5c94-46dc-874c-2037df2fcfdc",
+   "aiPlanCount": 0,
+   "cards": 0,
+   "bands": [],
+   "totals": [],
+   "whys": [],
+   "comparisonText": "",
+   "backendPlans": []
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,14 @@
+# CityNexus Snapshot J Final Trial Closure — changed files
+# Baseline: Snapshot J overlay -> Snapshot I -> Snapshot H -> V19.2.4 full tree.
+# Content comparison, line-ending insensitive.
+
+## Added (1)
+A  backend/tests/test_snapshot_j_backend_truth_gaps.py
+
+## Modified (4)
+M  backend/app/integrations/discovery/real_city.py
+M  backend/app/integrations/mobility/runtime.py
+M  backend/app/main.py
+M  backend/app/stay_mobility.py
+
+## Removed (0)

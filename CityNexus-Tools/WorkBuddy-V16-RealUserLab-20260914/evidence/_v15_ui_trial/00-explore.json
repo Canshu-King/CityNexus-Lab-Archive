@@ -1,0 +1,95 @@
+{
+  "title": "CityNexus Trip Operations",
+  "bodyText": "CN\nCityNexus\nJOURNEY INTELLIGENCE\n中文\n\nTRY CITYNEXUS WITH YOUR OWN CITY\n\nStart a real journey, not only the Tianjin demo.\n\nChoose your destination and travel anchors. Non-Tianjin journeys use live city providers when enabled; CityNexus will not silently substitute Tianjin replay data.\n\nGeneric-city trial\nFor cities without a sealed replay, use live providers. If providers are unavailable, CityNexus will tell you instead of inventing Tianjin facts.\nUse the sealed Tianjin demo\nDestination city\nCountry/region code\nTime zone\nJourney start\nJourney end\nArrival location\nDeparture location\nTrip budget\nCurrency\nTravelers\nStay budget\nCreate journey",
+  "buttons": [
+    {
+      "tag": "BUTTON",
+      "text": "中文",
+      "testid": "trial-language",
+      "disabled": false
+    },
+    {
+      "tag": "BUTTON",
+      "text": "Use the sealed Tianjin demo",
+      "testid": "trial-tianjin-demo",
+      "disabled": false
+    },
+    {
+      "tag": "BUTTON",
+      "text": "Create journey",
+      "testid": "trial-create",
+      "disabled": true
+    }
+  ],
+  "inputs": [
+    {
+      "tag": "INPUT",
+      "type": "",
+      "placeholder": "e.g. Fuzhou, Beijing, Shanghai",
+      "testid": "trial-city"
+    },
+    {
+      "tag": "INPUT",
+      "type": "",
+      "placeholder": "",
+      "testid": "trial-country"
+    },
+    {
+      "tag": "INPUT",
+      "type": "",
+      "placeholder": "",
+      "testid": "trial-timezone"
+    },
+    {
+      "tag": "INPUT",
+      "type": "datetime-local",
+      "placeholder": "",
+      "testid": "trial-start"
+    },
+    {
+      "tag": "INPUT",
+      "type": "datetime-local",
+      "placeholder": "",
+      "testid": "trial-end"
+    },
+    {
+      "tag": "INPUT",
+      "type": "",
+      "placeholder": "e.g. Fuzhou Railway Station",
+      "testid": "trial-arrival"
+    },
+    {
+      "tag": "INPUT",
+      "type": "",
+      "placeholder": "e.g. Fuzhou Railway Station",
+      "testid": "trial-departure"
+    },
+    {
+      "tag": "INPUT",
+      "type": "number",
+      "placeholder": "",
+      "testid": ""
+    },
+    {
+      "tag": "INPUT",
+      "type": "",
+      "placeholder": "",
+      "testid": ""
+    },
+    {
+      "tag": "INPUT",
+      "type": "number",
+      "placeholder": "",
+      "testid": ""
+    },
+    {
+      "tag": "INPUT",
+      "type": "number",
+      "placeholder": "",
+      "testid": ""
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "badRequests": []
+}

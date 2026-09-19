@@ -1,0 +1,926 @@
+
+Running 70 tests using 1 worker
+
+  ok  1 [desktop-chromium] › tests\acceptance.spec.ts:13:3 › V18.3 experience engineering acceptance › 1 · Journey shell is runtime-truth first and never loads MapLibre (572ms)
+  x   2 [desktop-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state (8.8s)
+  ok  3 [desktop-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe (625ms)
+  ok  4 [desktop-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable (477ms)
+  ok  5 [desktop-chromium] › tests\acceptance.spec.ts:73:3 › V18.3 experience engineering acceptance › 5 · offline adapter disables destructive approval and shows stale truth (205ms)
+  x   6 [desktop-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences (213ms)
+  ok  7 [desktop-chromium] › tests\acceptance.spec.ts:96:3 › V18.3 experience engineering acceptance › 7 · 1000-event timeline renders a 50-row window and stays responsive (523ms)
+  x   8 [desktop-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE (8.3s)
+  x   9 [desktop-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity (45.1s)
+  ok 10 [desktop-chromium] › tests\acceptance.spec.ts:134:3 › V18.3 experience engineering acceptance › 10 · Copilot keyboard open, Escape close, and focus return (270ms)
+  -  11 [desktop-chromium] › tests\acceptance.spec.ts:151:3 › V18.3 experience engineering acceptance › 11 · mobile bottom nav has 44px targets and small viewport has no overflow
+  ok 12 [desktop-chromium] › tests\acceptance.spec.ts:162:3 › V18.3 experience engineering acceptance › 12 · key routes produce no console or page errors (282ms)
+  x  13 [desktop-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set (45.2s)
+  -  14 [desktop-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set
+  ok 15 [mobile-chromium] › tests\acceptance.spec.ts:13:3 › V18.3 experience engineering acceptance › 1 · Journey shell is runtime-truth first and never loads MapLibre (566ms)
+  ok 16 [mobile-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state (1.3s)
+  x  17 [mobile-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe (20.4s)
+  x  18 [mobile-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable (8.6s)
+  ok 19 [mobile-chromium] › tests\acceptance.spec.ts:73:3 › V18.3 experience engineering acceptance › 5 · offline adapter disables destructive approval and shows stale truth (247ms)
+  x  20 [mobile-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences (272ms)
+  ok 21 [mobile-chromium] › tests\acceptance.spec.ts:96:3 › V18.3 experience engineering acceptance › 7 · 1000-event timeline renders a 50-row window and stays responsive (607ms)
+  x  22 [mobile-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE (8.3s)
+  x  23 [mobile-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity (45.2s)
+  -  24 [mobile-chromium] › tests\acceptance.spec.ts:134:3 › V18.3 experience engineering acceptance › 10 · Copilot keyboard open, Escape close, and focus return
+  ok 25 [mobile-chromium] › tests\acceptance.spec.ts:151:3 › V18.3 experience engineering acceptance › 11 · mobile bottom nav has 44px targets and small viewport has no overflow (193ms)
+  ok 26 [mobile-chromium] › tests\acceptance.spec.ts:162:3 › V18.3 experience engineering acceptance › 12 · key routes produce no console or page errors (263ms)
+  -  27 [mobile-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set
+  x  28 [mobile-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set (45.2s)
+  ok 29 [desktop-1280-chromium] › tests\acceptance.spec.ts:13:3 › V18.3 experience engineering acceptance › 1 · Journey shell is runtime-truth first and never loads MapLibre (545ms)
+  x  30 [desktop-1280-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state (8.9s)
+  ok 31 [desktop-1280-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe (633ms)
+  ok 32 [desktop-1280-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable (540ms)
+  ok 33 [desktop-1280-chromium] › tests\acceptance.spec.ts:73:3 › V18.3 experience engineering acceptance › 5 · offline adapter disables destructive approval and shows stale truth (208ms)
+  x  34 [desktop-1280-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences (213ms)
+  ok 35 [desktop-1280-chromium] › tests\acceptance.spec.ts:96:3 › V18.3 experience engineering acceptance › 7 · 1000-event timeline renders a 50-row window and stays responsive (544ms)
+  x  36 [desktop-1280-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE (8.3s)
+  x  37 [desktop-1280-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity (45.1s)
+  ok 38 [desktop-1280-chromium] › tests\acceptance.spec.ts:134:3 › V18.3 experience engineering acceptance › 10 · Copilot keyboard open, Escape close, and focus return (248ms)
+  -  39 [desktop-1280-chromium] › tests\acceptance.spec.ts:151:3 › V18.3 experience engineering acceptance › 11 · mobile bottom nav has 44px targets and small viewport has no overflow
+  ok 40 [desktop-1280-chromium] › tests\acceptance.spec.ts:162:3 › V18.3 experience engineering acceptance › 12 · key routes produce no console or page errors (282ms)
+  -  41 [desktop-1280-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set
+  -  42 [desktop-1280-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set
+  ok 43 [mobile-small-chromium] › tests\acceptance.spec.ts:13:3 › V18.3 experience engineering acceptance › 1 · Journey shell is runtime-truth first and never loads MapLibre (559ms)
+  ok 44 [mobile-small-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state (1.4s)
+  x  45 [mobile-small-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe (20.4s)
+  x  46 [mobile-small-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable (8.6s)
+  ok 47 [mobile-small-chromium] › tests\acceptance.spec.ts:73:3 › V18.3 experience engineering acceptance › 5 · offline adapter disables destructive approval and shows stale truth (265ms)
+  ok 48 [mobile-small-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences (228ms)
+  ok 49 [mobile-small-chromium] › tests\acceptance.spec.ts:96:3 › V18.3 experience engineering acceptance › 7 · 1000-event timeline renders a 50-row window and stays responsive (567ms)
+  x  50 [mobile-small-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE (8.3s)
+  x  51 [mobile-small-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity (45.2s)
+  -  52 [mobile-small-chromium] › tests\acceptance.spec.ts:134:3 › V18.3 experience engineering acceptance › 10 · Copilot keyboard open, Escape close, and focus return
+  ok 53 [mobile-small-chromium] › tests\acceptance.spec.ts:151:3 › V18.3 experience engineering acceptance › 11 · mobile bottom nav has 44px targets and small viewport has no overflow (207ms)
+  ok 54 [mobile-small-chromium] › tests\acceptance.spec.ts:162:3 › V18.3 experience engineering acceptance › 12 · key routes produce no console or page errors (295ms)
+  -  55 [mobile-small-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set
+  -  56 [mobile-small-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set
+  ok 57 [mobile-large-chromium] › tests\acceptance.spec.ts:13:3 › V18.3 experience engineering acceptance › 1 · Journey shell is runtime-truth first and never loads MapLibre (603ms)
+  ok 58 [mobile-large-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state (1.5s)
+  x  59 [mobile-large-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe (20.5s)
+  x  60 [mobile-large-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable (8.6s)
+  ok 61 [mobile-large-chromium] › tests\acceptance.spec.ts:73:3 › V18.3 experience engineering acceptance › 5 · offline adapter disables destructive approval and shows stale truth (257ms)
+  ok 62 [mobile-large-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences (234ms)
+  ok 63 [mobile-large-chromium] › tests\acceptance.spec.ts:96:3 › V18.3 experience engineering acceptance › 7 · 1000-event timeline renders a 50-row window and stays responsive (580ms)
+  x  64 [mobile-large-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE (8.4s)
+  x  65 [mobile-large-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity (45.2s)
+  -  66 [mobile-large-chromium] › tests\acceptance.spec.ts:134:3 › V18.3 experience engineering acceptance › 10 · Copilot keyboard open, Escape close, and focus return
+  ok 67 [mobile-large-chromium] › tests\acceptance.spec.ts:151:3 › V18.3 experience engineering acceptance › 11 · mobile bottom nav has 44px targets and small viewport has no overflow (212ms)
+  ok 68 [mobile-large-chromium] › tests\acceptance.spec.ts:162:3 › V18.3 experience engineering acceptance › 12 · key routes produce no console or page errors (333ms)
+  -  69 [mobile-large-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set
+  -  70 [mobile-large-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set
+
+
+  1) [desktop-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('map-sheet')
+    Expected: "24"
+    Received: "90"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('map-sheet') with timeout 8000ms
+      - waiting for getByTestId('map-sheet')
+        20 × locator resolved to <div class="sheet" data-sheet-state="90" data-testid="map-sheet">…</div>
+           - unexpected value "90"
+
+
+      39 |     await page.getByTestId("sheet-handle").focus();
+      40 |     await page.keyboard.press("Home");
+    > 41 |     await expect(page.getByTestId("map-sheet")).toHaveAttribute("data-sheet-state", "24");
+         |                                                 ^
+      42 |     await page.keyboard.press("End");
+      43 |     await expect(page.getByTestId("map-sheet")).toHaveAttribute("data-sheet-state", "90");
+      44 |     await noHorizontalOverflow(page);
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:41:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('capability-summary')
+    Expected: visible
+    Error: strict mode violation: getByTestId('capability-summary') resolved to 2 elements:
+        1) <section data-compact="false" data-testid="capability-summary" aria-label="Recognized capability summary" class="cnx-capability cnx-capability--summary">…</section> aka getByTestId('capability-route').getByTestId('capability-summary')
+        2) <section data-compact="true" data-testid="capability-summary" aria-label="Recognized capability summary" class="cnx-capability cnx-capability--summary cnx-capability--compact copilot-capability-summary">…</section> aka getByTestId('copilot-dock').getByTestId('capability-summary')
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('capability-summary') with timeout 8000ms
+      - waiting for getByTestId('capability-summary')
+
+
+      85 |     await page.goto("/#/capability");
+      86 |     await expect(page.getByTestId("capability-route")).toBeVisible();
+    > 87 |     await expect(page.getByTestId("capability-summary")).toBeVisible();
+         |                                                          ^
+      88 |     const wheelchair = page.locator("#cnx-capability-wheelchair_step_free");
+      89 |     if (await wheelchair.count()) {
+      90 |       await wheelchair.check({ force: true });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:87:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('runtime-status-banner')
+    Expected: "offline_stale"
+    Received: "hermes_unavailable"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('runtime-status-banner') with timeout 8000ms
+      - waiting for getByTestId('runtime-status-banner')
+        20 × locator resolved to <section role="status" class="runtime-banner" data-status="hermes_unavailable" data-testid="runtime-status-banner">…</section>
+           - unexpected value "hermes_unavailable"
+
+
+      107 |     await page.goto("/?adapter=live#/journey");
+      108 |     await expect(page.getByTestId("runtime-status-banner")).toBeVisible({ timeout: 15_000 });
+    > 109 |     await expect(page.getByTestId("runtime-status-banner")).toHaveAttribute("data-status", "offline_stale");
+          |                                                             ^
+      110 |     await expect(page.getByTestId("journey-pulse")).toBeVisible();
+      111 |   });
+      112 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:109:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [desktop-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: page.goto: Target page, context or browser has been closed
+
+      125 |     const seconds = Number.parseFloat(duration);
+      126 |     expect(Number.isFinite(seconds) ? seconds : 0).toBeLessThan(0.01);
+    > 127 |     await page.goto("/?locale=en#/journey");
+          |                ^
+      128 |     await page.evaluate(() => {
+      129 |       document.documentElement.style.fontSize = "200%";
+      130 |     });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:127:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [desktop-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByTestId('timeline-next')
+
+
+      12 |     await page.goto("/#/copilot");
+      13 |     await page.getByTestId("copilot-quick-hermes").click();
+    > 14 |     for (let index = 0; index < 14; index += 1) await page.getByTestId("timeline-next").click();
+         |                                                                                         ^
+      15 |     await expect(page.getByTestId("approval-panel")).toBeVisible();
+      16 |     await page.screenshot({ path: `${SHOTS}/v18.2-desktop-copilot-approval.png` });
+      17 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\visual.spec.ts:14:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-V18-2-visual-acceptance-evidence-desktop-evidence-set-desktop-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-V18-2-visual-acceptance-evidence-desktop-evidence-set-desktop-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\visual-V18-2-visual-acceptance-evidence-desktop-evidence-set-desktop-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\visual-V18-2-visual-acceptance-evidence-desktop-evidence-set-desktop-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [mobile-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('timeline-step')
+    Expected: 14
+    Received: 0
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" getByTestId('timeline-step') with timeout 20000ms
+      - waiting for getByTestId('timeline-step')
+        43 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      50 |     await expect(page.getByTestId("agent-run-timeline")).toBeVisible();
+      51 |     await expect(page.getByTestId("timeline-source")).toContainText("RECORDED_FIXTURE");
+    > 52 |     await expect(page.getByTestId("timeline-step")).toHaveCount(14, { timeout: 20_000 });
+         |                                                     ^
+      53 |     await expect(page.getByTestId("approval-panel")).toBeVisible();
+      54 |     const approve = page.getByTestId("approval-approve");
+      55 |     await expect(approve).toHaveClass(/btn--approve/);
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:52:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [mobile-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByTestId('timeline-step').last()
+    Expected: "stopped"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('timeline-step').last() with timeout 8000ms
+      - waiting for getByTestId('timeline-step').last()
+
+
+      68 |     await page.getByTestId("fixture-stopped").click();
+      69 |     await expect(page.getByTestId("agent-run-timeline")).toHaveAttribute("data-run-status", "stopped", { timeout: 15_000 });
+    > 70 |     await expect(page.getByTestId("timeline-step").last()).toHaveAttribute("data-status", "stopped");
+         |                                                            ^
+      71 |   });
+      72 |
+      73 |   test("5 · offline adapter disables destructive approval and shows stale truth", async ({ page }) => {
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:70:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [mobile-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences 
+
+    Error: locator.check: Clicking the checkbox did not change its state
+    Call log:
+      - waiting for locator('#cnx-capability-wheelchair_step_free')
+        - locator resolved to <input type="checkbox" id="cnx-capability-wheelchair_step_free" data-testid="capability-input-wheelchair_step_free" aria-describedby="cnx-capability-wheelchair_step_free-description"/>
+      - attempting click action
+        - scrolling into view if needed
+        - done scrolling
+        - forcing action
+        - performing click action
+        - click action done
+        - waiting for scheduled navigations to finish
+        - navigations have finished
+
+
+      88 |     const wheelchair = page.locator("#cnx-capability-wheelchair_step_free");
+      89 |     if (await wheelchair.count()) {
+    > 90 |       await wheelchair.check({ force: true });
+         |                        ^
+      91 |     }
+      92 |     await expect(page.getByTestId("capability-summary")).toContainText(/HARD|hard|刚性|必要/i);
+      93 |     await noHorizontalOverflow(page);
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:90:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-mobile-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [mobile-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('runtime-status-banner')
+    Expected: "offline_stale"
+    Received: "hermes_unavailable"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('runtime-status-banner') with timeout 8000ms
+      - waiting for getByTestId('runtime-status-banner')
+        20 × locator resolved to <section role="status" class="runtime-banner" data-status="hermes_unavailable" data-testid="runtime-status-banner">…</section>
+           - unexpected value "hermes_unavailable"
+
+
+      107 |     await page.goto("/?adapter=live#/journey");
+      108 |     await expect(page.getByTestId("runtime-status-banner")).toBeVisible({ timeout: 15_000 });
+    > 109 |     await expect(page.getByTestId("runtime-status-banner")).toHaveAttribute("data-status", "offline_stale");
+          |                                                             ^
+      110 |     await expect(page.getByTestId("journey-pulse")).toBeVisible();
+      111 |   });
+      112 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:109:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [mobile-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: page.goto: Target page, context or browser has been closed
+
+      125 |     const seconds = Number.parseFloat(duration);
+      126 |     expect(Number.isFinite(seconds) ? seconds : 0).toBeLessThan(0.01);
+    > 127 |     await page.goto("/?locale=en#/journey");
+          |                ^
+      128 |     await page.evaluate(() => {
+      129 |       document.documentElement.style.fontSize = "200%";
+      130 |     });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:127:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [mobile-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByTestId('timeline-next')
+
+
+      49 |     await page.screenshot({ path: `${SHOTS}/v18.2-mobile-copilot-current-step.png` });
+      50 |     await page.getByTestId("timeline-expand").click({ force: true });
+    > 51 |     await page.getByTestId("timeline-next").click();
+         |                                             ^
+      52 |     await page.getByTestId("timeline-next").click();
+      53 |     await page.screenshot({ path: `${SHOTS}/v18.2-mobile-copilot-expanded.png` });
+      54 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\visual.spec.ts:51:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-V18-2-visual-acceptance-evidence-mobile-evidence-set-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-V18-2-visual-acceptance-evidence-mobile-evidence-set-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\visual-V18-2-visual-acceptance-evidence-mobile-evidence-set-mobile-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\visual-V18-2-visual-acceptance-evidence-mobile-evidence-set-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [desktop-1280-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('map-sheet')
+    Expected: "24"
+    Received: "90"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('map-sheet') with timeout 8000ms
+      - waiting for getByTestId('map-sheet')
+        20 × locator resolved to <div class="sheet" data-sheet-state="90" data-testid="map-sheet">…</div>
+           - unexpected value "90"
+
+
+      39 |     await page.getByTestId("sheet-handle").focus();
+      40 |     await page.keyboard.press("Home");
+    > 41 |     await expect(page.getByTestId("map-sheet")).toHaveAttribute("data-sheet-state", "24");
+         |                                                 ^
+      42 |     await page.keyboard.press("End");
+      43 |     await expect(page.getByTestId("map-sheet")).toHaveAttribute("data-sheet-state", "90");
+      44 |     await noHorizontalOverflow(page);
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:41:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-1280-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-1280-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-1280-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-cb8f2-xposes-24-55-90-sheet-state-desktop-1280-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [desktop-1280-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('capability-summary')
+    Expected: visible
+    Error: strict mode violation: getByTestId('capability-summary') resolved to 2 elements:
+        1) <section data-compact="false" data-testid="capability-summary" aria-label="Recognized capability summary" class="cnx-capability cnx-capability--summary">…</section> aka getByTestId('capability-route').getByTestId('capability-summary')
+        2) <section data-compact="true" data-testid="capability-summary" aria-label="Recognized capability summary" class="cnx-capability cnx-capability--summary cnx-capability--compact copilot-capability-summary">…</section> aka getByTestId('copilot-dock').getByTestId('capability-summary')
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('capability-summary') with timeout 8000ms
+      - waiting for getByTestId('capability-summary')
+
+
+      85 |     await page.goto("/#/capability");
+      86 |     await expect(page.getByTestId("capability-route")).toBeVisible();
+    > 87 |     await expect(page.getByTestId("capability-summary")).toBeVisible();
+         |                                                          ^
+      88 |     const wheelchair = page.locator("#cnx-capability-wheelchair_step_free");
+      89 |     if (await wheelchair.count()) {
+      90 |       await wheelchair.check({ force: true });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:87:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-1280-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-1280-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-1280-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-38cf4-hard-needs-from-preferences-desktop-1280-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [desktop-1280-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('runtime-status-banner')
+    Expected: "offline_stale"
+    Received: "hermes_unavailable"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('runtime-status-banner') with timeout 8000ms
+      - waiting for getByTestId('runtime-status-banner')
+        20 × locator resolved to <section role="status" class="runtime-banner" data-status="hermes_unavailable" data-testid="runtime-status-banner">…</section>
+           - unexpected value "hermes_unavailable"
+
+
+      107 |     await page.goto("/?adapter=live#/journey");
+      108 |     await expect(page.getByTestId("runtime-status-banner")).toBeVisible({ timeout: 15_000 });
+    > 109 |     await expect(page.getByTestId("runtime-status-banner")).toHaveAttribute("data-status", "offline_stale");
+          |                                                             ^
+      110 |     await expect(page.getByTestId("journey-pulse")).toBeVisible();
+      111 |   });
+      112 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:109:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-1280-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-1280-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-1280-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-desktop-1280-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [desktop-1280-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: page.goto: Target page, context or browser has been closed
+
+      125 |     const seconds = Number.parseFloat(duration);
+      126 |     expect(Number.isFinite(seconds) ? seconds : 0).toBeLessThan(0.01);
+    > 127 |     await page.goto("/?locale=en#/journey");
+          |                ^
+      128 |     await page.evaluate(() => {
+      129 |       document.documentElement.style.fontSize = "200%";
+      130 |     });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:127:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-1280-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-1280-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-1280-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-desktop-1280-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [mobile-small-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('timeline-step')
+    Expected: 14
+    Received: 0
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" getByTestId('timeline-step') with timeout 20000ms
+      - waiting for getByTestId('timeline-step')
+        43 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      50 |     await expect(page.getByTestId("agent-run-timeline")).toBeVisible();
+      51 |     await expect(page.getByTestId("timeline-source")).toContainText("RECORDED_FIXTURE");
+    > 52 |     await expect(page.getByTestId("timeline-step")).toHaveCount(14, { timeout: 20_000 });
+         |                                                     ^
+      53 |     await expect(page.getByTestId("approval-panel")).toBeVisible();
+      54 |     const approve = page.getByTestId("approval-approve");
+      55 |     await expect(approve).toHaveClass(/btn--approve/);
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:52:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-small-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-small-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-small-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-small-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [mobile-small-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByTestId('timeline-step').last()
+    Expected: "stopped"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('timeline-step').last() with timeout 8000ms
+      - waiting for getByTestId('timeline-step').last()
+
+
+      68 |     await page.getByTestId("fixture-stopped").click();
+      69 |     await expect(page.getByTestId("agent-run-timeline")).toHaveAttribute("data-run-status", "stopped", { timeout: 15_000 });
+    > 70 |     await expect(page.getByTestId("timeline-step").last()).toHaveAttribute("data-status", "stopped");
+         |                                                            ^
+      71 |   });
+      72 |
+      73 |   test("5 · offline adapter disables destructive approval and shows stale truth", async ({ page }) => {
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:70:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-small-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-small-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-small-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-small-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [mobile-small-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('runtime-status-banner')
+    Expected: "offline_stale"
+    Received: "hermes_unavailable"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('runtime-status-banner') with timeout 8000ms
+      - waiting for getByTestId('runtime-status-banner')
+        20 × locator resolved to <section role="status" class="runtime-banner" data-status="hermes_unavailable" data-testid="runtime-status-banner">…</section>
+           - unexpected value "hermes_unavailable"
+
+
+      107 |     await page.goto("/?adapter=live#/journey");
+      108 |     await expect(page.getByTestId("runtime-status-banner")).toBeVisible({ timeout: 15_000 });
+    > 109 |     await expect(page.getByTestId("runtime-status-banner")).toHaveAttribute("data-status", "offline_stale");
+          |                                                             ^
+      110 |     await expect(page.getByTestId("journey-pulse")).toBeVisible();
+      111 |   });
+      112 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:109:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-small-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-small-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-small-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-small-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) [mobile-small-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: page.goto: Target page, context or browser has been closed
+
+      125 |     const seconds = Number.parseFloat(duration);
+      126 |     expect(Number.isFinite(seconds) ? seconds : 0).toBeLessThan(0.01);
+    > 127 |     await page.goto("/?locale=en#/journey");
+          |                ^
+      128 |     await page.evaluate(() => {
+      129 |       document.documentElement.style.fontSize = "200%";
+      130 |     });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:127:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-small-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-small-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-small-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-small-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) [mobile-large-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByTestId('timeline-step')
+    Expected: 14
+    Received: 0
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" getByTestId('timeline-step') with timeout 20000ms
+      - waiting for getByTestId('timeline-step')
+        43 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      50 |     await expect(page.getByTestId("agent-run-timeline")).toBeVisible();
+      51 |     await expect(page.getByTestId("timeline-source")).toContainText("RECORDED_FIXTURE");
+    > 52 |     await expect(page.getByTestId("timeline-step")).toHaveCount(14, { timeout: 20_000 });
+         |                                                     ^
+      53 |     await expect(page.getByTestId("approval-panel")).toBeVisible();
+      54 |     const approve = page.getByTestId("approval-approve");
+      55 |     await expect(approve).toHaveClass(/btn--approve/);
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:52:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-large-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-large-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-large-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-1dc4b-gated-and-double-click-safe-mobile-large-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) [mobile-large-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByTestId('timeline-step').last()
+    Expected: "stopped"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('timeline-step').last() with timeout 8000ms
+      - waiting for getByTestId('timeline-step').last()
+
+
+      68 |     await page.getByTestId("fixture-stopped").click();
+      69 |     await expect(page.getByTestId("agent-run-timeline")).toHaveAttribute("data-run-status", "stopped", { timeout: 15_000 });
+    > 70 |     await expect(page.getByTestId("timeline-step").last()).toHaveAttribute("data-status", "stopped");
+         |                                                            ^
+      71 |   });
+      72 |
+      73 |   test("5 · offline adapter disables destructive approval and shows stale truth", async ({ page }) => {
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:70:60
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-large-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-large-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-large-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-4ba43-recorded-runs-stay-readable-mobile-large-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) [mobile-large-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('runtime-status-banner')
+    Expected: "offline_stale"
+    Received: "hermes_unavailable"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('runtime-status-banner') with timeout 8000ms
+      - waiting for getByTestId('runtime-status-banner')
+        20 × locator resolved to <section role="status" class="runtime-banner" data-status="hermes_unavailable" data-testid="runtime-status-banner">…</section>
+           - unexpected value "hermes_unavailable"
+
+
+      107 |     await page.goto("/?adapter=live#/journey");
+      108 |     await expect(page.getByTestId("runtime-status-banner")).toBeVisible({ timeout: 15_000 });
+    > 109 |     await expect(page.getByTestId("runtime-status-banner")).toHaveAttribute("data-status", "offline_stale");
+          |                                                             ^
+      110 |     await expect(page.getByTestId("journey-pulse")).toBeVisible();
+      111 |   });
+      112 |
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:109:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-large-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-large-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-large-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-bf7a2-egrades-honestly-to-OFFLINE-mobile-large-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23) [mobile-large-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: page.goto: Target page, context or browser has been closed
+
+      125 |     const seconds = Number.parseFloat(duration);
+      126 |     expect(Number.isFinite(seconds) ? seconds : 0).toBeLessThan(0.01);
+    > 127 |     await page.goto("/?locale=en#/journey");
+          |                ^
+      128 |     await page.evaluate(() => {
+      129 |       document.documentElement.style.fontSize = "200%";
+      130 |     });
+        at D:\moodle\CityNexus-Tools\DSH-EAC-V18.3-ExperienceEngineering-20260915\reference-app\tests\acceptance.spec.ts:127:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-large-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-large-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-large-chromium\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\acceptance-V18-3-experienc-5bf2b-200-zoom-keep-state-clarity-mobile-large-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23 failed
+    [desktop-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state 
+    [desktop-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences 
+    [desktop-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+    [desktop-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+    [desktop-chromium] › tests\visual.spec.ts:6:3 › V18.2 visual acceptance evidence › desktop evidence set 
+    [mobile-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe 
+    [mobile-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable 
+    [mobile-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences 
+    [mobile-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+    [mobile-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+    [mobile-chromium] › tests\visual.spec.ts:40:3 › V18.2 visual acceptance evidence › mobile evidence set 
+    [desktop-1280-chromium] › tests\acceptance.spec.ts:26:3 › V18.3 experience engineering acceptance › 2 · Map route lazy-loads MapLibre and exposes 24/55/90 sheet state 
+    [desktop-1280-chromium] › tests\acceptance.spec.ts:84:3 › V18.3 experience engineering acceptance › 6 · Traveler Capability UX separates hard needs from preferences 
+    [desktop-1280-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+    [desktop-1280-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+    [mobile-small-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe 
+    [mobile-small-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable 
+    [mobile-small-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+    [mobile-small-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+    [mobile-large-chromium] › tests\acceptance.spec.ts:47:3 › V18.3 experience engineering acceptance › 3 · recorded Hermes timeline is honest, approval-gated, and double-click safe 
+    [mobile-large-chromium] › tests\acceptance.spec.ts:62:3 › V18.3 experience engineering acceptance › 4 · failed and stopped recorded runs stay readable 
+    [mobile-large-chromium] › tests\acceptance.spec.ts:106:3 › V18.3 experience engineering acceptance › 8 · live adapter without backend degrades honestly to OFFLINE 
+    [mobile-large-chromium] › tests\acceptance.spec.ts:113:3 › V18.3 experience engineering acceptance › 9 · Chinese, reduced motion, and 200% zoom keep state clarity 
+  13 skipped
+  34 passed (8.6m)

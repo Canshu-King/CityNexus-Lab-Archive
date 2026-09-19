@@ -1,0 +1,46 @@
+version: 0.1.0
+packages:
+  - id: WP00
+    name: Baseline reconciliation and safe bootstrap
+    depends_on: []
+    gate: frozen baselines unchanged; 18 entity names reconciled; app folders created
+  - id: WP01
+    name: Backend foundation and database
+    depends_on: [WP00]
+    gate: health 200; empty SQLite create+seed reproducible
+  - id: WP02
+    name: Traveler journey preferences constraints
+    depends_on: [WP01]
+    gate: canonical configured DRAFT journey exists via API
+  - id: WP03
+    name: Discovery and initial planning
+    depends_on: [WP02]
+    gate: at least two deterministic feasible plan candidates and selectable plan
+  - id: WP04
+    name: Booking order payment simulation
+    depends_on: [WP03]
+    gate: simulated booking/payment creates protected commitment idempotently
+  - id: WP05
+    name: Journey execution and JourneyTwin
+    depends_on: [WP04]
+    gate: journey ACTIVE and JourneyTwin advances with activity completion
+  - id: WP06
+    name: Event and deterministic replanning
+    depends_on: [WP05]
+    gate: closure replan preserves locked cruise and accepts atomically
+  - id: WP07
+    name: AI Copilot and graceful degradation
+    depends_on: [WP06]
+    gate: AI disabled still completes core replan
+  - id: WP08
+    name: Frontend vertical slice
+    depends_on: [WP06]
+    gate: core scenario usable through UI
+  - id: WP09
+    name: E2E security submission evidence
+    depends_on: [WP07, WP08]
+    gate: all P0 tests pass; clean-reset demo reproducible
+  - id: WP10
+    name: Progressive 138 requirement expansion
+    depends_on: [WP09]
+    gate: each added batch has evidence and no vertical-slice regression

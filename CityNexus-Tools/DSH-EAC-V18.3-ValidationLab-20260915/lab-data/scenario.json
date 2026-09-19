@@ -1,0 +1,20 @@
+{
+  "health": {
+    "status": "ok",
+    "database": "ok",
+    "ai": "enabled"
+  },
+  "journey_id": "22222222-2222-4222-8222-222222222222",
+  "plan_id": "60cb6a2f-ccce-537d-86c1-a7d9a007bc2b",
+  "activity_ids": [
+    "a89f540d-b056-585b-a607-84e3a489698a",
+    "d104114f-80c8-5663-8b6e-5e9591541a57",
+    "c2664588-afac-5136-8072-649a61d0c36d",
+    "bb9d56ce-645a-57c4-9a31-9aa465dbdc19",
+    "a05b2065-7f91-5a63-a054-5fd3d7d6a3f2",
+    "0a90b9a6-01e8-59e7-8609-4a38a7802309"
+  ],
+  "affected_activity_id": "c2664588-afac-5136-8072-649a61d0c36d",
+  "event_id": "6b677343-40bb-4b29-a8ed-e559c64b1ef1",
+  "journey_status": null
+}

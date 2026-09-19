@@ -1,0 +1,17 @@
+﻿PORT 8000 PID 13504 NAME python.exe
+   CMD: "C:\Users\仓鼠王\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\python.exe"  -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+PORT 5173 PID 48488 NAME node.exe
+   CMD: "node"   "D:\moodle\CityNexus\frontend\node_modules\.bin\\..\vite\bin\vite.js" --host 127.0.0.1 --port 5173
+---- python processes ----
+PID 24964: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 14988: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 41200: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 28784: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 6888: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 21604: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 46068: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 3508: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 38752: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 39696: "C:\Users\仓鼠王\.codex\tools\visio-mcp\.venv\Scripts\python.exe" -m visio_mcp
+PID 24568: "D:\moodle\CityNexus\backend\.venv\Scripts\python.exe" -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+PID 13504: "C:\Users\仓鼠王\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\python.exe"  -m uvicorn app.main:app --host 127.0.0.1 --port 8000

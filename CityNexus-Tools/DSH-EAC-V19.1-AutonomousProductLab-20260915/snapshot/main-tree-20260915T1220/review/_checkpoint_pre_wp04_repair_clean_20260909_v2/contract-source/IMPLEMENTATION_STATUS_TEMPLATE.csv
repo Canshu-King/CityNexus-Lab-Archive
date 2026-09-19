@@ -1,0 +1,2 @@
+requirement_id,type,summary,source,priority,acceptance_criteria,trace_links,implementation_status,evidence,test_ids,owner,notes
+FR-011,FR,"Example known baseline item referencing PlanVersion.planning_mode","IMPORT_FROM_BASELINE","IMPORT_FROM_BASELINE","IMPORT_FROM_BASELINE","PlanVersion.planning_mode","PLANNED","","CNX-U-019;CNX-U-020","","Do not treat this summary as a substitute for the actual frozen requirement text"

@@ -1,0 +1,4 @@
+﻿D:\moodle\_citynexus_playwright_tmp_v7\node_modules\playwright-core => False
+D:\moodle\CityNexus\frontend\node_modules\playwright-core => True
+C:\Users\仓鼠王\AppData\Roaming\npm\node_modules\playwright-core => False
+C:\Users\仓鼠王\.workbuddy\plugins\cache\codebuddy-plugins-official\playwright-cli => True

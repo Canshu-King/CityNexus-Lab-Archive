@@ -1,0 +1,482 @@
+{
+  "corpus_size": 182,
+  "unique_texts": 176,
+  "divergent": 32,
+  "eac_only": 32,
+  "b_only": 0,
+  "both_empty": 47,
+  "eac_hard": 71,
+  "b_hard": 64,
+  "eac_duplicates": 0,
+  "b_duplicates": 0,
+  "eac_canonical_duplicates": 0,
+  "b_canonical_duplicates": 0,
+  "eac_traveler_scope_rows": 0,
+  "b_traveler_scope_rows": 0,
+  "by_bucket": {
+    "clause_negation": {
+      "cases": 25,
+      "divergent": 6,
+      "eac_only": 6,
+      "b_only": 0,
+      "eac_hard": 16,
+      "b_hard": 11,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "denial_vs_need": {
+      "cases": 28,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 11,
+      "b_hard": 11,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "duplicate_multi": {
+      "cases": 12,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 10,
+      "b_hard": 10,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "hard_vs_soft": {
+      "cases": 25,
+      "divergent": 5,
+      "eac_only": 5,
+      "b_only": 0,
+      "eac_hard": 7,
+      "b_hard": 6,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "hearsay": {
+      "cases": 6,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 6,
+      "b_hard": 6,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "hypothetical": {
+      "cases": 3,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 3,
+      "b_hard": 3,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "mandated": {
+      "cases": 2,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 2,
+      "b_hard": 2,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "mixed_language": {
+      "cases": 9,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 6,
+      "b_hard": 6,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "provider_evidence": {
+      "cases": 5,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 2,
+      "b_hard": 2,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "rest_nap_window": {
+      "cases": 15,
+      "divergent": 4,
+      "eac_only": 4,
+      "b_only": 0,
+      "eac_hard": 0,
+      "b_hard": 0,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "scope_permanence": {
+      "cases": 15,
+      "divergent": 1,
+      "eac_only": 1,
+      "b_only": 0,
+      "eac_hard": 6,
+      "b_hard": 5,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "stroller_luggage": {
+      "cases": 10,
+      "divergent": 0,
+      "eac_only": 0,
+      "b_only": 0,
+      "eac_hard": 2,
+      "b_hard": 2,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    },
+    "walking_numeric": {
+      "cases": 27,
+      "divergent": 16,
+      "eac_only": 16,
+      "b_only": 0,
+      "eac_hard": 0,
+      "b_hard": 0,
+      "eac_dup": 0,
+      "b_dup": 0,
+      "eac_traveler_scope": 0,
+      "b_traveler_scope": 0
+    }
+  },
+  "mandated": [
+    {
+      "id": "mandated-extra0001",
+      "bucket": "mandated",
+      "role": "denial_en",
+      "lang": "en",
+      "text": "I don't need a wheelchair, I can walk",
+      "why": "task brief: independent review says EAC still emits a false HARD need",
+      "eac": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "count": 1,
+        "canon_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "canon_scopes": [
+          "JOURNEY"
+        ],
+        "duplicate_codes": [],
+        "canon_duplicate_codes": []
+      },
+      "b": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "count": 1,
+        "canon_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "canon_scopes": [
+          "JOURNEY"
+        ],
+        "duplicate_codes": [],
+        "canon_duplicate_codes": []
+      },
+      "divergent": false,
+      "eac_only_codes": [],
+      "b_only_codes": [],
+      "tags": [
+        "CODEX_V19_1_IF_AVAILABLE",
+        "EAC_REFERENCE",
+        "FINAL_V19"
+      ]
+    },
+    {
+      "id": "mandated-extra0002",
+      "bucket": "mandated",
+      "role": "hearsay_zh",
+      "lang": "zh",
+      "text": "朋友说我可能需要轮椅，但我不这么认为",
+      "why": "task brief: independent review says EAC still emits a false HARD need",
+      "eac": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "count": 1,
+        "canon_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "canon_scopes": [
+          "JOURNEY"
+        ],
+        "duplicate_codes": [],
+        "canon_duplicate_codes": []
+      },
+      "b": {
+        "codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "hard_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "count": 1,
+        "canon_codes": [
+          "STEP_FREE_REQUIRED"
+        ],
+        "canon_scopes": [
+          "JOURNEY"
+        ],
+        "duplicate_codes": [],
+        "canon_duplicate_codes": []
+      },
+      "divergent": false,
+      "eac_only_codes": [],
+      "b_only_codes": [],
+      "tags": [
+        "CODEX_V19_1_IF_AVAILABLE",
+        "EAC_REFERENCE",
+        "FINAL_V19"
+      ]
+    }
+  ],
+  "eac_only_examples": [
+    {
+      "id": "clause_negation-0001",
+      "text": "轮椅必须全程无障碍，没有例外",
+      "eac": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b": []
+    },
+    {
+      "id": "clause_negation-0005",
+      "text": "我以前不用轮椅，但现在必须无障碍",
+      "eac": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b": []
+    },
+    {
+      "id": "clause_negation-0007",
+      "text": "过去我坐轮椅，现在必须全程无障碍",
+      "eac": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b": []
+    },
+    {
+      "id": "clause_negation-0009",
+      "text": "我没有过敏，但我用轮椅，必须全程无障碍",
+      "eac": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b": []
+    },
+    {
+      "id": "clause_negation-0011",
+      "text": "不是地铁，我需要出租车因为行李很多",
+      "eac": [
+        "LARGE_LUGGAGE"
+      ],
+      "b": []
+    },
+    {
+      "id": "clause_negation-0019",
+      "text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+      "eac": [
+        "STEP_FREE_REQUIRED"
+      ],
+      "b": []
+    },
+    {
+      "id": "hard_vs_soft-0043",
+      "text": "我最多走 500 米，这是硬性要求",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "hard_vs_soft-0044",
+      "text": "我最多走 500 米，尽量吧",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "hard_vs_soft-0047",
+      "text": "中午 12 点到 14 点必须回酒店休息",
+      "eac": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "b": []
+    },
+    {
+      "id": "hard_vs_soft-0048",
+      "text": "中午能休息一下就更好了",
+      "eac": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0061",
+      "text": "走路不能超过 500 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0062",
+      "text": "走路不能超过 0 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0063",
+      "text": "走路不能超过 1 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0064",
+      "text": "走路不能超过 499 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0065",
+      "text": "走路不能超过 501 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0066",
+      "text": "走路不能超过 1000 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0067",
+      "text": "走路不能超过 10000 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0068",
+      "text": "走路不能超过 -5 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0069",
+      "text": "我最多走 500 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0071",
+      "text": "每段不超过 500 米",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0072",
+      "text": "I cannot walk more than 500 metres per leg",
+      "eac": [
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": []
+    },
+    {
+      "id": "walking_numeric-0074",
+      "text": "我每天走路不能超过 3000 米",
+      "eac": [
+        "MAX_DAILY_WALKING_M",
+        "MAX_WALKING_PER_LEG_M"
+      ],
+      "b": [
+        "MAX_DAILY_WALKING_M"
+      ]
+    },
+    {
+      "id": "rest_nap_window-0081",
+      "text": "中午 12 点到 14 点必须回酒店休息",
+      "eac": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "b": []
+    },
+    {
+      "id": "rest_nap_window-0082",
+      "text": "中午 12:00-14:00 必须回酒店休息",
+      "eac": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "b": []
+    },
+    {
+      "id": "rest_nap_window-0087",
+      "text": "老人中午必须休息两小时",
+      "eac": [
+        "MIDDAY_REST_WINDOW"
+      ],
+      "b": []
+    }
+  ],
+  "b_only_examples": []
+}

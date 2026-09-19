@@ -1,0 +1,72 @@
+CityNexus V19.2.4 Final Truth Code Gate — package inventory
+===========================================================
+
+Verdict: SHADOW_TRIAL_CODE_READY_PENDING_PHYSICAL_DEVICE
+
+Reports
+-------
+FINAL_TRUTH_GATE_REPORT.md         verdict, starter-patch port, blocker closure
+FEASIBILITY_C4_GATE_RESULTS.md     P0: shared gate enforces C4 temporal truth (F01-F05)
+RECOVERY_TRUTH_RESULTS.md          P1: recovery projection follows durable facts (R01-R04)
+RESERVATION_HELPER_RESULTS.md      P1: ORM helper aligned with schema (D01-D03)
+TEST_RESULTS.md                    authoritative test numbers for this round
+PATCH_RESULTS.md                   P01 patch portability / release truth
+CHANGED_FILES.txt                  real content diff vs the declared baseline
+PACKAGE_INVENTORY.txt              this file
+
+patches/
+  V19_2_4_CODE.patch               portable LF release patch; git apply --check
+                                   clean against the declared LF-normalised
+                                   V19.2.1 baseline with NO excluded paths
+  reference_starter_patch.patch    Road-Prep verified starter patch (reference)
+
+source/                            the 22 changed source files
+  backend/app/capabilities.py
+  backend/app/db/session.py
+  backend/app/integrations/mobility/snapshot_capture.py
+  backend/app/main.py
+  backend/app/operations/reservation_identity.py
+  backend/app/operations/v9.py
+  backend/app/planning/anchor_schedule.py
+  backend/app/planning/anchors.py
+  backend/app/planning/hard_recovery.py
+  backend/app/replanning/feasibility.py
+  backend/app/replanning/protected_commitments.py
+  backend/app/replanning/provider_snapshots.py
+  backend/app/schemas.py
+  backend/app/services.py
+  backend/db/schema.sql
+  backend/tests/test_v1923_final_code_gate.py
+  backend/tests/test_v1924_final_truth_gate.py
+  contracts/openapi.yaml
+  frontend/src/app/V8Experience.tsx
+  frontend/src/app/v8Types.ts
+  frontend/src/features/recovery/RecoveryRequiredPanel.tsx
+  frontend/src/generated/api.ts
+
+evidence/                          raw machine-readable output for every claim
+  v1924_truth_probe.json           independent shared-gate probe, 4/4 PASS
+  gate_suites_run.txt              86 passed (61 + 13 + 12)
+  broad_regression_head.txt        696 passed / 2 pre-existing / 15 skipped
+  broad_regression_failures.txt    the 2 pre-existing contradictory failures
+  openapi_parity.txt               formal 138 / runtime 138 / missing 0 / extra 0
+  mobile_v1924_d.json              18/18 targeted mobile flows, 0 errors
+  snapshot_d.json                  WorkBuddy read-only snapshot of the tree
+  SNAPSHOT_F_SOURCE_MANIFEST.json  frozen V19.2.3 source hashes
+
+Exclusions (deliberately absent)
+--------------------------------
+__pycache__, .pytest_cache, .ruff_cache, *.pyc, *.db, *.log, *.err,
+node_modules, dist, test-results, playwright-report, storybook-static.
+
+Explicit non-claims
+-------------------
+* No real payment was executed.
+* No physical-device testing was performed; all mobile evidence is emulated
+  viewports in headless Chrome.
+* No DeepSeek canary was run this round: the EAC task permits one only when
+  semantic/AI code changed, and it did not.
+* The two remaining broad-suite failures are pre-existing contradictory test
+  expectations; production truth was not weakened to satisfy them.
+* Per the Road-Prep execution order, an independent Snapshot-F/G red-team and a
+  physical-device precheck still follow this code gate.

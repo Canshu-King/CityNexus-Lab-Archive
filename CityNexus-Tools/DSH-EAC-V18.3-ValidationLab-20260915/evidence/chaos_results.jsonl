@@ -1,0 +1,6 @@
+{"case": "CH1_unknown_run_get", "note": "want 502, never 200 fake", "ok": true, "status": 502}
+{"case": "CH2_stop_unknown_run", "note": "want 502", "ok": true, "status": 502}
+{"case": "CH3_sse_unknown_run", "err": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)", "events": 0, "fake_terminal": false, "ok": true, "status": null}
+{"case": "CH4_sse_unknown_run_journey", "err": "RemoteProtocolError: peer closed connection without sending complete message body (incomplete chunked read)", "events": 0, "fake_terminal": false, "ok": true, "status": null}
+{"case": "CH5_reconnect_dedup", "count1": 0, "count2": 0, "ok": false, "stable": true, "status1": null, "status2": null}
+{"case": "CH6_stop_completed_run", "note": "want terminal/conflict, never 500 fake", "ok": true, "status": 200}

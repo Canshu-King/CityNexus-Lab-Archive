@@ -1,0 +1,436 @@
+# CODEX NEXT GOAL — CITYNEXUS PREDICTIVE REAL-CITY TWIN V6
+
+Repository:
+D:\moodle\CityNexus
+
+This is the next flagship product iteration.
+
+The goal is not "add more integrations".
+The goal is to make CityNexus visibly operate on a real city and predict Journey failure before it happens.
+
+==================================================
+0. BASELINE
+==================================================
+
+Read:
+- README.md
+- REVIEW_FINDINGS.md
+- all contracts in this package
+
+Then:
+git status --short
+git diff --stat
+git log --oneline -n 12
+
+Run the V5 focused and full gates first.
+
+Do not:
+git reset --hard
+git checkout -- .
+git clean -fd
+
+Do not auto-commit unless explicitly requested.
+
+Load the temporary DeepSeek key from TEMP_DEEPSEEK.env into process memory only.
+Never persist or print it.
+
+==================================================
+1. PRESERVE V5
+==================================================
+
+V5 is a milestone, not scaffolding to throw away.
+
+Preserve:
+- standing Journey Mission;
+- monotonic Mission authority;
+- Agent Authority V2;
+- approval receipts;
+- Guardian pulse/dedup/cooldown;
+- zero-touch recovery;
+- Native DeepSeek tool loop;
+- CP-SAT Solver V2;
+- Agent Feed / SSE;
+- JourneyTwin;
+- C4 protection;
+- offline deterministic Golden.
+
+==================================================
+2. FIX V5 PRODUCT SEMANTICS FIRST
+==================================================
+
+A. Per-Journey Autopilot enrollment
+
+The worker can remain process-global, but enrollment cannot be global.
+
+Persist an AutopilotEnrollment / GuardianSubscription per Journey.
+
+Starting J1:
+- enrolls J1 only.
+
+Starting J2:
+- enrolls J2 independently.
+
+Stopping J1:
+- does not stop J2.
+
+The worker exits only when appropriate; product state must survive process restart.
+
+B. Composite live provider mesh
+
+Replace the exclusive `guardian_signal_provider` concept with independent provider configuration.
+
+A pulse should be able to gather:
+- weather;
+- mobility/routing;
+- city discovery/risk feeds;
+
+in one cycle.
+
+Each provider degrades independently.
+
+==================================================
+3. REAL CITY DATA MESH
+==================================================
+
+Build a first real-city mode.
+
+Use current provider abstractions.
+
+Weather:
+Open-Meteo live forecast/capture.
+
+Routing:
+Valhalla primary.
+For development smoke, a public Valhalla demo may be used only with fair-use behavior, cache/rate limiting and an identifying client header.
+Do not make a public demo server a production dependency.
+
+Geocoding:
+Nominatim.
+
+POI discovery:
+Overpass API.
+
+Basemap:
+OpenFreeMap + MapLibre.
+
+Add a provider cache and explicit captured_at / TTL / provenance.
+
+Do not perform live web calls inside deterministic feasibility.
+
+==================================================
+4. REAL POI DISCOVERY
+==================================================
+
+Upgrade `search_city_services`.
+
+The Agent should be able to ask for real alternatives around:
+- current location;
+- affected Activity;
+- Journey route corridor;
+- protected anchor window.
+
+Use Nominatim for grounding and Overpass for bounded POI category discovery.
+
+The model can rank candidates semantically:
+- indoor;
+- low walking;
+- museum/cafe/food;
+- user preference fit.
+
+The server validates and materializes selected real candidates.
+
+Feed those candidates into CP-SAT Solver V2.
+
+Do not let the model invent coordinates or opening hours.
+
+==================================================
+5. LITERAL HERMES
+==================================================
+
+Try to install and run a current stable Hermes Agent release in an isolated developer environment.
+
+Do not assume the old 0.19.x state is current.
+
+Make the real proof:
+
+Hermes
+→ DeepSeek
+→ CityNexus MCP V2
+→ inspect/search/replan/action
+→ Gateway
+→ CP-SAT
+→ Policy
+→ Domain mutation
+
+Use the existing Native DeepSeek runtime as fallback.
+
+Do not spend the entire iteration fighting Hermes installation.
+If external setup blocks, leave a clean adapter/runbook and continue the product work.
+
+==================================================
+6. PREDICTIVE JOURNEY RESILIENCE
+==================================================
+
+This is the V6 signature feature.
+
+Create a JourneyResilienceSnapshot.
+
+For the next Journey horizon calculate:
+- protected Commitment slack;
+- weather exposure;
+- mobility sensitivity;
+- recovery optionality;
+- cost headroom;
+- route risk;
+- single-point-of-failure Activities.
+
+Output:
+0..100 resilience score
+per-Activity risk
+per-Commitment buffer
+dominant failure modes
+preventive recommendation
+evidence provenance
+
+DeepSeek may explain and interpret.
+The actual component evidence must be inspectable.
+
+==================================================
+7. COUNTERFACTUAL DIGITAL TWIN
+==================================================
+
+Use the existing JourneyTwin + CP-SAT V2 as a scenario laboratory.
+
+Run a bounded set of counterfactuals without mutating Domain Truth:
+
+- weather starts earlier;
+- route leg +10/+20/+30 min;
+- mutable Place closes;
+- one replacement disappears.
+
+Measure:
+- feasibility;
+- C4 preservation;
+- cost;
+- schedule drift;
+- plan changes required.
+
+Use these results in the resilience score.
+
+Do not build another solver.
+Reuse CP-SAT V2.
+
+==================================================
+8. PREEMPTIVE AUTOPILOT
+==================================================
+
+V5 reacts after disruption.
+
+V6 may act before hard failure.
+
+Example:
+
+Forecast says heavy rain will overlap Riverside Walk in 45 minutes.
+The cruise has only 18 minutes of travel buffer after the walk.
+Counterfactual simulation shows a high probability of Journey infeasibility.
+
+The Agent may preemptively replace/reschedule the ordinary Activity if:
+- the standing mission permits it;
+- expected risk reduction is meaningful;
+- switching cost is small;
+- the action is reversible;
+- the Autonomy Envelope permits it;
+- protected commitments remain safe;
+- deterministic post-action feasibility passes.
+
+Persist why the action happened before the actual failure.
+
+==================================================
+9. REAL MAPLIBRE CITY VIEW
+==================================================
+
+The current blank-background MapLibre view is no longer sufficient.
+
+Use a real vector basemap.
+
+Prefer a no-key development configuration such as OpenFreeMap.
+
+Display:
+- streets/buildings/labels;
+- current and proposed routes;
+- real provider-backed POIs;
+- disruption/risk scope;
+- protected C4;
+- resilience score;
+- before/after route;
+- provider badges.
+
+Optional:
+3D building style / terrain where practical.
+
+Keep an offline/fallback map mode for deterministic tests.
+
+==================================================
+10. REAL-CITY FLAGSHIP DEMO
+==================================================
+
+Create a reproducible Tianjin-oriented demo.
+
+The live smoke may use current provider data.
+The deterministic E2E should use captured/replay snapshots so tests are stable.
+
+Story:
+
+1. User creates/loads a Tianjin Journey with real OSM-backed places.
+2. Standing mission:
+   "Keep the cruise and dinner. Prefer indoor places and less walking. You may spend CNY 50 extra. Handle ordinary risks yourself."
+3. Open-Meteo forecast and real/captured route evidence are ingested.
+4. Resilience engine identifies weak buffer / weather exposure before a hard failure.
+5. Counterfactual simulation shows likely breakage.
+6. Hermes or Native DeepSeek Agent inspects the Journey.
+7. Agent discovers real nearby alternatives.
+8. CP-SAT V2 produces Top-K whole-horizon plans.
+9. Agent selects an in-envelope preventive plan.
+10. Policy returns ALLOW_AUTO.
+11. PlanVersion changes before the Journey becomes infeasible.
+12. Protected Cruise/Dinner/C4 remain intact.
+13. MapLibre displays the real city, real candidates, old route and new route.
+14. Control Tower explains:
+    OBSERVATION
+    PREDICTION
+    AI INFERENCE
+    OPTIMIZATION
+    POLICY
+    MUTATION
+15. Reload restores all truth.
+
+The demo should make it visually obvious that CityNexus prevented a Journey failure rather than merely reacting to one.
+
+==================================================
+11. PHOENIX / OPENINFERENCE
+==================================================
+
+After the V6 product E2E is green:
+
+Integrate Phoenix/OpenInference tracing if feasible.
+
+Trace:
+provider capture
+mission compile
+Hermes/DeepSeek model call
+tool calls
+POI discovery
+impact analysis
+counterfactual simulation
+CP-SAT solve
+policy
+domain mutation
+
+Local Phoenix is acceptable.
+
+Do not make Phoenix a runtime requirement for the product.
+
+==================================================
+12. PROMPTFOO
+==================================================
+
+After core V6 works, add an adversarial evaluation pack.
+
+Test:
+- malicious city-event prompt injection;
+- hallucinated real POI;
+- fake coordinates/opening hours;
+- over-budget action;
+- protected Commitment damage;
+- duplicate provider signals;
+- ambiguous standing mission;
+- model tool loop;
+- provider outage;
+- preemptive action when no real risk exists.
+
+Produce a concise evaluation artifact suitable for the Software Engineering report.
+
+==================================================
+13. FINAL VALIDATION
+==================================================
+
+Run:
+- focused V6 tests;
+- full backend pytest;
+- Agent Authority tests;
+- Mission tests;
+- Guardian tests;
+- provider tests;
+- CP-SAT V2 tests;
+- counterfactual tests;
+- MCP tests;
+- OpenAPI exact parity;
+- compileall;
+- Ruff;
+- frontend production build;
+- Playwright;
+- real DeepSeek smoke;
+- literal Hermes smoke if available;
+- real provider smokes where fair-use allows;
+- secret scan;
+- archive hygiene scan;
+- fresh-extract replay.
+
+Final labels must separately report:
+
+V5_REGRESSION
+PER_JOURNEY_AUTOPILOT
+COMPOSITE_PROVIDER_MESH
+LIVE_OPEN_METEO
+LIVE_VALHALLA
+LIVE_NOMINATIM
+LIVE_OVERPASS
+REAL_POI_DISCOVERY
+OPENFREEMAP_BASEMAP
+HERMES_MODEL_BACKED
+NATIVE_DEEPSEEK_MODEL_BACKED
+PREDICTIVE_RESILIENCE
+COUNTERFACTUAL_TWIN
+PREEMPTIVE_AUTOPILOT
+REAL_CITY_E2E
+PHOENIX_TRACE
+PROMPTFOO_EVAL
+
+Do not convert NOT_RUN_EXTERNAL into PASS.
+
+==================================================
+14. DELIVERABLE
+==================================================
+
+Create:
+
+CityNexus-Predictive-Real-City-Twin-V6-Final-20260912.zip
+
+Reports:
+reports/product-v6/FINAL_REPORT.md
+reports/product-v6/PROGRESS.md
+reports/product-v6/GATE_MATRIX.md
+reports/product-v6/REAL_CITY_PROVIDER_EVIDENCE.md
+reports/product-v6/AI_EVALUATION.md
+
+Exclude:
+- TEMP_DEEPSEEK.env
+- all API keys
+- .venv
+- node_modules
+- dist
+- __pycache__
+- *.pyc
+- .pytest_cache
+- .ruff_cache
+- databases
+- browser reports
+- nested review ZIPs
+
+The completion gate is not "all tests pass".
+
+The completion gate is:
+
+CityNexus predicts a real-city Journey weakness and autonomously prevents the failure while preserving user commitments.
+
+Start now.

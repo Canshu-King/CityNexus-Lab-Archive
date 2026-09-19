@@ -1,0 +1,957 @@
+{
+ "snapshot": "B",
+ "totals": {
+  "cases": 120,
+  "live_ok": 120,
+  "model_emitted_capability": 102,
+  "model_capability_survived_canonicalization": 5,
+  "model_capability_dropped_by_canonicalization": 97,
+  "merged_has_capability": 63,
+  "merged_has_duplicate_code": 4,
+  "merged_has_code_in_two_severities": 1,
+  "merged_has_hard": 36
+ },
+ "model_codes_rejected_by_canonicalization": {
+  "MAX_WALKING_DISTANCE": 16,
+  "STEP_FREE_ACCESS": 13,
+  "MOBILITY_WHEELCHAIR": 8,
+  "STEP_FREE_ROUTING": 5,
+  "MOBILITY_LIMITED_WALKING": 4,
+  "WHEELCHAIR_ACCESSIBLE": 3,
+  "LUGGAGE_LARGE": 3,
+  "NO_STAIRS": 3,
+  "LUGGAGE_ASSISTANCE": 2,
+  "STEP_FREE_ROUTE": 2,
+  "ACCESSIBILITY_REQUIRED": 2,
+  "STROLLER_ACCESSIBLE": 2,
+  "RESTROOM_ACCESS_FREQUENCY": 2,
+  "LUGGAGE_STORAGE": 2,
+  "ACCESSIBILITY_NEED": 1,
+  "TAXI_NEEDED": 1,
+  "ELEVATOR_OR_RAMP_ACCESS": 1,
+  "CHILD_NAP_TIME": 1,
+  "NAP_OPPORTUNITY_REQUIRED": 1,
+  "MOBILITY_STAIR_AVOIDANCE": 1,
+  "MOBILITY_ELEVATOR_AVOIDANCE": 1,
+  "MOBILITY_WHEELCHAIR_REQUIRED": 1,
+  "FATIGUE_SUPPORT": 1,
+  "MOBILITY_REST_NEED": 1,
+  "MOBILITY_DISTANCE_LIMIT": 1,
+  "MOBILITY_WALKING_DISTANCE": 1,
+  "MOBILITY_WALKING_DIFFICULTY": 1,
+  "LUGGAGE_LARGE_SUITCASE": 1,
+  "PREGNANCY": 1,
+  "ACCESSIBLE_ROUTE": 1,
+  "MOBILITY_WALKING_RESTRICTION": 1,
+  "QUIET_SPACE_REQUIRED": 1,
+  "LUGGAGE_BULKY_ITEM": 1,
+  "CHILD_NAP_WINDOW": 1,
+  "MOBILITY_WALKING_ENDURANCE": 1,
+  "MOBILITY_REST_INTERVAL": 1,
+  "NEED_REST_BREAK": 1,
+  "PERSONAL_CARE_NAPTIME": 1,
+  "REST_NEED": 1,
+  "LIMITED_WALKING": 1,
+  "DIETARY_ALLERGY": 1,
+  "DIETARY_AVOID_PEANUT": 1,
+  "MOBILITY_IMPAIRMENT": 1,
+  "LOW_ENDURANCE": 1,
+  "LIMITED_WALKING_DISTANCE": 1,
+  "MIDDAY_REST_NEED": 1,
+  "NAP_NEED": 1,
+  "WHEELCHAIR_ACCESS": 1,
+  "RESTROOM_ACCESS_INTERVAL": 1,
+  "QUIET_ENVIRONMENT_PREFERENCE": 1,
+  "MAX_WALKING_DISTANCE_PER_LEG": 1,
+  "MOBILITY_WALK_DISTANCE_LIMIT": 1,
+  "MAX_WALKING_DISTANCE_PER_DAY": 1,
+  "MAX_CONTINUOUS_WALKING_MINUTES": 1
+ },
+ "per_bucket": {
+  "clause_negation": {
+   "cases": 20,
+   "with_any_capability": 10,
+   "with_hard_capability": 9,
+   "duplicate_code": 0,
+   "both_severities": 0
+  },
+  "denial_vs_need": {
+   "cases": 20,
+   "with_any_capability": 12,
+   "with_hard_capability": 8,
+   "duplicate_code": 1,
+   "both_severities": 0
+  },
+  "duplicate_multi": {
+   "cases": 8,
+   "with_any_capability": 7,
+   "with_hard_capability": 5,
+   "duplicate_code": 0,
+   "both_severities": 0
+  },
+  "hard_vs_soft": {
+   "cases": 20,
+   "with_any_capability": 11,
+   "with_hard_capability": 4,
+   "duplicate_code": 3,
+   "both_severities": 1
+  },
+  "mixed_language": {
+   "cases": 6,
+   "with_any_capability": 5,
+   "with_hard_capability": 4,
+   "duplicate_code": 0,
+   "both_severities": 0
+  },
+  "rest_nap_window": {
+   "cases": 10,
+   "with_any_capability": 4,
+   "with_hard_capability": 1,
+   "duplicate_code": 0,
+   "both_severities": 0
+  },
+  "scope_permanence": {
+   "cases": 10,
+   "with_any_capability": 4,
+   "with_hard_capability": 1,
+   "duplicate_code": 0,
+   "both_severities": 0
+  },
+  "stroller_luggage": {
+   "cases": 6,
+   "with_any_capability": 6,
+   "with_hard_capability": 2,
+   "duplicate_code": 0,
+   "both_severities": 0
+  },
+  "walking_numeric": {
+   "cases": 20,
+   "with_any_capability": 4,
+   "with_hard_capability": 2,
+   "duplicate_code": 0,
+   "both_severities": 0
+  }
+ },
+ "clause_negation": {
+  "clause_negation:no_exception": {
+   "live_need_text": "轮椅必须全程无障碍，没有例外",
+   "control_text": "轮椅必须全程无障碍",
+   "live_need_codes": [],
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "live_need_hard": [],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": true
+  },
+  "clause_negation:no_exception_en": {
+   "live_need_text": "wheelchair, must be step-free, no exceptions",
+   "control_text": "wheelchair, must be step-free",
+   "live_need_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "live_need_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": false
+  },
+  "clause_negation:used_to_now_must": {
+   "live_need_text": "我以前不用轮椅，但现在必须无障碍",
+   "control_text": "我现在必须无障碍",
+   "live_need_codes": [],
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "live_need_hard": [],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": true
+  },
+  "clause_negation:past_wheelchair_now_must": {
+   "live_need_text": "过去我坐轮椅，现在必须全程无障碍",
+   "control_text": "现在必须全程无障碍",
+   "live_need_codes": [],
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "live_need_hard": [],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": true
+  },
+  "clause_negation:no_allergy_but_wheelchair": {
+   "live_need_text": "我没有过敏，但我用轮椅，必须全程无障碍",
+   "control_text": "我用轮椅，必须全程无障碍",
+   "live_need_codes": [],
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "live_need_hard": [],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": true
+  },
+  "clause_negation:not_metro_but_luggage": {
+   "live_need_text": "不是地铁，我需要出租车因为行李很多",
+   "control_text": "我需要出租车因为行李很多",
+   "live_need_codes": [],
+   "control_codes": [
+    "LARGE_LUGGAGE"
+   ],
+   "live_need_hard": [],
+   "control_hard": [],
+   "need_erased_by_negation_elsewhere": true
+  },
+  "clause_negation:dont_like_heat_but_stroller": {
+   "live_need_text": "我不怕晒，但推着婴儿车，需要无障碍通道",
+   "control_text": "推着婴儿车，需要无障碍通道",
+   "live_need_codes": [
+    "STEP_FREE_REQUIRED",
+    "STROLLER"
+   ],
+   "control_codes": [
+    "STEP_FREE_REQUIRED",
+    "STROLLER"
+   ],
+   "live_need_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": false
+  },
+  "clause_negation:no_meat_but_nap": {
+   "live_need_text": "我们不吃肉，但宝宝下午一点必须睡午觉",
+   "control_text": "宝宝下午一点必须睡午觉",
+   "live_need_codes": [],
+   "control_codes": [],
+   "live_need_hard": [],
+   "control_hard": [],
+   "need_erased_by_negation_elsewhere": false
+  },
+  "clause_negation:never_used_lift_but_stairs": {
+   "live_need_text": "我从来不坐电梯，只能走楼梯，但其实我走不了楼梯",
+   "control_text": "我走不了楼梯",
+   "live_need_codes": [],
+   "control_codes": [],
+   "live_need_hard": [],
+   "control_hard": [],
+   "need_erased_by_negation_elsewhere": false
+  },
+  "clause_negation:no_help_needed_but_wheelchair": {
+   "live_need_text": "不需要人扶，但我坐轮椅，必须全程无障碍",
+   "control_text": "我坐轮椅，必须全程无障碍",
+   "live_need_codes": [],
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "live_need_hard": [],
+   "control_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "need_erased_by_negation_elsewhere": true
+  }
+ },
+ "clause_negation_summary": {
+  "pairs": 10,
+  "need_erased": 6
+ },
+ "denial_vs_need": {
+  "denial_vs_need:dont_need_wheelchair": {
+   "must_not_create_text": "I don't need a wheelchair, I can walk fine",
+   "manufactured_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard_need": true,
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "denial_vs_need:friend_said_maybe": {
+   "must_not_create_text": "朋友说我可能需要轮椅，但我不这么认为",
+   "manufactured_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard_need": true,
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "denial_vs_need:maybe_wheelchair": {
+   "must_not_create_text": "说不定到时候我需要轮椅",
+   "manufactured_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard_need": true,
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "denial_vs_need:if_wheelchair_then_tell": {
+   "must_not_create_text": "if I end up in a wheelchair I'll tell you",
+   "manufactured_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "manufactured_hard_need": true,
+   "control_codes": [
+    "STEP_FREE_REQUIRED"
+   ]
+  },
+  "denial_vs_need:no_stroller_this_time": {
+   "must_not_create_text": "no stroller this time, ignore that",
+   "manufactured_codes": [
+    "STROLLER"
+   ],
+   "manufactured_hard": [],
+   "manufactured_hard_need": false,
+   "control_codes": [
+    "STROLLER"
+   ]
+  },
+  "denial_vs_need:not_pregnant": {
+   "must_not_create_text": "我没有怀孕，只是有点累",
+   "manufactured_codes": [],
+   "manufactured_hard": [],
+   "manufactured_hard_need": false,
+   "control_codes": []
+  },
+  "denial_vs_need:no_luggage": {
+   "must_not_create_text": "这次没带大箱子，轻装",
+   "manufactured_codes": [
+    "LARGE_LUGGAGE"
+   ],
+   "manufactured_hard": [],
+   "manufactured_hard_need": false,
+   "control_codes": [
+    "LARGE_LUGGAGE"
+   ]
+  },
+  "denial_vs_need:cant_walk_long_but_fine": {
+   "must_not_create_text": "I can't walk long distances, but honestly I'm fine",
+   "manufactured_codes": [],
+   "manufactured_hard": [],
+   "manufactured_hard_need": false,
+   "control_codes": []
+  },
+  "denial_vs_need:grandma_hypothetical": {
+   "must_not_create_text": "如果我奶奶来，她可能走不了路",
+   "manufactured_codes": [],
+   "manufactured_hard": [],
+   "manufactured_hard_need": false,
+   "control_codes": []
+  },
+  "denial_vs_need:doctor_didnt_say": {
+   "must_not_create_text": "医生没说我不能走路",
+   "manufactured_codes": [],
+   "manufactured_hard": [],
+   "manufactured_hard_need": false,
+   "control_codes": []
+  }
+ },
+ "denial_vs_need_summary": {
+  "pairs": 10,
+  "manufactured_a_hard_need": 4,
+  "manufactured_any_capability": 6
+ },
+ "hard_vs_soft": {
+  "hard_vs_soft:wheelchair": {
+   "hard_text": "我坐轮椅，必须全程无障碍",
+   "soft_text": "我坐轮椅，最好全程无障碍",
+   "hard_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "soft_codes": [
+    "STEP_FREE_REQUIRED"
+   ],
+   "soft_became_hard": true,
+   "hard_lost": false
+  },
+  "hard_vs_soft:walking": {
+   "hard_text": "我最多走 500 米，这是硬性要求",
+   "soft_text": "我最多走 500 米，尽量吧",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  },
+  "hard_vs_soft:stairs": {
+   "hard_text": "绝对不能走楼梯",
+   "soft_text": "尽量少走楼梯",
+   "hard_codes": [
+    "AVOID_STAIRS"
+   ],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": false
+  },
+  "hard_vs_soft:rest": {
+   "hard_text": "中午 12 点到 14 点必须回酒店休息",
+   "soft_text": "中午能休息一下就更好了",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  },
+  "hard_vs_soft:nap": {
+   "hard_text": "宝宝下午 1 点到 3 点必须睡午觉",
+   "soft_text": "宝宝下午要是能睡一会儿就好了",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  },
+  "hard_vs_soft:stroller": {
+   "hard_text": "必须能推婴儿车，不然不行",
+   "soft_text": "如果能推婴儿车就方便多了",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  },
+  "hard_vs_soft:luggage_en": {
+   "hard_text": "we must avoid stairs, we have two large suitcases",
+   "soft_text": "it would be nice to avoid stairs with our suitcases",
+   "hard_codes": [
+    "AVOID_STAIRS"
+   ],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": false
+  },
+  "hard_vs_soft:toilet": {
+   "hard_text": "每小时必须上一次厕所",
+   "soft_text": "希望每小时能上个厕所",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  },
+  "hard_vs_soft:sensory": {
+   "hard_text": "必须有安静的空间，我不能待在嘈杂的地方",
+   "soft_text": "安静一点会更好",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  },
+  "hard_vs_soft:elderly": {
+   "hard_text": "我父亲 80 岁，走不了远路，必须少走路",
+   "soft_text": "我父亲 80 岁，走远路会累",
+   "hard_codes": [],
+   "soft_codes": [],
+   "soft_became_hard": false,
+   "hard_lost": true
+  }
+ },
+ "hard_vs_soft_summary": {
+  "pairs": 10,
+  "soft_phrasing_became_hard": 1,
+  "hard_phrasing_lost_hardness": 7
+ },
+ "walking_numeric": [
+  {
+   "text": "走路不能超过 500 米",
+   "expected": "max_m=500 HARD",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 0 米",
+   "expected": "max_m=0 or rejected, never silent",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 1 米",
+   "expected": "max_m=1",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 499 米",
+   "expected": "max_m=499",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 501 米",
+   "expected": "max_m=501",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 1000 米",
+   "expected": "max_m=1000",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 10000 米",
+   "expected": "max_m=10000",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 -5 米",
+   "expected": "rejected, not silently accepted",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "我最多走 500 米",
+   "expected": "max_m=500",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走路不能超过 500m，这是硬性要求",
+   "expected": "max_m=500 HARD",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "每段不超过 500 米",
+   "expected": "max_m=500 per leg",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "I cannot walk more than 500 metres per leg",
+   "expected": "max_m=500",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "avoid long walks, under 400 m per leg",
+   "expected": "max_m=400",
+   "codes": [
+    "MAX_WALKING_PER_LEG_M"
+   ],
+   "params": [
+    [
+     "MAX_WALKING_PER_LEG_M",
+     {
+      "max_m": 400,
+      "needs_clarification": false
+     }
+    ]
+   ],
+   "extracted_a_number": true
+  },
+  {
+   "text": "我每天走路不能超过 3000 米",
+   "expected": "max_m=3000 daily",
+   "codes": [
+    "MAX_DAILY_WALKING_M"
+   ],
+   "params": [
+    [
+     "MAX_DAILY_WALKING_M",
+     {
+      "max_m": 3000
+     }
+    ]
+   ],
+   "extracted_a_number": true
+  },
+  {
+   "text": "走 0.5 公里就不行了",
+   "expected": "max_m=500",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "走 1 公里就不行了",
+   "expected": "max_m=1000",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "连续走不能超过 20 分钟",
+   "expected": "max_min=20 continuous",
+   "codes": [
+    "MAX_CONTINUOUS_WALKING_MIN"
+   ],
+   "params": [
+    [
+     "MAX_CONTINUOUS_WALKING_MIN",
+     {
+      "max_min": 20
+     }
+    ]
+   ],
+   "extracted_a_number": true
+  },
+  {
+   "text": "我走五分钟就得歇一下",
+   "expected": "max_min=5 continuous",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  },
+  {
+   "text": "walking limit 500 m, no negotiation",
+   "expected": "max_m=500 HARD",
+   "codes": [
+    "MAX_WALKING_PER_LEG_M"
+   ],
+   "params": [
+    [
+     "MAX_WALKING_PER_LEG_M",
+     {
+      "max_m": 500,
+      "needs_clarification": false
+     }
+    ]
+   ],
+   "extracted_a_number": true
+  },
+  {
+   "text": "我走路不能超过 五百 米",
+   "expected": "Chinese numeral 500",
+   "codes": [],
+   "params": [],
+   "extracted_a_number": false
+  }
+ ],
+ "walking_numeric_summary": {
+  "cases": 20,
+  "extracted_a_number": 4,
+  "no_capability_at_all": 16
+ },
+ "rest_nap_window": [
+  {
+   "text": "中午 12 点到 14 点必须回酒店休息",
+   "expected": "MIDDAY_REST_WINDOW 12:00-14:00 HARD",
+   "codes": [],
+   "params": [],
+   "has_start_and_end": false
+  },
+  {
+   "text": "中午 12:00-14:00 必须回酒店休息",
+   "expected": "MIDDAY_REST_WINDOW 12:00-14:00 HARD",
+   "codes": [],
+   "params": [],
+   "has_start_and_end": false
+  },
+  {
+   "text": "宝宝下午 1 点到 3 点必须睡午觉",
+   "expected": "INFANT_NAP_WINDOW 13:00-15:00",
+   "codes": [],
+   "params": [],
+   "has_start_and_end": false
+  },
+  {
+   "text": "I must rest at the hotel between 12:00 and 14:00",
+   "expected": "MIDDAY_REST_WINDOW 12:00-14:00",
+   "codes": [],
+   "params": [],
+   "has_start_and_end": false
+  },
+  {
+   "text": "rest from 1pm to 3pm",
+   "expected": "window 13:00-15:00",
+   "codes": [],
+   "params": [],
+   "has_start_and_end": false
+  },
+  {
+   "text": "the baby needs naptime at 13:00-15:00",
+   "expected": "INFANT_NAP_WINDOW 13:00-15:00",
+   "codes": [
+    "INFANT_NAP_WINDOW"
+   ],
+   "params": [
+    [
+     "INFANT_NAP_WINDOW",
+     {
+      "start": "13:00",
+      "end": "15:00"
+     }
+    ]
+   ],
+   "has_start_and_end": true
+  },
+  {
+   "text": "老人中午必须休息两小时",
+   "expected": "rest window, duration 120 min",
+   "codes": [],
+   "params": [],
+   "has_start_and_end": false
+  },
+  {
+   "text": "午休从 13 点开始",
+   "expected": "window with only a start",
+   "codes": [
+    "MIDDAY_REST_WINDOW"
+   ],
+   "params": [
+    [
+     "MIDDAY_REST_WINDOW",
+     {
+      "start": "12:00",
+      "end": "14:00"
+     }
+    ]
+   ],
+   "has_start_and_end": true
+  },
+  {
+   "text": "我中午要午睡",
+   "expected": "MIDDAY_REST_WINDOW default",
+   "codes": [
+    "INFANT_NAP_WINDOW"
+   ],
+   "params": [
+    [
+     "INFANT_NAP_WINDOW",
+     {
+      "start": "13:00",
+      "end": "15:00"
+     }
+    ]
+   ],
+   "has_start_and_end": true
+  },
+  {
+   "text": "nap time is 2pm",
+   "expected": "nap window default/2pm",
+   "codes": [
+    "INFANT_NAP_WINDOW"
+   ],
+   "params": [
+    [
+     "INFANT_NAP_WINDOW",
+     {
+      "start": "13:00",
+      "end": "15:00"
+     }
+    ]
+   ],
+   "has_start_and_end": true
+  }
+ ],
+ "rest_nap_window_summary": {
+  "cases": 10,
+  "has_window": 4,
+  "has_start_and_end": 4
+ },
+ "scope_permanence": [
+  {
+   "pair": "scope_permanence:wheelchair",
+   "traveler_text": "我终身不能走楼梯，这是永久性的",
+   "traveler_scopes": [
+    "JOURNEY"
+   ],
+   "journey_text": "这次旅行我走不了太多路",
+   "journey_scopes": []
+  },
+  {
+   "pair": "scope_permanence:allergy",
+   "traveler_text": "我对花生过敏，一辈子都是",
+   "traveler_scopes": [],
+   "journey_text": "这次行程中我尽量不吃花生",
+   "journey_scopes": []
+  },
+  {
+   "pair": "scope_permanence:injury",
+   "traveler_text": "我的腿伤是长期的",
+   "traveler_scopes": [],
+   "journey_text": "我上周崴了脚，这趟先少走路",
+   "journey_scopes": [
+    "JOURNEY"
+   ]
+  },
+  {
+   "pair": "scope_permanence:luggage",
+   "traveler_text": "我每次出行都带大箱子",
+   "traveler_scopes": [
+    "JOURNEY"
+   ],
+   "journey_text": "这次我带了一个大箱子",
+   "journey_scopes": [
+    "JOURNEY"
+   ]
+  },
+  {
+   "pair": "scope_permanence:pregnancy",
+   "traveler_text": "我怀孕 7 个月了",
+   "traveler_scopes": [],
+   "journey_text": "这趟旅行我容易累",
+   "journey_scopes": []
+  }
+ ],
+ "scope_permanence_summary": {
+  "pairs": 5,
+  "any_traveler_scope_emitted": 0
+ },
+ "duplicates": [
+  {
+   "id": "denial_vs_need-0030",
+   "text": "we have a stroller this time",
+   "merged": [
+    {
+     "code": "STROLLER",
+     "severity": "STRONG",
+     "scope": "JOURNEY",
+     "params": {
+      "count": 1
+     }
+    },
+    {
+     "code": "STROLLER",
+     "severity": "STRONG",
+     "scope": "JOURNEY",
+     "params": {
+      "present": true
+     }
+    }
+   ],
+   "duplicates": {
+    "STROLLER": 2
+   },
+   "both_severities": []
+  },
+  {
+   "id": "hard_vs_soft-0045",
+   "text": "绝对不能走楼梯",
+   "merged": [
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "scope": "TRAVELER",
+     "params": {}
+    },
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "scope": "JOURNEY",
+     "params": {
+      "avoid": true
+     }
+    }
+   ],
+   "duplicates": {
+    "AVOID_STAIRS": 2
+   },
+   "both_severities": []
+  },
+  {
+   "id": "hard_vs_soft-0053",
+   "text": "we must avoid stairs, we have two large suitcases",
+   "merged": [
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "scope": "JOURNEY",
+     "params": {}
+    },
+    {
+     "code": "LARGE_LUGGAGE",
+     "severity": "STRONG",
+     "scope": "JOURNEY",
+     "params": {
+      "count": 2,
+      "size": "large"
+     }
+    },
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "HARD",
+     "scope": "JOURNEY",
+     "params": {
+      "avoid": true
+     }
+    },
+    {
+     "code": "LARGE_LUGGAGE",
+     "severity": "STRONG",
+     "scope": "JOURNEY",
+     "params": {
+      "present": true
+     }
+    }
+   ],
+   "duplicates": {
+    "AVOID_STAIRS": 2,
+    "LARGE_LUGGAGE": 2
+   },
+   "both_severities": []
+  },
+  {
+   "id": "hard_vs_soft-0054",
+   "text": "it would be nice to avoid stairs with our suitcases",
+   "merged": [
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "SOFT",
+     "scope": "JOURNEY",
+     "params": {
+      "reason": "carrying suitcases"
+     }
+    },
+    {
+     "code": "AVOID_STAIRS",
+     "severity": "STRONG",
+     "scope": "JOURNEY",
+     "params": {
+      "avoid": true
+     }
+    },
+    {
+     "code": "LARGE_LUGGAGE",
+     "severity": "STRONG",
+     "scope": "JOURNEY",
+     "params": {
+      "present": true
+     }
+    }
+   ],
+   "duplicates": {
+    "AVOID_STAIRS": 2
+   },
+   "both_severities": [
+    "AVOID_STAIRS"
+   ]
+  }
+ ],
+ "gate_would_block": 61
+}

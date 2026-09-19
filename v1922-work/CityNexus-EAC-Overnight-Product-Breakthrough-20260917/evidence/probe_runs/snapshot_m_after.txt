@@ -1,0 +1,2 @@
+PASS case_no_silent_duration_shrink
+PASS case_pinned_pair_requires_travel

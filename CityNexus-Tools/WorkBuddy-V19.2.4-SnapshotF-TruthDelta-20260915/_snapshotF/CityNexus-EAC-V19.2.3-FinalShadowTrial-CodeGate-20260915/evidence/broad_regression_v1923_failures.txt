@@ -1,0 +1,2 @@
+tests/test_v191_eac_evidence_scope.py::test_v191_eac_defect_nonsense_walking_limit_is_rejected[\u8d70\u8def\u4e0d\u80fd\u8d85\u8fc7 0 \u7c73]
+tests/test_v19_postfix_capability_contract.py::test_v19_char_d6b_hard_accessibility_need_does_not_block_planning

@@ -1,0 +1,17 @@
+﻿02:29 backend\app\operations\v9.py 55134
+02:28 backend\app\stay_mobility.py 65303
+01:31 backend\citynexus.db 37801984
+01:29 backend\tests\test_snapshot_m_truth_edges.py 12265
+01:21 frontend\dist\workbox-10f1b0e0.js 16541
+01:21 frontend\dist\v10-sw.js 1845
+01:21 frontend\dist\assets\maplibre-gl-Ca3XP-MN.js 1053381
+01:21 frontend\dist\assets\index-B5qZ4NIq.css 146238
+01:21 frontend\dist\assets\index-DNewBmIC.js 1092459
+01:21 frontend\dist\index.html 611
+01:21 frontend\dist\manifest.webmanifest 314
+01:21 frontend\dist\assets\JourneyMap-Dz8PvaGw.js 4392
+01:21 frontend\src\features\stay\HotelsPanel.tsx 9111
+01:20 citynexus.db 5361664
+01:20 backend\app\main.py 386253
+01:17 frontend\src\app\V8Experience.tsx 73453
+01:17 frontend\src\features\planning\PlanWithAiSheet.tsx 11129

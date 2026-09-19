@@ -1,0 +1,30 @@
+CityNexus V18.3 Hermes + Experience Convergence changed files
+
+Immediate correctness
+- backend/app/integrations/hermes/native_client.py (stable ready:false branch)
+- frontend/src/styles.css (.v8-runtime-card layout)
+- frontend/src/components/v8/MapPanel.tsx (lazy MapLibre import)
+
+Runtime and product experience carried from V18.2
+- backend/app/agent/mission_plan.py
+- backend/app/agent/runtime_events.py
+- backend/app/main.py
+- backend/app/agent/gateway.py
+- frontend/src/api/citynexus.ts
+- frontend/src/features/agent/CopilotDock.tsx
+- frontend/src/features/agent/AgentComposer.tsx
+- frontend/vite.config.ts
+- contracts/openapi.yaml
+- evals/v18_2/golden_hermes_tianjin.json
+
+V18.3 release truth and evidence
+- CURRENT_STATUS.md
+- TEST_RESULTS.md
+- NEXT_RECOMMENDATION.md
+- HERMES_INTEGRATION_STATUS.md
+- PACKAGE-MANIFEST.json
+- CHANGED_FILES.txt
+- reports/product-v18-3/
+- output/playwright/desktop-native-hermes.png
+- output/playwright/mobile-390-native-hermes.png
+- output/playwright/mobile-430-native-hermes.png

@@ -1,0 +1,130 @@
+{
+ "cases": [
+  {
+   "case": "A-no-journey",
+   "routes": {
+    "/": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/hub": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/trips": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/live": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/agent": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/map": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/me": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/stay": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/bookings": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/authoritative": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/studio": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/discover": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/intelligence": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    },
+    "/v8/twin": {
+     "len": 135,
+     "blank": false,
+     "setup": 1
+    }
+   },
+   "blankRoutes": [],
+   "nonSetupRoutes": [],
+   "errors": []
+  },
+  {
+   "case": "B-no-plan",
+   "jid": "d4ee9a14-11e9-4519-bfd9-7012354d504d",
+   "backend": {
+    "active_plan": null,
+    "selected_option_id": null,
+    "options": 10
+   },
+   "hub": {
+    "caveat": "以下只是其中一个候选方案的预览，你还没有采用它。",
+    "stay": "还没有选定"
+   },
+   "studio": {
+    "previewCaveat": "以下只是候选方案的预览，你还没有采用它。",
+    "selectedStayBlock": 0,
+    "asideHeading": "尚未选择住宿 选择住宿",
+    "stayTotal": "尚未选择",
+    "feasibility": "尚未核对 你还没有选定方案，因此没有可核对的内容。先选定方案——CityNexus 不会宣称没有做过的检查。",
+    "noPlanChecked": 1
+   },
+   "tripsSpend": {
+    "stayTotal": "还没有选定住宿"
+   },
+   "tripsBookings": "菜单 / 行程 EN XI 行程 住宿 预订 花费 多模态收件箱 将确认带入行程 已读取 · 已核对 · 已记住 粘贴确认信息 手动填写 粘贴的确认 提取文本草稿 确认截图 图片字节仅用于此次提取请求。 提取图片草稿 权威记忆 Journey Memory 0 个受保护事实 暂无已确认工件绑定到此行程。 高级 / 开发者 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+   "errors": []
+  },
+  {
+   "case": "C-stay-explorer",
+   "beforeReload": {
+    "path": "/v8/stay",
+    "stayExplorer": 1
+   },
+   "afterReload": {
+    "path": "/v8/stay",
+    "stayExplorer": 1,
+    "breadcrumb": "行程 / 住宿选择",
+    "cards": 4,
+    "priceUnknown": 4,
+    "priceKnown": 0,
+    "firstCard": "XIAMEN 01 7天酒店 酒店 · 2 位旅客 · 不可退款 价格未知（供应商未提供房价） 行程影响 22 分钟步行 417 分钟余量 公交地铁",
+    "detailTotal": "价格未知（供应商未提供房价）",
+    "cancellation": "不可取消",
+    "bodyHasZeroYuan": false
+   },
+   "errors": []
+  }
+ ],
+ "errors": [],
+ "jid": "d4ee9a14-11e9-4519-bfd9-7012354d504d"
+}

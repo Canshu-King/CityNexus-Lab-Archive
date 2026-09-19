@@ -1,0 +1,13 @@
+﻿FreeMB=641
+TotalMB=16003
+--- top processes ---
+chrome 838MB
+msedgewebview2 640MB
+WorkBuddyAI 374MB
+Memory Compression 350MB
+ChatGPT 332MB
+explorer 287MB
+ChatGPT 259MB
+ChatGPT 221MB
+u1s1cloud 217MB
+WorkBuddyAI 167MB

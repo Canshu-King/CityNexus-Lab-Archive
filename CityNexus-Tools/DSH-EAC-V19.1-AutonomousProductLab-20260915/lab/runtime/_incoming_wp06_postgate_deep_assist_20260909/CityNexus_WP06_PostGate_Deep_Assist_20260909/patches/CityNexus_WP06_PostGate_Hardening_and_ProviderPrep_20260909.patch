@@ -1,0 +1,967 @@
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -11,7 +11,7 @@
+ from sqlalchemy import select
+ from sqlalchemy.orm import Session
+ 
+-from app.commerce.idempotency import IdempotencyConflict
++from app.commerce.idempotency import IdempotencyConflict, canonical_request_signature
+ from app.commerce.order_pricing import OrderLineRequest, OrderPricingError
+ from app.commerce.service_impl import (
+     CommerceConflict,
+@@ -34,7 +34,7 @@
+     get_booking_slots as commerce_get_booking_slots,
+ )
+ from app.commerce.strengths_generated import SOURCE_COMMITMENT_STRENGTHS
+-from app.commerce.validators import CommerceValidationError
++from app.commerce.validators import CommerceValidationError, validate_idempotency_key
+ from app.core.audit import record_audit
+ from app.db.models import (
+     Activity,
+@@ -60,6 +60,7 @@
+ from app.db.models import (
+     JourneyTwin as JourneyTwinModel,
+ )
++from app.db.models import IdempotencyKey
+ from app.db.models import (
+     Order as OrderModel,
+ )
+@@ -813,10 +814,22 @@
+             "available_minutes": window.available_minutes,
+             "next_commitment_start": window.next_commitment_start.isoformat(),
+         }
+-    degraded: tuple[str, ...] = ()
+-    if latest_event is not None:
+-        event_payload = json.loads(latest_event.payload_json or "{}")
+-        degraded = tuple(sorted(str(item) for item in event_payload.get("degraded_providers", [])))
++    degraded_items: set[str] = set()
++    unresolved_events = session.scalars(
++        select(EventModel).where(
++            EventModel.journey_id == journey.id,
++            EventModel.status.in_(("DETECTED", "ACKNOWLEDGED")),
++        )
++    ).all()
++    for event_row in unresolved_events:
++        try:
++            event_payload = json.loads(event_row.payload_json or "{}")
++        except json.JSONDecodeError:
++            event_payload = {}
++        degraded_items.update(
++            str(item) for item in event_payload.get("degraded_providers", []) if item
++        )
++    degraded = tuple(sorted(degraded_items))
+     envelope = _envelope_payload(
+         journey,
+         activities,
+@@ -832,6 +845,7 @@
+         "opportunity_window": opportunity,
+     }
+     snapshot_at = datetime.now(timezone.utc).isoformat()
++    projection_status = "DEGRADED" if degraded else "READY"
+     twin = session.get(JourneyTwinModel, journey.id)
+     if twin is None:
+         twin = JourneyTwinModel(journey_id=journey.id)
+@@ -839,7 +853,7 @@
+     twin.active_plan_version_id = active_plan_id
+     twin.current_activity_id = current_id
+     twin.latest_event_id = latest_event.id if latest_event else None
+-    twin.projection_status = "READY"
++    twin.projection_status = projection_status
+     twin.snapshot_at = snapshot_at
+     twin.updated_at = snapshot_at
+     twin.context_json = json.dumps(context, sort_keys=True)
+@@ -852,7 +866,7 @@
+         "active_plan_version_id": active_plan_id,
+         "current_activity_id": current_id,
+         "latest_event_id": latest_event.id if latest_event else None,
+-        "projection_status": "READY",
++        "projection_status": projection_status,
+         "snapshot_at": snapshot_at,
+         "upcoming_commitments": [_commitment_payload(item) for item in commitments],
+         "context": context,
+@@ -1080,6 +1094,14 @@
+         raise HTTPException(422, "trigger event is not on this journey")
+     if trigger_event.status not in {"DETECTED", "ACKNOWLEDGED"}:
+         raise HTTPException(409, "trigger event is no longer actionable")
++    handled = session.scalar(
++        select(ReplanProposalModel.id).where(
++            ReplanProposalModel.trigger_event_id == trigger_id,
++            ReplanProposalModel.status == "ACCEPTED",
++        )
++    )
++    if handled is not None:
++        raise HTTPException(409, "trigger event has already been handled by an accepted replan")
+     source = session.scalars(
+         select(Activity).where(Activity.plan_version_id == base.id).order_by(Activity.sequence_no)
+     ).all()
+@@ -1258,6 +1280,14 @@
+                 row["travel_from_prev_min"] = int(mobility.estimate_minutes(origin, destination))
+         session.add(Activity(id=str(uuid4()), plan_version_id=proposed.id, **row))
+     proposed.total_cost_minor = sum(int(row["estimated_cost_minor"]) for row in copied_rows)
++    if copied_rows:
++        first_start = min(datetime.fromisoformat(str(row["start_at"])) for row in copied_rows)
++        last_end = max(datetime.fromisoformat(str(row["end_at"])) for row in copied_rows)
++        proposed.estimated_duration_min = max(
++            0, int((last_end - first_start).total_seconds() // 60)
++        )
++    else:
++        proposed.estimated_duration_min = 0
+     if replacement_choice is not None:
+         proposed.explanation_json = json.dumps(
+             {
+@@ -1315,23 +1345,35 @@
+     locked_preserved = not any(
+         failure.startswith("LOCKED_COMMITMENT_LOST:") for failure in gate.failures
+     )
++    c4_anchor_set = {
++        (semantic, datetime.fromisoformat(start).isoformat()) for semantic, start in c4_anchors
++    }
++
++    def _diff_semantic_key(activity: Activity) -> str:
++        return str(activity.place_id or activity.city_service_id or activity.id)
++
++    def _is_protected(activity: Activity) -> bool:
++        semantic = _diff_semantic_key(activity)
++        start = datetime.fromisoformat(activity.start_at).isoformat()
++        return bool(activity.locked) or (semantic, start) in c4_anchor_set
++
+     old = [
+         PlanActivitySnapshot(
+-            a.place_id or a.id,
++            _diff_semantic_key(a),
+             datetime.fromisoformat(a.start_at),
+             datetime.fromisoformat(a.end_at),
+             a.estimated_cost_minor,
+-            a.locked,
++            _is_protected(a),
+         )
+         for a in source
+     ]
+     new = [
+         PlanActivitySnapshot(
+-            a.place_id or a.id,
++            _diff_semantic_key(a),
+             datetime.fromisoformat(a.start_at),
+             datetime.fromisoformat(a.end_at),
+             a.estimated_cost_minor,
+-            a.locked,
++            _is_protected(a),
+         )
+         for a in copied
+     ]
+@@ -1430,7 +1472,29 @@
+ 
+ 
+ @app.post("/api/v1/replans/{proposal_id}/accept")
+-def accept_replan(proposal_id: UUID, session: Session = Depends(get_session)):
++def accept_replan(
++    proposal_id: UUID,
++    idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
++    session: Session = Depends(get_session),
++):
++    if idempotency_key is None:
++        raise HTTPException(422, "Idempotency-Key header is required")
++    try:
++        header_key = validate_idempotency_key(idempotency_key)
++    except CommerceValidationError as exc:
++        raise HTTPException(422, str(exc)) from exc
++
++    signature = canonical_request_signature({"proposal_id": str(proposal_id)})
++    scoped_key = f"replan.accept:{header_key}"
++    existing = session.get(IdempotencyKey, scoped_key)
++    if existing is not None:
++        if existing.request_hash != signature:
++            raise HTTPException(409, "same idempotency key used for a different request")
++        stored = json.loads(existing.response_json or "{}")
++        if not stored:
++            raise HTTPException(409, "replan idempotency record is incomplete")
++        return stored
++
+     proposal = require(session, ReplanProposalModel, str(proposal_id), "Replan proposal")
+     if proposal.status != "PRESENTED":
+         raise HTTPException(409, "replan proposal is no longer actionable")
+@@ -1480,12 +1544,40 @@
+             )
+         if replacement_current is None:
+             raise HTTPException(409, "replan does not preserve the current execution position")
++
++    decided_at = datetime.now(timezone.utc).isoformat()
+     base.status = "SUPERSEDED"
+     proposed.status = "ACTIVE"
+     journey.active_plan_version_id = proposed.id
+     journey.current_activity_id = replacement_current.id if replacement_current else None
+     proposal.status = "ACCEPTED"
+-    proposal.decided_at = datetime.now(timezone.utc).isoformat()
++    proposal.decided_at = decided_at
++    if trigger_event.status == "DETECTED":
++        trigger_event.status = "ACKNOWLEDGED"
++
++    competitors = session.scalars(
++        select(ReplanProposalModel).where(
++            ReplanProposalModel.journey_id == journey.id,
++            ReplanProposalModel.base_plan_version_id == base.id,
++            ReplanProposalModel.id != proposal.id,
++            ReplanProposalModel.status == "PRESENTED",
++        )
++    ).all()
++    for competitor in competitors:
++        competitor.status = "INVALIDATED"
++        competitor.decided_at = decided_at
++        competitor_plan = session.get(PlanVersion, competitor.proposed_plan_version_id)
++        if competitor_plan is not None and competitor_plan.status == "CANDIDATE":
++            competitor_plan.status = "REJECTED"
++        record_audit(
++            session,
++            action="replan.invalidated",
++            entity_type="ReplanProposal",
++            entity_id=competitor.id,
++            journey_id=journey.id,
++            after={"status": competitor.status, "reason": "base_plan_superseded"},
++        )
++
+     record_audit(
+         session,
+         action="replan.accepted",
+@@ -1495,21 +1587,47 @@
+         after={"status": proposal.status},
+     )
+     twin = _twin_snapshot(session, journey)
+-    session.commit()
+-    return {
++    response = {
+         "journey": journey_schema(journey).model_dump(mode="json"),
+         "proposal": _replan_payload(proposal),
+         "twin": twin,
+     }
++    session.add(
++        IdempotencyKey(
++            key=scoped_key,
++            operation="replan.accept",
++            request_hash=signature,
++            response_status=200,
++            response_json=json.dumps(response, sort_keys=True),
++            created_at=decided_at,
++            expires_at=(datetime.now(timezone.utc) + timedelta(days=7)).isoformat(),
++        )
++    )
++    session.commit()
++    return response
+ 
+ 
+ @app.post("/api/v1/replans/{proposal_id}/reject", response_model=ReplanProposalSchema)
+ def reject_replan(proposal_id: UUID, session: Session = Depends(get_session)):
+     proposal = require(session, ReplanProposalModel, str(proposal_id), "Replan proposal")
+-    if proposal.status == "PRESENTED":
+-        proposal.status = "REJECTED"
+-        proposal.decided_at = datetime.now(timezone.utc).isoformat()
+-        session.commit()
++    if proposal.status == "REJECTED":
++        return _replan_payload(proposal)
++    if proposal.status != "PRESENTED":
++        raise HTTPException(409, "replan proposal is no longer rejectable")
++    proposal.status = "REJECTED"
++    proposal.decided_at = datetime.now(timezone.utc).isoformat()
++    proposed = session.get(PlanVersion, proposal.proposed_plan_version_id)
++    if proposed is not None and proposed.status == "CANDIDATE":
++        proposed.status = "REJECTED"
++    record_audit(
++        session,
++        action="replan.rejected",
++        entity_type="ReplanProposal",
++        entity_id=proposal.id,
++        journey_id=proposal.journey_id,
++        after={"status": proposal.status},
++    )
++    session.commit()
+     return _replan_payload(proposal)
+ 
+ 
+--- a/backend/app/integrations/ai/resilient.py
++++ b/backend/app/integrations/ai/resilient.py
+@@ -0,0 +1,28 @@
++from __future__ import annotations
++
++from app.integrations.ai.base import AIProvider, AITextResult
++from app.integrations.ai.fallback import DeterministicFallbackAIProvider
++from app.intelligence.reason_codes import VerifiedExplanationFacts
++
++
++class ResilientAIExplanationService:
++    """Use an optional real LLM without making it authoritative or mandatory."""
++
++    def __init__(
++        self,
++        *,
++        primary: AIProvider | None,
++        fallback: AIProvider | None = None,
++    ) -> None:
++        self._primary = primary
++        self._fallback = fallback or DeterministicFallbackAIProvider()
++
++    async def explain(self, facts: VerifiedExplanationFacts, *, task: str) -> AITextResult:
++        if self._primary is not None:
++            try:
++                result = await self._primary.explain(facts, task=task)
++                if result.text.strip():
++                    return result
++            except Exception:  # external LLM boundary: deterministic fallback is intentional
++                pass
++        return await self._fallback.explain(facts, task=task)
+--- a/backend/app/integrations/mobility/snapshot_capture.py
++++ b/backend/app/integrations/mobility/snapshot_capture.py
+@@ -0,0 +1,98 @@
++from __future__ import annotations
++
++from dataclasses import dataclass
++from datetime import datetime, timezone
++from typing import Iterable, Protocol
++
++from app.replanning.provider_snapshots import MobilitySnapshot, TravelEstimateFact
++
++
++class MinuteEstimator(Protocol):
++    provider_key: str
++
++    def estimate_minutes(self, origin_key: str, destination_key: str) -> int: ...
++
++
++class MobilitySnapshotCaptureError(RuntimeError):
++    pass
++
++
++@dataclass(frozen=True)
++class MobilitySnapshotCaptureResult:
++    snapshot: MobilitySnapshot
++    failed_primary_pairs: tuple[tuple[str, str], ...]
++    fallback_pairs: tuple[tuple[str, str], ...]
++
++    @property
++    def degraded(self) -> bool:
++        return self.snapshot.degraded
++
++
++def capture_mobility_snapshot(
++    pairs: Iterable[tuple[str, str]],
++    *,
++    primary: MinuteEstimator,
++    fallback: MinuteEstimator | None = None,
++    captured_at: str | None = None,
++) -> MobilitySnapshotCaptureResult:
++    """Capture external mobility facts before the deterministic feasibility gate.
++
++    The function deliberately performs provider calls outside the gate and freezes
++    their results into ``MobilitySnapshot``. If the primary provider fails for a
++    pair, an explicit fallback may fill that pair; the resulting snapshot is then
++    marked degraded and every fact retains its own provider provenance.
++    """
++
++    stamp = captured_at or datetime.now(timezone.utc).isoformat()
++    normalized_pairs = tuple(sorted(set((str(a), str(b)) for a, b in pairs if a and b)))
++    facts: dict[tuple[str, str], TravelEstimateFact] = {}
++    primary_failures: list[tuple[str, str]] = []
++    fallback_pairs: list[tuple[str, str]] = []
++
++    for origin, destination in normalized_pairs:
++        try:
++            minutes = int(primary.estimate_minutes(origin, destination))
++            if minutes < 0:
++                raise ValueError("negative travel minutes")
++            provider_key = str(primary.provider_key)
++            degraded = False
++        except Exception as primary_exc:  # external-provider boundary
++            primary_failures.append((origin, destination))
++            if fallback is None:
++                raise MobilitySnapshotCaptureError(
++                    f"mobility fact unavailable for {origin}|{destination}: "
++                    f"{type(primary_exc).__name__}"
++                ) from primary_exc
++            try:
++                minutes = int(fallback.estimate_minutes(origin, destination))
++                if minutes < 0:
++                    raise ValueError("negative fallback travel minutes")
++            except Exception as fallback_exc:  # external-provider boundary
++                raise MobilitySnapshotCaptureError(
++                    f"primary and fallback mobility facts unavailable for "
++                    f"{origin}|{destination}"
++                ) from fallback_exc
++            provider_key = str(fallback.provider_key)
++            degraded = True
++            fallback_pairs.append((origin, destination))
++
++        facts[(origin, destination)] = TravelEstimateFact(
++            origin_key=origin,
++            destination_key=destination,
++            minutes=minutes,
++            provider_key=provider_key,
++            captured_at=stamp,
++            degraded=degraded,
++        )
++
++    snapshot = MobilitySnapshot(
++        facts=facts,
++        source_provider_key=str(primary.provider_key),
++        captured_at=stamp,
++        degraded=bool(primary_failures),
++    )
++    return MobilitySnapshotCaptureResult(
++        snapshot=snapshot,
++        failed_primary_pairs=tuple(primary_failures),
++        fallback_pairs=tuple(fallback_pairs),
++    )
+--- a/backend/app/integrations/mobility/valhalla_http.py
++++ b/backend/app/integrations/mobility/valhalla_http.py
+@@ -0,0 +1,106 @@
++from __future__ import annotations
++
++import math
++from dataclasses import dataclass
++from typing import Any, Callable, Mapping
++
++import httpx
++
++
++@dataclass(frozen=True)
++class ValhallaRouteEstimate:
++    duration_min: int
++    distance_m: int | None
++    shape: str | None
++    raw: dict[str, Any]
++
++
++class ValhallaHTTPMobilityProvider:
++    """Thin injectable adapter for a Valhalla HTTP service.
++
++    It is intentionally independent of the deterministic feasibility gate. Route
++    or matrix results should be frozen through ``capture_mobility_snapshot``
++    before the gate consumes them.
++    """
++
++    provider_key = "valhalla-http"
++
++    def __init__(
++        self,
++        *,
++        client: httpx.Client,
++        base_url: str,
++        place_lookup: Callable[[str], Mapping[str, Any]],
++        costing: str = "pedestrian",
++    ) -> None:
++        self._client = client
++        self._base_url = base_url.rstrip("/")
++        self._place_lookup = place_lookup
++        self._costing = costing
++
++    def _location(self, place_id: str) -> dict[str, float]:
++        item = self._place_lookup(place_id)
++        location = item.get("location", item)
++        return {"lat": float(location["latitude"]), "lon": float(location["longitude"])}
++
++    def estimate(self, origin_place_id: str, destination_place_id: str) -> ValhallaRouteEstimate:
++        response = self._client.post(
++            f"{self._base_url}/route",
++            json={
++                "locations": [
++                    self._location(origin_place_id),
++                    self._location(destination_place_id),
++                ],
++                "costing": self._costing,
++                "units": "kilometers",
++            },
++        )
++        response.raise_for_status()
++        payload = response.json()
++        trip = payload.get("trip") or {}
++        summary = trip.get("summary") or {}
++        seconds = float(summary["time"])
++        if seconds < 0:
++            raise ValueError("Valhalla returned negative route time")
++        length_km = summary.get("length")
++        legs = trip.get("legs") or []
++        shape = legs[0].get("shape") if legs and isinstance(legs[0], dict) else None
++        return ValhallaRouteEstimate(
++            duration_min=max(0, math.ceil(seconds / 60.0)),
++            distance_m=None if length_km is None else round(float(length_km) * 1000),
++            shape=shape,
++            raw=payload,
++        )
++
++    def estimate_minutes(self, origin_place_id: str, destination_place_id: str) -> int:
++        return self.estimate(origin_place_id, destination_place_id).duration_min
++
++    def matrix_minutes(self, place_ids: list[str]) -> list[list[int | None]]:
++        locations = [self._location(place_id) for place_id in place_ids]
++        response = self._client.post(
++            f"{self._base_url}/sources_to_targets",
++            json={
++                "sources": locations,
++                "targets": locations,
++                "costing": self._costing,
++                "verbose": False,
++            },
++        )
++        response.raise_for_status()
++        payload = response.json()
++        raw = payload.get("durations")
++        if raw is None and isinstance(payload.get("sources_to_targets"), dict):
++            raw = payload["sources_to_targets"].get("durations")
++        if not isinstance(raw, list):
++            raise ValueError("Valhalla matrix response does not contain durations")
++        matrix: list[list[int | None]] = []
++        for row in raw:
++            if not isinstance(row, list):
++                raise ValueError("Valhalla matrix durations must be row-major")
++            matrix.append(
++                [
++                    None if value is None else max(0, math.ceil(float(value) / 60.0))
++                    for value in row
++                ]
++            )
++        return matrix
+--- a/backend/tests/test_wp04_hardening_wp05.py
++++ b/backend/tests/test_wp04_hardening_wp05.py
+@@ -130,6 +130,6 @@
+     assert proposal.status_code == 201
+     body = proposal.json()
+     assert body["locked_commitments_preserved"] is True
+-    accepted = client.post(f"/api/v1/replans/{body['id']}/accept")
++    accepted = client.post(f"/api/v1/replans/{body['id']}/accept", headers={"Idempotency-Key": "wp05-accept-0001"})
+     assert accepted.status_code == 200
+     assert accepted.json()["proposal"]["status"] == "ACCEPTED"
+--- a/backend/tests/test_wp05_integrity_next.py
++++ b/backend/tests/test_wp05_integrity_next.py
+@@ -103,7 +103,7 @@
+     proposal = client.post(
+         f"/api/v1/journeys/{jid}/replans", json={"trigger_event_id": event["id"]}
+     ).json()
+-    accepted = client.post(f"/api/v1/replans/{proposal['id']}/accept")
++    accepted = client.post(f"/api/v1/replans/{proposal['id']}/accept", headers={"Idempotency-Key": "wp05-accept-0002"})
+     assert accepted.status_code == 200
+     with SessionLocal() as session:
+         journey = session.get(Journey, jid)
+@@ -124,7 +124,7 @@
+     )
+     assert proposal.status_code == 201
+     assert proposal.json()["status"] == "PRESENTED"
+-    accepted = client.post(f"/api/v1/replans/{proposal.json()['id']}/accept")
++    accepted = client.post(f"/api/v1/replans/{proposal.json()['id']}/accept", headers={"Idempotency-Key": "wp05-accept-0003"})
+     assert accepted.status_code == 200
+     assert accepted.json()["proposal"]["status"] == "ACCEPTED"
+ 
+@@ -162,7 +162,7 @@
+         proposed_cruise.start_at = "2026-10-10T16:00:00+08:00"
+         proposed_cruise.end_at = "2026-10-10T17:00:00+08:00"
+         session.commit()
+-    accepted = client.post(f"/api/v1/replans/{proposal['id']}/accept")
++    accepted = client.post(f"/api/v1/replans/{proposal['id']}/accept", headers={"Idempotency-Key": "wp05-accept-c4-stale-0001"})
+     assert accepted.status_code == 409
+     with SessionLocal() as session:
+         journey = session.get(Journey, jid)
+--- a/backend/tests/test_wp06_postgate_hardening_next.py
++++ b/backend/tests/test_wp06_postgate_hardening_next.py
+@@ -0,0 +1,227 @@
++from __future__ import annotations
++
++from datetime import datetime
++
++from fastapi.testclient import TestClient
++from sqlalchemy import func, select
++
++from app.db.models import Activity, AuditLog, Event, PlanVersion, ReplanProposal
++from app.db.session import SessionLocal
++from app.main import app
++
++client = TestClient(app)
++
++
++def _active(*, c4: bool = False):
++    ids = client.post("/api/v1/demo/reset").json()
++    jid = ids["journey_id"]
++    plan = client.post(
++        f"/api/v1/journeys/{jid}/plans/generate", json={"candidate_count": 1}
++    ).json()[0]
++    assert client.post(f"/api/v1/journeys/{jid}/plans/{plan['id']}/select").status_code == 200
++    if c4:
++        cruise = next(a for a in plan["activities"] if a["place_id"] == "place-river-cruise")
++        booking = client.post(
++            f"/api/v1/journeys/{jid}/bookings", json={"activity_id": cruise["id"]}
++        ).json()
++        capture = client.post(
++            f"/api/v1/journeys/{jid}/transactions",
++            json={
++                "booking_id": booking["id"],
++                "transaction_type": "CAPTURE",
++                "amount": booking["amount"],
++            },
++            headers={"Idempotency-Key": "postgate-capture-0001"},
++        )
++        assert capture.status_code == 201
++    assert client.post(f"/api/v1/journeys/{jid}/start").status_code == 200
++    return ids, plan
++
++
++def _proposal(jid: str, *, event_type: str = "SCHEDULE_DELAY", affected_activity_id=None):
++    payload = {"event_type": event_type}
++    if affected_activity_id is not None:
++        payload["affected_activity_id"] = affected_activity_id
++    if event_type == "SCHEDULE_DELAY":
++        payload["payload"] = {"delay_minutes": 10}
++    event = client.post(f"/api/v1/journeys/{jid}/events", json=payload)
++    assert event.status_code == 201
++    proposal = client.post(
++        f"/api/v1/journeys/{jid}/replans",
++        json={"trigger_event_id": event.json()["id"]},
++    )
++    assert proposal.status_code == 201, proposal.text
++    return event.json(), proposal.json()
++
++
++def test_replan_accept_requires_header_and_same_key_replay_is_audit_idempotent():
++    ids, _ = _active()
++    event, proposal = _proposal(ids["journey_id"])
++    assert client.post(f"/api/v1/replans/{proposal['id']}/accept").status_code == 422
++
++    headers = {"Idempotency-Key": "replan-accept-replay-0001"}
++    first = client.post(f"/api/v1/replans/{proposal['id']}/accept", headers=headers)
++    assert first.status_code == 200, first.text
++    with SessionLocal() as session:
++        count_before = session.scalar(
++            select(func.count()).select_from(AuditLog).where(
++                AuditLog.journey_id == ids["journey_id"],
++                AuditLog.action == "replan.accepted",
++            )
++        )
++    second = client.post(f"/api/v1/replans/{proposal['id']}/accept", headers=headers)
++    assert second.status_code == 200
++    assert second.json() == first.json()
++    with SessionLocal() as session:
++        count_after = session.scalar(
++            select(func.count()).select_from(AuditLog).where(
++                AuditLog.journey_id == ids["journey_id"],
++                AuditLog.action == "replan.accepted",
++            )
++        )
++    assert count_before == count_after == 1
++    with SessionLocal() as session:
++        row = session.get(Event, event["id"])
++        assert row.status == "ACKNOWLEDGED"
++
++
++def test_accepted_event_cannot_generate_another_replan():
++    ids, _ = _active()
++    event, proposal = _proposal(ids["journey_id"])
++    accepted = client.post(
++        f"/api/v1/replans/{proposal['id']}/accept",
++        headers={"Idempotency-Key": "replan-event-handled-0001"},
++    )
++    assert accepted.status_code == 200
++    again = client.post(
++        f"/api/v1/journeys/{ids['journey_id']}/replans",
++        json={"trigger_event_id": event["id"]},
++    )
++    assert again.status_code == 409
++
++
++def test_accept_invalidates_competing_presented_proposals_and_candidate_plans():
++    ids, _ = _active()
++    jid = ids["journey_id"]
++    event = client.post(
++        f"/api/v1/journeys/{jid}/events",
++        json={"event_type": "SCHEDULE_DELAY", "payload": {"delay_minutes": 5}},
++    ).json()
++    p1 = client.post(f"/api/v1/journeys/{jid}/replans", json={"trigger_event_id": event["id"]}).json()
++    p2 = client.post(f"/api/v1/journeys/{jid}/replans", json={"trigger_event_id": event["id"]}).json()
++    accepted = client.post(
++        f"/api/v1/replans/{p1['id']}/accept",
++        headers={"Idempotency-Key": "replan-invalidate-0001"},
++    )
++    assert accepted.status_code == 200
++    with SessionLocal() as session:
++        other = session.get(ReplanProposal, p2["id"])
++        other_plan = session.get(PlanVersion, other.proposed_plan_version_id)
++        assert other.status == "INVALIDATED"
++        assert other_plan.status == "REJECTED"
++    assert (
++        client.post(
++            f"/api/v1/replans/{p2['id']}/accept",
++            headers={"Idempotency-Key": "replan-invalidate-0002"},
++        ).status_code
++        == 409
++    )
++
++
++def test_reject_retires_candidate_plan_and_is_idempotent():
++    ids, _ = _active()
++    _event, proposal = _proposal(ids["journey_id"])
++    first = client.post(f"/api/v1/replans/{proposal['id']}/reject")
++    assert first.status_code == 200
++    assert first.json()["status"] == "REJECTED"
++    second = client.post(f"/api/v1/replans/{proposal['id']}/reject")
++    assert second.status_code == 200
++    with SessionLocal() as session:
++        row = session.get(ReplanProposal, proposal["id"])
++        candidate = session.get(PlanVersion, row.proposed_plan_version_id)
++        assert candidate.status == "REJECTED"
++        audits = session.scalar(
++            select(func.count()).select_from(AuditLog).where(
++                AuditLog.entity_id == proposal["id"], AuditLog.action == "replan.rejected"
++            )
++        )
++        assert audits == 1
++
++
++def test_twin_aggregates_unresolved_provider_degradation_and_marks_projection_degraded():
++    ids, _ = _active()
++    jid = ids["journey_id"]
++    first = client.post(
++        f"/api/v1/journeys/{jid}/events",
++        json={"event_type": "OTHER", "payload": {"degraded_providers": ["valhalla"]}},
++    ).json()
++    client.post(f"/api/v1/journeys/{jid}/events", json={"event_type": "OTHER", "payload": {}})
++    twin = client.get(
++        f"/api/v1/journeys/{jid}/twin", params={"now": "2026-10-10T13:00:00+08:00"}
++    ).json()
++    assert twin["projection_status"] == "DEGRADED"
++    assert twin["context"]["degraded_providers"] == ["valhalla"]
++    with SessionLocal() as session:
++        row = session.get(Event, first["id"])
++        row.status = "RESOLVED"
++        row.resolved_at = datetime.now().astimezone().isoformat()
++        session.commit()
++    refreshed = client.get(
++        f"/api/v1/journeys/{jid}/twin", params={"now": "2026-10-10T13:00:00+08:00"}
++    ).json()
++    assert refreshed["projection_status"] == "READY"
++    assert refreshed["context"]["degraded_providers"] == []
++
++
++def test_replan_recomputes_duration_metadata_after_delay():
++    ids, plan = _active(c4=True)
++    jid = ids["journey_id"]
++    tech = next(a for a in plan["activities"] if a["place_id"] == "place-tech-art")
++    event = client.post(
++        f"/api/v1/journeys/{jid}/events",
++        json={
++            "event_type": "SCHEDULE_DELAY",
++            "affected_activity_id": tech["id"],
++            "payload": {"delay_minutes": 15},
++        },
++    ).json()
++    proposal = client.post(
++        f"/api/v1/journeys/{jid}/replans", json={"trigger_event_id": event["id"]}
++    ).json()
++    with SessionLocal() as session:
++        row = session.get(ReplanProposal, proposal["id"])
++        proposed = session.get(PlanVersion, row.proposed_plan_version_id)
++        activities = session.scalars(
++            select(Activity)
++            .where(Activity.plan_version_id == proposed.id)
++            .order_by(Activity.sequence_no)
++        ).all()
++        actual = int(
++            (
++                max(datetime.fromisoformat(item.end_at) for item in activities)
++                - min(datetime.fromisoformat(item.start_at) for item in activities)
++            ).total_seconds()
++            // 60
++        )
++        assert proposed.estimated_duration_min == actual
++
++
++def test_replan_diff_marks_durable_c4_protection_even_if_activity_lock_flag_is_false():
++    ids, plan = _active(c4=True)
++    jid = ids["journey_id"]
++    cruise = next(a for a in plan["activities"] if a["place_id"] == "place-river-cruise")
++    tech = next(a for a in plan["activities"] if a["place_id"] == "place-tech-art")
++    with SessionLocal() as session:
++        row = session.get(Activity, cruise["id"])
++        row.locked = False
++        session.commit()
++    event = client.post(
++        f"/api/v1/journeys/{jid}/events",
++        json={"event_type": "CLOSURE", "affected_activity_id": tech["id"]},
++    ).json()
++    proposal = client.post(
++        f"/api/v1/journeys/{jid}/replans", json={"trigger_event_id": event["id"]}
++    )
++    assert proposal.status_code == 201, proposal.text
++    assert proposal.json()["locked_commitments_preserved"] is True
++    assert "place-river-cruise" in proposal.json()["diff"]["preserved_protected"]
+--- a/backend/tests/test_postgate_provider_foundation.py
++++ b/backend/tests/test_postgate_provider_foundation.py
+@@ -0,0 +1,176 @@
++from __future__ import annotations
++
++import asyncio
++
++import httpx
++
++from app.integrations.ai.base import AITextResult
++from app.integrations.ai.resilient import ResilientAIExplanationService
++from app.integrations.mobility.snapshot_capture import (
++    MobilitySnapshotCaptureError,
++    capture_mobility_snapshot,
++)
++from app.integrations.mobility.valhalla_http import ValhallaHTTPMobilityProvider
++from app.intelligence.reason_codes import ReasonCode, VerifiedExplanationFacts
++from app.replanning.feasibility import FeasibilityActivity, build_context, evaluate_feasibility
++
++
++class _Provider:
++    def __init__(self, key: str, values: dict[tuple[str, str], int], fail=()):
++        self.provider_key = key
++        self.values = values
++        self.fail = set(fail)
++
++    def estimate_minutes(self, origin_key: str, destination_key: str) -> int:
++        pair = (origin_key, destination_key)
++        if pair in self.fail:
++            raise RuntimeError("provider down")
++        return self.values[pair]
++
++
++def test_snapshot_capture_freezes_primary_and_explicit_fallback_provenance():
++    primary = _Provider(
++        "valhalla",
++        {("a", "b"): 10, ("b", "c"): 20},
++        fail={("b", "c")},
++    )
++    fallback = _Provider("mock-mobility", {("b", "c"): 18})
++    result = capture_mobility_snapshot(
++        [("a", "b"), ("b", "c")],
++        primary=primary,
++        fallback=fallback,
++        captured_at="2026-09-09T20:00:00+00:00",
++    )
++    assert result.degraded is True
++    assert result.snapshot.estimate_minutes("a", "b") == 10
++    assert result.snapshot.facts[("a", "b")].provider_key == "valhalla"
++    assert result.snapshot.facts[("b", "c")].provider_key == "mock-mobility"
++    assert result.snapshot.facts[("b", "c")].degraded is True
++    assert result.fallback_pairs == (("b", "c"),)
++
++
++def test_snapshot_capture_fails_explicitly_when_no_safe_fact_exists():
++    primary = _Provider("valhalla", {}, fail={("a", "b")})
++    try:
++        capture_mobility_snapshot([("a", "b")], primary=primary)
++    except MobilitySnapshotCaptureError as exc:
++        assert "a|b" in str(exc)
++    else:
++        raise AssertionError("capture must fail instead of inventing ETA")
++
++
++def test_captured_snapshot_is_accepted_by_authoritative_gate():
++    primary = _Provider("valhalla", {("a", "b"): 10})
++    snapshot = capture_mobility_snapshot([("a", "b")], primary=primary).snapshot
++    journey = {
++        "id": "j",
++        "city_code": "X",
++        "start_at": "2026-10-10T09:00:00+08:00",
++        "end_at": "2026-10-10T12:00:00+08:00",
++        "budget_amount_minor": 10000,
++        "budget_currency": "CNY",
++    }
++    places = {
++        "a": {
++            "id": "a",
++            "city_code": "X",
++            "status": "available",
++            "opening_hours": {"open": "08:00", "close": "22:00"},
++        },
++        "b": {
++            "id": "b",
++            "city_code": "X",
++            "status": "available",
++            "opening_hours": {"open": "08:00", "close": "22:00"},
++        },
++    }
++    context = build_context(journey, [], places, {}, mobility_provider=snapshot)
++    from datetime import datetime
++
++    activities = [
++        FeasibilityActivity(
++            key="a",
++            place_id="a",
++            start_at=datetime.fromisoformat("2026-10-10T09:00:00+08:00"),
++            end_at=datetime.fromisoformat("2026-10-10T09:30:00+08:00"),
++            cost_minor=0,
++            currency="CNY",
++        ),
++        FeasibilityActivity(
++            key="b",
++            place_id="b",
++            start_at=datetime.fromisoformat("2026-10-10T09:45:00+08:00"),
++            end_at=datetime.fromisoformat("2026-10-10T10:15:00+08:00"),
++            cost_minor=0,
++            currency="CNY",
++        ),
++    ]
++    result = evaluate_feasibility(context, activities)
++    assert result.passed is True, result.failures
++
++
++def test_valhalla_http_adapter_parses_route_and_matrix_without_network():
++    def handler(request: httpx.Request) -> httpx.Response:
++        if request.url.path.endswith("/route"):
++            return httpx.Response(
++                200,
++                json={
++                    "trip": {
++                        "summary": {"time": 601, "length": 1.25},
++                        "legs": [{"shape": "encoded-shape"}],
++                    }
++                },
++            )
++        if request.url.path.endswith("/sources_to_targets"):
++            return httpx.Response(200, json={"durations": [[0, 601], [605, 0]]})
++        return httpx.Response(404)
++
++    client = httpx.Client(transport=httpx.MockTransport(handler))
++    points = {
++        "a": {"latitude": 39.1, "longitude": 117.2},
++        "b": {"latitude": 39.2, "longitude": 117.3},
++    }
++    provider = ValhallaHTTPMobilityProvider(
++        client=client,
++        base_url="http://valhalla.test",
++        place_lookup=lambda key: points[key],
++    )
++    estimate = provider.estimate("a", "b")
++    assert estimate.duration_min == 11
++    assert estimate.distance_m == 1250
++    assert estimate.shape == "encoded-shape"
++    assert provider.matrix_minutes(["a", "b"]) == [[0, 11], [11, 0]]
++    client.close()
++
++
++class _FailingAI:
++    provider_key = "deepseek"
++
++    async def explain(self, facts, *, task):
++        raise RuntimeError("model unavailable")
++
++
++class _WorkingAI:
++    provider_key = "deepseek"
++
++    async def explain(self, facts, *, task):
++        return AITextResult(provider_key=self.provider_key, text="verified explanation")
++
++
++def test_resilient_ai_uses_real_provider_when_available_and_falls_back_when_not():
++    facts = VerifiedExplanationFacts(
++        reason_codes=(ReasonCode.COMMITMENT_PRESERVED,),
++        evidence={"cost_delta_minor": 600},
++        locale="en",
++    )
++    working = asyncio.run(
++        ResilientAIExplanationService(primary=_WorkingAI()).explain(facts, task="explain")
++    )
++    assert working.provider_key == "deepseek"
++    assert working.degraded is False
++
++    degraded = asyncio.run(
++        ResilientAIExplanationService(primary=_FailingAI()).explain(facts, task="explain")
++    )
++    assert degraded.provider_key == "deterministic-fallback"
++    assert degraded.degraded is True

@@ -1,0 +1,38 @@
+{
+  "trace": [
+    {
+      "ts": "2026-09-16T18:49:26.573Z",
+      "step": "stay_link_fail",
+      "err": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText('住宿选择').first()\u001b[22m\n\u001b[2m"
+    },
+    {
+      "ts": "2026-09-16T18:49:32.692Z",
+      "step": "shot",
+      "n": "00_stay_page",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ht_00_stay_page.png"
+    },
+    {
+      "ts": "2026-09-16T18:49:32.695Z",
+      "step": "stay_page_text",
+      "text": "菜单 / 今天 EN CN ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的 全部路由 关闭 TODAY 今天 实时行程 地图 PLAN 行程工作台 住宿选择 城市探索 TRAVEL 旅行票夹 Copilot SYSTEM 恢复与执行 智能守护 旅行者画像 行程 我的"
+    },
+    {
+      "ts": "2026-09-16T18:49:32.701Z",
+      "step": "select_btn_visible",
+      "hasSel": true
+    },
+    {
+      "ts": "2026-09-16T18:49:37.806Z",
+      "step": "shot",
+      "n": "01_after_select",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\ht_01_after_select.png"
+    },
+    {
+      "ts": "2026-09-16T18:49:37.808Z",
+      "step": "after_select_text",
+      "text": "菜单 / 住宿选择 EN CN 住宿选择 · 已采集证据 选择锚点，看见行程。 每个费率都明确标注币种、房型、入住人数、退改政策、新鲜度和它所塑造的行程。 已采集回放 尚未获取地图位置 这个行程还没有可信的坐标。添加活动地点或开启定位后，地图会显示正确的城市。 费率证据 总计 / 币种 Provider price unavailable · explicit 入住 / 退房 — → — 取消政策 供应商 captured hotel · 0% confidence ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的"
+    }
+  ],
+  "apiLog": [],
+  "consoleErrors": []
+}

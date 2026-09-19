@@ -1,0 +1,57 @@
+{
+ "canary": "LIVE_DEEPSEEK_CANARY",
+ "inputs": [
+  {
+   "input": "I don't need a wheelchair, I can walk.",
+   "live_capabilities": [],
+   "live_assertion_status": "NEGATED",
+   "local_fallback_capabilities": []
+  },
+  {
+   "input": "I need step-free access for this trip.",
+   "live_capabilities": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD",
+     "params": {
+      "requirement": "step_free"
+     }
+    }
+   ],
+   "live_assertion_status": "ASSERTED",
+   "local_fallback_capabilities": [
+    {
+     "code": "STEP_FREE_REQUIRED",
+     "severity": "HARD",
+     "params": {
+      "requirement": "step_free"
+     }
+    }
+   ]
+  },
+  {
+   "input": "走路不能超过 1.5 公里。",
+   "live_capabilities": [
+    {
+     "code": "MAX_WALKING_PER_LEG_M",
+     "severity": "HARD",
+     "params": {
+      "max_m": 1500
+     }
+    }
+   ],
+   "live_assertion_status": "ASSERTED",
+   "local_fallback_capabilities": [
+    {
+     "code": "MAX_WALKING_PER_LEG_M",
+     "severity": "HARD",
+     "params": {
+      "max_m": 1500
+     }
+    }
+   ]
+  }
+ ],
+ "status": "LIVE_DEEPSEEK_CANARY_PASSED",
+ "key_length_redacted": 35
+}

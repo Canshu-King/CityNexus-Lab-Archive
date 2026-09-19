@@ -1,0 +1,18 @@
+# V19.2.5 C4 interior-boundary truth hotfix — changed files
+#
+# Scope: ONE production file changed in semantics, plus one new regression test
+# file.  The hotfix makes the shared deterministic feasibility gate reject
+# interior C4 anchors (MID_TRIP and role-less booking/order locks) that escape
+# the structural ARRIVAL/DEPARTURE boundaries.
+#
+# Baseline for the patch: Snapshot G
+# (CityNexus-EAC-V19.2.4-FinalTruth-CodeGate-20260915.zip,
+#  SHA-256 b6c521c1163791146bdf0989bca0d40f61c2c865862eabe6156274a7eeb0b017)
+
+## Added (1)
+A  backend/tests/test_v1925_c4_interior_truth.py
+
+## Modified (1)
+M  backend/app/replanning/feasibility.py
+
+## Removed (0)

@@ -1,0 +1,19 @@
+=== Direct GitHub tests ===
+https://github.com                 PASS (HTTP 200)
+https://api.github.com              PASS transport, HTTP 404 for /repos/hiung/skills
+https://codeload.github.com          PASS transport, HTTP 301 at host root; target archive HTTP 404
+https://raw.githubusercontent.com    DNS_FAILURE (curl error 6)
+git ls-remote hiung/skills.git       TIMEOUT / no HEAD returned
+
+=== Windows proxy ===
+ProxyEnable=1
+ProxyServer=127.0.0.1:7892
+WinHTTP=Direct access (no proxy server)
+Relevant proxy process=NONE_DETECTED
+
+=== Explicit proxy (temporary -x only) ===
+curl https://github.com              PASS (HTTP 200)
+curl target codeload archive         HTTP 404
+git ls-remote target                 TIMEOUT / no HEAD returned
+
+No mirror or global proxy configuration was used.

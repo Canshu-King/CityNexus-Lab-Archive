@@ -1,0 +1,96 @@
+{
+  "trace": [
+    {
+      "ts": "2026-09-16T18:38:29.712Z",
+      "step": "shot",
+      "n": "00_page",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\bk_00_page.png"
+    },
+    {
+      "ts": "2026-09-16T18:38:29.727Z",
+      "step": "bookings_page_text",
+      "sample": "菜单 | / | 旅行票夹 | EN | CN | 行程收件箱 · 旅行票夹 | 你的真实预订，受保护。 | 粘贴结构化预订 JSON，审核后，将确认的事实绑定为行程的持久承诺。 | 住宿证据 | 未选择住宿 | · 不可退款 | Provider price unavailable 合计 | 未预订 | 导入确认 | 预订 JSON | 审核并保护 | 关键的出发地、目的地、时间、供应商和参考事实绝不会被编造。 | 权限始终明确 | 导入已确认的预订即受保护。任何支付、取消或不可逆变更仍需通过委托策略。 | 扫描票据代码 | ZXing 确定性解码 · 仍需确认 | 打开扫描器 | 多模态收件箱 | 将确认带入行程 | 已读取 · 已核对 · 已记住 | 粘贴确认信息 | 手动填写 | 粘贴的确认 | 提取文本草稿 | 确认截图 | 图片字节仅用于此次提取请求。 | 提取图片草稿 | 权威记忆 | Journey Memory | 0 个受保护事实 | 暂无已确认工件绑定到此行程。 | ✦ | CityNexus Copilot | 今天 | 行程 | 地图 | Copilot | 我的"
+    },
+    {
+      "ts": "2026-09-16T18:38:29.796Z",
+      "step": "shot",
+      "n": "01_valid_filled",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\bk_01_valid_filled.png"
+    },
+    {
+      "ts": "2026-09-16T18:38:33.377Z",
+      "step": "shot",
+      "n": "02_valid_after_submit",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\bk_02_valid_after_submit.png"
+    },
+    {
+      "ts": "2026-09-16T18:38:33.379Z",
+      "step": "caseA",
+      "btnEnabledBefore": true,
+      "text": "菜单 | / | 旅行票夹 | EN | CN | 预订已确认并受保护，已存入旅行票夹。 | 知道了 | 行程收件箱 · 旅行票夹 | 你的真实预订，受保护。 | 粘贴结构化预订 JSON，审核后，将确认的事实绑定为行程的持久承诺。 | 住宿证据 | 未选择住宿 | · 不可退款 | Provider price unavailable 合计 | 未预订 | · UNKNOWN_REALTIME | WB-RAIL-20260918-001 | 9月18日 09:30 → 9月18日 10:42 | 价格未知 | 受保护 C4 | 导入确认 | 预订 JSON | 审核并保护 | 关键的出发地、目的地、时间、供应商和参考事实绝不会被编造。 | 权限始终明确 | 导入已确认的预订即受保护。任何支付、取消或不可逆变更仍需通过委托策略。 | 扫描票据代码 | ZXing 确定性解码 · 仍需确认 | 打开扫描器 | 多模态收件箱 | 将确认带入行程 | 已读取 · 已核对 · 已记住 | 粘贴确认信息 | 手动填写 | 粘贴的确认 | 提取文本草稿 | 确认截图 | 图片字节仅用于此次提取请求。 | 提取图片草稿 | 权威记忆 | Journey Memory | 0 个受保护事实 | 暂无已确认工件绑定到此行程。 | ✦ | CityNexus Copilot | 今天 | 行程 | 地图 | Copilot | 我的"
+    },
+    {
+      "ts": "2026-09-16T18:38:33.381Z",
+      "step": "caseA_wallet_cards",
+      "count": 1
+    },
+    {
+      "ts": "2026-09-16T18:38:36.515Z",
+      "step": "shot",
+      "n": "03_missing_fields_after",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\bk_03_missing_fields_after.png"
+    },
+    {
+      "ts": "2026-09-16T18:38:36.516Z",
+      "step": "caseB",
+      "text": "菜单 | / | 旅行票夹 | EN | CN | 预订需要审核后才能成为承诺。 | 知道了 | 行程收件箱 · 旅行票夹 | 你的真实预订，受保护。 | 粘贴结构化预订 JSON，审核后，将确认的事实绑定为行程的持久承诺。 | 住宿证据 | 未选择住宿 | · 不可退款 | Provider price unavailable 合计 | 未预订 | · UNKNOWN_REALTIME | WB-RAIL-20260918-001 | 9月18日 09:30 → 9月18日 10:42 | 价格未知 | 受保护 C4 | 导入确认 | 预订 JSON | 审核并保护 | 关键的出发地、目的地、时间、供应商和参考事实绝不会被编造。 | 权限始终明确 | 导入已确认的预订即受保护。任何支付、取消或不可逆变更仍需通过委托策略。 | 扫描票据代码 | ZXing 确定性解码 · 仍需确认 | 打开扫描器 | 多模态收件箱 | 将确认带入行程 | 已读取 · 已核对 · 已记住 | 粘贴确认信息 | 手动填写 | 粘贴的确认 | 提取文本草稿 | 确认截图 | 图片字节仅用于此次提取请求。 | 提取图片草稿 | 权威记忆 | Journey Memory | 0 个受保护事实 | 暂无已确认工件绑定到此行程。 | ✦ | CityNexus Copilot | 今天 | 行程 | 地图 | Copilot | 我的"
+    },
+    {
+      "ts": "2026-09-16T18:38:36.539Z",
+      "step": "pageerror",
+      "msg": "SyntaxError: Unexpected token '我', \"我的高铁票是明天早上\"... is not valid JSON"
+    },
+    {
+      "ts": "2026-09-16T18:38:39.100Z",
+      "step": "shot",
+      "n": "04_nonjson_after",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\bk_04_nonjson_after.png"
+    },
+    {
+      "ts": "2026-09-16T18:38:39.102Z",
+      "step": "caseC",
+      "btnEnabledBefore": true,
+      "text": "菜单 | / | 旅行票夹 | EN | CN | 预订需要审核后才能成为承诺。 | 知道了 | 行程收件箱 · 旅行票夹 | 你的真实预订，受保护。 | 粘贴结构化预订 JSON，审核后，将确认的事实绑定为行程的持久承诺。 | 住宿证据 | 未选择住宿 | · 不可退款 | Provider price unavailable 合计 | 未预订 | · UNKNOWN_REALTIME | WB-RAIL-20260918-001 | 9月18日 09:30 → 9月18日 10:42 | 价格未知 | 受保护 C4 | 导入确认 | 预订 JSON | 审核并保护 | 关键的出发地、目的地、时间、供应商和参考事实绝不会被编造。 | 权限始终明确 | 导入已确认的预订即受保护。任何支付、取消或不可逆变更仍需通过委托策略。 | 扫描票据代码 | ZXing 确定性解码 · 仍需确认 | 打开扫描器 | 多模态收件箱 | 将确认带入行程 | 已读取 · 已核对 · 已记住 | 粘贴确认信息 | 手动填写 | 粘贴的确认 | 提取文本草稿 | 确认截图 | 图片字节仅用于此次提取请求。 | 提取图片草稿 | 权威记忆 | Journey Memory | 0 个受保护事实 | 暂无已确认工件绑定到此行程。 | ✦ | CityNexus Copilot | 今天 | 行程 | 地图 | Copilot | 我的"
+    },
+    {
+      "ts": "2026-09-16T18:38:39.104Z",
+      "step": "caseC_feedback_visible",
+      "errorFeedback": false
+    },
+    {
+      "ts": "2026-09-16T18:38:42.700Z",
+      "step": "shot",
+      "n": "05_doubleclick_after",
+      "file": "D:\\moodle\\CityNexus-WorkBuddy\\overnight-20260917\\screenshots\\bk_05_doubleclick_after.png"
+    },
+    {
+      "ts": "2026-09-16T18:38:42.714Z",
+      "step": "caseD_double_click",
+      "clicks": [
+        "ok",
+        "ok"
+      ],
+      "totalCards": 2,
+      "refs": [
+        "· UNKNOWN_REALTIME WB-RAIL-20260918-001 9月18日 09:30 → 9月18日 10:42 价格未知 受保护 C4",
+        "· UNKNOWN_REALTIME WB-DOUBLE-CLICK-TEST 9月19日 09:30 → 9月19日 10:42 价格未知 受保护 C4"
+      ]
+    }
+  ],
+  "consoleErrors": [
+    {
+      "kind": "pageerror",
+      "msg": "SyntaxError: Unexpected token '我', \"我的高铁票是明天早上\"... is not valid JSON"
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+ "snapshots": [
+  "FINAL_V19 (B)",
+  "Codex V19.1 (C)",
+  "V19.2 (A)"
+ ],
+ "results": {
+  "FINAL_V19 (B)": {
+   "走路不能超过 100 米 :: max_m": "MISSING",
+   "走路不能超过 500 米 :: max_m": "MISSING",
+   "走路不能超过 501 米 :: max_m": "MISSING",
+   "走路不能超过 1 km :: max_m": "MISSING",
+   "走路不能超过 1 公里 :: max_m": "MISSING",
+   "走路不能超过 1.5 km :: max_m": "MISSING",
+   "走路不能超过 0.5 km :: max_m": "MISSING",
+   "走路不能超过 0 米 :: max_m": "MISSING",
+   "走路不能超过 2.5 米 :: max_m": "MISSING",
+   "每段不超过 100 米 :: max_m": "MISSING",
+   "连续走路不能超过 30 分钟 :: max_min": 30,
+   "每天走路不能超过 5000 米 :: max_m": 5000,
+   "每隔 60 分钟休息一次 :: interval_min": "MISSING",
+   "每隔 90 分钟上厕所 :: interval_min": "MISSING",
+   "午休 12:00 到 14:00 :: start": "12:00",
+   "午休 12:00 到 14:00 :: flags": [],
+   "午休 15:00 到 13:00 :: start": "15:00",
+   "午休 15:00 到 13:00 :: flags": []
+  },
+  "Codex V19.1 (C)": {
+   "走路不能超过 100 米 :: max_m": "MISSING",
+   "走路不能超过 500 米 :: max_m": "MISSING",
+   "走路不能超过 501 米 :: max_m": "MISSING",
+   "走路不能超过 1 km :: max_m": "MISSING",
+   "走路不能超过 1 公里 :: max_m": "MISSING",
+   "走路不能超过 1.5 km :: max_m": "MISSING",
+   "走路不能超过 0.5 km :: max_m": "MISSING",
+   "走路不能超过 0 米 :: max_m": "MISSING",
+   "走路不能超过 2.5 米 :: max_m": "MISSING",
+   "每段不超过 100 米 :: max_m": "MISSING",
+   "连续走路不能超过 30 分钟 :: max_min": 30,
+   "每天走路不能超过 5000 米 :: max_m": 5000,
+   "每隔 60 分钟休息一次 :: interval_min": 60,
+   "每隔 90 分钟上厕所 :: interval_min": 90,
+   "午休 12:00 到 14:00 :: start": "12:00",
+   "午休 12:00 到 14:00 :: flags": [],
+   "午休 15:00 到 13:00 :: start": "15:00",
+   "午休 15:00 到 13:00 :: flags": []
+  },
+  "V19.2 (A)": {
+   "走路不能超过 100 米 :: max_m": 100,
+   "走路不能超过 500 米 :: max_m": 500,
+   "走路不能超过 501 米 :: max_m": 501,
+   "走路不能超过 1 km :: max_m": 1000,
+   "走路不能超过 1 公里 :: max_m": 1000,
+   "走路不能超过 1.5 km :: max_m": 1,
+   "走路不能超过 0.5 km :: max_m": 0,
+   "走路不能超过 0 米 :: max_m": 0,
+   "走路不能超过 2.5 米 :: max_m": 2,
+   "每段不超过 100 米 :: max_m": "MISSING",
+   "连续走路不能超过 30 分钟 :: max_min": 30,
+   "每天走路不能超过 5000 米 :: max_m": 5000,
+   "每隔 60 分钟休息一次 :: interval_min": 60,
+   "每隔 90 分钟上厕所 :: interval_min": 90,
+   "午休 12:00 到 14:00 :: start": "12:00",
+   "午休 12:00 到 14:00 :: flags": [],
+   "午休 15:00 到 13:00 :: start": "MISSING",
+   "午休 15:00 到 13:00 :: flags": [
+    "needs_clarification"
+   ]
+  }
+ }
+}

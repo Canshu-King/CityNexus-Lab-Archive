@@ -1,0 +1,29 @@
+{
+ "F_hub_nooptions": {
+  "body": "菜单 / 今天 EN XI 下午好 厦门之旅 11月6日 10:00 — 11月8日 20:00 · 1 位旅行者 · 3 天 EN 试用其他城市 AI 帮我规划 打开行程工作台 规划就绪 空状态验证 11月6日 10:00 — 11月8日 20:00 · 1 位旅行者 查看方案 → 下一步 还没有安排 今天没有安排 住宿 还没有选定 去「行程 · 住宿」挑选 需要关注 一切正常 没有影响行程的变化 到达 11月6日 10:00 Arrival 出发 11月8日 20:00 Departure 尚未获取地图位置 这个行程还没有可信的坐标。添加活动地点或开启定位后，地图会显示正确的城市。 方案概览 每一天，紧密相连。 对比住宿 → ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+  "glanceHeading": 1,
+  "glanceRow": 1,
+  "dayCards": 0,
+  "stayNoOptions": 0
+ },
+ "F_stay_nooptions": {
+  "body": "菜单 / 住宿选择 EN XI 住宿选择 · 已采集证据 选择锚点，看见行程。 还没有可用的住宿候选 我们还没有拿到真实住宿数据，所以不会给你看一张假的价格卡片。可以先选好行程，再回来搜索住宿。 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+  "glanceHeading": 0,
+  "glanceRow": 0,
+  "dayCards": 0,
+  "stayNoOptions": 1
+ },
+ "F_trips_nooptions": {
+  "body": "菜单 / 行程 EN XI 行程 住宿 预订 花费 行程 还没有可看的行程 这个行程还没有选定的方案。先让 AI 帮你规划，选定方案后这里会显示逐日安排。 AI 帮我规划 ✦ CityNexus Copilot 今天 行程 地图 Copilot 我的",
+  "glanceHeading": 0,
+  "glanceRow": 0,
+  "dayCards": 0,
+  "stayNoOptions": 0
+ },
+ "backend": {
+  "options": 0,
+  "active_plan": null,
+  "selected": null
+ },
+ "errors": []
+}

@@ -1,0 +1,183 @@
+{
+  "journey": {
+    "id": "841a1c79-249d-4844-95ed-647279acd603",
+    "traveler_id": "467bb749-cfc7-4bc3-928f-10c068702df1",
+    "title": "R1 Identity Flow",
+    "city_code": "CN-厦门",
+    "timezone": "Asia/Shanghai",
+    "start_at": "2026-09-17T08:17:03+00:00",
+    "end_at": "2026-09-19T08:17:03+00:00",
+    "status": "ACTIVE",
+    "active_plan_version_id": "afce0ec8-f1d9-40aa-9985-affc072fd7e9",
+    "budget": {
+      "amount_minor": 300000,
+      "currency": "CNY"
+    }
+  },
+  "trip": {
+    "arrival_anchor": {
+      "at": "2026-09-17T08:17:03+00:00",
+      "location": "Arrival",
+      "latitude": null,
+      "longitude": null,
+      "reservation_id": null
+    },
+    "departure_anchor": {
+      "at": "2026-09-19T08:17:03+00:00",
+      "location": "Departure",
+      "latitude": null,
+      "longitude": null,
+      "reservation_id": null
+    },
+    "party_size": 1,
+    "occupancy": {
+      "adults": 1
+    },
+    "stay_budget": {
+      "amount_minor": 0,
+      "currency": "CNY"
+    },
+    "baggage": {
+      "present": false,
+      "size_class": "NONE",
+      "luggage_drop_required": false
+    }
+  },
+  "offers": [],
+  "options": [],
+  "selected_option_id": null,
+  "mobility_facts": [],
+  "active_plan": {
+    "id": "afce0ec8-f1d9-40aa-9985-affc072fd7e9",
+    "version_no": 3,
+    "status": "ACTIVE",
+    "source": "REPLAN",
+    "mobility_snapshot_id": "cc4f4007-9859-409f-9134-9baefc350e3a",
+    "mobility_evidence": {
+      "snapshot_id": "cc4f4007-9859-409f-9134-9baefc350e3a",
+      "expires_at": null,
+      "aggregate_provenance": "RUNTIME_CAPTURE",
+      "replayable": true
+    },
+    "current_activity_id": null,
+    "activities": [
+      {
+        "id": "5f1e84dc-6256-4cc6-8175-06fbf1630d57",
+        "sequence_no": 1,
+        "type": "ATTRACTION",
+        "title": "Gulangyu Pier Meetup",
+        "start_at": "2026-09-17T21:10:54+08:00",
+        "end_at": "2026-09-17T21:30:54+08:00",
+        "locked": false,
+        "protected": false,
+        "metadata": {}
+      },
+      {
+        "id": "03226c7c-5f79-480c-818c-0418739840fd",
+        "sequence_no": 3,
+        "type": "FOOD",
+        "title": "Longtou Road Lunch",
+        "start_at": "2026-09-18T02:10:54+08:00",
+        "end_at": "2026-09-18T03:40:54+08:00",
+        "locked": false,
+        "protected": false,
+        "metadata": {}
+      }
+    ],
+    "legs": [],
+    "user_location": null,
+    "disruptions": [
+      {
+        "id": "658a0e16-7a0b-4b13-be9b-b9dc6eb631a7",
+        "type": "CLOSURE",
+        "severity": "MAJOR",
+        "affected_activity_id": "f19d1146-a2",
+        "occurred_at": "2026-09-17T16:11:33.635151+00:00",
+        "payload": {
+          "description": "鼓浪屿风琴博物馆(临时展馆) 因修缮临时闭馆，无法参观",
+          "extra_minutes": null,
+          "semantic": {
+            "assertion_status": "ASSERTED",
+            "capabilities": [],
+            "confidence": 0.9,
+            "constraints": [
+              {
+                "reason": "修缮",
+                "status": "temporary",
+                "target": "鼓浪屿风琴博物馆(临时展馆)",
+                "type": "closure"
+              }
+            ],
+            "create_event": true,
+            "effective_time": "NOW",
+            "entities": {
+              "subject_kind": "place",
+              "subject_text": "鼓浪屿风琴博物馆(临时展馆)",
+              "temporal_expression": "临时"
+            },
+            "event_type": "CLOSURE",
+            "intent": "DISRUPTION_REPORT",
+            "reasoning_summary": "User reports that the Gulangyu Organ Museum (temporary exhibition hall) is temporarily closed for renovation and cannot be visited. Treated as a current closure disruption report; no replan or assistance explicitly requested.",
+            "requested_action": "NONE",
+            "route_intent": "DISRUPTION_REPORT",
+            "server_action": "REQUEST_REPLAN",
+            "target_resolution": "CURRENT_POSITION",
+            "verify_evidence": false
+          },
+          "source": "agent_command"
+        }
+      }
+    ]
+  },
+  "traveler_twin": {
+    "explicit_dimensions": [],
+    "learned_soft_dimensions": [],
+    "authority": "soft_planning_input_only",
+    "explicit_capabilities": [],
+    "capability_summary": {
+      "items": [],
+      "hard": [],
+      "strong": [],
+      "soft": [],
+      "unknown_accessibility_is_not_accessible": true
+    }
+  },
+  "provider_mesh": {
+    "accommodation": {
+      "captured": {
+        "provider_key": "citynexus-city-fixture",
+        "status": "UNAVAILABLE_FOR_CITY",
+        "provenance": "CAPTURED_REPLAY"
+      },
+      "live": {
+        "provider_key": "live-accommodation",
+        "status": "NOT_CONFIGURED"
+      }
+    },
+    "mobility": {
+      "amap": {
+        "status": "NOT_CONFIGURED",
+        "captured_fallback": "UNAVAILABLE_FOR_CITY",
+        "coordinate_crs": "GCJ02 at provider boundary; canonical domain WGS84"
+      },
+      "valhalla": {
+        "status": "NOT_CONFIGURED"
+      },
+      "transit_realtime": {
+        "status": "UNKNOWN_REALTIME"
+      },
+      "ride_hail": {
+        "status": "UNKNOWN_COST"
+      }
+    }
+  },
+  "recovery": null,
+  "experience_flags": {
+    "needs_review": false,
+    "recovery_required": false,
+    "staleness": false,
+    "feasibility_failures": [],
+    "acknowledged": false,
+    "recovery_state": null
+  }
+}

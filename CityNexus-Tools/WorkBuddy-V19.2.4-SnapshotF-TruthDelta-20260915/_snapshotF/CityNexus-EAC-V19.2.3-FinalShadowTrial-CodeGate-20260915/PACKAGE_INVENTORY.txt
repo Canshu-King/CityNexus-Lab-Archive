@@ -1,0 +1,77 @@
+CityNexus V19.2.3 Final Shadow-Trial Code Gate — package inventory
+=================================================================
+
+Verdict: SHADOW_TRIAL_CODE_READY_PENDING_PHYSICAL_DEVICE
+Acceptance matrix: 22/22 PASS
+
+Reports
+-------
+TEST_RESULTS.md                    authoritative test numbers for this round
+CODE_GATE_REPORT.md                verdict, blocker closure, scope discipline
+ACCEPTANCE_MATRIX_RESULTS.md       gate-by-gate T/R/S/D/P/G/A results
+C4_TEMPORAL_RESULTS.md             P0-1 C4 temporal boundaries (T01-T05)
+RECOVERY_GOVERNANCE_RESULTS.md     P0-2/3/4 governed recovery (R01-R04)
+STALE_CANDIDATE_RESULTS.md         P1-1 stale candidate lifecycle (S01/S02)
+MIGRATION_RESULTS.md               P1-2 legacy duplicate migration (D01-D03)
+PATCH_RESULTS.md                   P1-3 patch portability / release truth
+LIVE_CANARY_RESULTS.md             P1-4 live DeepSeek canary
+MOBILE_DELTA_RESULTS.md            G05 focused mobile flows
+SNAPSHOT_FREEZE.md                 Snapshot E frozen; Snapshot F produced
+CHANGED_FILES.txt                  real diff vs V19.2.1 (6 added, 15 modified, 0 removed)
+PACKAGE_INVENTORY.txt              this file
+
+patches/
+  V19_2_3_CODE.patch               portable LF patch; git apply --check clean
+                                   against the declared normalised V19.2.1
+                                   baseline with NO excluded paths
+  V19_2_TESTS_ONLY.patch           WorkBuddy V19.2 test-only patch (reference)
+
+source/                            the 21 changed source files
+  backend/app/capabilities.py
+  backend/app/db/session.py
+  backend/app/integrations/mobility/snapshot_capture.py
+  backend/app/main.py
+  backend/app/operations/reservation_identity.py        (new)
+  backend/app/operations/v9.py
+  backend/app/planning/anchor_schedule.py               (rewritten)
+  backend/app/planning/anchors.py                       (new)
+  backend/app/planning/hard_recovery.py                 (rewritten)
+  backend/app/replanning/feasibility.py
+  backend/app/replanning/protected_commitments.py
+  backend/app/replanning/provider_snapshots.py
+  backend/app/schemas.py
+  backend/app/services.py
+  backend/db/schema.sql
+  backend/tests/test_v1923_final_code_gate.py           (new)
+  contracts/openapi.yaml
+  frontend/src/app/V8Experience.tsx
+  frontend/src/app/v8Types.ts
+  frontend/src/features/recovery/RecoveryRequiredPanel.tsx  (rewritten)
+  frontend/src/generated/api.ts
+
+evidence/                          raw machine-readable output for every claim
+  v1923_gate_run.txt               74 passed (61 contract + 13 new closure)
+  broad_regression_head.txt        684 passed / 2 pre-existing / 15 skipped
+  broad_regression_v1922_failures.txt  2 failures on Snapshot E
+  broad_regression_v1923_failures.txt  2 failures on Snapshot F (identical)
+  openapi_parity.txt               formal 138 / runtime 138 / missing 0 / extra 0
+  mobile_v1923_d.json              18/18 mobile flows, 0 errors, 0 overflow
+  live_deepseek_canary.json        LIVE_DEEPSEEK_CANARY_PASSED (no key material)
+  snapshot_d.json                  WorkBuddy read-only snapshot of the tree
+  SNAPSHOT_E_MANIFEST.json         frozen V19.2.2, 47 files, SHA-256
+  SNAPSHOT_F_MANIFEST.json         this package, SHA-256
+
+Exclusions (deliberately absent)
+--------------------------------
+__pycache__, .pytest_cache, .ruff_cache, *.pyc, *.db, *.log, *.err,
+node_modules, dist, test-results, playwright-report, storybook-static.
+
+Explicit non-claims
+-------------------
+* No real payment was executed.
+* No physical-device testing was performed; all mobile evidence is emulated
+  viewports in headless Chrome.
+* The live canary is one bounded semantic call per input, not a full
+  live-provider trial.
+* The two remaining broad-suite failures are pre-existing contradictory test
+  expectations; production truth was not weakened to satisfy them.

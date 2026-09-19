@@ -1,0 +1,58 @@
+{
+ "steps": [
+  {
+   "n": "1-create-double-tap",
+   "v": "disabledAfterFirst=true second=accepted jid=46812fb0-54b3-42c2-804a-bc694526705f"
+  },
+  {
+   "n": "2-places-available",
+   "v": "n=8"
+  },
+  {
+   "n": "2-ai-double-submit",
+   "v": "busyDisabled=true second=blocked:locator.click: Timeout 4000ms exceeded. planCount=3 plans 0->3 uniqueIds=true text=\"已生成 3 个可选方案 去“今天”对比这几个方案，选一个再继续。 User wants a first-time Xiamen trip f\""
+  },
+  {
+   "n": "3-refresh-mid-ai",
+   "v": "sheetBefore=1 afterReload={\"sheet\":0,\"heading\":\"厦门之旅\",\"stuckBusy\":0} plansNow=3 uniqueIds=true"
+  },
+  {
+   "n": "4-long-emoji-ai",
+   "v": "chars=660 planCount=3 text=\"已生成 3 个可选方案 去“今天”对比这几个方案，选一个再继续。 Compiled a 3-day Xiamen trip with parents. Pare\""
+  },
+  {
+   "n": "5-copilot-long-emoji",
+   "v": "chars=260 bubbles=2"
+  },
+  {
+   "n": "6-copilot-toggle-x8",
+   "v": "before=1 after=1 heading=\"厦门之旅\""
+  },
+  {
+   "n": "7-hotel-double-tap",
+   "v": "cards=10 second=accepted chosenBadges=1 error=\"\""
+  },
+  {
+   "n": "7-hotel-truth",
+   "v": "SELECTED rows=1 names=Millenium Harbour View"
+  },
+  {
+   "n": "8-booking-double-submit",
+   "v": "second=accepted drafts=1 refVisible=1"
+  },
+  {
+   "n": "9-cta-taps-x5",
+   "v": "sheets=1"
+  },
+  {
+   "n": "10-backend-audit",
+   "v": "plans=7 uniqueIds=true versionNos=1,2,3,4,5,6,7 | stayOptions=10 SELECTED=1 | reservations=0 commitments=0"
+  },
+  {
+   "n": "page-errors",
+   "v": "0 []"
+  }
+ ],
+ "errors": [],
+ "jid": "46812fb0-54b3-42c2-804a-bc694526705f"
+}

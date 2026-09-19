@@ -1,0 +1,12 @@
+﻿python.exe : <string>:7: SyntaxWarning: invalid escape sequence '\:'
+所在位置 行:445 字符: 1
++ & "D:\moodle\CityNexus\.venv\Scripts\python.exe" -c "
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<string>:7: Syn...e sequence '\:' 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 8
+    for
+       ^
+SyntaxError: invalid syntax

@@ -1,0 +1,417 @@
+# CODEX NEXT GOAL — CITYNEXUS LIVE JOURNEY AUTOPILOT V5
+
+Repository:
+D:\moodle\CityNexus
+
+This is the next major product iteration.
+
+Do not reset or discard current work.
+
+Before implementation:
+- read README.md and REVIEW_FINDINGS.md from this assist package;
+- run `git status --short`;
+- run `git diff --stat`;
+- run `git log --oneline -n 12`;
+- copy `tests/test_gpt_v5_mission_authority.py` into the backend test suite;
+- reproduce the three external Mission authority failures before fixing them;
+- run current V4 Guardian / Mission / Agent / Solver / Impact baselines.
+
+Never use:
+- git reset --hard
+- git checkout -- .
+- git clean -fd
+
+Do not auto-commit unless the user explicitly requests it.
+
+==================================================
+PRODUCT NORTH STAR
+==================================================
+
+V4 proved a standing mission plus a server-owned Guardian can recover a Journey.
+
+V5 must make it feel like a real autonomous city product.
+
+Target experience:
+
+The traveler sets a standing mission once:
+
+"Keep the cruise and dinner. I prefer indoor places and less walking. You may spend up to CNY 50 extra. Handle ordinary disruptions yourself."
+
+After that the traveler does nothing.
+
+A real or simulated server-owned provider pulse detects weather and/or mobility deterioration.
+
+CityNexus automatically:
+
+1. refreshes city signals;
+2. normalizes new evidence;
+3. deduplicates an incident;
+4. wakes the Journey Guardian;
+5. invokes the configured Agent runtime;
+6. lets the model inspect, reason, search and request planning tools;
+7. uses CP-SAT Solver V2 for remaining-horizon optimization;
+8. applies the user's Mission + Delegation Policy;
+9. executes reversible in-envelope recovery;
+10. streams/persists the operation timeline to the Control Tower;
+11. updates JourneyTwin and MapLibre;
+12. survives browser reload.
+
+No new chat prompt.
+No "Run Guardian" button required for the flagship path.
+
+Call this milestone:
+
+LIVE JOURNEY AUTOPILOT V5
+
+==================================================
+P0 — MISSION AUTHORITY MONOTONICITY
+==================================================
+
+Fix the three supplied failing tests first.
+
+Principle:
+
+LLM semantic authority should be strong, but user-delegated authority must be monotonic.
+
+A model may:
+- understand semantic references;
+- infer preference meaning;
+- distinguish "must keep", "may cancel", "prefer", "avoid";
+- resolve ambiguous intent with server grounding.
+
+A model must not:
+- increase an explicit numeric spending/loss/drift cap;
+- erase a clearly protected Activity because of a conflicting model draft;
+- silently drop unresolved references.
+
+Implement an explicit merge model such as:
+
+RawTextAuthorityEvidence
++ ModelMissionIntent
++ ServerEntityResolution
++ GlobalDelegationPolicy
+= ResolvedMissionAuthority
+
+Rules:
+- explicit raw-text cap is a ceiling;
+- global policy is a ceiling;
+- resolved mission uses the most restrictive explicit authority ceiling;
+- explicit local polarity beats a conflicting model guess;
+- where raw text is genuinely ambiguous, model semantics may decide;
+- unresolved references persist and grant no authority.
+
+Do not make AI passive.
+
+==================================================
+P1 — CITY SIGNAL PIPELINE
+==================================================
+
+Create a real server-owned sensing layer.
+
+Suggested concepts:
+
+CitySignal
+ProviderObservation
+IncidentFingerprint
+JourneyRiskObservation
+GuardianPulse
+
+Weather:
+reuse the existing Open-Meteo runtime. It already creates provider-verified WEATHER Events.
+
+Mobility:
+add a near-term mobility watcher:
+- capture frozen travel estimates for upcoming legs;
+- compare current provider estimates to the active-plan baseline / prior snapshot;
+- derive TRAFFIC_DELAY only when a meaningful threshold is crossed;
+- persist provider provenance and captured time;
+- do not call live providers inside GET projections or deterministic feasibility.
+
+A provider refresh must not directly mutate a Plan.
+It creates trusted observations/events only.
+
+Support:
+- live provider mode;
+- deterministic demo/simulation provider mode through the exact same ingestion contract.
+
+==================================================
+P2 — GUARDIAN PULSE / SCHEDULER
+==================================================
+
+The current `/guardian/scan` endpoint can remain as an explicit admin/debug trigger.
+
+Add a real autonomous pulse mechanism.
+
+Preferred low-complexity design:
+- a separate Guardian worker process or a carefully controlled scheduler;
+- no Celery/Kafka/Redis unless genuinely necessary;
+- APScheduler is acceptable;
+- one DB session per pulse;
+- scan only ACTIVE Journeys with an ACTIVE standing mission;
+- configurable interval;
+- default disabled in tests unless explicitly enabled;
+- deterministic test clock.
+
+Suggested environment:
+CITYNEXUS_GUARDIAN_AUTORUN=false
+CITYNEXUS_GUARDIAN_INTERVAL_SECONDS=60
+
+Do not create duplicate schedulers under Uvicorn reload.
+
+The worker should:
+refresh provider signals
+→ persist observations/events
+→ calculate incident identity
+→ invoke Guardian
+→ persist result
+
+==================================================
+P3 — REAL COOLDOWN AND INCIDENT DEDUP
+==================================================
+
+`cooldown_until` must become real.
+
+Do not deduplicate only by raw Event IDs.
+
+Define a semantic incident fingerprint from stable facts such as:
+- journey
+- provider
+- event type
+- affected place/leg/activity scope
+- time bucket
+- disruption class
+
+Equivalent provider refreshes inside a cooldown should:
+- update evidence;
+- not create repeated AgentRuns / ReplanProposals / PlanVersions.
+
+A materially changed incident should be allowed to wake the Guardian again.
+
+==================================================
+P4 — GUARDIAN USES THE CONFIGURED AGENT RUNTIME
+==================================================
+
+This is critical.
+
+Current V4 Guardian fixed controller:
+inspect_twin -> request_replan -> accept_replan
+
+must become the offline fallback, not the primary intelligent path.
+
+Target:
+
+Guardian
+→ RecoveryMission derived from standing mission + incident evidence
+→ configured_journey_agent()
+→ HermesRuntime when configured
+→ NativeDeepSeekRuntime fallback
+→ DeterministicGuardianController only when model runtime is unavailable
+
+The model should be allowed to choose:
+- inspect_journey
+- inspect_twin
+- search_city_services
+- list_replans
+- request_replan
+- accept_replan
+- typed V2 actions when useful
+
+Persist one normalized AgentRun format for all runtimes.
+
+Do not fake Hermes by renaming the native DeepSeek loop.
+
+==================================================
+P5 — LITERAL HERMES + DEEPSEEK PROOF
+==================================================
+
+When runtime dependencies and credentials are available, perform an actual model-backed Hermes run.
+
+Required proof:
+natural-language recovery mission
+→ literal Hermes process/runtime
+→ DeepSeek provider
+→ CityNexus MCP V2
+→ model-selected inspect / plan / action tools
+→ Gateway
+→ domain mutation
+
+The final report must separately label:
+
+HERMES_MODEL_BACKED = PASS / NOT_RUN_EXTERNAL
+NATIVE_DEEPSEEK_MODEL_BACKED = PASS / NOT_RUN_EXTERNAL
+
+Do not conflate them.
+
+If Hermes installation blocks progress for more than a reasonable amount of time:
+keep the adapter/fallback clean and continue P6/P7.
+
+==================================================
+P6 — CONTROL TOWER LIVE STREAM
+==================================================
+
+The user should watch the Journey operate itself.
+
+Add backend-driven live updates.
+
+SSE is preferred unless there is a concrete reason to need WebSockets.
+
+Possible stream:
+GET /api/v1/journeys/{journey_id}/operations/stream
+
+Events:
+CITY_SIGNAL_RECEIVED
+INCIDENT_UPDATED
+GUARDIAN_WAKE
+MISSION_COMPILED
+AGENT_RUN_STARTED
+TOOL_CALLED
+IMPACT_RESOLVED
+SOLVER_STARTED
+SOLVER_CANDIDATES_READY
+POLICY_DECISION
+PLAN_ACCEPTED
+TWIN_REFRESHED
+GUARDIAN_SLEEP
+
+The UI must render persisted truth, not timer theater.
+
+Show five distinct evidence classes:
+- Observation
+- AI Inference
+- Optimization
+- Policy
+- Domain Mutation
+
+Retain normal REST reload so SSE is not a source of truth.
+
+==================================================
+P7 — FLAGSHIP ZERO-TOUCH E2E
+==================================================
+
+This is the V5 completion gate.
+
+The browser must NOT click a "Run Guardian" button.
+
+Scenario:
+
+1. Create/start Journey.
+2. Set standing mission and Autonomous mode.
+3. Start Guardian worker/pulse.
+4. Provider fixture initially reports normal conditions.
+5. Fixture transitions to heavy rain + route delay.
+6. Signal pipeline persists trusted evidence automatically.
+7. Guardian wakes automatically.
+8. Configured Agent runtime reasons over the incident.
+9. Agent requests/reviews a CP-SAT V2 recovery.
+10. Policy returns ALLOW_AUTO for an in-envelope option.
+11. Active PlanVersion changes.
+12. Protected cruise/dinner/C4 remain.
+13. Control Tower receives live persisted operation events.
+14. MapLibre updates before/after route.
+15. Browser reload restores the exact domain truth.
+16. Repeated same provider signal creates no duplicate recovery.
+
+Negative:
+- provider signal clears before action -> no stale mutation;
+- over budget -> approval required;
+- protected activity would be harmed -> block / stronger authority;
+- provider outage -> degrade safely;
+- model runtime unavailable -> deterministic Guardian fallback still works.
+
+==================================================
+P8 — LIVE VALHALLA
+==================================================
+
+If a real Valhalla endpoint can be configured safely:
+- capture real route geometry/travel time for the demo Journey;
+- freeze it outside authoritative GETs/gates;
+- show exact provider provenance in Control Tower.
+
+Do not block V5 on live Valhalla if infrastructure is unavailable.
+
+==================================================
+P9 — OBSERVABILITY / ADVERSARIAL EVALUATION
+==================================================
+
+Only after the zero-touch E2E is green:
+
+A. Phoenix/OpenInference
+Trace:
+signal -> Guardian -> model -> tool -> impact -> solver -> policy -> mutation
+
+B. Promptfoo
+Build adversarial scenarios:
+- malicious city event text
+- hallucinated place
+- model over-budget attempt
+- repeated incident
+- protected Commitment damage
+- ambiguous standing mission
+- stale provider evidence
+- tool-call loop
+
+These should become reviewable engineering evidence, not decorative dependencies.
+
+==================================================
+FINAL VALIDATION
+==================================================
+
+Run:
+- V5 focused tests
+- full backend pytest
+- CP-SAT V2 tests
+- Mission Compiler tests
+- Guardian tests
+- Impact tests
+- Agent Authority tests
+- MCP V1/V2 tests
+- OpenAPI exact parity
+- compileall
+- Ruff check
+- Ruff format --check
+- frontend build
+- Playwright zero-touch E2E
+- live model smokes when credentials exist
+- secret scan
+- archive hygiene scan
+- fresh-extract replay
+
+Final archive:
+CityNexus-Live-Journey-Autopilot-V5-Final-20260912.zip
+
+Reports:
+reports/product-v5/FINAL_REPORT.md
+reports/product-v5/PROGRESS.md
+reports/product-v5/GATE_MATRIX.md
+
+Explicit final labels:
+MISSION_AUTHORITY_MONOTONIC = PASS/FAIL
+CITY_SIGNAL_PIPELINE = PASS/PARTIAL
+GUARDIAN_AUTORUN = PASS/PARTIAL
+GUARDIAN_MODEL_ORCHESTRATED = PASS/PARTIAL
+HERMES_MODEL_BACKED = PASS/NOT_RUN_EXTERNAL
+NATIVE_DEEPSEEK_MODEL_BACKED = PASS/NOT_RUN_EXTERNAL
+ORTOOLS_CP_SAT_V2 = PASS/FAIL
+ZERO_TOUCH_GUARDIAN_E2E = PASS/FAIL
+LIVE_VALHALLA = PASS/NOT_RUN_EXTERNAL
+PHOENIX = PASS/NOT_RUN_OPTIONAL
+PROMPTFOO = PASS/NOT_RUN_OPTIONAL
+
+Package exclusions:
+- .venv
+- node_modules
+- dist
+- __pycache__
+- *.pyc
+- .pytest_cache
+- .ruff_cache
+- *.db
+- *.sqlite*
+- browser reports
+- nested review archives
+- credentials
+
+Do not stop after P0.
+The product milestone is the ZERO-TOUCH autonomous Journey recovery.
+
+Start.

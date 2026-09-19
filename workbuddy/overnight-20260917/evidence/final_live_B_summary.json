@@ -1,0 +1,42 @@
+{
+  "f3": {
+    "advisory": true,
+    "cnxiamen": false,
+    "boundary": true,
+    "chars": 292
+  },
+  "f5": {
+    "hits": [
+      "Journey Memory",
+      "UNKNOWN",
+      "受保护 C4",
+      "UNKNOWN_REALTIME"
+    ],
+    "jsonTextarea": true,
+    "advanced": false,
+    "chars": 886,
+    "feedback": false,
+    "pageerrors": 1
+  },
+  "f10_seed": {
+    "places": 0,
+    "seededIsArray": null,
+    "planCountAfterSeed": 0
+  },
+  "f7_hub_text": "菜单\n/\n今天\nEN\nCN\n\n下午好\n\n厦门之旅\n\n9月18日 10:00 — 9月20日 20:00 · 2 位旅行者 · 3 天\n\nEN\n试用其他城市\nAI 帮我规划\n打开行程工作台\n规划就绪\n厦门 · journey\n\n9月18日 10:00 — 9月20日 20:00\n·\n2 位旅行者\n\n查看方案 →\n下一步\n还没有安排\n今天没有安排\n住宿\n还没有选定\n去「行程 · 住宿」挑选\n需要关注\n一切正常\n没有影响行程的变化\n到达\n9月21日 10:42\n福州南\n出发\n9月20日 20:00\n厦门北站\n尚未获取地图位置\n\n这个行程还没有可信的坐标。添加活动地点或开启定位后，地图会显示正确的城市。\n\n方案概览\n\n每一天，紧密相连。\n对比住宿 →\n还没有可以预览的行程\n\n选定方案后，这里会显示每天的安排。\n\n✦\nCityNexus Copilot\n今天\n行程\n地图\nCopilot\n我的",
+  "f7_budget_labels": [],
+  "f10_terminal": "没有生成可行方案 | 你的需求已理解，但这次没能排出可行方案。你的行程没有被改动，可以调整预算或换个说法再试。 | 用户要求重新运行规划并检查是否能生成新的候选方案。未指定受保护或可变活动，也未提供成本、损失或时间漂移约束。",
+  "f10_planCount": {
+    "before": 0,
+    "after": 0
+  },
+  "f8_numberInputs": 0,
+  "f8": {
+    "advisory": false,
+    "dailyHint": false,
+    "chars": 138
+  },
+  "pageErrors": [
+    "Unexpected token '我', \"我的火车票 G165\"... is not valid JSON"
+  ]
+}

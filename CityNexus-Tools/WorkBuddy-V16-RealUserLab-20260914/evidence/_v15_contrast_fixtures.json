@@ -1,0 +1,589 @@
+{
+  "generated_by": "tools/v15_benchmark/build_contrast_fixtures.py",
+  "scorer": "optional reference router (app.agent.semantic_router.route), offline",
+  "pair_count": 20,
+  "separated_count": 20,
+  "separation_rate": 1.0,
+  "pairs": [
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "rain",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "如果下雨会怎样？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "现在正在下雨，游船可能取消。",
+        "intent": "DISRUPTION_REPORT",
+        "mutation_policy": "EVENT_THEN_MISSION",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "The V15 brief names this pair explicitly. Hypothetical rain is a question; present-tense rain with a cancellation is a report that may open a mission."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "road_closure",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "要是前面封路了怎么办？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "前方封路了，走不通。",
+        "intent": "DISRUPTION_REPORT",
+        "mutation_policy": "EVENT_THEN_MISSION",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Counterfactual vs. present-tense closure. Same noun, opposite mutation rights."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "typhoon_en",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "What if a typhoon hits Fuzhou?",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "A typhoon has hit Fuzhou, the harbour is closed.",
+        "intent": "DISRUPTION_REPORT",
+        "mutation_policy": "EVENT_THEN_MISSION",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "English mirror of the rain pair; also checks the model is not language-conditioned."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "strike",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "假如地铁罢工的话会怎样？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "地铁罢工了，线路停运。",
+        "intent": "DISRUPTION_REPORT",
+        "mutation_policy": "EVENT_THEN_MISSION",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Hypothetical labour action vs. an in-progress strike. Only the latter is a fact."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "flight_delay_en",
+      "context": {
+        "city_code": "GB-LONDON",
+        "locale": "en"
+      },
+      "left": {
+        "message": "What happens if my flight is delayed?",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "My flight is delayed by three hours.",
+        "intent": "DISRUPTION_REPORT",
+        "mutation_policy": "EVENT_THEN_MISSION",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "The first is a request for consequences; the second is a reportable event."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "museum_closed",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "万一博物馆关门了呢？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "博物馆关门了，进不去。",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "A closed attraction is a disruption only when it is happening now."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "bridge_closed",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "如果桥封了怎么办？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "桥封了。",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Short real report (3 chars after the verb) — also exercises the min_length gate."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "crowd",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "如果人很多会怎样？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "现在人很多，排队要两小时。",
+        "intent": "DISRUPTION_REPORT",
+        "mutation_policy": "EVENT_THEN_MISSION",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Crowding is only a disruption with a present-tense measurement attached."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "cancel_boat",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "游船取消的话我会怎样？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "游船取消了。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_WITH_CONFIRMATION",
+        "requires_confirmation": true,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Tianjin/水上游船 is a protected commitment alias; a real cancellation must reach C4."
+    },
+    {
+      "kind": "WHAT_IF_VS_REAL_DISRUPTION",
+      "label": "power_cut",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "假如停电呢？",
+        "intent": "WHAT_IF",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.94,
+        "reason": ""
+      },
+      "right": {
+        "message": "这边停电了，电梯停了。",
+        "intent": "UNKNOWN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.35,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Utility failure: hypothetical vs. real, with a downstream consequence clause."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "afternoon_order",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么下午先去博物馆？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "把下午改成博物馆。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Interrogative 'why' vs. imperative 'change to'. Only the second is a request."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "route_choice_en",
+      "context": {
+        "city_code": "GB-LONDON",
+        "locale": "en"
+      },
+      "left": {
+        "message": "Why did you pick this route?",
+        "intent": "UNKNOWN",
+        "mutation_policy": "REJECT_OVERRIDE",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.95,
+        "reason": ""
+      },
+      "right": {
+        "message": "Please change the route to avoid the bridge.",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "English mirror. 'Why did you' must never be read as a change verb."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "budget",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么预算是 800 元？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "预算改成 800 元。",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_WITH_CONFIRMATION",
+        "requires_confirmation": true,
+        "creates_event": false,
+        "confidence": 0.86,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Questioning a bound vs. moving a bound. Moving it may touch a commitment."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "walking",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么安排这么多步行？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "我想少走路。",
+        "intent": "PREFERENCE_CHANGE",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "This is the second pair the brief names: asking about walking is not a preference change."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "order_swap",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么先吃饭再去景点？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "把顺序反过来。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Explaining an ordering is not the same as requesting a reorder."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "time_en",
+      "context": {
+        "city_code": "GB-LONDON",
+        "locale": "en"
+      },
+      "left": {
+        "message": "Why are we starting at nine?",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "Start at ten instead.",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Time interrogation vs. time change."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "hotel",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么选这家酒店？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "换一家便宜点的酒店。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Explain-a-choice vs. swap-a-booking (booking changes need confirmation)."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "boat_explain",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么游船这么贵？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "把游船退掉。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "The second message targets a protected commitment; it must require confirmation."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "weather_explain",
+      "context": {
+        "city_code": "CN-FUZHOU",
+        "locale": "zh-CN"
+      },
+      "left": {
+        "message": "为什么今天行程这么松？",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "把行程排紧一点。",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Density question vs. density change."
+    },
+    {
+      "kind": "EXPLAIN_VS_REQUEST_CHANGE",
+      "label": "kids_en",
+      "context": {
+        "city_code": "GB-LONDON",
+        "locale": "en"
+      },
+      "left": {
+        "message": "Why is the museum visit so short?",
+        "intent": "EXPLAIN_PLAN",
+        "mutation_policy": "NO_MUTATION",
+        "requires_confirmation": false,
+        "creates_event": false,
+        "confidence": 0.9,
+        "reason": ""
+      },
+      "right": {
+        "message": "Make the museum visit longer.",
+        "intent": "REPLAN_REQUEST",
+        "mutation_policy": "REQUEST_ONLY",
+        "requires_confirmation": false,
+        "creates_event": true,
+        "confidence": 0.88,
+        "reason": ""
+      },
+      "separated": true,
+      "same_intent": false,
+      "why_it_matters": "Duration question vs. duration change; both mention the same activity."
+    }
+  ]
+}

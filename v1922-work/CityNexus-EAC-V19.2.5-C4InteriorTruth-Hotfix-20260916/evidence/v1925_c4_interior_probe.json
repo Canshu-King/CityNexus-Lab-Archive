@@ -1,0 +1,43 @@
+[
+  {
+    "case": "mid_before_arrival",
+    "passed": false,
+    "expected": false,
+    "failures": [
+      "C4_ACTIVITY_BEFORE_ARRIVAL:mid"
+    ],
+    "verdict": "PASS"
+  },
+  {
+    "case": "mid_after_departure",
+    "passed": false,
+    "expected": false,
+    "failures": [
+      "C4_ACTIVITY_AFTER_DEPARTURE:mid"
+    ],
+    "verdict": "PASS"
+  },
+  {
+    "case": "roleless_before_arrival",
+    "passed": false,
+    "expected": false,
+    "failures": [
+      "C4_ACTIVITY_BEFORE_ARRIVAL:booking"
+    ],
+    "verdict": "PASS"
+  },
+  {
+    "case": "mid_inside",
+    "passed": true,
+    "expected": true,
+    "failures": [],
+    "verdict": "PASS"
+  },
+  {
+    "case": "roleless_inside",
+    "passed": true,
+    "expected": true,
+    "failures": [],
+    "verdict": "PASS"
+  }
+]

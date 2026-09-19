@@ -1,0 +1,625 @@
+--- a/backend/tests/test_gpt_weather_adversarial_next.py
++++ b/backend/tests/test_gpt_weather_adversarial_next.py
+@@ -0,0 +1,269 @@
++from __future__ import annotations
++
++import json
++from datetime import datetime, timezone
++from uuid import uuid4
++
++import httpx
++import pytest
++from fastapi.testclient import TestClient
++
++from app.db.models import Event, Journey
++from app.db.session import SessionLocal
++from app.integrations.context.open_meteo import (
++    OpenMeteoContextProvider,
++    OpenMeteoProviderError,
++    WeatherObservation,
++    WeatherRisk,
++)
++from app.integrations.context.weather_runtime import refresh_weather_runtime
++from app.main import app
++
++client = TestClient(app)
++
++
++def _started_journey_id() -> str:
++    jid = client.post("/api/v1/demo/reset").json()["journey_id"]
++    generated = client.post(
++        f"/api/v1/journeys/{jid}/plans/generate",
++        json={"candidate_count": 1},
++    )
++    assert generated.status_code == 201, generated.text
++    pid = generated.json()[0]["id"]
++    assert client.post(f"/api/v1/journeys/{jid}/plans/{pid}/select").status_code == 200
++    assert client.post(f"/api/v1/journeys/{jid}/start").status_code == 200
++    return jid
++
++
++@pytest.mark.asyncio
++async def test_wrh01_malformed_parallel_open_meteo_arrays_are_rejected_not_silently_truncated():
++    def handler(request: httpx.Request) -> httpx.Response:
++        return httpx.Response(
++            200,
++            json={
++                "hourly": {
++                    "time": [1791615600, 1791619200],
++                    "precipitation_probability": [90],
++                    "weather_code": [65, 65],
++                }
++            },
++        )
++
++    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as http_client:
++        provider = OpenMeteoContextProvider(
++            client=http_client,
++            base_url="https://weather.test",
++        )
++        with pytest.raises(OpenMeteoProviderError):
++            await provider.forecast(latitude=39.12, longitude=117.21)
++
++
++class _SequenceProvider:
++    provider_key = "open-meteo"
++
++    def __init__(self, probabilities: list[int]):
++        self.probabilities = list(probabilities)
++        self.round = 0
++
++    async def forecast(
++        self,
++        *,
++        latitude: float,
++        longitude: float,
++    ) -> list[WeatherObservation]:
++        # The demo has two eligible places. Advance after the second place so
++        # each probability value represents one complete refresh operation.
++        index = min(self.round, len(self.probabilities) - 1)
++        probability = self.probabilities[index]
++        if longitude >= 117.20:
++            self.round += 1
++        return [
++            WeatherObservation(
++                at=datetime(2026, 10, 10, 7, 0, tzinfo=timezone.utc),
++                precipitation_probability=probability,
++                weather_code=65,
++            )
++        ]
++
++    def risks(self, observations: list[WeatherObservation]) -> list[WeatherRisk]:
++        return [
++            WeatherRisk(
++                code="HEAVY_RAIN_RISK",
++                severity="HIGH",
++                at=observation.at,
++                evidence={
++                    "precipitation_probability": observation.precipitation_probability,
++                    "weather_code": observation.weather_code,
++                },
++            )
++            for observation in observations
++            if (observation.precipitation_probability or 0) >= 70
++        ]
++
++
++@pytest.mark.asyncio
++async def test_wrh02_weather_event_persists_snapshot_capture_time_separate_from_forecast_validity():
++    jid = _started_journey_id()
++    provider = _SequenceProvider([90])
++    captured = "2026-10-10T03:00:00+00:00"
++    with SessionLocal() as session:
++        journey = session.get(Journey, jid)
++        assert journey is not None
++        result = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=provider,
++            captured_at=captured,
++        )
++        session.commit()
++        event = session.get(Event, result.event_ids[0])
++        assert event is not None
++        payload = json.loads(event.payload_json)
++
++    assert payload["snapshot_captured_at"] == captured
++    assert payload["forecast_valid_from"] == "2026-10-10T07:00:00+00:00"
++
++
++@pytest.mark.asyncio
++async def test_wrh03_forecast_event_effective_occurrence_is_detection_time_not_future_valid_from():
++    jid = _started_journey_id()
++    provider = _SequenceProvider([90])
++    captured = "2026-10-10T03:00:00+00:00"
++    with SessionLocal() as session:
++        journey = session.get(Journey, jid)
++        assert journey is not None
++        result = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=provider,
++            captured_at=captured,
++        )
++        session.commit()
++        event = session.get(Event, result.event_ids[0])
++        assert event is not None
++
++    # Replan uses Event occurrence as its timeline anchor. A 15:00-local
++    # forecast discovered at 11:00-local must not pretend the clock is 15:00.
++    assert event.occurred_at == captured
++
++
++@pytest.mark.asyncio
++async def test_wrh04_successful_new_forecast_resolves_prior_weather_risk_when_same_bucket_clears():
++    jid = _started_journey_id()
++    provider = _SequenceProvider([90, 20])
++    with SessionLocal() as session:
++        journey = session.get(Journey, jid)
++        assert journey is not None
++        first = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=provider,
++            captured_at="2026-10-10T03:00:00+00:00",
++        )
++        session.commit()
++        assert first.event_ids
++        first_event = session.get(Event, first.event_ids[0])
++        assert first_event is not None and first_event.status == "DETECTED"
++
++        second = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=provider,
++            captured_at="2026-10-10T03:05:00+00:00",
++        )
++        session.commit()
++        refreshed = session.get(Event, first_event.id)
++
++        assert second.degraded is False
++        assert refreshed is not None
++        assert refreshed.status == "RESOLVED"
++        assert refreshed.resolved_at is not None
++
++
++@pytest.mark.asyncio
++async def test_wrh05_same_forecast_identity_refreshes_evidence_instead_of_stale_probability():
++    jid = _started_journey_id()
++    provider = _SequenceProvider([80, 95])
++    with SessionLocal() as session:
++        journey = session.get(Journey, jid)
++        assert journey is not None
++        first = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=provider,
++            captured_at="2026-10-10T03:00:00+00:00",
++        )
++        session.commit()
++        event_id = first.event_ids[0]
++
++        second = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=provider,
++            captured_at="2026-10-10T03:05:00+00:00",
++        )
++        session.commit()
++        assert second.event_ids == (event_id,)
++        event = session.get(Event, event_id)
++        assert event is not None
++        payload = json.loads(event.payload_json)
++
++    assert payload["provider_evidence"]["precipitation_probability"] == 95
++    assert payload["snapshot_captured_at"] == "2026-10-10T03:05:00+00:00"
++
++
++@pytest.mark.asyncio
++async def test_wrh06_weather_replan_uses_capture_time_as_mobility_snapshot_decision_time():
++    jid = _started_journey_id()
++
++    class _OldTownRainProvider:
++        provider_key = "open-meteo"
++
++        async def forecast(
++            self,
++            *,
++            latitude: float,
++            longitude: float,
++        ) -> list[WeatherObservation]:
++            return [
++                WeatherObservation(
++                    at=datetime(2026, 10, 10, 1, 0, tzinfo=timezone.utc),
++                    precipitation_probability=90,
++                    weather_code=65,
++                )
++            ]
++
++        def risks(self, observations: list[WeatherObservation]) -> list[WeatherRisk]:
++            return [
++                WeatherRisk(
++                    code="HEAVY_RAIN_RISK",
++                    severity="HIGH",
++                    at=observation.at,
++                    evidence={
++                        "precipitation_probability": observation.precipitation_probability,
++                        "weather_code": observation.weather_code,
++                    },
++                )
++                for observation in observations
++            ]
++
++    with SessionLocal() as session:
++        journey = session.get(Journey, jid)
++        assert journey is not None
++        result = await refresh_weather_runtime(
++            session,
++            journey,
++            provider=_OldTownRainProvider(),
++            captured_at="2026-10-10T00:30:00+00:00",
++        )
++        session.commit()
++
++    assert len(result.event_ids) == 1
++    response = client.post(
++        f"/api/v1/journeys/{jid}/replans",
++        json={"trigger_event_id": result.event_ids[0], "candidate_count": 3},
++        headers={"Idempotency-Key": f"wrh06-{uuid4()}"},
++    )
++    assert response.status_code == 201, response.text
++    snapshot = response.json()["diff"]["verified_evidence"]["mobility"]["snapshot"]
++    assert snapshot["captured_at"] == "2026-10-10T08:30:00+08:00"
+--- a/backend/app/integrations/context/open_meteo.py
++++ b/backend/app/integrations/context/open_meteo.py
+@@ -73,6 +73,10 @@
+             or not isinstance(codes, list)
+         ):
+             raise OpenMeteoProviderError("Open-Meteo hourly fields must be arrays")
++        if not (len(times) == len(probabilities) == len(codes)):
++            raise OpenMeteoProviderError(
++                "Open-Meteo hourly arrays must have identical lengths"
++            )
+         observations: list[WeatherObservation] = []
+         for index, raw_time in enumerate(times):
+             probability = probabilities[index] if index < len(probabilities) else None
+--- a/backend/app/integrations/context/weather_snapshot.py
++++ b/backend/app/integrations/context/weather_snapshot.py
+@@ -41,6 +41,7 @@
+     evidence: Mapping[str, Any]
+     valid_until: str | None = None
+     scope: WeatherQueryScope | None = None
++    snapshot_captured_at: str | None = None
+ 
+     def __post_init__(self) -> None:
+         start = datetime.fromisoformat(self.at)
+@@ -55,6 +56,13 @@
+             if end <= start:
+                 raise ValueError("weather fact validity interval must be positive")
+             object.__setattr__(self, "valid_until", end.astimezone(timezone.utc).isoformat())
++        if self.snapshot_captured_at is not None:
++            captured = datetime.fromisoformat(self.snapshot_captured_at)
++            if captured.tzinfo is None:
++                raise ValueError("weather fact capture timestamp must be timezone-aware")
++            object.__setattr__(
++                self, "snapshot_captured_at", captured.astimezone(timezone.utc).isoformat()
++            )
+         object.__setattr__(self, "evidence", MappingProxyType(dict(self.evidence)))
+ 
+     @property
+@@ -68,6 +76,7 @@
+             "valid_from": self.at,
+             "valid_until": self.valid_until,
+             "provider": self.provider_key,
++            "snapshot_captured_at": self.snapshot_captured_at,
+             "provider_evidence": dict(self.evidence),
+             "query_scope": self.scope.to_evidence() if self.scope is not None else None,
+         }
+@@ -119,6 +128,7 @@
+                     provider_key=provider_key,
+                     evidence=dict(item.evidence),
+                     scope=scope,
++                    snapshot_captured_at=stamp,
+                 )
+                 for item in risks
+             ),
+@@ -146,9 +156,10 @@
+         "provenance": "PROVIDER_VERIFIED",
+         "event_type": "WEATHER",
+         "severity": fact.severity,
+-        "occurred_at": fact.at,
++        "occurred_at": fact.snapshot_captured_at or fact.at,
+         "payload": {
+             "reason_code": fact.code,
++            "snapshot_captured_at": fact.snapshot_captured_at,
+             "forecast_valid_from": fact.at,
+             "forecast_valid_until": fact.valid_until,
+             "provider_evidence": dict(fact.evidence),
+--- a/backend/app/integrations/context/weather_ingestion.py
++++ b/backend/app/integrations/context/weather_ingestion.py
+@@ -48,7 +48,6 @@
+             Event.event_type == "WEATHER",
+             Event.affected_activity_id
+             == (str(affected_activity_id) if affected_activity_id else None),
+-            Event.occurred_at == fact.at,
+         )
+     ).all()
+     expected = _weather_event_identity(
+@@ -69,8 +68,17 @@
+             fact.valid_until,
+         }:
+             scope = payload.get("query_scope") or {}
+-            expected_scope = fact.scope.place_id if fact.scope is not None else None
+-            if scope.get("place_id") in {None, expected_scope}:
++            expected_scope = fact.scope
++            if expected_scope is None:
++                if not scope:
++                    return item
++            else:
++                if scope.get("place_id") not in {None, expected_scope.place_id}:
++                    continue
++                if scope.get("latitude") not in {None, expected_scope.latitude}:
++                    continue
++                if scope.get("longitude") not in {None, expected_scope.longitude}:
++                    continue
+                 return item
+     return None
+ 
+@@ -82,10 +90,12 @@
+     fact: WeatherRiskFact,
+     affected_activity_id: str | None = None,
+ ) -> Event:
+-    """Persist a server-owned Open-Meteo fact as a PROVIDER_VERIFIED Event.
+-
+-    The ingestion boundary is idempotent for the same provider risk fact,
+-    Journey, Activity and query scope.
++    """Persist or refresh one server-owned provider weather phenomenon.
++
++    The stable Event identity is the provider risk bucket + Activity + exact query
++    scope. Re-polling the same bucket reuses the Event but refreshes its trusted
++    evidence and latest snapshot capture timestamp instead of freezing stale
++    forecast values forever.
+     """
+ 
+     if fact.provider_key != "open-meteo":
+@@ -99,27 +109,56 @@
+     if severity not in {"INFO", "MINOR", "MAJOR", "CRITICAL"}:
+         raise ValueError("weather severity does not map to an Event severity")
+ 
+-    existing = _existing_weather_event(
+-        session,
+-        journey_id=str(journey_id),
+-        fact=fact,
+-        affected_activity_id=affected_activity_id,
+-    )
+-    if existing is not None:
+-        return existing
+-
+     now = datetime.now(timezone.utc).isoformat()
++    observed_at = fact.snapshot_captured_at or now
+     weather_identity = _weather_event_identity(
+         journey_id=str(journey_id), fact=fact, affected_activity_id=affected_activity_id
+     )
+     payload = {
+         "reason_code": fact.code,
++        "snapshot_captured_at": fact.snapshot_captured_at,
+         "forecast_valid_from": fact.at,
+         "forecast_valid_until": fact.valid_until,
+         "provider_evidence": dict(fact.evidence),
+         "query_scope": fact.scope.to_evidence() if fact.scope is not None else None,
+         "weather_identity": weather_identity,
+     }
++
++    existing = _existing_weather_event(
++        session,
++        journey_id=str(journey_id),
++        fact=fact,
++        affected_activity_id=affected_activity_id,
++    )
++    if existing is not None:
++        before = {
++            "status": existing.status,
++            "severity": existing.severity,
++            "payload": json.loads(existing.payload_json or "{}"),
++        }
++        existing.severity = severity
++        existing.payload_json = json.dumps(payload, sort_keys=True)
++        if existing.status == "RESOLVED":
++            existing.status = "DETECTED"
++            existing.resolved_at = None
++            existing.occurred_at = observed_at
++        record_audit(
++            session,
++            action="journey.event.provider_verified_refreshed",
++            entity_type="Event",
++            entity_id=existing.id,
++            journey_id=str(journey_id),
++            before=before,
++            after={
++                "status": existing.status,
++                "severity": existing.severity,
++                "snapshot_captured_at": fact.snapshot_captured_at,
++                "weather_identity": weather_identity,
++            },
++        )
++        session.flush()
++        return existing
++
+     item = Event(
+         id=str(uuid4()),
+         journey_id=str(journey_id),
+@@ -129,8 +168,10 @@
+         severity=severity,
+         status="DETECTED",
+         affected_activity_id=affected_activity_id,
+-        occurred_at=fact.at,
+-        detected_at=now,
++        # A forecast becomes actionable when the server captures it. The
++        # forecast validity interval remains separate evidence in payload_json.
++        occurred_at=observed_at,
++        detected_at=observed_at,
+         payload_json=json.dumps(payload, sort_keys=True),
+         created_at=now,
+     )
+@@ -145,11 +186,89 @@
+             "provider_key": item.provider_key,
+             "provenance": item.provenance,
+             "affected_activity_id": item.affected_activity_id,
++            "snapshot_captured_at": fact.snapshot_captured_at,
+             "weather_identity": weather_identity,
+         },
+     )
+     session.flush()
+     return item
++
++
++def resolve_cleared_weather_events(
++    session: Session,
++    *,
++    journey_id: str,
++    scope: object,
++    observation_evidence_by_time: dict[str, dict[str, object]],
++    active_facts: tuple[WeatherRiskFact, ...],
++    resolved_at: str,
++) -> tuple[Event, ...]:
++    """Resolve active weather risks only when a successful forecast covers them.
++
++    Absence of a risk is evidence only when Open-Meteo returned an observation for
++    the same forecast bucket and exact query scope. A network failure or an empty
++    coverage set never clears a previous weather Event.
++    """
++
++    place_id = getattr(scope, "place_id", None)
++    latitude = getattr(scope, "latitude", None)
++    longitude = getattr(scope, "longitude", None)
++    if place_id is None or not observation_evidence_by_time:
++        return ()
++
++    active_keys = {(fact.code, fact.at) for fact in active_facts}
++    resolved: list[Event] = []
++    rows = session.scalars(
++        select(Event).where(
++            Event.journey_id == str(journey_id),
++            Event.provider_key == "open-meteo",
++            Event.provenance == "PROVIDER_VERIFIED",
++            Event.event_type == "WEATHER",
++            Event.status.in_(("DETECTED", "ACKNOWLEDGED")),
++        )
++    ).all()
++    for item in rows:
++        try:
++            payload = json.loads(item.payload_json or "{}")
++        except json.JSONDecodeError:
++            continue
++        query_scope = payload.get("query_scope") or {}
++        if query_scope.get("place_id") != place_id:
++            continue
++        if query_scope.get("latitude") != latitude or query_scope.get("longitude") != longitude:
++            continue
++        valid_from = payload.get("forecast_valid_from")
++        reason_code = payload.get("reason_code")
++        if valid_from not in observation_evidence_by_time:
++            continue
++        if (reason_code, valid_from) in active_keys:
++            continue
++
++        before = {"status": item.status, "payload": payload}
++        item.status = "RESOLVED"
++        item.resolved_at = resolved_at
++        payload["weather_resolution"] = {
++            "reason": "FORECAST_CLEARED",
++            "resolved_at": resolved_at,
++            "provider_evidence": observation_evidence_by_time[valid_from],
++        }
++        item.payload_json = json.dumps(payload, sort_keys=True)
++        resolved.append(item)
++        record_audit(
++            session,
++            action="journey.event.weather_cleared",
++            entity_type="Event",
++            entity_id=item.id,
++            journey_id=str(journey_id),
++            before=before,
++            after={
++                "status": "RESOLVED",
++                "resolved_at": resolved_at,
++                "reason": "FORECAST_CLEARED",
++            },
++        )
++    session.flush()
++    return tuple(resolved)
+ 
+ 
+ def _existing_provider_degradation(
+--- a/backend/app/integrations/context/weather_runtime.py
++++ b/backend/app/integrations/context/weather_runtime.py
+@@ -2,7 +2,7 @@
+ 
+ import json
+ from dataclasses import dataclass
+-from datetime import datetime, timedelta
++from datetime import datetime, timedelta, timezone
+ from typing import Protocol
+ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+ 
+@@ -18,6 +18,7 @@
+ from app.integrations.context.weather_ingestion import (
+     ingest_provider_verified_weather_event,
+     record_provider_degradation,
++    resolve_cleared_weather_events,
+     resolve_provider_degradation,
+ )
+ from app.integrations.context.weather_snapshot import (
+@@ -280,6 +281,23 @@
+             scope=scope,
+         )
+         snapshots.append(snapshot)
++        observation_evidence_by_time: dict[str, dict[str, object]] = {}
++        for observation in observations:
++            observed_at = observation.at
++            if observed_at.tzinfo is None:
++                raise ValueError("weather observation timestamp must be timezone-aware")
++            observation_evidence_by_time[observed_at.astimezone(timezone.utc).isoformat()] = {
++                "precipitation_probability": observation.precipitation_probability,
++                "weather_code": observation.weather_code,
++            }
++        resolve_cleared_weather_events(
++            session,
++            journey_id=journey.id,
++            scope=scope,
++            observation_evidence_by_time=observation_evidence_by_time,
++            active_facts=snapshot.facts,
++            resolved_at=snapshot.captured_at,
++        )
+         for fact in snapshot.facts:
+             for activity in activities:
+                 attribution = attribute_weather_fact_to_activity(
+@@ -298,7 +316,6 @@
+                         Event.provenance == "PROVIDER_VERIFIED",
+                         Event.event_type == "WEATHER",
+                         Event.affected_activity_id == activity.id,
+-                        Event.occurred_at == fact.at,
+                     )
+                 ).all()
+                 event = ingest_provider_verified_weather_event(
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -1369,7 +1369,17 @@
+     )
+     affected = next((item for item in source if item.id == affected_activity_id), None)
+     protected_activity_ids = set(partition.c4_anchor_ids)
+-    effective_event_time = datetime.fromisoformat(trigger_event.occurred_at)
++    effective_event_time_source = trigger_event.occurred_at
++    if trigger_event.event_type == "WEATHER" and trigger_event.provenance == "PROVIDER_VERIFIED":
++        # A provider weather Event may describe a future forecast bucket. Replan
++        # from the time the server actually captured the forecast, not from the
++        # future validity window itself. Re-polling can refresh this timestamp.
++        effective_event_time_source = str(
++            payload.get("snapshot_captured_at")
++            or trigger_event.detected_at
++            or trigger_event.occurred_at
++        )
++    effective_event_time = datetime.fromisoformat(effective_event_time_source)
+     # Normalize every Event instant onto the Journey schedule timeline before
+     # evaluating local opening hours or OpportunityWindow evidence. Real
+     # providers such as Open-Meteo emit UTC instants while the plan stores

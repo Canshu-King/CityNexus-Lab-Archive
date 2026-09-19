@@ -1,0 +1,5 @@
+{
+  "source": "visio-diagram references/layout-quality.md",
+  "tolerance": {"endpointAlignmentIn": 0.03, "textCenterIn": 0.02, "gapSpanIn": 0.03, "fontSizePt": 0.25, "lineWeightPt": 0.10, "cornerRadiusIn": 0.005},
+  "gates": ["fullyGluedRatio","connectorCrossingCount","connectorConnectorCrossingCount","sourceEndpointIntrusionCount","targetEndpointIntrusionCount","arrowheadNodeOverlapCount","nodeTextMisalignedCount","nodeFontMismatchCount","nodeAsianFontMismatchCount","nodeFontSizeMismatchCount","nodeTextColorMismatchCount","nodeFillColorMismatchCount","nodeLineColorMismatchCount","nodeLineWeightMismatchCount","textLineOverlapCount","textShapeOverlapCount","textTextOverlapCount","out-of-page","shape overlap","connector-through-unrelated-node"]
+}

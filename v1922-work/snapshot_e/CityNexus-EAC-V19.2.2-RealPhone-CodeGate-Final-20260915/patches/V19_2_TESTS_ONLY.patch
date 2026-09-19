@@ -1,0 +1,859 @@
+# V19.2 Real-Phone Shadow-Trial Gate — tests-only patch
+#
+# Adds the shadow-trial gate contract tests to backend/tests/.  No production
+# module is modified by this patch.
+#
+# Apply from the repository root:
+#     git apply --check patches/V19_2_TESTS_ONLY.patch
+#     git apply         patches/V19_2_TESTS_ONLY.patch
+#
+# Run:
+#     cd backend && python -m pytest tests/test_v192_shadow_trial_gate.py -q
+#
+# Convention:
+#     test_v192_guard_*   must PASS.  A failure is a regression.
+#     test_v192_defect_*  documents a known, still-open defect.  A failure means
+#                         the defect was fixed — flip it to a guard.
+#
+# Measured on the V19.2 baseline (capabilities.py 23,668 B /
+# sha16 9b68b17997f4cf4e, main.py c17f74c4867a1a1d):
+#     37 guards PASS, 24 defects FAIL.
+#
+# The harness keeps its throwaway SQLite database in the system temp directory
+# and disables bytecode writing, so running these tests never writes into the
+# repository.
+#
+# Evidence for every assertion: see the round's reports at the lab root —
+# P0_GATE_TABLE.md, NUMERIC_TIME_BOUNDARY_RESULTS.md,
+# CAPABILITY_SEMANTICS_RESULTS.md, C4_ANCHOR_AND_IDEMPOTENCY_RESULTS.md,
+# MIDTRIP_AND_STALE_LIFECYCLE_RESULTS.md, REGRESSION_LIST.md.
+diff --git a/backend/tests/v192_harness.py b/backend/tests/v192_harness.py
+new file mode 100644
+index 0000000..a42441f
+--- /dev/null
++++ b/backend/tests/v192_harness.py
+@@ -0,0 +1,359 @@
++"""V19.2 Real-Phone Shadow-Trial Gate harness (tests-only, no production changes).
++
++Self-locating: every path is derived from this file's own location, so the same
++bytes work in any checkout.  Bytecode writing is disabled so nothing is written
++back into the worktree, and the throwaway SQLite database lives in the system
++temp directory rather than inside the repository.
++
++Import:
++    import v192_harness as H
++
++    H.caps()                              -> the ``app.capabilities`` module
++    H.extract("我可能需要轮椅")             -> capability rows parsed from raw language
++    H.requirement_state("STEP_FREE_REQUIRED", {...}) -> evidence verdict
++    H.client().post("/api/v1/...")        -> in-process HTTP against a throwaway DB
++"""
++
++from __future__ import annotations
++
++import json
++import os
++import sys
++import tempfile
++from pathlib import Path
++from typing import Any
++
++HERE = Path(__file__).resolve()
++BACKEND = HERE.parents[1]          # <repo>/backend
++REPO = HERE.parents[2]             # <repo>
++
++os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
++
++if str(BACKEND) not in sys.path:
++    sys.path.insert(0, str(BACKEND))
++
++DEMO_JOURNEY_ID = "22222222-2222-4222-8222-222222222222"
++DEMO_TRAVELER_ID = "11111111-1111-4111-8111-111111111111"
++
++_client = None
++_app_module = None
++
++
++# ---------------------------------------------------------------------------
++# bootstrap (lazy: never re-configures an app someone else already imported)
++# ---------------------------------------------------------------------------
++def _configure_env() -> Path:
++    d = Path(tempfile.gettempdir()) / "v192_shadow_trial"
++    d.mkdir(parents=True, exist_ok=True)
++    db = d / "v192_gate.db"
++    os.environ.setdefault("CITYNEXUS_DATABASE_URL", f"sqlite:///{db}")
++    os.environ.setdefault("CITYNEXUS_ENV", "test")
++    os.environ.setdefault("CITYNEXUS_AI_ENABLED", "false")
++    os.environ.setdefault("CITYNEXUS_GUARDIAN_AUTORUN", "false")
++    return db
++
++
++def app_main():
++    """The imported ``app.main`` module (imported once, on first use)."""
++    global _app_module
++    if _app_module is None:
++        if "app.main" not in sys.modules:
++            _configure_env()
++        import app.main as main_module
++
++        _app_module = main_module
++    return _app_module
++
++
++def client():
++    """A ``TestClient`` over the app; created once."""
++    global _client
++    if _client is None:
++        from fastapi.testclient import TestClient
++
++        _client = TestClient(app_main().app)
++    return _client
++
++
++def safe_client():
++    """Same client, but a 500 is returned as a response instead of raised."""
++    from fastapi.testclient import TestClient
++
++    return TestClient(app_main().app, raise_server_exceptions=False)
++
++
++def caps():
++    """The ``app.capabilities`` module (raw-language -> capability rows)."""
++    import app.capabilities as module
++
++    return module
++
++
++# ---------------------------------------------------------------------------
++# pure capability-layer helpers
++# ---------------------------------------------------------------------------
++def extract(text: str, scope: str = "JOURNEY") -> list[dict[str, Any]]:
++    return list(caps().extract_capabilities_from_text(text, scope=scope))
++
++
++def codes(items: list[dict[str, Any]]) -> list[str]:
++    return sorted({i["code"] for i in items})
++
++
++def params_of(items: list[dict[str, Any]], code: str) -> dict[str, Any]:
++    item = next((i for i in items if i["code"] == code), None)
++    return dict(item.get("params") or {}) if item else {}
++
++
++def severity_of(items: list[dict[str, Any]], code: str) -> str | None:
++    item = next((i for i in items if i["code"] == code), None)
++    return item.get("severity") if item else None
++
++
++def canon(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
++    return list(caps().canonicalize_capabilities(items))
++
++
++def requirement_state(code: str, facts: dict[str, Any]) -> str:
++    return caps().evaluate_accessibility_requirement(code, facts)
++
++
++def normalize_tags(value: Any) -> Any:
++    return caps().normalize_osm_tags(value)
++
++
++def capability(code: str, severity: str = "HARD", **extra: Any) -> dict[str, Any]:
++    item: dict[str, Any] = {"code": code, "severity": severity, "params": {}}
++    item.update(extra)
++    return item
++
++
++# ---------------------------------------------------------------------------
++# HTTP helpers
++# ---------------------------------------------------------------------------
++def reset_demo() -> dict[str, Any]:
++    r = client().post("/api/v1/demo/reset")
++    assert r.status_code == 200, r.text
++    return r.json()
++
++
++def journey(journey_id: str = DEMO_JOURNEY_ID) -> dict[str, Any]:
++    r = client().get(f"/api/v1/journeys/{journey_id}")
++    assert r.status_code == 200, r.text
++    return r.json()
++
++
++def get_journey_capabilities(journey_id: str = DEMO_JOURNEY_ID) -> dict[str, Any]:
++    r = client().get(f"/api/v1/journeys/{journey_id}/capabilities")
++    assert r.status_code == 200, r.text
++    return r.json()
++
++
++def put_journey_capabilities(payload: list[dict[str, Any]], journey_id: str = DEMO_JOURNEY_ID):
++    return client().put(f"/api/v1/journeys/{journey_id}/capabilities", json=payload)
++
++
++def confirm_journey_capabilities(payload: list[dict[str, Any]], journey_id: str = DEMO_JOURNEY_ID):
++    return client().post(f"/api/v1/journeys/{journey_id}/capabilities/confirm", json=payload)
++
++
++def put_traveler_capabilities(payload: list[dict[str, Any]], traveler_id: str = DEMO_TRAVELER_ID):
++    return client().put(f"/api/v1/travelers/{traveler_id}/capabilities", json=payload)
++
++
++def confirm_traveler_capabilities(payload: list[dict[str, Any]], traveler_id: str = DEMO_TRAVELER_ID):
++    return client().post(f"/api/v1/travelers/{traveler_id}/capabilities/confirm", json=payload)
++
++
++def generate_plans(journey_id: str = DEMO_JOURNEY_ID, **payload: Any):
++    r = client().post(f"/api/v1/journeys/{journey_id}/plans/generate", json=payload or {})
++    try:
++        body = r.json()
++    except ValueError:
++        body = r.text
++    return r.status_code, body
++
++
++def list_plans(journey_id: str = DEMO_JOURNEY_ID) -> list[dict[str, Any]]:
++    r = client().get(f"/api/v1/journeys/{journey_id}/plans")
++    assert r.status_code == 200, r.text
++    body = r.json()
++    return body if isinstance(body, list) else []
++
++
++def select_plan(journey_id: str, plan_id: str):
++    return client().post(f"/api/v1/journeys/{journey_id}/plans/{plan_id}/select")
++
++
++def start_journey(journey_id: str = DEMO_JOURNEY_ID):
++    return client().post(f"/api/v1/journeys/{journey_id}/start")
++
++
++def experience(journey_id: str = DEMO_JOURNEY_ID) -> dict[str, Any]:
++    r = client().get(f"/api/v1/journeys/{journey_id}/experience")
++    assert r.status_code == 200, r.text
++    return r.json()
++
++
++def list_replans(journey_id: str = DEMO_JOURNEY_ID) -> list[dict[str, Any]]:
++    r = client().get(f"/api/v1/journeys/{journey_id}/replans")
++    assert r.status_code == 200, r.text
++    body = r.json()
++    return body if isinstance(body, list) else []
++
++
++def list_constraints(journey_id: str = DEMO_JOURNEY_ID) -> list[dict[str, Any]]:
++    r = client().get(f"/api/v1/journeys/{journey_id}/constraints")
++    assert r.status_code == 200, r.text
++    body = r.json()
++    return body if isinstance(body, list) else []
++
++
++# ---------------------------------------------------------------------------
++# C4 protected commitment through the real production path
++# ---------------------------------------------------------------------------
++def c4_reservation(
++    *,
++    confirmation_ref: str,
++    departure_at: str,
++    arrival_at: str,
++    anchor_role: str = "ARRIVAL",
++    reservation_type: str = "RAIL",
++    semantic_node_key: str | None = None,
++) -> dict[str, Any]:
++    body: dict[str, Any] = {
++        "reservation_type": reservation_type,
++        "confirmation_ref": confirmation_ref,
++        "origin": {"name": "Shanghai Hongqiao", "code": "SHH"},
++        "destination": {"name": "Nexus City", "code": "CNX"},
++        "scheduled_departure_at": departure_at,
++        "scheduled_arrival_at": arrival_at,
++        "anchor_role": anchor_role,
++        "provider_key": "mock-rail",
++        "price_amount_minor": 128000,
++        "currency": "CNY",
++    }
++    if semantic_node_key:
++        body["semantic_node_key"] = semantic_node_key
++    return body
++
++
++def inbox_import(journey_id: str, reservation: dict[str, Any], artifact_type: str = "STRUCTURED_JSON"):
++    return client().post(
++        f"/api/v1/journeys/{journey_id}/inbox/import",
++        json={"artifact_type": artifact_type, "payload": {"reservation": reservation}},
++    )
++
++
++def inbox_confirm(journey_id: str, draft_id: str):
++    return client().post(f"/api/v1/journeys/{journey_id}/inbox/{draft_id}/confirm")
++
++
++# ---------------------------------------------------------------------------
++# direct DB readers/writers (throwaway database only)
++# ---------------------------------------------------------------------------
++def _session():
++    from app.db.session import SessionLocal
++
++    return SessionLocal()
++
++
++def commitment_rows(journey_id: str = DEMO_JOURNEY_ID) -> list[dict[str, Any]]:
++    from sqlalchemy import select
++
++    from app.db.models import Commitment
++
++    with _session() as session:
++        rows = list(
++            session.scalars(select(Commitment).where(Commitment.journey_id == journey_id)).all()
++        )
++        return [
++            {
++                "id": r.id,
++                "kind": r.kind,
++                "level": r.level,
++                "status": r.status,
++                "activity_id": r.activity_id,
++            }
++            for r in rows
++        ]
++
++
++def clear_capabilities() -> None:
++    """Delete every capability row (throwaway database only)."""
++    from sqlalchemy import delete
++
++    from app.db.models import TravelerCapability
++
++    with _session() as session:
++        session.execute(delete(TravelerCapability))
++        session.commit()
++
++
++def set_place_evidence(accessibility: dict[str, Any] | None) -> int:
++    """Write (or clear) accessibility evidence on every place; returns the count."""
++    from sqlalchemy import select
++
++    from app.db.models import Place
++
++    with _session() as session:
++        rows = list(session.scalars(select(Place)).all())
++        for row in rows:
++            meta = json.loads(row.metadata_json or "{}")
++            if accessibility is None:
++                meta.pop("accessibility", None)
++            else:
++                meta["accessibility"] = accessibility
++            row.metadata_json = json.dumps(meta, ensure_ascii=False)
++        session.commit()
++        return len(rows)
++
++
++def plan_signatures(journey_id: str = DEMO_JOURNEY_ID) -> list[str]:
++    """Stable fingerprint of every plan: (place_id, start_at) per activity."""
++    return sorted(
++        json.dumps(
++            [[a.get("place_id") or a.get("title"), a.get("start_at")] for a in p.get("activities", [])],
++            ensure_ascii=False,
++            sort_keys=True,
++            default=str,
++        )
++        for p in list_plans(journey_id)
++    )
++
++
++def plan_evidence_json(plan_id: str) -> str:
++    from app.db.models import PlanVersion
++
++    with _session() as session:
++        row = session.get(PlanVersion, plan_id)
++        return (row.mobility_evidence_json or "") if row is not None else ""
++
++
++def set_plan_evidence_json(plan_id: str, raw: str) -> None:
++    from app.db.models import PlanVersion
++
++    with _session() as session:
++        row = session.get(PlanVersion, plan_id)
++        if row is None:
++            raise AssertionError(f"plan not found: {plan_id}")
++        row.mobility_evidence_json = raw
++        session.commit()
++
++
++def expire_plan_evidence(plan_id: str) -> str:
++    """Mark a plan's frozen evidence as expired; returns the previous JSON."""
++    from datetime import datetime, timedelta, timezone
++
++    original = plan_evidence_json(plan_id)
++    raw = json.loads(original or "{}")
++    raw["expires_at"] = (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat()
++    set_plan_evidence_json(plan_id, json.dumps(raw))
++    return original
++
++
++def validate_plan(session, journey_row, plan_row, **kwargs: Any):
++    """Feasibility verdict for one plan (single source of truth)."""
++    from app.services import validate_plan_feasibility
++
++    return validate_plan_feasibility(session, journey_row, plan_row, **kwargs)
+diff --git a/backend/tests/test_v192_shadow_trial_gate.py b/backend/tests/test_v192_shadow_trial_gate.py
+new file mode 100644
+index 0000000..4e8e110
+--- /dev/null
++++ b/backend/tests/test_v192_shadow_trial_gate.py
+@@ -0,0 +1,459 @@
++"""V19.2 Real-Phone Shadow-Trial Gate — contract tests.
++
++Convention (identical to the V19.1 tests patch):
++
++  ``test_v192_guard_*``   behaviour that is already correct; must not regress.
++  ``test_v192_defect_*``  a still-open defect, locked on purpose so the fix is
++                          observable as a fail -> pass flip.
++
++Everything runs in-process against a throwaway SQLite database in the system
++temp directory.  No production module is modified and nothing is written into
++the repository.
++
++Run from the repository root:
++    cd backend && python -m pytest tests/test_v192_shadow_trial_gate.py -q
++
++Evidence for every assertion: see the round's reports at the lab root —
++P0_GATE_TABLE.md, NUMERIC_TIME_BOUNDARY_RESULTS.md,
++CAPABILITY_SEMANTICS_RESULTS.md, C4_ANCHOR_AND_IDEMPOTENCY_RESULTS.md,
++MIDTRIP_AND_STALE_LIFECYCLE_RESULTS.md, REGRESSION_LIST.md.
++"""
++
++from __future__ import annotations
++
++import json
++import sys
++from pathlib import Path
++
++import pytest
++
++sys.path.insert(0, str(Path(__file__).resolve().parent))
++
++import v192_harness as H  # noqa: E402
++
++
++# ===========================================================================
++# GUARDS — raw language must not invent a need for the traveller
++# ===========================================================================
++THIRD_PARTY = [
++    "my friend needs a wheelchair, not me",
++    "my mother uses a wheelchair",
++    "我朋友需要轮椅",
++    "我妈妈坐轮椅",
++    "I am not a wheelchair user",
++]
++
++FACILITY_DESCRIPTION = [
++    "the station has an accessible toilet",
++    "车站有无障碍厕所",
++]
++
++SPECULATION = [
++    "说不定到时候我需要轮椅",
++    "if I end up in a wheelchair I'll tell you",
++]
++
++MANDATED = [
++    "I need a wheelchair, I cannot walk",
++    "我全程需要无障碍通道，必须有电梯",
++]
++
++
++@pytest.mark.parametrize("text", THIRD_PARTY)
++def test_v192_guard_third_party_subject_is_not_hard(text):
++    items = H.extract(text)
++    assert "STEP_FREE_REQUIRED" not in H.codes(items), (
++        f"a third party's need must not become the traveller's HARD need: {text} -> {items}"
++    )
++
++
++@pytest.mark.parametrize("text", FACILITY_DESCRIPTION)
++def test_v192_guard_facility_description_is_not_hard(text):
++    items = H.extract(text)
++    assert "STEP_FREE_REQUIRED" not in H.codes(items), (
++        f"describing a facility must not assert a personal need: {text} -> {items}"
++    )
++
++
++@pytest.mark.parametrize("text", SPECULATION)
++def test_v192_guard_speculation_is_not_hard(text):
++    items = H.extract(text)
++    assert "STEP_FREE_REQUIRED" not in H.codes(items), (
++        f"speculation must not be promoted to a HARD need: {text} -> {items}"
++    )
++
++
++@pytest.mark.parametrize("text", MANDATED)
++def test_v192_guard_mandated_need_stays_hard(text):
++    items = H.extract(text)
++    assert "STEP_FREE_REQUIRED" in H.codes(items), (
++        f"an explicit, unconditional need was over-filtered: {text} -> {items}"
++    )
++
++
++# ===========================================================================
++# GUARDS — scope-aware canonicalization
++# ===========================================================================
++def test_v192_guard_scope_dedup_keeps_both_rows():
++    out = H.canon(
++        [
++            {"code": "AVOID_STAIRS", "severity": "HARD", "scope": "TRAVELER", "params": {"note": "traveler"}},
++            {"code": "AVOID_STAIRS", "severity": "HARD", "scope": "JOURNEY", "params": {"note": "journey"}},
++        ]
++    )
++    assert sorted(i["scope"] for i in out) == ["JOURNEY", "TRAVELER"], out
++    assert {i["params"].get("note") for i in out} == {"traveler", "journey"}, out
++
++
++def test_v192_guard_duplicate_merge_takes_stricter_bound():
++    out = H.canon(
++        [
++            {"code": "MAX_WALKING_PER_LEG_M", "severity": "HARD", "scope": "JOURNEY", "params": {"max_m": 800}},
++            {"code": "MAX_WALKING_PER_LEG_M", "severity": "HARD", "scope": "JOURNEY", "params": {"max_m": 400}},
++        ]
++    )
++    assert len(out) == 1, out
++    assert out[0]["params"]["max_m"] == 400, out
++
++
++# ===========================================================================
++# GUARDS — provider evidence scope
++# ===========================================================================
++FACILITY_TAGS = [
++    ("toilets:wheelchair=yes", {"toilets:wheelchair": "yes"}),
++    ("ramp=yes", {"ramp": "yes"}),
++    ("elevator=yes", {"elevator": "yes"}),
++    ("ramp:wheelchair=yes", {"ramp:wheelchair": "yes"}),
++    ("highway=elevator", {"highway": "elevator"}),
++    ("kerb=lowered", {"kerb": "lowered"}),
++    ("tactile_paving=yes", {"tactile_paving": "yes"}),
++    ("entrance=yes", {"entrance": "yes"}),
++    ("wheelchair=yes", {"wheelchair": "yes"}),
++    ("wheelchair=designated", {"wheelchair": "designated"}),
++    ("wheelchair=limited", {"wheelchair": "limited"}),
++    ("wheelchair=no", {"wheelchair": "no"}),
++]
++
++
++@pytest.mark.parametrize("name,tags", FACILITY_TAGS, ids=[n for n, _ in FACILITY_TAGS])
++def test_v192_guard_facility_tags_never_verify_step_free(name, tags):
++    state = H.requirement_state("STEP_FREE_REQUIRED", {"osm_tags": tags})
++    assert state != "ACCESSIBILITY_VERIFIED", (
++        f"{name} must not satisfy STEP_FREE_REQUIRED (got {state})"
++    )
++
++
++def test_v192_guard_route_without_evidence_stays_unknown():
++    assert (
++        H.requirement_state("STEP_FREE_REQUIRED", {"subject": "route"}) == "NEEDS_LIVE_EVIDENCE"
++    )
++    assert (
++        H.requirement_state(
++            "STEP_FREE_REQUIRED", {"subject": "route", "osm_tags": {"wheelchair": "yes"}}
++        )
++        == "NEEDS_LIVE_EVIDENCE"
++    )
++
++
++POSITIVE_EVIDENCE = [
++    ("step_free: yes", {"step_free": "yes"}),
++    ("step_free_verified: yes", {"step_free_verified": "yes"}),
++    ("osm_tags step_free_verified", {"osm_tags": {"step_free_verified": "yes"}}),
++    ("route_step_free_verified", {"subject": "route", "route_step_free_verified": "yes"}),
++]
++
++
++@pytest.mark.parametrize("name,facts", POSITIVE_EVIDENCE, ids=[n for n, _ in POSITIVE_EVIDENCE])
++def test_v192_guard_explicit_step_free_evidence_verifies(name, facts):
++    assert H.requirement_state("STEP_FREE_REQUIRED", facts) == "ACCESSIBILITY_VERIFIED", name
++
++
++def test_v192_guard_tag_container_shapes_survive():
++    assert H.normalize_tags({"wheelchair": "yes"}) == {"wheelchair": "yes"}
++    assert H.normalize_tags({"wheelchair": ["yes"]}) == {"wheelchair": "yes"}
++    assert H.normalize_tags({"ramp": ("yes",)}) == {"ramp": "yes"}
++    assert H.normalize_tags(["wheelchair=yes", "ramp=yes"]) == {"wheelchair": "yes", "ramp": "yes"}
++
++
++def test_v192_guard_forward_time_window_is_accepted():
++    params = H.params_of(H.extract("午休 12:00 到 14:00"), "MIDDAY_REST_WINDOW")
++    assert params.get("start") == "12:00" and params.get("end") == "14:00", params
++
++
++def test_v192_guard_reversed_time_window_is_rejected():
++    params = H.params_of(H.extract("午休 15:00 到 13:00"), "MIDDAY_REST_WINDOW")
++    assert (
++        params == {}
++        or params.get("needs_clarification") is True
++        or params.get("defaulted_window") is True
++    ), f"a reversed window was persisted as clean data: {params}"
++
++
++# ===========================================================================
++# GUARDS — HTTP lifecycle
++# ===========================================================================
++def test_v192_guard_no_5xx_on_the_happy_path():
++    H.reset_demo()
++    safe = H.safe_client()
++    jid = H.DEMO_JOURNEY_ID
++    gen = safe.post(f"/api/v1/journeys/{jid}/plans/generate", json={})
++    assert gen.status_code < 400, gen.text
++    plans = H.list_plans()
++    assert plans, "generate produced no plans"
++    sel = safe.post(f"/api/v1/journeys/{jid}/plans/{plans[0]['id']}/select")
++    assert sel.status_code < 400, sel.text
++    st = safe.post(f"/api/v1/journeys/{jid}/start")
++    assert st.status_code < 500, st.text
++
++
++def test_v192_guard_c4_confirmation_is_idempotent():
++    H.reset_demo()
++    jid = H.DEMO_JOURNEY_ID
++    reservation = H.c4_reservation(
++        confirmation_ref="C4-GUARD-IDEMPOTENT",
++        departure_at="2026-10-10T08:00:00+08:00",
++        arrival_at="2026-10-10T12:30:00+08:00",
++    )
++    d1 = H.inbox_import(jid, reservation)
++    d2 = H.inbox_import(jid, reservation)
++    assert d1.status_code in (200, 201), d1.text
++    assert d2.status_code in (200, 201), d2.text
++    c1 = H.inbox_confirm(jid, d1.json()["id"])
++    assert c1.status_code == 200, c1.text
++    assert len(H.commitment_rows()) == 1
++    H.inbox_confirm(jid, d1.json()["id"])          # same draft twice
++    assert len(H.commitment_rows()) == 1, "re-confirming the same draft duplicated the commitment"
++    H.inbox_confirm(jid, d2.json()["id"])          # sibling draft, same reference
++    assert len(H.commitment_rows()) == 1, "a sibling draft duplicated the commitment"
++
++
++def test_v192_guard_stale_candidate_is_refused():
++    H.reset_demo()
++    jid = H.DEMO_JOURNEY_ID
++    H.generate_plans()
++    plans = H.list_plans()
++    assert len(plans) >= 2, f"need >=2 plans, got {len(plans)}"
++    plan_id = plans[1]["id"]
++    original = H.expire_plan_evidence(plan_id)
++    try:
++        r = H.select_plan(jid, plan_id)
++        assert r.status_code in (409, 422), (
++            f"a candidate on expired frozen evidence was selectable: {r.status_code} {r.text[:200]}"
++        )
++    finally:
++        H.set_plan_evidence_json(plan_id, original)
++
++
++def test_v192_guard_generator_and_validator_agree():
++    H.reset_demo()
++    H.generate_plans()
++    plans = H.list_plans()
++    assert plans, "generate produced no plans"
++    from app.db.models import Journey as JourneyModel
++    from app.db.models import PlanVersion
++
++    rejected = []
++    with H._session() as session:
++        journey_row = session.get(JourneyModel, H.DEMO_JOURNEY_ID)
++        for plan in plans:
++            plan_row = session.get(PlanVersion, plan["id"])
++            verdict = H.validate_plan(session, journey_row, plan_row)
++            if not getattr(verdict, "passed", False):
++                rejected.append((plan["id"], list(getattr(verdict, "failures", []) or [])))
++    assert rejected == [], f"the generator offered plans the validator rejects: {rejected}"
++
++
++# ===========================================================================
++# DEFECTS — numeric truth
++# ===========================================================================
++def test_v192_defect_decimal_kilometre_limit_is_not_corrupted():
++    for text in ("走路不能超过 1.5 公里", "走路不能超过 1.5 km"):
++        got = H.params_of(H.extract(text), "MAX_WALKING_PER_LEG_M").get("max_m", "MISSING")
++        assert got == 1500, f"{text} -> max_m={got!r}, expected 1500"
++
++
++def test_v192_defect_sub_kilometre_limit_is_not_corrupted():
++    got = H.params_of(H.extract("走路不能超过 0.5 公里"), "MAX_WALKING_PER_LEG_M").get(
++        "max_m", "MISSING"
++    )
++    assert got == 500, f"走路不能超过 0.5 公里 -> max_m={got!r}, expected 500"
++
++
++def test_v192_defect_minutes_value_does_not_become_a_metres_cap():
++    items = H.extract("连续走不能超过 20 分钟")
++    metres = H.params_of(items, "MAX_WALKING_PER_LEG_M").get("max_m")
++    assert metres != 20, (
++        "a 20-minute duration was persisted as a 20-metre distance cap "
++        f"(extracted codes={H.codes(items)})"
++    )
++
++
++def test_v192_defect_daily_limit_is_not_also_a_per_leg_limit():
++    items = H.extract("我每天走路不能超过 3000 米")
++    assert "MAX_WALKING_PER_LEG_M" not in H.codes(items), (
++        f"a daily walking budget was also published as a per-leg cap: {items}"
++    )
++
++
++def test_v192_defect_zero_metre_limit_is_not_authoritative():
++    params = H.params_of(H.extract("走路不能超过 0 米"), "MAX_WALKING_PER_LEG_M")
++    assert not (params.get("max_m") == 0 and not params.get("needs_clarification")), (
++        f"a local fallback persisted `0 m` as a clean authoritative cap: {params}"
++    )
++
++
++NATURAL_PHRASINGS = [
++    "每段不超过 100 米",
++    "单段步行不超过 100 米",
++    "每次走路不超过 100 米",
++    "不要走超过 100 米",
++]
++
++
++@pytest.mark.parametrize("text", NATURAL_PHRASINGS)
++def test_v192_defect_natural_walking_phrasing_reaches_the_parser(text):
++    got = H.params_of(H.extract(text), "MAX_WALKING_PER_LEG_M").get("max_m", "MISSING")
++    assert got != "MISSING", f"no per-leg walking limit was produced for: {text}"
++
++
++# ===========================================================================
++# DEFECTS — safety-relevant needs silently dropped
++# ===========================================================================
++HEDGED_FIRST_PERSON = ["我可能需要轮椅", "maybe I need a wheelchair"]
++
++COMPANION_NEEDS = ["我妈妈要午休", "我父亲走不了远路"]
++
++CONDITIONAL_STEP_FREE = [
++    "如果可能的话我需要无障碍通道",
++    "if possible I need step-free access",
++]
++
++
++@pytest.mark.parametrize("text", HEDGED_FIRST_PERSON)
++def test_v192_defect_hedged_first_person_need_is_not_silently_dropped(text):
++    items = H.extract(text)
++    assert items, f"a hedged first-person accessibility need produced nothing: {text}"
++
++
++@pytest.mark.parametrize("text", COMPANION_NEEDS)
++def test_v192_defect_companion_need_is_not_silently_dropped(text):
++    items = H.extract(text)
++    assert items, f"a travelling companion's need produced nothing: {text}"
++
++
++@pytest.mark.parametrize("text", CONDITIONAL_STEP_FREE)
++def test_v192_defect_conditional_step_free_request_is_not_silently_dropped(text):
++    items = H.extract(text)
++    assert items, f"a conditional step-free request produced nothing: {text}"
++
++
++# ===========================================================================
++# DEFECTS — evidence interpretation
++# ===========================================================================
++def test_v192_defect_evidence_status_verified_is_honoured():
++    state = H.requirement_state("STEP_FREE_REQUIRED", {"evidence_status": "VERIFIED"})
++    assert "UNVERIFIED" not in state, (
++        f"provider evidence_status=VERIFIED was reported as {state}"
++    )
++
++
++def test_v192_defect_nested_step_count_is_a_conflict():
++    state = H.requirement_state(
++        "STEP_FREE_REQUIRED", {"osm_tags": {"wheelchair": "yes", "step_count": "5"}}
++    )
++    assert state == "ACCESSIBILITY_CONFLICT", (
++        f"wheelchair=yes beside step_count=5 (nested) was reported as {state}"
++    )
++
++
++def test_v192_defect_flat_steps_tag_is_a_conflict():
++    state = H.requirement_state("STEP_FREE_REQUIRED", {"wheelchair": "yes", "steps": "yes"})
++    assert state == "ACCESSIBILITY_CONFLICT", (
++        f"wheelchair=yes beside steps=yes was reported as {state}"
++    )
++
++
++def test_v192_defect_nap_window_is_flagged_when_times_are_invented():
++    params = H.params_of(H.extract("宝宝需要午睡"), "INFANT_NAP_WINDOW")
++    assert params.get("defaulted_window") or params.get("needs_clarification"), (
++        f"an invented nap window was persisted as clean data: {params}"
++    )
++
++
++# ===========================================================================
++# DEFECTS — planning truth
++# ===========================================================================
++C4_ANCHORS = [
++    ("ARRIVAL", "2026-10-10T12:30:00+08:00", None),
++    ("DEPARTURE", "2026-10-10T12:30:00+08:00", None),
++    ("MID_TRIP", "2026-10-10T12:30:00+08:00", "place-old-town"),
++]
++
++
++@pytest.mark.parametrize(
++    "role,arrival,node", C4_ANCHORS, ids=[f"{r}-{n or 'synthetic'}" for r, _, n in C4_ANCHORS]
++)
++def test_v192_defect_c4_anchor_does_not_block_all_plans(role, arrival, node):
++    H.reset_demo()
++    jid = H.DEMO_JOURNEY_ID
++    imp = H.inbox_import(
++        jid,
++        H.c4_reservation(
++            confirmation_ref=f"C4-DEFECT-{role}",
++            departure_at="2026-10-10T08:00:00+08:00",
++            arrival_at=arrival,
++            anchor_role=role,
++            semantic_node_key=node,
++        ),
++    )
++    assert imp.status_code in (200, 201), imp.text
++    conf = H.inbox_confirm(jid, imp.json()["id"])
++    assert conf.status_code == 200, conf.text
++    status, body = H.generate_plans()
++    plans = H.list_plans()
++    assert plans, (
++        f"a confirmed {role} anchor left the journey with zero plans "
++        f"(generate={status}, body={json.dumps(body, ensure_ascii=False)[:240]})"
++    )
++
++
++def test_v192_defect_start_refuses_expired_evidence():
++    H.reset_demo()
++    jid = H.DEMO_JOURNEY_ID
++    H.generate_plans()
++    plans = H.list_plans()
++    assert plans, "generate produced no plans"
++    plan_id = plans[0]["id"]
++    assert H.select_plan(jid, plan_id).status_code < 400
++    original = H.expire_plan_evidence(plan_id)
++    try:
++        r = H.start_journey(jid)
++        status = H.journey(jid).get("status")
++        assert not (r.status_code == 200 and status == "ACTIVE"), (
++            "a journey started and stayed ACTIVE on expired frozen mobility evidence "
++            f"(start={r.status_code}, journey={status})"
++        )
++    finally:
++        H.set_plan_evidence_json(plan_id, original)
++
++
++def test_v192_defect_midtrip_hard_need_produces_a_review():
++    H.reset_demo()
++    H.clear_capabilities()
++    H.set_place_evidence({"step_free": True, "wheelchair_access": True})
++    jid = H.DEMO_JOURNEY_ID
++    H.generate_plans()
++    plans = H.list_plans()
++    assert plans, "generate produced no plans"
++    assert H.select_plan(jid, plans[0]["id"]).status_code < 400
++    assert H.start_journey(jid).status_code < 400
++    before = H.plan_signatures()
++    r = H.confirm_journey_capabilities([H.capability("STEP_FREE_REQUIRED", "HARD")])
++    assert r.status_code in (200, 201), r.text
++    after = H.plan_signatures()
++    assert before == after, "plans were silently rewritten under the traveller mid-trip"
++    replans = H.list_replans()
++    blob = json.dumps(H.experience(), ensure_ascii=False).lower()
++    assert replans or "review" in blob, (
++        "a mid-trip HARD need produced neither a replan proposal nor a review signal"
++    )

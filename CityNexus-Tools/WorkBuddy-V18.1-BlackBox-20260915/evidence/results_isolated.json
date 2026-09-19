@@ -1,0 +1,449 @@
+{
+  "meta": {
+    "base_url": "http://127.0.0.1:8020",
+    "label": "isolated-8020",
+    "generated_at": "2026-09-14T17:28:42.232499+00:00",
+    "harness": "tests/blackbox_v18_1.py",
+    "health": {
+      "status": "ok",
+      "database": "ok",
+      "ai": "disabled"
+    },
+    "bootstrap": {
+      "ok": true,
+      "journey_id": "65ec3784-e60e-4ab0-9bb3-0bcc7c9d93b2",
+      "traveler_id": "9025511c-f07a-4dcb-a93b-6d478fc4ec5e",
+      "plan_code": 500,
+      "plan": null
+    },
+    "runtime_status": {
+      "runtime_identity": "NOT_CONFIGURED",
+      "native_binary_detected": false,
+      "native_mcp_proven": false,
+      "mcp_server": "citynexus-v2",
+      "deepseek_configured": false,
+      "hermes_compat_configured": false,
+      "hermes_native_gateway": {
+        "configured": false,
+        "reachable": false,
+        "runs": false,
+        "events": false,
+        "approval": false,
+        "profile": "citynexus",
+        "provider": null,
+        "model": null
+      }
+    },
+    "hermes_capabilities": {
+      "configured": false,
+      "reachable": false,
+      "runs": false,
+      "events": false,
+      "approval": false,
+      "profile": "citynexus",
+      "provider": null,
+      "model": null
+    },
+    "tools_v2": [
+      {
+        "name": "inspect_journey",
+        "action": "INSPECT_JOURNEY",
+        "mutates_domain_truth": false,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "inspect_twin",
+        "action": "INSPECT_TWIN",
+        "mutates_domain_truth": false,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "list_replans",
+        "action": "LIST_REPLANS",
+        "mutates_domain_truth": false,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "search_city_services",
+        "action": "SEARCH_CITY_SERVICES",
+        "mutates_domain_truth": false,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "request_replan",
+        "action": "REQUEST_REPLAN",
+        "mutates_domain_truth": true,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "accept_replan",
+        "action": "ACCEPT_REPLAN",
+        "mutates_domain_truth": true,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "replace_activity",
+        "action": "REPLACE_ACTIVITY",
+        "mutates_domain_truth": true,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "reschedule_activity",
+        "action": "RESCHEDULE_ACTIVITY",
+        "mutates_domain_truth": true,
+        "changes_money": false,
+        "changes_c4": false
+      },
+      {
+        "name": "create_booking",
+        "action": "CREATE_BOOKING",
+        "mutates_domain_truth": true,
+        "changes_money": true,
+        "changes_c4": false
+      },
+      {
+        "name": "cancel_refundable_booking",
+        "action": "CANCEL_REFUNDABLE_BOOKING",
+        "mutates_domain_truth": true,
+        "changes_money": true,
+        "changes_c4": false
+      },
+      {
+        "name": "request_commitment_change",
+        "action": "REQUEST_COMMITMENT_CHANGE",
+        "mutates_domain_truth": true,
+        "changes_money": false,
+        "changes_c4": true
+      }
+    ]
+  },
+  "summary": {
+    "PASS": 10,
+    "FAIL": 5,
+    "NOT_TESTED": 5
+  },
+  "scenarios": [
+    {
+      "family": "A_runtime_truth",
+      "id": "A0",
+      "name": "runtime-status reachable + shaped",
+      "expected": "200 with runtime_identity/native_binary_detected/native_mcp_proven",
+      "actual": "200 {\"runtime_identity\": \"NOT_CONFIGURED\", \"native_binary_detected\": false, \"native_mcp_proven\": false, \"mcp_server\": \"citynexus-v2\", \"deepseek_configured\": false, \"hermes_compat_confi",
+      "status": "PASS",
+      "evidence": {
+        "status": 200
+      }
+    },
+    {
+      "family": "A_runtime_truth",
+      "id": "A1",
+      "name": "no ready gateway -> must NOT claim HERMES_NATIVE_MCP",
+      "expected": "identity != HERMES_NATIVE_MCP",
+      "actual": "ident=NOT_CONFIGURED ready=False",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "family": "A_runtime_truth",
+      "id": "A2",
+      "name": "native_mcp_proven is an explicit audit flag",
+      "expected": "boolean flag independent of gateway reachability",
+      "actual": "native_mcp_proven=False (gateway_ready=False)",
+      "status": "PASS",
+      "evidence": {
+        "flag": false,
+        "gateway_ready": false,
+        "note": "flag is set from CITYNEXUS_HERMES_NATIVE_PROVEN, not from a real run"
+      }
+    },
+    {
+      "family": "A_runtime_truth",
+      "id": "A3",
+      "name": "hermes/capabilities exposes readiness",
+      "expected": "200 with ready/runs/events/approval in BOTH configured and unconfigured states",
+      "actual": "200 configured=False ready_key_present=False",
+      "status": "FAIL",
+      "evidence": {
+        "caps": {
+          "configured": false,
+          "reachable": false,
+          "runs": false,
+          "events": false,
+          "approval": false,
+          "profile": "citynexus",
+          "provider": null,
+          "model": null
+        },
+        "note": "unconfigured branch omits the 'ready' key"
+      }
+    },
+    {
+      "family": "A_runtime_truth",
+      "id": "A4",
+      "name": "MCP V2 tool surface == 11 CityNexus tools",
+      "expected": "all 11 tools advertised",
+      "actual": "11 tools, missing=[]",
+      "status": "PASS",
+      "evidence": {
+        "tools": [
+          "inspect_journey",
+          "inspect_twin",
+          "list_replans",
+          "search_city_services",
+          "request_replan",
+          "accept_replan",
+          "replace_activity",
+          "reschedule_activity",
+          "create_booking",
+          "cancel_refundable_booking",
+          "request_commitment_change"
+        ]
+      }
+    },
+    {
+      "family": "E_routing",
+      "id": "E1",
+      "name": "DIRECT stays DIRECT: 为什么这样安排？",
+      "expected": "intent=EXPLAIN_PLAN and agent_run=null",
+      "actual": "intent=EXPLAIN_PLAN agent_run=null",
+      "status": "PASS",
+      "evidence": {
+        "intent": {
+          "name": "EXPLAIN_PLAN",
+          "confidence": 0.96,
+          "reason": "explanation request",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        },
+        "agent_run": null
+      }
+    },
+    {
+      "family": "E_routing",
+      "id": "E2",
+      "name": "DIRECT stays DIRECT: 如果博物馆多待一小时会怎样？",
+      "expected": "intent=WHAT_IF and agent_run=null",
+      "actual": "intent=WHAT_IF agent_run=null",
+      "status": "PASS",
+      "evidence": {
+        "intent": {
+          "name": "WHAT_IF",
+          "confidence": 0.98,
+          "reason": "conditional or counterfactual language",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        },
+        "agent_run": null
+      }
+    },
+    {
+      "family": "E_routing",
+      "id": "E3",
+      "name": "DIRECT stays DIRECT: Why is the plan arranged t",
+      "expected": "intent=EXPLAIN_PLAN and agent_run=null",
+      "actual": "intent=EXPLAIN_PLAN agent_run=null",
+      "status": "PASS",
+      "evidence": {
+        "intent": {
+          "name": "EXPLAIN_PLAN",
+          "confidence": 0.96,
+          "reason": "explanation request",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        },
+        "agent_run": null
+      }
+    },
+    {
+      "family": "E_routing",
+      "id": "E4",
+      "name": "DIRECT stays DIRECT: What if we stayed one more",
+      "expected": "intent=WHAT_IF and agent_run=null",
+      "actual": "intent=WHAT_IF agent_run=null",
+      "status": "PASS",
+      "evidence": {
+        "intent": {
+          "name": "WHAT_IF",
+          "confidence": 0.98,
+          "reason": "conditional or counterfactual language",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        },
+        "agent_run": null
+      }
+    },
+    {
+      "family": "E_routing",
+      "id": "E5",
+      "name": "native unavailable -> explicit fallback (no fake Hermes)",
+      "expected": "agent_run null or no HERMES_NATIVE_MCP identity when gateway not ready",
+      "actual": "intent=DISCOVER agent_run=None",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "family": "D_stop",
+      "id": "D1",
+      "name": "stop proxy fails cleanly for unknown run",
+      "expected": "404/502/422 (no key leakage)",
+      "actual": "500 Internal Server Error",
+      "status": "FAIL",
+      "evidence": null
+    },
+    {
+      "family": "D_stop",
+      "id": "D2",
+      "name": "stop response carries no credential material",
+      "expected": "no bearer/key in body",
+      "actual": "leaked=False",
+      "status": "PASS",
+      "evidence": null
+    },
+    {
+      "family": "X_proxy_robustness",
+      "id": "X1",
+      "name": "GET run-status -> clean 502 when unconfigured",
+      "expected": "502 (mapped) not 500 (unhandled)",
+      "actual": "500",
+      "status": "FAIL",
+      "evidence": {
+        "handler": "get_native_hermes_run",
+        "observed": 500
+      }
+    },
+    {
+      "family": "X_proxy_robustness",
+      "id": "X2",
+      "name": "POST stop -> clean 502 when unconfigured",
+      "expected": "502 (mapped) not 500 (unhandled)",
+      "actual": "500",
+      "status": "FAIL",
+      "evidence": {
+        "handler": "stop_native_hermes_run",
+        "observed": 500
+      }
+    },
+    {
+      "family": "X_proxy_robustness",
+      "id": "X3",
+      "name": "GET events stream -> clean refusal when unconfigured",
+      "expected": "definite status (502) instead of a broken/aborted stream",
+      "actual": "0 (transport aborted)",
+      "status": "FAIL",
+      "evidence": {
+        "handler": "stream_native_hermes_events",
+        "observed": 0
+      }
+    },
+    {
+      "family": "F_semantic",
+      "id": "F1",
+      "name": "semantic live: 现在博物馆关门了。",
+      "expected": "semantic_envelope present (DeepSeek)",
+      "actual": "no envelope (fallback path)",
+      "status": "NOT_TESTED",
+      "evidence": {
+        "ai_on": false,
+        "intent": {
+          "name": "DISRUPTION_REPORT",
+          "confidence": 0.97,
+          "reason": "reported current closure reality",
+          "entities": {
+            "event_type": "CLOSURE"
+          },
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        }
+      }
+    },
+    {
+      "family": "F_semantic",
+      "id": "F2",
+      "name": "semantic live: 如果明天下雨会怎样？",
+      "expected": "semantic_envelope present (DeepSeek)",
+      "actual": "no envelope (fallback path)",
+      "status": "NOT_TESTED",
+      "evidence": {
+        "ai_on": false,
+        "intent": {
+          "name": "WHAT_IF",
+          "confidence": 0.98,
+          "reason": "conditional or counterfactual language",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        }
+      }
+    },
+    {
+      "family": "F_semantic",
+      "id": "F3",
+      "name": "semantic live: 有人说这家博物馆关门了。",
+      "expected": "semantic_envelope present (DeepSeek)",
+      "actual": "no envelope (fallback path)",
+      "status": "NOT_TESTED",
+      "evidence": {
+        "ai_on": false,
+        "intent": {
+          "name": "VERIFY_FACT",
+          "confidence": 0.88,
+          "reason": "unverified travel claim requires evidence",
+          "entities": {
+            "assertion_status": "UNVERIFIED"
+          },
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        }
+      }
+    },
+    {
+      "family": "F_semantic",
+      "id": "F4",
+      "name": "semantic live: 博物馆没有关门。",
+      "expected": "semantic_envelope present (DeepSeek)",
+      "actual": "no envelope (fallback path)",
+      "status": "NOT_TESTED",
+      "evidence": {
+        "ai_on": false,
+        "intent": {
+          "name": "UNKNOWN",
+          "confidence": 0.72,
+          "reason": "no supported semantic route matched",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        }
+      }
+    },
+    {
+      "family": "F_semantic",
+      "id": "F5",
+      "name": "semantic live: 昨天博物馆关门了。",
+      "expected": "semantic_envelope present (DeepSeek)",
+      "actual": "no envelope (fallback path)",
+      "status": "NOT_TESTED",
+      "evidence": {
+        "ai_on": false,
+        "intent": {
+          "name": "UNKNOWN",
+          "confidence": 0.72,
+          "reason": "no supported semantic route matched",
+          "entities": {},
+          "provider": "deterministic",
+          "mode": "FALLBACK"
+        }
+      }
+    }
+  ]
+}

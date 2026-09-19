@@ -1,0 +1,977 @@
+{
+  "journey_id": "22222222-2222-4222-8222-222222222222",
+  "message": "The metro is suspended after a signal failure and I will miss my next activity. Search indoor alternatives and produce a replan proposal, but do not mutate anything.",
+  "started_at": 1789410611.117346,
+  "copilot_response": {
+    "message": "已交给 Hermes 检查 Journey、受保护承诺和恢复证据；结果会以真实运行进度返回。",
+    "mode": "AI",
+    "verified_context_used": true,
+    "intent": {
+      "name": "REPLAN_REQUEST",
+      "confidence": 0.9,
+      "reason": "User reports a metro suspension due to signal failure and expects to miss the next activity. They ask for indoor alternatives and a replan proposal without any mutation.",
+      "entities": {
+        "subject_kind": "transit_disruption",
+        "subject_text": "metro suspended after signal failure",
+        "temporal_expression": "now",
+        "assertion_status": "ASSERTED",
+        "effective_time": "NOW"
+      },
+      "provider": "deepseek",
+      "mode": "AI",
+      "semantic_envelope": {
+        "intent": "REPLAN_REQUEST",
+        "assertion_status": "ASSERTED",
+        "effective_time": "NOW",
+        "event_type": "TRAFFIC_DELAY",
+        "requested_action": "REQUEST_REPLAN",
+        "confidence": 0.9,
+        "reasoning_summary": "User reports a metro suspension due to signal failure and expects to miss the next activity. They ask for indoor alternatives and a replan proposal without any mutation.",
+        "entities": {
+          "subject_kind": "transit_disruption",
+          "subject_text": "metro suspended after signal failure",
+          "temporal_expression": "now"
+        },
+        "constraints": [
+          {
+            "type": "indoor_only",
+            "value": true
+          },
+          {
+            "type": "no_mutation",
+            "value": true
+          },
+          {
+            "type": "mobility",
+            "key": "walking_minutes_max",
+            "value": 25
+          },
+          {
+            "type": "interest",
+            "key": "culture",
+            "value": true
+          },
+          {
+            "type": "interest",
+            "key": "local_food",
+            "value": true
+          },
+          {
+            "type": "interest",
+            "key": "waterfront",
+            "value": true
+          },
+          {
+            "type": "pace",
+            "key": "relaxed",
+            "value": true
+          }
+        ],
+        "route_intent": "REPLAN_REQUEST",
+        "server_action": "REQUEST_REPLAN",
+        "create_event": false,
+        "verify_evidence": false
+      }
+    },
+    "action": {
+      "type": "REQUEST_REPLAN"
+    },
+    "what_if": null,
+    "event": null,
+    "verification": null,
+    "agent_run": {
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "status": "started",
+      "runtime_identity": "HERMES_NATIVE_MCP",
+      "provider_key": "hermes-native",
+      "model_key": "deepseek-v4-flash",
+      "mission_id": "6b11defb-6d0e-4c61-affe-12f5c9b9e81a",
+      "events_url": "/api/v1/journeys/22222222-2222-4222-8222-222222222222/agent/hermes/runs/run_5f16fa6087354f5cb021903ccda7b28e/events",
+      "timeline_url": "/api/v1/journeys/22222222-2222-4222-8222-222222222222/agent/hermes/runs/run_5f16fa6087354f5cb021903ccda7b28e/timeline",
+      "mission_plan": {
+        "version": "citynexus.mission-plan.v1",
+        "autonomy": "PLAN_ONLY",
+        "steps": [
+          {
+            "id": "inspect_journey",
+            "operation": "Inspect current Journey",
+            "tool_name": "inspect_journey",
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "inspect_twin",
+            "operation": "Inspect JourneyTwin",
+            "tool_name": "inspect_twin",
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "inspect_commitments",
+            "operation": "Inspect protected commitments",
+            "tool_name": "inspect_journey",
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "inspect_affected",
+            "operation": "Inspect affected activities",
+            "tool_name": "inspect_journey",
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "search_candidates",
+            "operation": "Search candidate places and services",
+            "tool_name": "search_city_services",
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "evaluate_candidates",
+            "operation": "Evaluate candidates against constraints",
+            "tool_name": null,
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "request_replan",
+            "operation": "Request a deterministic replan proposal",
+            "tool_name": "request_replan",
+            "status": "PENDING",
+            "requires_authority": true
+          },
+          {
+            "id": "inspect_proposal",
+            "operation": "Inspect proposal trade-offs",
+            "tool_name": "list_replans",
+            "status": "PENDING",
+            "requires_authority": false
+          },
+          {
+            "id": "approval_boundary",
+            "operation": "Proposal only; no mutation without user approval",
+            "tool_name": null,
+            "status": "PENDING",
+            "requires_authority": true
+          }
+        ],
+        "protected_activity_ids": [],
+        "allowed_tools": [
+          "inspect_journey",
+          "inspect_twin",
+          "list_replans",
+          "search_city_services",
+          "request_replan"
+        ],
+        "read_only_tools": [
+          "inspect_journey",
+          "inspect_twin",
+          "list_replans",
+          "search_city_services"
+        ],
+        "approval_required_tools": [
+          "accept_replan",
+          "replace_activity",
+          "reschedule_activity",
+          "create_booking",
+          "cancel_refundable_booking",
+          "request_commitment_change"
+        ],
+        "authority": "CityNexus AgentToolGateway and deterministic domain services"
+      },
+      "initial_events": [
+        {
+          "event_type": "semantic.interpreted",
+          "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+          "tool_name": null,
+          "friendly_label": "Hermes runtime",
+          "status": "completed",
+          "timestamp": "2026-09-14T18:30:21.683774+00:00",
+          "duration_ms": null,
+          "result_summary": {
+            "keys": [
+              "compiler",
+              "confidence",
+              "intent"
+            ]
+          },
+          "policy_decision": null,
+          "raw_event_type": "semantic.interpreted",
+          "source": "CITYNEXUS"
+        },
+        {
+          "event_type": "mission.planned",
+          "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+          "tool_name": null,
+          "friendly_label": "Hermes runtime",
+          "status": "completed",
+          "timestamp": "2026-09-14T18:30:21.683774+00:00",
+          "duration_ms": null,
+          "result_summary": {
+            "mission_id": "6b11defb-6d0e-4c61-affe-12f5c9b9e81a"
+          },
+          "policy_decision": null,
+          "raw_event_type": "mission.planned",
+          "source": "CITYNEXUS",
+          "mission_id": "6b11defb-6d0e-4c61-affe-12f5c9b9e81a"
+        }
+      ],
+      "protected_commitments": []
+    },
+    "protected_commitments": [],
+    "evidence": {
+      "journey_id": "22222222-2222-4222-8222-222222222222",
+      "city_code": "CNX-DEMO",
+      "selected_plan_version_id": "60cb6a2f-ccce-537d-86c1-a7d9a007bc2b",
+      "provider_facts": true,
+      "simulation_only": false
+    },
+    "recommendations": []
+  },
+  "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+  "runtime_identity": "HERMES_NATIVE_MCP",
+  "events": [
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Hermes runtime",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410624.4519188,
+      "tool_name": "tool_describe"
+    },
+    {
+      "duration_ms": 11,
+      "event_type": "tool.completed",
+      "friendly_label": "Hermes runtime",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410624.4616365,
+      "tool_name": "tool_describe"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Inspect current Journey",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410625.7423582,
+      "tool_name": "inspect_journey"
+    },
+    {
+      "duration_ms": 37,
+      "event_type": "tool.completed",
+      "friendly_label": "Inspect current Journey",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410625.777262,
+      "tool_name": "inspect_journey"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Inspect JourneyTwin",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410626.9764454,
+      "tool_name": "inspect_twin"
+    },
+    {
+      "duration_ms": 19,
+      "event_type": "tool.completed",
+      "friendly_label": "Inspect JourneyTwin",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410626.9940705,
+      "tool_name": "inspect_twin"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Hermes runtime",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410629.0171173,
+      "tool_name": "tool_call"
+    },
+    {
+      "duration_ms": 6,
+      "event_type": "tool.completed",
+      "friendly_label": "Hermes runtime",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": true
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410629.0225134,
+      "tool_name": "tool_call"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Inspect current Journey",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410630.2364402,
+      "tool_name": "inspect_journey"
+    },
+    {
+      "duration_ms": 32,
+      "event_type": "tool.completed",
+      "friendly_label": "Inspect current Journey",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410630.2667475,
+      "tool_name": "inspect_journey"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Inspect current Journey",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410631.2829404,
+      "tool_name": "inspect_journey"
+    },
+    {
+      "duration_ms": 16,
+      "event_type": "tool.completed",
+      "friendly_label": "Inspect current Journey",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410631.2970767,
+      "tool_name": "inspect_journey"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Search candidate places and services",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410632.6594784,
+      "tool_name": "search_city_services"
+    },
+    {
+      "duration_ms": 35,
+      "event_type": "tool.completed",
+      "friendly_label": "Search candidate places and services",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410632.6927211,
+      "tool_name": "search_city_services"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Request deterministic replan",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410635.0072048,
+      "tool_name": "request_replan"
+    },
+    {
+      "duration_ms": 63,
+      "event_type": "tool.completed",
+      "friendly_label": "Request deterministic replan",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410635.072138,
+      "tool_name": "request_replan"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "tool.started",
+      "friendly_label": "Inspect proposals and protected commitments",
+      "policy_decision": null,
+      "raw_event_type": "tool.started",
+      "result_summary": null,
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "started",
+      "timestamp": 1789410636.1719952,
+      "tool_name": "list_replans"
+    },
+    {
+      "duration_ms": 31,
+      "event_type": "tool.completed",
+      "friendly_label": "Inspect proposals and protected commitments",
+      "policy_decision": null,
+      "raw_event_type": "tool.completed",
+      "result_summary": {
+        "error": false
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410636.2111118,
+      "tool_name": "list_replans"
+    },
+    {
+      "duration_ms": null,
+      "event_type": "run.completed",
+      "friendly_label": "Hermes runtime",
+      "policy_decision": null,
+      "raw_event_type": "run.completed",
+      "result_summary": {
+        "kind": "text",
+        "length": 2970
+      },
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "source": "HERMES_NATIVE",
+      "status": "completed",
+      "timestamp": 1789410642.8631895,
+      "tool_name": null
+    }
+  ],
+  "event_count": 19,
+  "tool_events": [
+    {
+      "event_type": "tool.started",
+      "tool_name": "tool_describe",
+      "status": "started",
+      "timestamp": 1789410624.4519188,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "tool_describe",
+      "status": "completed",
+      "timestamp": 1789410624.4616365,
+      "duration_ms": 11
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "inspect_journey",
+      "status": "started",
+      "timestamp": 1789410625.7423582,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "inspect_journey",
+      "status": "completed",
+      "timestamp": 1789410625.777262,
+      "duration_ms": 37
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "inspect_twin",
+      "status": "started",
+      "timestamp": 1789410626.9764454,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "inspect_twin",
+      "status": "completed",
+      "timestamp": 1789410626.9940705,
+      "duration_ms": 19
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "tool_call",
+      "status": "started",
+      "timestamp": 1789410629.0171173,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "tool_call",
+      "status": "completed",
+      "timestamp": 1789410629.0225134,
+      "duration_ms": 6
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "inspect_journey",
+      "status": "started",
+      "timestamp": 1789410630.2364402,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "inspect_journey",
+      "status": "completed",
+      "timestamp": 1789410630.2667475,
+      "duration_ms": 32
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "inspect_journey",
+      "status": "started",
+      "timestamp": 1789410631.2829404,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "inspect_journey",
+      "status": "completed",
+      "timestamp": 1789410631.2970767,
+      "duration_ms": 16
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "search_city_services",
+      "status": "started",
+      "timestamp": 1789410632.6594784,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "search_city_services",
+      "status": "completed",
+      "timestamp": 1789410632.6927211,
+      "duration_ms": 35
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "request_replan",
+      "status": "started",
+      "timestamp": 1789410635.0072048,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "request_replan",
+      "status": "completed",
+      "timestamp": 1789410635.072138,
+      "duration_ms": 63
+    },
+    {
+      "event_type": "tool.started",
+      "tool_name": "list_replans",
+      "status": "started",
+      "timestamp": 1789410636.1719952,
+      "duration_ms": null
+    },
+    {
+      "event_type": "tool.completed",
+      "tool_name": "list_replans",
+      "status": "completed",
+      "timestamp": 1789410636.2111118,
+      "duration_ms": 31
+    }
+  ],
+  "timeline": {
+    "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "runtime_identity": "HERMES_NATIVE_MCP",
+    "events": [
+      {
+        "event_type": "semantic.interpreted",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": null,
+        "friendly_label": "Hermes runtime",
+        "status": "completed",
+        "timestamp": "2026-09-14T18:30:21.683774+00:00",
+        "duration_ms": null,
+        "result_summary": {
+          "keys": [
+            "compiler",
+            "confidence",
+            "intent"
+          ]
+        },
+        "policy_decision": null,
+        "raw_event_type": "semantic.interpreted",
+        "source": "CITYNEXUS"
+      },
+      {
+        "event_type": "mission.planned",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": null,
+        "friendly_label": "Hermes runtime",
+        "status": "completed",
+        "timestamp": "2026-09-14T18:30:21.683774+00:00",
+        "duration_ms": null,
+        "result_summary": {
+          "mission_id": "6b11defb-6d0e-4c61-affe-12f5c9b9e81a"
+        },
+        "policy_decision": null,
+        "raw_event_type": "mission.planned",
+        "source": "CITYNEXUS",
+        "mission_id": "6b11defb-6d0e-4c61-affe-12f5c9b9e81a"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "tool_describe",
+        "friendly_label": "Hermes runtime",
+        "status": "started",
+        "timestamp": 1789410624.4519188,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "tool_describe",
+        "friendly_label": "Hermes runtime",
+        "status": "completed",
+        "timestamp": 1789410624.4616365,
+        "duration_ms": 11,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_journey",
+        "friendly_label": "Inspect current Journey",
+        "status": "started",
+        "timestamp": 1789410625.7423582,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_journey",
+        "friendly_label": "Inspect current Journey",
+        "status": "completed",
+        "timestamp": 1789410625.777262,
+        "duration_ms": 37,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_twin",
+        "friendly_label": "Inspect JourneyTwin",
+        "status": "started",
+        "timestamp": 1789410626.9764454,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_twin",
+        "friendly_label": "Inspect JourneyTwin",
+        "status": "completed",
+        "timestamp": 1789410626.9940705,
+        "duration_ms": 19,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "tool_call",
+        "friendly_label": "Hermes runtime",
+        "status": "started",
+        "timestamp": 1789410629.0171173,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "tool_call",
+        "friendly_label": "Hermes runtime",
+        "status": "completed",
+        "timestamp": 1789410629.0225134,
+        "duration_ms": 6,
+        "result_summary": {
+          "error": true
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_journey",
+        "friendly_label": "Inspect current Journey",
+        "status": "started",
+        "timestamp": 1789410630.2364402,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_journey",
+        "friendly_label": "Inspect current Journey",
+        "status": "completed",
+        "timestamp": 1789410630.2667475,
+        "duration_ms": 32,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_journey",
+        "friendly_label": "Inspect current Journey",
+        "status": "started",
+        "timestamp": 1789410631.2829404,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "inspect_journey",
+        "friendly_label": "Inspect current Journey",
+        "status": "completed",
+        "timestamp": 1789410631.2970767,
+        "duration_ms": 16,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "search_city_services",
+        "friendly_label": "Search candidate places and services",
+        "status": "started",
+        "timestamp": 1789410632.6594784,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "search_city_services",
+        "friendly_label": "Search candidate places and services",
+        "status": "completed",
+        "timestamp": 1789410632.6927211,
+        "duration_ms": 35,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "request_replan",
+        "friendly_label": "Request deterministic replan",
+        "status": "started",
+        "timestamp": 1789410635.0072048,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "request_replan",
+        "friendly_label": "Request deterministic replan",
+        "status": "completed",
+        "timestamp": 1789410635.072138,
+        "duration_ms": 63,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.started",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "list_replans",
+        "friendly_label": "Inspect proposals and protected commitments",
+        "status": "started",
+        "timestamp": 1789410636.1719952,
+        "duration_ms": null,
+        "result_summary": null,
+        "policy_decision": null,
+        "raw_event_type": "tool.started",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "tool.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": "list_replans",
+        "friendly_label": "Inspect proposals and protected commitments",
+        "status": "completed",
+        "timestamp": 1789410636.2111118,
+        "duration_ms": 31,
+        "result_summary": {
+          "error": false
+        },
+        "policy_decision": null,
+        "raw_event_type": "tool.completed",
+        "source": "HERMES_NATIVE"
+      },
+      {
+        "event_type": "run.completed",
+        "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+        "tool_name": null,
+        "friendly_label": "Hermes runtime",
+        "status": "completed",
+        "timestamp": 1789410642.8631895,
+        "duration_ms": null,
+        "result_summary": {
+          "kind": "text",
+          "length": 2970
+        },
+        "policy_decision": null,
+        "raw_event_type": "run.completed",
+        "source": "HERMES_NATIVE"
+      }
+    ],
+    "observability": {
+      "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+      "runtime_identity": "HERMES_NATIVE_MCP",
+      "current_mission": "6b11defb-6d0e-4c61-affe-12f5c9b9e81a",
+      "tool_count": 9,
+      "current_tool": "list_replans",
+      "completion_status": "completed",
+      "gateway_decision": null,
+      "guardian_decision": null,
+      "total_duration_ms": 250.0
+    }
+  },
+  "run_status": {
+    "object": "hermes.run",
+    "run_id": "run_5f16fa6087354f5cb021903ccda7b28e",
+    "status": "completed",
+    "updated_at": 1789410642.861998,
+    "created_at": 1789410621.6803036,
+    "session_id": "citynexus-22222222-2222-4222-8222-222222222222-mission-6b11defb-6d0e-4c61-affe-12f5c9b9e81a",
+    "model": "deepseek-v4-flash",
+    "last_event": "run.completed",
+    "output": "Ran the full plan in order. Nothing was accepted, booked, paid, or mutated — both replan entries are status PRESENTED (proposal-only), and the response carried reason codes PROPOSAL_ONLY / DOMAIN_TRUTH_NOT_ACTIVATED.\n\nWhat the state says (journey 22222222-2222-4222-8222-222222222222, \"One Day in Nexus City\", CNX-DEMO, ACTIVE):\nPlan version 60cb6a2f-ccce-537d-86c1-a7d9a007bc2b. Window 09:00–19:00 +08:00. Budget 50000 CNY minor, remaining 13000. Current activity a89f540d-… \"Old Town Gate\" (ACTIVE, ends 10:15). Next up d104114f-… \"Riverside Museum\" 10:30–11:45. Protected commitments: none. Upcoming commitments: none. Latest event id 6b677343-40bb-4b29-a8ed-e559c64b1ef1, mapped server-side as event_type TRAFFIC_DELAY at 2026-10-10T12:00+08:00, validated impact against activity c2664588-afac-5136-8072-649a61d0c36d. Feasibility envelope before replan: slack 30 min, robust true. I did not treat your metro/signal-failure report as a provider fact — it is the reported trigger, and the server's own record of the incident is the TRAFFIC_DELAY event above.\n\nIndoor alternatives returned by search_city_services (server-owned facts, CNX-DEMO):\nDesign Library — library, open 09:30–19:00, 60 min, cost 2000 minor, tags culture/quiet/indoor.\nCentral Food Hall — food, open 10:00–21:00, 60 min, cost 6000 minor, tags local_food/indoor.\nRiverside Museum — museum, open 09:00–17:00, 75 min, cost 4000 minor, tags culture/indoor (already in your plan).\nTech Art Center — gallery, open 10:00–18:00, 80 min, cost 5000 minor, tags culture/art/indoor.\nThe services array came back empty; only places were returned.\n\nTwo proposals were generated from trigger event 6b677343-40bb-4b29-a8ed-e559c64b1ef1:\n12e8ee86-ef92-4239-8acf-1e66ecb7ad37, family F2_SUFFIX_DELAY, proposed plan version 1fd61121-1036-4452-a683-2c35eceae76f. Adds nothing, removes nothing, moves three items +15 min (food hall 12:00→12:15, tech art 13:20→13:35, skyline dinner 17:00→17:15). Cost delta 0. Journey-end slack 30→15 min. Protected place-river-cruise preserved. Utility 0.7083, hard constraints passed, feasible per CITYNEXUS_DETERMINISTIC_GATE.\nda441318-ada5-4c46-9a3d-ba67c5598f49, family F1_OPTIONAL_REMOVAL, proposed plan version aa05cb4b-1942-45ca-b782-34d9f7e9ae5f. Removes place-food-hall, moves nothing. Budget remaining 13000→19000, travel −15 min, end time unchanged, slack stays 30 min. Utility 0.6954, hard constraints passed, feasible.\n\nNote on generator provenance: both came from the deterministic heuristic with solver_status DISABLED (fallback SOLVER_DISABLED), and the heuristic's primary recovery target was the food-hall-linked activity — which is why neither candidate substitutes an indoor alternative for the disrupted leg. The indoor places I found are available as evidence, but no proposal currently swaps one in; that would need a further replan/activity-replacement step, which I have not taken. list_replans confirms exactly these two persisted proposals, both PRESENTED.",
+    "usage": {
+      "input_tokens": 83236,
+      "output_tokens": 3117,
+      "total_tokens": 86353
+    },
+    "runtime_identity": "HERMES_NATIVE_MCP",
+    "journey_id": "22222222-2222-4222-8222-222222222222",
+    "timeline_url": "/api/v1/journeys/22222222-2222-4222-8222-222222222222/agent/hermes/runs/run_5f16fa6087354f5cb021903ccda7b28e/timeline"
+  },
+  "terminal_event": "run.completed",
+  "status": "COMPLETED",
+  "finished_at": 1789410642.883795,
+  "duration_seconds": 31.766
+}

@@ -1,0 +1,44 @@
+{
+  "note": "Read-only snapshot of the AUTHORITATIVE CityNexus runtime (D:\\moodle\\CityNexus) taken via HTTP GET only. No writes were made to the authoritative worktree.",
+  "captured_at": "2026-09-15T01:20:00+08:00",
+  "backend_base": "http://127.0.0.1:8000",
+  "ports_observed": {
+    "8000": "LISTENING (Codex backend, PID 51680 at capture time)",
+    "5173": "LISTENING (Codex frontend, PID 48488 at capture time)",
+    "8652": "LISTENING (Hermes gateway; PID changed 20124 -> 56800 during recon, i.e. actively restarted by Codex)"
+  },
+  "GET /api/v1/health": {"status": "ok", "database": "ok", "ai": "enabled"},
+  "GET /api/v1/agent/hermes/capabilities": {
+    "configured": true, "reachable": true, "runs": true, "events": true,
+    "approval": true, "ready": true, "profile": "citynexus",
+    "provider": "deepseek", "model": "deepseek-v4-flash"
+  },
+  "GET /api/v1/agent/runtime-status": {
+    "runtime_identity": "HERMES_NATIVE_MCP",
+    "native_binary_detected": true,
+    "native_mcp_proven": false,
+    "mcp_server": "citynexus-v2",
+    "deepseek_configured": true,
+    "hermes_compat_configured": false,
+    "hermes_native_gateway": {
+      "configured": true, "reachable": true, "runs": true, "events": true,
+      "approval": true, "ready": true, "profile": "citynexus",
+      "provider": "deepseek", "model": "deepseek-v4-flash"
+    }
+  },
+  "GET /api/v1/agent/tools/v2": [
+    {"name": "inspect_journey", "mutates_domain_truth": false, "changes_money": false, "changes_c4": false},
+    {"name": "inspect_twin", "mutates_domain_truth": false, "changes_money": false, "changes_c4": false},
+    {"name": "list_replans", "mutates_domain_truth": false, "changes_money": false, "changes_c4": false},
+    {"name": "search_city_services", "mutates_domain_truth": false, "changes_money": false, "changes_c4": false},
+    {"name": "request_replan", "mutates_domain_truth": true, "changes_money": false, "changes_c4": false},
+    {"name": "accept_replan", "mutates_domain_truth": true, "changes_money": false, "changes_c4": false},
+    {"name": "replace_activity", "mutates_domain_truth": true, "changes_money": false, "changes_c4": false},
+    {"name": "reschedule_activity", "mutates_domain_truth": true, "changes_money": false, "changes_c4": false},
+    {"name": "create_booking", "mutates_domain_truth": true, "changes_money": true, "changes_c4": false},
+    {"name": "cancel_refundable_booking", "mutates_domain_truth": true, "changes_money": true, "changes_c4": false},
+    {"name": "request_commitment_change", "mutates_domain_truth": true, "changes_money": false, "changes_c4": true}
+  ],
+  "key_observation": "The authoritative runtime asserts runtime_identity=HERMES_NATIVE_MCP from (binary present AND gateway reachable) ALONE, while native_mcp_proven=false. The identity is therefore a reachability claim, not a proven native MCP run. See HERMES_NATIVE_ACCEPTANCE_RESULTS.md.",
+  "later_observation": "At 2026-09-15T03:06+08:00 the authoritative stack was DOWN: ports 8000, 5173 and 8652 all stopped listening (Codex restart). This means any black-box observer at that moment sees no native Hermes truth at all."
+}

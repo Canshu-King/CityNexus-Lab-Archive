@@ -1,0 +1,4 @@
+
+> citynexus-v18-experience-reference@18.0.0-reference.1 typecheck
+> tsc --noEmit
+

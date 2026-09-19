@@ -1,0 +1,18 @@
+﻿--- branches ---
+* eac/v19.2.2-realphone-codegate
+  master
+
+--- reflog last 10 ---
+7d22cd0 HEAD@{0}: reset: moving to HEAD
+7d22cd0 HEAD@{1}: reset: moving to HEAD
+7d22cd0 HEAD@{2}: reset: moving to HEAD
+7d22cd0 HEAD@{3}: reset: moving to HEAD
+7d22cd0 HEAD@{4}: reset: moving to HEAD
+7d22cd0 HEAD@{5}: reset: moving to HEAD
+7d22cd0 HEAD@{6}: reset: moving to HEAD
+7d22cd0 HEAD@{7}: reset: moving to HEAD
+7d22cd0 HEAD@{8}: checkout: moving from master to eac/v19.2.2-realphone-codegate
+7d22cd0 HEAD@{9}: commit: feat(visio): establish CityNexus Visio model specification v1.0
+
+--- stash list ---
+

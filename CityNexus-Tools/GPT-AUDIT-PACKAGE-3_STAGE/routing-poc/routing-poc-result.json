@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "relations": [
+    {
+      "source": "Traveler",
+      "target": "UC-A",
+      "glued": true,
+      "route": "right-angle-requested"
+    },
+    {
+      "source": "Traveler",
+      "target": "UC-B",
+      "glued": true,
+      "route": "right-angle-requested"
+    },
+    {
+      "source": "Traveler",
+      "target": "UC-C",
+      "glued": true,
+      "route": "right-angle-requested"
+    },
+    {
+      "source": "Provider",
+      "target": "UC-A",
+      "glued": true,
+      "route": "right-angle-requested"
+    },
+    {
+      "source": "Provider",
+      "target": "UC-C",
+      "glued": true,
+      "route": "right-angle-requested"
+    }
+  ],
+  "rightAngleApi": "native Association master; explicit route cells require VisioAutomation API inspection",
+  "msagl": "UNVERIFIED"
+}

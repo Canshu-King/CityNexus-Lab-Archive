@@ -1,0 +1,38 @@
+diff --git a/backend/app/operations/v9.py b/backend/app/operations/v9.py
+index 4d26035..3468ead 100644
+--- a/backend/app/operations/v9.py
++++ b/backend/app/operations/v9.py
+@@ -131,11 +131,17 @@ def _execution_truth(
+         (index for index, item in enumerate(activities) if item.id == current_activity_id),
+         None,
+     )
+-    if current_index is None:
++    stale_cursor = current_activity_id is not None and current_index is None
++    if current_activity_id is None:
+         current_index = next(
+             (index for index, item in enumerate(activities) if item.status not in terminal),
+             len(activities),
+         )
++    elif stale_cursor:
++        # An absent cursor is a legitimate pre-execution state and may project
++        # the first pending activity.  A present-but-unknown cursor is corrupted
++        # or stale state: never turn it into a fabricated "Now".
++        current_index = len(activities)
+     now_item = (
+         activities[current_index]
+         if 0 <= current_index < len(activities) and activities[current_index].status not in terminal
+@@ -164,10 +170,13 @@ def _execution_truth(
+         "next": compact(next_item),
+         "now_activity_id": now_item.id if now_item else None,
+         "next_activity_id": next_item.id if next_item else None,
+-        "now_state": now_item.status if now_item else "COMPLETE",
++        "now_state": now_item.status if now_item else ("STALE_CURSOR" if stale_cursor else "COMPLETE"),
+         "next_state": next_item.status if next_item else None,
+         "next_mode": next_leg.mode if next_leg else "NONE",
+         "next_eta_min": next_leg.duration_min if next_leg else 0,
++        "cursor_status": (
++            "STALE" if stale_cursor else "ABSENT_FALLBACK" if current_activity_id is None else "VALID"
++        ),
+     }
+ 
+ 
